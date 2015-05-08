@@ -1,0 +1,67 @@
+.form-panel .panel-body .picker__table td, th {
+	padding: 0px !important;
+}
+
+.form-panel .panel-body .picker__table td, .form-panel .panel-body .picker__table th {
+	background: #FFF !important;
+	text-align: center !important;
+}
+
+.picker {
+    width: 245px !important;
+}
+
+.picker .picker__holder {
+    overflow: hidden;
+}
+
+.picker__day--disabled,
+.picker__day--disabled:hover,
+.picker--focused .picker__day--disabled {
+    background: #FFFFFD !important;
+    color: #ADADAD !important;
+}
+
+.picker__year {
+	font-size: 14px !important;
+}
+
+.short_calendar .picker__select--year{
+	width: 26% !important;
+}
+
+.short_calendar .picker__select--month {
+    width: 45% !important;
+}
+
+.short_calendar .picker__select--year {
+	margin-top: 0px !important;
+}
+
+.short_calendar .picker__select--month, .short_calendar .picker__select--year {
+    height: 2em !important;
+    padding: 0em !important;
+}
+
+.short_calendar tr td input {
+    width: 245px !important;
+}
+
+.master-table tr td input {
+    height: 22px;
+    font-size: 11px !important;
+    margin-right: 15px !important;
+    margin-left: 0px !important;
+}
+
+.picker__nav--prev, .picker__nav--next {
+    padding: 0.5em 0.25em !important;
+    width: 2em !important;
+    height: 1em !important;
+    top: -0.2em !important;
+}
+
+.short_calendar tr td button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

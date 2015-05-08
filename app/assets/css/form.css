@@ -1,0 +1,93 @@
+.master-detail {
+    display: block;
+    _height:expression(this.scrollHeight>219?"220px":"auto");
+    overflow:auto;
+    overflow-x:hidden;
+    border-top: 1px solid #DBDBDB;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}
+
+.margin-left-100 {
+    margin-left: 100px;
+}
+
+.margin-left-212 {
+    margin-left: 212px;
+}
+
+.form-container {
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    z-index: 0;
+}
+
+.producto-container {
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    z-index: 0;
+}
+
+.modal-header {
+    padding: 10px 15px 5px 15px;
+}
+
+.modal-body {
+    padding: 10px 0px 0px 0px;
+}
+
+div.Lightbox {
+    border: 6px solid rgba(220, 220, 220, 0.5);
+    box-shadow: 2px 2px 10px #555;
+    border-radius: 5px;
+}
+
+.form-control {
+    color: #818181;
+    font-weight: 100;
+}
+
+.modal-delete-body {
+    padding: 20px;
+}
+
+.btn-sm {
+    color: #FFF;
+}
+
+.dt-panel .panel-heading {
+    background: linear-gradient(to bottom, #F8F8F8 15%, #F2F2F2 70%) repeat scroll 0% 0% transparent;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    text-shadow: 0px 1px #FFF;
+    border-bottom: 1px solid #CCC;
+    border-top: 1px solid #FFF;
+    color: #666;
+    font-size: 12px;
+    padding: 4px 15px;
+}
+
+
+.modal-dialog {
+transform: translate(13%, 22%) !important;
+-ms-transform: translate(13%, 22%) !important; /* IE 9 */
+-webkit-transform: translate(13%, 22%) !important; /* Safari and Chrome */
+}

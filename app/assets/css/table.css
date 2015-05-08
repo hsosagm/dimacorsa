@@ -1,0 +1,179 @@
+.dataTables_filter {
+    display: none;
+}
+
+.widthS{
+ width: 9%;
+}
+
+.widthM{
+ width: 12%;
+}
+
+.widthM1{
+ width: 19%;
+}
+
+.widthL{
+ width: 43%;
+}
+
+tr.row_selected td {
+    color: #FFF !important;
+    background-color: #899698 !important;
+}
+
+.dataTables_filter {
+    display: none;
+}
+
+#example_wrapper{
+   background-color:#f7f7f7;
+}
+
+#example_paginate {
+    padding-bottom: 0.25em;
+}
+
+.display tr:first-child th {
+border:0px solid #DEDEDE;
+text-align:center;
+border-width:0px 0px 1px 1px;
+font-size: 14px;
+font-family: FontAwesome;
+font-style: normal;
+font-weight: 200;
+}
+
+.display tr:first-child th:first-child{
+border-width:0px 0px 1px 0px;
+}
+
+.display tr td {
+border:0px solid #E6DCFF;
+border-width:0px 0px 0px 1px;
+margin:0px;padding:0px;
+}
+
+th, td {
+	padding: .55em !important;
+}
+
+tr:nth-child(even)  {
+	background: url(../images/noise-diagonal.png);	
+}
+
+tr:nth-child(odd) td {
+	background: #f1f1f1 url(../images/noise-diagonal.png);	
+}
+
+.btn_table {
+  font-size: 12px;
+  float: right;
+  padding-top: 4px;
+  padding-bottom: 2px;
+  width: 80px;
+  margin-right: 10px;
+}
+
+.DTTT_button_text{
+  margin-left: -1px;
+}
+
+.dt-container {
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;  
+}
+
+.btn-group, .btn-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.btn-group > .btn:first-child {
+    margin-left: 0px;
+}
+div.DTTT {
+    margin-left: 25px;
+}
+div.DTTT .btn {
+    font-size: 12px;
+}
+.btn-group > .btn, .btn-group-vertical > .btn {
+    position: relative;
+    float: left;
+}
+
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: 0px;
+}
+
+.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+a.btngrey, button.btngrey, input.btngrey {
+    margin-right: 0.2em;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    color: #686868;
+    border: 1px solid #D6D6D6;
+    background: linear-gradient(to bottom, #FFF 0%, #DCDCDC 100%) repeat scroll 0% 0% transparent;
+}
+.btn-default {
+    color: #333;
+    background-color: #FFF;
+    border-color: #CCC;
+}
+
+#example tbody {
+  font-size: 12px;
+}
+
+select {
+    opacity: 0.8;
+}
+
+.dataTables_info {
+  margin-left: 12px;
+  font-style: italic;
+  font-size: 16px;
+}
+
+.paginate_button {
+  font-family: courier;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 1px solid #D5D5D5;
+}
+
+.dataTables_wrapper {
+  border-bottom: 2px solid #D5D5D5;
+}
+
+.panel-body {
+  border-bottom: 1px solid #DFDFDF;
+  border-right: 1px solid #DFDFDF;
+  border-left: 1px solid #DFDFDF;
+}
+
+table.dataTable tfoot th, table.dataTable thead th {
+    font-weight: 300;
+    text-align: center;
+}
+
+.table thead tr th {
+    border-width: 1px 1px 7px;
+}

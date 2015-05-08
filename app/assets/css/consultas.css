@@ -1,0 +1,11 @@
+.consultas {
+	padding: 5px;
+}
+
+.consultas .master-table tr td input {
+	height: 40px;
+	width: 200px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-family: bold 12px;
+}

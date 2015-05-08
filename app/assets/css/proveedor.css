@@ -1,0 +1,102 @@
+
+.form-proveedor {
+	padding-left: 10px;
+}
+
+.info-proveedor  table tr td {
+	background: #ffffff !important;
+	padding-top:0px !important;
+	padding-botton:0px !important;
+	font: bold !important;
+	font-size: 10px;
+	height: 0px;
+	border:solid 1px  #ffffff;
+}
+ 
+.list-body {
+	padding-left: 60px;
+}
+
+.list-body input {
+	width: 200px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.contactos-body input[type="text"] {
+	width: 200px;
+	height: 20px;
+	font-size: 10px !important;
+	margin-bottom: 6px;
+}
+
+.contactos-body input[type="submit"] {
+	height: 20px;
+	font-size: 10px !important;
+	margin-bottom: 6px;
+}
+
+ .contactos-body {
+	border-left:solid 1px #C2C2C2 !important;
+ }
+
+.info-proveedor  table tr td input {
+	width: 350px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.info-proveedor  table tr td input[type="checkbox"]{
+	width: 10px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.info-proveedor hr, h3{
+	padding:0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	text-align: center;
+ }
+
+.info-contactos  table tr td {
+	background: #ffffff !important;
+	padding-top:0px !important;
+	padding-button:0px !important;
+	font: bold !important;
+	font-size: 10px;
+	height: 0px;
+	border:solid 1px  #ffffff;
+
+}
+
+.info-contactos  table tr td input {
+	width: 200px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.contactos-proveedor {
+	 margin-top: 10px;
+	 border-top:solid 1px #B9B9B9;
+}
+
+.contactos-proveedor .row .col-md-4 input[type="text"]{
+	 width: 250px;
+	 height: 20px;
+}
+
+.contactos-proveedor .row .col-md-4 {
+	 font-size: 10px;
+}
+
+.contactos-proveedor .panel-heading .nav  li a {
+	color: #949494;
+}
+
+.contactos-proveedor .panel-heading .nav  li a:hover {
+	color: black;
+}
+
+.contactos-proveedor .panel-heading .nav  .active a{
+	color: black;
+}

@@ -1,0 +1,102 @@
+
+.form-panel .panel-heading {
+	height: 35px;
+	padding: 3px !important;
+}
+
+.form-panel .footer-heading {
+	height: 15px;
+}
+
+.form-panel .form-footer .btn-warning,.btn-info,.btn,input[type="submit"], button {
+	height: 25px;
+	padding:0px;
+	margin: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.form-panel .form-footer .btn-warning,input[type="submit"] {
+	font-weight: 400;
+	border-radius: 4px;
+}
+
+.form-panel .form-footer .btn-warning,input[type="submit"] {
+	transition: all 0.3s ease 0s;
+	position: relative;
+	z-index: 1;
+	font-weight: 300;
+	border-radius: 1px;
+}
+
+.form-panel .form-footer .btn-warning,input[type="submit"] {
+	display: inline-block;
+	margin-bottom: 0px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-moz-user-select: none;
+}
+
+.form-panel .form-footer input[type="submit"]:focus, input[type="submit"]:hover {
+	color: #333;
+	text-decoration: none;
+}
+
+.form-panel .form-footer input[type="submit"]:focus {
+	outline: thin dotted;
+	outline-offset: -2px;
+}
+
+
+.form-panel .panel-body .form-horizontal {
+	padding: 5px 5px 0px 5px;
+}
+
+.forms {
+	padding: 10px 0px 0px;
+}
+
+.form-footer {
+	margin-top: 5px !important;
+}
+
+.compra-body{
+	border-top: 1px solid #DDD;
+	padding-top: 10px;
+}
+
+.compra-separador {
+	border-top: solid 1px #DDD;
+}
+
+.master-detalle-body {
+	border-top: solid 1px #DDD;
+	margin-top: 10px;
+}
+
+.serial-detalle {
+	height:250px;
+	max-height: 250px !important;
+	overflow:scroll; 
+	width: 100%;
+}
+
+.serial-detalle table {
+	width: 100%;
+}
+
+.compra-result-producto {
+	font-size: 10px;
+}
+
+.hide {
+	visibility: hidden
+}

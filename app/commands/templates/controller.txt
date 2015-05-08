@@ -1,0 +1,60 @@
+<?php
+
+class {{controllerName}} extends Controller {
+
+	public function create() {
+
+    	if (Input::has('_token')) {
+
+            ${{varName}} = new {{modelName}};
+
+            if (${{varName}}->_create())
+            {
+                return 'success';
+            }
+            else
+            {
+                return ${{varName}}->errors();
+            }
+    	}
+
+        return View::make('{{varName}}.create');
+    }
+
+
+    public function edit() {
+
+    	if (Input::has('_token')) {
+	    	
+	    	${{varName}} = {{modelName}}::find(Input::get('id'));
+
+			if ( ${{varName}}->_update() )
+			{
+		        return 'success';
+			}
+			else
+			{
+			    return ${{varName}}->errors();
+			}
+    	}
+    	
+
+        ${{varName}} = {{modelName}}::find(Input::get('id'));
+
+        return View::make('{{varName}}.edit', compact('{{varName}}'));
+    }
+
+
+    public function delete() {
+
+    	$delete = {{modelName}}::destroy(Input::get('id'));
+
+    	if ($delete)
+    	{
+    		return 'success';
+    	}
+
+    	return 'error';
+    }
+
+}

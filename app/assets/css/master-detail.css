@@ -1,0 +1,137 @@
+
+.master-table tr td, th {
+	padding: 2px !important;
+}
+
+.master-table tbody tr td {
+	background: #FBFBFB !important;
+	padding-top:0px !important;
+	padding-button:0px !important;
+	font: bold !important;
+	font-size: 10px;
+	height: 0px;
+} 
+
+.master-table tr td input {
+	height: 20px;
+	font-size: 10px !important;
+	padding-left: 5px;
+	margin-right: 5px;
+	margin-left: 5px;
+	background: white;
+}
+
+.master-table tr td {
+	padding: 0px !important;
+	margin:  0px !important;
+}
+.master-table tr td i {
+	font-size: 12px !important;
+	padding-right: 3px;
+}
+
+.master-table tr td button {
+	font-size: 25px !important;
+	padding:0px 0px 0px 0px!important;
+}
+
+.master-detail-info .master-table tr td input {
+	width: 210px;
+}
+
+.master-detail-body .master-table tr td input {
+	width: 120px;
+	margin: 0px;
+}
+
+.master-detail-body .master-table tr td {
+	padding-left: 0px !important;
+}
+
+.master-detail-body  {
+	margin-top: 8px;
+}
+
+.master-detail-body textarea {
+	margin-top: 10px;
+}
+
+.totales tr td {
+	border: solid 1px #DDD;
+	font: bold !important;
+	line-height: 140%;
+	width: 50%;
+}
+
+.master-precios {
+	font-size: 10px;
+}
+
+.master-descripcion {
+	font-size: 10px;
+	color: #A2A2A2 !important;
+	line-height: 130%;
+}
+
+.search-cliente-info {
+	font-size: 10px;
+}
+
+.search-proveedor-info {
+	font-size: 10px;
+}
+ 
+.table-scroll {
+	max-height: 100px !important;
+	height: 100px !important;
+	overflow-x: hidden;
+    overflow-y: scroll;
+	width: 100%;
+	padding: 0px 0px 0px 0px !important;
+	margin: 0px 0px 0px 0px !important;
+	background: white;
+}
+
+.table-scroll table {
+	background: white;
+	border-left: 1px solid #C5C5C5;
+	border-right: 1px solid #C5C5C5;
+}
+
+.table-scroll table tbody tr td {
+	font-size: 11px;
+	height: 5px;
+	line-height: 100%;
+	border-top: solid 1px #C5C5C5;
+	border-bottom: solid 1px #C5C5C5;
+	background: white
+}
+
+.table-detail-compra  thead tr th {
+	font-size: 10px;
+	line-height: 100%;
+	text-align: center;
+	padding-left: 5px !important;
+	background: white;
+}
+
+.body-detail{
+	font-size: 10px;
+	line-height: 100%;
+}
+
+.table-detail-compra{
+	background: white;
+	width: 100% !important;
+}
+
+.table-detail-compra {
+	margin-top: 10px;
+	padding-top: 5px;
+	border: 1px solid #C5C5C5;
+
+}
+
+.table-detail-compra tbody tr td {
+	background: white;
+}

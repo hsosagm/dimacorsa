@@ -1,0 +1,7 @@
+
+{{ Form::_open('{{msg}} creado') }}
+    
+    {{formElements}}
+    {{ Form::_submit('Enviar') }}
+
+{{ Form::close() }}

@@ -1,0 +1,14 @@
+.body-content {
+	min-height: 300px !important;
+	padding-bottom: 50px !important;
+	margin-bottom: 50px !important;
+}
+
+.dt-container .col-md-11{
+	padding-bottom: 50px !important;
+	margin-bottom: 50px !important;
+}
+
+.dt-panel{
+	margin-bottom: 50px !important;
+}

@@ -1,0 +1,32 @@
+{
+  "name": "remluben/laravel-bootstrap",
+  "version": "0.1.0",
+  "authors": [
+    "remluben <ulmer.benjamin@gmail.com>"
+  ],
+  "homepage": "http://github.com/remluben",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/assets/components/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.0.3",
+    "jquery": "~2.0.3",
+    "modernizr": "~2.7.0",
+    "requirejs": "~2.1.9",
+    "font-awesome": "~4.1.0",
+    "datatables": "~1.10.2",
+    "highcharts": "~4.0.3",
+    "jquery-nicescroll": "~3.5.6",
+    "jquery.easing": "~1.3.1",
+    "jquery-ui": "~1.11.2",
+    "toastr": "~2.1.0"
+  },
+  "devDependencies": {
+    "pusher": "~2.2.3"
+  }
+}

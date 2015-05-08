@@ -1,0 +1,10 @@
+<?php
+
+class {{MODEL}} extends \BaseModel {
+
+    protected $table = '{{TABLE}}';
+
+	protected $guarded = array('id');
+
+	protected $fillable = [];
+}

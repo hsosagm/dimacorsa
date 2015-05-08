@@ -1,0 +1,45 @@
+.form-producto input[type="text"]{
+	height: 25px;
+	font-size: 10px;
+	padding:0px;
+	padding-left:5px; 
+}
+
+.form-producto select{
+	height: 25px;
+	font-size: 10px;
+	padding:0px;
+}
+
+.form-producto input[type="checkbox"]{
+	width: 10px;
+}
+
+.form-producto label{
+	font-size: 10px;
+	text-align: right;
+}
+
+.form-producto {
+	text-align: left;
+}
+
+.form-producto .form-group {
+	margin-bottom: 5px !important;
+}
+
+
+.form-producto .panel-heading {
+	height: 35px;
+	padding: 3px !important;
+}
+
+.form-producto .footer-heading {
+	height: 15px;
+}
+
+.panel .panel-heading .producto-title {
+    padding: 5px;
+    font-size: 14px;
+}
+

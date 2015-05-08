@@ -1,0 +1,120 @@
+#style-switcher.open {
+    right: -10px;
+}
+
+#style-switcher {
+    position: fixed;
+    z-index: 1000;
+    top: 140px;
+    right: -225px;
+    width: 222px;
+    background: none repeat scroll 0% 0% #FFF;
+    padding: 10px;
+    border: 1px solid #DDD;
+}
+
+#toggle-switcher {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: none repeat scroll 0% 0% #FFF;
+    position: absolute;
+    left: -50px;
+    top: -1px;
+    text-align: center;
+    cursor: pointer;
+    border-width: 1px medium 1px 1px;
+    border-style: solid none solid solid;
+    border-color: #DDD -moz-use-text-color #DDD #DDD;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.fa-tint:before {
+    content: "";
+}
+
+#toggle-switcher [class*="fa"] {
+    font-size: 32px;
+    line-height: 50px;
+}
+
+.fa-tint {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    font-size-adjust: none;
+    font-stretch: normal;
+    -moz-font-feature-settings: normal;
+    -moz-font-language-override: normal;
+    font-size: inherit;
+    text-rendering: auto;
+}
+
+#toggle-switcher {
+    text-align: center;
+    cursor: pointer;
+}
+
+#style-switcher h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #666;
+    margin: 0px 0px 5px -10px;
+}
+
+#style-switcher ul {
+    list-style: none outside none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#style-switcher ul li#style-1 {
+    background: none repeat scroll 0% 0% #008ED6;
+}
+
+#style-switcher ul li#style-2 {
+    background: none repeat scroll 0% 0% #37BC9B;
+}
+
+#style-switcher ul li#style-3 {
+    background: none repeat scroll 0% 0% #F6BB42;
+}
+
+#style-switcher ul li#style-4 {
+    background: none repeat scroll 0% 0% #A0D149;
+}
+
+#style-switcher ul li#style-5 {
+    background: none repeat scroll 0% 0% #3ABEB4;
+}
+
+#style-switcher ul li#style-6 {
+    background: none repeat scroll 0% 0% #F06F6F;
+}
+
+#style-switcher ul li#style-7 {
+    background: none repeat scroll 0% 0% #A93BDC;
+}
+
+#style-switcher ul li#style-8 {
+    background: none repeat scroll 0% 0% #F75443;
+}
+
+#style-switcher ul li {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 10px 10px 0px 0px;
+    float: left;
+    border-radius: 5px;
+    cursor: pointer;
+}

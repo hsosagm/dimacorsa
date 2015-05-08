@@ -1,0 +1,50 @@
+.ui-autocomplete span.hl_results {
+    color: #171373;
+}
+
+.ui-autocomplete-loading {
+    background: #fff url('../images/loader.gif') no-repeat 97%;;
+}
+ 
+
+.ui-autocomplete {
+    max-height: 250px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    border-radius: 0px 0px 7px 7px;
+}
+
+.ui-autocomplete li {
+  font-family: FontAwesome;
+  font-style: normal;
+    font-size: 12px;
+    font-weight: 100px;
+    padding: 6px 12px !important;
+}
+
+
+.hiligth {
+    color: #3F3F3F !important;
+    font-weight: 100;
+}
+
+.ui-state-focus a .hiligth, .ui-state-focus a .hiligth:hover 
+{
+    color: #FFF;
+}
+
+.ui-widget-content a {
+    color: #8D8D8D;
+}
+
+.ui-state-hover a,
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited,
+.ui-state-focus a,
+.ui-state-focus a:hover,
+.ui-state-focus a:link,
+.ui-state-focus a:visited {
+  color: #FFF;
+  text-decoration: none;
+}

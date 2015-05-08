@@ -1,0 +1,58 @@
+.pointer {
+    cursor: pointer;
+}
+
+
+.dt-panel, .form-panel ,.producto-panel{
+	display: none;
+}
+
+.fa-shopping-cart {
+	color: #F2FF8F !important;
+}
+
+.fa-bar-chart {
+	color: #EEECF9 !important;
+}
+
+.fa-dollar {
+	color: #82F69B !important;
+}
+
+.panel-title {
+	color: #FFF !important;
+}
+
+#profile {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.fa-sign-out {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.fa-paint-brush:before {
+    content: "";
+}
+
+.align_right {
+  text-align: right !important;
+}
+
+.align_left {
+  text-align: left !important;
+}
+
+.highcharts-drilldown-axis-label {
+	fill:#6e6e70 !important;
+	font-weight: lighter !important;
+}
+
+.highcharts-drilldown-data-label text {
+	color:#606060 !important;
+	fill:#606060 !important;
+	text-decoration: none !important;
+	font-weight: lighter !important;
+}

@@ -1,0 +1,8 @@
+.modal-backdrop.in {
+  opacity: 0.1;
+  filter: alpha(opacity=10);
+}
+
+.modal .modal-dialog .modal-content .modal-footer {
+    padding: 5px;
+}
