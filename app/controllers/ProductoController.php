@@ -56,7 +56,7 @@ class ProductoController extends Controller {
     	}
 
     	return 'error';
-    }
+    } 
 
     public function find()
     {
