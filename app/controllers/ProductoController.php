@@ -63,6 +63,14 @@ class ProductoController extends Controller {
         $query = Producto::where('codigo', '=',Input::get('codigo'))->first();
         $Existencia = Existencia::where('producto_id','=',$query->id)->first();
 
+        if($Existencia != '')
+        {
+            $Existencia = $Existencia->existencia;
+        }
+        else
+        {
+            $Existencia = 0;
+        }
             $precio_c = $query->p_costo / 100;
             
             return array(
@@ -71,7 +79,7 @@ class ProductoController extends Controller {
                 'p_costo'           => 'Precio Costo: '.$precio_c,
                 'p_publico'         => 'Precio Publico: '.$query->p_publico,
                 'existencia_total'  => 'Existencia: '.$query->existencia,
-                'existencia'        => 'Existencia: '.$Existencia->existencia,
+                'existencia'        => 'Existencia: '.$Existencia,
                 'id'                =>  $query->id
             );
     }

@@ -221,13 +221,14 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {
-    $detalle = new DetalleGasto;
-    $detalle->descripcion = "leonel";
-    $detalle->metodo_pago_id= 1;
-    $detalle->monto = 100;
-    $detalle->gasto_id = 8;
-    $detalle->save();
-    return DetalleGasto::all();
+      $Existencia = Existencia::where('producto_id','=',10)->first();
+
+         if($Existencia != '')
+        {
+            $Existencia = $Existencia->existencia;
+        }
+
+        return $Existencia;
 });
 
 
