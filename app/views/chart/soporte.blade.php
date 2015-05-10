@@ -1,3 +1,13 @@
+<style type="text/css">
+
+    #container {
+        min-width: 310px;
+        margin: 0 auto;
+        height: 400px; 
+    }
+
+</style>
+
 <script type="text/javascript">
     
 $(function () {
@@ -49,17 +59,23 @@ $(function () {
                 }
             });
 
-    Highcharts.setOptions({
-        lang: {
-            drillUpText: '◁ Regresar a {series.name}'
-        }
-    });
+            Highcharts.setOptions({
+                lang: {
+                    drillUpText: '◁ Regresar a {series.name}'
+                }
+            });
 
             $('#container').highcharts({
 
                 chart: {
-
                     type: 'column',
+                    marginLeft: 75,
+                    marginRight: 25,
+                    options3d: {
+                        enabled: true,
+                        alpha: 5,
+                        beta: 0,
+                        depth: 50                    },
 
                     events: {
 
@@ -86,11 +102,6 @@ $(function () {
                                         {
                                             return this.point.dia;
                                         };
-                                        chart.plotOptions.series.dataLabels.formatter = function()
-                                        {
-                                            var num = 100;
-                                            return Highcharts.numberFormat(num, 2);
-                                        }
                                     },
                                     error: function(errors)
                                     {
@@ -121,16 +132,23 @@ $(function () {
                     enabled: false
                 },
                 yAxis: {
+                    title: {
+                        enabled: false,
+                        text: ''
+                    },
                     labels: {
                         formatter: function() {
                            var num = this.value;
-                           var num = accounting.formatMoney(num, "Q   ", 2, ",", ".");
+                           var num = accounting.formatMoney(num, "", 0, ",", ".");
                            return num;
                      
                         }
                     }
                 },
                 plotOptions: {
+                    column: {
+                        depth: 25
+                    },
                     series: {
                         borderWidth: 0,
                         dataLabels: {
@@ -141,7 +159,7 @@ $(function () {
                                     return Highcharts.numberFormat(num, 1);
                                 } else {
                                     var num = this.y;
-                                    return Highcharts.numberFormat(num, 2);
+                                    return Highcharts.numberFormat(num, 0);
                                 }
                             },
                         }
@@ -198,4 +216,4 @@ $(function () {
 
 </script>
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="container"></div>

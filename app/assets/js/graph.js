@@ -8,7 +8,7 @@ $(function() {
 function graph_g() {
     clean_panel();
 
-    $.get('owner/chart/gastos', function (data) {
+    $.get('owner/gastos/form_graph_by_date', function (data) {
         $('.dt-container').show();
         $('.table').html(data);
     }); 

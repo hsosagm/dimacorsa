@@ -99,7 +99,7 @@ module.exports = function(grunt) {
                 './app/assets/js/datepicker.js',
                 './app/assets/components/bower/datatables/media/js/jquery.dataTables.js',
                 './app/assets/components/bower/highcharts/highcharts.js',
-                './app/assets/components/bower/highcharts/highcharts-more.js',
+                './app/assets/components/bower/highcharts/highcharts-3d.js',
                 './app/assets/components/bower/highcharts/modules/exporting.js',
                 './app/assets/components/bower/toastr/toastr.js',
                 './app/assets/js/jquery.numeric.js',

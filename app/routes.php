@@ -217,6 +217,14 @@ Route::group(array('prefix' => 'owner'), function()
         Route::post('graph_by_date', 'App\graphics\SoporteGraph@graph_by_date');
     });
 
+    Route::group(array('prefix' => 'gastos'), function()
+    {
+        Route::post('graph_by_day', 'App\graphics\GastoGraph@graph_by_day');
+        Route::get('form_graph_by_date', 'App\graphics\GastoGraph@form_graph_by_date_get');
+        Route::post('form_graph_by_date', 'App\graphics\GastoGraph@form_graph_by_date_post');
+        Route::post('graph_by_date', 'App\graphics\GastoGraph@graph_by_date');
+    });
+
 });
 
 Route::get('test', function()
@@ -327,3 +335,16 @@ Route::get('init2', function()
 });
 
 Route::get('dbseed', 'LoadDataController@index');
+
+Route::get('timetest', function() 
+{
+    $start = date('Y/m/d H:i:s');
+    $start = round(microtime(true) * 1000);
+
+    $cliente = DB::table('clientes')->get();
+
+    $end = date('Y/m/d H:i:s');
+    $end = round(microtime(true) * 1000);
+
+    return $end -$start;
+});
