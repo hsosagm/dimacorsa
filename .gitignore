@@ -1,7 +1,8 @@
 /app/assets/components
+/app/storage
 /vendor
 .env
 node_modules
 public/css/*.css
 public/js/*.js
-public/js/main.js
+public/tablas/*
