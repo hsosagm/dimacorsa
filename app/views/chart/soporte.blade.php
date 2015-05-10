@@ -14,8 +14,6 @@ $(function () {
 
     $("#container").html("Cargando datos del servidor...");
 
-    setTimeout(function() {
-
     $.ajax({
         type: 'POST',
         url: 'owner/soporte/graph_by_date',
@@ -209,8 +207,7 @@ $(function () {
         {
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
-    });   
-}, 1500);
+    });
 
 });
 

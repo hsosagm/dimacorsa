@@ -12,8 +12,6 @@ $(function () {
 
     $("#container").html("Cargando datos del servidor...");
 
-    setTimeout(function() {
-
     $.ajax({
         type: 'POST',
         url: 'owner/gastos/graph_by_date',
@@ -206,9 +204,7 @@ $(function () {
         {
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
-    });   
-}, 1500);
-
+    });
 });
 
 </script>
