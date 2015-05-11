@@ -339,7 +339,6 @@ Route::get('dbseed', 'LoadDataController@index');
 Route::get('timetest', function() 
 {
     echo 'ok';
-    echo 'ok';
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);
 
