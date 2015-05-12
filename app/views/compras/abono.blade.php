@@ -2,7 +2,7 @@
 
 </div>
 
-{{ Form::open(array('data-remote-pago')) }} 
+{{ Form::open(array($data_remote)) }} 
 
 <div class="pagos-body">
     <div class="pagos-detalle">
@@ -67,7 +67,7 @@
         <br>
     </div>
 </fieldset>
-<input type="submit" class="btn btn-info btn-lg btn-block theme-button finalizar-compra" style="height:40px;" value="{{$value_submit}}" onclick="{{$funcion_submit}}" >
+<input type="{{$tipo}}" class="btn btn-info btn-lg btn-block theme-button" style="height:40px;" value="{{$value_submit}}" onclick="{{$funcion_submit}}" >
 {{Form::close()}}
 
 <style type="text/css">

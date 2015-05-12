@@ -3,18 +3,20 @@ $(function() {
     $(document).on('click', '#serial-compra',        function() { view_serial(this);    });
     $(document).on('click', '#_edit_producto',       function() { _edit_producto(this); });
     $(document).on('click', '#_add_producto',        function() { _add_producto(this); });
+    $(document).on('click', '.return_compras',       function() { return_compras(this); });
     $(document).on('f10'  , '#compra_save_producto', function() { compra_save_producto();});
-    $(document).on('enter', "input[name='ingreso_series']" ,function() { compra_save_producto();});
+    $(document).on('enter', "input[name='ingreso_series']",function(){ save_serie_compra(this);});
     $(document).on('submit'  ,'form[data-remote-pago]', function(e)  {  ingresar_pago(e,this);  });
     $(document).on('dblclick','.edit_detalle_compra',   function()   {  edit_detalle_compra(this);  });
     $(document).on('blur' ,'._edit_detalle_compra',     function()   {  desabilitar_edicion_detalle(this); });
     $(document).on('enter','._edit_detalle_compra',     function(e)  {  _edit_detalle_compra(e,this); });
+    $(document).on('enter', "form[data-remote-md-d] input[name='cantidad']" ,function() { focus_next_precio(this);});
 });
 
 function f_com_op() 
 {    
     $.get( "admin/compras/create", function( data ) 
-       {
+    {
         $('.panel-title').text('Formulario Compras');
         $(".forms").html(data);
         $(".dt-container").hide();
@@ -23,7 +25,15 @@ function f_com_op()
     });
 }
 
+function return_compras()
+{
+    $(".dt-container").hide();
+    $(".producto-container").hide();
+    $(".form-panel").show();
+}
+
 var val_anterior;
+
 function edit_detalle_compra(element)
 {
     val_anterior = $(element).text();
@@ -97,7 +107,13 @@ function compra_save_producto()
     });
 };
 
-function save_serie_compra()
+function focus_next_precio()
+{
+    $("form[data-remote-md-d] input[name='precio']").focus();
+
+}
+
+function save_serie_compra(element)
 {
     var cod = '';
     $("#SerialTable td").each(function() 
@@ -114,16 +130,17 @@ function save_serie_compra()
     }
     else
     {
-        if ($(this).val().trim() === '') 
+        if ($(element).val().trim() === '') 
         {
             msg.warning('El Campo se encuentra vacio...!', 'Advertencia!');
         }
         else 
         {
-            var serie = $(this).val().trim();
-            var series = $("input[name='serial']").val();
+            var serie = $(element).val().trim();
 
-            if($("input[name='serial']").val().trim()==='')
+            var series = $("input[name='serials']").val();
+
+            if($("input[name='serials']").val().trim()==='')
             {
                 series = serie;
             }
@@ -131,8 +148,8 @@ function save_serie_compra()
             {
                 series = series+","+serie;
             }
-            var myRow = '<tr><td width="100%">'+serie+'</td><td><i class="fa fa-times btn-link theme-c" id="'+series+'" onclick="DeleteSerialCompra(this)"></i></td></tr>';
-            $("input[name='serial']").val(series);
+            var myRow = '<tr><td width="100%">'+serie+'</td><td><i class="fa fa-times btn-link theme-c" id="'+series+'" onclick="DeleteserialsCompra(this)"></i></td></tr>';
+            $("input[name='serials']").val(series);
 
             $("#SerialTable tr:first").after(myRow);
             msg.success('Ingresado..!', 'Listo!');
@@ -169,31 +186,31 @@ function DeleteCompraInicial()
 
 function DeleteDetalleAbono($id , $metodo , $td)
 {
-     $.confirm({
-        confirm: function(){
-            $.ajax({
-                type: 'POST',
-                url: 'admin/compras/delete_abono',
-                data: { id:$id, metodo:$metodo},
-                success: function (data) {
-                    if (data.success == true) 
-                    {
-                      Ingresar_abono_compra();
-                       msg.success('Eliminado', 'Listo!');
-                       $('.finalizar-compra').removeAttr('onclick');
-                       ('.finalizar-compra').val('Ingresar Monto');
-                    }
-                    else
-                    {
-                        msg.warning(data, 'Advertencia!');
-                    }
-                },
-                error: function(errors){
-                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-                }
-            });
+   $.confirm({
+    confirm: function(){
+        $.ajax({
+            type: 'POST',
+            url: 'admin/compras/delete_abono',
+            data: { id:$id, metodo:$metodo},
+            success: function (data) {
+                if (data.success == true) 
+                {
+                  Ingresar_abono_compra();
+                  msg.success('Eliminado', 'Listo!');
+                  $('.finalizar-compra').removeAttr('onclick');
+                  ('.finalizar-compra').val('Ingresar Monto');
+              }
+              else
+              {
+                msg.warning(data, 'Advertencia!');
+            }
+        },
+        error: function(errors){
+            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
+    }
+});
 }
 
 function Ingresar_abono_compra()
@@ -203,21 +220,21 @@ function Ingresar_abono_compra()
         url: "admin/compras/abono",
         data: { compra_id: $("input[name='compra_id']").val() },
         success: function (data) {
-           if (data.success == true) 
-           {
-                $('.modal-body').html(data.detalle);
-                $('.modal-title').text('Ingresar Tipos');
-                $('.bs-modal').modal('show');
-            }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+         if (data.success == true) 
+         {
+            $('.modal-body').html(data.detalle);
+            $('.modal-title').text('Ingresar Tipos');
+            $('.bs-modal').modal('show');
         }
-    });
+        else
+        {
+            msg.warning(data, 'Advertencia!');
+        }
+    },
+    error: function(errors){
+        msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+    }
+});
 }
 
 function ingresar_pago(e,element)
@@ -227,27 +244,27 @@ function ingresar_pago(e,element)
     formData = form.serialize() +'&proveedor_id='+$("input[name='proveedor_id']").val()+'&compra_id='+$("input[name='compra_id']").val();
 
     $.ajax({
-            type: "POST",
-            url:  "admin/compras/abono",
-            data: formData,
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                if (data.success == true) 
-                {
-                   msg.success('Ingresado', 'Listo!');
-                   Ingresar_abono_compra();
-                   $('.finalizar-compra').removeAttr('onclick');
-                }
-                
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
+        type: "POST",
+        url:  "admin/compras/abono",
+        data: formData,
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true) 
+            {
+             msg.success('Ingresado', 'Listo!');
+             Ingresar_abono_compra();
+             $('.finalizar-compra').removeAttr('onclick');
+         }
+         
+         else
+         {
+            msg.warning(data, 'Advertencia!');
+        }
+    },
+    error: function (request, status, error) {
+        alert(request.responseText);
+    }
+});
 
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
@@ -275,12 +292,14 @@ function FinalizarCompraInicial()
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
+
+    return false;
 }
 
 
 function view_serial()
 {
-    $serial = $("input[name='serial']").val();
+    $serial = $("input[name='serials']").val();
     $.ajax({
         type: "GET",
         url: "admin/compras/serial",

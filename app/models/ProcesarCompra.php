@@ -11,8 +11,6 @@ class ProcesarCompra
 
 		$compra->completed = 1 ;
 
-		//$compra->saldo = $saldo;
-
 		$compra->nota = $nota;
 
 		$compra->save();

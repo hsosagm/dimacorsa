@@ -64,7 +64,7 @@ class CompraController extends \BaseController {
 			}
 
 			$query = new DetalleCompra;
-
+			Input::get('cantidad', number_format(Input::get('cantidad'),0,"",""));
 			if (!$query->_create())
 			{
 				return $query->errors();
@@ -108,7 +108,9 @@ class CompraController extends \BaseController {
 
 	public function FinalizarCompra()
 	{
-		return ProcesarCompra::set(Input::get('compra_id'));
+		ProcesarCompra::set(Input::get('compra_id'));
+
+		return 'success';
 	}
 
 	public function serial()
@@ -132,17 +134,22 @@ class CompraController extends \BaseController {
 		$desabilitar = ''; 
 		$value_submit ='Ingresar Abono'; 
 		$funcion_submit = '';
+		$data_remote = 'data-remote-pago';
+		$tipo = 'submit';
 
 		if(($total_compra - $total_abono )<= 0)
 		{
 			$desabilitar = 'disabled';
 			$value_submit = 'Finalizar Compra';
-            $funcion_submit = 'FinalizarCompraInicial();';
-        }
+			$funcion_submit = 'FinalizarCompraInicial();';
+			$data_remote = "";
+			$tipo = 'button';
+		}
 
 		return Response::json(array(
 			'success' => true, 
-			'detalle' => View::make('compras.abono',compact('metodos','det_pagos','total_abono','total_compra','desabilitar','value_submit','funcion_submit'))->render()
+			'detalle' => View::make('compras.abono',compact('metodos','det_pagos','total_abono','total_compra','desabilitar','value_submit','funcion_submit','data_remote','tipo'))
+			->render()
 			));
 	}
 
@@ -284,7 +291,7 @@ class CompraController extends \BaseController {
 		->get();
 
 		$deuda = 0;
-		$detalle = '';
+		$detalle = '<table width="100%"> <tbody> ';
 
 		foreach ($query as $key => $q)
 		{
@@ -292,15 +299,28 @@ class CompraController extends \BaseController {
 			$total = number_format($q->total,2,'.',',');
 			$detalle.= '<tr>';
 			$detalle.= '<td class="hide">' . $q->producto_id . '</td>';
-			$detalle.= '<td field="cantidad" cod="'.$q->id.'" class="edit_detalle_compra" width="60">'.$q->cantidad.'</td>';       
-			$detalle.= '<td width="770"> ' . $q->descripcion . ' </td>';
-			$detalle.= '<td field="precio" cod="'.$q->id.'" class="edit_detalle_compra" width="70">'.$precio.'</td>';
-			$detalle.= '<td width="75">' . $total . '</td>';
-			$detalle.= '<td width="25"><i id="'.$q->id.'" href="admin/compras/delete_inicial" class="fa fa-times pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i></td>';
+			$detalle.= '<td field="cantidad" cod="'.$q->id.'" class="edit_detalle_compra" width="10%">'.$q->cantidad.'</td>';       
+			$detalle.= '<td width="70%"> ' . $q->descripcion . ' </td>';
+			$detalle.= '<td field="precio" cod="'.$q->id.'" class="edit_detalle_compra" width="10%">'.$precio.'</td>';
+			$detalle.= '<td width="10%">' . $total . '</td>';
+			$detalle.= '<td width="5%"><i id="'.$q->id.'" href="admin/compras/delete_inicial" class="fa fa-times pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i></td>';
 			$detalle.= '</tr>'; 
 		}
 
-		return $detalle;
+		return $detalle.'</tbody> </table>';
+	}
+
+	function info_compra($compra_id)
+	{
+		$compra = Compra::find($compra_id);
+		$proveedor = Proveedor::find($compra->proveedor_id);
+		
+		$info =  '<div class="col-md-6 master-detail-info"> <table class="master-table">';
+		$info .= '<tr><td>Proveedor:</td> <td>'.$proveedor->nombre;
+		$info .= '<i class="fa fa-question-circle btn-link theme-c"></i></td>';
+		$info .= '</tr><tr><td>Factura No.: </td><td>'.$compra->numero_documento.'</td>';
+		$info .= '</tr><tr><td> Fecha de Doc.:</td><td>'.$compra->fecha_documento.'</td>';
+		$info .= '</tr></table></div>';
 	}
 
 	function table_detail_abono($compra_id)

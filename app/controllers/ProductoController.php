@@ -60,7 +60,21 @@ class ProductoController extends Controller {
 
     public function find()
     {
+        $values = trim(Input::get('codigo'));
+        $values = preg_replace('/\s{2,}/', ' ', $values);
+
+        if ($values == '') 
+        {
+            return 'El campo del codigo se encuentra vacio...!';
+        }
+
         $query = Producto::where('codigo', '=',Input::get('codigo'))->first();
+
+        if($query == '')
+        {
+            return 'el codigo que buscas no existe..!';
+        }
+
         $Existencia = Existencia::where('producto_id','=',$query->id)->first();
 
         if($Existencia != '')

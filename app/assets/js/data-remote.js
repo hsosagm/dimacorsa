@@ -56,9 +56,16 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
             {
                 msg.success(form.data('success'), 'Listo!');
 
-                $('.master-detail-body').html(data.detalle);
+                 $('.master-detail-body').slideUp('slow',function(){
+                    $('.master-detail-body').html(data.detalle);
+                    $('.master-detail-body').slideDown('slow', function() {
+                    });
+                });
 
                 $('form .form-footer').hide();
+
+                $('#desabilitar_input').attr('disabled', 'disabled');
+
             }
             else
             {
