@@ -348,4 +348,15 @@ Route::get('timetest', function()
     $end = round(microtime(true) * 1000);
 
     return $end -$start;
+
+    echo 'ok';
+    $start = date('Y/m/d H:i:s');
+    $start = round(microtime(true) * 1000);
+
+    $cliente = DB::table('clientes')->get();
+
+    $end = date('Y/m/d H:i:s');
+    $end = round(microtime(true) * 1000);
+
+    return $end -$start;
 });

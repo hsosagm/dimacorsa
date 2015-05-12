@@ -14,7 +14,7 @@ class CompraController extends \BaseController {
 			}
 
 			$id = $compra->get_id();
-
+			$info_compra =  $this->info_compra($id);
 			return Response::json(array(
 				'success' => true, 
 				'detalle' => View::make('compras.detalle',compact("id"))->render()
