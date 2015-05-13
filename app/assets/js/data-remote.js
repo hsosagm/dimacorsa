@@ -57,7 +57,10 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
                 msg.success(form.data('success'), 'Listo!');
 
                  $('.master-detail-body').slideUp('slow',function(){
+
+                    $(".master-detail-info").html(data.info_head);
                     $('.master-detail-body').html(data.detalle);
+
                     $('.master-detail-body').slideDown('slow', function() {
                     });
                 });

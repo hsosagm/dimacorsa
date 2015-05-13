@@ -4,15 +4,12 @@
 
 	<div class="col-md-6 master-detail-info">
 		{{ Form::hidden('proveedor_id',$compra->proveedor_id) }}
-		{{ Form::hidden('compra_id',$compra->id) }}
+		{{ Form::hidden('id',$compra->id) }}
 		<table class="master-table">
 			<tr>
 				<td>Proveedor:</td>
 				<td>
 					<input type="text" id="proveedor_id" value="{{ $proveedor->nombre}}"> 
-					<i class="fa fa-question-circle btn-link theme-c" id="proveedor_help"></i>
-					<i class="fa fa-pencil btn-link theme-c" id="proveedor_edit"> </i>
-					<i class="fa fa-plus-square btn-link theme-c" id="proveedor_create"></i>
 				</td>
 			</tr>
 			<tr>
@@ -40,3 +37,64 @@
 {{ Form::_submit('Enviar') }}
 
 {{ Form::close() }}
+
+<script>
+
+	$(function() {
+		$("#proveedor_id").autocomplete({
+			source: function (request, response) {
+				$.ajax({
+					url: "user/buscar_proveedor",
+					dataType: "json",
+					data: request,
+					success: function (data) {
+						response(data);
+					},
+					error: function () {
+						response([]);
+					}
+				});
+			},
+			minLength: 3,
+			select:function( data, ui ){
+				$("input[name='proveedor_id']").val(ui.item.id);
+				$(".search-proveedor-info").html('<strong>Direccion:  '+ui.item.descripcion+'</strong><br><strong>Contacto:   '+ui.item.value+'</strong>');
+
+				$proveedor_id = ui.item.id;
+
+				$.ajax({
+					type: 'POST',
+					url: 'admin/proveedor/total_credito',
+					data: {proveedor_id:$proveedor_id},
+					success: function (data) 
+					{
+						$(".proveedor-credito").html('<strong>Saldo   Q: '+data+'</strong>');
+					},
+					error: function(errors)
+					{
+						msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+					}
+				});
+			},
+			autoFocus: true,
+			open: function(event, ui) {
+				$(".ui-autocomplete").css("z-index", 100000);
+			}
+		});
+	});
+
+	$('form[data-remote] input[name="fecha_documento"]').pickadate(
+	{
+		max: true,
+		disable: [7]
+	});
+
+</script>
+
+<style type="text/css">
+
+    .bs-modal .Lightbox{
+        width: 750px !important;
+    }
+
+</style>

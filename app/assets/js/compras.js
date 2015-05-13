@@ -1,5 +1,6 @@
 $(function() {
-    $(document).on('click', '#f_com_op',             function() { f_com_op(this);       });
+    $(document).on('click', '#f_com_op',             function() { f_com_op(this);         });
+    $(document).on('click', '#edit_info_compra',     function() { edit_info_compra(this); });
     $(document).on('click', '#serial-compra',        function() { view_serial(this);    });
     $(document).on('click', '#_edit_producto',       function() { _edit_producto(this); });
     $(document).on('click', '#_add_producto',        function() { _add_producto(this); });
@@ -22,6 +23,27 @@ function f_com_op()
         $(".dt-container").hide();
         $(".producto-container").hide();
         $(".form-panel").show();
+    });
+}
+
+function edit_info_compra()
+{
+   $id  = $("input[name='compra_id']").val();
+    $url = 'admin/compras/edit_info';
+
+    $.ajax({
+        type: "POST",
+        url: $url,
+        data: {id: $id},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            $('.modal-body').html(data);
+            $('.modal-title').text( 'Editar Informacion Compra');
+            $('.bs-modal').modal('show');
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
     });
 }
 

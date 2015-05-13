@@ -17,12 +17,37 @@ class CompraController extends \BaseController {
 			$info_compra =  $this->info_compra($id);
 			return Response::json(array(
 				'success' => true, 
-				'detalle' => View::make('compras.detalle',compact("id"))->render()
+				'detalle' => View::make('compras.detalle',compact("id"))->render(),
+				'info_head' => $info_compra
 				));
 		}
 
 		return View::make('compras.create');
 	} 
+
+	public function edit_info()
+	{
+
+		if (Input::has('_token'))
+		{
+
+	    	$compra = Compra::find(Input::get('id'));
+
+			if ( $compra->update_master() )
+			{
+		        return 'success';
+			}
+			else
+			{
+			    return $compra->errors();
+			}
+    	}
+
+    	$compra = Compra::find(Input::get('id'));
+    	$proveedor = Proveedor::find($compra->proveedor_id);
+
+        return View::make('compras.edit_info',compact('compra','proveedor'));
+	}
 
 	public function delete()
 	{
@@ -315,12 +340,14 @@ class CompraController extends \BaseController {
 		$compra = Compra::find($compra_id);
 		$proveedor = Proveedor::find($compra->proveedor_id);
 		
-		$info =  '<div class="col-md-6 master-detail-info"> <table class="master-table">';
-		$info .= '<tr><td>Proveedor:</td> <td>'.$proveedor->nombre;
-		$info .= '<i class="fa fa-question-circle btn-link theme-c"></i></td>';
-		$info .= '</tr><tr><td>Factura No.: </td><td>'.$compra->numero_documento.'</td>';
-		$info .= '</tr><tr><td> Fecha de Doc.:</td><td>'.$compra->fecha_documento.'</td>';
+		$info =  ' <div class="col-md-6 master-detail-info"> <table class="master-table">';
+		$info .= '<tr><td>Proveedor:</td> <td><strong>'.$proveedor->nombre;
+		$info .= '&nbsp;&nbsp;</strong><i class="fa fa-refresh fa-2 btn-link theme-c" id="edit_info_compra"></i></td>';
+		$info .= '</tr><tr><td>Factura No.: </td><td><strong>'.$compra->numero_documento.'</strong></td>';
+		$info .= '</tr><tr><td> Fecha de Doc.:</td><td><strong>'.$compra->fecha_documento.'</strong></td>';
 		$info .= '</tr></table></div>';
+
+		return $info;
 	}
 
 	function table_detail_abono($compra_id)

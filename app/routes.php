@@ -146,6 +146,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('abono'   , 'CompraController@abono'  );
         Route::post('abono'  , 'CompraController@ingresar_abono'  );
         Route::get('serial'  , 'CompraController@serial' );
+        Route::get('edit_info'      , 'CompraController@edit_info'      );
+        Route::post('edit_info'     , 'CompraController@edit_info'      );
         Route::post('delete_inicial', 'CompraController@delete_inicial' );
         Route::post('delete_abono'  , 'CompraController@delete_abono'   );
         Route::post('finalizar'     , 'CompraController@FinalizarCompra');

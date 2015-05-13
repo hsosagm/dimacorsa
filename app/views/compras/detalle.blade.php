@@ -51,10 +51,10 @@
 			<tr>
 				<th class="hide">id</th>
 				<th width="10%">Cantidad</th>
-				<th width="70%" style="margin-left:25px;">Descripcion</th>
+				<th width="67%" style="margin-left:25px;">Descripcion</th>
 				<th width="10%">Precio</th>
 				<th width="10%">Totales</th>
-				<th width="20%"> </th>
+				<th width="5%"> </th>
 			</tr>
 		</thead>
 		<tr> 
