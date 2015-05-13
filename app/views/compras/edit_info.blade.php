@@ -3,9 +3,9 @@
 <div class="row">
 
 	<div class="col-md-6 master-detail-info">
-		{{ Form::hidden('proveedor_id',$compra->proveedor_id) }}
+		{{ Form::hidden('proveedor_id_info',$compra->proveedor_id) }}
 		{{ Form::hidden('id',$compra->id) }}
-		<table class="master-table">
+		<table class="master-table-info">
 			<tr>
 				<td>Proveedor:</td>
 				<td>
@@ -57,7 +57,7 @@
 			},
 			minLength: 3,
 			select:function( data, ui ){
-				$("input[name='proveedor_id']").val(ui.item.id);
+				$("input[name='proveedor_id_info']").val(ui.item.id);
 				$(".search-proveedor-info").html('<strong>Direccion:  '+ui.item.descripcion+'</strong><br><strong>Contacto:   '+ui.item.value+'</strong>');
 
 				$proveedor_id = ui.item.id;

@@ -89,22 +89,29 @@
 	width: 100%;
 	padding: 0px 0px 0px 0px !important;
 	margin: 0px 0px 0px 0px !important;
-	background: white;
+	
 }
 
 .table-scroll table {
-	background: white;
 	border-left: 1px solid #C5C5C5;
 	border-right: 1px solid #C5C5C5;
+
 }
 
 .table-scroll table tbody tr td {
 	font-size: 11px;
 	height: 5px;
 	line-height: 100%;
-	border-top: solid 1px #C5C5C5;
-	border-bottom: solid 1px #C5C5C5;
-	background: white
+
+	background: #ffffff;
+     opacity:0.6;
+     font-family: bold;
+     color: black;
+
+     border-left: 1px solid #0D0404;
+	border-right: 1px solid #0D0404;
+	border-bottom: 1px solid #0D0404;
+
 }
 
 
@@ -114,27 +121,27 @@
 	line-height: 100%;
 }
 
-.table-detail-compra{
-	background: white;
+.table-detail{
+	
 	width: 100% !important;
 }
 
-.table-detail-compra {
+.table-detail {
 	margin-top: 10px;
 	padding-top: 5px;
 	border: 1px solid #C5C5C5;
 
 }
 
-.table-detail-compra tbody tr td {
-	background: white;
+.table-detail tbody tr td {
+
 }
 
-.table-detail-compra  thead tr th {
+.table-detail  thead tr th {
 	font-size: 10px;
 	line-height: 100%;
-	text-align: left;
 	padding-left: 5px !important;
 	padding-top: 10px !important;
 	background: white;
+	color: black;
 }

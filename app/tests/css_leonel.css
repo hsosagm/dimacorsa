@@ -1,0 +1,12 @@
+/*fondo grid con degradados*/
+.grid_fondo()
+{
+	background-color:#ffffff;
+	background-image: linear-gradient(#C5C5C5 2px, transparent 2px),
+	linear-gradient(90deg, #ffffff 0px, transparent 2px),
+	linear-gradient(#C5C5C5 1px, transparent 1px),
+	linear-gradient(90deg, #C5C5C5 1px, transparent 1px);
+	background-size:200px 200px, 200px 200px, 23px 23px, 23px 23px;
+	background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px
+
+}

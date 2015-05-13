@@ -95,7 +95,7 @@
         }
     });
 
-    $(document).on("keydown","input",function(event) {
+    $(document).on("keydown",".input",function(event) {
         if (event.which === 13 || event.keyCode === 13) {
             event.stopPropagation();
             var position = $(this).index('input');

@@ -4,7 +4,7 @@ $(function() {
     $(document).on("click", "#_create", function(){ _create(this); });
     $(document).on("click", "#_edit", function(){ _edit(this); });
     $(document).on("click", "#_delete", function(){ _delete(this); });
-    $(document).on("keyup", "#solo_numeros", function(){ _solo_numeros(this); });
+    $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
  
 
@@ -22,7 +22,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     alert("<strong>Hubo un error de coneccion! </strong> Verifique network o intentelo de nuevo.");
 });
 
-function _solo_numeros(element)
+function input_numeric(element)
 {
     element.value = (element.value + '').replace(/[^0-9-.]/g, '');
 }

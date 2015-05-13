@@ -1,10 +1,10 @@
 
 {{ Form::open(array('data-remote-md', 'data-success' => 'Compra Generada')) }}
-
-<div class="row">
+{{ Form::hidden('proveedor_id') }}
+<div class="row info_head">
 
 	<div class="col-md-6 master-detail-info">
-		{{ Form::hidden('proveedor_id') }}
+		
 		<table class="master-table">
 			<tr>
 				<td>Proveedor:</td>

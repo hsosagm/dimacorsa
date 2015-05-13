@@ -232,14 +232,7 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {
-      $Existencia = Existencia::where('producto_id','=',10)->first();
-
-         if($Existencia != '')
-        {
-            $Existencia = $Existencia->existencia;
-        }
-
-        return $Existencia;
+      return $contacto = ProveedorContacto::where('proveedor_id','=',154)->first();
 });
 
 
