@@ -29,7 +29,7 @@ function search_producto(e, element)
             }
             else
             {
-                msg.warning('El codigo que ingreso no se encuentra en la base de datos', 'Advertencia!');
+                msg.warning(data);
             }
         },
         error: function(errors){

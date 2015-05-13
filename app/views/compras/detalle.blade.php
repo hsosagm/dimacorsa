@@ -5,7 +5,7 @@
 		{{ Form::hidden('producto_id') }}
 		{{ Form::hidden('compra_id',@$id) }}
 		{{ Form::hidden('serials','') }}
-		<table class="master-table">
+		<table class="master-table" id="compra_save_producto">
 			<tr>
 				<td>
 					Codigo: 
@@ -22,8 +22,8 @@
 				<td>
 					<input type="text" id="search_producto"> 
 				</td>
-				<td><input type="text" name="cantidad" > </td>
-				<td><input type="text" name="precio" id="compra_save_producto"> </td>
+				<td><input type="text" name="cantidad" id="solo_numeros" > </td>
+				<td><input type="text" name="precio" id=""> </td>
 				<td>
 					<button type="button" class="btn btn-default btn-lg" id="serial-compra">
 						<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
@@ -50,21 +50,19 @@
 		<thead>
 			<tr>
 				<th class="hide">id</th>
-				<th width="70">Cantidad</th>
-				<th width="750">Descripcion</th>
-				<th width="70">Precio</th>
-				<th width="70">Totales</th>
-				<th width="90"></th>
+				<th width="10%">Cantidad</th>
+				<th width="70%" style="margin-left:25px;">Descripcion</th>
+				<th width="10%">Precio</th>
+				<th width="10%">Totales</th>
+				<th width="20%"> </th>
 			</tr>
 		</thead>
 		<tr> 
 			<td colspan="5"  width="100%"> 
 				<div class="table-scroll" width="100%">
-					<table width="100%"> 
-					<tbody> 
-						<div class="body-detail" > </div>
-					</tbody>
-					</table>
+					<div class="body-detail" > 
+
+					</div>
 				</div>
 			</td>
 		</tr>

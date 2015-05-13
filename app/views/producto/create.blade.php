@@ -62,7 +62,7 @@
 	</div>
 
 	<div class="form-footer" align="right">
-
+		{{ Form::button('Cancelar', array('class' => 'return_compras btn btn-warning'))}}
 		{{ Form::submit('Crear!', array('class'=>'theme-button')) }}
 
 	</div>

@@ -17,11 +17,11 @@
 			</tr>
 			<tr>
 				<td>Factura No.: </td>
-				<td> <input type="text" name="numero_documento"> </td>
+				<td>  <input type="text" name="numero_documento" id="desabilitar_input"> </td>
 			</tr>
-			<tr>
+			<tr >
 				<td> Fecha de Doc.:</td>
-				<td><input type="text" name="fecha_documento" data-value="now()">  </td>
+				<td><input type="text" name="fecha_documento" data-value="now()" id="desabilitar_input">  </td>
 			</tr>
 		</table>
 	</div>

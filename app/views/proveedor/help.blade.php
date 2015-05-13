@@ -1,7 +1,7 @@
 
 <div class="row form-proveedor">
 
-	<div class="col-md-8 info-proveedor" >
+	<div class="col-md-6 info-proveedor" >
 
 		<table class="">
 			<tr>
@@ -28,7 +28,17 @@
 
 	</div>
 
-	<div class="col-md-4">
+	<div class="col-md-6 separador-contactos">
+	Contactos:
+		<div class="contactos-list">
+			@foreach($contactos as $key => $ct)
+			{{$ct->nombre.' '.$ct->apellido.' ['.$ct->telefono1.']'}}
+			<i id="contacto_view_info" contacto_id="{{$ct->id}}" class="fa fa-chevron-down btn-link theme-c"></i> 
+			<div class="info-contactos-body contactos-body-{{$ct->id}}"> </div>
+			<br>
+
+			@endforeach
+		</div>
 
 	</div>
 
@@ -39,28 +49,6 @@
 </div>
 
 <div class="proveedor-body">
-	<hr>
-	<div class="row">
-		<div class="col-md-6 list-body"  >
-			Lista de Contactos:
-			<div class="row contactos-list">
-				<ul>
-					@foreach($contactos as $key => $ct)
-						<li>
-							<a id="contacto_view_info" contacto_id="{{$ct->id}}" class="btn-link theme-c">
-							{{$ct->nombre.' '.$ct->apellido}}
-							</a> 
-						</li>
-					@endforeach
-				</ul>
-			</div>
-		</div>
-
-		<div class="col-md-6 contactos-body">
-			
-		</div>
-
-	</div>
 
 	<div class="form-footer" align="right">
 		<button class="btn btn-warning" data-dismiss="modal" type="button">Cerrar!</button>
@@ -71,7 +59,26 @@
 <style type="text/css">
 
 	.bs-modal .Lightbox{
-		width: 850px !important;
+		width: 750px !important;
 	}
+
+	.info-proveedor{
+		line-height: 140%;
+		font-size: 13px !important;
+	}
+
+	.info-proveedor  table tr td {
+		font-size: 13px !important;
+		line-height: 100% !important;
+	}
+
+	.contactos-list{
+		font-size: 13px !important;
+	}
+	
+	.separador-contactos{
+	 	border-left: 1px solid #A3A2A2;
+	 	min-height: 100px !important;
+	 }
 
 </style>

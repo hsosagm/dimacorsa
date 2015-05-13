@@ -11,10 +11,6 @@
 
 {{ Form::hidden('proveedor_id', @$proveedor_id) }}
 
-    <div class="col-md-6 contactos-body">
-        
-        
-    </div>
 </div>
 
 <div class="form-footer" align="right">

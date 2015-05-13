@@ -52,9 +52,7 @@ function proveedor_new(e,element)
 }
 
 function proveedor_help() {
-
     $id = $("input[name='proveedor_id']").val();
-    
     if($id > 0)
     {
         $.ajax({
@@ -66,6 +64,7 @@ function proveedor_help() {
                 $('.modal-body').html(data);
                 $('.modal-title').text('Informacion del Proveedor');
                 $('.bs-modal').modal('show');
+                $(".info-contactos-body").toggle('fast');
             },
             error: function (request, status, error) {
                 alert(request.responseText);
@@ -164,7 +163,9 @@ function contacto_view_info(element)
             data: {id:$id},
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
-              $('.contactos-body').html(data);
+                $('.contactos-body-'+$id).slideToggle('slow',function(){
+                    $('.contactos-body-'+$id).html(data);
+                });
             },
             error: function (request, status, error) {
                 alert(request.responseText);

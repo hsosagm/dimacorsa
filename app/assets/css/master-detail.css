@@ -107,13 +107,7 @@
 	background: white
 }
 
-.table-detail-compra  thead tr th {
-	font-size: 10px;
-	line-height: 100%;
-	text-align: center;
-	padding-left: 5px !important;
-	background: white;
-}
+
 
 .body-detail{
 	font-size: 10px;
@@ -133,5 +127,14 @@
 }
 
 .table-detail-compra tbody tr td {
+	background: white;
+}
+
+.table-detail-compra  thead tr th {
+	font-size: 10px;
+	line-height: 100%;
+	text-align: left;
+	padding-left: 5px !important;
+	padding-top: 10px !important;
 	background: white;
 }
