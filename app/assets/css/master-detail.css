@@ -93,7 +93,7 @@
 }
 
 .table-scroll table {
-	border-left: 1px solid #C5C5C5;
+	
 	border-right: 1px solid #C5C5C5;
 
 }
@@ -108,9 +108,10 @@
      font-family: bold;
      color: black;
 
-     border-left: 1px solid #0D0404;
+     border-left: 1px solid #C7C7C7 !important;
 	border-right: 1px solid #0D0404;
 	border-bottom: 1px solid #0D0404;
+	border-top: 1px solid #C7C7C7;
 
 }
 
