@@ -1,9 +1,10 @@
 <div class="row">
 
 	<div class="col-md-6">
-	    {{ Form::open(array('data-remote-md-d', 'data-success' => 'Venta Generada')) }}
+	    {{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Venta Generada', 'status' => '0')) }}
 			{{ Form::hidden('producto_id') }}
 			{{ Form::hidden('serials') }}
+			{{ Form::hidden('venta_id', $id) }}
 			<table class="master-table">
 				<tr>
 					<td>
@@ -17,8 +18,8 @@
 					<td>
 						<input type="text" id="search_producto"> 
 					</td>
-					<td><input type="text" name="cantidad"> </td>
-					<td><input type="text" name="precio" id="venta_save_producto"> </td>
+					<td><input class="input" type="text" name="cantidad"> </td>
+					<td><input class="input" type="text" name="precio" id="venta_save_producto"> </td>
 					<td>
 						<button type="button" class="btn btn-default btn-lg" id="serial-venta">
 							<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
@@ -44,8 +45,6 @@
 <div class="body-detail"> </div>
 
 <div class="form-footer" align="right">
-	<div class="">
-		{{Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'DeleteVentaInicial();']);}}
-		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button']) }}
-	</div>
+	{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'RemoveSale();']);}}
+	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button']) }}
 </div>

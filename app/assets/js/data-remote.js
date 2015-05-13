@@ -41,9 +41,10 @@ $(document).on('submit', 'form[data-remote]', function(e) {
 
 });
 
+
 $(document).on('submit', 'form[data-remote-md]', function(e) {
 
-    $('input[type=submit]', this).attr('disabled', 'disabled');
+    $('button[type=submit]', this).attr('disabled', 'disabled');
 
     var form = $(this);
 
@@ -55,10 +56,9 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
             if (data.success == true)
             {
                 msg.success(form.data('success'), 'Listo!');
-
                 $('.master-detail-body').html(data.detalle);
-
                 $('form .form-footer').hide();
+                $('#search_producto').focus();
             }
             else
             {
@@ -70,10 +70,11 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
          }
     });
 
-    $('input[type=submit]', this).removeAttr('disabled');
+    $('button[type=submit]', this).removeAttr('disabled');
 
     e.preventDefault();
 });
+
 
 $(document).on('submit', 'form[data-remote-md-2]', function(e) {
 
@@ -108,6 +109,7 @@ $(document).on('submit', 'form[data-remote-md-2]', function(e) {
 
     e.preventDefault();
 });
+
 
 $(document).on('submit', 'form[data-remote-cat]', function(e) {
 
@@ -156,6 +158,7 @@ e.preventDefault();
 
 });
 
+
 $(document).on('submit', 'form[data-chart]', function(e) {
 
     $('input[type=submit]', this).attr('disabled', 'disabled');
@@ -180,5 +183,41 @@ $(document).on('submit', 'form[data-chart]', function(e) {
     $('input[type=submit]', this).removeAttr('disabled');
 
     e.preventDefault();
+});
 
+
+$(document).on('shift_enter', 'form[data-remote-md-d]', function() {
+
+    var form = $(this);
+
+    if ( form.attr('status') == 0 ) {
+
+        form.attr('status', '1');
+
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success == true)
+                {
+                    msg.success(form.data('success'), 'Listo!');
+
+                    $('.body-detail').html(data.table);
+
+                    form.trigger('reset');
+                }
+                else
+                {
+                    msg.warning(data, 'Advertencia!');
+                }
+                form.attr('status', '0');
+            },
+            error: function(errors) {
+                msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+                form.attr('status', '0');
+            }
+
+        });
+    }
 });

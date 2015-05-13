@@ -8,7 +8,7 @@
                 <tr>
                     <td>Cliente:</td>
                     <td>
-                        <input type="text" id="cliente_id"> 
+                        <input type="text" id="cliente_id" class="input"> 
                         <i class="fa fa-question-circle btn-link theme-c" id="cliente_help"></i>
                         <i class="fa fa-pencil btn-link theme-c" id="cliente_edit"></i>
                         <i class="fa fa-plus-square btn-link theme-c" id="cliente_create"></i>
@@ -16,7 +16,7 @@
                 </tr>
                 <tr>
                     <td>Factura No.: </td>
-                    <td> <input type="text" name="numero_documento"> </td>
+                    <td> <input type="text" name="numero_documento" class="input"> </td>
                 </tr>
 
             </table>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-footer" align="right">
-          {{ Form::submit('Ok!', array('class'=>'theme-button')) }}
+          <button type="submit" class="theme-button">Ok!</button>
     </div>
 
 {{ Form::close() }}
@@ -33,7 +33,6 @@
 
 <div class="master-detail">
     <div class="master-detail-body"></div>
-    {{ Form::hidden('venta_id') }}
 </div>
 
 
