@@ -13,13 +13,12 @@ class VentasController extends \BaseController {
 				return $venta->errors();
 			}
 
-			$id = DB::getPdo()->lastInsertId();
+			$id = $venta->get_id();
 
 			return Response::json(array(
-				'success' => true, 
-				'id'      => $id, 
-				'detalle' => View::make('ventas.detalle')->render()
-             ));
+				'success' => true,
+				'detalle' => View::make('ventas.detalle', compact('id'))->render()
+            ));
 		}
 
 		return View::make('ventas.create');
@@ -27,7 +26,7 @@ class VentasController extends \BaseController {
 
 	public function detalle()
 	{
-		if (Input::has('_token'))
+		if (Session::token() == Input::get('_token'))
 		{
 			$query = new DetalleVenta;
 
@@ -39,10 +38,25 @@ class VentasController extends \BaseController {
 			return Response::json(array(
 				'success' => true,
 				'table'   => $this->table_detail()
-             ));
+            ));
 		}
 
-		return false;
+		return 'Token invalido';
+	}
+
+
+	public function delete_master()
+	{
+		$delete = Venta::destroy(Input::get('id'));
+
+		if ($delete)
+		{
+			return Response::json(array(
+				'success' => true
+            ));
+		}
+
+		return 'Huvo un error al tratar de eliminar';
 	}
 
 

@@ -84,30 +84,36 @@
 <script>
 
     $(document.body).delegate(":input", "keyup", function(e) {
+
         if(e.which == 13) {
             $(this).trigger("enter");
         }
-    });
 
-    $(document.body).delegate(":input", "keyup", function(e) {        
-        if(e.which == 121) {
-            $(this).trigger("f10");
+        if (e.keyCode == 13 && e.shiftKey) {
+            $(this).trigger("shift_enter");
+            e.preventDefault();
         }
-        e.preventDefault();
     });
 
-    $(document).ready(function() {
-        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
-            var term = this.term.split(' ').join('|');
-            var re = new RegExp("(" + term + ")", "gi");
-            var t = item.label.replace(re, "<b class='hiligth'>$1</b>");
-            return $("<li></li>")
-            .data("item.autocomplete", item)
-            .append("<a>" + t + "</a>")
-            .appendTo(ul);
-        };
-        $('#date-input').datepicker();
+    $(document).on("keydown","input",function(event) {
+        if (event.which === 13 || event.keyCode === 13) {
+            event.stopPropagation();
+            var position = $(this).index('input');
+            $("input, select").eq(position+1).select();
+        }
     });
+
+    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+        var term = this.term.split(' ').join('|');
+        var re = new RegExp("(" + term + ")", "gi");
+        var t = item.label.replace(re, "<b class='hiligth'>$1</b>");
+        return $("<li></li>")
+        .data("item.autocomplete", item)
+        .append("<a>" + t + "</a>")
+        .appendTo(ul);
+    };
+
+    $('#date-input').datepicker();
 
 </script> 
 

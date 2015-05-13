@@ -92,6 +92,7 @@
             Route::get('create'  , 'VentasController@create' );
             Route::post('create' , 'VentasController@create' );
             Route::post('detalle', 'VentasController@detalle');
+            Route::post('delete', 'VentasController@delete_master');
         });
 
         Route::get('profile' , 'UserController@edit_profile');

@@ -104,7 +104,7 @@ class BaseModel extends Eloquent   {
 
         $model = $class::create($data);
 
-        $this->model_id = $model->id;
+        $this->id = $model->id;
 
         return 'success';
     }
@@ -117,6 +117,6 @@ class BaseModel extends Eloquent   {
 
     public function get_id()
     {
-        return $this->model_id;
+        return $this->id;
     }
 }
