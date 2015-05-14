@@ -35,12 +35,20 @@ class CompraController extends \BaseController {
 
 		if (Input::has('_token'))
 		{
-
+			$id = Input::get('id');
 	    	$compra = Compra::find(Input::get('id'));
 
 			if ( $compra->update_master() )
 			{
-		        return 'success';
+				$compra = Compra::find($id);
+				$proveedor = Proveedor::find($compra->proveedor_id);
+				$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
+				$saldo = $this->TotalCreditoProveedor($proveedor->id);
+
+		       return Response::json(array(
+				'success' => true, 
+				'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
+				));
 			}
 			else
 			{
