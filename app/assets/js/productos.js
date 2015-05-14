@@ -8,7 +8,6 @@ $(function() {
     $(document).on("click", "#new_producto",   function(){ new_producto(this); });
     $(document).on("click", "#logs_productos", function(){ logs_productos(this); });
     $(document).on("click", "#search-inventario-user",   function(){ inventario_user(this); });
-    $(document).on('submit','form[data-remote-product]', function(e){ crear_producto(e,this);  });
     $(document).on("click", "#_view_existencias",        function(){ _view_existencias(this); });
 
 
@@ -71,50 +70,4 @@ function _view_existencias()
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
-}
-
-function crear_producto(e,element)
-{
-   form = $(element);
-    $('input[type=submit]', form).attr('disabled', 'disabled');
-    codigo = $('input[name=codigo]', form).val();
-
-    if( $('input[type=checkbox]', this).is(':checked') ) 
-    {
-        $('input[type=checkbox]', this).val('1');
-    }
-    else
-    {
-        $('input[type=checkbox]', this).val('0');
-    }
-
-    $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize(),
-        success: function (data) {
-
-            if (data == 'success')
-            {
-                msg.success(form.data('success'), 'Listo!');
-                $('.panel-title').text('Formulario Compras');
-                 $(".dt-container").hide();
-                 $(".producto-container").hide();
-                 $(".form-panel").show();
-
-                $("#search_producto").val(codigo);
-                search_producto_dt();
-            }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-        }
-    });
-
-    e.preventDefault();
-    $('input[type=submit]', form).removeAttr('disabled');
 }

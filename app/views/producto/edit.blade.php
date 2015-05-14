@@ -1,10 +1,10 @@
 
 
-{{ Form::_open($message) }}
+{{Form::open(array('data-remote-product', 'data-success' => 'Producto Actualizado'))}} 
 
 <br>
 
-{{ Form::_open('Producto creado') }}
+{{ Form::_open('Producto Editado') }}
 
 <div class="form-producto">
 
@@ -62,7 +62,7 @@
 
 			{{ Form::checkbox('Inactivo', '1', true); }} 
 
-			@else
+			@else 
 
 			{{ Form::checkbox('Inactivo', '0', false); }} 
 
@@ -75,7 +75,7 @@
 </div>
 
 <div class="form-footer" align="right">
-
+	{{ Form::button('Cancelar', array('class' => 'return_compras btn btn-warning'))}}
 	{{ Form::submit('Actualizar!', array('class'=>'theme-button')) }}
 
 </div>
@@ -88,19 +88,15 @@
 		width: 450px !important;
 	}
 
-</style>
-
-<style type="text/css">
-
-    .bs-modal .Lightbox{
-        width: 450px !important;
-    }
+	.producto-container {
+		width: 450px !important;
+	}
 
 </style>
 
 <script>
 	$(function(){
-		$("form[data-remote] select[name=categoria_id]").change(function(){
+		$("form[data-remote-product] select[name=categoria_id]").change(function(){
 			
 			$.ajax({
 				type: 'get',

@@ -6,7 +6,7 @@ class ProveedorController extends BaseController {
     {
         return Autocomplete::get('proveedores', array('id', 'nombre','direccion','direccion'),'direccion');
     }
-
+ 
     public function create()
     {
         if (Input::has('_token'))
@@ -46,6 +46,7 @@ class ProveedorController extends BaseController {
     public function contacto_create()
     {
         
+        $proveedor_id = Input::get('proveedor_id');
         $contacto = new ProveedorContacto;
 
         if (!$contacto->_create())
@@ -53,9 +54,10 @@ class ProveedorController extends BaseController {
             return $contacto->errors();
         }
 
+         $lista =  Form::select('contacto_id', ProveedorContacto::where('proveedor_id','=', $proveedor_id)->lists('nombre', 'id') , "", array('class' => 'form-control'));
         return Response::json(array(
             'success' => true, 
-            'lista' => $this->list_contactos()
+            'lista' => $lista
             ));
 
     }
@@ -71,9 +73,11 @@ class ProveedorController extends BaseController {
                 return $contacto->errors();
             }
 
+           $lista =  Form::select('contacto_id', ProveedorContacto::where('proveedor_id','=', $contacto->proveedor_id)->lists('nombre', 'id') , "", array('class' => 'form-control'));
+
             return Response::json(array(
                 'success' => true,
-                 'lista' => $this->list_contactos()
+                 'lista' => $lista
                  )); 
         }
 

@@ -3,7 +3,7 @@ $(function() {
     $(document).on('click', '#edit_info_compra',     function() { edit_info_compra(this); });
     $(document).on('click', '#serial-compra',        function() { view_serial(this);    });
     $(document).on('click', '#_edit_producto',       function() { _edit_producto(this); });
-    $(document).on('click', '#_add_producto',        function() { _add_producto(this); });
+    $(document).on('click', '#_add_producto',        function() {  _add_producto(this); });
     $(document).on('click', '.return_compras',       function() { return_compras(this); });
     $(document).on('enter', "input[name='ingreso_series']",function(){ save_serie_compra(this);});
     $(document).on('submit'  ,'form[data-remote-pago]', function(e)  {  ingresar_pago(e,this);  });
@@ -311,7 +311,7 @@ function  DeleteSerialCompra(element)
         }
     });
 }
-
+ 
 function _edit_producto() {
 
     $id  =  $("input[name='producto_id']").val();
@@ -323,9 +323,12 @@ function _edit_producto() {
             data: {id: $id},
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
-                $('.modal-body').html(data);
-                $('.modal-title').text( 'Editar Producto');
-                $('.bs-modal').modal('show');
+                $('.producto-title').text('Formulario Producto');
+                $(".forms-producto").html(data);
+                $(".dt-panel").hide();
+                $(".form-panel").hide();
+                $(".producto-container").show();
+                $(".producto-panel").show();
             },
             error: function (request, status, error) {
                 alert(request.responseText);
@@ -334,7 +337,15 @@ function _edit_producto() {
     };
 }; 
 
-function _add_producto () 
+function _add_producto()
 {
-    new_producto();
+    $.get( "admin/productos/create", function( data ) 
+    {
+        $('.producto-title').text('Formulario Producto');
+        $(".forms-producto").html(data);
+        $(".dt-panel").hide();
+        $(".form-panel").hide();
+        $(".producto-container").show();
+        $(".producto-panel").show();
+    });
 }

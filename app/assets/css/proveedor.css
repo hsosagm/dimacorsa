@@ -100,3 +100,11 @@
 .contactos-proveedor .panel-heading .nav  .active a{
 	color: black;
 }
+
+.body-contactos input[type="text"]{
+        background: white;
+        width: 100%;
+        margin-top: 2px;
+        height: 25px;
+        padding-left: 10px;
+    }
