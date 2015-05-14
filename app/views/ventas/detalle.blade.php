@@ -18,8 +18,8 @@
 					<td>
 						<input type="text" id="search_producto"> 
 					</td>
-					<td><input class="input" type="text" name="cantidad"> </td>
-					<td><input class="input" type="text" name="precio" id="venta_save_producto"> </td>
+					<td><input class="input input_numeric" type="text" name="cantidad"> </td>
+					<td><input class="input_numeric" type="text" name="precio" id="venta_save_producto"> </td>
 					<td>
 						<button type="button" class="btn btn-default btn-lg" id="serial-venta">
 							<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
@@ -36,7 +36,7 @@
 			<div class="col-md-3 existencia" style="text-align:right;"> </div>
 		</div>
 		<div class="row master-descripcion">
-			<div class="col-md-11 descripcion"></div>
+			<div class="col-md-11 descripcion"> </div>
 		</div>
 	</div>
 

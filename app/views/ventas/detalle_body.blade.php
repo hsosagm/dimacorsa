@@ -1,17 +1,17 @@
-<table>
+<table width="100%">
 
-    <thead>
+    <thead >
         <tr>
-            <th class="hide">id</th>
-            <th width="50">Cantidad</th>
-            <th width="580">Descripcion</th>
-            <th width="70">Precio</th>
-            <th width="70">Totales</th>
-            <th width="70">Eliminar</th>
+            <th width="10%">Cantidad</th>
+            <th width="70%">Descripcion</th>
+            <th width="10%">Precio</th>
+            <th width="10%">Totales</th>
+            <th width="5%">Eliminar</th>
         </tr>
     </thead>
 
-	<body>
+	<tbody >
+
 		@foreach($detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
@@ -19,25 +19,32 @@
 		        $total = number_format($q->total,2,'.',',');
 	        ?>
 	        <tr>
-	            <td class="hide"> {{ $q->producto_id }} </td>
-	            <td field="cantidad" cod="' . $q->producto_id . '" class="edit" width="60"> {{ $q->cantidad }} </td>          
-	            <td width="580"> {{ $q->descripcion }} </td>
-	            <td field="precio" cod="' . $q->producto_id . '" class="edit" width="75"> {{ $precio }} </td>
-	            <td width="75"> {{ $total }} </td>
-	            <td width="50"><i id="fv_item_delete" class="fa fa-trash-o pointer"></i></td>
+	            <td field="cantidad" cod="' . $q->producto_id . '" class="edit" width="10%"> {{ $q->cantidad }} </td>          
+	            <td width="70%"> {{ $q->descripcion }} </td>
+	            <td field="precio" cod="' . $q->producto_id . '" class="edit" width="10%"> {{ $precio }} </td>
+	            <td width="10%"> {{ $total }} </td>
+	            <td width="5%"><i id="fv_item_delete" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
 	        </tr>
 		@endforeach
+	    
+	</tbody>
 
-	    <?php
+	<tfoot width="100%">
+		<?php
 		    $deuda2 = $deuda;
 		    $deuda = number_format($deuda,2,'.',',');
         ?>
 		<tr style="border: solid 1px black">
-		    <td colspan="3" id="totalventas" class="td_total_text" style="text-align:center"> Total a cancelar</td>
-		    <td id="total_ventas" class="td_total"> {{ $deuda }} </td>
-		    <td class="hide"><input id="saldo_venta" type="text" value="{{ $deuda2 }}" /></td>
-		    <td class="td_tabla" colspan="2" ></td>
+		    <td>
+				<div class="row">
+					<div class="col-md-8" >  Total a cancelar </div>
+					<div class="col-md-4" id="totalventas" class="td_total_text" style="text-align:center" >
+						{{ $deuda }} 
+						{{ Form::hidden('saldo_venta', $deuda2) }}
+					</div>
+				</div>
+		    </td>
 	    </tr>
-	</body>
+	</tfoot>
 
 </table>

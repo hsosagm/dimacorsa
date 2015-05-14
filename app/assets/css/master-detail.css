@@ -81,68 +81,30 @@
 	font-size: 10px;
 }
  
-.table-scroll {
-	max-height: 100px !important;
-	height: 100px !important;
-	overflow-x: hidden;
-    overflow-y: scroll;
-	width: 100%;
-	padding: 0px 0px 0px 0px !important;
-	margin: 0px 0px 0px 0px !important;
-	
-}
-
-.table-scroll table {
-	
-	border-right: 1px solid #C5C5C5;
-
-}
-
-.table-scroll table tbody tr td {
-	font-size: 11px;
-	height: 5px;
-	line-height: 100%;
-
-	background: #ffffff;
-     opacity:0.6;
-     font-family: bold;
-     color: black;
-
-     border-left: 1px solid #C7C7C7 !important;
-	border-right: 1px solid #0D0404;
-	border-bottom: 1px solid #0D0404;
-	border-top: 1px solid #C7C7C7;
-
-}
-
-
-
 .body-detail{
 	font-size: 10px;
 	line-height: 100%;
-}
-
-.table-detail{
-	
 	width: 100% !important;
-}
-
-.table-detail {
 	margin-top: 10px;
 	padding-top: 5px;
 	border: 1px solid #C5C5C5;
-
 }
 
-.table-detail tbody tr td {
+.body-detail table  thead, .body-detail table  tbody { display: block; }
 
+.body-detail table tbody {
+    height:80px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.table-detail  thead tr th {
+.body-detail table thead tr th {
 	font-size: 10px;
 	line-height: 100%;
 	padding-left: 5px !important;
-	padding-top: 10px !important;
+	padding-top: 0px !important;
+	padding-bottom: 5px !important;
 	background: white;
 	color: black;
+	border-bottom: 1px solid #AAAAAA;
 }

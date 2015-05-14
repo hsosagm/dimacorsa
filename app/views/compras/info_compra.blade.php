@@ -28,7 +28,7 @@
 			{{ $proveedor->nombre.' '.$proveedor->direccion }}<br>
 
 			@if($contacto != '')
-			<strong>Contacto:</strong> 
+			<strong>Contacto:  </strong> 
 			{{ $contacto->nombre.' '.$contacto->apellido.' ['.$contacto->telefono1.']' }}
 			@endif
 		</div>

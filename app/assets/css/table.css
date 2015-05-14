@@ -181,11 +181,3 @@ table.dataTable tfoot th, table.dataTable thead th {
 table {
     width: 100%;
 }
-
-thead, tbody { display: block; }
-
-tbody {
-    height: 100px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}

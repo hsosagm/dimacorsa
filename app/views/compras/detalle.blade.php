@@ -46,28 +46,7 @@
 	</div>
 </div>
 <div>
-	<table class="table-detail">
-		<thead>
-			<tr>
-				<th class="hide">id</th>
-				<th width="10%">Cantidad</th>
-				<th width="70%" style="margin-left:25px;">Descripcion</th>
-				<th width="10%">Precio</th>
-				<th width="10%">Totales</th>
-				<th width="5%"> </th>
-			</tr>
-		</thead>
-		<tr> 
-			<td colspan="5"  width="100%"> 
-				<div class="table-scroll" width="100%">
-					<div class="body-detail" > 
-
-					</div>
-				</div>
-			</td>
-		</tr>
-	</table>
-
+	<div class="body-detail" >  </div>
 </div>
 <div class="row">
 	<div class="col-md-8"> <textarea name="nota" cols="30" rows="2"></textarea></div>
