@@ -177,3 +177,15 @@ table.dataTable tfoot th, table.dataTable thead th {
 .table thead tr th {
     border-width: 1px 1px 7px;
 }
+
+table {
+    width: 100%;
+}
+
+thead, tbody { display: block; }
+
+tbody {
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

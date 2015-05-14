@@ -57,17 +57,16 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
             {
                 msg.success(form.data('success'), 'Listo!');
 
-                $('.master-detail-body').slideUp('slow',function(){
+                $('.master-detail-body').slideUp('slow',function() {
                     $('.master-detail-body').html(data.detalle);
                     $('.master-detail-body').slideDown('slow', function() {
+                        $('#search_producto').focus();
                     });
                 });
 
                 $('form .form-footer').hide();
 
-                $('#desabilitar_input').attr('disabled', 'disabled');
-
-                $('#search_producto').focus();
+                $('#desabilitar_input').attr('disabled', 'disabled'); // ???
             }
             else
             {
