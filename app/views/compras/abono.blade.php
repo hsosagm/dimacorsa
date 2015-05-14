@@ -2,33 +2,35 @@
 
 </div>
 
-{{ Form::open(array($data_remote)) }} 
+{{ Form::open(array('data-remote-pago')) }} 
 
 <div class="pagos-body">
     <div class="pagos-detalle">
-    <table class="table table-hover" width="100%">
-        <thead> 
-            <tr class="danger"> 
-                <th> Metodo </th> 
-                <th> Monto  </th> 
-                <th></th>  
-            </tr> 
-        </thead>
-        <tbody>
-          @foreach ($det_pagos as $key => $det) 
+        <table class="table table-hover" width="100%">
 
-            <?php $click = "DeleteDetalleAbono(".$det->id.",'".$det->metodo."',this)" ?>
-             <tr class="warning" > 
-                <td width="50%"> {{$det->metodo}} </td>
-                <td width="50%"> {{$det->monto}} </td>
-                <td>
-                    <i class="fa fa-times pointer btn-link theme-c" onClick="{{$click}}"></i>
-                </td>
-             </tr>  
+            <thead> 
+                <tr class="danger"> 
+                    <th> Metodo </th> 
+                    <th> Monto  </th> 
+                    <th></th>  
+                </tr> 
+            </thead>
 
-          @endforeach  
-        </tbody>
-    </table>
+            <tbody>
+              @foreach ($det_pagos as $key => $det) 
+
+                <?php $click = "DeleteDetalleAbono(".$det->id.",'".$det->metodo."',this)" ?>
+                 <tr class="warning" > 
+                    <td width="50%"> {{$det->metodo}} </td>
+                    <td width="50%"> {{$det->monto}} </td>
+                    <td>
+                        <i class="fa fa-times pointer btn-link theme-c" onClick="{{$click}}"></i>
+                    </td>
+                 </tr>  
+
+              @endforeach  
+            </tbody>
+        </table>
     </div>
     <div class="row">
         <div class="col-md-4">Restante: {{ $total_compra - $total_abono }} </div>
@@ -46,7 +48,7 @@
 
             <div class="col-sm-9 select_metodo_pago">
 
-                {{$metodos}}
+                {{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 
             </div>
 

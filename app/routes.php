@@ -147,6 +147,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('abono'   , 'CompraController@abono'  );
         Route::post('abono'  , 'CompraController@ingresar_abono'  );
         Route::get('serial'  , 'CompraController@serial' );
+        Route::get('edit_info'      , 'CompraController@edit_info'      );
+        Route::post('edit_info'     , 'CompraController@edit_info'      );
         Route::post('delete_inicial', 'CompraController@delete_inicial' );
         Route::post('delete_abono'  , 'CompraController@delete_abono'   );
         Route::post('finalizar'     , 'CompraController@FinalizarCompra');
@@ -230,14 +232,7 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {
-      $Existencia = Existencia::where('producto_id','=',10)->first();
-
-         if($Existencia != '')
-        {
-            $Existencia = $Existencia->existencia;
-        }
-
-        return $Existencia;
+      return $contacto = ProveedorContacto::where('proveedor_id','=',154)->first();
 });
 
 

@@ -14,15 +14,45 @@ class CompraController extends \BaseController {
 			}
 
 			$id = $compra->get_id();
-			$info_compra =  $this->info_compra($id);
+			
+			$compra = Compra::find($id);
+			$proveedor = Proveedor::find($compra->proveedor_id);
+			$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
+			$saldo = $this->TotalCreditoProveedor($proveedor->id);
+			
 			return Response::json(array(
 				'success' => true, 
-				'detalle' => View::make('compras.detalle',compact("id"))->render()
+				'detalle' => View::make('compras.detalle',compact("id"))->render(),
+				'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
 				));
 		}
 
 		return View::make('compras.create');
 	} 
+
+	public function edit_info()
+	{
+
+		if (Input::has('_token'))
+		{
+
+	    	$compra = Compra::find(Input::get('id'));
+
+			if ( $compra->update_master() )
+			{
+		        return 'success';
+			}
+			else
+			{
+			    return $compra->errors();
+			}
+    	}
+
+    	$compra = Compra::find(Input::get('id'));
+    	$proveedor = Proveedor::find($compra->proveedor_id);
+
+        return View::make('compras.edit_info',compact('compra','proveedor'))->render();
+	}
 
 	public function delete()
 	{
@@ -54,7 +84,6 @@ class CompraController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
-
 			$codigo = DetalleCompra::where('compra_id','=',Input::get("compra_id"))
 			->where('producto_id','=',Input::get("producto_id"))->get();
 
@@ -64,15 +93,17 @@ class CompraController extends \BaseController {
 			}
 
 			$query = new DetalleCompra;
-			Input::get('cantidad', number_format(Input::get('cantidad'),0,"",""));
+			
 			if (!$query->_create())
 			{
 				return $query->errors();
 			}
 
+			$detalle = $this->table_detail(Input::get('compra_id'));
+
 			return Response::json(array(
 				'success' => true,
-				'table'   => $this->table_detail()
+				'table'   => View::make('compras.detalle_body', compact("detalle"))->render()
 				));
 		}
 
@@ -127,28 +158,24 @@ class CompraController extends \BaseController {
 		if (count($detalle_compra) <= 0 )
 			return 'no a ingresado productos a la factura...!';
 
-		$metodos   = $this->metodos_no_asignados(Input::get('compra_id'));
 		$det_pagos = $this->table_detail_abono(Input::get('compra_id'));
 		$total_abono  = $this->TotalAbonado(Input::get('compra_id'));
 		$total_compra = $this->TotalCompra(Input::get('compra_id'));
-		$desabilitar = ''; 
-		$value_submit ='Ingresar Abono'; 
-		$funcion_submit = '';
-		$data_remote = 'data-remote-pago';
-		$tipo = 'submit';
+
+		$desabilitar = ''; $value_submit ='Ingresar Abono'; 
+		$funcion_submit = ''; $tipo = 'submit';
 
 		if(($total_compra - $total_abono )<= 0)
 		{
 			$desabilitar = 'disabled';
 			$value_submit = 'Finalizar Compra';
 			$funcion_submit = 'FinalizarCompraInicial();';
-			$data_remote = "";
 			$tipo = 'button';
 		}
 
 		return Response::json(array(
 			'success' => true, 
-			'detalle' => View::make('compras.abono',compact('metodos','det_pagos','total_abono','total_compra','desabilitar','value_submit','funcion_submit','data_remote','tipo'))
+			'detalle' => View::make('compras.abono',compact('det_pagos','total_abono','total_compra','desabilitar','value_submit','funcion_submit','tipo'))
 			->render()
 			));
 	}
@@ -157,19 +184,13 @@ class CompraController extends \BaseController {
 	{	
 		$values = trim(Input::get('monto'));
 		$values = preg_replace('/\s{2,}/', ' ', $values);
-		$cancelada = false;
-		$total_abonos = $this->TotalAbonado(Input::get('compra_id'));
-		$total_compra = $this->TotalCompra(Input::get('compra_id'));
-		$total_restante = $total_compra - $total_abonos;
+		$total_restante = $this->TotalCompra(Input::get('compra_id')) - $this->TotalAbonado(Input::get('compra_id'));
 
 		if ($this->SeachMetodoPago(Input::get('compra_id'),Input::get('metodo_pago_id')) != '[]') 
 			return 'no puede ingresar dos pagos con el mismo metodo..!';
 
 		if($total_restante < $values)
 			return 'El moto ingresado no puede ser mayor al monto Restante..!';
-
-		if($total_compra <= $total_abonos)
-			return Response::json( array('cancelada' => true ));
 
 		if ($values == "" )
 			return 'el monto es obligatorio';
@@ -186,26 +207,20 @@ class CompraController extends \BaseController {
 		}
 
 		$this->Guardar_Abono($monto);
-		
-		$total_abonos = $this->TotalAbonado(Input::get('compra_id'));
-		$total_compra = $this->TotalCompra(Input::get('compra_id'));
 
-		if($total_compra <= $total_abonos)
-			$cancelada = true;
-
-		return Response::json( array('success' => true,'cancelada' => $cancelada ));
+		return Response::json( array('success' => true ));
 	}
 
 	public function Guardar_Abono($monto)
 	{
-		$abono = new Abonos;
-		$abono->user_id= Auth::user()->id;
-		$abono->metodo_pago_id=Input::get('metodo_pago_id');
-		$abono->proveedor_id=Input::get('proveedor_id');
-		$abono->monto= $monto;
-		$abono->save();
+		$abono = Abonos::create(array(
+			'user_id' => Auth::user()->id ,
+			'metodo_pago_id' => Input::get('metodo_pago_id'),
+			'proveedor_id' => Input::get('proveedor_id'),
+			'monto' => $monto
+			));
 
-		$prov_abono_id = DB::getPdo()->lastInsertId();
+		$prov_abono_id = $abono->id;
 
 		$detalle = new AbonosDetalle;
 		$detalle->prov_abono_id = $prov_abono_id;
@@ -231,7 +246,6 @@ class CompraController extends \BaseController {
 
 		return Response::json( array(
 			'success' => true,
-			'metodo_pago' => $this->metodos_no_asignados($detalle->compra_id),
 			'detalle' => $this->table_detail_abono($detalle->compra_id)
 			));
 	}
@@ -281,46 +295,37 @@ class CompraController extends \BaseController {
 		return $total->total;
 	}
 
-	public function table_detail()
+	public function TotalCreditoProveedor($proveedor_id)
+    {
+        $total = Compra::select(DB::Raw('sum(saldo) as total'))
+        ->where('proveedor_id','=', $proveedor_id)
+        ->where('saldo','>', 0 )->first();
+
+        return $total->total;
+    }
+
+	public function table_detail($compra_id)
 	{
 		$query = DB::table('detalle_compras')
 		->select(array('detalle_compras.id as id','compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-		->where('compra_id', Input::get('compra_id'))
+		->where('compra_id', $compra_id)
 		->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
 		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
 		->get();
 
-		$deuda = 0;
-		$detalle = '<table width="100%"> <tbody> ';
-
-		foreach ($query as $key => $q)
-		{
-			$precio = number_format($q->precio,2,'.',',');
-			$total = number_format($q->total,2,'.',',');
-			$detalle.= '<tr>';
-			$detalle.= '<td class="hide">' . $q->producto_id . '</td>';
-			$detalle.= '<td field="cantidad" cod="'.$q->id.'" class="edit_detalle_compra" width="10%">'.$q->cantidad.'</td>';       
-			$detalle.= '<td width="70%"> ' . $q->descripcion . ' </td>';
-			$detalle.= '<td field="precio" cod="'.$q->id.'" class="edit_detalle_compra" width="10%">'.$precio.'</td>';
-			$detalle.= '<td width="10%">' . $total . '</td>';
-			$detalle.= '<td width="5%"><i id="'.$q->id.'" href="admin/compras/delete_inicial" class="fa fa-times pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i></td>';
-			$detalle.= '</tr>'; 
-		}
-
-		return $detalle.'</tbody> </table>';
+		return $query;		
 	}
 
 	function info_compra($compra_id)
 	{
 		$compra = Compra::find($compra_id);
 		$proveedor = Proveedor::find($compra->proveedor_id);
-		
-		$info =  '<div class="col-md-6 master-detail-info"> <table class="master-table">';
-		$info .= '<tr><td>Proveedor:</td> <td>'.$proveedor->nombre;
-		$info .= '<i class="fa fa-question-circle btn-link theme-c"></i></td>';
-		$info .= '</tr><tr><td>Factura No.: </td><td>'.$compra->numero_documento.'</td>';
-		$info .= '</tr><tr><td> Fecha de Doc.:</td><td>'.$compra->fecha_documento.'</td>';
-		$info .= '</tr></table></div>';
+		$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
+		$saldo = $this->TotalCreditoProveedor($proveedor->id);
+		$contacto_info = "";
+
+		if($contacto != '')
+			$contacto_info = '<strong>Contacto:</strong> '.$contacto->nombre.' '.$contacto->apellido.' ['.$contacto->telefono1.']';
 	}
 
 	function table_detail_abono($compra_id)
@@ -333,11 +338,5 @@ class CompraController extends \BaseController {
 		return $pagos;
 	}
 
-	public function metodos_no_asignados($compra_id)
-	{
-		$no_assigned = MetodoPago::lists('descripcion', 'id');
-
-		return Form::select('metodo_pago_id', $no_assigned,'', array('class'=>'form-control'));
-	}
-
+	
 }	

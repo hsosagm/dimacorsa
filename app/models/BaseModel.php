@@ -54,6 +54,38 @@ class BaseModel extends Eloquent   {
         }
     }
 
+     public function update_master()
+    {
+        $data = Input::all();
+        $data['user_id'] = Auth::user()->id;
+        $data['tienda_id'] = Auth::user()->tienda_id;
+
+        $class = get_class($this);
+        $path = "App\\Validators\\{$class}Validator";
+
+        if (class_exists($path))
+        {
+            $v = $path::make($data);
+            if ($v->fails())
+            {
+                $this->errors = $v->messages();
+                return false;
+            }
+
+            if (Input::has('password'))
+            {
+                $values = ( array_map('trim', Input::all()) );
+            }
+            else
+            {
+                $values = ( array_map('trim', Input::except('password')) );
+            }
+
+            $class::find(Input::get('id'))->update($values);
+            return 'success';
+        }
+    }
+
 
     public function create_master()
     {
