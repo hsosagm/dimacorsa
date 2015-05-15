@@ -19,7 +19,7 @@
 <!--/ End tabs heading -->
 
 <!-- Start tabs content -->
-<div class="">
+<div class="proveedor_tabs">
     <div class="tab-content" style="background: white" >
         <div class="tab-pane fade active in" id="tab-informacion" style="background:white !important">
 
@@ -27,13 +27,30 @@
 
             {{ Form::hidden('id', @$proveedor->id) }}
 
-            {{ Form::_text('nombre', @$proveedor->nombre) }}
+            <div class="form-group">
+                <div class="col-sm-7">
+                    <input class="form-control" name="nombre" value="{{ @$proveedor->nombre }}" placeholder="Nombre" type="text">
+                </div>
+            </div>
 
-            {{ Form::_text('direccion', @$proveedor->direccion) }}
+            <div class="form-group">
+                <div class="col-sm-7">
+                    <input class="form-control" name="direccion" value="{{ @$proveedor->direccion }}" placeholder="Direccion" type="text">
+                </div>
+            </div>
 
-            {{ Form::_text('nit', @$proveedor->nit) }}
+            <div class="form-group">
+                <div class="col-sm-7">
+                  <input class="form-control" name="nit" value="{{ @$proveedor->nit }}" placeholder="Nit" type="text">
+                </div>
+            </div>
 
-            {{ Form::_text('telefono', @$proveedor->telefono) }}
+            <div class="form-group">
+                <div class="col-sm-7">
+                  <input class="form-control"  name="telefono" value="{{ @$proveedor->telefono }}" placeholder="Telefon" type="text">
+                </div>
+            </div>
+
 
             <div style="" class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
@@ -60,9 +77,15 @@
                 </div>
           </div>   
                 {{ Form::hidden('proveedor_id', @$proveedor->id) }}
-            <div class="body-contactos">
-                    
-            </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ HTML::ul(ProveedorContacto::where('proveedor_id','=', @$proveedor->id)->lists("nombre", 'id'))}}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="body-contactos"> </div>
+                    </div>
+                </div>
+            
 
         </div>
     </div>

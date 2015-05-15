@@ -232,8 +232,13 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {
-      return $contacto = ProveedorContacto::where('proveedor_id','=',154)->first();
-});
+
+
+      list($var) = DB::table('productos')->get();
+      dd($var);
+
+      dd ($var);
+    });
 
 
 
@@ -338,18 +343,7 @@ Route::get('timetest', function()
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);
 
-    $cliente = DB::table('clientes')->get();
-
-    $end = date('Y/m/d H:i:s');
-    $end = round(microtime(true) * 1000);
-
-    return $end -$start;
-
-    echo 'ok';
-    $start = date('Y/m/d H:i:s');
-    $start = round(microtime(true) * 1000);
-
-    $cliente = DB::table('clientes')->get();
+    $cliente = Cliente::find(1);
 
     $end = date('Y/m/d H:i:s');
     $end = round(microtime(true) * 1000);
