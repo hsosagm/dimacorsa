@@ -100,3 +100,50 @@
 .contactos-proveedor .panel-heading .nav  .active a{
 	color: black;
 }
+
+.body-contactos input[type="text"]{
+        background: white;
+        width: 100%;
+        margin-top: 2px;
+        height: 25px;
+        padding-left: 10px;
+    }
+
+ .proveedor-footer {
+	text-align: right;
+	margin-top: 10px;
+
+ }
+
+ .proveedor_tabs input{
+ 	font-family: "Myriad Set Pro","Lucida Grande","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
+	font-weight:300 !important;
+	border :solid 1px #F3F3F3;
+	color: #000000 !important;
+	font-weight:100 !important;
+	font-stretch:expanded;
+ }
+
+
+ .proveedor_tabs ul li{
+
+    font-style: normal;
+	font-family: "Myriad Set Pro","Lucida Grande","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
+    font-weight:300 !important;
+    font-size: 35px;
+    padding-top: 2px;
+}
+
+.modal-title{
+	font-size: 25px !important;
+
+}
+
+.modal-header {
+    padding: 0px 15px 0px;
+    color: #0E0707 !important;
+}
+.modal-header h4{
+color: #0E0707 !important;
+
+}

@@ -1,7 +1,7 @@
 
 <br> 
 
-{{Form::open(array('data-remote-product'))}} 
+{{Form::open(array('data-remote-product' ,'data-success' => 'Producto Creado'))}} 
 
 	<div class="form-producto">
 

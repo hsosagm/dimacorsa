@@ -233,8 +233,13 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {
-      return $contacto = ProveedorContacto::where('proveedor_id','=',154)->first();
-});
+
+
+      list($var) = DB::table('productos')->get();
+      dd($var);
+
+      dd ($var);
+    });
 
 
 
@@ -338,6 +343,7 @@ Route::get('timetest', function()
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);
 
+<<<<<<< HEAD
     // $cliente = Existencia::where('producto_id', 1003783)->update(array('existencia' => 12));
 
     DB::table('existencias')->where('producto_id', 1003783)->update(array('existencia' => 12));
@@ -396,6 +402,9 @@ Route::get('cod', function() {
     $user = User::where('username', 'hsosan1')->first();
 
     return $user;
+=======
+    $cliente = Cliente::find(1);
+>>>>>>> 02a531e4d94b95b05b8b5f85c9a552b0f44e41ae
 
 
 });

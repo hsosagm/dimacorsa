@@ -1,87 +1,101 @@
-{{ Form::open(array('data-remote-proveedor-e')) }}
 
-<div class="row form-proveedor">
+<!-- Start tabs heading -->
+<div class="panel-heading no-padding">
+    <ul class="nav nav-tabs">
+        <li class="active" id="tab-perfil-user">
+            <a href="#tab-informacion" data-toggle="tab">
+                <i class="fa fa-university"></i>
+                <span>Informacion Proveedor</span>
+            </a>
+        </li>
+        <li class="" id="tab-perfil-role">
+            <a href="#tab-roles" data-toggle="tab">
+                <i class="fa fa-users"></i>
+                <span>Contactos</span>
+            </a>
+        </li>
+    </ul>
+</div><!-- /.panel-heading -->
+<!--/ End tabs heading -->
 
-	<div class="col-md-8 info-proveedor" >
+<!-- Start tabs content -->
+<div class="proveedor_tabs">
+    <div class="tab-content" style="background: white" >
+        <div class="tab-pane fade active in" id="tab-informacion" style="background:white !important">
 
-		<table class="">
-		{{ Form::hidden('id', @$proveedor->id) }}
-			<tr>
-				<td> Nombre:</td>
-				<td> {{ Form::text("nombre", @$proveedor->nombre , array())}} </td>
-			</tr>
+            {{ Form::open(array('data-remote-proveedor-e','data-success' => 'Perfil Actualizado','url' => 'user/profile', 'method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
 
-			<tr>
-				<td> Direccion: </td>
-				<td> {{ Form::text("direccion", @$proveedor->direccion, array())}} </td>
-			</tr>
+            {{ Form::hidden('id', @$proveedor->id) }}
 
-			<tr>
-				<td> Nit: </td>
-				<td> {{ Form::text("nit", @$proveedor->nit , array())}} </td>
-			</tr>
+            <div class="form-group">
+                <div class="col-sm-7">
+                    <input class="form-control" name="nombre" value="{{ @$proveedor->nombre }}" placeholder="Nombre" type="text">
+                </div>
+            </div>
 
-			<tr>
-				<td> Telefono: </td>
-				<td> {{ Form::text("telefono", @$proveedor->telefono , array())}} </td>
-			</tr>
+            <div class="form-group">
+                <div class="col-sm-7">
+                    <input class="form-control" name="direccion" value="{{ @$proveedor->direccion }}" placeholder="Direccion" type="text">
+                </div>
+            </div>
 
-		</table> 
+            <div class="form-group">
+                <div class="col-sm-7">
+                  <input class="form-control" name="nit" value="{{ @$proveedor->nit }}" placeholder="Nit" type="text">
+                </div>
+            </div>
 
-	</div>
+            <div class="form-group">
+                <div class="col-sm-7">
+                  <input class="form-control"  name="telefono" value="{{ @$proveedor->telefono }}" placeholder="Telefon" type="text">
+                </div>
+            </div>
 
-	<div class="col-md-4">
 
-	</div>
+            <div style="" class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
+                <input class="btn theme-button" value="Guardar!" type="submit">
+            </div>
 
-</div>
-<div class="" align="right">
+            {{ Form::close() }}
 
-	{{ Form::submit('Actualizar datos del proveedor!', array('class'=>'theme-button')) }}
+        </div>
+        <div class="tab-pane fade" id="tab-roles" style="background:white !important">
+           <div class="form-group">
+                <div class="input-group">
+                      <div class="input-group-addon">
+                            <span class="form-button glyphicon glyphicon-plus-sign pointer" id="contacto_nuevo"> </span>
+                      </div>
 
-</div>
-{{ Form::close() }}
+                       <div class="contacto_select"> 
+                         {{Form::select('contacto_id', ProveedorContacto::where('proveedor_id','=', @$proveedor->id)->lists('nombre', 'id') , "", array('class' => 'form-control', 'id' => 'contactos_id'));}}
 
-<div class="proveedor-body">
-	<hr>
-	<div class="row" align="center"> <button type="" id="contacto_nuevo">Nuevo</button></div>
-	{{Form::open(array('data-remote-contact'))}} 
-	<div class="row">
-		<div class="col-md-6 list-body"  >
-			Lista de Contactos:
-			<div class="row contactos-list">
-				<ul>
-					@foreach($contactos as $key => $ct)
-						<li>
-							<a id="contacto_view" contacto_id="{{$ct->id}}" class="btn-link theme-c">
-							{{$ct->nombre.' '.$ct->apellido}}
-							</a> 
-						</li>
-					@endforeach
-				</ul>
-			</div>
-		</div>
+                        </div>
+                      <div class="input-group-addon">
+                            <span class="form-button glyphicon glyphicon-pencil pointer" id="contacto_view"> </span>
+                      </div>
+                </div>
+          </div>   
+                {{ Form::hidden('proveedor_id', @$proveedor->id) }}
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ HTML::ul(ProveedorContacto::where('proveedor_id','=', @$proveedor->id)->lists("nombre", 'id'))}}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="body-contactos"> </div>
+                    </div>
+                </div>
+            
 
-		{{ Form::hidden('proveedor_id', @$proveedor->id) }}
-
-		<div class="col-md-6 contactos-body">
-
-			
-		</div>
-	</div>
-
-	<div class="form-footer" align="right">
-		{{ Form::submit('Guardar Contacto!', array('class'=>'theme-button')) }}
-		<button class="btn btn-warning" data-dismiss="modal" type="button">Finalizar!</button>
-	</div>
-
-	{{Form::close()}}
-</div>
+        </div>
+    </div>
+</div> 
 
 <style type="text/css">
 
-	.bs-modal .Lightbox{
-		width: 850px !important;
-	}
-
+   .bs-modal .modal-dialog{
+        width: 750px !important;
+    }
+    
 </style>
+ 

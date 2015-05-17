@@ -1,9 +1,9 @@
-{{ Form::_open('Informacion de Compra actualizada') }}
+{{ Form::open(array('url' => '/admin/compras/edit_info', 'data-remote-md-info', 'data-success' => 'Compra Actualizada', 'status' => '0')) }}
 
 <div class="row">
 
 	<div class="col-md-6 master-detail-info">
-		{{ Form::hidden('proveedor_id_info',$compra->proveedor_id) }}
+		<input type="hidden"  name="proveedor_id" id="proveedor_id_info">
 		{{ Form::hidden('id',$compra->id) }}
 		<table class="master-table-info">
 			<tr>
@@ -57,7 +57,7 @@
 			},
 			minLength: 3,
 			select:function( data, ui ){
-				$("input[name='proveedor_id_info']").val(ui.item.id);
+				$("#proveedor_id_info").val(ui.item.id);
 				$(".search-proveedor-info").html('<strong>Direccion:  '+ui.item.descripcion+'</strong><br><strong>Contacto:   '+ui.item.value+'</strong>');
 
 				$proveedor_id = ui.item.id;
@@ -83,7 +83,7 @@
 		});
 	});
 
-	$('form[data-remote] input[name="fecha_documento"]').pickadate(
+	$('form[data-remote-md-info] input[name="fecha_documento"]').pickadate(
 	{
 		max: true,
 		disable: [7]
@@ -94,7 +94,7 @@
 <style type="text/css">
 
     .bs-modal .Lightbox{
-        width: 750px !important;
+        width: 850px !important;
     }
 
 </style>
