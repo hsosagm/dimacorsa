@@ -5,6 +5,7 @@
 			{{ Form::hidden('producto_id') }}
 			{{ Form::hidden('serials') }}
 			{{ Form::hidden('venta_id', $id) }}
+			{{ Form::hidden('ganancias', 0) }}
 			<table class="master-table">
 				<tr>
 					<td>

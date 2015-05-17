@@ -19,11 +19,11 @@
 		        $total = number_format($q->total,2,'.',',');
 	        ?>
 	        <tr>
-	            <td field="cantidad" cod="' . $q->producto_id . '" class="edit" width="10%"> {{ $q->cantidad }} </td>          
+	            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
-	            <td field="precio" cod="' . $q->producto_id . '" class="edit" width="10%"> {{ $precio }} </td>
+	            <td field="precio" cod="{{ $q->id }}" class="edit" width="10%"> {{ $precio }} </td>
 	            <td width="10%"> {{ $total }} </td>
-	            <td width="5%"><i id="fv_item_delete" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
+	            <td width="5%"><i onclick="RemoveSaleItem(this, {{ $q->id }});" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
 	        </tr>
 		@endforeach
 	    

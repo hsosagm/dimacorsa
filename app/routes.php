@@ -92,7 +92,8 @@
             Route::get('create'  , 'VentasController@create' );
             Route::post('create' , 'VentasController@create' );
             Route::post('detalle', 'VentasController@detalle');
-            Route::post('delete', 'VentasController@delete_master');
+            Route::post('RemoveSale', 'VentasController@RemoveSale');
+            Route::post('RemoveSaleItem', 'VentasController@RemoveSaleItem');
         });
 
         Route::get('profile' , 'UserController@edit_profile');
@@ -334,25 +335,80 @@ Route::get('dbseed', 'LoadDataController@index');
 
 Route::get('timetest', function() 
 {
-    echo 'ok';
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);
 
-    $cliente = DB::table('clientes')->get();
+    // $cliente = Existencia::where('producto_id', 1003783)->update(array('existencia' => 12));
+
+    DB::table('existencias')->where('producto_id', 1003783)->update(array('existencia' => 12));
 
     $end = date('Y/m/d H:i:s');
     $end = round(microtime(true) * 1000);
 
     return $end -$start;
+});
 
-    echo 'ok';
-    $start = date('Y/m/d H:i:s');
-    $start = round(microtime(true) * 1000);
+Route::get('cod', function() {
 
-    $cliente = DB::table('clientes')->get();
+    // $query = DB::table('productos')->select('p_costo')->where('id', '=', '1003562')->first();
 
-    $end = date('Y/m/d H:i:s');
-    $end = round(microtime(true) * 1000);
+    // $query = DB::table('detalle_ventas')->select('id')
+    // ->where('venta_id', '=', Input::get("venta_id"))
+    // ->where('producto_id', '=', Input::get("producto_id"))
+    // ->first();
 
-    return $end -$start;
+    // if(!count($query) > 0) {
+    //     return 'empty';
+    // }
+
+    // $query = DB::table('detalle_ventas')
+    // ->where('venta_id', '=', Input::get("venta_id"))
+    // ->where('producto_id', '=', Input::get("producto_id"))
+    // ->first();
+
+
+    // if(!$query == null)
+    // {
+    //     return "El codigo ya ha sido ingresado..";
+    // }
+
+    // $query = DB::table('existencias')->select('existencia')->where('producto_id', 1003783)->first();
+
+    // return $query->existencia;
+
+    // $query = Existencia::where('producto_id', 1003783)->first();
+
+            // Existencia::where('producto_id', 1003783)
+            // ->where('tienda_id', 1)
+            // ->update(array('existencia' => 13));
+
+    //         $existencia = Existencia::where('producto_id', 1003783)
+    //                   ->where('tienda_id', Auth::user()->tienda_id)->first();
+
+    // return $existencia->existencia;
+    // try {
+    //     $user = User::where('username', 'hsosan1a')->first();
+    // } catch (ErrorException $e) {
+    //     return 'NO se encontro el usuario';
+    // }
+
+
+    $user = User::where('username', 'hsosan1')->first();
+
+    return $user;
+
+
+});
+
+App::error(function(Exception $exception) {
+echo '<pre>';
+echo 'MESSAGE :: ';
+    print_r($exception->getMessage());
+echo '<br> CODE ::';
+    print_r($exception->getCode());
+echo '<br> FILE NAME ::';
+    print_r($exception->getFile());
+echo '<br> LINE NUMBER ::';
+    print_r($exception->getLine());
+die();// if you want than only
 });

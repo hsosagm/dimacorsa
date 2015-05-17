@@ -1,7 +1,7 @@
 <?php
 use \NEkman\ModelLogger\Contract\Logable;
 
-class Existencia extends Eloquent implements Logable{
+class Existencia extends Eloquent implements Logable {
 
 	protected $table = 'existencias';
 
