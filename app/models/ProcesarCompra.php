@@ -73,7 +73,7 @@ class ProcesarCompra
 
 		$precio = ProcesarCompra::resetPrecio(($detalle->precio*100),$detalle->cantidad,$producto->p_costo,$producto->existencia);
 		
-		ProcesarCompra::setProducto($detalle->producto_id , $precio[0] , $precio[1]);
+		ProcesarCompra::setProducto($detalle->producto_id , $precio);
 
 		//funcion para actualizar el producto
 
@@ -81,7 +81,7 @@ class ProcesarCompra
 
 		$precio = ProcesarCompra::getPrecio(($precio_n*100),$detalle->cantidad,$producto->p_costo,$producto->existencia);
 
-		ProcesarCompra::setProducto($detalle->producto_id , $precio[0] , $precio[1]);
+		ProcesarCompra::setProducto($detalle->producto_id , $precio);
 
 		//funcion para actualizar el precio en el detalle
 
@@ -103,7 +103,7 @@ class ProcesarCompra
 
 		$precio = ProcesarCompra::resetPrecio(($detalle->precio*100),$detalle->cantidad,$producto->p_costo,$producto->existencia);
 		
-		ProcesarCompra::setProducto($detalle->producto_id , $precio[0] , $precio[1]);
+		ProcesarCompra::setProducto($detalle->producto_id , $precio );
 
 		$existencia = ProcesarCompra::resetCantidad($detalle->producto_id , $detalle->cantidad);
 
@@ -115,7 +115,7 @@ class ProcesarCompra
 
 		$precio = ProcesarCompra::getPrecio(($detalle->precio*100),$cantidad_n,$producto->p_costo,$producto->existencia);
 
-		ProcesarCompra::setProducto($detalle->producto_id , $precio[0] , $precio[1]);
+		ProcesarCompra::setProducto($detalle->producto_id , $precio);
 
 		$existencia = ProcesarCompra::getCantidad($detalle->producto_id,$cantidad_n);
 
@@ -149,7 +149,7 @@ class ProcesarCompra
 			$existencia = ProcesarCompra::getCantidad($dt->producto_id,$dt->cantidad);
 
 			//funcion para actualizar los datos del producto
-			ProcesarCompra::setProducto($dt->producto_id , $precio[0] , $precio[1]);
+			ProcesarCompra::setProducto($dt->producto_id , $precio);
 
 			ProcesarCompra::setExistencia($dt->producto_id , $existencia);
 		}
@@ -172,7 +172,7 @@ class ProcesarCompra
 			$existencia = ProcesarCompra::resetCantidad($producto_id,$dt->cantidad);
 
 			//funcion para actualizar los datos ya seteados del producto
-			ProcesarCompra::setProducto($dt->producto_id , $precio[0] , $precio[1]);
+			ProcesarCompra::setProducto($dt->producto_id , $precio );
 
 			ProcesarCompra::setExistencia($producto_id , $existencia);
 		}
@@ -190,7 +190,7 @@ class ProcesarCompra
 
 		$precio_costo = $total / $existencia;
 
-		return  array( $precio_costo ,  $existencia );
+		return  $precio_costo;
 	}
 
 	public static function resetPrecio($precio, $cantidad, $_precio, $_cantidad)
@@ -248,13 +248,11 @@ class ProcesarCompra
 		return array($producto->p_costo , $producto->existencia);
 	}
 
-	public static function setProducto($producto_id, $p_costo, $existencia)
+	public static function setProducto($producto_id, $p_costo)
 	{
 		$producto = Producto::find($producto_id);
 
 		$producto->p_costo = $p_costo;
-
-		$producto->existencia = $existencia;
 
 		$producto->save();
 	}
