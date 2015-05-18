@@ -2,11 +2,8 @@
 
 {{Form::open(array('data-remote-product', 'data-success' => 'Producto Actualizado'))}} 
 
-<br>
 
-{{ Form::_open('Producto Editado') }}
-
-<div class="form-producto">
+<div >
 
 	{{ Form::hidden('id', @$producto->id) }}
 
@@ -87,6 +84,8 @@
 	.bs-modal .modal-dialog{
 		width: 450px !important;
 	}
+	
+	
 
 	.producto-container {
 		width: 450px !important;

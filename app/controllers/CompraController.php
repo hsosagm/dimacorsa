@@ -64,17 +64,9 @@ class CompraController extends \BaseController {
 
 	public function delete()
 	{
-		$detalle = DetalleCompra::where('compra_id','=',Input::get('id'));
+		$detalle_abono = AbonosDetalle::where('compra_id','=',Input::get('id'))->get();
 
-		$detalle->delete();
-
-		$detalle_abono = AbonosDetalle::where('compra_id','=',Input::get('id'));
-
-		$arreglo = $detalle_abono->get();
-
-		$detalle_abono->delete();
-
-		foreach ($arreglo as $key => $dato) 
+		foreach ($detalle_abono as $key => $dato) 
 		{
 			$abono = Abonos::find($dato->prov_abono_id);
 
@@ -84,7 +76,7 @@ class CompraController extends \BaseController {
 		$compra = Compra::find(Input::get('id'));
 
 		$compra->delete();
-		
+
 		return 'success';
 	}
 

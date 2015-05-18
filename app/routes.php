@@ -234,11 +234,7 @@ Route::get('test', function()
 {
 
 
-      list($var) = DB::table('productos')->get();
-      dd($var);
-
-      dd ($var);
-    });
+ });
 
 
 

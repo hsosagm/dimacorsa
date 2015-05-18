@@ -21,9 +21,9 @@ class CreateProvDetalleAbonosTable extends Migration {
 			$table->timestamps();
 
 			$table->foreign('prov_abono_id')->references('id')->on('prov_abonos')->onDelete('cascade')->onUpdate('cascade');
-			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
 		});
-	}
+	} 
 
 
 	/**

@@ -31,7 +31,7 @@ class ProveedorController extends BaseController {
 
     public function help()
     {
-    	$proveedor = Proveedor::find(Input::get('id'));
+    	$proveedor =  Proveedor::find(Input::get('id'));
 
         $contactos = ProveedorContacto::where('proveedor_id','=',Input::get('id'))->get();
 

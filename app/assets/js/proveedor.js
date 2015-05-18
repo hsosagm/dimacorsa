@@ -124,7 +124,7 @@ function contacto_create(e,element)
                 {
                     $('.body-contactos').slideUp('slow');
                     $('.body-contactos').html('');
-                    $('.contacto_select').html(data.lista);
+                    $('.contactos-lista').html(data.lista);
                     form.trigger('reset');
                     msg.success('Contacto Creado..!', 'Listo!');
                 }
@@ -144,7 +144,7 @@ function contacto_create(e,element)
 
 function contacto_view(element)
 {
-    $id = $("select[name='contacto_id']").val();
+    $id = $(element).attr('contacto_id');
      $.ajax({
             type: "POST",
             url:  "admin/proveedor/contacto_update",
@@ -211,7 +211,7 @@ function contacto_update(e,element)
                 {
                     $('.body-contactos').slideUp('slow');
                     $('.body-contactos').html('');
-                    $('.contacto_select').html(data.lista);
+                    $('.contactos-lista').html(data.lista);
                     form.trigger('reset');
                     msg.success('Contacto Actualizado..!', 'Listo!');
                 }
