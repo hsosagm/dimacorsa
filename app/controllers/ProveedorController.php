@@ -18,11 +18,15 @@ class ProveedorController extends BaseController {
                 return $proveedor->errors();
             }
 
-            $proveedor_id = DB::getPdo()->lastInsertId();
+            $proveedor_id = $proveedor->get_id();
+
+            $proveedor = Proveedor::find($proveedor_id);
+
+            $contactos = ProveedorContacto::where('proveedor_id','=',$proveedor_id)->get();
 
             return Response::json(array(
                 'success' => true, 
-                'contacto' => View::make('proveedor.contactos',compact("proveedor_id"))->render()
+                'form' => View::make('proveedor.edit',compact('proveedor' , 'contactos'))->render()
                 ));
         }
 
@@ -54,7 +58,8 @@ class ProveedorController extends BaseController {
             return $contacto->errors();
         }
 
-         $lista =  Form::select('contacto_id', ProveedorContacto::where('proveedor_id','=', $proveedor_id)->lists('nombre', 'id') , "", array('class' => 'form-control'));
+        $lista = View::make('proveedor.contactos_list',compact('proveedor_id'))->render();
+        
         return Response::json(array(
             'success' => true, 
             'lista' => $lista
@@ -73,7 +78,8 @@ class ProveedorController extends BaseController {
                 return $contacto->errors();
             }
 
-           $lista =  Form::select('contacto_id', ProveedorContacto::where('proveedor_id','=', $contacto->proveedor_id)->lists('nombre', 'id') , "", array('class' => 'form-control'));
+            $proveedor_id = $contacto->proveedor_id;
+            $lista = View::make('proveedor.contactos_list',compact('proveedor_id'))->render();
 
             return Response::json(array(
                 'success' => true,
@@ -85,24 +91,6 @@ class ProveedorController extends BaseController {
 
        return View::make('proveedor.contactos_edit',compact('contacto'));
 
-    }
-
-    public function list_contactos()
-    {
-        $contacto = ProveedorContacto::where('proveedor_id','=',Input::get('proveedor_id'))->get();
-
-        $data = '<ul>';
-
-        foreach ($contacto as $key => $ct) 
-        {
-            $data .= '<li><a id="contacto_view" contacto_id="'.$ct->id.'"class="btn-link theme-c">';
-
-            $data .= $ct->nombre.' '.$ct->apellido.'</a> </li>' ; 
-        }
-
-        $data .= '</ul>';     
-
-        return $data; 
     }
 
     public function contacto_nuevo()

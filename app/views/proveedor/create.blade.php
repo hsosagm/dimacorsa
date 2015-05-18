@@ -1,55 +1,41 @@
-{{ Form::open(array('data-remote-proveedor')) }}
+ <div class="proveedor-body-info">
+    {{ Form::open(array('data-remote-proveedor','data-success' => 'Perfil Actualizado','url' => 'user/profile', 'method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
 
-<div class="row form-proveedor">
-
-    <div class="col-md-8 info-proveedor" >
-
-        <table class="">
-
-            <tr>
-                <td> Nombre:</td>
-                <td> {{ Form::text("nombre", "" , array())}} </td>
-            </tr>
-
-            <tr>
-                <td> Direccion: </td>
-                <td> {{ Form::text("direccion", "" , array())}} </td>
-            </tr>
-
-            <tr>
-                <td> Nit: </td>
-                <td> {{ Form::text("nit", "" , array())}} </td>
-            </tr>
-
-            <tr>
-                <td> Telefono: </td>
-                <td> {{ Form::text("telefono", "" , array())}} </td>
-            </tr>
-
-        </table> 
-
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input class="form-control" name="nombre" value="" placeholder="Nombre" type="text">
+        </div>
     </div>
 
-    <div class="col-md-4">
-
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input class="form-control" name="direccion" value="" placeholder="Direccion" type="text">
+        </div>
     </div>
 
-</div>
-<div class="form-footer" align="right">
+    <div class="form-group">
+        <div class="col-sm-12">
+          <input class="form-control" name="nit" value="" placeholder="Nit" type="text">
+      </div>
+    </div>
 
-    {{ Form::submit('Crear!', array('class'=>'theme-button')) }}
+    <div class="form-group">
+        <div class="col-sm-12">
+          <input class="form-control"  name="telefono" value="" placeholder="Telefono" type="text">
+        </div>
+    </div>
 
-</div>
+    <div style="" class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
+        <input class="btn theme-button" value="Guardar!" type="submit">
+    </div>
+
 {{ Form::close() }}
-
-<div class="proveedor-body">
-
 </div>
-
 <style type="text/css">
 
     .bs-modal .Lightbox{
-        width: 850px !important;
+        width: 550px !important;
     }
 
 </style>

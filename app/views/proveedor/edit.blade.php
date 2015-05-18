@@ -2,16 +2,17 @@
 <!-- Start tabs heading -->
 <div class="panel-heading no-padding">
     <ul class="nav nav-tabs">
-        <li class="active" id="tab-proveedor-informacion">
+        <li class="active" id="tab-proveedor-informacio">
             <a href="#tab-proveedor-informacion" data-toggle="tab">
                 <i class="fa fa-university"></i>
                 <span>Informacion Proveedor</span>
             </a>
         </li>
-        <li class="" id="tab-proveedor-contactos">
+        <li class="" id="tab-proveedor-contacto">
             <a href="#tab-proveedor-contactos" data-toggle="tab">
                 <i class="fa fa-users"></i>
-                <span>Contactos</span>
+                <span>Contactos</span> &nbsp;&nbsp;&nbsp;
+                <i class="btn-link theme-c" id="contacto_nuevo"><i class="fa fa-plus-circle fa-2">  </i> </i>
             </a>
         </li>
     </ul>
@@ -28,7 +29,7 @@
             {{ Form::hidden('id', @$proveedor->id) }}
 
             <div class="form-group">
-                <div class="col-sm-7">tab-proveedor-informacion
+                <div class="col-sm-7">
                     <input class="form-control" name="nombre" value="{{ @$proveedor->nombre }}" placeholder="Nombre" type="text">
                 </div>
             </div>
@@ -47,7 +48,7 @@
 
             <div class="form-group">
                 <div class="col-sm-7">
-                  <input class="form-control"  name="telefono" value="{{ @$proveedor->telefono }}" placeholder="Telefon" type="text">
+                  <input class="form-control"  name="telefono" value="{{ @$proveedor->telefono }}" placeholder="Telefono" type="text">
                 </div>
             </div>
 
@@ -71,7 +72,6 @@
                                     <li contacto_id="{{$dt->id}}"  id="contacto_view" class="btn-link theme-c"> {{ $dt->nombre.' '.$dt->apellido }}</li>
                                 @endforeach
                                 <br>
-                                <i class="btn-link theme-c" id="contacto_nuevo"><i class="fa fa-plus-circle ">  </i> Agregar Contacto</i>
                          </ul>
                     </div>
                     <div class="col-md-8">

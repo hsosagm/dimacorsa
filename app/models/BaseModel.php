@@ -21,7 +21,9 @@ class BaseModel extends Eloquent   {
         $values = array_map('trim', Input::all());
         $values = preg_replace('/\s{2,}/', ' ', $values);
         $values = array_map('ucfirst', $values);
-        $class::create($values);
+        $model = $class::create($values);
+        $this->model_id = $model->id;
+
         return 'success';
     }
 
@@ -104,7 +106,7 @@ class BaseModel extends Eloquent   {
 
         $model = $class::create($data);
 
-        $this->id = $model->id;
+        $this->model_id = $model->id;
 
         return 'success';
     }
@@ -117,6 +119,6 @@ class BaseModel extends Eloquent   {
 
     public function get_id()
     {
-        return $this->id;
+        return $this->model_id;
     }
 }

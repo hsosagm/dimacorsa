@@ -38,9 +38,15 @@ function proveedor_new(e,element)
             success: function (data) {
                 if (data.success == true) 
                 {
-                    $('.form-footer', form).hide();
-                    $('.proveedor-body').html(data.contacto);
                     msg.success('Proveedor Creado..!', 'Listo!');
+                    $('.modal-body').html(data.form);
+                    $('.modal-title').text('Crear proveedor');
+                    $('.bs-modal').modal('show');
+                    $('#tab-proveedor-informacio').removeClass('active')
+                    $('#tab-proveedor-informacion').removeClass('active  in')
+                    $('#tab-proveedor-contactos').addClass('active  in')
+                    $('#tab-proveedor-contacto').addClass('active')
+                    contacto_nuevo();
                 }
                 else
                 {
