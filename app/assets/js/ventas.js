@@ -2,6 +2,7 @@ $(function() {
     $(document).on('click', '.f_ven_op', function(){ f_ven_op(this); });
     $(document).on('click', '#RemoveSale', function(){ RemoveSale(this); });
     $(document).on('click', '#RemoveSaleItem', function(){ RemoveSaleItem(this); });
+    $(document).on('click', '#OpenModalSalesPayments', function(){ OpenModalSalesPayments(this); });
 });
 
 
@@ -43,14 +44,14 @@ function RemoveSale() {
     }); 
 }
 
-function RemoveSaleItem(element, $id) {
+function RemoveSaleItem(element, $id, $producto_id, $cantidad) {
 
     $.confirm({
         confirm: function() {
 			$.ajax({
 				type: 'POST',
 				url: 'user/ventas/RemoveSaleItem',
-				data: {id: $id},
+				data: { id:$id, producto_id:$producto_id, cantidad:$cantidad },
 				success: function (data) {
 		            if (data.success == true)
 		            {
@@ -68,4 +69,29 @@ function RemoveSaleItem(element, $id) {
 			});
         }
     });
+}
+
+
+function OpenModalSalesPayments($venta_id)
+{
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/OpenModalSalesPayments",
+        data: { venta_id: $venta_id },
+        success: function (data) {
+	        if (data.success == true) 
+	        {
+	            $('.modal-body').html(data.detalle);
+	            $('.modal-title').text('Ingresar Tipos');
+	            $('.bs-modal').modal('show');
+	        }
+	        else
+	        {
+	            msg.warning(data, 'Advertencia!');
+	        }
+    },
+    error: function(errors){
+        msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+    }
+});
 }

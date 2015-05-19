@@ -94,6 +94,7 @@
             Route::post('detalle', 'VentasController@detalle');
             Route::post('RemoveSale', 'VentasController@RemoveSale');
             Route::post('RemoveSaleItem', 'VentasController@RemoveSaleItem');
+            Route::get('OpenModalSalesPayments', 'VentasController@OpenModalSalesPayments');
         });
 
         Route::get('profile' , 'UserController@edit_profile');
@@ -353,21 +354,46 @@ Route::get('timetest', function()
 
 Route::get('cod', function() {
 
-    $query = DB::table('productos')->select('p_costo')->where('id', '=', '1003562')->first();
+    // $query = DB::table('productos')->where('id', '=', '1003562')->first();
 
-    $cliente = Cliente::find(1);
+    // return $query->id;
 
+    // $query = Producto::find(1003562);
+
+    // return $query->id;
+
+    // $query = DetalleVenta::where('venta_id', 5)->get();
+
+    // foreach ($query as $q) {
+    //     echo $q->producto_id;
+    //     echo $q->cantidad;
+    // }
+
+    // $existencia = Existencia::where('producto_id', 1000000)->where('tienda_id', Auth::user()->tienda_id)->first();
+
+    // dd($existencia);
+
+    // if ($existencia->existencia < Input::get('cantidad')) {
+    //         return false;
+    // }
+
+    // return 2;
+
+        $dv = DetalleVenta::where('venta_id','=', 2)->first();
+
+        if ($dv == null ) return 'si';
+        return 'no';
 });
 
-App::error(function(Exception $exception) {
-    echo '<pre>';
-    echo 'MESSAGE :: ';
-        print_r($exception->getMessage());
-    echo '<br> CODE ::';
-        print_r($exception->getCode());
-    echo '<br> FILE NAME ::';
-        print_r($exception->getFile());
-    echo '<br> LINE NUMBER ::';
-        print_r($exception->getLine());
-die();
-});
+// App::error(function(Exception $exception) {
+//     echo '<pre>';
+//     echo 'MESSAGE :: ';
+//         print_r($exception->getMessage());
+//     echo '<br> CODE ::';
+//         print_r($exception->getCode());
+//     echo '<br> IN ::';
+//         print_r($exception->getFile());
+//     echo '<br> ON LINE ::';
+//         print_r($exception->getLine());
+// die();
+// });

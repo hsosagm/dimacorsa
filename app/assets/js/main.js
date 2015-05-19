@@ -19,7 +19,7 @@ $( document ).ajaxSuccess(function() {
 
 $( document ).ajaxError(function( event, request, settings ) {
     $('.loader').hide();
-    alert("<strong>Hubo un error de coneccion! </strong> Verifique network o intentelo de nuevo.");
+    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
 });
 
 function input_numeric(element)

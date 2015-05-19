@@ -137,8 +137,10 @@ class BaseModel extends Eloquent   {
         $values = array_map('trim', Input::all());
         $values = preg_replace('/\s{2,}/', ' ', $values);
         $values = array_map('ucfirst', $values);
-        $query = DB::table('productos')->select('p_costo')->where('id', '=', Input::get('producto_id'))->first();
-        $values['ganancias'] = $values['precio'] - $query->p_costo;
+
+        $query = Producto::find(Input::get('producto_id'));
+        
+        $values['ganancias'] = $values['precio'] - ( $query->p_costo / 100);
         $class::create($values);
         return 'success';
     }

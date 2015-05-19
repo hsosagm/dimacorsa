@@ -17,7 +17,7 @@ class CreateDetalleVentasTable extends Migration {
 			$table->increments('id');
 			$table->integer('venta_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
-			$table->decimal('cantidad', 8, 2)->unsigned();
+			$table->integer('cantidad')->unsigned();
 			$table->decimal('precio', 8, 2);
 			$table->decimal('ganancias', 8, 2)->default(0.00);
 			$table->text('serials')->nullable();

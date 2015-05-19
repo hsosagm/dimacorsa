@@ -277,7 +277,7 @@ class CompraController extends \BaseController {
 			));
 	}
 
-	public function SeachMetodoPago($compra_id , $metodo_pago)
+	public function SeachMetodoPago($compra_id , $metodo_pago) // ??
 	{
 		$query = AbonosDetalle::join('prov_abonos','prov_abonos.id','=','prov_abonos_detalle.prov_abono_id')
 		->where('compra_id','=', $compra_id)

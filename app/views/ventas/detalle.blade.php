@@ -4,7 +4,7 @@
 	    {{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Venta Generada', 'status' => '0')) }}
 			{{ Form::hidden('producto_id') }}
 			{{ Form::hidden('serials') }}
-			{{ Form::hidden('venta_id', $id) }}
+			{{ Form::hidden('venta_id', $venta_id) }}
 			{{ Form::hidden('ganancias', 0) }}
 			<table class="master-table">
 				<tr>
@@ -47,5 +47,5 @@
 
 <div class="form-footer" align="right">
 	{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'RemoveSale();']);}}
-	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button']) }}
+	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'OpenModalSalesPayments('.$venta_id.');']) }}
 </div>
