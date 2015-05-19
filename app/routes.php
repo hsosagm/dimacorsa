@@ -141,19 +141,20 @@ Route::group(array('prefix' => 'admin'), function()
     {
         Route::get('create'  , 'CompraController@create' );
         Route::post('create' , 'CompraController@create' );
-        Route::post('delete' , 'CompraController@delete' );
         Route::get('detalle' , 'CompraController@detalle');
         Route::post('detalle', 'CompraController@detalle');
-        Route::get('abono'   , 'CompraController@abono'  );
-        Route::post('abono'  , 'CompraController@ingresar_abono'  );
-        Route::get('serial'  , 'CompraController@serial' );
-        Route::get('edit_info'      , 'CompraController@edit_info'      );
-        Route::post('edit_info'     , 'CompraController@edit_info'      );
-        Route::post('delete_inicial', 'CompraController@delete_inicial' );
-        Route::post('delete_abono'  , 'CompraController@delete_abono'   );
-        Route::post('finalizar'     , 'CompraController@FinalizarCompra');
-        Route::post('ingresar_abono', "CompraController@ingresar_abono" );
-        Route::post('edit_detalle_compra',"CompraController@edit_detalle_compra" );
+        Route::get('OpenModalPurchasePayment'    , 'CompraController@OpenModalPurchasePayment'  );
+        Route::post('SavePurchasePayment'        , 'CompraController@SavePurchasePayment'  );
+        Route::post('DeletePurchaseInitial'      , 'CompraController@DeletePurchaseInitial' );
+        Route::get('OpenModalPurchaseItemSerials', 'CompraController@OpenModalPurchaseItemSerials' );
+        Route::get('OpenModalPurchaseInfo'       , 'CompraController@OpenModalPurchaseInfo');
+        Route::post('OpenModalPurchaseInfo'      , 'CompraController@OpenModalPurchaseInfo');
+        Route::post('DeletePurchaseShipping'     , 'CompraController@DeletePurchaseShipping'   );
+        Route::post('FinishInitialPurchase'      , 'CompraController@FinishInitialPurchase');
+        Route::post('SaveEditPurchaseItemDetails', "CompraController@SaveEditPurchaseItemDetails" );
+        Route::post('DeletePurchaseDetailsItem'  , 'CompraController@DeletePurchaseDetailsItem' );
+        Route::post('DeletePurchasePaymentItem'  , 'CompraController@DeletePurchasePaymentItem'   );
+       
     });
 
     Route::group(array('prefix' => 'categorias'), function()

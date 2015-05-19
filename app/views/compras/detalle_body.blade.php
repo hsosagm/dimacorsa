@@ -21,20 +21,20 @@
 		?>
 
 		<tr>
-			<td field="cantidad" cod="{{ $q->id }}" class="edit_detalle_compra" width="10%">
+			<td field="cantidad" cod="{{ $q->id }}" class="EditPurchaseItemDetails" width="10%">
 				{{ $q->cantidad }}
 			</td>   
 			<td width="70%">
 				{{ $q->descripcion }}  
 			</td>
-			<td align="right" field="precio" cod="{{ $q->id }}" class="edit_detalle_compra" width="10%">
+			<td align="right" field="precio" cod="{{ $q->id }}" class="EditPurchaseItemDetails" width="10%">
 				{{ $precio }}
 			</td>
 			<td width="10%" align="right"> 
 				{{ $total }} 
 			</td>
 			<td width="5%">
-				<i id="{{ $q->id }}" href="admin/compras/delete_inicial" class="fa fa-trash-o pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i>
+				<i id="{{ $q->id }}" href="admin/compras/DeletePurchaseDetailsItem" class="fa fa-trash-o pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i>
 			</td>
 		</tr> 
 

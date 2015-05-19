@@ -20,7 +20,7 @@ class CreateProductosTable extends Migration {
 			$table->integer('sub_categoria_id');
 			$table->string('codigo', 50);
 			$table->string('descripcion');
-			$table->string('existencia');
+			$table->decimal('existencia',8,2)->default(0.00);
 			$table->decimal('p_costo', 8, 2);
 			$table->decimal('p_publico', 8, 2);
 			$table->integer('inactivo');
