@@ -25,7 +25,12 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `metodo_pago` (`id`, `descripcion`, `created_at`, `updated_at`) VALUES
-(1, 'Efectivo', '2015-02-16 17:23:05', '2015-02-16 17:23:05');
+(1, 'Efectivo', '2015-02-16 17:23:05', '2015-02-16 17:23:05'),
+(2, 'Credito', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'Cheque', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Tarjeta', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'Deposito', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'Flete', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
