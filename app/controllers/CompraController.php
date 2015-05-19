@@ -146,9 +146,9 @@ class CompraController extends \BaseController {
 
 	public function OpenModalPurchasePayment()
 	{
-		$detalle_compra = DetalleCompra::where('compra_id','=', Input::get('compra_id'))->get();
+		$detalle_compra = DetalleCompra::where('compra_id','=', Input::get('compra_id'))->first();
 
-		if (count($detalle_compra) <= 0 )
+		if ($detalle_compra == null )
 			return 'no a ingresado productos a la factura...!';
 
 		$det_pagos = $this->TableDetailsPayments(Input::get('compra_id'));
