@@ -28,7 +28,7 @@
 
               @foreach ($det_pagos as $key => $det) 
 
-              <?php $click = "DeleteDetalleAbono(".$det->id.",'".$det->metodo."',this)" ?>
+              <?php $click = "DeletePurchasePaymentItem(".$det->id.",'".$det->metodo."',this)" ?>
 
               <tr> 
 
@@ -43,6 +43,20 @@
             </tr>  
 
             @endforeach  
+            
+            @if($flete != '')
+            <tr> 
+
+                <td width="65%"> Flete </td>
+
+                <td width="30%" align="right"> {{@$flete->monto}} </td>
+
+                <td width="10%">
+                    <i class="fa fa-times pointer btn-link theme-c" href="admin/compras/DeletePurchaseShipping" id="{{@$flete->id}}" onClick="DeleteDetalle(this);"></i>
+                </td>
+
+            </tr> 
+            @endif 
 
         </tbody>
 
@@ -72,11 +86,15 @@
 
         <div class="form-group">
 
-            {{ Form::label('body', 'Metodo', array('class'=>'col-sm-2 control-label')) }} 
-
-            <div class="col-sm-9 select_metodo_pago">
+            <div class="col-sm-6 select_metodo_pago">
 
                 {{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+
+            </div>
+
+            <div class="col-sm-6">
+
+                <input class="form-control" type="text" name="monto" placeholder="Monto" value="{{$total_compra - $total_abono}}" >
 
             </div>
 
@@ -84,12 +102,8 @@
 
         <div class="form-group">
 
-            {{ Form::label('body', 'Monto', array('class'=>'col-sm-2 control-label')) }} 
-
-            <div class="col-sm-9">
-
-                <input class="form-control" type="text" name="monto" value="{{$total_compra - $total_abono}}" {{$desabilitar}}>
-
+            <div class="col-sm-12 select_metodo_pago">
+                <textarea name="nota" rows="2" cols="40" placeholder="Nota"></textarea>
             </div>
 
         </div>
@@ -105,7 +119,7 @@
 {{Form::close()}}
 
 <style type="text/css">
-    
+
     .modal-body {
         padding: 0px 0px 0px;
     }

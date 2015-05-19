@@ -2,14 +2,14 @@
 
 use \NEkman\ModelLogger\Contract\Logable;
 
-class AbonosDetalle extends Eloquent  implements Logable{
+class ProveedorAbonos extends Eloquent  implements Logable{
 	
-	protected $table = 'prov_abonos_detalle';
+	protected $table = 'prov_abonos';
 
 	protected $guarded = array('id');
 	
 	public function getLogName()
     {
-        return $this->id;
+        return $this->id; 
     }
 }

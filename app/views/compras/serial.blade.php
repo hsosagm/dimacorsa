@@ -1,4 +1,4 @@
-{{ Form::_text('ingreso_series','','Serie') }}
+{{ Form::_text('InsertPurchaseItemSerials','','Serie') }}
 
 <div class="serial-detalle">
 
@@ -10,7 +10,7 @@
 
 			<tr>
 				<td width="100%">{{$data[$i]}}</td>
-				<td><i class="fa fa-times btn-link theme-c" id=",{{$data[$i]}}" onclick="DeleteSerialCompra(this)"></i>
+				<td><i class="fa fa-times btn-link theme-c" id=",{{$data[$i]}}" onclick="DeletePurchaseItemSerials(this)"></i>
 				</td>
 			</tr>
 

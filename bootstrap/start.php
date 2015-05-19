@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('hsosa-UX305','leonel-ASUS'),
+	'local' => array('hsosa-UX305','nelug-ASUS'),
 	'production' => array('dp2.hsystemas.com'),
 
 ));

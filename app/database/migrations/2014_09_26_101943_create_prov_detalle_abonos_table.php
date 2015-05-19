@@ -18,12 +18,13 @@ class CreateProvDetalleAbonosTable extends Migration {
 			$table->integer('prov_abono_id')->unsigned();
 			$table->integer('compra_id')->unsigned();
 			$table->decimal('monto', 8, 2);
+			$table->string('nota')->nullable();
 			$table->timestamps();
 
 			$table->foreign('prov_abono_id')->references('id')->on('prov_abonos')->onDelete('cascade')->onUpdate('cascade');
-			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
 		});
-	}
+	} 
 
 
 	/**

@@ -10,7 +10,7 @@ class CreateProvAbonosTable extends Migration {
 	 *
 	 * @return void
 	 */
-	public function up()
+	public function up() 
 	{
 		Schema::create('prov_abonos', function(Blueprint $table)
 		{

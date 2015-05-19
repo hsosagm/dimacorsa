@@ -17,7 +17,7 @@ class Existencias extends Migration {
 			$table->increments('id');
 			$table->integer('producto_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
-			$table->decimal('existencia', 8, 0);
+			$table->decimal('existencia', 8, 2)->default(0.00);
 			$table->timestamps();
 
 			$table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade')->onUpdate('cascade');

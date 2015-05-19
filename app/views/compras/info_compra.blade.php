@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-3"> Proveedor:</div>
 		<div class="col-md-7"> <strong>{{$proveedor->nombre}}</strong> </div>
-		<div class="col-md-2"><i class="fa fa-refresh fa-2 btn-link theme-c" id="edit_info_compra"></i></div>
+		<div class="col-md-2"><i class="fa fa-refresh fa-2 btn-link theme-c" id="OpenModalPurchaseInfo"></i></div>
 	</div>
 
 	<div class="row">
@@ -24,20 +24,24 @@
 
 	<div class="row">
 		<div class="col-md-12"> 
-			<strong>Direccion:</strong>  
+			Direccion:
+			<strong>
 			{{ $proveedor->nombre.' '.$proveedor->direccion }}<br>
+			</strong>  
 
 			@if($contacto != '')
-			<strong>Contacto:  </strong> 
+			Contacto:
+			<strong> 
 			{{ $contacto->nombre.' '.$contacto->apellido.' ['.$contacto->telefono1.']' }}
+			</strong> 
 			@endif
 		</div>
 	</div>
 
 	<div class="row"> 
 		<div class="col-md-12">
-			<strong>Saldo Q: </strong>
-			{{ $saldo }}
+			Saldo Q: 
+			<strong>{{ $saldo }}</strong>
 		</div> 
 	</div> 
 

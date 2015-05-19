@@ -38,9 +38,23 @@ function proveedor_new(e,element)
             success: function (data) {
                 if (data.success == true) 
                 {
-                    $('.form-footer', form).hide();
-                    $('.proveedor-body').html(data.contacto);
-                    msg.success('Proveedor Creado..!', 'Listo!');
+
+                    $('.bs-modal').slideUp('slow' , function () {
+                        msg.success('Proveedor Creado..!', 'Listo!');
+                        $('.modal-body').html(data.form);
+                        $('.modal-title').text('Crear proveedor');
+                        $('.bs-modal').modal('show');
+                        $('#tab-proveedor-informacio').removeClass('active')
+                        $('#tab-proveedor-informacion').removeClass('active  in')
+                        $('#tab-proveedor-contactos').addClass('active  in')
+                        $('#tab-proveedor-contacto').addClass('active')
+                        contacto_nuevo();
+                        $('.bs-modal').slideDown('slow', function() {
+                            
+                        });
+                        
+                    });
+                    
                 }
                 else
                 {
@@ -124,7 +138,7 @@ function contacto_create(e,element)
                 {
                     $('.body-contactos').slideUp('slow');
                     $('.body-contactos').html('');
-                    $('.contacto_select').html(data.lista);
+                    $('.contactos-lista').html(data.lista);
                     form.trigger('reset');
                     msg.success('Contacto Creado..!', 'Listo!');
                 }
@@ -144,7 +158,7 @@ function contacto_create(e,element)
 
 function contacto_view(element)
 {
-    $id = $("select[name='contacto_id']").val();
+    $id = $(element).attr('contacto_id');
      $.ajax({
             type: "POST",
             url:  "admin/proveedor/contacto_update",
@@ -211,7 +225,7 @@ function contacto_update(e,element)
                 {
                     $('.body-contactos').slideUp('slow');
                     $('.body-contactos').html('');
-                    $('.contacto_select').html(data.lista);
+                    $('.contactos-lista').html(data.lista);
                     form.trigger('reset');
                     msg.success('Contacto Actualizado..!', 'Listo!');
                 }

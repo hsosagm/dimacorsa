@@ -25,7 +25,7 @@
 				<td><input type="text" name="cantidad" class="input input_numeric" > </td>
 				<td><input type="text" name="precio" class="input_numeric"> </td>
 				<td>
-					<button type="button" class="btn btn-default btn-lg" id="serial-compra">
+					<button type="button" class="btn btn-default btn-lg" id="OpenModalPurchaseItemSerials">
 						<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
 					</button>
 				</td>
@@ -55,6 +55,6 @@
 </div>
 
 <div class="form-footer" align="right">
-	{{Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'DeleteCompraInicial();']);}}
-	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button','onClick'=>'Ingresar_abono_compra();']) }}
+	{{Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'DeletePurchaseInitial();']);}}
+	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button','onClick'=>'OpenModalPurchasePayment();']) }}
 </div>

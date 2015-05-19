@@ -1,15 +1,15 @@
 $(function() {
     $(document).on('click', '#f_com_op',             function() { f_com_op(this);         });
-    $(document).on('click', '#edit_info_compra',     function() { edit_info_compra(this); });
-    $(document).on('click', '#serial-compra',        function() { view_serial(this);    });
+    $(document).on('click', '#OpenModalPurchaseInfo',       function() { OpenModalPurchaseInfo(this); });
+    $(document).on('click', '#OpenModalPurchaseItemSerials',function() { OpenModalPurchaseItemSerials(this);    });
     $(document).on('click', '#_edit_producto',       function() { _edit_producto(this); });
     $(document).on('click', '#_add_producto',        function() {  _add_producto(this); });
     $(document).on('click', '.return_compras',       function() { return_compras(this); });
-    $(document).on('enter', "input[name='ingreso_series']",function(){ save_serie_compra(this);});
-    $(document).on('submit'  ,'form[data-remote-pago]', function(e)  {  ingresar_pago(e,this);  });
-    $(document).on('dblclick','.edit_detalle_compra',   function()   {  edit_detalle_compra(this);  });
-    $(document).on('blur' ,'._edit_detalle_compra',     function()   {  desabilitar_edicion_detalle(this); });
-    $(document).on('enter','._edit_detalle_compra',     function(e)  {  _edit_detalle_compra(e,this); });
+    $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);});
+    $(document).on('submit'  ,'form[data-remote-pago]',        function(e){ SavePurchasePayment(e,this);  });
+    $(document).on('dblclick','.EditPurchaseItemDetails' ,     function() { EditPurchaseItemDetails(this);  });
+    $(document).on('blur' ,'.SaveEditPurchaseItemDetails',     function() { DisableEditPurchaseItemDetails(this); });
+    $(document).on('enter','.SaveEditPurchaseItemDetails',     function(e){ SaveEditPurchaseItemDetails(e,this); });
 });
 
 function f_com_op() 
@@ -24,10 +24,10 @@ function f_com_op()
     });
 }
 
-function edit_info_compra()
+function OpenModalPurchaseInfo()
 {
    $id  = $("input[name='compra_id']").val();
-    $url = 'admin/compras/edit_info';
+    $url = 'admin/compras/OpenModalPurchaseInfo';
 
     $.ajax({
         type: "POST",
@@ -54,19 +54,19 @@ function return_compras()
 
 var val_anterior;
 
-function edit_detalle_compra(element)
+function EditPurchaseItemDetails(element)
 {
     val_anterior = $(element).text();
-    $(element).html('<input type="text" class="_edit_detalle_compra" />');
-    $('._edit_detalle_compra').focus();
+    $(element).html('<input type="text" class="SaveEditPurchaseItemDetails" />');
+    $('.SaveEditPurchaseItemDetails').focus();
 }
 
-function desabilitar_edicion_detalle(element)
+function DisableEditPurchaseItemDetails(element)
 {
     $(element).closest('td').html(val_anterior);
 }
 
-function _edit_detalle_compra(e,element)
+function SaveEditPurchaseItemDetails(e,element)
 {
     $detalle_id  = $(element).closest('td').attr('cod');
     $tipo_dato = $(element).closest('td').attr('field');
@@ -75,7 +75,7 @@ function _edit_detalle_compra(e,element)
 
     $.ajax({
         type: 'POST',
-        url: 'admin/compras/edit_detalle_compra',
+        url: 'admin/compras/SaveEditPurchaseItemDetails',
         data: { detalle_id:$detalle_id , tipo_dato:$tipo_dato , dato:$dato ,compra_id:$compra_id },
         success: function (data) 
         {
@@ -97,18 +97,18 @@ function _edit_detalle_compra(e,element)
     e.preventDefault(); 
 }   
 
-function save_serie_compra(element)
+function InsertPurchaseItemSerials(element)
 {
     var cod = '';
     $("#SerialTable td").each(function() 
     {
-        if ($(this).text() === $("input[name='ingreso_series']").val()) 
+        if ($(this).text() === $("input[name='InsertPurchaseItemSerials']").val()) 
         {
             cod = $(this).text();
         }
     });
 
-    if (cod === $("input[name='ingreso_series']").val())
+    if (cod === $("input[name='InsertPurchaseItemSerials']").val())
     {
         msg.error('la serie ya ha sido ingresada', 'Advertencia!');
     }
@@ -132,7 +132,7 @@ function save_serie_compra(element)
             {
                 series = series+","+serie;
             }
-            var myRow = '<tr><td width="100%">'+serie+'</td><td><i class="fa fa-times btn-link theme-c" id="'+series+'" onclick="DeleteserialsCompra(this)"></i></td></tr>';
+            var myRow = '<tr><td width="100%">'+serie+'</td><td><i class="fa fa-times btn-link theme-c" id="'+series+'" onclick="DeletePurchaseItemSerials(this)"></i></td></tr>';
             $("input[name='serials']").val(series);
 
             $("#SerialTable tr:first").after(myRow);
@@ -141,13 +141,13 @@ function save_serie_compra(element)
     }
 }
 
-function DeleteCompraInicial()
+function DeletePurchaseInitial()
 {
     $.confirm({
         confirm: function(){
             $.ajax({
                 type: 'POST',
-                url: 'admin/compras/delete',
+                url: 'admin/compras/DeletePurchaseInitial',
                 data: { id: $("input[name='compra_id']").val() },
                 success: function (data) {
                     if (data == 'success')
@@ -168,18 +168,18 @@ function DeleteCompraInicial()
     });
 }
 
-function DeleteDetalleAbono($id , $metodo , $td)
+function DeletePurchasePaymentItem($id , $metodo , $td)
 {
    $.confirm({
     confirm: function(){
         $.ajax({
             type: 'POST',
-            url: 'admin/compras/delete_abono',
+            url: 'admin/compras/DeletePurchasePaymentItem',
             data: { id:$id, metodo:$metodo},
             success: function (data) {
                 if (data.success == true) 
                 {
-                  Ingresar_abono_compra();
+                  OpenModalPurchasePayment();
                   msg.success('Eliminado', 'Listo!');
                   $('.finalizar-compra').removeAttr('onclick');
                   ('.finalizar-compra').val('Ingresar Monto');
@@ -197,11 +197,11 @@ function DeleteDetalleAbono($id , $metodo , $td)
 });
 }
 
-function Ingresar_abono_compra()
+function OpenModalPurchasePayment()
 {
     $.ajax({
         type: 'GET',
-        url: "admin/compras/abono",
+        url: "admin/compras/OpenModalPurchasePayment",
         data: { compra_id: $("input[name='compra_id']").val() },
         success: function (data) {
          if (data.success == true) 
@@ -221,7 +221,7 @@ function Ingresar_abono_compra()
 });
 }
 
-function ingresar_pago(e,element)
+function SavePurchasePayment(e,element)
 {
     form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
@@ -229,14 +229,14 @@ function ingresar_pago(e,element)
 
     $.ajax({
         type: "POST",
-        url:  "admin/compras/abono",
+        url:  "admin/compras/SavePurchasePayment",
         data: formData,
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             if (data.success == true) 
             {
              msg.success('Ingresado', 'Listo!');
-             Ingresar_abono_compra();
+             OpenModalPurchasePayment();
              $('.finalizar-compra').removeAttr('onclick');
          }
          
@@ -254,11 +254,11 @@ function ingresar_pago(e,element)
     $('input[type=submit]', form).removeAttr('disabled');
 }
 
-function FinalizarCompraInicial()
+function FinishInitialPurchase()
 {
     $.ajax({
         type: 'POST',
-        url: 'admin/compras/finalizar',
+        url: 'admin/compras/FinishInitialPurchase',
         data: { compra_id: $("input[name='compra_id']").val(),nota: $("input[name='nota']").val() },
         success: function (data) {
             if (data == 'success')
@@ -281,12 +281,12 @@ function FinalizarCompraInicial()
 }
 
 
-function view_serial()
+function OpenModalPurchaseItemSerials()
 {
     $serial = $("input[name='serials']").val();
     $.ajax({
         type: "GET",
-        url: "admin/compras/serial",
+        url: "admin/compras/OpenModalPurchaseItemSerials",
         data: {serial: $serial},
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
@@ -300,13 +300,13 @@ function view_serial()
     });
 }
 
-function  DeleteSerialCompra(element)
+function  DeletePurchaseItemSerials(element)
 {
     var id  = $(element).attr('id');
     $.confirm({
         confirm: function(){
-            series=$("input[name='serial']").val().replace(id,'');
-            $("input[name='serial']").val(series);
+            series=$("input[name='serials']").val().replace(id,'');
+            $("input[name='serials']").val(series);
             $(element).closest('tr').hide();
         }
     });

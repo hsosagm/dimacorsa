@@ -1,4 +1,4 @@
-{{ Form::open(array('url' => '/admin/compras/edit_info', 'data-remote-md-info', 'data-success' => 'Compra Actualizada', 'status' => '0')) }}
+{{ Form::open(array('url' => '/admin/compras/OpenModalPurchaseInfo', 'data-remote-md-info', 'data-success' => 'Compra Actualizada', 'status' => '0')) }}
 
 <div class="row">
 
