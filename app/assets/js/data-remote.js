@@ -226,7 +226,6 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
                 form.attr('status', '0');
             },
             error: function(errors) {
-                msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
                 form.attr('status', '0');
             }
 

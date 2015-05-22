@@ -117,8 +117,33 @@ class BaseModel extends Eloquent   {
         return $this->errors->first();
     }
 
+
     public function get_id()
     {
         return $this->model_id;
+    }
+
+
+    public function SaleItem()
+    {
+        $class = get_class($this);
+        $path = "App\\Validators\\{$class}Validator";
+        $v = $path::make();
+
+        if ($v->fails())
+        {
+            $this->errors = $v->messages();
+            return false;
+        }
+
+        $values = array_map('trim', Input::all());
+        $values = preg_replace('/\s{2,}/', ' ', $values);
+        $values = array_map('ucfirst', $values);
+
+        $query = Producto::find(Input::get('producto_id'));
+        
+        $values['ganancias'] = $values['precio'] - ( $query->p_costo / 100);
+        $class::create($values);
+        return 'success';
     }
 }

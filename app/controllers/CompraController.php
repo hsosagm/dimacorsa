@@ -147,6 +147,7 @@ class CompraController extends \BaseController {
 
 	public function ModalPurchasePayment()
 	{
+
 		if (Input::has('_token'))
 		{
 			if ($this->SeachPaymentMethod() != null ) 
