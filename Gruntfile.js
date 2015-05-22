@@ -76,6 +76,31 @@ module.exports = function(grunt) {
                     './app/assets/css/consultas.css',
                     './app/assets/css/datepicker-pickadate-custom.css',
                     
+                ],
+                 './public/css/proveedor.css': 
+                [
+                    './app/assets/components/bower/bootstrap/dist/css/bootstrap.min.css',
+                    './app/assets/components/bower/font-awesome/css/font-awesome.min.css',
+                    './app/assets/components/bower/jquery-ui/themes/redmond/jquery-ui.css',
+                    './app/assets/css/theme/layout.css',
+                    './app/assets/css/theme/components.css',
+                    './app/assets/css/theme/plugins.css',
+                    './app/assets/css/theme/custom.css',
+                    './app/assets/css/theme/datepicker.css',
+                    './app/assets/css/theme/theme.color.css',
+                    './app/assets/css/theme/datepicker.custom.css',
+                    './app/assets/components/bower/datatables/media/css/jquery.dataTables.css',
+                    './app/assets/components/bower/toastr/toastr.css',
+                    './app/assets/css/bootstrap-custom.css',
+                    './app/assets/css/form.css',
+                    './app/assets/css/table.css',
+                    './app/assets/css/main.css',
+                    './app/assets/css/autocomplete.css',
+                    './app/assets/css/not-scroll.css',
+                    './app/assets/css/consultas.css',
+                    './app/assets/css/datepicker-pickadate-custom.css',
+                    './app/assets/proveedor/css/*',
+                    
                 ]
             }
           }
@@ -130,6 +155,31 @@ module.exports = function(grunt) {
               ],
               dest: './public/js/main.js',
             },
+            prov: {
+              src: [
+                './app/assets/components/bower/jquery/jquery.js',
+                './app/assets/js/jquery.cookie.js',
+                './app/assets/components/bower/bootstrap/dist/js/bootstrap.js',
+                './app/assets/components/bower/jquery-nicescroll/jquery.nicescroll.js',
+                './app/assets/js/sparkline.min.js',
+                './app/assets/js/jpreloader-v2/js/jpreloader.js',
+                './app/assets/components/bower/jquery.easing/js/jquery.easing.js',
+                './app/assets/js/apps.js',
+                './app/assets/components/bower/jquery-ui/jquery-ui.js',
+                './app/assets/js/datepicker.js',
+                './app/assets/components/bower/datatables/media/js/jquery.dataTables.js',
+                './app/assets/components/bower/highcharts/highcharts.js',
+                './app/assets/components/bower/highcharts/highcharts-3d.js',
+                './app/assets/components/bower/highcharts/modules/exporting.js',
+                './app/assets/components/bower/toastr/toastr.js',
+                './app/assets/js/jquery.numeric.js',
+                './app/assets/js/jquery_confirm.js',
+                './app/assets/js/drilldown.js',
+                './app/assets/components/bower/pusher/dist/pusher.js',
+                './app/assets/proveedor/js/*',
+              ],
+              dest: './public/js/proveedor.js',
+            },
           },
 
         // copy ressources such as fonts, files, images, required by assets to the public directory
@@ -171,14 +221,14 @@ module.exports = function(grunt) {
         // automatically run tasks when changing JS, LESS or PHP files
         watch: {
             js: {
-                files: ['./app/assets/js/*.*'],
+                files: ['./app/assets/js/*.*','./app/assets/proveedor/js/*.*'],
                 tasks: ['concat', 'notify:watch_js'],
                 options: {
                     livereload: true,
                 }
             },
             cssmin: {
-                files: ['./app/assets/css/**/*.css'],
+                files: ['./app/assets/css/**/*.css', './app/assets/proveedor/css/**/*.css'],
                 tasks: ['cssmin'],
                 options: {
                     livereload: true
