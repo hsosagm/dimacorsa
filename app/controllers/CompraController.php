@@ -30,6 +30,11 @@ class CompraController extends \BaseController {
 		return View::make('compras.create');
 	} 
 
+	public function ConsultPurchase()
+	{
+		return View::make('compras.ConsultPurchase');
+	}
+
 	public function OpenModalPurchaseInfo()
 	{
 
@@ -71,15 +76,6 @@ class CompraController extends \BaseController {
 
 	public function DeletePurchaseInitial()
 	{
-		$detalle_abono = ProveedorAbonosDetalle::where('compra_id','=',Input::get('id'))->get();
-
-		foreach ($detalle_abono as $key => $dato) 
-		{
-			$abono = ProveedorAbonos::find($dato->prov_abono_id);
-
-			$abono->delete();
-		}
-
 		$compra = Compra::find(Input::get('id'));
 
 		$compra->delete();
@@ -132,7 +128,12 @@ class CompraController extends \BaseController {
 
 	public function FinishInitialPurchase()
 	{
-		ProcesarCompra::set(Input::get('compra_id'));
+		$credito = PagosCompra::join('metodo_pago','pagos_compras.metodo_pago_id','=','metodo_pago.id')
+		->where('descripcion','=','Credito')->where('compra_id','=',Input::get('compra_id'))->first();
+
+		$total_compra = $this->TotalPurchase();
+
+		ProcesarCompra::set(Input::get('compra_id'),Input::get('nota'),$credito->monto, $total_compra);
 
 		return 'success';
 	}
@@ -144,114 +145,63 @@ class CompraController extends \BaseController {
 		return View::make('compras.serial', compact('data'));
 	}
 
-	public function OpenModalPurchasePayment()
+	public function ModalPurchasePayment()
 	{
-		$detalle_compra = DetalleCompra::where('compra_id','=', Input::get('compra_id'))->get();
+		if (Input::has('_token'))
+		{
+			if ($this->SeachPaymentMethod() != null ) 
+				return 'no puede ingresar dos pagos con el mismo metodo..!';
 
-		if (count($detalle_compra) <= 0 )
+			if(($this->TotalPurchase() - $this->TotalPurchasePayment()) < Input::get("monto"))
+				return 'El moto ingresado no puede ser mayor al monto Restante..!';
+
+			$pagos = new PagosCompra;
+
+			if (!$pagos->_create()) 
+			{
+				$pagos->errors();
+			}
+
+			return	$this->PurchasePaymentDetail();
+		}
+
+		$detalle_compra = DetalleCompra::where('compra_id','=', Input::get('compra_id'))
+		->first(array(DB::Raw('sum(cantidad * precio) as total')));
+
+		if ($detalle_compra->total == null)
 			return 'no a ingresado productos a la factura...!';
 
-		$det_pagos = $this->TableDetailsPayments(Input::get('compra_id'));
-		$total_abono  = $this->TotalPurchasePayment(Input::get('compra_id'));
-		$total_compra = $this->TotalPurchase(Input::get('compra_id'));
-		$flete = Flete::where('compra_id',"=",Input::get('compra_id'))->first();
+		$pagos = PagosCompra::where('compra_id','=',Input::get('compra_id'));
+		$pagos->delete();
 
-		$desabilitar = ''; $value_submit ='Ingresar Abono'; 
-		$funcion_submit = ''; $tipo = 'submit';
-
-		if(($total_compra - $total_abono )<= 0)
-		{
-			$desabilitar = 'disabled';
-			$value_submit = 'Finalizar Compra';
-			$funcion_submit = 'FinishInitialPurchase();';
-			$tipo = 'button';
-		}
+		$total_compra = number_format($detalle_compra->total, 2, '.', '');
 
 		return Response::json(array(
 			'success' => true, 
-			'detalle' => View::make('compras.pagos',compact('flete','det_pagos','total_abono','total_compra','desabilitar','value_submit','funcion_submit','tipo'))
+			'detalle' => View::make('compras.payment',compact('total_compra'))
 			->render()
 			));
 	}
 
-	public function SavePurchasePayment()
+	public function PurchasePaymentDetail()
 	{	
-		$values = trim(Input::get('monto'));
-		$values = preg_replace('/\s{2,}/', ' ', $values);
-		$total_restante = $this->TotalPurchase(Input::get('compra_id')) - $this->TotalPurchasePayment(Input::get('compra_id'));
-
-		if ($this->SeachPaymentMethod(Input::get('compra_id'),Input::get('metodo_pago_id')) != '[]') 
-			return 'no puede ingresar dos pagos con el mismo metodo..!';
-
-		if($total_restante < $values)
-			return 'El moto ingresado no puede ser mayor al monto Restante..!';
-
-		if ($values == "" )
-			return 'el monto es obligatorio';
-
-		$metodoPago = MetodoPago::find(Input::get('metodo_pago_id'));
-		$monto = $values;
-
-		if($metodoPago->descripcion == 'Credito')
-		{
-			$compra = Compra::find( Input::get('compra_id'));
-			$compra->saldo = $compra->saldo + $monto;
-			$compra->save();
-			$monto = 0.00;
-		}
-
-		if($metodoPago->descripcion == 'Flete')
-		{
-			if (Flete::where('compra_id','=',Input::get('compra_id'))->get() != '[]') 
-				return 'el Flete ya ha sido ingresado..!';
-		
-			$this->SavePurchaseShipping($monto);
-
-			return Response::json( array('success' => true ));
-		}
-
-		$this->SavePurchasePaymentItem($monto);
-
-		return Response::json( array('success' => true ));
-	}
-
-	public function SavePurchaseShipping($monto)
-	{
-		$flete = new Flete;
-		$flete->compra_id = Input::get('compra_id');
-		$flete->monto = $monto;
-		$flete->nota = Input::get('nota');
-		$flete->save();
-	}
-
-	public function SavePurchasePaymentItem($monto)
-	{
-		$abono = ProveedorAbonos::create(array(
-			'user_id' => Auth::user()->id ,
-			'metodo_pago_id' => Input::get('metodo_pago_id'),
-			'proveedor_id' => Input::get('proveedor_id'),
-			'monto' => $monto
-			));
-
-		$prov_abono_id = $abono->id;
-
-		$detalle = new ProveedorAbonosDetalle;
-		$detalle->prov_abono_id = $prov_abono_id;
-		$detalle->compra_id = Input::get('compra_id');
-		$detalle->monto = Input::get('monto');
-		$detalle->nota = Input::get('nota');
-		$detalle->save();
-	}
-
-	public function DeletePurchasePaymentItem()
-	{
-		$detalle = ProveedorAbonosDetalle::find(Input::get('id'));
-		$abono = ProveedorAbonos::destroy($detalle->prov_abono_id);
+		$total_pagos = number_format($this->TotalPurchasePayment(), 2, '.', '');
+		$total_compra = number_format($this->TotalPurchase(), 2, '.', '');
+		$det_pagos    = $this->TableDetailsPayments();
 
 		return Response::json( array(
 			'success' => true,
-			'detalle' => $this->TableDetailsPayments($detalle->compra_id)
-			));
+		    'detalle' => View::make('compras.payment',compact('total_pagos','total_compra','det_pagos'))->render() 
+		  ));
+		
+	}
+
+	//funcion para eliminar un detalle de pago
+	public function DeletePurchasePaymentItem()
+	{
+		$detalle = PagosCompra::destroy(Input::get('id'));
+
+		return $this->PurchasePaymentDetail();
 	}
 
 	public function SaveEditPurchaseItemDetails()
@@ -274,28 +224,28 @@ class CompraController extends \BaseController {
 			));
 	}
 
-	public function SeachPaymentMethod($compra_id , $metodo_pago)
+	//funcion para verificar si ya se ingreso un pago con ese metodo
+	public function SeachPaymentMethod()
 	{
-		$query = ProveedorAbonosDetalle::join('prov_abonos','prov_abonos.id','=','prov_abonos_detalle.prov_abono_id')
-		->where('compra_id','=', $compra_id)
-		->where('metodo_pago_id','=', $metodo_pago)
-		->get();
+		$query = PagosCompra::where('compra_id','=', Input::get('compra_id'))
+		->where('metodo_pago_id','=', Input::get('metodo_pago_id'))
+		->first();
 
 		return $query;
 	}
 
-	public function TotalPurchase($compra_id)
+	public function TotalPurchase()
 	{
 		$total = DetalleCompra::select(DB::Raw('sum(cantidad * precio) as total'))
-		->where('compra_id','=', $compra_id)->first();
+		->where('compra_id','=', Input::get('compra_id'))->first();
 
 		return $total->total;
 	}
 
-	public function TotalPurchasePayment($compra_id)
+	public function TotalPurchasePayment()
 	{
-		$total = ProveedorAbonosDetalle::select(DB::Raw('sum(monto) as total'))
-		->where('compra_id','=', $compra_id)->first();
+		$total = PagosCompra::select(DB::Raw('sum(monto) as total'))
+		->where('compra_id','=', Input::get('compra_id'))->first();
 
 		return $total->total;
 	}
@@ -321,13 +271,9 @@ class CompraController extends \BaseController {
 		return $query;		
 	}
 
-	function TableDetailsPayments($compra_id)
+	function TableDetailsPayments()
 	{
-		$pagos = ProveedorAbonosDetalle::select('prov_abonos_detalle.id as id','prov_abonos_detalle.monto as monto','metodo_pago.descripcion as metodo')
-		->where('compra_id','=', $compra_id)
-		->join('prov_abonos', 'prov_abonos_detalle.prov_abono_id', '=', 'prov_abonos.id')
-		->join('metodo_pago', 'prov_abonos.metodo_pago_id', '=', 'metodo_pago.id')->get();
-
+		$pagos = PagosCompra::where('compra_id','=', Input::get('compra_id'))->get();
 		return $pagos;
 	}
 	

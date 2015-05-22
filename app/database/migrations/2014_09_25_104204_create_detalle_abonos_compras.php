@@ -1,9 +1,9 @@
- <?php
+<?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreatePagosComprasTable extends Migration {
+class CreateDetalleAbonosCompras extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,21 +12,22 @@ class CreatePagosComprasTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('pagos_compras', function(Blueprint $table)
+		Schema::create('detalle_abonos_compra', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('abonos_compra_id')->unsigned();
 			$table->integer('compra_id')->unsigned();
-			$table->decimal('monto', 8, 2)->default(0.00);
+			$table->decimal('monto', 8, 2);
 			$table->integer('metodo_pago_id')->unsigned();
 			$table->timestamps();
 
+			$table->foreign('abonos_compra_id')->references('id')->on('abonos_compras')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');
+		
 		});
 	}
 
-		
-	
 	/**
 	 * Reverse the migrations.
 	 *
@@ -34,7 +35,7 @@ class CreatePagosComprasTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('pagos_compras');
+		Schema::drop('detalle_abonos_compra');
 	}
 
 }

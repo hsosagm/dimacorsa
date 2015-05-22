@@ -110,7 +110,9 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'datatables'),function() 
     {
-        Route::get('inventario_dt', 'InventarioController@inventario_dt');
+        Route::get('inventario_dt'     , 'InventarioController@inventario_dt');
+        Route::get('Purchase_dt'       , 'DatatablesController@Purchase_dt');
+        Route::get('PurchaseUnpaid_dt' , 'DatatablesController@PurchaseUnpaid_dt');
     });
 
     Route::group(array('prefix' => 'productos'), function()
@@ -135,6 +137,11 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('contacto_update', 'ProveedorController@contacto_update');
         Route::post('contacto_info'  , 'ProveedorController@contacto_info'  );
         Route::post('total_credito'  , 'ProveedorController@TotalCredito'   );
+        Route::get('ShowModalPaySupplier' , 'ProveedorController@ShowModalPaySupplier'  );
+        Route::post('OverdueBalancePay'   , 'ProveedorController@OverdueBalancePay'  );
+        Route::post('DeleteBalancePay'    , 'ProveedorController@DeleteBalancePay'  );
+        Route::post('FullBalancePay'      , 'ProveedorController@FullBalancePay'  );
+
     });
 
     Route::group(array('prefix' => 'compras'), function()
@@ -143,8 +150,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('create' , 'CompraController@create' );
         Route::get('detalle' , 'CompraController@detalle');
         Route::post('detalle', 'CompraController@detalle');
-        Route::get('OpenModalPurchasePayment'    , 'CompraController@OpenModalPurchasePayment'  );
-        Route::post('SavePurchasePayment'        , 'CompraController@SavePurchasePayment'  );
+        Route::get('ModalPurchasePayment '       , 'CompraController@ModalPurchasePayment'  );
+        Route::post('ModalPurchasePayment'       , 'CompraController@ModalPurchasePayment'  );
         Route::post('DeletePurchaseInitial'      , 'CompraController@DeletePurchaseInitial' );
         Route::get('OpenModalPurchaseItemSerials', 'CompraController@OpenModalPurchaseItemSerials' );
         Route::get('OpenModalPurchaseInfo'       , 'CompraController@OpenModalPurchaseInfo');
@@ -154,7 +161,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('SaveEditPurchaseItemDetails', "CompraController@SaveEditPurchaseItemDetails" );
         Route::post('DeletePurchaseDetailsItem'  , 'CompraController@DeletePurchaseDetailsItem' );
         Route::post('DeletePurchasePaymentItem'  , 'CompraController@DeletePurchasePaymentItem'   );
-       
+        Route::get('ConsultPurchase'             , 'CompraController@ConsultPurchase');
+
     });
 
     Route::group(array('prefix' => 'categorias'), function()
@@ -232,11 +240,22 @@ Route::group(array('prefix' => 'owner'), function()
 });
 
 Route::get('test', function()
-{
+{   
 
+    return Auth::id();
+    $query = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))
+        ->where('saldo','>',0)
+        ->where('proveedor_id','=',1)->first();
 
+        return $query->total;
  });
 
+Route::get('proveedor', function()
+{
+    return View::make('layouts.proveedor_master');
+
+ });
 
 
 Route::get('init', function()

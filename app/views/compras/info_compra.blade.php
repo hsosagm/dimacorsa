@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-3"> Proveedor:</div>
 		<div class="col-md-7"> <strong>{{$proveedor->nombre}}</strong> </div>
-		<div class="col-md-2"><i class="fa fa-refresh fa-2 btn-link theme-c" id="OpenModalPurchaseInfo"></i></div>
+		<div class="col-md-2"><i class="fa fa-refresh fa-2 btn-link theme-c" compra_id="{{$compra->id}}" id="OpenModalPurchaseInfo"></i></div>
 	</div>
 
 	<div class="row">

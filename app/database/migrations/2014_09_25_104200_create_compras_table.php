@@ -23,6 +23,7 @@ class CreateComprasTable extends Migration {
             $table->boolean('completed')->default(0);
             $table->boolean('canceled')->default(0);
             $table->decimal('saldo')->default(0.00);
+            $table->decimal('total')->default(0.00);
             $table->text('nota');
 			$table->timestamps();
 

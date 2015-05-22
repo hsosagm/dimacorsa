@@ -1,5 +1,5 @@
-
-{{ Form::open(array('data-remote-md', 'data-success' => 'Compra Generada')) }}
+ 
+{{ Form::open(array('data-remote-md', 'data-success' => 'Compra Generada' ,"onsubmit"=>" return false")) }}
 {{ Form::hidden('proveedor_id') }}
 
 <div class="row info_head">
@@ -13,7 +13,7 @@
 				<td>Proveedor:</td>
 
 				<td>
-					<input type="text" id="proveedor_id"> 
+					<input type="text" id="proveedor_id" class="input"> 
 					<i class="fa fa-question-circle btn-link theme-c" id="proveedor_help"></i>
 					<i class="fa fa-pencil btn-link theme-c" id="proveedor_edit"> </i>
 					<i class="fa fa-plus-square btn-link theme-c" id="proveedor_create"></i>
@@ -25,7 +25,7 @@
 
 				<td>Factura No.: </td>
 
-				<td>  <input type="text" name="numero_documento" id="desabilitar_input"> </td>
+				<td>  <input type="text" name="numero_documento" class="input"> </td>
 
 			</tr>
 
@@ -33,7 +33,7 @@
 
 				<td> Fecha de Doc.:</td>
 
-				<td><input type="text" name="fecha_documento" data-value="now()" id="desabilitar_input">  </td>
+				<td><input type="text" name="fecha_documento" data-value="now()">  </td>
 
 			</tr>
 

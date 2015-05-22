@@ -68,6 +68,26 @@ class DatatablesController extends Controller {
 		echo TableSearch::get($table, $columns, $Searchable, $Join ,$where , $table_two);
 	}
 
+	public function Purchase_dt()
+	{
 
+		$table = 'compras';
+
+		$columns = array("fecha_documento","numero_documento","completed","saldo");
+
+		$Searchable = array("username","proveedor_id","fecha_documento");
+
+		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
+
+		$where = null;
+
+		$abono = true;
+
+		$others_columns = array('users.nombre as user_nombre','proveedores.nombre as proveedor_nombre');
+		
+		$pos_columns = 1;
+
+		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where, $abono ,$others_columns , $pos_columns);
+	}
 	
 }
