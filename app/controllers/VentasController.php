@@ -149,19 +149,101 @@ class VentasController extends \BaseController {
     }
 
 
-	public function OpenModalSalesPayments()
+	public function ModalSalesPayments()
 	{
-		$dv = DetalleVenta::where('venta_id','=', Input::get('venta_id'))->first();
 
-		if ($dv == null ) {
-			return 'No a ingresado ningun producto a la factura...!';
+		if (Input::has('_token'))
+		{
+			if($this->check_if_payment_already_exists() == true) 
+				return "Seleccione otro metodo de pago o modifique el que ya existe";
+
+			$pv = new PagosVenta;
+
+			if (!$pv->_create())
+			{
+				return $pv->errors();
+			}
+
+			return $this->ViewPayments();
 		}
+
+		PagosVenta::where('venta_id', Input::get('venta_id'))->delete();
+
+        if ($this->getTotalVenta() == null ) {
+            return 'No a ingresado ningun producto a la factura...!';
+        }
+
+        return $this->ViewPayments();
+	}
+
+
+    public function check_if_payment_already_exists()
+    {
+		$query = PagosVenta::where('venta_id', Input::get('venta_id'))
+		->where('metodo_pago_id', Input::get('metodo_pago_id'))->first();
+
+	    if($query == null)
+	        return false;
+
+	    return true;
+    }
+
+
+	public function getTotalVenta()
+	{
+        $dv = DetalleVenta::where('venta_id','=', Input::get('venta_id'))
+        ->first(array(DB::raw('sum(cantidad * precio) as total')));
+
+        return $dv->total;
+	}
+
+
+	public function ViewPayments()
+	{
+		$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
+		$TotalVenta = $this->getTotalVenta();
+        $resta_abonar = $TotalVenta - $this->getTotalPagado();
 
 		return Response::json(array(
 			'success' => true, 
-			'detalle' => View::make('ventas.payments')
-			->render()
+			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar'))->render()
 		));
 	}
 
+
+	public function getTotalPagado()
+	{
+        $pagos = PagosVenta::where('venta_id', Input::get('venta_id'))
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        if ($pagos == null) {
+        	return 0;
+        }
+
+        return $pagos->total;
+	}
+
+
+	public function RemoveSalePayment()
+	{
+		$destroy = PagosVenta::destroy(Input::get('id'));
+
+		if ($destroy) {
+			return $this->ViewPayments();
+		}
+
+		return 'error';
+	}
+
+
+	public function EndSale()
+	{
+		$venta = Venta::where('id', Input::get('id'))->update(array('completed' => 1));
+		
+		if ($venta) {
+			return Response::json(array( 'success' => true ));
+		}
+
+		return 'Huvo un error intentelo de nuevo';
+	}
 }

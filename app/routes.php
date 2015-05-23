@@ -94,7 +94,10 @@
             Route::post('detalle', 'VentasController@detalle');
             Route::post('RemoveSale', 'VentasController@RemoveSale');
             Route::post('RemoveSaleItem', 'VentasController@RemoveSaleItem');
-            Route::get('OpenModalSalesPayments', 'VentasController@OpenModalSalesPayments');
+            Route::get('ModalSalesPayments', 'VentasController@ModalSalesPayments');
+            Route::post('ModalSalesPayments', 'VentasController@ModalSalesPayments');
+            Route::post('RemoveSalePayment', 'VentasController@RemoveSalePayment');
+            Route::post('EndSale', 'VentasController@EndSale');
         });
 
         Route::get('profile' , 'UserController@edit_profile');
@@ -351,36 +354,15 @@ Route::get('timetest', function()
 
 Route::get('cod', function() {
 
-    // $query = DB::table('productos')->where('id', '=', '1003562')->first();
+        $pagos = PagosVenta::with('metodo_pago')
+        ->where('venta_id', 1)
+        ->where('metodo_pago_id', '!=', 2)
+        ->first();
 
-    // return $query->id;
+        return $pagos->metodo_pago->descripcion; 
 
-    // $query = Producto::find(1003562);
-
-    // return $query->id;
-
-    // $query = DetalleVenta::where('venta_id', 5)->get();
-
-    // foreach ($query as $q) {
-    //     echo $q->producto_id;
-    //     echo $q->cantidad;
-    // }
-
-    // $existencia = Existencia::where('producto_id', 1000000)->where('tienda_id', Auth::user()->tienda_id)->first();
-
-    // dd($existencia);
-
-    // if ($existencia->existencia < Input::get('cantidad')) {
-    //         return false;
-    // }
-
-    // return 2;
-
-        $dv = DetalleVenta::where('venta_id','=', 2)->first();
-
-        if ($dv == null ) return 'si';
-        return 'no';
 });
+
 
 // App::error(function(Exception $exception) {
 //     echo '<pre>';

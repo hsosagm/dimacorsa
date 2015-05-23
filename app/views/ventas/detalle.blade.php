@@ -49,3 +49,8 @@
 	{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'RemoveSale();']);}}
 	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'OpenModalSalesPayments('.$venta_id.');']) }}
 </div>
+
+
+<script>
+        $("form[data-remote-md] :input").prop("disabled", true);
+</script>

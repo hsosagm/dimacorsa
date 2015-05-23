@@ -7,6 +7,13 @@ class Venta extends \BaseModel implements Logable{
 
 	protected $table = 'ventas';
 
+
+    public function detalle_venta()
+    {
+        return $this->hasMany('DetalleVenta');
+    }
+
+
 	public function getLogName()
     {
         return $this->id;

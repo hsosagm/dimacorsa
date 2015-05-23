@@ -76,13 +76,13 @@ function OpenModalSalesPayments($venta_id)
 {
     $.ajax({
         type: 'GET',
-        url: "user/ventas/OpenModalSalesPayments",
+        url: "user/ventas/ModalSalesPayments",
         data: { venta_id: $venta_id },
         success: function (data) {
 	        if (data.success == true) 
 	        {
 	            $('.modal-body').html(data.detalle);
-	            $('.modal-title').text('Ingresar Tipos');
+	            $('.modal-title').text('Ingreso de Pagos');
 	            $('.bs-modal').modal('show');
 	        }
 	        else
@@ -94,4 +94,59 @@ function OpenModalSalesPayments($venta_id)
         msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
     }
 });
+}
+
+
+$(document).on('submit', 'form[data-remote-sales-payment]', function(e) {
+
+    $button = $('button[type=submit]', this);
+
+    $button.attr('disabled', 'disabled');
+
+    var form = $(this);
+
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+  
+                if (data.success == true)
+                {
+                    msg.success('Pago ingresado', 'Listo!');
+                    $('.modal-body').html(data.detalle);
+                }
+                else
+                {
+                    msg.warning(data, 'Advertencia!');
+                    $button.removeAttr('disabled');
+                }
+            }
+
+        });
+
+    e.preventDefault();
+});
+
+
+function RemoveSalePayment($id, $venta_id) {
+
+    $.ajax({
+        type: "POST",
+        url: "user/ventas/RemoveSalePayment",
+        data: { id:$id, venta_id:$venta_id },
+        success: function (data) {
+            if (data.success == true)
+            {
+                msg.success('Pago eliminado', 'Listo!');
+                $('.modal-body').html(data.detalle);
+                $('.modal-title').text('Ingreso de Pagos');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+
+    });
 }

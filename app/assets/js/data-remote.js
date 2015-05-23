@@ -35,7 +35,7 @@ $(document).on('submit', 'form[data-remote]', function(e) {
         }
     });
 
-    $('input[type=submit]', this).removeAttr('disabled');
+    $('input[type=submit]', this).removeAttr('disabled'); //??
 
     e.preventDefault();
 
