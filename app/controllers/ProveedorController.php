@@ -136,4 +136,145 @@ class ProveedorController extends BaseController {
         return $total->total;
     }
 
+    public function ShowModalPaySupplier()
+    {
+        $saldo_vencido = $this->OverdueBalance();
+        $saldo_total   = $this->FullBalance();
+
+        return View::make('proveedor.ingreso_abono',compact('saldo_total','saldo_vencido'));
+    }
+
+    //funcion para pagar el saldo vencido
+    public function OverdueBalancePay()
+    {   
+        $total_vencido = number_format($this->OverdueBalance(), 2, '.', '');
+        $monto = number_format(Input::get('monto'), 2, '.', '');
+
+        if ($total_vencido != $monto || $monto == 0)
+        {
+            return 'el monto enviado es incorrecto intente de nuevo...!';
+        }
+
+        $compras = DB::table('compras')
+        ->where('saldo','>',0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))->get();
+        
+        $abono_id = $this->CreateAbonosCompra();
+
+        foreach ($compras as $key => $dt) 
+        {
+            $this->CreateDetalleAbonosCompra($dt->id,$abono_id, $dt->saldo);
+        }
+
+        DB::table('compras')
+        ->where('saldo','>',0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->update(array('saldo'=>0));
+
+        $detalle = $this->BalanceDetails($abono_id);
+
+        return Response::json(array(
+            'success' => true ,
+            'detalle' => View::make('proveedor.ingreso_abono_body',compact("detalle",'abono_id'))->render()
+            ));
+    }
+
+    //funcion para crear el abono
+    public function CreateAbonosCompra()
+    {
+        $abono = new AbonosCompra;
+        $abono->proveedor_id = Input::get('proveedor_id');
+        $abono->user_id = Auth::user()->id;
+        $abono->observaciones = Input::get('observaciones');
+        $abono->total = Input::get('monto');
+        $abono->save();
+        
+        return $abono->id;   
+    }
+
+    //funcion para crear el detalle del abono
+    public function CreateDetalleAbonosCompra($compra_id,$abono_id,$monto)
+    {
+        $detalle = new DetalleAbonosCompra;
+        $detalle->compra_id = $compra_id;
+        $detalle->abonos_compra_id = $abono_id;
+        $detalle->monto = $monto;
+        $detalle->metodo_pago_id = Input::get('metodo_pago_id');
+        $detalle->save();
+    }
+
+    //funcion para pagar todo el saldo
+    public function FullBalancePay()
+    {
+        $total_saldo = number_format($this->FullBalance(), 2, '.', '');
+        $monto = number_format(Input::get('monto'), 2, '.', '');
+
+        if ($total_saldo != $monto || $monto == 0)
+        {
+            return 'el monto enviado es incorrecto intente de nuevo...!';
+        }
+
+
+    }
+
+    //funcion para eliminar el abono 
+    public function DeleteBalancePay()
+    {
+        $detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('id'))->get();
+
+        foreach ($detalle as $key => $dt) 
+        {
+            $this->ReturnBalancePurchase($dt->compra_id , $dt->monto);
+        }
+
+        AbonosCompra::destroy(Input::get('id'));
+
+        return 'success';
+    }
+
+    //funcion para retornar el saldo ala compra
+    public function ReturnBalancePurchase($compra_id , $saldo)
+    {
+        $compra = Compra::find($compra_id);
+
+        $compra->saldo = $saldo;
+
+        $compra->save();
+    }
+
+    //funcion para  obtener el total del del saldo vencido
+    public function OverdueBalance()
+    {
+        $query = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))
+        ->where('saldo','>',0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+
+        return $query->total;
+    }
+
+    //funcion para obtener el saldo total
+    public function FullBalance()
+    {
+        $query = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))
+        ->where('saldo','>',0)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+
+        return $query->total;
+    }
+
+    //funcion para obtener el detalle de los pagos
+    public function BalanceDetails($id_pago)
+    {
+        $query = DB::table('detalle_abonos_compra')
+        ->select('compra_id','total','monto','saldo',DB::raw('(saldo+monto) as saldo_anterior'))
+        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+        ->where('abonos_compra_id','=',$id_pago)->get();
+
+        return $query;
+    }
 }

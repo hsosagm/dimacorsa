@@ -2,7 +2,7 @@
 
 class ProcesarCompra 
 {	
-	public static function set($compra_id, $nota = null,$saldo = 0.00)
+	public static function set($compra_id, $nota = null,$saldo = 0.00 , $total_compra)
 	{
 
 		ProcesarCompra::UpdateProducto($compra_id);
@@ -12,6 +12,10 @@ class ProcesarCompra
 		$compra->completed = 1 ;
 
 		$compra->nota = $nota;
+
+		$compra->saldo = $saldo;
+
+		$compra->total = $total_compra;
 
 		$compra->save();
 

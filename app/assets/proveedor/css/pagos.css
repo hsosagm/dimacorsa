@@ -1,0 +1,13 @@
+.ingreso_abono_proveedor {
+	padding: 5px;
+} 
+
+.panel-body-abonos {
+	height:240px !important;
+}
+
+.OverdueBalance_Details , .FullBalance_Details {
+	height: 125px;
+	margin-top: 5px;
+	font-size: 10px;
+}

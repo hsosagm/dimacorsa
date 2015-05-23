@@ -21,13 +21,13 @@
 		?>
 
 		<tr>
-			<td field="cantidad" cod="{{ $q->id }}" class="EditPurchaseItemDetails" width="10%">
+			<td field="cantidad" cod="{{ $q->id }}" compra_id="Input::get('compra_id')" class="EditPurchaseItemDetails" width="10%">
 				{{ $q->cantidad }}
 			</td>   
 			<td width="70%">
 				{{ $q->descripcion }}  
 			</td>
-			<td align="right" field="precio" cod="{{ $q->id }}" class="EditPurchaseItemDetails" width="10%">
+			<td align="right" field="precio" cod="{{ $q->id }}" compra_id="Input::get('compra_id')" class="EditPurchaseItemDetails" width="10%">
 				{{ $precio }}
 			</td>
 			<td width="10%" align="right"> 

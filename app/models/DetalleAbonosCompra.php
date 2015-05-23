@@ -2,9 +2,9 @@
 
 use \NEkman\ModelLogger\Contract\Logable;
 
-class ProveedorAbonosDetalle extends Eloquent  implements Logable{
+class DetalleAbonosCompra extends \BaseModel  implements Logable{
 	
-	protected $table = 'prov_abonos_detalle';
+	protected $table = 'detalle_abonos_compra';
 
 	protected $guarded = array('id');
 	
