@@ -137,7 +137,7 @@ class VentasController extends \BaseController {
 
     public function check_inventory()
     {
-	    $query = Existencia::where('producto_id', 1003914)->where('tienda_id', Auth::user()->tienda_id)->first();
+	    $query = Existencia::where('producto_id', Input::get('producto_id'))->where('tienda_id', Auth::user()->tienda_id)->first();
 
 	    if ( $query == null || $query->existencia < Input::get('cantidad') ) {
 	    	return false;
