@@ -248,7 +248,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-notify');
     grunt.loadNpmTasks('grunt-phpunit');
 
-    grunt.registerTask('dev', ['concat', 'notify:end', 'watch']);
+    grunt.registerTask('dev', ['cssmin', 'concat', 'notify:end', 'watch']);
 
     grunt.registerTask('build', ['cssmin', 'concat', 'uglify', 'copy', 'watch']);
 

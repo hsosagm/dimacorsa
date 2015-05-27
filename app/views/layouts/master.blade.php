@@ -82,18 +82,6 @@
 
 <script>
 
-(function() {
-
-    var pusher = new Pusher('0f7f9b9398c64d1b596b');
-    var channel = pusher.subscribe('demoChannel');
-
-    channel.bind('userPost', function(data) {
-        // $('div#customjs').children().remove();
-        LoadMyJs('js/custom.js');
-    })
-
-})();
-
     $(document.body).delegate(":input", "keyup", function(e) {
 
         if(e.which == 13) {
@@ -113,16 +101,6 @@
             $("input, select").eq(position+1).select();
         }
     });
-
-    // $.ui.autocomplete.prototype._renderItem = function (ul, item) {
-    //     var term = this.term.split(' ').join('|');
-    //     var re = new RegExp("(" + term + ")", "gi");
-    //     var t = item.label.replace(re, "<b class='hiligth'>$1</b>");
-    //     return $("<li></li>")
-    //     .data("item.autocomplete", item)
-    //     .append("<a>" + t + "</a>")
-    //     .appendTo(ul);
-    // };
 
     $('#date-input').datepicker();
 
