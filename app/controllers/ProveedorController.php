@@ -216,7 +216,75 @@ class ProveedorController extends BaseController {
             return 'el monto enviado es incorrecto intente de nuevo...!';
         }
 
+        $abono_id = $this->CreateAbonosCompra();
+        
+         $compras = DB::table('compras')
+        ->where('saldo','>',0)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))->get();
 
+        foreach ($compras as $key => $dt) 
+        {
+            $this->CreateDetalleAbonosCompra($dt->id,$abono_id, $dt->saldo);
+        }
+
+        DB::table('compras')
+        ->where('saldo','>',0)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->update(array('saldo'=>0));
+
+        $detalle = $this->BalanceDetails($abono_id);
+
+        return Response::json(array(
+            'success' => true ,
+            'detalle' => View::make('proveedor.ingreso_abono_body',compact("detalle",'abono_id'))->render()
+            ));
+
+    }
+
+    function PartialBalancePay()
+    {
+         $total_saldo = number_format($this->FullBalance(), 2, '.', '');
+         $monto = number_format(Input::get('monto'), 2, '.', '');
+         if ($total_saldo < $monto || $monto == 0)
+        {
+            return 'el monto enviado no puede ser mayor ala deuda...!';
+        }
+
+          $abono_id = $this->CreateAbonosCompra();
+        
+         $compras = DB::table('compras')
+        ->where('saldo','>',0)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->orderBy('fecha_documento')->get();
+
+         foreach ($compras as $key => $dt) 
+        {
+            if($dt->saldo <= $monto && $monto != 0 )
+            {
+                $update = Compra::find($dt->id);
+                $update->saldo = 0.00 ;
+                $update->save();
+                $monto = $monto - $dt->saldo;
+
+                $this->CreateDetalleAbonosCompra($dt->id,$abono_id, $dt->saldo);
+            }
+
+            else if($dt->saldo > $monto && $monto != 0)
+            {   
+                $update = Compra::find($dt->id);
+                $update->saldo = $dt->saldo - $monto;
+                $update->save();
+                
+                $this->CreateDetalleAbonosCompra($dt->id,$abono_id, $monto);
+            }
+        }
+
+        $detalle = $this->BalanceDetails($abono_id);
+
+        return Response::json(array(
+            'success' => true ,
+            'detalle' => View::make('proveedor.ingreso_abono_body',compact("detalle",'abono_id'))->render()
+            ));
     }
 
     //funcion para eliminar el abono 

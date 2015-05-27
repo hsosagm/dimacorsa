@@ -52,5 +52,10 @@ class IngresoController extends \BaseController {
         return 'Huvo un error al tratar de eliminar';
     }
 
+    public function OpenTableIncomeDay()
+    {
+
+        return View::make('ingresos.IncomeDay');
+    }
 }
  

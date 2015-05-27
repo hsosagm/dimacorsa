@@ -57,7 +57,7 @@
 					<div class="form-group">
 						<div class="col-md-5">
 							<input type="hidden" value="{{(@$saldo_total == null) ? '0' : @$saldo_total; }}" name="monto">
-							<input class="form-control" type="text" name="monto" value="{{(@$saldo_total == null) ? '0' : @$saldo_total; }}" disabled="true">
+							<input class="form-control" type="text" value="{{(@$saldo_total == null) ? '0' : @$saldo_total; }}" disabled="true">
 						</div>
 						<div class="col-md-5">
 							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
@@ -79,7 +79,7 @@
 		</div>
 
 		<div class="tab-pane fade inner-all" id="tab1-3">
-			{{ Form::open(array('data-remote-abonar')) }}
+			{{ Form::open(array('data-remote-PartialBalance')) }}
 				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
 				<div class="row">
 					<div class="form-group">
@@ -95,7 +95,7 @@
 					</div>
 				</div>
 
-				<div class="proveedores_abonos_details" style="height: 115px !important">
+				<div class="PartialBalance_Details" style="height: 115px !important">
 
 				</div>
 

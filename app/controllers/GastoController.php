@@ -52,5 +52,10 @@ class GastoController extends \BaseController {
         return 'Huvo un error al tratar de eliminar';
     }
 
+    public function OpenTableExpensesDay()
+    {
+        return View::make('gastos.ExpensesDay');
+    }
+
 }
  

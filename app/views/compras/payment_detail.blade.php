@@ -25,7 +25,7 @@
             $(function() {
                 $(".modal-body .form-footer").slideUp('slow', function() { 
                     $(".modal-body :input").prop('disabled', true);
-                    $(".modal-body .form-footer").html('<input  class="btn theme-button" type="button" onClick="FinishInitialPurchase({{Input::get('compra_id')}});" value="Finalizar Compra" >');
+                    $(".modal-body .form-footer").html('<input  class="btn theme-button" type="button" onClick="FinishInitialPurchase(this,{{Input::get('compra_id')}});" value="Finalizar Compra" >');
                     $(".modal-body .form-footer").slideDown('slow', function() { });
                 });
                 

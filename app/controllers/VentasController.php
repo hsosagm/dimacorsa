@@ -164,4 +164,9 @@ class VentasController extends \BaseController {
 		));
 	}
 
+	public function OpenTableSalesDay()
+	{
+		return View::make('ventas.SalesDay');
+	}
+
 }

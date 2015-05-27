@@ -1,108 +1,75 @@
 /* Consultas.js */
-
+ 
 $(function() 
 {
-    $(document).on('click', '#_v_dia', function()   { _v_dia(this);   }); // Ventas Por Dia
-    $(document).on('click', '#_v_mes', function()   { _v_mes(this);   }); // Ventas por Mes
-    $(document).on('click', '#_v_fecha', function() { _v_fecha(this); }); // Ventas por Fecha inicio a Fecha final
-    $(document).on('click', '#_c_dia', function()   { _c_dia(this);   }); // Compras por dia
-    $(document).on('click', '#_c_mes', function()   { _c_mes(this);   }); // Compras por Mes
-    $(document).on('click', '#_c_fecha', function() { _c_fecha(this); }); // Compras por Fecha inicio a Fecha final
+    $(document).on('click', '#OpenTableSalesDay', 	  		function() { OpenTableSalesDay(this); 			}); 
+    $(document).on('click', '#OpenTableSalesForDate', 		function() { OpenTableSalesForDate(this); 		}); 
+    $(document).on('click', '#OpenTablePurchaseDay', 		function() { OpenTablePurchaseDay(this); 		}); 
+    $(document).on('click', '#OpenTablePurchaseForDate', 	function() { OpenTablePurchaseForDate(this); 	}); 
+    $(document).on('click', '#OpenTableSupportDay', 		function() { OpenTableSupportDay(this); 		}); 
+    $(document).on('click', '#OpenTableSupportForDate', 	function() { OpenTableSupportForDate(this); 	}); 
+    $(document).on('click', '#OpenTableExpensesDay', 		function() { OpenTableExpensesDay(this); 		}); 
+    $(document).on('click', '#OpenTableExpensesForDate', 	function() { OpenTableExpensesForDate(this); 	}); 
+    $(document).on('click', '#OpenTableExpendituresDay', 	function() { OpenTableExpendituresDay(this); 	}); 
+    $(document).on('click', '#OpenTableExpendituresForDate',function() { OpenTableExpendituresForDate(this);}); 
+    $(document).on('click', '#OpenTableIncomeDay', 			function() { OpenTableIncomeDay(this); 			}); 
+    $(document).on('click', '#OpenTableIncomeForDate', 		function() { OpenTableIncomeForDate(this); 		}); 
+    $(document).on('click', '#OpenTableAdvancesDay',        function() { OpenTableAdvancesDay(this);        }); 
+    $(document).on('click', '#OpenTableAdvancesForDate',    function() { OpenTableAdvancesForDate(this);    }); 
 });
 
-function form_consultas_modal( data )
+function OpenTableSalesDay()
 {
-	$('.modal-body').html(data);
-	$('.modal-title').text( 'Consultas');
-	$('.bs-modal').modal('show');
+	$.get( "user/ventas/OpenTableSalesDay", function( data ) 
+	{
+        makeTable(data, '', 'Ventas del Dia');
+    });
 }
 
-function  _v_dia()
+function OpenTablePurchaseDay()
 {
-	$(".modal-dialog").attr('style', 'width:300px;');
-
-	data ='<div align="center" class="consultas">';
-	data+='<table class="master-table"><tr><td>';
-	data+='<input type="text" name="input_v_dia" data-value="now()">';
-	data+='</td></tr></table> <button class="btn btn-default theme-button">Cargar..</button></div>';
-
-	form_consultas_modal(data);
-
-	$('input[name="input_v_dia"]').pickadate(
+	$.get( "admin/compras/OpenTablePurchaseDay", function( data ) 
 	{
-		max: true,
-	});
+        makeTable(data, '', 'Compras del Dia');
+    });
 }
 
-function  _v_mes()
+function OpenTableSupportDay()
 {
-
+	$.get( "user/soporte/OpenTableSupportDay", function( data ) 
+	{
+        makeTable(data, '', 'Soporte del Dia');
+    });
 }
 
-function _v_fecha()
+function OpenTableExpensesDay()
 {
-	$(".modal-dialog").attr('style', 'width:300px ');
-
-	data ='<div align="center" class="consultas">';
-	data+='<table class="master-table"><tr><td> del</td><td> ';
-	data+='<input type="text" name="input_v_fecha_inicio" data-value="now()"> </td></tr><tr>';
-	data+='<td>al</td><td><input type="text" name="input_v_fecha_final" data-value="now()"> ';
-	data+='</td></tr></table> <button class="btn btn-default theme-button">Cargar..</button></div>';
-
-	form_consultas_modal(data);
-
-	$('input[name="input_v_fecha_inicio"]').pickadate(
+	$.get( "user/gastos/OpenTableExpensesDay", function( data ) 
 	{
-		max: true,
-	});
-
-	$('input[name="input_v_fecha_final"]').pickadate(
-	{
-		max: true,
-	});
+        makeTable(data, '', 'Gasto del Dia');
+    });
 }
 
-function  _c_dia()
+function OpenTableExpendituresDay()
 {
-	$(".modal-dialog").attr('style', 'width:300px ');
-
-	data ='<div align="center" class="consultas">';
-	data+='<table class="master-table"><tr><td>';
-	data+='<input type="text" name="input_c_dia" data-value="now()">';
-	data+='</td></tr></table> <button class="btn btn-default theme-button">Cargar..</button></div>';
-
-	form_consultas_modal(data);
-
-	$('input[name="input_c_dia"]').pickadate(
+	$.get( "user/egresos/OpenTableExpendituresDay", function( data ) 
 	{
-		max: true,
-	});
+        makeTable(data, '', 'Egresos del Dia');
+    });
 }
 
-function  _c_mes()
+function OpenTableIncomeDay()
 {
-
+	$.get( "user/ingresos/OpenTableIncomeDay", function( data ) 
+	{
+        makeTable(data, '', 'Ingrseos del Dia');
+    });
 }
 
-function _c_fecha()
+function OpenTableAdvancesDay()
 {
-	$(".modal-dialog").attr('style', 'width:300px ');
-
-	data ='<div align="center" class="consultas">';
-	data+='<table class="master-table"><tr><td> del</td><td> ';
-	data+='<input type="text" name="input_c_fecha_inicio" data-value="now()"> </td></tr><tr>';
-	data+='<td>al</td><td><input type="text" name="input_c_fecha_final" data-value="now()"> ';
-	data+='</td></tr></table> <button class="btn btn-default theme-button">Cargar..</button></div>';
-
-	form_consultas_modal(data);
-
-	$('input[name="input_c_fecha_inicio"]').pickadate(
-	{
-		max: true,
-	});
-	
-	$('input[name="input_c_fecha_final"]').pickadate(
-	{
-		max: true,
-	});
+    $.get( "user/adelantos/OpenTableAdvancesDay", function( data ) 
+    {
+        makeTable(data, '', 'Adelantos del Dia');
+    });
 }

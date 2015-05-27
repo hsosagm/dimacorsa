@@ -52,4 +52,8 @@ class SoporteController extends BaseController {
         return 'Huvo un error al tratar de eliminar';
     }
     
+    public function OpenTableSupportDay()
+    {
+        return View::make('soporte.SupportDay');
+    }
 }

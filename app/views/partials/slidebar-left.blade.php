@@ -73,6 +73,7 @@
                 <li><a href="javascript:void(0);" id="f_gastos">Gastos</a></li>
                 <li><a href="javascript:void(0);" id="f_egreso">Egresos</a></li>
                 <li><a href="javascript:void(0);" id="f_ingreso">Ingresos</a></li>
+                <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
             </ul>
         </li>
        <!-- end nativation operaciones -->
@@ -106,9 +107,8 @@
                         <span class="arrow"></span>
                     </a>
                     <ul>
-                        <li id="_v_dia"><a href="javascript:void(0);">Ventas por Dia</a></li>
-                        <li id="_v_mes"><a href="javascript:void(0);">Ventas por Mes</a></li>
-                        <li id="_v_fecha"><a href="javascript:void(0);">Ventas por Fechas</a></li>
+                        <li id="OpenTableSalesDay"><a href="javascript:void(0);">Ventas del Dia</a></li>
+                        <li id="OpenTableSalesForDate"><a href="javascript:void(0);">Ventas por Fechas</a></li>
                     </ul>
                 </li>
 
@@ -118,9 +118,63 @@
                         <span class="arrow"></span>
                     </a>
                     <ul>
-                        <li id="_c_dia"><a href="javascript:void(0);">Compras por Dia</a></li>
-                        <li id="_c_mes"><a href="javascript:void(0);">Compras por Mes</a></li>
-                        <li id="_c_fecha"><a href="javascript:void(0);">Compras por Fechas</a></li>
+                        <li id="OpenTablePurchaseDay"><a href="javascript:void(0);">Compras del Dia</a></li>
+                        <li id="OpenTablePurchaseForDate"><a href="javascript:void(0);">Compras por Fechas</a></li>
+                    </ul>
+                </li>
+
+                 <li class="submenu">
+                    <a href="javascript:void(0);">
+                        <span class="text">Soporte</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul>
+                        <li id="OpenTableSupportDay"><a href="javascript:void(0);">Soporte del Dia</a></li>
+                        <li id="OpenTableSupportForDate"><a href="javascript:void(0);">Soporte por Fechas</a></li>
+                    </ul>
+                </li>
+
+                 <li class="submenu">
+                    <a href="javascript:void(0);">
+                        <span class="text">Gastos</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul>
+                        <li id="OpenTableExpensesDay"><a href="javascript:void(0);">Gastos del Dia</a></li>
+                        <li id="OpenTableExpensesForDate"><a href="javascript:void(0);">Gastos por Fechas</a></li>
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="javascript:void(0);">
+                        <span class="text">Egresos</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul>
+                        <li id="OpenTableExpendituresDay"><a href="javascript:void(0);">Egresos del Dia</a></li>
+                        <li id="OpenTableExpendituresForDate"><a href="javascript:void(0);">Egresos por Fechas</a></li>
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="javascript:void(0);">
+                        <span class="text">Ingresos</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul>
+                        <li id="OpenTableIncomeDay"><a href="javascript:void(0);">Ingresos del Dia</a></li>
+                        <li id="OpenTableIncomeForDate"><a href="javascript:void(0);">Ingresos por Fechas</a></li>
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="javascript:void(0);">
+                        <span class="text">Adelantos</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul>
+                        <li id="OpenTableAdvancesDay"><a href="javascript:void(0);">Adelantos del Dia</a></li>
+                        <li id="OpenTableAdvancesForDate"><a href="javascript:void(0);">Adelantos por Fechas</a></li>
                     </ul>
                 </li>
 
@@ -135,6 +189,17 @@
                         <li id=""><a href="javascript:void(0);">Proveedores</a></li>
                     </ul>
                 </li>
+            </ul>
+        </li>
+
+        <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-columns"></i></span>
+                <span class="text">Cierre</span>
+                <span class="plus"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);" id="CierreDelDia">Cierre del dia</a></li>
             </ul>
         </li>
 

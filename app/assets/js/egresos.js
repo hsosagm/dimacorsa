@@ -4,7 +4,6 @@ $(function() {
     $(document).on('click', '#delete_egreso', function(){ delete_egreso(this); });
 });
 
-
 function f_egreso() {
     $.get( "user/egresos/create", function( data ) {
         $('.modal-body').html(data);
