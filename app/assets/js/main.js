@@ -18,7 +18,7 @@ $(function() {
 // });
 
 $( document ).ajaxError(function( event, request, settings ) {
-    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+    $.ajax(this);
 });
 
 function input_numeric(element)
