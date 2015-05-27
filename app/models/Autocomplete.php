@@ -34,21 +34,20 @@ class Autocomplete {
             }
         }
 
-        return $result;
+        $data['suggestions'] = $result;
+
+        return $data;
     }
 
 
     public static function cleaner()
     {
-        $sExp = preg_split('/\s+/',Input::get('term'));
+        $sExp = preg_split('/\s+/',Input::get('query'));
         $words = array();
 
-        foreach ($sExp as $key=>$keyword)
+        foreach ($sExp as $keyword)
         {
-            if (strlen($keyword) >= 2)
-            {
-                $words[] = $keyword;
-            }
+            $words[] = $keyword;
         }
 
         $keywords = array();

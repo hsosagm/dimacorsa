@@ -30,32 +30,8 @@
 
     if ( {{ $resta_abonar }} <= 0 ) {
         $(".modal-body :input").prop("disabled", true);
-        $(".modal-footer").empty().slideUp('slow').slideDown('slow').append("<button type='button' onclick='EndSale(this, {{Input::get('venta_id')}})' class='btn btn-success'>Finalizar venta</button>");
+        $(".modal-footer").empty().slideUp('slow').slideDown('slow').append("<button type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'>Finalizar venta</button>");
         $('.modal-title').text('Pagos completados puede finalizar la venta');
     };
-
-    function EndSale(element, $id) {
-
-        $(element).prop("disabled", true);
-
-        $.ajax({
-            type: 'POST',
-            url: "user/ventas/EndSale",
-            data: { id: $id},
-            success: function (data) {
-                if (data.success == true)
-                {
-                    $('.bs-modal').modal('hide');
-                    msg.success('Venta finalizada', 'Listo!');
-                    $(".form-panel").hide();
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                    $(element).prop("disabled", false);
-                }
-            }
-        });
-    }
 
 </script>

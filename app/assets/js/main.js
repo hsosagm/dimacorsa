@@ -8,17 +8,16 @@ $(function() {
 });
  
 
-$( document ).ajaxSend(function() {
-  $('.loader').show();
-});
+// $( document ).ajaxSend(function() {
+//   $('.loader').show();
+// });
 
-$( document ).ajaxSuccess(function() {
-  $('.loader').hide();
-  $('input').attr('autocomplete','off');
-});
+// $( document ).ajaxSuccess(function() {
+//   $('.loader').hide();
+//   $('input').attr('autocomplete','off');
+// });
 
 $( document ).ajaxError(function( event, request, settings ) {
-    $('.loader').hide();
     msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
 });
 

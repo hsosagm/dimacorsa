@@ -3,6 +3,20 @@ module.exports = function(grunt) {
     // Initialize the grunt configuration
     grunt.initConfig({
 
+        pusher: {
+          options: {
+            appId: "90131",
+            secret: "1f189fc3cc5dd7aae235",
+            key: "0f7f9b9398c64d1b596b"
+          },
+          main: {
+            options: {
+              channel: "demoChannel",
+              event: "userPost"
+            }
+          }
+        },
+
         notify: {
             task_name: {
               options: {
@@ -25,6 +39,12 @@ module.exports = function(grunt) {
               options: {
                 title: 'Grunt Rocks!',
                 message: 'Server is ready and waiting...'
+              }
+            },
+            end: {
+              options: {
+                title: 'LR',
+                message: 'ready and waiting...'
               }
             }
         },
@@ -52,7 +72,6 @@ module.exports = function(grunt) {
                 [
                     './app/assets/components/bower/bootstrap/dist/css/bootstrap.min.css',
                     './app/assets/components/bower/font-awesome/css/font-awesome.min.css',
-                    './app/assets/components/bower/jquery-ui/themes/redmond/jquery-ui.css',
                     './app/assets/css/theme/layout.css',
                     './app/assets/css/theme/components.css',
                     './app/assets/css/theme/plugins.css',
@@ -81,7 +100,6 @@ module.exports = function(grunt) {
                 [
                     './app/assets/components/bower/bootstrap/dist/css/bootstrap.min.css',
                     './app/assets/components/bower/font-awesome/css/font-awesome.min.css',
-                    './app/assets/components/bower/jquery-ui/themes/redmond/jquery-ui.css',
                     './app/assets/css/theme/layout.css',
                     './app/assets/css/theme/components.css',
                     './app/assets/css/theme/plugins.css',
@@ -120,7 +138,7 @@ module.exports = function(grunt) {
                 './app/assets/js/jpreloader-v2/js/jpreloader.js',
                 './app/assets/components/bower/jquery.easing/js/jquery.easing.js',
                 './app/assets/js/apps.js',
-                './app/assets/components/bower/jquery-ui/jquery-ui.js',
+                './app/assets/js/autocomplete.js',
                 './app/assets/js/datepicker.js',
                 './app/assets/components/bower/datatables/media/js/jquery.dataTables.js',
                 './app/assets/components/bower/highcharts/highcharts.js',
@@ -128,6 +146,16 @@ module.exports = function(grunt) {
                 './app/assets/components/bower/highcharts/modules/exporting.js',
                 './app/assets/components/bower/toastr/toastr.js',
                 './app/assets/js/jquery.numeric.js',
+                './app/assets/js/jquery_confirm.js',
+                './app/assets/js/accounting.js',
+                './app/assets/js/drilldown.js',
+                './app/assets/components/bower/pusher/dist/pusher.js',
+              ],
+              dest: './public/js/main.js',
+            },
+
+            custom: {
+              src: [
                 './app/assets/js/main.js',
                 './app/assets/js/user.js',
                 './app/assets/js/graph.js',
@@ -139,7 +167,6 @@ module.exports = function(grunt) {
                 './app/assets/js/egresos.js',
                 './app/assets/js/ingresos.js',
                 './app/assets/js/tables_queries.js',
-                './app/assets/js/jquery_confirm.js',
                 './app/assets/js/productos.js',
                 './app/assets/js/proveedor.js',
                 './app/assets/js/cliente.js',
@@ -147,38 +174,10 @@ module.exports = function(grunt) {
                 './app/assets/js/sub_categorias.js',
                 './app/assets/js/marcas.js',
                 './app/assets/js/data-remote.js',
-                './app/assets/js/accounting.js',
                 './app/assets/js/master-detail.js',
                 './app/assets/js/consultas.js',
-                './app/assets/js/drilldown.js',
-                './app/assets/components/bower/pusher/dist/pusher.js',
               ],
-              dest: './public/js/main.js',
-            },
-            prov: {
-              src: [
-                './app/assets/components/bower/jquery/jquery.js',
-                './app/assets/js/jquery.cookie.js',
-                './app/assets/components/bower/bootstrap/dist/js/bootstrap.js',
-                './app/assets/components/bower/jquery-nicescroll/jquery.nicescroll.js',
-                './app/assets/js/sparkline.min.js',
-                './app/assets/js/jpreloader-v2/js/jpreloader.js',
-                './app/assets/components/bower/jquery.easing/js/jquery.easing.js',
-                './app/assets/js/apps.js',
-                './app/assets/components/bower/jquery-ui/jquery-ui.js',
-                './app/assets/js/datepicker.js',
-                './app/assets/components/bower/datatables/media/js/jquery.dataTables.js',
-                './app/assets/components/bower/highcharts/highcharts.js',
-                './app/assets/components/bower/highcharts/highcharts-3d.js',
-                './app/assets/components/bower/highcharts/modules/exporting.js',
-                './app/assets/components/bower/toastr/toastr.js',
-                './app/assets/js/jquery.numeric.js',
-                './app/assets/js/jquery_confirm.js',
-                './app/assets/js/drilldown.js',
-                './app/assets/components/bower/pusher/dist/pusher.js',
-                './app/assets/proveedor/js/*',
-              ],
-              dest: './public/js/proveedor.js',
+              dest: './public/js/custom.js',
             },
           },
 
@@ -222,9 +221,9 @@ module.exports = function(grunt) {
         watch: {
             js: {
                 files: ['./app/assets/js/*.*','./app/assets/proveedor/js/*.*'],
-                tasks: ['concat', 'notify:watch_js'],
+                tasks: ['concat', 'notify:end'],
                 options: {
-                    livereload: true,
+                    livereload: false,
                 }
             },
             cssmin: {
@@ -246,7 +245,7 @@ module.exports = function(grunt) {
                     'app/views/*.php'
                 ],
                 options: {
-                    livereload: true
+                    livereload: false
                 }
             }      
         }
@@ -261,8 +260,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-notify');
     grunt.loadNpmTasks('grunt-phpunit');
+    grunt.loadNpmTasks('grunt-pusher');
 
-    grunt.registerTask('dev', ['cssmin', 'concat', 'notify:server', 'watch']);
+    grunt.registerTask('dev', ['concat', 'notify:end', 'watch']);
 
     grunt.registerTask('build', ['cssmin', 'concat', 'uglify', 'copy', 'watch']);
 

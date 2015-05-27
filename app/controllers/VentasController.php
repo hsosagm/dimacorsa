@@ -35,7 +35,7 @@ class VentasController extends \BaseController {
 
 			$nueva_existencia = $this->check_inventory();
 
-			if ($nueva_existencia == false) {
+			if ($nueva_existencia === false) {
 				return "La cantidad que esta ingresando es mayor a la existencia..";
 			}
 
@@ -137,7 +137,7 @@ class VentasController extends \BaseController {
 
     public function check_inventory()
     {
-	    $query = Existencia::where('producto_id', Input::get('producto_id'))->where('tienda_id', Auth::user()->tienda_id)->first();
+	    $query = Existencia::where('producto_id', 1003914)->where('tienda_id', Auth::user()->tienda_id)->first();
 
 	    if ( $query == null || $query->existencia < Input::get('cantidad') ) {
 	    	return false;
@@ -236,9 +236,20 @@ class VentasController extends \BaseController {
 	}
 
 
-	public function EndSale()
+	public function FinalizeSale()
 	{
-		$venta = Venta::where('id', Input::get('id'))->update(array('completed' => 1));
+        $credit = PagosVenta::where('venta_id', 50)
+        ->where('metodo_pago_id', 2)
+        ->first(array(DB::raw('monto')));
+
+        if ($credit == null) {
+            $saldo = 0;
+        }
+        else {
+            $saldo = $credit->monto;
+        }
+
+		$venta = Venta::where('id', Input::get('id'))->update(array('completed' => 1, 'saldo' => $saldo));
 		
 		if ($venta) {
 			return Response::json(array( 'success' => true ));

@@ -97,7 +97,7 @@
             Route::get('ModalSalesPayments', 'VentasController@ModalSalesPayments');
             Route::post('ModalSalesPayments', 'VentasController@ModalSalesPayments');
             Route::post('RemoveSalePayment', 'VentasController@RemoveSalePayment');
-            Route::post('EndSale', 'VentasController@EndSale');
+            Route::post('FinalizeSale', 'VentasController@FinalizeSale');
         });
 
         Route::get('profile' , 'UserController@edit_profile');
@@ -363,7 +363,7 @@ Route::get('timetest', function()
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);
 
-    $cliente = Existencia::where('producto_id', 1003783)->update(array('existencia' => 12));
+    $cliente = Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
 
     $end = date('Y/m/d H:i:s');
     $end = round(microtime(true) * 1000);
@@ -373,12 +373,28 @@ Route::get('timetest', function()
 
 Route::get('cod', function() {
 
-        $pagos = PagosVenta::with('metodo_pago')
-        ->where('venta_id', 1)
-        ->where('metodo_pago_id', '!=', 2)
-        ->first();
+        // $pagos = PagosVenta::where('venta_id', 49)
+        // ->where('metodo_pago_id', 2)
+        // ->first(array(DB::raw('monto')));
 
-        return $pagos->metodo_pago->descripcion; 
+        // if ($pagos == null) {
+        //     $pagos = 0;
+        // }
+
+        // return $pagos;
+
+        $credit = PagosVenta::where('venta_id', 50)
+        ->where('metodo_pago_id', 2)
+        ->first(array(DB::raw('monto')));
+
+        if ($credit == null) {
+            $saldo = 0;
+        }
+        else {
+            $saldo = $credit->monto;
+        }
+
+        return $saldo;
 
 });
 
@@ -395,3 +411,9 @@ Route::get('cod', function() {
 //         print_r($exception->getLine());
 // die();
 // });
+
+
+Route::get('pusher', function()
+{
+    App::make('Pusher')->trigger('demoChannel', 'userPost', ['title' => 'pusher test'] );
+});

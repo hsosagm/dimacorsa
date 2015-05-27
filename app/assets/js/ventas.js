@@ -150,3 +150,29 @@ function RemoveSalePayment($id, $venta_id) {
 
     });
 }
+
+
+function FinalizeSale(element, $id) {
+
+    $(element).prop("disabled", true);
+
+    $.ajax({
+        type: 'POST',
+        url: "user/ventas/FinalizeSale",
+        data: { id: $id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.bs-modal').modal('hide');
+                msg.success('Venta finalizada', 'Listo!');
+                $(element).prop("disabled", false);
+                $(".form-panel").hide();
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+                $(element).prop("disabled", false);
+            }
+        }
+    });
+}

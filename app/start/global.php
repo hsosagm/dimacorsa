@@ -96,7 +96,5 @@ App::singleton('Pusher', function($app) {
 
     $keys = $app['config']->get('services.pusher');
 
-    return new Pusher( $keys['public'], $keys['secret'], $keys['app_id']
-
-    );
+    return new Pusher( $keys['public'], $keys['secret'], $keys['app_id']);
 });

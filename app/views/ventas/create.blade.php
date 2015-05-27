@@ -38,33 +38,14 @@
 
 <script>
 
-$(function() {
+    $('#cliente_id').autocomplete({
 
-    $("#cliente_id").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: "user/cliente/buscar",
-                dataType: "json",
-                data: request,
-                success: function (data) {
-                    response(data);
-                },
-                error: function () {
-                    response([]);
-                }
-            });
-        },
-        minLength: 3,
-        select:function( data, ui ) {
-            $("input[name='cliente_id']").val(ui.item.id);
-            $(".search-cliente-info").html('<strong>Direccion:  '+ui.item.descripcion+'</strong><br><strong>Contacto:   '+ui.item.value+'</strong>');
+        serviceUrl: '/user/cliente/buscar',
 
-        },
-        autoFocus: true,
-        open: function(event, ui) {
-            $(".ui-autocomplete").css("z-index", 100000);
+        onSelect: function (q) {
+           $t = q.id;
         }
+
     });
-});
 
 </script>

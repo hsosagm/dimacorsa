@@ -8,7 +8,7 @@
     <!-- END @HEAD -->
     
 
-    <body class="page-header-fixed page-sidebar-fixed">
+    <body onLoad="LoadMyJs('js/custom.js')" class="page-header-fixed page-sidebar-fixed">
 
         <div id="loading">
             <div class="loading-inner">
@@ -32,6 +32,7 @@
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2><i class="fa fa-home"></i> <span>Inventario</span></h2>
+                    <input id="lr" type="button" onclick="LoadMyJs('js/custom.js')" value="LR">
 
 {{--                     <div class="breadcrumb-wrapper hidden-xs">
                         <ol class="breadcrumb">
@@ -52,9 +53,7 @@
 
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
-
             @include('partials.body-content')
-    
                 <!-- Start footer content -->
                 <footer class="footer-content">
                     2015 &copy; Click admin. Created by <a href="javascript:void(0)" target="_blank">Hsosa</a>, GM
@@ -83,6 +82,18 @@
 
 <script>
 
+(function() {
+
+    var pusher = new Pusher('0f7f9b9398c64d1b596b');
+    var channel = pusher.subscribe('demoChannel');
+
+    channel.bind('userPost', function(data) {
+        // $('div#customjs').children().remove();
+        LoadMyJs('js/custom.js');
+    })
+
+})();
+
     $(document.body).delegate(":input", "keyup", function(e) {
 
         if(e.which == 13) {
@@ -103,15 +114,15 @@
         }
     });
 
-    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
-        var term = this.term.split(' ').join('|');
-        var re = new RegExp("(" + term + ")", "gi");
-        var t = item.label.replace(re, "<b class='hiligth'>$1</b>");
-        return $("<li></li>")
-        .data("item.autocomplete", item)
-        .append("<a>" + t + "</a>")
-        .appendTo(ul);
-    };
+    // $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+    //     var term = this.term.split(' ').join('|');
+    //     var re = new RegExp("(" + term + ")", "gi");
+    //     var t = item.label.replace(re, "<b class='hiligth'>$1</b>");
+    //     return $("<li></li>")
+    //     .data("item.autocomplete", item)
+    //     .append("<a>" + t + "</a>")
+    //     .appendTo(ul);
+    // };
 
     $('#date-input').datepicker();
 

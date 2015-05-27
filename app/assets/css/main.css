@@ -56,3 +56,8 @@
 	text-decoration: none !important;
 	font-weight: lighter !important;
 }
+
+#lr {
+	float: right;
+	margin-top: -25px;
+}
