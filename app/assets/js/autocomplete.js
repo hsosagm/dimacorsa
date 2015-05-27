@@ -64,7 +64,7 @@
                 width: 'auto',
                 minChars: 3,
                 maxHeight: 300,
-                deferRequestBy: 25,
+                deferRequestBy: 30,
                 params: {},
                 formatResult: Autocomplete.formatResult,
                 delimiter: null,
@@ -73,7 +73,7 @@
                 noCache: true,
                 onSearchStart: noop,
                 onSearchComplete: noop,
-                onSearchError: function (e) {  e.preventDefault(); },
+                onSearchError: noop,
                 preserveInput: false,
                 containerClass: 'autocomplete-suggestions',
                 tabDisabled: false,
@@ -208,6 +208,11 @@
             that.el.on('focus.autocomplete', function () { that.onFocus(); });
             that.el.on('change.autocomplete', function (e) { that.onKeyUp(e); });
             that.el.on('input.autocomplete', function (e) { that.onKeyUp(e); });
+            that.el.on('blur.input.autocomplete', function (e) { that.onInputBlur(e); });
+        },
+
+        onInputBlur: function(e) {
+            $('div.autocomplete-suggestions').hide();
         },
 
         onFocus: function () {
