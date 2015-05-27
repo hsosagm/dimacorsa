@@ -18,22 +18,22 @@
 		
 		<tr class="">
 			<td>Ventas</td>
-			<td> {{ $abonos_ventas['efectivo'] }} </td> <!-- al credito -->
-			<td> {{ $abonos_ventas['credito'] }} </td> <!-- al credito -->
-			<td> {{ $abonos_ventas['cheque']  }} </td> <!-- con cheque -->
-			<td> {{ $abonos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
-			<td> {{ $abonos_ventas['deposito']}} </td> <!-- con deposito -->
-			<td> {{ $abonos_ventas['total']   }} </td> <!-- total -->
-		</tr>
-		
-		<tr>
-			<td>Abonos</td>
 			<td> {{ $pagos_ventas['efectivo'] }} </td> <!-- al credito -->
 			<td> {{ $pagos_ventas['credito'] }} </td> <!-- al credito -->
 			<td> {{ $pagos_ventas['cheque']  }} </td> <!-- con cheque -->
 			<td> {{ $pagos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
 			<td> {{ $pagos_ventas['deposito']}} </td> <!-- con deposito -->
 			<td> {{ $pagos_ventas['total']   }} </td> <!-- total -->
+		</tr>
+		
+		<tr>
+			<td>Abonos</td>
+			<td> {{ $abonos_ventas['efectivo'] }} </td> <!-- al credito -->
+			<td> {{ $abonos_ventas['credito'] }} </td> <!-- al credito -->
+			<td> {{ $abonos_ventas['cheque']  }} </td> <!-- con cheque -->
+			<td> {{ $abonos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
+			<td> {{ $abonos_ventas['deposito']}} </td> <!-- con deposito -->
+			<td> {{ $abonos_ventas['total']   }} </td> <!-- total -->
 		</tr>
 		
 		<tr>

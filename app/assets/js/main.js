@@ -4,6 +4,7 @@ $(function() {
     $(document).on("click", "#_create", function(){ _create(this); });
     $(document).on("click", "#_edit", function(){ _edit(this); });
     $(document).on("click", "#_delete", function(){ _delete(this); });
+    $(document).on("click", "#_print",      function(){ _print(this); })
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
  
@@ -177,6 +178,42 @@ function _delete() {
     $('.modal-title').text( 'Eliminar ' + $('.dataTable').attr('title') );
 };
 
+function _print()
+{
+    $id  = $('.dataTable tbody .row_selected').attr('id');
+
+    $.ajax({
+        type: "POST",
+        url: "admin/barcode/print_code",
+        data: { id: $id },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text)
+        {
+            if (data["success"] == true)
+            {
+                $("#print_barcode").barcode(
+                    data["codigo"],
+                    data["tipo"],
+                    {
+                        barWidth:data["ancho"],
+                        barHeight:data["alto"],
+                        fontSize:data["letra"]
+                    });   
+                $("#print_barcode").show();
+                $.print("#print_barcode");
+                $("#print_barcode").hide();
+            }
+            else
+            {
+                msg.warning('Hubo un error', 'Advertencia!')
+            }
+        },
+        error: function (request, status, error)
+        {
+            msg.error(request.responseText, 'Error!')
+        }
+    });
+};
 
 function makeTable($data, $url, $title) {
     $('.table').html($data);

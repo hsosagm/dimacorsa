@@ -59,9 +59,9 @@
                 </li>
             </ul>
         </li>
-         <!--/ End navigation - clientes -->
+        <!--/ End navigation - clientes -->
 
-         <!-- Start navigation operaciones -->
+        <!-- Start navigation operaciones -->
         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-columns"></i></span>
@@ -76,7 +76,7 @@
                 <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
             </ul>
         </li>
-       <!-- end nativation operaciones -->
+        <!-- end nativation operaciones -->
 
 
         
@@ -100,7 +100,7 @@
                 <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
                 <li id="proveedores"><a href="javascript:void(0);">Proveedores</a></li>
 
-               
+
                 <li class="submenu">
                     <a href="javascript:void(0);">
                         <span class="text">Ventas</span>
@@ -123,7 +123,7 @@
                     </ul>
                 </li>
 
-                 <li class="submenu">
+                <li class="submenu">
                     <a href="javascript:void(0);">
                         <span class="text">Soporte</span>
                         <span class="arrow"></span>
@@ -134,7 +134,7 @@
                     </ul>
                 </li>
 
-                 <li class="submenu">
+                <li class="submenu">
                     <a href="javascript:void(0);">
                         <span class="text">Gastos</span>
                         <span class="arrow"></span>
@@ -203,32 +203,33 @@
             </ul>
         </li>
 
-        <!--/ End development - components -->
-
-        <!-- Start development - layouts -->
         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-columns"></i></span>
-                <span class="text">Operaciones</span>
+                <span class="text">Producto</span>
                 <span class="plus"></span>
             </a>
             <ul>
-                 <li class="submenu">
-                    <a href="javascript:void(0);">
-                        <span class="text">Producto</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul>
-                        <li id="new_producto"><a href="javascript:void(0);">Crear Producto</a></li>
-                        <li id="new_marca"><a href="javascript:void(0);">Crear Marca</a></li>
-                        <li id="new_categoria"><a href="javascript:void(0);">Crear Categoria</a></li>
-                        <li id="new_sub_categoria"><a href="javascript:void(0);">Crear Sub Categoria</a></li>
-                    </ul>
-                </li>
-
+                <li id="new_producto"><a href="javascript:void(0);">Crear Producto</a></li>
+                <li id="new_marca"><a href="javascript:void(0);">Crear Marca</a></li>
+                <li id="new_categoria"><a href="javascript:void(0);">Crear Categoria</a></li>
+                <li id="new_sub_categoria"><a href="javascript:void(0);">Crear Sub Categoria</a></li>
             </ul>
         </li>
-        <!--/ End development - layouts -->
+
+         <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-columns"></i></span>
+                <span class="text">Codigo de Barras</span>
+                <span class="plus"></span>
+            </a>
+            <ul>
+                <li id="settings_barcode"><a href="javascript:void(0);">Configuracion</a></li>
+            </ul>
+        </li>
+
+        <!--/ End development - components -->
+
 
         <!-- Start category widget -->
         <li class="sidebar-category">

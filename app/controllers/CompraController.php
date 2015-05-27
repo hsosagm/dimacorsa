@@ -40,6 +40,17 @@ class CompraController extends \BaseController {
 		return View::make('compras.PurchaseDay');
 	}
 	
+	public function AbrirCompraNoCompletada()
+	{
+		$compra = Compra::find(Input::get('id'));
+		$id = Input::get('id');
+		$proveedor = Proveedor::find($compra->proveedor_id);
+		$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
+		$saldo = $this->TotalCreditoProveedor($proveedor->id);
+		$detalle = $this->TablePurchaseDetailsEdit($id);
+		return View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle"))->render();
+	}
+
 	public function OpenModalPurchaseInfo()
 	{
 
@@ -81,9 +92,7 @@ class CompraController extends \BaseController {
 
 	public function DeletePurchaseInitial()
 	{
-		$compra = Compra::find(Input::get('id'));
-
-		$compra->delete();
+		$compra = Compra::destroy(Input::get('id'));
 
 		return 'success';
 	}
@@ -138,7 +147,7 @@ class CompraController extends \BaseController {
 
 		$total_compra = $this->TotalPurchase();
 
-		ProcesarCompra::set(Input::get('compra_id'),"nota",$credito->monto, $total_compra);
+		ProcesarCompra::set(Input::get('compra_id'),"nota",@$credito->monto, $total_compra);
 
 		return 'success';
 	}
@@ -276,6 +285,19 @@ class CompraController extends \BaseController {
 
 		return $query;		
 	}
+
+	public function TablePurchaseDetailsEdit($compra_id)
+	{
+		$query = DB::table('detalle_compras')
+		->select(array('detalle_compras.id as id','compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+		->where('compra_id', $compra_id)
+		->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
+		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+		->get();
+
+		return $query;		
+	}
+
 
 	function TableDetailsPayments()
 	{

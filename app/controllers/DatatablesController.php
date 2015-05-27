@@ -147,9 +147,9 @@ class DatatablesController extends Controller {
 		
 		$pos_columns = 1;
 
-		$url = null;
+		$url = 'admin/compras/';
 
-		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where,$url , $opcion1 , $opcion2 ,$others_columns , $pos_columns);	
+		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where, $url, $opcion1 , $opcion2 ,$others_columns , $pos_columns);	
 	}
 	
 	function SupportDay_dt(){
@@ -167,7 +167,7 @@ class DatatablesController extends Controller {
 
 		$where = " DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
 
-		$opcion1 = '<i class="fa fa-trash-o btn-link theme-c"></i>';
+		$opcion1 = 'Eliminar';
 
 		$opcion2 = null;
 
@@ -200,7 +200,7 @@ class DatatablesController extends Controller {
 
 		$where = " DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
 
-		$opcion1 = '<i class="fa fa-trash-o btn-link theme-c"></i>';
+		$opcion1 = 'Eliminar';
 
 		$opcion2 = null;
 
@@ -233,7 +233,7 @@ class DatatablesController extends Controller {
 
 		$where = " DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
 
-		$opcion1 = '<i class="fa fa-trash-o btn-link theme-c"></i>';
+		$opcion1 = 'Eliminar';
 
 		$opcion2 = null;
 
@@ -266,7 +266,7 @@ class DatatablesController extends Controller {
 
 		$where = " DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
 
-		$opcion1 = '<i class="fa fa-trash-o btn-link theme-c"></i>';
+		$opcion1 = 'Eliminar';
 
 		$opcion2 = null;
 
@@ -299,7 +299,7 @@ class DatatablesController extends Controller {
 
 		$where = " DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
 
-		$opcion1 = '<i class="fa fa-trash-o btn-link theme-c"></i>';
+		$opcion1 = 'Eliminar';
 
 		$opcion2 = null;
 

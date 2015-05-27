@@ -75,53 +75,40 @@
 
 <script>
 
-	$(function() {
-		$("#proveedor_id").autocomplete({
-			source: function (request, response) {
-				$.ajax({
-					url: "user/buscar_proveedor",
-					dataType: "json",
-					data: request,
-					success: function (data) {
-						response(data);
-					},
-					error: function () {
-						response([]);
-					}
-				});
-			},
-			minLength: 3,
-			select:function( data, ui ){
-				$("input[name='proveedor_id']").val(ui.item.id);
-				$(".search-proveedor-info").html('<strong>Direccion:  '+ui.item.descripcion+'</strong><br><strong>Contacto:   '+ui.item.value+'</strong>');
+	$("#proveedor_id").autocomplete({
+		serviceUrl: 'admin/proveedor/buscar',
+		onSelect: function (q) {
+			$("input[name='proveedor_id']").val(q.id);
+			$(".search-proveedor-info").html('<strong>Direccion:  '+q.value+'</strong><br>');
 
-				$proveedor_id = ui.item.id;
+			$proveedor_id = q.id;
 
-				$.ajax({
-					type: 'POST',
-					url: 'admin/proveedor/total_credito',
-					data: {proveedor_id:$proveedor_id},
-					success: function (data) 
-					{
-						$(".proveedor-credito").html('<strong>Saldo   Q: '+data+'</strong>');
-					},
-					error: function(errors)
-					{
-						msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-					}
-				});
-			},
-			autoFocus: true,
-			open: function(event, ui) {
-				$(".ui-autocomplete").css("z-index", 100000);
-			}
-		});
+			$.ajax({
+				type: 'POST',
+				url: 'admin/proveedor/total_credito',
+				data: {proveedor_id:$proveedor_id},
+				success: function (data) 
+				{
+					$(".proveedor-credito").html('<strong>Saldo   Q: '+data+'</strong>');
+				},
+				error: function(errors)
+				{
+					msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+				}
+			});
+
+			var position = $(this).index('input');
+			$("input, select").eq(position+1).select();
+		}
 	});
 
-	$('form[data-remote-md] input[name="fecha_documento"]').pickadate(
-	{
-		max: true,
-		disable: [7]
-	});
+ $('form[data-remote-md] input[name="fecha_documento"]').pickadate(
+ {
+ 	max: true,
+ 	disable: [7]
+ });
 
 </script>
+
+				
+			
