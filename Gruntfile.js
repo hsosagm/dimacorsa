@@ -169,6 +169,10 @@ module.exports = function(grunt) {
                 './app/assets/js/master-consultas.js',
               ],
               dest: './public/js/custom.js',
+               src: [
+                './app/assets/proveedor/js/*',
+              ],
+              dest: './public/js/proveedor.js'
             },
           },
 
