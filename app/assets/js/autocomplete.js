@@ -208,6 +208,11 @@
             that.el.on('focus.autocomplete', function () { that.onFocus(); });
             that.el.on('change.autocomplete', function (e) { that.onKeyUp(e); });
             that.el.on('input.autocomplete', function (e) { that.onKeyUp(e); });
+            that.el.on('blur.input.autocomplete', function (e) { that.onInputBlur(e); });
+        },
+
+        onInputBlur: function(e) {
+            $('div.autocomplete-suggestions').hide();
         },
 
         onFocus: function () {
