@@ -143,11 +143,18 @@ class TableSearchMaster {
 
             if ($opcion2 != null) 
             {
-
                 $cadena = str_replace(' ','',$opcion2);
                 $op_space2 = (@$aRow->completed == 1) ? 'cancelar':$cadena;
                 $opcion_2  = (@$aRow->completed == 1) ? 'Cancelar':$opcion2;
+
+                if (strtolower($opcion2) == 'abonar')    
+                {
+                    $op_space2 = (@$aRow->completed == 1) ? 'abonar':$cadena;
+                    $opcion_2  = (@$aRow->completed == 1) ? 'Abonar':$opcion2;
+                }
+               
                 $op_space2 = strtolower($op_space2);
+
                 $row[] = '<td><a href="javascript:void(0);" url="'.$url.'" class="btn-link theme-c master_opcion_'.$op_space2.'" id='.$aRow->id.'>'.$opcion_2.'</a></td>' ;
             }
 
