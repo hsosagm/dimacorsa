@@ -166,6 +166,7 @@ module.exports = function(grunt) {
                 './app/assets/js/cierre.js',
                 './app/assets/js/cierre.js',
                 './app/assets/js/codigobarras.js',
+                './app/assets/js/master-consultas.js',
               ],
               dest: './public/js/custom.js',
             },
