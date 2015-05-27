@@ -15,14 +15,14 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [2]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [0]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [2]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [3]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Ver Detalle", "aTargets": [6]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Abonar",      "aTargets": [7]},
+            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Ver Factura", "aTargets": [7]},
         ],
 
         "fnDrawCallback": function( oSettings ) {
@@ -32,7 +32,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/datatables/Purchase_dt"
+        "sAjaxSource": "admin/datatables/PurchaseDay_dt"
     });
 
 });

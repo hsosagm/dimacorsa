@@ -52,5 +52,9 @@ class EgresoController extends \BaseController {
         return  'Huvo un error al tratar de eliminar' ;
     }
 
+    public function OpenTableExpendituresDay()
+    {
+        return View::make('egresos.ExpendituresDay');
+    }
 }
  

@@ -35,6 +35,11 @@ class CompraController extends \BaseController {
 		return View::make('compras.ConsultPurchase');
 	}
 
+	public function OpenTablePurchaseDay()
+	{
+		return View::make('compras.PurchaseDay');
+	}
+	
 	public function OpenModalPurchaseInfo()
 	{
 
@@ -133,7 +138,7 @@ class CompraController extends \BaseController {
 
 		$total_compra = $this->TotalPurchase();
 
-		ProcesarCompra::set(Input::get('compra_id'),Input::get('nota'),$credito->monto, $total_compra);
+		ProcesarCompra::set(Input::get('compra_id'),"nota",$credito->monto, $total_compra);
 
 		return 'success';
 	}

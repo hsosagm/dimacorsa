@@ -256,8 +256,9 @@ function DeletePurchasePaymentItem(id , compra_id)
     
 }
 
-function FinishInitialPurchase(compra_id)
-{
+function FinishInitialPurchase(element,compra_id)
+{   
+    $(element).attr('disabled', 'disabled');
     $.ajax({
         type: 'POST',
         url: 'admin/compras/FinishInitialPurchase',
@@ -278,7 +279,7 @@ function FinishInitialPurchase(compra_id)
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
-
+     $(element).removeAttr('disabled');
     return false;
 }
 

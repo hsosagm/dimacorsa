@@ -39,13 +39,10 @@
 <script>
 
     $('#cliente_id').autocomplete({
-
         serviceUrl: '/user/cliente/buscar',
-
         onSelect: function (q) {
            $t = q.id;
         }
-
     });
 
 </script>

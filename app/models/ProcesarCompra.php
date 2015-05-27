@@ -4,7 +4,6 @@ class ProcesarCompra
 {	
 	public static function set($compra_id, $nota = null,$saldo = 0.00 , $total_compra)
 	{
-
 		ProcesarCompra::UpdateProducto($compra_id);
 
 		$compra = Compra::find($compra_id);

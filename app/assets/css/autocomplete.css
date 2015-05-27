@@ -1,31 +1,31 @@
-.ui-autocomplete-loading {
+div.ui-autocomplete-loading {
     background: #fff url('../images/loader.gif') no-repeat 97%;;
 }
  
-.autocomplete-suggestions {
+div.autocomplete-suggestions {
     border-radius: 0px 0px 7px 7px;
 }
 
-.autocomplete-suggestion {
+div.autocomplete-suggestion {
     font-size: 11px;
     font-weight: 100px;
 }
 
-.autocomplete-suggestion { white-space: nowrap; overflow: hidden; }
-.autocomplete-selected {
+div.autocomplete-suggestion { white-space: nowrap; overflow: hidden; }
+div.autocomplete-selected {
     background: #F0F0F0;
     border-radius: .3em;
 }
-.autocomplete-suggestions strong { font-weight: normal; color: #006EEE; }
-.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+div.autocomplete-suggestions strong { font-weight: normal; color: #006EEE; }
+div.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 
 
-.autocomplete-suggestions {
+div.autocomplete-suggestions {
 	display: inline-block;
 	position: relative;
 }
 
-.autocomplete-suggestions {
+div.autocomplete-suggestions {
 	box-sizing: border-box;
 	list-style: none;
 	padding: 0;
@@ -36,24 +36,24 @@
 	box-shadow: .05em .2em .6em rgba(0,0,0,.2);
 	text-shadow: none;
 }
-	/* Pointer */
-	.autocomplete-suggestions:before {
-		content: "";
-		position: absolute;
-		top: -.43em;
-		left: 1em;
-		width: 0; height: 0;
-		padding: .4em;
-		background: white;
-		border: inherit;
-		border-right: 0;
-		border-bottom: 0;
-		-webkit-transform: rotate(45deg);
-		transform: rotate(45deg);
-	}
 
-	div.autocomplete-suggestion {
-		position: relative;
-		padding-left: .4em;
-		cursor: pointer;
-	}
+div.autocomplete-suggestions:before {
+	content: "";
+	position: absolute;
+	top: -.43em;
+	left: 1em;
+	width: 0; height: 0;
+	padding: .4em;
+	background: white;
+	border: inherit;
+	border-right: 0;
+	border-bottom: 0;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+div.autocomplete-suggestion {
+	position: relative;
+	padding-left: .4em;
+	cursor: pointer;
+}

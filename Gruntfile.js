@@ -3,20 +3,6 @@ module.exports = function(grunt) {
     // Initialize the grunt configuration
     grunt.initConfig({
 
-        pusher: {
-          options: {
-            appId: "90131",
-            secret: "1f189fc3cc5dd7aae235",
-            key: "0f7f9b9398c64d1b596b"
-          },
-          main: {
-            options: {
-              channel: "demoChannel",
-              event: "userPost"
-            }
-          }
-        },
-
         notify: {
             task_name: {
               options: {
@@ -149,7 +135,6 @@ module.exports = function(grunt) {
                 './app/assets/js/jquery_confirm.js',
                 './app/assets/js/accounting.js',
                 './app/assets/js/drilldown.js',
-                './app/assets/components/bower/pusher/dist/pusher.js',
               ],
               dest: './public/js/main.js',
             },
@@ -176,6 +161,8 @@ module.exports = function(grunt) {
                 './app/assets/js/data-remote.js',
                 './app/assets/js/master-detail.js',
                 './app/assets/js/consultas.js',
+                './app/assets/js/cierre.js',
+                './app/assets/js/drilldown.js',
               ],
               dest: './public/js/custom.js',
             },
@@ -260,7 +247,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-notify');
     grunt.loadNpmTasks('grunt-phpunit');
-    grunt.loadNpmTasks('grunt-pusher');
 
     grunt.registerTask('dev', ['concat', 'notify:end', 'watch']);
 

@@ -35,7 +35,13 @@
             Route::get('user_datatables', 'DatatablesController@user_inventario');
             Route::get('proveedores'    , 'DatatablesController@proveedores'    );
             Route::get('users'          , 'DatatablesController@users');
-            Route::get('/'              , 'DatatablesController@index');
+            Route::get('/'                  , 'DatatablesController@index');
+            Route::get('SalesDay_dt'        , 'DatatablesController@SalesDay_dt');
+            Route::get('SupportDay_dt'      , 'DatatablesController@SupportDay_dt');
+            Route::get('ExpensesDay_dt'     , 'DatatablesController@ExpensesDay_dt');
+            Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt');
+            Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt');
+            Route::get('AdvancesDay_dt'       , 'DatatablesController@AdvancesDay_dt');
 
         });
 
@@ -53,6 +59,7 @@
             Route::post('delete'       , 'SoporteController@delete');
             Route::post('create'       , 'SoporteController@create');
             Route::post('delete_detail', 'SoporteController@delete_detail');
+            Route::get('OpenTableSupportDay', 'SoporteController@OpenTableSupportDay');
         });
 
         Route::group(array('prefix' => 'gastos'), function()
@@ -61,6 +68,7 @@
             Route::post('delete'       , 'GastoController@delete');
             Route::post('create'       , 'GastoController@create');
             Route::post('delete_detail', 'GastoController@delete_detail');
+            Route::get('OpenTableExpensesDay', 'GastoController@OpenTableExpensesDay');
         });
 
         Route::group(array('prefix' => 'egresos'), function()
@@ -69,6 +77,7 @@
             Route::post('delete'       , 'EgresoController@delete');
             Route::post('create'       , 'EgresoController@create');
             Route::post('delete_detail', 'EgresoController@delete_detail');
+            Route::get('OpenTableExpendituresDay', 'EgresoController@OpenTableExpendituresDay');
         });
 
         Route::group(array('prefix' => 'ingresos'), function()
@@ -77,6 +86,16 @@
             Route::post('delete'       , 'IngresoController@delete');
             Route::post('create'       , 'IngresoController@create');
             Route::post('delete_detail', 'IngresoController@delete_detail');
+            Route::get('OpenTableIncomeDay', 'IngresoController@OpenTableIncomeDay');
+        });
+
+        Route::group(array('prefix' => 'adelantos'), function()
+        {
+            Route::get('create'        , 'AdelantoController@create');
+            Route::post('delete'       , 'AdelantoController@delete');
+            Route::post('create'       , 'AdelantoController@create');
+            Route::post('delete_detail', 'AdelantoController@delete_detail');
+            Route::get('OpenTableAdvancesDay', 'AdelantoController@OpenTableAdvancesDay');
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -98,6 +117,9 @@
             Route::post('ModalSalesPayments', 'VentasController@ModalSalesPayments');
             Route::post('RemoveSalePayment', 'VentasController@RemoveSalePayment');
             Route::post('FinalizeSale', 'VentasController@FinalizeSale');
+            Route::get('OpenModalSalesPayments', 'VentasController@OpenModalSalesPayments');
+            Route::get('OpenTableSalesDay', 'VentasController@OpenTableSalesDay');
+
         });
 
         Route::get('profile' , 'UserController@edit_profile');
@@ -112,12 +134,18 @@
 
 Route::group(array('prefix' => 'admin'), function()
 {
-
+ 
     Route::group(array('prefix' => 'datatables'),function() 
     {
         Route::get('inventario_dt'     , 'InventarioController@inventario_dt');
         Route::get('Purchase_dt'       , 'DatatablesController@Purchase_dt');
         Route::get('PurchaseUnpaid_dt' , 'DatatablesController@PurchaseUnpaid_dt');
+        Route::get('PurchaseDay_dt'    , 'DatatablesController@PurchaseDay_dt');
+    });
+
+    Route::group(array('prefix' => 'cierre'),function() 
+    {
+         Route::get('CierreDelDia' , 'CierreController@CierreDelDia' );
     });
 
     Route::group(array('prefix' => 'productos'), function()
@@ -146,6 +174,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('OverdueBalancePay'   , 'ProveedorController@OverdueBalancePay'  );
         Route::post('DeleteBalancePay'    , 'ProveedorController@DeleteBalancePay'  );
         Route::post('FullBalancePay'      , 'ProveedorController@FullBalancePay'  );
+        Route::post('PartialBalancePay'      , 'ProveedorController@PartialBalancePay'  );
 
     });
 
@@ -167,6 +196,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('DeletePurchaseDetailsItem'  , 'CompraController@DeletePurchaseDetailsItem' );
         Route::post('DeletePurchasePaymentItem'  , 'CompraController@DeletePurchasePaymentItem'   );
         Route::get('ConsultPurchase'             , 'CompraController@ConsultPurchase');
+        Route::get('OpenTablePurchaseDay'        , 'CompraController@OpenTablePurchaseDay');
 
     });
 
@@ -244,17 +274,12 @@ Route::group(array('prefix' => 'owner'), function()
 
 });
 
+Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
 
-    return Auth::id();
-    $query = DB::table('compras')
-        ->select(DB::raw('sum(saldo) as total'))
-        ->where('saldo','>',0)
-        ->where('proveedor_id','=',1)->first();
+});
 
-        return $query->total;
- });
 
 Route::get('proveedor', function()
 {
@@ -286,7 +311,6 @@ Route::get('init', function()
 
 Route::get('init2', function()
 {
-
     $user = new User;
     $user->tienda_id = 1;
     $user->username = 'hsosan1';

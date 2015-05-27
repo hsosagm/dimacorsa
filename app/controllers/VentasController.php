@@ -257,4 +257,11 @@ class VentasController extends \BaseController {
 
 		return 'Huvo un error intentelo de nuevo';
 	}
+
+
+	public function OpenTableSalesDay()
+	{
+		return View::make('ventas.SalesDay');
+	}
+
 }

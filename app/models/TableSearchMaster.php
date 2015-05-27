@@ -1,9 +1,8 @@
 <?php
 
-
 class TableSearchMaster {
 
-    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null ,$abono = false ,$others_columns = null ,$pos_columns = 0) {
+    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null ,$url = null,$opcion1 = null,$opcion2 = null ,$others_columns = null ,$pos_columns = 0) {
 
         $sLimit = "";
 
@@ -99,19 +98,21 @@ class TableSearchMaster {
                         for ($x=0; $x < count($others_columns) ; $x++) 
                         { 
                             $colum_two = explode(" ", $others_columns[$x]);
-                            $row[] =$aRow->$colum_two[2];
+                            $row[] =($colum_two[2] == "as") ? $aRow->$colum_two[3]:$aRow->$colum_two[2];
                         }
                     }
                 }
 
 		        $row[] = $aRow->$columns[$i];
 		    }
-
-            $row[] = '<td><a href="#" class="btn-link theme-c" id='.$aRow->id.' >Ver Detalle</a></td>' ;
-
-            if ($abono == true) 
+            if ($opcion1 != null) 
             {
-                $row[] = '<td><a href="#" class="btn-link theme-c _abono_master" id='.$aRow->id.'>Abono</a></td>' ;
+                $row[] = '<td><a href="'.$url.'" class="btn-link theme-c" id='.$aRow->id.'>'.$opcion1.'</a></td>' ;
+            }
+
+            if ($opcion2 != null) 
+            {
+                $row[] = '<td><a href="'.$url.'" class="btn-link theme-c" id='.$aRow->id.'>'.$opcion2.'</a></td>' ;
             }
 
 		    $output['aaData'][] = $row;
