@@ -150,6 +150,7 @@ module.exports = function(grunt) {
                 './app/assets/js/accounting.js',
                 './app/assets/js/master-detail.js',
                 './app/assets/js/consultas.js',
+                './app/assets/js/cierre.js',
                 './app/assets/js/drilldown.js',
                 './app/assets/components/bower/pusher/dist/pusher.js',
               ],
