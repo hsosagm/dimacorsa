@@ -128,7 +128,6 @@
         Route::post('profile', 'UserController@edit_profile');
         Route::get('buscar_marca'    , 'MarcaController@search'   );
         Route::get('buscar_categoria', 'CategoriaController@search');
-        Route::get('buscar_proveedor', 'ProveedorController@search');
         Route::get('view_existencias', 'ProductoController@view_existencias');
 
     });
@@ -149,6 +148,13 @@ Route::group(array('prefix' => 'admin'), function()
          Route::get('CierreDelDia' , 'CierreController@CierreDelDia' );
     });
 
+    Route::group(array('prefix' => 'barcode'),function() 
+    {
+         Route::get('create'      , 'BarCodeController@create');
+         Route::post('create'     , 'BarCodeController@create');
+         Route::post('print_code' , 'BarCodeController@print_code');
+    });
+
     Route::group(array('prefix' => 'productos'), function()
     {
         Route::post('edit'  , 'ProductoController@edit'   );
@@ -160,6 +166,7 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'proveedor'), function()
     {
+        Route::get('buscar' , 'ProveedorController@search');
         Route::get('index'  , 'ProveedorController@index' );
         Route::get('create' , 'ProveedorController@create');
         Route::get('help'   , 'ProveedorController@help'  );
@@ -181,10 +188,11 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'compras'), function()
     {
-        Route::get('create'  , 'CompraController@create' );
-        Route::post('create' , 'CompraController@create' );
-        Route::get('detalle' , 'CompraController@detalle');
-        Route::post('detalle', 'CompraController@detalle');
+        Route::get('create'                      , 'CompraController@create' );
+        Route::post('create'                     , 'CompraController@create' );
+        Route::get('detalle'                     , 'CompraController@detalle');
+        Route::post('detalle'                    , 'CompraController@detalle');
+        Route::post('verfactura'                 , 'CompraController@AbrirCompraNoCompletada');
         Route::get('ModalPurchasePayment '       , 'CompraController@ModalPurchasePayment'  );
         Route::post('ModalPurchasePayment'       , 'CompraController@ModalPurchasePayment'  );
         Route::post('DeletePurchaseInitial'      , 'CompraController@DeletePurchaseInitial' );
@@ -278,7 +286,8 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
-
+   // return Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
+    return Autocomplete::get('proveedores', array('id', 'nombre','direccion'));
 });
 
 

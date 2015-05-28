@@ -10,6 +10,16 @@ Form::macro('_text', function($column_name, $value = null, $lable_name = null)
     return textWrapper($element, $lable);
 });
 
+Form::macro('_textcode', function($column_name, $value = null, $lable_name = null,$idcode=null)
+{
+    if ($lable_name == null) {
+        $lable_name = ucwords($column_name);
+    }
+    $lable   = Form::label('body', $lable_name, array('class'=>'col-sm-2 control-label'));
+    $element = Form::text($column_name, $value, array('class'=>'form-control','id'=>$idcode, 'placeholder' => $lable_name));
+    return textWrapper($element, $lable);
+});
+
 
 Form::macro('_password', function($column_name, $value = null)
 {
@@ -18,6 +28,15 @@ Form::macro('_password', function($column_name, $value = null)
     return textWrapper($element, $lable);
 });
 
+Form::macro('_number', function($column_name, $value = null, $lable_name = null,$tamano=9,$min=0,$max=0,$id_number=null)
+{
+    if ($lable_name == null) {
+        $lable_name = ucwords($column_name);
+    }
+    $lable   = Form::label('body', $lable_name, array('class'=>'col-sm-2 control-label'));
+    $element = Form::number($column_name, $value, array('class'=>'form-control','id'=>$id_number,'min'=>$min,'max'=>$max));
+    return textWrapper($element, $lable );
+});
 
 function textWrapper($element, $lable)
 {
@@ -42,6 +61,15 @@ Form::macro('_select',function($column_name,$value,$id = null,$plus = null ,$lab
     $element = Form::select($column_name, $value, $id, array('class'=>'form-control'));
     
     return selectWrapper($element, $lable ,$plus);
+});
+
+Form::macro('_selectcode', function($column_name, $value, $selected,$idcode=null)
+{
+    $lable_name = ucwords($column_name);
+    
+    $lable   = Form::label('body', $lable_name, array('class'=>'col-sm-2 control-label'));
+    $element = Form::select($column_name, $value, $selected ,array('class'=>'form-control','id'=>$idcode));
+    return textWrapper($element, $lable);
 });
 
 

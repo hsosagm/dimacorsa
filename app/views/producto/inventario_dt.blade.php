@@ -27,6 +27,7 @@ $(document).ready(function() {
             $( ".DTTT" ).append( '<button id="_create" class="btn btngrey">New</button>' );
             $( ".DTTT" ).append( '<button id="_edit" class="btn btngrey btn_edit" disabled>Edit</button>' );
             $( ".DTTT" ).append( '<button id="_delete" class="btn btngrey btn_edit" disabled>Delete</button>' );
+            $( ".DTTT" ).append( '<button id="_print"  class="btn btngrey btn_edit" disabled><i class="fa fa-barcode"></i> Imprimir</button>' );
         },
 
         "bJQueryUI": false,

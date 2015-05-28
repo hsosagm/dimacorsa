@@ -1,3 +1,4 @@
+@if(count(@$detalle) > 0 )
 <?php $deuda=0; ?>
 <table width="100%"> 
 
@@ -61,3 +62,4 @@
 	</tfoot>
 
 </table>
+@endif

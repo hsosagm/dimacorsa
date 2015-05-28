@@ -73,7 +73,7 @@
         <div id="back-top" class="animated pulse circle">
             <i class="fa fa-angle-up"></i>
         </div>
-
+    <div id="print_barcode"></div>
 <script src="js/main.js"></script>
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>

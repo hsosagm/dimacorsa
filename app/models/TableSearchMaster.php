@@ -14,12 +14,34 @@ class TableSearchMaster {
         $sOrder = "";
 
         if ( isset( $_GET['iSortCol_0'] ) )
-        {
+        { 
+            if ($others_columns != null) 
+            {
+                for ($x=0; $x < count($others_columns) ; $x++) 
+                { 
+                    $colum_two = explode(" ", $others_columns[$x]);
+                    $columns_others[] =($colum_two[2] == "as") ? $colum_two[3]:$colum_two[2];
+                }
+            }
+            
+
+            $resultado = array_merge($columns_others,$columns);
+
+            if($opcion1 != null )
+            {
+                $resultado[]= $opcion1;
+            }
+
+            if($opcion2 != null)
+            {
+                $resultado[]= $opcion2;
+            }
+
             $sOrder = "ORDER BY  ";
             for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ ) {
                 if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" ) {
                     $sortDir = (strcasecmp($_GET['sSortDir_'.$i], 'ASC') == 0) ? 'ASC' : 'DESC';
-                    $sOrder .= "`".$columns[ intval( $_GET['iSortCol_'.$i] ) ]."` ". $sortDir .", ";
+                    $sOrder .= "`".$resultado[ intval( $_GET['iSortCol_'.$i] ) ]."` ". $sortDir .", ";
                 }
             }
             
@@ -72,8 +94,16 @@ class TableSearchMaster {
             $full_others_columns = ','.implode(",", $others_columns);
         }
 
+        $completed = " ";
+
+        if ($table == 'compras' || $table == 'ventas') 
+        {
+            $completed =", completed ";
+        }   
+
+
         $productos = DB::select("SELECT SQL_CALC_FOUND_ROWS `".str_replace(" , ", " ", implode("`, `", $columns))."`,
-        	         $table.id as id  $full_others_columns FROM $table $sJoin $sWhere $sOrder $sLimit") ;
+        	         $table.id as id  $full_others_columns $completed FROM $table $sJoin $sWhere $sOrder $sLimit") ;
 
         $Found_Rows = DB::select('SELECT FOUND_ROWS() as num_rows');
 
@@ -107,12 +137,25 @@ class TableSearchMaster {
 		    }
             if ($opcion1 != null) 
             {
-                $row[] = '<td><a href="'.$url.'" class="btn-link theme-c" id='.$aRow->id.'>'.$opcion1.'</a></td>' ;
+                $op_space1 = str_replace(' ','',$opcion1);
+                $row[] = '<td><a  href="javascript:void(0);" url="'.$url.'" class="btn-link theme-c master_opcion_'.strtolower($op_space1).'" id='.$aRow->id.'>'.$opcion1.'</a></td>' ;
             }
 
             if ($opcion2 != null) 
             {
-                $row[] = '<td><a href="'.$url.'" class="btn-link theme-c" id='.$aRow->id.'>'.$opcion2.'</a></td>' ;
+                $cadena = str_replace(' ','',$opcion2);
+                $op_space2 = (@$aRow->completed == 1) ? 'cancelar':$cadena;
+                $opcion_2  = (@$aRow->completed == 1) ? 'Cancelar':$opcion2;
+
+                if (strtolower($opcion2) == 'abonar')    
+                {
+                    $op_space2 = (@$aRow->completed == 1) ? 'abonar':$cadena;
+                    $opcion_2  = (@$aRow->completed == 1) ? 'Abonar':$opcion2;
+                }
+               
+                $op_space2 = strtolower($op_space2);
+
+                $row[] = '<td><a href="javascript:void(0);" url="'.$url.'" class="btn-link theme-c master_opcion_'.$op_space2.'" id='.$aRow->id.'>'.$opcion_2.'</a></td>' ;
             }
 
 		    $output['aaData'][] = $row;

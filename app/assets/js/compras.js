@@ -1,15 +1,17 @@
 $(function() {
-    $(document).on('click', '#f_com_op',                    function() { f_com_op(this);         });
-    $(document).on('click', '#OpenModalPurchaseInfo',       function() { OpenModalPurchaseInfo(this); });
-    $(document).on('click', '#OpenModalPurchaseItemSerials',function() { OpenModalPurchaseItemSerials(this);    });
-    $(document).on('click', '#_edit_producto',       function() { _edit_producto(this); });
-    $(document).on('click', '#_add_producto',        function() {  _add_producto(this); });
-    $(document).on('click', '.return_compras',       function() { return_compras(this); });
+    $(document).on('click', '#f_com_op',                          function() { f_com_op(this);         });
+    $(document).on('click', '#OpenModalPurchaseInfo',             function() { OpenModalPurchaseInfo(this); });
+    $(document).on('click', '#OpenModalPurchaseItemSerials',      function() { OpenModalPurchaseItemSerials(this);    });
+    $(document).on('click', '#_edit_producto',                    function() { _edit_producto(this); });
+    $(document).on('click', '#_add_producto',                     function() { _add_producto(this); });
+     $(document).on("click","#print_code_producto",               function() { print_code_producto(this); })
+    $(document).on('click', '.return_compras',                    function() { return_compras(this); });
     $(document).on('submit'  ,'form[data-remote-PurchasePayment]',function(e){ SavePurchasePayment(e,this);  });
     $(document).on('dblclick','.EditPurchaseItemDetails' ,        function() { EditPurchaseItemDetails(this);  });
     $(document).on('blur' ,'.SaveEditPurchaseItemDetails',        function() { DisableEditPurchaseItemDetails(this); });
     $(document).on('enter','.SaveEditPurchaseItemDetails',        function(e){ SaveEditPurchaseItemDetails(e,this); });
     $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);});
+   
 
 });
 
@@ -22,6 +24,43 @@ function f_com_op()
         $(".dt-container").hide();
         $(".producto-container").hide();
         $(".form-panel").show();
+    });
+}
+
+function print_code_producto()
+{    
+     $id  = $("input[name='producto_id']").val();;
+
+    $.ajax({
+        type: "POST",
+        url: "admin/barcode/print_code",
+        data: { id: $id },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text)
+        {
+            if (data["success"] == true)
+            {
+                $("#print_barcode").barcode(
+                    data["codigo"],
+                    data["tipo"],
+                    {
+                        barWidth:data["ancho"],
+                        barHeight:data["alto"],
+                        fontSize:data["letra"]
+                    });   
+                $("#print_barcode").show();
+                $.print("#print_barcode");
+                $("#print_barcode").hide();
+            }
+            else
+            {
+                msg.warning('Hubo un error', 'Advertencia!')
+            }
+        },
+        error: function (request, status, error)
+        {
+            msg.error(request.responseText, 'Error!')
+        }
     });
 }
 

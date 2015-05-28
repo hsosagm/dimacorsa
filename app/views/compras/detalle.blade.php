@@ -11,7 +11,7 @@
 					Codigo: 
 					<i class="fa fa-pencil btn-link theme-c" style="margin-left:10px;" id="_edit_producto"></i>
 					<i class="fa fa-plus-square btn-link theme-c" id="_add_producto"></i>
-					<i class="fa fa-print btn-link theme-c"></i>
+					<i class="fa fa-print btn-link theme-c" id="print_code_producto" ></i>
 					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
 				</td>
 				<td>Cantidad:</td>
@@ -46,7 +46,9 @@
 	</div>
 </div>
 <div>
-	<div class="body-detail" >  </div>
+	<div class="body-detail" >  
+		@include('compras.detalle_body')
+	</div>
 </div>
 <div class="row">
 	<div class="col-md-8"> <textarea name="nota" cols="30" rows="2"></textarea></div>

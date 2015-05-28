@@ -37,53 +37,35 @@
 {{ Form::_submit('Enviar') }}
 
 {{ Form::close() }}
-
 <script>
 
-	$(function() {
-		$("#proveedor_id").autocomplete({
-			source: function (request, response) {
-				$.ajax({
-					url: "user/buscar_proveedor",
-					dataType: "json",
-					data: request,
-					success: function (data) {
-						response(data);
-					},
-					error: function () {
-						response([]);
-					}
-				});
-			},
-			minLength: 3,
-			select:function( data, ui ){
-				$("#proveedor_id_info").val(ui.item.id);
-				$(".search-proveedor-info").html('<strong>Direccion:  '+ui.item.descripcion+'</strong><br><strong>Contacto:   '+ui.item.value+'</strong>');
+	$("#proveedor_id").autocomplete({
+		serviceUrl: 'admin/proveedor/buscar',
+		onSelect: function (q) {
+			$("#proveedor_id_info").val(q.id);
+			$(".search-proveedor-info").html('<strong>Direccion:  '+q.value+'</strong><br>');
+			$proveedor_id = q.id;
 
-				$proveedor_id = ui.item.id;
+			$.ajax({
+				type: 'POST',
+				url: 'admin/proveedor/total_credito',
+				data: {proveedor_id:$proveedor_id},
+				success: function (data) 
+				{
+					$(".proveedor-credito").html('<strong>Saldo   Q: '+data+'</strong>');
+				},
+				error: function(errors)
+				{
+					msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+				}
+			});
 
-				$.ajax({
-					type: 'POST',
-					url: 'admin/proveedor/total_credito',
-					data: {proveedor_id:$proveedor_id},
-					success: function (data) 
-					{
-						$(".proveedor-credito").html('<strong>Saldo   Q: '+data+'</strong>');
-					},
-					error: function(errors)
-					{
-						msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-					}
-				});
-			},
-			autoFocus: true,
-			open: function(event, ui) {
-				$(".ui-autocomplete").css("z-index", 100000);
-			}
-		});
+			var position = $(this).index('input');
+			$("input, select").eq(position+1).select();
+		}
 	});
 
-	$('form[data-remote-md-info] input[name="fecha_documento"]').pickadate(
+ $('form[data-remote-md-info] input[name="fecha_documento"]').pickadate(
 	{
 		max: true,
 		disable: [7]
