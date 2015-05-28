@@ -176,3 +176,23 @@ function FinalizeSale(element, $id) {
         }
     });
 }
+
+
+function showSalesDetail(e) {
+
+    $id = $(e).closest('tr').attr('id');
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(nTr).after("<tr class='subtable hide'> <td colspan=8><div class='grid_detalle_factura'></div></td></tr>");
+
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/showSalesDetail",
+        data: { id: $id},
+        success: function (data) {
+            $('.grid_detalle_factura').html(data);
+            $(nTr).next('.subtable').fadeIn('slow');
+            alert(3);
+        }
+    });
+}

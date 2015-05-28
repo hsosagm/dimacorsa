@@ -96,32 +96,25 @@ class DatatablesController extends Controller {
 		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where,$url , $opcion1 , $opcion2 ,$others_columns , $pos_columns);
 	}
 
-	function SalesDay_dt(){
+	function SalesOfDay(){
 
 		$table = 'ventas';
 
-		$columns = array("numero_documento","completed","saldo");
+		$columns = array(
+			"ventas.created_at as fecha", 
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"numero_documento","completed",
+			"saldo"
+		);
 
-		$Searchable = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
+		$Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')";
 
-		$opcion1 = "Ver Detalle";
-
-		$opcion2 = 'Ver Factura';
-
-		$others_columns = array(
-			"ventas.created_at as fecha",
-			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente_nombre");
-		
-		$pos_columns = 1;
-
-		$url = null;
-
-		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where,$url , $opcion1 , $opcion2 ,$others_columns , $pos_columns);	
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );	
 	}
 	 			
 	function PurchaseDay_dt(){

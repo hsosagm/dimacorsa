@@ -264,4 +264,10 @@ class VentasController extends \BaseController {
 		return View::make('ventas.SalesDay');
 	}
 
+
+	public function showSalesDetail()
+	{
+		return 22;
+	}
+
 }

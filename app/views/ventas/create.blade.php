@@ -46,9 +46,4 @@
             $("input, select").eq(position+1).select();
         }
     });
-
-    // $('#cliente_id').blur(function(){
-    //     $('div.autocomplete-suggestions').hide();
-    // });
-
 </script>

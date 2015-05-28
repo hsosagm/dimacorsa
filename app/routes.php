@@ -36,7 +36,7 @@
             Route::get('proveedores'    , 'DatatablesController@proveedores'    );
             Route::get('users'          , 'DatatablesController@users');
             Route::get('/'                  , 'DatatablesController@index');
-            Route::get('SalesDay_dt'        , 'DatatablesController@SalesDay_dt');
+            Route::get('SalesOfDay'        , 'DatatablesController@SalesOfDay');
             Route::get('SupportDay_dt'      , 'DatatablesController@SupportDay_dt');
             Route::get('ExpensesDay_dt'     , 'DatatablesController@ExpensesDay_dt');
             Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt');
@@ -119,6 +119,7 @@
             Route::post('FinalizeSale', 'VentasController@FinalizeSale');
             Route::get('OpenModalSalesPayments', 'VentasController@OpenModalSalesPayments');
             Route::get('OpenTableSalesDay', 'VentasController@OpenTableSalesDay');
+            Route::get('showSalesDetail', 'VentasController@showSalesDetail');
 
         });
 

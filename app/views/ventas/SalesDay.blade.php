@@ -15,14 +15,18 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Vendedor",    "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Cliente",     "aTargets": [2]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [3]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Ver Detalle", "aTargets": [6]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Ver Factura", "aTargets": [7]},
+            {"sClass": "widthM",   "sTitle": "Fecha",      "aTargets": [0]},
+            {"sClass": "widthM",   "sTitle": "Vendedor",   "aTargets": [1]},
+            {"sClass": "widthM",   "sTitle": "Cliente",    "aTargets": [2]},
+            {"sClass": "widthS",   "sTitle": "Factura",    "aTargets": [3]},
+            {"sClass": "widthS",   "sTitle": "Total",      "aTargets": [4]},
+            {"sClass": "widthS",   "sTitle": "Saldo",      "aTargets": [5]},
+            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
+                "orderable": false,
+                "mRender": function() {
+                    return ' <button class="fa fa-plus-square" onclick="showSalesDetail(this)"></button> ';
+                }
+            }
         ],
 
         "fnDrawCallback": function( oSettings ) {
@@ -32,7 +36,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/SalesDay_dt"
+        "sAjaxSource": "user/datatables/SalesOfDay"
     });
 
 });

@@ -17,7 +17,7 @@ $(function() {
 //   $('input').attr('autocomplete','off');
 // });
 
-$( document ).ajaxError(function( event, request, settings ) {
+$( document ).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     $.ajax(this);
 });
 
