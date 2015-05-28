@@ -107,7 +107,7 @@ class DatatablesController extends Controller {
 		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where,$url , $opcion1 , $opcion2 ,$others_columns , $pos_columns);
 	}
 
-<<<<<<< HEAD
+
 	public function Purchase_dt()
 	{
 
@@ -136,10 +136,7 @@ class DatatablesController extends Controller {
 		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where,$url , $opcion1 , $opcion2 ,$others_columns , $pos_columns);
 	}
 
-	function SalesDay_dt(){
-=======
 	function SalesOfDay(){
->>>>>>> 016d7a6e0d0598d7f7eeb1bcd972cf07d9e176f5
 
 		$table = 'ventas';
 

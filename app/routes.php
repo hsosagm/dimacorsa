@@ -43,6 +43,7 @@
             Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt' );
             Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt'       );
             Route::get('AdvancesDay_dt'     , 'DatatablesController@AdvancesDay_dt'     );
+
             Route::get('md_search'      , 'InventarioController@md_search');
             Route::get('md_datatables'  , 'DatatablesController@md_search');
             Route::get('user_inventario', 'InventarioController@user_inventario');
@@ -50,13 +51,16 @@
             Route::get('proveedores'    , 'DatatablesController@proveedores'    );
             Route::get('users'          , 'DatatablesController@users');
             Route::get('/'                  , 'DatatablesController@index');
-            Route::get('SalesOfDay'        , 'DatatablesController@SalesOfDay');
+            Route::get('SalesOfDay'         , 'DatatablesController@SalesOfDay');
             Route::get('SupportDay_dt'      , 'DatatablesController@SupportDay_dt');
             Route::get('ExpensesDay_dt'     , 'DatatablesController@ExpensesDay_dt');
             Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt');
             Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt');
+
             Route::get('AdvancesDay_dt'       , 'DatatablesController@AdvancesDay_dt');
 
+
+            Route::get('AdvancesDay_dt'     , 'DatatablesController@AdvancesDay_dt');
         });
 
         Route::group(array('prefix' => 'cliente'), function()
@@ -311,16 +315,12 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
-  /* $producto = Producto::where('id','>=',1003000)->where('id','<',1004000);
+ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
+            ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
+            ->orderBy('roles.id', 'DESC')->get();
 
-   foreach ($producto as $key => $value) 
-   {
-        $exist = new Existencia;
-        $exist->tienda_id = Auth::user()->tienda_id;
-        $exist->existencia = 0.00 ;
-        $exist->producto_id =$value->id;  
-        $exist->save();   
-   }*/
+return $assigned;
+
 
 });
 
