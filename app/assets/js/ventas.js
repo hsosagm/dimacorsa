@@ -191,8 +191,7 @@ function showSalesDetail(e) {
         data: { id: $id},
         success: function (data) {
             $('.grid_detalle_factura').html(data);
-            $(nTr).next('.subtable').fadeIn('slow');
-            alert(3);
+            $(nTr).next('.subtable').slideDown('slow'); 
         }
     });
 }

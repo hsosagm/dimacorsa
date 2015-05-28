@@ -267,7 +267,20 @@ class VentasController extends \BaseController {
 
 	public function showSalesDetail()
 	{
-		return 22;
+		 echo  "<table class='table display' id='example'>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Vendedor</th>
+                    <th>Cliente</th>
+                    <th>Factura</th>
+                    <th class='hide'>idcliente</th> 
+                    <th>Total</th>
+                    <th>Saldo</th>
+                    <th>Ver detalle</th>
+                    <th>Ver factura</th>
+                </tr>
+            </thead>";
 	}
 
 }
