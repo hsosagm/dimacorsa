@@ -181,3 +181,11 @@ table.dataTable tfoot th, table.dataTable thead th {
 table {
     width: 100%;
 }
+
+.icons {
+  text-align: center;
+}
+
+.link-icon {
+  padding-right: 6%;
+}

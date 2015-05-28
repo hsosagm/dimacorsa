@@ -164,18 +164,19 @@ module.exports = function(grunt) {
                 './app/assets/js/master-detail.js',
                 './app/assets/js/consultas.js',
                 './app/assets/js/cierre.js',
-                './app/assets/js/cierre.js',
                 './app/assets/js/codigobarras.js',
                 './app/assets/js/master-consultas.js',
               ],
-              dest: './public/js/custom.js',
-               src: [
-                './app/assets/proveedor/js/*',
-              ],
-              dest: './public/js/proveedor.js'
+              dest: './public/js/custom.js'
             },
-          },
-
+            prov: {
+                src: [
+                    './app/assets/proveedor/js/*',
+                  ],
+                  dest: './public/js/proveedor.js'
+                },
+            },
+          
         // copy ressources such as fonts, files, images, required by assets to the public directory
         copy : {
             fonts: {

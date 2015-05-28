@@ -3,7 +3,7 @@
 
 class TableSearch {
 
-    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null ,$table_two="") {
+    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null ) {
 
         $sLimit = "";
 
@@ -11,8 +11,20 @@ class TableSearch {
         {
             $sLimit = "LIMIT ".intval( $_GET['iDisplayStart'] ).", ".intval( $_GET['iDisplayLength'] );
         }
-        
+
         $sOrder = "";
+
+        foreach ($columns as $q)
+        {
+            if (strpos($q,' as ') == true)
+            {
+                $clean_columns[] = trim(substr($q, strrpos($q, ' as ') +4 ));
+            }
+            else
+            {
+                $clean_columns[] = $q;
+            }
+        }
 
         if ( isset( $_GET['iSortCol_0'] ) )
         {
@@ -20,7 +32,7 @@ class TableSearch {
             for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ ) {
                 if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" ) {
                     $sortDir = (strcasecmp($_GET['sSortDir_'.$i], 'ASC') == 0) ? 'ASC' : 'DESC';
-                    $sOrder .= "`".$columns[ intval( $_GET['iSortCol_'.$i] ) ]."` ". $sortDir .", ";
+                    $sOrder .= "`".$clean_columns[ intval( $_GET['iSortCol_'.$i] ) ]."` ". $sortDir .", ";
                 }
             }
             
@@ -31,7 +43,7 @@ class TableSearch {
                 $sOrder = "";
             }
         }
-        
+
         $sSearch = str_replace("'"," ", $_GET['sSearch']);
         $sSearch = ltrim($sSearch);
 
@@ -66,44 +78,32 @@ class TableSearch {
             $sWhere .= ')'.$sAnd;
         }
 
-        $table_two_full = "";
 
-        if ($table_two != "") 
-        {
-            $table_two_full = " , ".$table_two;
-        }
-
-        $productos = DB::select("SELECT SQL_CALC_FOUND_ROWS `".str_replace(" , ", " ", implode("`, `", $columns))."`,
-        	         $table.id as id $table_two_full FROM $table $sJoin $sWhere $sOrder $sLimit") ;
+        $productos = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
+                     $table.id as id  FROM $table $sJoin $sWhere $sOrder $sLimit") ;
 
         $Found_Rows = DB::select('SELECT FOUND_ROWS() as num_rows');
 
-		$output = array(
-		    "sEcho" => intval($_GET['sEcho']),
-		    "iTotalRecords" => DB::table($table)->count(),
-		    "iTotalDisplayRecords" => intval($Found_Rows[0]->num_rows),
-		    "aaData" => array()
-		);
+        $output = array(
+            "sEcho" => intval($_GET['sEcho']),
+            "iTotalRecords" => DB::table($table)->count(),
+            "iTotalDisplayRecords" => intval($Found_Rows[0]->num_rows),
+            "aaData" => array()
+        );
 
-		foreach($productos as $aRow) {
+        foreach($productos as $aRow) {
 
-		    $row = array();
+            $row = array();
             $bandera = 0 ;
-		    for ( $i = 0; $i < count($columns); $i++ ) {
+            for ( $i = 0; $i < count($clean_columns); $i++ ) {
                 $row['DT_RowId'] = $aRow->id;
-		        $row[] = $aRow->$columns[$i];
+                $row[] = $aRow->$clean_columns[$i];
                 $bandera = 1;
-		    }
-
-            if($table_two!="" && $bandera == 1)
-            {
-                $colum_two = explode(" ", $table_two);
-                $row[] =$aRow->$colum_two[2];
             }
 
-		    $output['aaData'][] = $row;
-		}
-		
-		return json_encode( $output );
+            $output['aaData'][] = $row;
+        }
+        
+        return json_encode( $output );
     }
 }

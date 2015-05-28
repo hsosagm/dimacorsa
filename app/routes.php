@@ -29,6 +29,7 @@
     {
         Route::group(array('prefix' => 'datatables'),function() 
         {
+<<<<<<< HEAD
             Route::get('md_search'          , 'InventarioController@md_search'          );
             Route::get('md_datatables'      , 'DatatablesController@md_search'          );
             Route::get('user_inventario'    , 'InventarioController@user_inventario'    );
@@ -43,6 +44,21 @@
             Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt' );
             Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt'       );
             Route::get('AdvancesDay_dt'     , 'DatatablesController@AdvancesDay_dt'     );
+=======
+            Route::get('md_search'      , 'InventarioController@md_search');
+            Route::get('md_datatables'  , 'DatatablesController@md_search');
+            Route::get('user_inventario', 'InventarioController@user_inventario');
+            Route::get('user_datatables', 'DatatablesController@user_inventario');
+            Route::get('proveedores'    , 'DatatablesController@proveedores'    );
+            Route::get('users'          , 'DatatablesController@users');
+            Route::get('/'                  , 'DatatablesController@index');
+            Route::get('SalesOfDay'        , 'DatatablesController@SalesOfDay');
+            Route::get('SupportDay_dt'      , 'DatatablesController@SupportDay_dt');
+            Route::get('ExpensesDay_dt'     , 'DatatablesController@ExpensesDay_dt');
+            Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt');
+            Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt');
+            Route::get('AdvancesDay_dt'       , 'DatatablesController@AdvancesDay_dt');
+>>>>>>> 016d7a6e0d0598d7f7eeb1bcd972cf07d9e176f5
 
         });
 
@@ -126,6 +142,7 @@
             Route::post('FinalizeSale', 'VentasController@FinalizeSale');
             Route::get('OpenModalSalesPayments', 'VentasController@OpenModalSalesPayments');
             Route::get('OpenTableSalesDay', 'VentasController@OpenTableSalesDay');
+            Route::get('showSalesDetail', 'VentasController@showSalesDetail');
 
         });
 
