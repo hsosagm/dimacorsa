@@ -54,6 +54,7 @@
             <i class="fa fa-angle-up"></i>
         </div>
 
+<script src="js/main.js"></script>
 <script src="js/proveedor.js"></script>
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>
@@ -98,48 +99,31 @@
 
  <script>
 
- $(function() {
-        $("#ProviderFinder").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "user/buscar_proveedor",
-                    dataType: "json",
-                    data: request,
-                    success: function (data) {
-                        response(data);
-                    },
-                    error: function () {
-                        response([]);
-                    }
-                });
-            },
-            minLength: 3,
-            select:function( data, ui ){
-                $("input[name='proveedor_id']").val(ui.item.id);
+      $("#ProviderFinder").autocomplete({
+        serviceUrl: 'admin/proveedor/buscar',
+        onSelect: function (q) {
+            $("input[name='proveedor_id']").val(q.id);
+            $proveedor_id = q.id;
 
-                $proveedor_id = ui.item.id;
+            $.ajax({
+                type: 'POST',
+                url: 'admin/proveedor/total_credito',
+                data: {proveedor_id:$proveedor_id},
+                success: function (data) 
+                {
+                    $("#InformationProviderSearches").html(q.value+'  Saldo   Q: '+data);
+                },
+                error: function(errors)
+                {
+                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+                }
+            });
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'admin/proveedor/total_credito',
-                    data: {proveedor_id:$proveedor_id},
-                    success: function (data) 
-                    {
-                        $("#InformationProviderSearches").html(ui.item.value+'  Saldo   Q: '+data);
-                    },
-                    error: function(errors)
-                    {
-                        msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-                    }
-                });
-            },
-            autoFocus: true,
-            open: function(event, ui) {
-                $(".ui-autocomplete").css("z-index", 100000);
-            }
-        });
+            var position = $(this).index('input');
+            $("input, select").eq(position+1).select();
+        }
     });
-
+    
 </script>
 
     </body>

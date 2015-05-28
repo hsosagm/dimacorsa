@@ -1,18 +1,59 @@
 
-{{ Form::_open("Cliente ingresado") }}
-    
-    {{ Form::_text('nombre') }}
+ <div class="cliente-body-info">
+    {{ Form::open(array('data-remote-cliente','method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
 
-    {{ Form::_text('apellido') }}
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input class="form-control" name="nombre" value="" placeholder="Nombre" type="text">
+        </div>
+    </div>
+ 
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input class="form-control" name="apellido" value="" placeholder="Apellido" type="text">
+        </div>
+    </div>
 
-    {{ Form::_text('direccion') }}
-  
-    {{ Form::_text('telefono') }}
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input class="form-control" name="direccion" value="" placeholder="Direccion" type="text">
+        </div>
+    </div>
 
-    {{ Form::_text('nit') }}
+    <div class="form-group">
+        <div class="col-sm-12">
+          <input class="form-control" name="nit" value="" placeholder="Nit" type="text">
+      </div>
+    </div>
 
-    {{ Form::_text('email') }}
+    <div class="form-group">
+        <div class="col-sm-12">
+          <input class="form-control"  name="telefono" value="" placeholder="Telefono" type="text">
+        </div>
+    </div>
 
-    {{ Form::_submit('Enviar') }}
+    <div class="form-group">
+        <div class="col-sm-12">
+          <input class="form-control"  name="email" value="" placeholder="Correo" type="text">
+        </div>
+    </div>
 
+    <div style="" class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
+        <input class="btn theme-button" value="Guardar!" type="submit">
+    </div>
+<br>
 {{ Form::close() }}
+
+</div>
+
+<style type="text/css">
+
+    .bs-modal .Lightbox{
+        width: 550px !important;
+    }
+    .modal-body {
+    	 height: 350px !important;
+    }
+
+</style>

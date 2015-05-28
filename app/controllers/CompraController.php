@@ -39,6 +39,11 @@ class CompraController extends \BaseController {
 	{
 		return View::make('compras.PurchaseDay');
 	}
+
+	public function ShowTableUnpaidShopping()
+	{
+		return View::make('compras.ComprasPendientesDePago');
+	}
 	
 	public function AbrirCompraNoCompletada()
 	{

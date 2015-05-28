@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableProveedorContactos extends Migration {
+class CreateTableClienteContacto extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateTableProveedorContactos extends Migration {
 	 */
 	public function up()
 	{
-	 	Schema::create('proveedor_contacto', function(Blueprint $table)
+	 	Schema::create('cliente_contacto', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('proveedor_id')->unsigned();
+			$table->integer('cliente_id')->unsigned();
 			$table->string('nombre');
 			$table->string('apellido');
 			$table->string('direccion');
@@ -27,8 +27,7 @@ class CreateTableProveedorContactos extends Migration {
 			$table->integer('preferido');
 			$table->timestamps();
 
-			
-			$table->foreign('proveedor_id')->references('id')->on('proveedores')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade')->onUpdate('cascade');
 		}); 
 	}
 
@@ -39,7 +38,7 @@ class CreateTableProveedorContactos extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('proveedor_contacto');
+		Schema::drop('cliente_contacto');
 	}
 
 }

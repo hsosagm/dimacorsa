@@ -51,6 +51,17 @@ class DatatablesController extends Controller {
 		echo TableSearch::get($table, $columns, $Searchable);
 	}
 
+	public function clientes()
+	{
+		$table = 'clientes';
+
+		$columns = array("nombre","direccion","telefono","nit");
+
+		$Searchable = array("nombre","direccion","telefono");
+
+		echo TableSearch::get($table, $columns, $Searchable);
+	}
+
 	public function user_inventario()
 	{
 		$table = 'productos';
@@ -61,14 +72,14 @@ class DatatablesController extends Controller {
 		
 		$Join = 'JOIN marcas ON productos.marca_id = marcas.id  Join  existencias ON productos.id = existencias.producto_id ';
 
-		$where = "tienda_id = ".Auth::user()->tienda_id;
+		$where = "tienda_id = ".Auth::user()->tienda_id.' AND productos.existencia > 0';
 
 		$table_two = "existencias.existencia as existencia";
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join ,$where , $table_two);
 	}
 
-	public function Purchase_dt()
+	public function ComprasPendientesDePago()
 	{
 
 		$table = 'compras';
@@ -79,7 +90,7 @@ class DatatablesController extends Controller {
 
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 
-		$where = null;
+		$where = " proveedor_id = ".Input::get('proveedor_id')." AND saldo > 0";
 
 		$opcion1 = "Ver Detalle";
 
@@ -96,7 +107,39 @@ class DatatablesController extends Controller {
 		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where,$url , $opcion1 , $opcion2 ,$others_columns , $pos_columns);
 	}
 
+<<<<<<< HEAD
+	public function Purchase_dt()
+	{
+
+		$table = 'compras';
+
+		$columns = array("fecha_documento","numero_documento","completed","saldo");
+
+		$Searchable = array("users.nombre","users.apellido","fecha_documento","numero_documento");
+
+		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
+
+		$where = " proveedor_id = ".Input::get('proveedor_id');
+
+		$opcion1 = "Ver Detalle";
+
+		$opcion2 = "Ver Factura";
+
+		$others_columns = array(
+			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+			'proveedores.nombre as proveedor_nombre');
+		
+		$pos_columns = 1;
+
+		$url = null;
+
+		echo TableSearchMaster::get($table, $columns, $Searchable, $Join, $where,$url , $opcion1 , $opcion2 ,$others_columns , $pos_columns);
+	}
+
+	function SalesDay_dt(){
+=======
 	function SalesOfDay(){
+>>>>>>> 016d7a6e0d0598d7f7eeb1bcd972cf07d9e176f5
 
 		$table = 'ventas';
 

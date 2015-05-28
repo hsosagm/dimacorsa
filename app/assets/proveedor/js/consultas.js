@@ -14,15 +14,45 @@
 //muestra tabla con todas las compras del proveedor
 function ShowHistoryTableShopping ()
 {
-	$.get( "admin/compras/ConsultPurchase", function( data ) {
-        makeTable(data, '', 'Producto');
-    });
+    $id = $("input[name='proveedor_id']").val();
+
+    if($id > 0)
+    {
+        $.ajax({
+            type: "GET",
+            url: "admin/compras/ConsultPurchase",
+            data: {proveedor_id: $id},
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                 makeTable(data, '', 'Compras');
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
 }
 
 //muestra tabla con todas las copras pendientes de pago
 function ShowTableUnpaidShopping ()
 {
+    $id = $("input[name='proveedor_id']").val();
 
+    if($id > 0)
+    {
+        $.ajax({
+            type: "GET",
+            url: "admin/compras/ShowTableUnpaidShopping",
+            data: {proveedor_id: $id},
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                 makeTable(data, '', 'Compras');
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
 }
 
 //muestra tabla de todos los pagos

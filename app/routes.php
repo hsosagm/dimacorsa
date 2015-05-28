@@ -1,5 +1,5 @@
 <?php
-
+ 
 /* 
     funciones para hacer el guardado de logs
     /*******************************************************************************/
@@ -29,6 +29,20 @@
     {
         Route::group(array('prefix' => 'datatables'),function() 
         {
+            Route::get('md_search'          , 'InventarioController@md_search'          );
+            Route::get('md_datatables'      , 'DatatablesController@md_search'          );
+            Route::get('user_inventario'    , 'InventarioController@user_inventario'    );
+            Route::get('user_datatables'    , 'DatatablesController@user_inventario'    );
+            Route::get('proveedores'        , 'DatatablesController@proveedores'        );
+            Route::get('clientes'           , 'DatatablesController@clientes'           );
+            Route::get('users'              , 'DatatablesController@users'              );
+            Route::get('/'                  , 'DatatablesController@index'              );
+            Route::get('SalesDay_dt'        , 'DatatablesController@SalesDay_dt'        );
+            Route::get('SupportDay_dt'      , 'DatatablesController@SupportDay_dt'      );
+            Route::get('ExpensesDay_dt'     , 'DatatablesController@ExpensesDay_dt'     );
+            Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt' );
+            Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt'       );
+            Route::get('AdvancesDay_dt'     , 'DatatablesController@AdvancesDay_dt'     );
             Route::get('md_search'      , 'InventarioController@md_search');
             Route::get('md_datatables'  , 'DatatablesController@md_search');
             Route::get('user_inventario', 'InventarioController@user_inventario');
@@ -47,10 +61,16 @@
 
         Route::group(array('prefix' => 'cliente'), function()
         {
-            Route::get('buscar' , 'ClienteController@search');
-            Route::get('create' , 'ClienteController@create');
-            Route::post('create', 'ClienteController@create');
-            Route::post('edit'  , 'ClienteController@edit'  );
+            Route::get('buscar'            , 'ClienteController@search');
+            Route::get('index'             , 'ClienteController@index');
+            Route::get('create'            , 'ClienteController@create');
+            Route::post('create'           , 'ClienteController@create');
+            Route::post('edit'             , 'ClienteController@edit'  );
+            Route::get('info'              , 'ClienteController@info'  );
+            Route::post('contacto_create'  , 'ClienteController@contacto_create');
+            Route::get('contacto_nuevo'    , 'ClienteController@contacto_nuevo' );
+            Route::post('contacto_update'  , 'ClienteController@contacto_update');
+            Route::post('contacto_info'    , 'ClienteController@contacto_info'  );
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -137,10 +157,11 @@ Route::group(array('prefix' => 'admin'), function()
  
     Route::group(array('prefix' => 'datatables'),function() 
     {
-        Route::get('inventario_dt'     , 'InventarioController@inventario_dt');
-        Route::get('Purchase_dt'       , 'DatatablesController@Purchase_dt');
-        Route::get('PurchaseUnpaid_dt' , 'DatatablesController@PurchaseUnpaid_dt');
-        Route::get('PurchaseDay_dt'    , 'DatatablesController@PurchaseDay_dt');
+        Route::get('inventario_dt'              , 'InventarioController@inventario_dt');
+        Route::get('Purchase_dt'                , 'DatatablesController@Purchase_dt');
+        Route::get('PurchaseUnpaid_dt'          , 'DatatablesController@PurchaseUnpaid_dt');
+        Route::get('PurchaseDay_dt'             , 'DatatablesController@PurchaseDay_dt');
+        Route::get('ComprasPendientesDePago'    , 'DatatablesController@ComprasPendientesDePago');
     });
 
     Route::group(array('prefix' => 'cierre'),function() 
@@ -166,24 +187,27 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'proveedor'), function()
     {
-        Route::get('buscar' , 'ProveedorController@search');
-        Route::get('index'  , 'ProveedorController@index' );
-        Route::get('create' , 'ProveedorController@create');
-        Route::get('help'   , 'ProveedorController@help'  );
-        Route::post('edit'  , 'ProveedorController@edit'  );
-        Route::post('create', 'ProveedorController@create');
-        Route::post('delete', 'ProveedorController@delete');
-        Route::post('contacto_create', 'ProveedorController@contacto_create');
-        Route::get('contacto_nuevo'  , 'ProveedorController@contacto_nuevo' );
-        Route::post('contacto_update', 'ProveedorController@contacto_update');
-        Route::post('contacto_info'  , 'ProveedorController@contacto_info'  );
-        Route::post('total_credito'  , 'ProveedorController@TotalCredito'   );
+        Route::get('buscar'               , 'ProveedorController@search');
+        Route::get('index'                , 'ProveedorController@index' );
+        Route::get('create'               , 'ProveedorController@create');
+        Route::get('help'                 , 'ProveedorController@help'  );
+        Route::post('edit'                , 'ProveedorController@edit'  );
+        Route::post('create'              , 'ProveedorController@create');
+        Route::post('delete'              , 'ProveedorController@delete');
+        Route::post('contacto_create'     , 'ProveedorController@contacto_create');
+        Route::get('contacto_nuevo'       , 'ProveedorController@contacto_nuevo' );
+        Route::post('contacto_update'     , 'ProveedorController@contacto_update');
+        Route::post('contacto_info'       , 'ProveedorController@contacto_info'  );
+        Route::post('total_credito'       , 'ProveedorController@TotalCredito'   );
         Route::get('ShowModalPaySupplier' , 'ProveedorController@ShowModalPaySupplier'  );
         Route::post('OverdueBalancePay'   , 'ProveedorController@OverdueBalancePay'  );
         Route::post('DeleteBalancePay'    , 'ProveedorController@DeleteBalancePay'  );
         Route::post('FullBalancePay'      , 'ProveedorController@FullBalancePay'  );
-        Route::post('PartialBalancePay'      , 'ProveedorController@PartialBalancePay'  );
-
+        Route::post('PartialBalancePay'   , 'ProveedorController@PartialBalancePay'  );
+        Route::get('AbonarCompra'         , 'ProveedorController@AbonarCompra');
+        Route::post('AbonarCompra'        , 'ProveedorController@AbonarCompra');
+        Route::post('EliminarAbonoCompra' , 'ProveedorController@EliminarAbonoCompra');
+        Route::post('EliminarDetalleAbono', 'ProveedorController@EliminarDetalleAbono');
     });
 
     Route::group(array('prefix' => 'compras'), function()
@@ -206,6 +230,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('DeletePurchasePaymentItem'  , 'CompraController@DeletePurchasePaymentItem'   );
         Route::get('ConsultPurchase'             , 'CompraController@ConsultPurchase');
         Route::get('OpenTablePurchaseDay'        , 'CompraController@OpenTablePurchaseDay');
+        Route::get('ShowTableUnpaidShopping'     , 'CompraController@ShowTableUnpaidShopping');
 
     });
 
@@ -286,8 +311,17 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
-   // return Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
-    return Autocomplete::get('proveedores', array('id', 'nombre','direccion'));
+  /* $producto = Producto::where('id','>=',1003000)->where('id','<',1004000);
+
+   foreach ($producto as $key => $value) 
+   {
+        $exist = new Existencia;
+        $exist->tienda_id = Auth::user()->tienda_id;
+        $exist->existencia = 0.00 ;
+        $exist->producto_id =$value->id;  
+        $exist->save();   
+   }*/
+
 });
 
 

@@ -271,3 +271,4 @@ function proveedor_update(e,element)
      e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
 }
+ 
