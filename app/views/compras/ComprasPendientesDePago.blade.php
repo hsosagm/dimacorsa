@@ -22,7 +22,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Ver Detalle", "aTargets": [6]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Cancelar",      "aTargets": [7]},
+            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Abonar",      "aTargets": [7]},
         ],
 
         "fnDrawCallback": function( oSettings ) {
@@ -32,7 +32,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/datatables/Purchase_dt?proveedor_id={{Input::get('proveedor_id')}}"
+        "sAjaxSource": "admin/datatables/ComprasPendientesDePago?proveedor_id={{Input::get('proveedor_id')}}"
     });
 
 });

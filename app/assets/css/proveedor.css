@@ -114,3 +114,39 @@
 #tab-proveedor-contacto {
 	width: 220px !important;
 }
+
+.cliente-body-info
+{
+	height: 270px;
+}
+
+ .cliente_tabs input[type="text"]{
+	border :solid 1px #F3F3F3;
+	color: #000000 !important;
+}
+
+.form-cliente {
+	padding-left: 10px;
+}
+
+.info-cliente  table tr td input {
+	width: 350px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.info-cliente  table tr td input[type="checkbox"]{
+	width: 10px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.info-cliente hr, h3{
+	padding:0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	text-align: center;
+ }
+
+ .info-cliente table tr td {
+ 	background: #FFFFFF !important
+ }

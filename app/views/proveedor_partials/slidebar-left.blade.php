@@ -5,7 +5,11 @@
         <a href="javascript:void(0);" class="close">&times;</a>
         <div class="media">
             <div class="media-body">
-                <h4 class="media-heading"><span>Click</span></h4>
+                <h4 class="media-heading">
+                <span>
+                     <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
+                    {{$tienda->nombre}}
+                </span></h4>
                 <small>Tecnologia Moderna</small>
             </div>
         </div>

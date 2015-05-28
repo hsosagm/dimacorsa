@@ -1,3 +1,4 @@
+<br>
  <div class="proveedor-body-info">
     {{ Form::open(array('data-remote-proveedor','data-success' => 'Perfil Actualizado','url' => 'user/profile', 'method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
 

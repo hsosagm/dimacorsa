@@ -1,5 +1,5 @@
 <?php
-
+ 
 class ProveedorController extends BaseController {
 
     public function search()
@@ -14,7 +14,7 @@ class ProveedorController extends BaseController {
             $proveedor = new Proveedor;
 
             if (!$proveedor->_create())
-            {
+            { 
                 return $proveedor->errors();
             }
 
@@ -134,6 +134,105 @@ class ProveedorController extends BaseController {
         ->where('saldo','>', 0 )->first();
 
         return $total->total;
+    }
+
+    public function AbonarCompra()
+    {
+        $compra = Compra::find(Input::get('compra_id'));
+        $abono = AbonosCompra::find(Input::get('abonos_compra_id'));
+
+        if (Input::has('_token'))
+        {
+            if ($this->BuscarMetodoDePago() != null ) 
+                return 'no puede ingresar dos Abonos con el mismo metodo..!';
+
+            if($compra->saldo < Input::get("monto") || Input::get("monto") == 0)
+                return 'El moto ingresado no puede ser mayor al monto Restante..!';
+
+            $detalle_abono = new DetalleAbonosCompra;
+
+            if (!$detalle_abono->_create()) 
+            {
+                return $detalle_abono->errors();
+            }
+           
+            $abono->total = $abono->total + Input::get('monto');
+            $total_abonos = $abono->total;
+            $abono->save();
+
+            $compra->saldo = $compra->saldo - Input::get('monto');
+            $total_compra = $compra->saldo;
+            $compra->save();
+
+            $abono_id = Input::get('abonos_compra_id');
+            $det_abonos = $this->BuscaDetalleAbonosCompra($abono_id);
+
+            return Response::json(array(
+                'success' => true,
+                 'detalle' =>  View::make('compras.abonar',compact('abono_id','total_compra','total_abonos','det_abonos'))->render()
+            )); 
+
+        }
+
+        $abono_id = $this->CrearAbonoCompra();
+        $total_compra = $compra->saldo;
+
+        return Response::json(array(
+                'success' => true,
+                 'detalle' =>  View::make('compras.abonar',compact('abono_id','total_compra'))->render()
+        )); 
+        
+    }
+
+    public function EliminarDetalleAbono()
+    {
+        $detalle = DetalleAbonosCompra::find(Input::get('id'));
+        $abono   = AbonosCompra::find($detalle->abonos_compra_id);
+        $compra  = Compra::find(Input::get('compra_id'));
+
+        $total_compra = $compra->saldo + $detalle->monto;
+        $compra->saldo = $total_compra;
+        $compra->save();
+        
+        $total_abonos = $abono->total - $detalle->monto;
+        $abono->total = $total_abonos;
+        $abono->save() ;
+
+        $detalle->delete();
+        $abono_id = $abono->id;
+        $det_abonos = $this->BuscaDetalleAbonosCompra($abono_id);
+
+         return Response::json(array(
+            'success' => true,
+            'detalle' =>  View::make('compras.abonar',compact('abono_id','total_compra','total_abonos','det_abonos'))->render()
+        )); 
+    }
+
+    public function EliminarAbonoCompra()
+    {   
+
+        $detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('id'))->get();
+
+        foreach ($detalle as $key => $val) 
+        {
+            $compra = Compra::find($val->compra_id);
+            $compra->saldo = $compra->saldo + $val->monto;
+            $compra->save();
+        }
+
+        AbonosCompra::destroy(Input::get('id'));
+
+        return 'success';
+    }
+
+    public function CrearAbonoCompra()
+    {
+        $abono = new AbonosCompra;
+        $abono->user_id = Auth::user()->id;
+        $abono->proveedor_id = Input::get('proveedor_id');
+        $abono->save();
+
+        return $abono->id;
     }
 
     public function ShowModalPaySupplier()
@@ -345,4 +444,21 @@ class ProveedorController extends BaseController {
 
         return $query;
     }
+
+    //funcion para verificar si ya se ingreso un abono con ese metodo
+    public function BuscarMetodoDePago()
+    {
+        $query = DetalleAbonosCompra::where('abonos_compra_id','=', Input::get('abonos_compra_id'))
+        ->where('metodo_pago_id','=', Input::get('metodo_pago_id'))
+        ->first();
+
+        return $query;
+    }
+
+    public  function BuscaDetalleAbonosCompra($abono_id)
+    {
+        $pagos = DetalleAbonosCompra::where('abonos_compra_id','=',$abono_id)->get();
+        return $pagos;
+    }
 }
+
