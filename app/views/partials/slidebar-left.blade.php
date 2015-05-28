@@ -26,15 +26,20 @@
                 <span class="selected"></span>
             </a>
         </li>
-        <!--/ End navigation - dashboard -->
 
-       
-        
+        <?php 
+            $assigned = Assigned_roles::where('user_id', Auth::user()->id)
+            ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
+            ->orderBy('roles.id', 'DESC')->get();
+        ?>
 
-        
+        @foreach (@$assigned as $roles)
+            
+        @include('partials.'.strtolower(@$roles->name))
+
+        @endforeach
 
 
-       
 
     </ul><!-- /.sidebar-menu -->
     <!--/ End left navigation - menu -->
