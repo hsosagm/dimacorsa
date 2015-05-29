@@ -1,6 +1,6 @@
 <table class="DT_table_div" width="100%">
 
-    <tr class="DT_table_div_detail">
+    <tr>
         <td class="center" width="10%">Cantidad</td>
         <td class="center" width="70%">Descripcion</td>
         <td class="center" width="10%">Precio</td>

@@ -24,7 +24,7 @@ $(document).ready(function() {
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                    return '<a href="javascript:void(0);" onclick="showSalesDetail(this)" class="fa fa-plus-square  show_detail">';
+                    return '<a href="javascript:void(0);" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
                 }
             }
         ],
