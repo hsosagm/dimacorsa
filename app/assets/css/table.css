@@ -224,3 +224,12 @@ table {
   color: #E84D4D !important;
   font-size: 14px;
 }
+
+.subtable {
+  display: none;
+}
+
+.grid_detalle_factura {
+  width: 95%;
+  margin: auto;
+}
