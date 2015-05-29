@@ -190,18 +190,20 @@ module.exports = function(grunt) {
                 './app/assets/js/consultas.js',
                 './app/assets/js/cierre.js',
                 './app/assets/js/codigobarras.js',
-                './app/assets/js/master-consultas.js',
+                './app/assets/js/usuario-consultas.js',
               ],
               dest: './public/js/custom.js'
             },
             proveedor: {
                 src: [
+                    './app/assets/js/main.js',
                     './app/assets/proveedor/js/*',
                   ],
                   dest: './public/js/proveedor.js'
                 },
             cliente: {
                 src: [
+                    './app/assets/js/main.js',
                     './app/assets/cliente/js/*',
                   ],
                   dest: './public/js/cliente.js'
