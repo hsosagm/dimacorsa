@@ -21,7 +21,12 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthS",                  "sTitle": "Descripcion", "aTargets": [3]},
             {"sClass": "mod_codigo hover widthS",                  "sTitle": "Metodo Pago", "aTargets": [4]},
             {"sClass": "mod_codigo hover  align_right widthS",     "sTitle": "Monto",       "aTargets": [5]},
-            {"sClass": "mod_codigo hover  align_right widthS",     "sTitle": "Eliminar",    "aTargets": [6]},
+            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
+                "orderable": false,
+                "mRender": function() {
+                    return ' <i class="fa fa-trash-o btn-link theme-c" onclick=""></i> ';
+                }
+            },
         ],
 
         "fnDrawCallback": function( oSettings ) {

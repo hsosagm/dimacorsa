@@ -15,18 +15,19 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Tienda",      "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Usuario",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Descripcion", "aTargets": [3]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Metodo Pago", "aTargets": [4]},
-            {"sClass": "mod_codigo hover  align_right widthS",     "sTitle": "Monto",       "aTargets": [5]},
+            {"sClass": "widthM",   "sTitle": "Fecha",      "aTargets": [0]},
+            {"sClass": "widthM",   "sTitle": "Vendedor",   "aTargets": [1]},
+            {"sClass": "widthM",   "sTitle": "Cliente",    "aTargets": [2]},
+            {"sClass": "widthS",   "sTitle": "Factura",    "aTargets": [3]},
+            {"sClass": "widthS",   "sTitle": "Total",      "aTargets": [4]},
+            
+            "sClass": "widthS",   "sTitle": "Saldo",      "aTargets": [5]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                    return ' <i class="fa fa-trash-o btn-link theme-c" onclick=""></i> ';
+                    return '<a href="javascript:void(0);" onclick="showSalesDetail(this)" class="fa fa-plus-square  show_detail">';
                 }
-            },
+            }
         ],
 
         "fnDrawCallback": function( oSettings ) {
@@ -36,8 +37,9 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/AdvancesDay_dt"
+        "sAjaxSource": "user/datatables/VentasDelDiaUsuario"
     });
 
 });
+
 </script>

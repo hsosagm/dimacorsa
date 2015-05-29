@@ -17,6 +17,7 @@ $(function() {
 function proveedores() {
     $.get( "admin/proveedor/index", function( data ) {
         makeTable(data, 'admin/proveedor/', 'Proveedor');
+        $('#example').addClass('tableSelected');
     });
 };
 

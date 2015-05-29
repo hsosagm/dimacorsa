@@ -25,7 +25,7 @@ $(document).ready(function() {
 
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
-             $( ".DTTT" ).append( '<button id="_view_existencias" class="btn btngrey">Existencias</button>' );
+             $( ".DTTT" ).append( '<button  class="btn btngrey btn_edit" id="_view_existencias">Existencias</button>' );
         },
 
         "bJQueryUI": false,

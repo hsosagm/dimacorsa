@@ -27,40 +27,41 @@
 
     Route::group(array('prefix' => 'user'), function()
     {
+        
+    
         Route::group(array('prefix' => 'datatables'),function() 
         {
-            Route::get('md_search'          , 'InventarioController@md_search'          );
-            Route::get('md_datatables'      , 'DatatablesController@md_search'          );
-            Route::get('user_inventario'    , 'InventarioController@user_inventario'    );
-            Route::get('user_datatables'    , 'DatatablesController@user_inventario'    );
-            Route::get('proveedores'        , 'DatatablesController@proveedores'        );
-            Route::get('clientes'           , 'DatatablesController@clientes'           );
-            Route::get('users'              , 'DatatablesController@users'              );
-            Route::get('/'                  , 'DatatablesController@index'              );
-            Route::get('SalesDay_dt'        , 'DatatablesController@SalesDay_dt'        );
-            Route::get('SupportDay_dt'      , 'DatatablesController@SupportDay_dt'      );
-            Route::get('ExpensesDay_dt'     , 'DatatablesController@ExpensesDay_dt'     );
-            Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt' );
-            Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt'       );
-            Route::get('AdvancesDay_dt'     , 'DatatablesController@AdvancesDay_dt'     );
-
-            Route::get('md_search'      , 'InventarioController@md_search');
-            Route::get('md_datatables'  , 'DatatablesController@md_search');
-            Route::get('user_inventario', 'InventarioController@user_inventario');
-            Route::get('user_datatables', 'DatatablesController@user_inventario');
-            Route::get('proveedores'    , 'DatatablesController@proveedores'    );
-            Route::get('users'          , 'DatatablesController@users');
-            Route::get('/'                  , 'DatatablesController@index');
-            Route::get('SalesOfDay'         , 'DatatablesController@SalesOfDay');
-            Route::get('SupportDay_dt'      , 'DatatablesController@SupportDay_dt');
-            Route::get('ExpensesDay_dt'     , 'DatatablesController@ExpensesDay_dt');
-            Route::get('ExpendituresDay_dt' , 'DatatablesController@ExpendituresDay_dt');
-            Route::get('IncomeDay_dt'       , 'DatatablesController@IncomeDay_dt');
-
-            Route::get('AdvancesDay_dt'       , 'DatatablesController@AdvancesDay_dt');
-
-
-            Route::get('AdvancesDay_dt'     , 'DatatablesController@AdvancesDay_dt');
+            Route::get('md_search'             , 'InventarioController@md_search');
+            Route::get('md_datatables'         , 'DatatablesController@md_search');
+            Route::get('user_inventario'       , 'InventarioController@user_inventario');
+            Route::get('user_datatables'       , 'DatatablesController@user_inventario');
+            Route::get('proveedores'           , 'DatatablesController@proveedores'    );
+            Route::get('clientes'              , 'DatatablesController@clientes'           );
+            Route::get('users'                 , 'DatatablesController@users');
+            Route::get('/'                     , 'DatatablesController@index');
+            Route::get('SalesOfDay'            , 'DatatablesController@SalesOfDay');
+            Route::get('SupportDay_dt'         , 'DatatablesController@SupportDay_dt');
+            Route::get('ExpensesDay_dt'        , 'DatatablesController@ExpensesDay_dt');
+            Route::get('ExpendituresDay_dt'    , 'DatatablesController@ExpendituresDay_dt');
+            Route::get('IncomeDay_dt'          , 'DatatablesController@IncomeDay_dt');
+            Route::get('AdvancesDay_dt'        , 'DatatablesController@AdvancesDay_dt');
+            Route::get('VentasDelDiaUsuario'   , 'DatatablesController@VentasDelDiaUsuario');
+            Route::get('SoporteDelDiaUsuario'  , 'DatatablesController@SoporteDelDiaUsuario');
+            Route::get('IngresosDelDiaUsuario' , 'DatatablesController@IngresosDelDiaUsuario');
+            Route::get('EgresosDelDiaUsuario'  , 'DatatablesController@EgresosDelDiaUsuario');
+            Route::get('GastosDelDiaUsuario'   , 'DatatablesController@GastosDelDiaUsuario');
+            Route::get('AdelantosDelDiaUsuario', 'DatatablesController@AdelantosDelDiaUsuario');
+        });
+        
+        Route::group(array('prefix' => 'consulta'), function()
+        {
+            Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario');
+            Route::get('VerTablaSoporteDelDiaUsuario'  , 'UserController@VerTablaSoporteDelDiaUsuario');
+            Route::get('VerTablaIngresosDelDiaUsuario' , 'UserController@VerTablaIngresosDelDiaUsuario');
+            Route::get('VerTablaEgresosDelDiaUsuario'  , 'UserController@VerTablaEgresosDelDiaUsuario');
+            Route::get('VerTablaGastosDelDiaUsuario'   , 'UserController@VerTablaGastosDelDiaUsuario');
+            Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
+            Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario');
         });
 
         Route::group(array('prefix' => 'cliente'), function()
@@ -166,6 +167,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('PurchaseUnpaid_dt'          , 'DatatablesController@PurchaseUnpaid_dt');
         Route::get('PurchaseDay_dt'             , 'DatatablesController@PurchaseDay_dt');
         Route::get('ComprasPendientesDePago'    , 'DatatablesController@ComprasPendientesDePago');
+        Route::get('HistorialDePagos'           , 'DatatablesController@HistorialDePagos');
+        Route::get('HistorialDeAbonos'          , 'DatatablesController@HistorialDeAbonos');
     });
 
     Route::group(array('prefix' => 'cierre'),function() 
@@ -216,25 +219,27 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'compras'), function()
     {
-        Route::get('create'                      , 'CompraController@create' );
-        Route::post('create'                     , 'CompraController@create' );
-        Route::get('detalle'                     , 'CompraController@detalle');
-        Route::post('detalle'                    , 'CompraController@detalle');
-        Route::post('verfactura'                 , 'CompraController@AbrirCompraNoCompletada');
-        Route::get('ModalPurchasePayment '       , 'CompraController@ModalPurchasePayment'  );
-        Route::post('ModalPurchasePayment'       , 'CompraController@ModalPurchasePayment'  );
-        Route::post('DeletePurchaseInitial'      , 'CompraController@DeletePurchaseInitial' );
-        Route::get('OpenModalPurchaseItemSerials', 'CompraController@OpenModalPurchaseItemSerials' );
-        Route::get('OpenModalPurchaseInfo'       , 'CompraController@OpenModalPurchaseInfo');
-        Route::post('OpenModalPurchaseInfo'      , 'CompraController@OpenModalPurchaseInfo');
-        Route::post('DeletePurchaseShipping'     , 'CompraController@DeletePurchaseShipping'   );
-        Route::post('FinishInitialPurchase'      , 'CompraController@FinishInitialPurchase');
-        Route::post('SaveEditPurchaseItemDetails', "CompraController@SaveEditPurchaseItemDetails" );
-        Route::post('DeletePurchaseDetailsItem'  , 'CompraController@DeletePurchaseDetailsItem' );
-        Route::post('DeletePurchasePaymentItem'  , 'CompraController@DeletePurchasePaymentItem'   );
-        Route::get('ConsultPurchase'             , 'CompraController@ConsultPurchase');
-        Route::get('OpenTablePurchaseDay'        , 'CompraController@OpenTablePurchaseDay');
-        Route::get('ShowTableUnpaidShopping'     , 'CompraController@ShowTableUnpaidShopping');
+        Route::get('create'                         , 'CompraController@create' );
+        Route::post('create'                        , 'CompraController@create' );
+        Route::get('detalle'                        , 'CompraController@detalle');
+        Route::post('detalle'                       , 'CompraController@detalle');
+        Route::post('verfactura'                    , 'CompraController@AbrirCompraNoCompletada');
+        Route::get('ModalPurchasePayment '          , 'CompraController@ModalPurchasePayment'  );
+        Route::post('ModalPurchasePayment'          , 'CompraController@ModalPurchasePayment'  );
+        Route::post('DeletePurchaseInitial'         , 'CompraController@DeletePurchaseInitial' );
+        Route::get('OpenModalPurchaseItemSerials'   , 'CompraController@OpenModalPurchaseItemSerials' );
+        Route::get('OpenModalPurchaseInfo'          , 'CompraController@OpenModalPurchaseInfo');
+        Route::post('OpenModalPurchaseInfo'         , 'CompraController@OpenModalPurchaseInfo');
+        Route::post('DeletePurchaseShipping'        , 'CompraController@DeletePurchaseShipping'   );
+        Route::post('FinishInitialPurchase'         , 'CompraController@FinishInitialPurchase');
+        Route::post('SaveEditPurchaseItemDetails'   , "CompraController@SaveEditPurchaseItemDetails" );
+        Route::post('DeletePurchaseDetailsItem'     , 'CompraController@DeletePurchaseDetailsItem' );
+        Route::post('DeletePurchasePaymentItem'     , 'CompraController@DeletePurchasePaymentItem'   );
+        Route::get('ConsultPurchase'                , 'CompraController@ConsultPurchase');
+        Route::get('OpenTablePurchaseDay'           , 'CompraController@OpenTablePurchaseDay');
+        Route::get('ShowTableUnpaidShopping'        , 'CompraController@ShowTableUnpaidShopping');
+        Route::get('ShowTableHistoryPayment'        , 'CompraController@ShowTableHistoryPayment');
+        Route::get('ShowTableHistoryPaymentDetails' , 'CompraController@ShowTableHistoryPaymentDetails');
 
     });
 
@@ -315,11 +320,15 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
- $assigned = Assigned_roles::where('user_id', Auth::user()->id)
-            ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
-            ->orderBy('roles.id', 'DESC')->get();
 
-return $assigned;
+$detalle = DB::table('detalle_compras')
+        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->where('venta_id', Input::get('id'))
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get();
+
+return $detalle;
 
 
 });

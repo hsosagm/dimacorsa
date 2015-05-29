@@ -44,16 +44,38 @@ class CompraController extends \BaseController {
 	{
 		return View::make('compras.ComprasPendientesDePago');
 	}
-	
+
+	public function ShowTableHistoryPayment()
+	{
+		return View::make('compras.HistorialDePagos');
+	}
+
+	public function ShowTableHistoryPaymentDetails()
+	{
+		return View::make('compras.HistorialDeAbonos');
+	}
+
 	public function AbrirCompraNoCompletada()
 	{
 		$compra = Compra::find(Input::get('id'));
+
+		if($compra->completed == 1)
+		{
+			return 'La factura no se puede abri porque ya esta finalizada...';
+		}
+
 		$id = Input::get('id');
 		$proveedor = Proveedor::find($compra->proveedor_id);
 		$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
 		$saldo = $this->TotalCreditoProveedor($proveedor->id);
 		$detalle = $this->TablePurchaseDetailsEdit($id);
-		return View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle"))->render();
+
+		return Response::json(array(
+			'success' => true, 
+			'form' => View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle"))->render()
+		));
+
+
 	}
 
 	public function OpenModalPurchaseInfo()
@@ -307,7 +329,24 @@ class CompraController extends \BaseController {
 	function TableDetailsPayments()
 	{
 		$pagos = PagosCompra::where('compra_id','=', Input::get('compra_id'))->get();
+
 		return $pagos;
 	}
 	
+	public function showSalesDetail()
+	{
+    	$detalle = DB::table('detalle_ventas')
+        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->where('venta_id', Input::get('id'))
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get();
+
+		$deuda = 0;
+
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle', 'deuda'))->render()
+        ));
+	}
 }	

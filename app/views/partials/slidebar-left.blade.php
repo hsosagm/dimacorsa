@@ -6,7 +6,6 @@
         <div class="media">
             <div class="media-body">
                 <h4 class="media-heading"><span>
-                    <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
                     {{$tienda->nombre}}
                 </span></h4>
                 <small>Tecnologia Moderna</small>

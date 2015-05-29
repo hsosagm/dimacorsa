@@ -2,7 +2,7 @@
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
-
+    <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
     <!-- START @HEAD -->
     @include('partials.head')
     <!-- END @HEAD -->
@@ -55,7 +55,7 @@
             @include('partials.body-content')
                 <!-- Start footer content -->
                 <footer class="footer-content">
-                    2015 &copy; Click admin. Created by <a href="javascript:void(0)" target="_blank">Hsosa</a>, GM
+                    2015 &copy; {{$tienda->nombre}} admin. Created by <a href="javascript:void(0)" target="_blank">Hsosa</a>, GM
                 </footer><!-- /.footer-content -->
                 <!--/ End footer content -->
 

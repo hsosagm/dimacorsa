@@ -18,12 +18,11 @@ class CreateDetalleAbonosCompras extends Migration {
 			$table->integer('abonos_compra_id')->unsigned();
 			$table->integer('compra_id')->unsigned();
 			$table->decimal('monto', 8, 2);
-			$table->integer('metodo_pago_id')->unsigned();
 			$table->timestamps();
 
 			$table->foreign('abonos_compra_id')->references('id')->on('abonos_compras')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
-			$table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');
+			
 		
 		});
 	}

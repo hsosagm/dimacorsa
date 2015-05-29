@@ -139,42 +139,40 @@ class ProveedorController extends BaseController {
     public function AbonarCompra()
     {
         $compra = Compra::find(Input::get('compra_id'));
-        $abono = AbonosCompra::find(Input::get('abonos_compra_id'));
 
         if (Input::has('_token'))
         {
-            if ($this->BuscarMetodoDePago() != null ) 
-                return 'no puede ingresar dos Abonos con el mismo metodo..!';
-
             if($compra->saldo < Input::get("monto") || Input::get("monto") == 0)
                 return 'El moto ingresado no puede ser mayor al monto Restante..!';
 
-            $detalle_abono = new DetalleAbonosCompra;
+            $abono_id = $this->CrearAbonoCompra($compra->proveedor_id);
 
-            if (!$detalle_abono->_create()) 
-            {
-                return $detalle_abono->errors();
-            }
-           
-            $abono->total = $abono->total + Input::get('monto');
-            $total_abonos = $abono->total;
-            $abono->save();
+            $detalle_abono = new DetalleAbonosCompra;
+            $detalle_abono->abonos_compra_id = $abono_id;
+            $detalle_abono->monto = Input::get('monto');
+            $detalle_abono->compra_id = Input::get('compra_id');
+            $detalle_abono->save();
+
+            $suma_abonos = DetalleAbonosCompra::select(DB::raw('sum(monto) as total'))
+            ->where('compra_id','=',Input::get('compra_id'))
+            ->whereRaw("DATE_FORMAT(detalle_abonos_compra.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
+
+            $total_abonos = $suma_abonos->total;
 
             $compra->saldo = $compra->saldo - Input::get('monto');
             $total_compra = $compra->saldo;
             $compra->save();
 
-            $abono_id = Input::get('abonos_compra_id');
-            $det_abonos = $this->BuscaDetalleAbonosCompra($abono_id);
-
+            $det_abonos = AbonosCompra::find($abono_id);
+            $desabilitar ='disabled';
             return Response::json(array(
                 'success' => true,
-                 'detalle' =>  View::make('compras.abonar',compact('abono_id','total_compra','total_abonos','det_abonos'))->render()
+                 'detalle' =>  View::make('compras.abonar',compact('abono_id','total_compra','total_abonos','det_abonos','desabilitar'))->render()
             )); 
 
         }
 
-        $abono_id = $this->CrearAbonoCompra();
         $total_compra = $compra->saldo;
 
         return Response::json(array(
@@ -186,25 +184,18 @@ class ProveedorController extends BaseController {
 
     public function EliminarDetalleAbono()
     {
-        $detalle = DetalleAbonosCompra::find(Input::get('id'));
-        $abono   = AbonosCompra::find($detalle->abonos_compra_id);
+        $abono   = AbonosCompra::find(Input::get('id'));
         $compra  = Compra::find(Input::get('compra_id'));
 
-        $total_compra = $compra->saldo + $detalle->monto;
+        $total_compra = $compra->saldo + $abono->total;
         $compra->saldo = $total_compra;
         $compra->save();
-        
-        $total_abonos = $abono->total - $detalle->monto;
-        $abono->total = $total_abonos;
-        $abono->save() ;
 
-        $detalle->delete();
-        $abono_id = $abono->id;
-        $det_abonos = $this->BuscaDetalleAbonosCompra($abono_id);
+        $abono->delete();
 
-         return Response::json(array(
-            'success' => true,
-            'detalle' =>  View::make('compras.abonar',compact('abono_id','total_compra','total_abonos','det_abonos'))->render()
+        return Response::json(array(
+                'success' => true,
+                 'detalle' =>  View::make('compras.abonar',compact('abono_id','total_compra'))->render()
         )); 
     }
 
@@ -225,11 +216,15 @@ class ProveedorController extends BaseController {
         return 'success';
     }
 
-    public function CrearAbonoCompra()
+    public function CrearAbonoCompra($proveedor_id)
     {
         $abono = new AbonosCompra;
         $abono->user_id = Auth::user()->id;
-        $abono->proveedor_id = Input::get('proveedor_id');
+        $abono->tienda_id = Auth::user()->tienda_id;
+        $abono->metodo_pago_id = Input::get('metodo_pago_id');
+        $abono->proveedor_id = $proveedor_id;
+        $abono->total = Input::get('monto');
+        $abono->observaciones = Input::get('observaciones');
         $abono->save();
 
         return $abono->id;
@@ -257,7 +252,8 @@ class ProveedorController extends BaseController {
         $compras = DB::table('compras')
         ->where('saldo','>',0)
         ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
-        ->where('proveedor_id','=',Input::get('proveedor_id'))->get();
+        ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)->get();
         
         $abono_id = $this->CreateAbonosCompra();
 
@@ -270,6 +266,7 @@ class ProveedorController extends BaseController {
         ->where('saldo','>',0)
         ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
         ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)
         ->update(array('saldo'=>0));
 
         $detalle = $this->BalanceDetails($abono_id);
@@ -286,8 +283,10 @@ class ProveedorController extends BaseController {
         $abono = new AbonosCompra;
         $abono->proveedor_id = Input::get('proveedor_id');
         $abono->user_id = Auth::user()->id;
+        $abono->tienda_id = Auth::user()->tienda_id;
         $abono->observaciones = Input::get('observaciones');
         $abono->total = Input::get('monto');
+        $abono->metodo_pago_id = Input::get('metodo_pago_id');
         $abono->save();
         
         return $abono->id;   
@@ -300,7 +299,6 @@ class ProveedorController extends BaseController {
         $detalle->compra_id = $compra_id;
         $detalle->abonos_compra_id = $abono_id;
         $detalle->monto = $monto;
-        $detalle->metodo_pago_id = Input::get('metodo_pago_id');
         $detalle->save();
     }
 
@@ -319,7 +317,9 @@ class ProveedorController extends BaseController {
         
          $compras = DB::table('compras')
         ->where('saldo','>',0)
-        ->where('proveedor_id','=',Input::get('proveedor_id'))->get();
+        ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->get();
 
         foreach ($compras as $key => $dt) 
         {
@@ -329,6 +329,7 @@ class ProveedorController extends BaseController {
         DB::table('compras')
         ->where('saldo','>',0)
         ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)
         ->update(array('saldo'=>0));
 
         $detalle = $this->BalanceDetails($abono_id);
@@ -354,6 +355,7 @@ class ProveedorController extends BaseController {
          $compras = DB::table('compras')
         ->where('saldo','>',0)
         ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)
         ->orderBy('fecha_documento')->get();
 
          foreach ($compras as $key => $dt) 
@@ -418,6 +420,7 @@ class ProveedorController extends BaseController {
         ->select(DB::raw('sum(saldo) as total'))
         ->where('saldo','>',0)
         ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
         return $query->total;
@@ -429,6 +432,7 @@ class ProveedorController extends BaseController {
         $query = DB::table('compras')
         ->select(DB::raw('sum(saldo) as total'))
         ->where('saldo','>',0)
+         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
         return $query->total;
@@ -455,10 +459,6 @@ class ProveedorController extends BaseController {
         return $query;
     }
 
-    public  function BuscaDetalleAbonosCompra($abono_id)
-    {
-        $pagos = DetalleAbonosCompra::where('abonos_compra_id','=',$abono_id)->get();
-        return $pagos;
-    }
+
 }
 

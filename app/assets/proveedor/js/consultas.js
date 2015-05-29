@@ -58,13 +58,45 @@ function ShowTableUnpaidShopping ()
 //muestra tabla de todos los pagos
 function ShowTableHistoryPayment ()
 {
+     $id = $("input[name='proveedor_id']").val();
 
+    if($id > 0)
+    {
+        $.ajax({
+            type: "GET",
+            url: "admin/compras/ShowTableHistoryPayment",
+            data: {proveedor_id: $id},
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                 makeTable(data, '', 'Pagos');
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
 }
 
 //muestra tabla de todos los detalles de pagos
 function ShowTableHistoryPaymentDetails ()
 {
+    $id = $("input[name='proveedor_id']").val();
 
+    if($id > 0)
+    {
+        $.ajax({
+            type: "GET",
+            url: "admin/compras/ShowTableHistoryPaymentDetails",
+            data: {proveedor_id: $id},
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                 makeTable(data, '', 'Pagos');
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
 }
 
 //muestra la ventana modal para ingresar un abono
