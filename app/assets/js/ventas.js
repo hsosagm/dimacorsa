@@ -179,19 +179,46 @@ function FinalizeSale(element, $id) {
 
 
 function showSalesDetail(e) {
-
-    $id = $(e).closest('tr').attr('id');
-    $('.subtable').remove();
-    var nTr = $(e).parents('tr')[0];
-    $(nTr).after("<tr class='subtable hide'> <td colspan=8><div class='grid_detalle_factura'></div></td></tr>");
-
-    $.ajax({
-        type: 'GET',
-        url: "user/ventas/showSalesDetail",
-        data: { id: $id},
-        success: function (data) {
-            $('.grid_detalle_factura').html(data);
-            $(nTr).next('.subtable').slideDown('slow'); 
-        }
-    });
+    if (e) {};
 }
+
+// $(function() {
+//     $(document).on('click', '.show_detail', function()
+//     {
+//         $('.hide_detail').addClass('show_detail');
+//         $('.hide_detail').removeClass('hide_detail');
+
+//         var e = this;
+//         $id = $(e).closest('tr').attr('id');
+//         $('.subtable').remove();
+
+//         $.ajax({
+//             type: 'GET',
+//             url: "user/ventas/showSalesDetail",
+//             data: { id: $id},
+//             success: function (data) {
+//                 if (data.success == true)
+//                 {
+//                     var nTr = $(e).parents('tr')[0];
+//                     $(e).addClass('hide_detail');
+//                     $(e).removeClass('show_detail');
+//                     $(nTr).after("<tr class='subtable'> <td colspan=7><div class='grid_detalle_factura'></div></td></tr>");
+//                     $('.grid_detalle_factura').html(data.table);
+//                 }
+//                 else
+//                 {
+//                     msg.warning(data, 'Advertencia!');
+//                 }
+//             }
+//         });
+
+//     });
+
+
+//     $(document).on('click', '.hide_detail', function(e) {
+//         $('.subtable').remove();
+//         $(this).removeClass('hide_detail');
+//         $('.show_hide_detail').addClass('show_detail');
+//     })
+
+// });

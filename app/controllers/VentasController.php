@@ -105,7 +105,7 @@ class VentasController extends \BaseController {
     {
     	$detalle = DB::table('detalle_ventas')
         ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', Input::get('venta_id'))
+        ->where('venta_id', Input::get('id'))
         ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
@@ -267,20 +267,19 @@ class VentasController extends \BaseController {
 
 	public function showSalesDetail()
 	{
-		 echo  "<table class='table display' id='example'>
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Vendedor</th>
-                    <th>Cliente</th>
-                    <th>Factura</th>
-                    <th class='hide'>idcliente</th> 
-                    <th>Total</th>
-                    <th>Saldo</th>
-                    <th>Ver detalle</th>
-                    <th>Ver factura</th>
-                </tr>
-            </thead>";
+    	$detalle = DB::table('detalle_ventas')
+        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->where('venta_id', Input::get('id'))
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get();
+
+		$deuda = 0;
+
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle', 'deuda'))->render()
+        ));
 	}
 
 }

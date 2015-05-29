@@ -8,7 +8,7 @@
     <!-- END @HEAD -->
     
 
-    <body onLoad="LoadMyJs('js/custom.js')" class="page-header-fixed page-sidebar-fixed">
+    <body class="page-header-fixed page-sidebar-fixed">
 
         <div id="loading">
             <div class="loading-inner">
@@ -32,7 +32,6 @@
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2><i class="fa fa-home"></i> <span>Inventario</span></h2>
-                    <input id="lr" type="button" onclick="LoadMyJs('js/custom.js')" value="LR">
 
 {{--                     <div class="breadcrumb-wrapper hidden-xs">
                         <ol class="breadcrumb">
@@ -75,6 +74,7 @@
         </div>
     <div id="print_barcode"></div>
 <script src="js/main.js"></script>
+<script src="js/custom.js"></script>
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>
 <script src="calendar/translations/es_ES.js"></script>

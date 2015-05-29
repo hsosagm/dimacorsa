@@ -56,22 +56,22 @@ function proccess_table($v) {
 }
 
 
-$(document).on("click", "#example tbody tr", function() {
+// $(document).on("click", "#example tbody tr", function() {
 
-    if ( $( this ).hasClass( "row_selected" ) ) 
-    {
-        $("tr").removeClass("row_selected");
-        $('.btn_edit').prop("disabled", true);
-    }
+//     if ( $( this ).hasClass( "row_selected" ) ) 
+//     {
+//         $("tr").removeClass("row_selected");
+//         $('.btn_edit').prop("disabled", true);
+//     }
 
-    else
-    {
-        $("tr").removeClass("row_selected");
-        $(this).addClass('row_selected');
-        $('.btn_edit').prop("disabled", false);
-    }
+//     else
+//     {
+//         $("tr").removeClass("row_selected");
+//         $(this).addClass('row_selected');
+//         $('.btn_edit').prop("disabled", false);
+//     }
 
-});
+// });
 
 
 $(document).on('click', '.wclose', function(e) {
