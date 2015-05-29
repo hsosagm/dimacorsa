@@ -310,7 +310,13 @@ Route::get('proveedor', function()
 {
     return View::make('layouts.proveedor_master');
 
+});
+Route::get('cliente', function()
+{
+    return View::make('layouts.cliente_master');
+
  });
+
 
 
 Route::get('init', function()
