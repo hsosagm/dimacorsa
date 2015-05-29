@@ -189,3 +189,38 @@ table {
 .link-icon {
   padding-right: 6%;
 }
+
+.DT_table_div_detail th{
+    display: table-cell !important;
+    vertical-align: inherit !important;
+    font-weight: bold !important;
+    text-align: center !important;
+}
+
+.DT_table_div tr td {
+    background: #FFF;
+    color: #5697FF;
+    
+}
+
+.DT_table_div tr th {
+    background: #FFF;
+    color: #5697FF;
+}
+
+.DT_table_div tr td {
+  border: 1px solid #DDD;
+}
+
+.grid_detalle_factura {
+  border-color: 1px solid red !important;
+}
+
+.show_detail {
+  font-size: 14px;
+}
+
+.hide_detail {
+  color: #E84D4D !important;
+  font-size: 14px;
+}
