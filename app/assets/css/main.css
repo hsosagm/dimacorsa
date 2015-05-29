@@ -57,7 +57,7 @@
 	font-weight: lighter !important;
 }
 
-#lr {
-	float: right;
-	margin-top: -25px;
+.red td {
+	color: #FF8888;
+	background: #FFE3E3 !important;
 }

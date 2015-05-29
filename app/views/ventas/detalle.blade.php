@@ -43,7 +43,9 @@
 
 </div>
 
-<div class="body-detail"> </div>
+<div class="body-detail">
+	@include('ventas.detalle_body')
+</div>
 
 <div class="form-footer" align="right">
 	{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'RemoveSale();']);}}

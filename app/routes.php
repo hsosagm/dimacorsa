@@ -144,6 +144,7 @@
             Route::get('OpenModalSalesPayments', 'VentasController@OpenModalSalesPayments');
             Route::get('OpenTableSalesDay', 'VentasController@OpenTableSalesDay');
             Route::get('showSalesDetail', 'VentasController@showSalesDetail');
+            Route::get('openSale', 'VentasController@openSale');
 
         });
 
@@ -446,29 +447,10 @@ Route::get('timetest', function()
 });
 
 Route::get('cod', function() {
+    
+    $venta = Venta::with('cliente', 'detalle_venta')->find(74);
 
-        // $pagos = PagosVenta::where('venta_id', 49)
-        // ->where('metodo_pago_id', 2)
-        // ->first(array(DB::raw('monto')));
-
-        // if ($pagos == null) {
-        //     $pagos = 0;
-        // }
-
-        // return $pagos;
-
-        $credit = PagosVenta::where('venta_id', 50)
-        ->where('metodo_pago_id', 2)
-        ->first(array(DB::raw('monto')));
-
-        if ($credit == null) {
-            $saldo = 0;
-        }
-        else {
-            $saldo = $credit->monto;
-        }
-
-        return $saldo;
+    return $venta->detalle_venta;
 
 });
 

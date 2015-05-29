@@ -188,7 +188,6 @@ function showSalesDetail(e) {
     else 
     {
         $('.hide_detail').removeClass('hide_detail');
-        $id = $(e).closest('tr').attr('id');
 
         if ( $( ".subtable" ).length )
         {
@@ -206,6 +205,7 @@ function showSalesDetail(e) {
 
 function getSalesDetail(e) {
 
+    $id = $(e).closest('tr').attr('id');
     $('.subtable').remove();
     var nTr = $(e).parents('tr')[0];
     $(e).addClass('hide_detail');
@@ -226,6 +226,31 @@ function getSalesDetail(e) {
             else
             {
                 msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+
+function openSale(e) {
+
+    $id = $(e).closest('tr').attr('id');
+
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/openSale",
+        data: { venta_id: $id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.panel-title').text('Formulario Ventas');
+                $(".forms").html(data.table);
+                $(".dt-container").hide();
+                $(".form-panel").show();
+            }
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             }
         }
     });
