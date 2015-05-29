@@ -105,7 +105,32 @@ module.exports = function(grunt) {
                     './app/assets/css/datepicker-pickadate-custom.css',
                     './app/assets/proveedor/css/*',
                     
+                ],
+                 './public/css/cliente.css': 
+                [
+                    './app/assets/components/bower/bootstrap/dist/css/bootstrap.min.css',
+                    './app/assets/components/bower/font-awesome/css/font-awesome.min.css',
+                    './app/assets/css/theme/layout.css',
+                    './app/assets/css/theme/components.css',
+                    './app/assets/css/theme/plugins.css',
+                    './app/assets/css/theme/custom.css',
+                    './app/assets/css/theme/datepicker.css',
+                    './app/assets/css/theme/theme.color.css',
+                    './app/assets/css/theme/datepicker.custom.css',
+                    './app/assets/components/bower/datatables/media/css/jquery.dataTables.css',
+                    './app/assets/components/bower/toastr/toastr.css',
+                    './app/assets/css/bootstrap-custom.css',
+                    './app/assets/css/form.css',
+                    './app/assets/css/table.css',
+                    './app/assets/css/main.css',
+                    './app/assets/css/autocomplete.css',
+                    './app/assets/css/not-scroll.css',
+                    './app/assets/css/consultas.css',
+                    './app/assets/css/datepicker-pickadate-custom.css',
+                    './app/assets/cliente/css/*',
+                    
                 ]
+
             }
           }
         },
@@ -169,11 +194,17 @@ module.exports = function(grunt) {
               ],
               dest: './public/js/custom.js'
             },
-            prov: {
+            proveedor: {
                 src: [
                     './app/assets/proveedor/js/*',
                   ],
                   dest: './public/js/proveedor.js'
+                },
+            cliente: {
+                src: [
+                    './app/assets/cliente/js/*',
+                  ],
+                  dest: './public/js/cliente.js'
                 },
             },
           
@@ -197,7 +228,10 @@ module.exports = function(grunt) {
         uglify: {
             dist: {
                 files: {
-                  './public/js/main.js' : './public/js/main.js'
+                  './public/js/main.js'      : './public/js/main.js',
+                  './public/js/custom.js'    : './public/js/custom.js',
+                  './public/js/proveedor.js' : './public/js/proveedor.js',
+                  './public/js/cliente.js'   : './public/js/cliente.js',
                 }
             }
         },
@@ -216,14 +250,20 @@ module.exports = function(grunt) {
         // automatically run tasks when changing JS, LESS or PHP files
         watch: {
             js: {
-                files: ['./app/assets/js/*.*','./app/assets/proveedor/js/*.*'],
+                files: [
+                './app/assets/js/*.*',
+                './app/assets/proveedor/js/*.*',
+                './app/assets/cliente/js/*.*'],
                 tasks: ['concat', 'notify:end'],
                 options: {
                     livereload: false,
                 }
             },
             cssmin: {
-                files: ['./app/assets/css/**/*.css', './app/assets/proveedor/css/**/*.css'],
+                files: [
+                './app/assets/css/**/*.css',
+                './app/assets/proveedor/css/**/*.css',
+                './app/assets/cliente/css/**/*.css'],
                 tasks: ['cssmin'],
                 options: {
                     livereload: true
