@@ -298,12 +298,14 @@ class DatatablesController extends Controller {
 		$table = 'pagos_compras';
 
 		$columns = array(
+
 			"CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"pagos_compras.created_at as fecha",
 			"compras.numero_documento as factura",
 			"metodo_pago.descripcion as metodo_descripcion",
 			'monto');
+
 
 		$Searchable = array("users.nombre","users.apellido");
 

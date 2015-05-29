@@ -11,4 +11,9 @@ class Cliente extends \BaseModel implements Logable{
     {
         return $this->id;
     }
+
+    public function venta()
+    {
+        return $this->hasMany('Venta');
+    }
 }

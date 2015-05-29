@@ -183,34 +183,75 @@ function showSalesDetail(e) {
     if ($(e).hasClass("hide_detail")) 
     {
         $(e).removeClass('hide_detail');
-        $('.subtable').fadeOut();
+        $('.subtable').fadeOut('slow');
     } 
     else 
     {
         $('.hide_detail').removeClass('hide_detail');
-        $id = $(e).closest('tr').attr('id');
-        $('.subtable').remove();
 
-        $.ajax({
-            type: 'GET',
-            url: "user/ventas/showSalesDetail",
-            data: { id: $id},
-            success: function (data) {
-                if (data.success == true)
-                {
-                    var nTr = $(e).parents('tr')[0];
-                    $(e).addClass('hide_detail');
-                    $(e).removeClass('show_detail');
-                    $(nTr).after("<tr class='subtable'> <td colspan=7><div class='grid_detalle_factura'></div></td></tr>");
-                    $('.grid_detalle_factura').html(data.table);
-                    $(nTr).next('.subtable').fadeIn('slow');
-                    $(e).addClass('hide_detail');
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            }
-        });
+        if ( $( ".subtable" ).length )
+        {
+            $('.subtable').fadeOut('slow', function(){
+                getSalesDetail(e);
+            })
+        }
+        else
+        {
+            getSalesDetail(e);
+        }
     }
+}
+
+
+function getSalesDetail(e) {
+
+    $id = $(e).closest('tr').attr('id');
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=7><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/showSalesDetail",
+        data: { id: $id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.grid_detalle_factura').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                $(e).addClass('hide_detail');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+
+function openSale(e) {
+
+    $id = $(e).closest('tr').attr('id');
+
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/openSale",
+        data: { venta_id: $id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.panel-title').text('Formulario Ventas');
+                $(".forms").html(data.table);
+                $(".dt-container").hide();
+                $(".form-panel").show();
+            }
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    });
 }

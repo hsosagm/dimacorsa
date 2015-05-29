@@ -94,11 +94,10 @@ class TableSearch {
         foreach($productos as $aRow) {
 
             $row = array();
-            $bandera = 0 ;
+            
             for ( $i = 0; $i < count($clean_columns); $i++ ) {
                 $row['DT_RowId'] = $aRow->id;
                 $row[] = $aRow->$clean_columns[$i];
-                $bandera = 1;
             }
 
             $output['aaData'][] = $row;

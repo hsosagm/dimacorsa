@@ -261,7 +261,7 @@ class VentasController extends \BaseController {
 
 	public function OpenTableSalesDay()
 	{
-		return View::make('ventas.SalesDay');
+		return View::make('ventas.SalesOfDay');
 	}
 
 
@@ -274,11 +274,24 @@ class VentasController extends \BaseController {
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
-		$deuda = 0;
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle'))->render()
+        ));
+	}
+
+
+	public function openSale()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+
+		$venta_id = $venta->id;
+
+		$detalle = $venta->detalle_venta;
 
 		return Response::json(array(
 			'success' => true,
-			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle', 'deuda'))->render()
+			'table' => View::make('ventas.unfinishedSale', compact('venta', 'venta_id', 'detalle'))->render()
         ));
 	}
 

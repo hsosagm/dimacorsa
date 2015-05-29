@@ -1,3 +1,5 @@
+@if (count(@$detalle) > 0)
+
 <table width="100%">
 
     <thead >
@@ -10,9 +12,11 @@
         </tr>
     </thead>
 
-	<tbody >
+	<tbody>
+	
+        <?php $deuda = 0; ?>
 
-		@foreach($detalle as $q)
+		@foreach(@$detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
 		        $precio = number_format($q->precio,2,'.',',');
@@ -48,3 +52,5 @@
 	</tfoot>
 
 </table>
+
+@endif
