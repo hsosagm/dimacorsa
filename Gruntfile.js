@@ -256,7 +256,7 @@ module.exports = function(grunt) {
                 './app/assets/cliente/js/*.*'],
                 tasks: ['concat', 'notify:end'],
                 options: {
-                    livereload: false,
+                    livereload: true,
                 }
             },
             cssmin: {
