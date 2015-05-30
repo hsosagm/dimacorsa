@@ -450,7 +450,7 @@ Route::get('cod', function() {
     
     $venta = Venta::with('cliente', 'detalle_venta')->find(74);
 
-    return $venta->detalle_venta;
+    return $venta->detalle_venta[0]->producto->descripcion;
 
 });
 

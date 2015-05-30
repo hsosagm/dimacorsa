@@ -267,17 +267,25 @@ class VentasController extends \BaseController {
 
 	public function showSalesDetail()
 	{
-    	$detalle = DB::table('detalle_ventas')
+		$detalle = getSalesDetail();
+
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle'))->render()
+        ));
+	}
+
+
+	public function showSalesDetail()
+	{
+		$detalle = DB::table('detalle_ventas')
         ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
         ->where('venta_id', Input::get('id'))
         ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
-		return Response::json(array(
-			'success' => true,
-			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle'))->render()
-        ));
+        return $detalle;
 	}
 
 
@@ -287,7 +295,7 @@ class VentasController extends \BaseController {
 
 		$venta_id = $venta->id;
 
-		$detalle = $venta->detalle_venta;
+		$detalle = getSalesDetail();
 
 		return Response::json(array(
 			'success' => true,

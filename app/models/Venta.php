@@ -21,4 +21,5 @@ class Venta extends \BaseModel implements Logable{
     {
         return $this->belongsTo('Cliente');    
     }
+
 }
