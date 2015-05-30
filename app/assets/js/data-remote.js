@@ -211,6 +211,7 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (data) {
+
                 if (data.success == true)
                 {
                     msg.success(form.data('success'), 'Listo!');

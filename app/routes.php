@@ -457,9 +457,18 @@ Route::get('timetest', function()
 
 Route::get('cod', function() {
     
-    $venta = Venta::with('cliente', 'detalle_venta')->find(74);
+    // $venta = Venta::with('cliente', 'detalle_venta')->find(74);
 
-    return $venta->detalle_venta[0]->producto->descripcion;
+    // return $venta->detalle_venta[0]->producto->descripcion;
+
+//     $collection = User::all();
+// $grouped = $collection->groupBy('status');
+//  return $grouped; 
+
+
+    $collection = User::all();
+$names = $collection->implode('nombre', ',');
+echo $names;    
 
 });
 

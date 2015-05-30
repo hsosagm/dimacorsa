@@ -215,7 +215,7 @@ function getSalesDetail(e) {
     $.ajax({
         type: 'GET',
         url: "user/ventas/showSalesDetail",
-        data: { id: $id},
+        data: { venta_id: $id},
         success: function (data) {
             if (data.success == true)
             {

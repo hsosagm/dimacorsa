@@ -50,12 +50,30 @@ class VentasController extends \BaseController {
 			->where('tienda_id', Auth::user()->tienda_id)
 			->update(array('existencia' => $nueva_existencia));
 
-			return $this->table_detail();
+			$detalle = $this->getSalesDetail();
+
+			return Response::json(array(
+				'success' => true,
+				'table'   => View::make('ventas.detalle_body', compact('detalle'))->render()
+	        ));
 		}
 
 		return 'Token invalido';
 	}
 
+
+	public function getSalesDetail()
+	{
+		$detalle = DB::table('detalle_ventas')
+        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->where('venta_id', Input::get('venta_id'))
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get();
+
+        return $detalle;
+	}
+	
 
 	public function RemoveSale()
 	{
@@ -99,24 +117,6 @@ class VentasController extends \BaseController {
 
 		return 'Huvo un error al tratar de eliminar';	
 	}
-
-
-	public function table_detail()
-    {
-    	$detalle = DB::table('detalle_ventas')
-        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', Input::get('id'))
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-        ->get();
-
-		$deuda = 0;
-
-		return Response::json(array(
-			'success' => true,
-			'table'   => View::make('ventas.detalle_body', compact('detalle', 'deuda'))->render()
-        ));
-    }
 
 
     public function check_if_code_exists_in_this_sale()
@@ -267,25 +267,12 @@ class VentasController extends \BaseController {
 
 	public function showSalesDetail()
 	{
-		$detalle = getSalesDetail();
+		$detalle = $this->getSalesDetail();
 
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle'))->render()
         ));
-	}
-
-
-	public function showSalesDetail()
-	{
-		$detalle = DB::table('detalle_ventas')
-        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', Input::get('id'))
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-        ->get();
-
-        return $detalle;
 	}
 
 
@@ -295,7 +282,7 @@ class VentasController extends \BaseController {
 
 		$venta_id = $venta->id;
 
-		$detalle = getSalesDetail();
+		$detalle = $this->getSalesDetail();
 
 		return Response::json(array(
 			'success' => true,

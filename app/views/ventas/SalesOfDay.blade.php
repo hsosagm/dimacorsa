@@ -16,9 +16,9 @@ $(document).ready(function() {
         
         "aoColumnDefs": [
             {"sClass": "widthM",       "sTitle": "Fecha",                        "aTargets": [0]},
-            {"sClass": "widthM",       "sTitle": "Vendedor",                     "aTargets": [1]},
+            {"sClass": "widthM",       "sTitle": "Usuario",                     "aTargets": [1]},
             {"sClass": "widthM",       "sTitle": "Cliente",                      "aTargets": [2]},
-            {"sClass": "widthS",       "sTitle": "Factura",                      "aTargets": [3]},
+            {"sClass": "widthS",       "sTitle": "Numero",                      "aTargets": [3]},
             {"sClass": "widthS",       "sTitle": "Saldo",                        "aTargets": [4]},
             {"sClass": "widthS",       "sTitle": "Completed", "bVisible": false, "aTargets": [5]},
             {"sClass": "widthS icons", "sTitle": "Acciones", "orderable": false, "aTargets": [6],
@@ -32,9 +32,9 @@ $(document).ready(function() {
             $( ".DTTT" ).html("");
         },
 
-        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+        "fnRowCallback": function( nRow, aData ) {                
             if ( aData[5] == 0){
-                jQuery(nRow).addClass('red');
+                $(nRow).addClass('red');
             }               
         },
 

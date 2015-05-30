@@ -9,6 +9,8 @@
 
 	<tbody >
 
+        <?php $deuda = 0; ?>
+
 		@foreach($detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
