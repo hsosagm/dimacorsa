@@ -3,10 +3,10 @@ $(function() {
     $(document).on('click', '.master_opcion_abonar', function() { master_opcion_abonar(this);});
 });
 
-function master_opcion_abonar(element)
+function AbonarCompraPendienteDePago(element)
 {
 	$(element).attr('disabled', 'disabled');
-	compra_id = $(element).attr('id');
+	compra_id = $(element).closest('tr').attr('id');
     proveedor_id = $("input[name='proveedor_id']").val();
 
     $.ajax({

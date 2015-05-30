@@ -391,3 +391,35 @@ function _add_producto()
         $(".producto-panel").show();
     });
 }
+
+function VerFacturaDeCompra(e)
+{
+    $id = $(e).closest('tr').attr('id');
+    $url= 'admin/compras/verfactura';
+
+    $.ajax({
+    type: "POST",
+    url: $url,
+    data: {id: $id},
+    contentType: 'application/x-www-form-urlencoded',
+    success: function (data) {
+        if (data.success == true)
+        {
+            $('.panel-title').text('Formulario Compras');
+            $(".forms").html(data.form);
+            $(".dt-container").hide();
+            $(".producto-container").hide();
+            $(".form-panel").show();
+        }
+        else
+        {
+            msg.warning(data, 'Advertencia!');
+        }
+
+    },
+    error: function (request, status, error) {
+        alert(request.responseText);
+    }
+ });
+
+}

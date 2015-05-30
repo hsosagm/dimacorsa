@@ -20,6 +20,7 @@ class CreateVentasTable extends Migration {
             $table->integer('user_id')->unsigned();
             $table->string('numero_documento', 100)->unique();
             $table->decimal('saldo', 8, 2)->default(0.00);
+            $table->decimal('total')->default(0.00);
             $table->boolean('completed')->default(0);
             $table->boolean('canceled')->default(0);
 			$table->timestamps();
@@ -27,7 +28,7 @@ class CreateVentasTable extends Migration {
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		});
+		}); 
 	}
 
 

@@ -39,8 +39,6 @@
     </div>
   </div>
 
-
-
   <!-- TABLES --> <!-- GRAPHS -->
   <div class="dt-container col-md-11">
     <div class="panel dt-panel rounded shadow">
@@ -56,8 +54,6 @@
       <div class="panel-body no-padding table"></div>
     </div>
   </div>
-
-
 
   <!-- MODAL -->
   <div class="col-lg-3 col-md-4 col-sm-6">

@@ -1,4 +1,4 @@
-@if(count(@$det_abonos) > 0)
+@if(count(@$det_abonos) != null)
     <table width="100%"> 
         <thead>
             <tr>
@@ -8,15 +8,13 @@
             </tr>
         </thead>
         <tbody> 
-            @foreach (@$det_abonos as $key => $det) 
             <tr> 
-                <td width="65%"> {{$det->metodo_pago->descripcion}} </td>
-                <td width="30%" align="right"> {{@$det->monto}} </td>
+                <td width="65%"> {{$det_abonos->metodo_pago->descripcion}} </td>
+                <td width="30%" align="right"> {{@$det_abonos->total}} </td>
                 <td width="15%">
-                    <i class="fa fa-times pointer btn-link theme-c" onClick="EliminarDetalleAbono({{$det->id}},{{Input::get('compra_id')}})"></i>
+                    <i class="fa fa-times pointer btn-link theme-c" onClick="EliminarDetalleAbono({{$det_abonos->id}},{{Input::get('compra_id')}})"></i>
                 </td>
             </tr>  
-            @endforeach   
         </tbody>
     </table>
 

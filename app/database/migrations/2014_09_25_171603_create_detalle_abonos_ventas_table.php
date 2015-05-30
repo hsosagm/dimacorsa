@@ -18,12 +18,11 @@ class CreateDetalleAbonosVentasTable extends Migration {
 			$table->integer('abonos_ventas_id')->unsigned();
 			$table->integer('venta_id')->unsigned();
 			$table->decimal('monto', 8, 2);
-			$table->integer('metodo_pago_id')->unsigned();
 			$table->timestamps();
 
 			$table->foreign('venta_id')->references('id')->on('ventas')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('abonos_ventas_id')->references('id')->on('abonos_ventas')->onDelete('cascade')->onUpdate('cascade');
-			$table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');
+			
 		});
 	} 
 

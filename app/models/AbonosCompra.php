@@ -8,6 +8,11 @@ class AbonosCompra extends \BaseModel  implements Logable{
 
 	protected $guarded = array('id');
 	
+	public function metodoPago()
+    {
+        return $this->belongsTo('MetodoPago', 'metodo_pago_id');
+    }
+    
 	public function getLogName()
     {
         return $this->id;

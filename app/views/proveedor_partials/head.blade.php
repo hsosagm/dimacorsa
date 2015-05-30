@@ -4,7 +4,7 @@
 	<meta name="description" content="Blankon is a theme fullpack admin template powered by Twitter bootstrap 3 front-end framework. Included are multiple example pages, elements styles, and javascript widgets to get your project started.">
 	<meta name="keywords" content="">
 	<meta name="author" content="Djava UI">
-	<title>Click | Web App</title>
+	<title>{{$tienda->nombre}}| Web App</title>
 
 	{{ HTML::style('css/proveedor.css'); }}
 	<link href="css/themes/default.theme.css" rel="stylesheet" id="theme">

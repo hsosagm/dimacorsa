@@ -24,6 +24,7 @@ function users_list() {
 
     $.get( "owner/users", function( data ) {
         makeTable(data, 'owner/user/', 'Usuario');
+        $('#example').addClass('tableSelected');
     });
 }
 

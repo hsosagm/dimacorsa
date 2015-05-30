@@ -112,7 +112,7 @@
 					<?php 
 					$caja_negativos = $abonos_compras['efectivo'] + $pagos_compras['efectivo'] + $egresos['efectivo'] + $gastos['efectivo'];
 
-					$caja_positivos = $ingresos['efectivo'] + $adelantos['efectivo'] + $soporte['efectivo'];
+					$caja_positivos = $ingresos['efectivo'] + $adelantos['efectivo'] + $soporte['efectivo'] + $pagos_ventas['efectivo'] + $abonos_ventas['efectivo'];
 
 					$caja = $caja_positivos - $caja_negativos ;
 

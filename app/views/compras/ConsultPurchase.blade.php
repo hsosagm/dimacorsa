@@ -21,8 +21,12 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [3]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Ver Detalle", "aTargets": [6]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Cancelar",      "aTargets": [7]},
+            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
+                "orderable": false,
+                "mRender": function() {
+                    return '<a href="javascript:void(0);">Ver Factura</a>';
+                }
+            },
         ],
 
         "fnDrawCallback": function( oSettings ) {

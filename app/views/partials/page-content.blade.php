@@ -148,7 +148,7 @@
 
     <!-- Start footer content -->
     <footer class="footer-content">
-      2014 &copy; Click Admin. Created by <a href="#">GM</a>, Hsosa
+      2014 &copy; {{$tinda->nombre}} Admin. Created by <a href="#">GM</a>, Hsosa
     </footer><!-- /.footer-content -->
     <!--/ End footer content -->
 

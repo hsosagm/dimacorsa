@@ -102,5 +102,6 @@ function md_search()
     {
        makeTable(data, '', 'Inventario');
        $('#iSearch').focus();
+       $('#example').addClass('tableSelected');
     });
 }

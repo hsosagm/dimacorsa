@@ -19,14 +19,9 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthS",                  "sTitle": "Usuario",     "aTargets": [1]},
             {"sClass": "mod_codigo hover widthS",                  "sTitle": "Fecha",       "aTargets": [2]},
             {"sClass": "mod_codigo hover widthS",                  "sTitle": "Descripcion", "aTargets": [3]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Metodo Pago", "aTargets": [4]},
-            {"sClass": "mod_codigo hover  align_right widthS",     "sTitle": "Monto",       "aTargets": [5]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
-                "orderable": false,
-                "mRender": function() {
-                    return ' <i class="fa fa-trash-o btn-link theme-c" onclick=""></i> ';
-                }
-            },
+            {"sClass": "mod_codigo hover  align_right widthS",     "sTitle": "Monto",       "aTargets": [4]},
+            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Metodo Pago", "aTargets": [5]},
+
         ],
 
         "fnDrawCallback": function( oSettings ) {
@@ -36,7 +31,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/AdvancesDay_dt"
+        "sAjaxSource": "user/datatables/SoporteDelDiaUsuario"
     });
 
 });
