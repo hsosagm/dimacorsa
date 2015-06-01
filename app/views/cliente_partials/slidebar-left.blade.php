@@ -52,7 +52,7 @@
             </a>
             <ul>
                 <li><a href="javascript:void(0);" id=""> Abonar Cliente</a></li>
-                <li><a href="javascript:void(0);" id=""> Editar Cliente</a></li>
+                <li><a href="javascript:void(0);" id="cliente_edit"> Editar Cliente</a></li>
             </ul>
         </li>
 

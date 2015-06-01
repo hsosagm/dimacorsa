@@ -241,6 +241,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('ShowTableUnpaidShopping'        , 'CompraController@ShowTableUnpaidShopping');
         Route::get('ShowTableHistoryPayment'        , 'CompraController@ShowTableHistoryPayment');
         Route::get('ShowTableHistoryPaymentDetails' , 'CompraController@ShowTableHistoryPaymentDetails');
+        Route::get('showPurchaseDetail'             , 'CompraController@showPurchaseDetail');
 
     });
 
@@ -322,15 +323,12 @@ Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
 
-$detalle = DB::table('detalle_compras')
-        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', Input::get('id'))
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-        ->get();
-
-return $detalle;
-
+    $compra = Compra::with('detalle_compra')->find(1);
+     
+    $value = $compra->detalle_compra->first(); 
+    
+    return $value->producto;
+    
 
 });
 

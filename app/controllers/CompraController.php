@@ -333,12 +333,12 @@ class CompraController extends \BaseController {
 		return $pagos;
 	}
 	
-	public function showSalesDetail()
+	public function showPurchaseDetail()
 	{
-    	$detalle = DB::table('detalle_ventas')
-        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', Input::get('id'))
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+		$detalle = DB::table('detalle_compras')
+        ->select(array('detalle_compras.id', 'compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->where('compra_id', Input::get('id'))
+        ->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
