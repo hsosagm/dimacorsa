@@ -9,7 +9,7 @@ class DetalleVenta extends \BaseModel implements Logable {
 
 	public function producto()
     {
-        return $this->belongsTo('Producto', 'producto_id');    
+        return $this->belongsTo('Producto');    
     }
 
     public function venta()

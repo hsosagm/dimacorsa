@@ -2,7 +2,6 @@
  
 $(function() 
 {
-    $(document).on('click', '#OpenTableSalesDay', 	  		function() { OpenTableSalesDay(this); 			}); 
     $(document).on('click', '#OpenTableSalesForDate', 		function() { OpenTableSalesForDate(this); 		}); 
     $(document).on('click', '#OpenTablePurchaseDay', 		function() { OpenTablePurchaseDay(this); 		}); 
     $(document).on('click', '#OpenTablePurchaseForDate', 	function() { OpenTablePurchaseForDate(this); 	}); 
@@ -18,13 +17,6 @@ $(function()
     $(document).on('click', '#OpenTableAdvancesForDate',    function() { OpenTableAdvancesForDate(this);    }); 
 });
 
-function OpenTableSalesDay()
-{
-	$.get( "user/ventas/OpenTableSalesDay", function( data ) 
-	{
-        makeTable(data, '', 'Ventas del Dia');
-    });
-}
 
 function OpenTablePurchaseDay()
 {

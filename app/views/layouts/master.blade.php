@@ -31,24 +31,8 @@
 
                 <!-- Start page header -->
                 <div class="header-content">
-                    <h2><i class="fa fa-home"></i> <span>Inventario</span></h2>
-
-{{--                     <div class="breadcrumb-wrapper hidden-xs">
-                        <ol class="breadcrumb">
-                            <a id="f_com_op" href="javascript:void(0);">
-                                <ol class="breadcrumb">
-                                    <li class="active">Compras</li>
-                                </ol>
-                            </a>
-                        </ol>
-                        <ol class="breadcrumb">
-                            <a class="f_ven_op" href="javascript:void(0);">
-                                <ol class="breadcrumb">
-                                    <li class="active">Ventas</li>
-                                </ol>
-                            </a>
-                        </ol>
-                    </div> --}}
+                    <span class="fa fa-home" style="font-size:22px;"></span>
+                    <span id="home"></span>
 
                 </div><!-- /.header-content -->
                 <!--/ End page header -->

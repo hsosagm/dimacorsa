@@ -51,6 +51,7 @@
             Route::get('EgresosDelDiaUsuario'  , 'DatatablesController@EgresosDelDiaUsuario');
             Route::get('GastosDelDiaUsuario'   , 'DatatablesController@GastosDelDiaUsuario');
             Route::get('AdelantosDelDiaUsuario', 'DatatablesController@AdelantosDelDiaUsuario');
+            Route::get('creditSales', 'DatatablesController@creditSales');
         });
         
         Route::group(array('prefix' => 'consulta'), function()
@@ -143,9 +144,10 @@
             Route::post('RemoveSalePayment', 'VentasController@RemoveSalePayment');
             Route::post('FinalizeSale', 'VentasController@FinalizeSale');
             Route::get('OpenModalSalesPayments', 'VentasController@OpenModalSalesPayments');
-            Route::get('OpenTableSalesDay', 'VentasController@OpenTableSalesDay');
+            Route::get('OpenTableSalesOfDay', 'VentasController@OpenTableSalesOfDay');
             Route::get('showSalesDetail', 'VentasController@showSalesDetail');
             Route::get('openSale', 'VentasController@openSale');
+            Route::get('getCreditSales', 'VentasController@getCreditSales');
 
         });
 
@@ -455,10 +457,50 @@ Route::get('timetest', function()
 
 Route::get('cod', function() {
     
-    $venta = Venta::with('cliente', 'detalle_venta')->find(74);
+    // $venta = Venta::with('cliente', 'detalle_venta')->find(74);
 
-    return $venta->detalle_venta;
+    // return $venta->detalle_venta[0]->producto->descripcion;
 
+//     $collection = User::all();
+// $grouped = $collection->groupBy('status');
+//  return $grouped; 
+
+
+//     $collection = User::all();
+// $names = $collection->implode('nombre', ',');
+// echo $names;    
+
+        $table = 'ventas';
+
+        $columns = array(
+            "ventas.created_at as fecha", 
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+            "numero_documento",
+            "saldo",
+            "completed"
+            );
+
+        $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
+
+        $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+        $where = "saldo > 0";
+
+
+    $query = DB::table('ventas')
+        ->select(DB::raw("ventas.created_at as fecha, 
+            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
+            numero_documento,
+            saldo"))
+        ->join('users', 'ventas.user_id', '=', 'users.id')
+        ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
+        ->where('saldo', '>', 0)
+        ->orderBy('fecha', 'ASC')
+        ->get();
+
+        return $query;
 });
 
 

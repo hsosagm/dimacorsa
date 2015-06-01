@@ -9,6 +9,8 @@
 
 	<tbody >
 
+        <?php $deuda = 0; ?>
+
 		@foreach($detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
@@ -18,15 +20,23 @@
 	        <tr>
 	            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
-	            <td field="precio" cod="{{ $q->id }}" class="edit align_right" width="10%"> {{ $precio }} </td>
-	            <td width="10%" class="align_right"> {{ $total }} </td>
+	            <td field="precio" cod="{{ $q->id }}" class="edit right" width="10%"> {{ $precio }} </td>
+	            <td width="10%" class="right"> {{ $total }} </td>
 	        </tr>
 		@endforeach
 	    
 	</tbody>
 
 	<tfoot width="100%">
-
+		<?php
+		    $deuda = number_format($deuda,2,'.',',');
+        ?>
+		<tr>
+		    <td></td>
+		    <td class="center">Total a cancelar</td>
+		    <td></td>
+		    <td class="right">{{ $deuda }} </td>
+	    </tr>
 	</tfoot>
 
 </table>

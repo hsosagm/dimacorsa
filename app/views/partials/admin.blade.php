@@ -25,7 +25,8 @@
                 <span class="arrow"></span>
             </a>
             <ul>
-                <li id="OpenTableSalesDay"><a href="javascript:void(0);">Ventas del Dia</a></li>
+                <li onclick="OpenTableSalesOfDay(this)"><a href="javascript:void(0);">Ventas del Dia</a></li>
+                <li onclick="CreditSales(this)"><a href="javascript:void(0);">Ventas al credito</a></li>
                 <li id="OpenTableSalesForDate"><a href="javascript:void(0);">Ventas por Fechas</a></li>
             </ul>
         </li>

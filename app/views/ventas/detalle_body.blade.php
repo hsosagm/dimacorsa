@@ -13,10 +13,10 @@
     </thead>
 
 	<tbody>
-	
+
         <?php $deuda = 0; ?>
 
-		@foreach(@$detalle as $q)
+		@foreach($detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
 		        $precio = number_format($q->precio,2,'.',',');
@@ -27,7 +27,7 @@
 	            <td width="70%"> {{ $q->descripcion }} </td>
 	            <td field="precio" cod="{{ $q->id }}" class="edit" width="10%"> {{ $precio }} </td>
 	            <td width="10%"> {{ $total }} </td>
-	            <td width="5%"><i onclick="RemoveSaleItem(this, {{ $q->id }}, {{ $q->producto_id }}, {{ $q->cantidad }});" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
+	            <td width="5%"><i onclick="RemoveSaleItem(this, {{ $q->id }});" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
 	        </tr>
 		@endforeach
 	    

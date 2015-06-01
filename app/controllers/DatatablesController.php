@@ -83,7 +83,7 @@ class DatatablesController extends Controller {
 		echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
 	}
 
-	function SalesOfDay(){
+	function SalesOfDay() {
 
 		$table = 'ventas';
 
@@ -91,8 +91,9 @@ class DatatablesController extends Controller {
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-			"numero_documento","completed",
-			"saldo"
+			"numero_documento",
+			"saldo",
+			"completed"
 			);
 
 		$Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
@@ -503,6 +504,5 @@ class DatatablesController extends Controller {
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
-
 
 }
