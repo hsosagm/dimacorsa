@@ -37,9 +37,9 @@
     content: "";
 }
 
-.align_right {
+/*.align_right {
   text-align: right !important;
-}
+}*/
 
 .align_left {
   text-align: left !important;
@@ -57,7 +57,10 @@
 	font-weight: lighter !important;
 }
 
-.red td {
-	color: #FF8888;
-	background: #FFE3E3 !important;
+.header-content {
+    padding: 8px 20px !important;
+}
+
+.header-content td {
+    padding: 0.0em !important;
 }

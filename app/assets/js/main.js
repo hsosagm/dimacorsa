@@ -223,6 +223,7 @@ function makeTable($data, $url, $title) {
 
 
 function clean_panel() {
+    $('#home').empty();
     $('.table').html("");
     $("#table_length").html("");
     $( ".DTTT" ).html("");
@@ -230,8 +231,38 @@ function clean_panel() {
     $('.dt-container').hide();
 }
 
+// codigo para limpiar las capas y generar datatables cuando se usa local
+function generate_dt_local(data) {
+    $("#iSearch").val("");
+    $("#iSearch").unbind();
+    $('#home').empty();
+    $('.table').html("");
+    $("#table_length").html("");
+    $( ".DTTT" ).html("");
+    $('.dt-panel').show();
+    $('.dt-container').hide();
+    $('.table').html(data);
+    $('#example').DataTable();
+    $("#iSearch").focus();
+}
+
 
 // filtra datatable en la posision que se encuentra
 $.fn.dataTableExt.oApi.fnStandingRedraw = function(oSettings) {
     oSettings.oApi._fnDraw(oSettings);
 };
+
+
+// para sumar columnas filtradas en datatables
+jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
+    return this.flatten().reduce( function ( a, b ) {
+        if ( typeof a === 'string' ) {
+            a = a.replace(/[^\d.-]/g, '') * 1;
+        }
+        if ( typeof b === 'string' ) {
+            b = b.replace(/[^\d.-]/g, '') * 1;
+        }
+
+        return a + b;
+    }, 0 );
+} );

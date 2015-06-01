@@ -81,7 +81,7 @@ class DatatablesController extends Controller {
 		echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
 	}
 
-	function SalesOfDay(){
+	function SalesOfDay() {
 
 		$table = 'ventas';
 
@@ -502,6 +502,5 @@ class DatatablesController extends Controller {
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
-
 
 }

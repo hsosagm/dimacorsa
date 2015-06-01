@@ -101,14 +101,17 @@ class VentasController extends \BaseController {
 
 	public function RemoveSaleItem()
 	{
+		$dv = DetalleVenta::find(Input::get('id'));
+
 		$delete = DetalleVenta::destroy(Input::get('id'));
 
 		if ($delete)
 		{
-            $q = Existencia::where('producto_id', Input::get('producto_id'))
+            $Existencia = Existencia::where('producto_id', $dv->producto_id)
             ->where('tienda_id', Auth::user()->tienda_id)->first();
-            $q->existencia = $q->existencia + Input::get('cantidad');
-            $q->save();
+
+            $Existencia->existencia = $Existencia->existencia + $dv->cantidad;
+            $Existencia->save();
 
 			return Response::json(array(
 				'success' => true
@@ -238,7 +241,7 @@ class VentasController extends \BaseController {
 
 	public function FinalizeSale()
 	{
-        $credit = PagosVenta::where('venta_id', 50)
+        $credit = PagosVenta::where('venta_id', Input::get('venta_id'))
         ->where('metodo_pago_id', 2)
         ->first(array(DB::raw('monto')));
 
@@ -249,7 +252,7 @@ class VentasController extends \BaseController {
             $saldo = $credit->monto;
         }
 
-		$venta = Venta::where('id', Input::get('id'))->update(array('completed' => 1, 'saldo' => $saldo));
+		$venta = Venta::where('id', Input::get('venta_id'))->update(array('completed' => 1, 'saldo' => $saldo));
 		
 		if ($venta) {
 			return Response::json(array( 'success' => true ));
@@ -259,9 +262,12 @@ class VentasController extends \BaseController {
 	}
 
 
-	public function OpenTableSalesDay()
+	public function OpenTableSalesOfDay()
 	{
-		return View::make('ventas.SalesOfDay');
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('ventas.SalesOfDay')->render()
+        ));
 	}
 
 
@@ -280,6 +286,8 @@ class VentasController extends \BaseController {
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
 
+		$venta->update(array('completed' => 0, 'saldo' => 0));
+
 		$venta_id = $venta->id;
 
 		$detalle = $this->getSalesDetail();
@@ -287,6 +295,27 @@ class VentasController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('ventas.unfinishedSale', compact('venta', 'venta_id', 'detalle'))->render()
+        ));
+	}
+
+
+	public function getCreditSales()
+	{
+		$ventas = DB::table('ventas')
+        ->select(DB::raw("ventas.created_at as fecha, 
+            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
+            numero_documento,
+            saldo"))
+        ->join('users', 'ventas.user_id', '=', 'users.id')
+        ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
+        ->where('saldo', '>', 0)
+        ->orderBy('fecha', 'ASC')
+        ->get();
+
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('ventas.creditSales', compact('ventas'))->render()
         ));
 	}
 

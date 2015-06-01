@@ -15,6 +15,10 @@
 }
 
 .widthL{
+ width: 33%;
+}
+
+.widthXL{
  width: 43%;
 }
 
@@ -36,23 +40,26 @@ tr.row_selected td {
 }
 
 .display tr:first-child th {
-border:0px solid #DEDEDE;
-text-align:center;
-border-width:0px 0px 1px 1px;
-font-size: 14px;
-font-family: FontAwesome;
-font-style: normal;
-font-weight: 200;
+    border:0px solid #DEDEDE;
+    text-align:center;
+    border-width:0px 0px 1px 1px;
+    font-size: 14px;
+    font-family: FontAwesome;
+    font-style: normal;
 }
 
 .display tr:first-child th:first-child{
-border-width:0px 0px 1px 0px;
+    border-width:0px 0px 1px 0px;
+}
+
+.display th {
+  height: 35px !important;
 }
 
 .display tr td {
-border:0px solid #E6DCFF;
-border-width:0px 0px 0px 1px;
-margin:0px;padding:0px;
+    border:0px solid #E6DCFF;
+    border-width:0px 0px 0px 1px;
+    margin:0px;padding:0px;
 }
 
 th, td {
@@ -182,15 +189,6 @@ table {
     width: 100%;
 }
 
-.icons {
-  text-align: center;
-}
-
-.link-icon {
-  padding-right: 6%;
-}
-
-
 .DT_table_div tr td {
   border: 1px solid #DDD;
   background: #FFF;
@@ -212,4 +210,14 @@ table {
 .grid_detalle_factura {
   width: 95%;
   margin: auto;
+}
+
+.red td {
+  color: #FF8888;
+  background: #FFE3E3 !important;
+}
+
+.home_num {
+  min-width: 88px;
+  text-align: right;
 }

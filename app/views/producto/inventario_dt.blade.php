@@ -17,7 +17,7 @@ $(document).ready(function() {
         "aoColumnDefs": [
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Codigo",       "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Marca",        "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthL",              "sTitle": "Descripcion",  "aTargets": [2]},
+            {"sClass": "mod_codigo hover widthXL",              "sTitle": "Descripcion",  "aTargets": [2]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "P costo",      "aTargets": [3]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "P publico",    "aTargets": [4]},
         ],
