@@ -34,26 +34,53 @@ function ShowHistoryTableShopping ()
 }
 
 //muestra tabla con todas las copras pendientes de pago
-function ShowTableUnpaidShopping ()
+function ShowTableUnpaidShopping (e)
 {
+
     $id = $("input[name='proveedor_id']").val();
 
     if($id > 0)
     {
-        $.ajax({
-            type: "GET",
-            url: "admin/compras/ShowTableUnpaidShopping",
-            data: {proveedor_id: $id},
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                 makeTable(data, '', 'Compras');
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
+
+    $.ajax({
+        type: 'GET',
+        url: "admin/compras/ShowTableUnpaidShopping",
+        data: {proveedor_id: $id},
+        success: function (data) {
+
+            if (data.success == true)
+            {
+                generate_dt_local(data.table);
+
+                setTimeout(function()
+                {
+                    $('#example_length').prependTo("#table_length");
+                    var saldo = ($('input[name=total_saldo]').val());
+                    var saldo_vencido = ($('input[name=saldo_vencido]').val());
+                    $( "#home" ).append('<td style="width:150px; text-align:right;">/ Compras al credito: </td>');
+                    $( "#home" ).append('<td style="width:60px; text-align:right;">Total:</td>');
+                    $( "#home" ).append('<td class="home_num">'+saldo+'</td>');
+                    $( "#home" ).append('<td style="width:85px; text-align:right;">Vencido:</td>');
+                    $( "#home" ).append('<td class="home_num">'+saldo_vencido+'</td>');
+        
+                    $('.dt-container').show();
+                    
+                    oTable = $('#example').dataTable();
+                    $('#iSearch').keyup(function() {
+                        oTable.fnFilter( $(this).val() );
+                        var table = $('#example').DataTable();
+                    })
+                }, 300);
             }
-        });
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    }); 
     }
 }
+
 
 //muestra tabla de todos los pagos
 function ShowTableHistoryPayment ()

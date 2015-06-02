@@ -25,7 +25,7 @@ $(document).ready(function() {
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {
-                    return '<a href="javascript:void(0);" title="Ver detalle" onclick="showPurchaseDetail(this)" class="fa fa-plus-square show_detail font14"><a href="javascript:void(0);" title="Abrir venta" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i> <a href="javascript:void(0);" title="" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
                 }
             }, 
         ],

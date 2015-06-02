@@ -424,7 +424,8 @@ function VerFacturaDeCompra(e)
 
 }
         
-function showPurchaseDetail(e) {
+
+function showPurchasesDetail(e) {
 
     if ($(e).hasClass("hide_detail")) 
     {
@@ -452,6 +453,7 @@ function showPurchaseDetail(e) {
 function getPurchaseDetail(e) {
 
     $id = $(e).closest('tr').attr('id');
+
     $('.subtable').remove();
     var nTr = $(e).parents('tr')[0];
     $(e).addClass('hide_detail');
@@ -460,7 +462,7 @@ function getPurchaseDetail(e) {
 
     $.ajax({
         type: 'GET',
-        url: "user/ventas/showPurchaseDetail",
+        url: "admin/compras/showPurchaseDetail",
         data: { id: $id},
         success: function (data) {
             if (data.success == true)

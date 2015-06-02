@@ -18,12 +18,13 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Tienda",      "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [1]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Monto",       "aTargets": [3]},
-            {"sClass": "mod_codigo hover  widthL",             "sTitle": "Observaciones","aTargets": [4]},
+            {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Metodo Pago", "aTargets": [3]},
+            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Monto",       "aTargets": [4]},
+            {"sClass": "mod_codigo hover  widthL",             "sTitle": "Observaciones","aTargets": [5]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                    return '<a href="javascript:void(0);" onclick="showSalesDetail(this)" class="fa fa-plus-square  show_detail">';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i>';
                 }
             },
         ],

@@ -31,7 +31,11 @@
 
                 <!-- Start page header -->
                 <div class="header-content">
-                    <h2><i class="fa fa-home"></i> <span id="InformationProviderSearches"></span></h2>
+                    <h2>
+                    <i class="fa fa-home"></i> 
+                    <span id="InformationProviderSearches"></span>
+                    <span id="home"></span>
+                    </h2>
 
                 </div><!-- /.header-content -->
                 <!--/ End page header -->

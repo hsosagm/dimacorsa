@@ -244,6 +244,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('ShowTableHistoryPayment'        , 'CompraController@ShowTableHistoryPayment');
         Route::get('ShowTableHistoryPaymentDetails' , 'CompraController@ShowTableHistoryPaymentDetails');
         Route::get('showPurchaseDetail'             , 'CompraController@showPurchaseDetail');
+        Route::get('showPaymentsDetail'             , 'CompraController@showPaymentsDetail');
 
     });
 
@@ -325,13 +326,14 @@ Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
 
-    $compra = Compra::with('detalle_compra')->find(1);
-     
-    $value = $compra->detalle_compra->first(); 
     
-    return $value->producto;
-    
+$numero = 1225.25;
+ 
+  $letra = new Convertidor;
 
+  $total_letras = $letra->ConvertirALetras($numero);
+
+  return View::make('ventas.ImprimirFactura',compact('total_letras'));
 });
 
 

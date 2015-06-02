@@ -15,16 +15,16 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [3]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [0]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [2]},
+            {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Factura",     "aTargets": [3]},
+            {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Total",       "aTargets": [4]},
+            {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Saldo",       "aTargets": [5]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                    return '<a href="javascript:void(0);">Ver Factura</a>';
+                    return ' <i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i>';
                 }
             },
         ],
