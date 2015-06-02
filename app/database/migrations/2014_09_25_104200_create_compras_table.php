@@ -20,10 +20,10 @@ class CreateComprasTable extends Migration {
             $table->integer('user_id')->unsigned();
             $table->string('numero_documento', 100);
             $table->date('fecha_documento');
-            $table->boolean('completed')->default(0);
-            $table->boolean('canceled')->default(0);
             $table->decimal('saldo')->default(0.00);
             $table->decimal('total')->default(0.00);
+            $table->boolean('completed')->default(0);
+            $table->boolean('canceled')->default(0);
             $table->text('nota');
 			$table->timestamps();
 

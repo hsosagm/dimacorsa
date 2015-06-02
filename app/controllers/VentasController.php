@@ -4,7 +4,7 @@ class VentasController extends \BaseController {
 
 	public function create()
 	{
-		if (Input::has('_token'))
+		if (Session::token() == Input::get('_token'))
 		{
 			$venta = new Venta;
 
@@ -155,7 +155,7 @@ class VentasController extends \BaseController {
 	public function ModalSalesPayments()
 	{
 
-		if (Input::has('_token'))
+		if (Session::token() == Input::get('_token'))
 		{
 			if($this->check_if_payment_already_exists() == true) 
 				return "Seleccione otro metodo de pago o modifique el que ya existe";

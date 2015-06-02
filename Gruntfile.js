@@ -127,7 +127,7 @@ module.exports = function(grunt) {
                     './app/assets/css/not-scroll.css',
                     './app/assets/css/consultas.css',
                     './app/assets/css/datepicker-pickadate-custom.css',
-                    './app/assets/cliente/css/*',
+                    './app/assets/css/cliente.css',
                     
                 ]
 
@@ -204,7 +204,8 @@ module.exports = function(grunt) {
             cliente: {
                 src: [
                     './app/assets/js/main.js',
-                    './app/assets/cliente/js/*',
+                    './app/assets/js/ventas.js',
+                    './app/assets/js/cliente.js',
                   ],
                   dest: './public/js/cliente.js'
                 },

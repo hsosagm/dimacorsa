@@ -266,3 +266,85 @@ function cliente_help() {
         });
     }
 };
+
+// Busca el cliente y al seleccionar busca la informacion mediante el id
+$('#customer_search').autocomplete({
+    serviceUrl: '/user/cliente/buscar',
+    onSelect: function (q) {
+        $("input[name='cliente_id']").val(q.id);
+        $("#info_cliente").html(q.value);
+
+        $.ajax({
+            type: 'GET',
+            url: "user/cliente/info_cliente",
+            data: { cliente_id: q.id },
+            success: function (data) {
+                if (data.success == true)
+                {
+                    $("#info_cliente").html(data.info);
+                    $(".dt-container").hide();
+                }
+                else
+                {
+                    msg.warning(data, 'Advertencia!');
+                }
+            }
+        });
+    }
+});
+
+
+// Habre datatables en serverside con el historial del cliente
+// el cliente_id lo obtiene en customerSalesHistory.blade.php 
+function salesByCustomer(e)
+{
+    $.ajax({
+        type: 'GET',
+        url: "user/cliente/salesByCustomer",
+        success: function (data) {
+            if (data.success == true)
+            {
+                makeTable(data.table, '', 'Historial de ventas');
+            }
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    }); 
+}
+
+
+// Habre datatables en local con las ventas del cliente al credito
+function creditSalesByCustomer(e)
+{
+    $cliente_id = $("input[name='cliente_id']").val();
+
+    $.ajax({
+        type: 'GET',
+        url: "user/cliente/creditSalesByCustomer",
+        data: { cliente_id: $cliente_id },
+        success: function (data) {
+            if (data.success == true)
+            {
+                generate_dt_local(data.table);
+
+                setTimeout(function()
+                {
+                    $('#example_length').prependTo("#table_length");
+                    $('.dt-container').show();
+                    
+                    oTable = $('#example').dataTable();
+                    $('#iSearch').keyup(function() {
+                        oTable.fnFilter( $(this).val() );
+                    });
+
+                }, 300);
+            }
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    }); 
+}
