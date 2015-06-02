@@ -42,7 +42,24 @@ class CompraController extends \BaseController {
 
 	public function ShowTableUnpaidShopping()
 	{
-		return View::make('compras.ComprasPendientesDePago');
+			$compras = DB::table('compras')
+        	->select(DB::raw("compras.fecha_documento as fecha, 
+            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+            proveedores.nombre as proveedor,
+            numero_documento,
+            compras.id as id ,
+            saldo"))
+        ->join('users', 'compras.user_id', '=', 'users.id')
+        ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
+        ->where('saldo', '>', 0)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))
+        ->orderBy('fecha', 'ASC')
+        ->get();
+
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('compras.ComprasPendientesDePago', compact('compras'))->render()
+        ));
 	}
 
 	public function ShowTableHistoryPayment()
@@ -333,12 +350,12 @@ class CompraController extends \BaseController {
 		return $pagos;
 	}
 	
-	public function showSalesDetail()
+	public function showPurchaseDetail()
 	{
-    	$detalle = DB::table('detalle_ventas')
-        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', Input::get('id'))
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+		$detalle = DB::table('detalle_compras')
+        ->select(array('detalle_compras.id', 'compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->where('compra_id', Input::get('id'))
+        ->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
@@ -346,7 +363,23 @@ class CompraController extends \BaseController {
 
 		return Response::json(array(
 			'success' => true,
-			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle', 'deuda'))->render()
+			'table'   => View::make('compras.DT_detalle_compra', compact('detalle', 'deuda'))->render()
+        ));
+	}
+
+	public function showPaymentsDetail()
+	{
+		 $detalle = DB::table('detalle_abonos_compra')
+        ->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
+        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+        ->where('abonos_compra_id','=', Input::get('id'))->get();
+
+
+		$deuda = 0;
+
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('compras.DT_detalle_abono', compact('detalle', 'deuda'))->render()
         ));
 	}
 }	

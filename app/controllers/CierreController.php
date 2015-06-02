@@ -7,8 +7,8 @@ class CierreController extends \BaseController {
       //consulta para obtener los abonos a compras
         $query_abonos_ventas = DB::table('metodo_pago')
        ->select(DB::raw('metodo_pago.descripcion as descripcion, sum(monto) as total'))
-       ->join('detalle_abonos_ventas','detalle_abonos_ventas.metodo_pago_id','=','metodo_pago.id')
-       ->whereRaw("DATE_FORMAT(detalle_abonos_ventas.created_at, '%Y-%m-%d')= DATE_FORMAT(current_date, '%Y-%m-%d')")
+       ->join('abonos_ventas','abonos_ventas.metodo_pago_id','=','metodo_pago.id')
+       ->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')= DATE_FORMAT(current_date, '%Y-%m-%d')")
        ->groupBy('metodo_pago.id')->get();
 
        $abonos_ventas = $this->llenar_arreglo($query_abonos_ventas);
@@ -69,9 +69,9 @@ class CierreController extends \BaseController {
 
         //consulta para obtener los abonos a compras
         $query_abonos_compras = DB::table('metodo_pago')
-       ->select(DB::raw('metodo_pago.descripcion as descripcion, sum(monto) as total'))
-       ->join('detalle_abonos_compra','detalle_abonos_compra.metodo_pago_id','=','metodo_pago.id')
-       ->whereRaw("DATE_FORMAT(detalle_abonos_compra.created_at, '%Y-%m-%d')= DATE_FORMAT(current_date, '%Y-%m-%d')")
+       ->select(DB::raw('metodo_pago.descripcion as descripcion, sum(total) as total'))
+       ->join('abonos_compras','abonos_compras.metodo_pago_id','=','metodo_pago.id')
+       ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')= DATE_FORMAT(current_date, '%Y-%m-%d')")
        ->groupBy('metodo_pago.id')->get();
 
        $abonos_compras = $this->llenar_arreglo($query_abonos_compras);

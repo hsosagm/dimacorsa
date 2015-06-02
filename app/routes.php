@@ -247,6 +247,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('ShowTableUnpaidShopping'        , 'CompraController@ShowTableUnpaidShopping');
         Route::get('ShowTableHistoryPayment'        , 'CompraController@ShowTableHistoryPayment');
         Route::get('ShowTableHistoryPaymentDetails' , 'CompraController@ShowTableHistoryPaymentDetails');
+        Route::get('showPurchaseDetail'             , 'CompraController@showPurchaseDetail');
+        Route::get('showPaymentsDetail'             , 'CompraController@showPaymentsDetail');
 
     });
 
@@ -328,16 +330,14 @@ Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
 
-$detalle = DB::table('detalle_compras')
-        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', Input::get('id'))
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-        ->get();
+    
+$numero = 1225.25;
+ 
+  $letra = new Convertidor;
 
-return $detalle;
+  $total_letras = $letra->ConvertirALetras($numero);
 
-
+  return View::make('ventas.ImprimirFactura',compact('total_letras'));
 });
 
 

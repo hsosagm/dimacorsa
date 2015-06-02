@@ -6,10 +6,10 @@ $(document).ready(function()
 
     $('#example').dataTable({
         "aoColumnDefs": [
-            {"sClass": "widthM",              "sTitle": "Nombre",       "aTargets": [0]},
-            {"sClass": "widthL",              "sTitle": "Direccion",    "aTargets": [1]},
-            {"sClass": "align_right widthS",  "sTitle": "Telefono",     "aTargets": [2]},
-            {"sClass": "widthM",              "sTitle": "nit",          "aTargets": [3]},
+            {"sClass": "widthS",              "sTitle": "Nombre",       "aTargets": [0]},
+            {"sClass": "widthM",              "sTitle": "Direccion",    "aTargets": [1]},
+            {"sClass": "widthS",             "sTitle": "Telefono",     "aTargets": [2]},
+            {"sClass": "widthS",              "sTitle": "nit",          "aTargets": [3]},
         ],
 
         "fnDrawCallback": function( oSettings ) {

@@ -5,3 +5,97 @@
 }
 
  
+.cliente-body-info
+{
+	height: 270px;
+}
+
+ .cliente_tabs input[type="text"]{
+	border :solid 1px #F3F3F3;
+	color: #000000 !important;
+}
+
+.form-cliente {
+	padding-left: 10px;
+}
+
+.info-cliente  table tr td input {
+	width: 350px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.info-cliente  table tr td input[type="checkbox"]{
+	width: 10px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.info-cliente hr, h3{
+	padding:0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	text-align: center;
+ }
+
+ .info-cliente table tr td {
+ 	background: #FFFFFF !important
+ }
+
+ .contactos-info-body{
+	font-size: 10px !important;
+}
+ .contactos-lista {
+	 height: 230px; 
+	 overflow-y: scroll;
+ }
+.info-contactos-body {
+	font-size: 10px !important;
+	line-height: 130%;
+	color :#C3BEBE;
+}
+
+
+.list-body {
+	padding-left: 60px;
+}
+
+.list-body input {
+	width: 200px;
+	height: 20px;
+	font-size: 10px !important;
+}
+
+.contactos-body input[type="text"] {
+	width: 200px;
+	height: 20px;
+	font-size: 10px !important;
+	margin-bottom: 6px;
+}
+
+.contactos-body input[type="submit"] {
+	height: 20px;
+	font-size: 10px !important;
+	margin-bottom: 6px;
+}
+
+ .contactos-body {
+	border-left:solid 1px #C2C2C2 !important;
+ }
+.info-contactos  table tr td {
+	background: #ffffff !important;
+	padding-top:0px !important;
+	padding-button:0px !important;
+	font: bold !important;
+	font-size: 10px;
+	height: 0px;
+	border:solid 1px  #ffffff;
+
+}
+
+.body-contactos input[type="text"]{
+        background: white;
+        width: 100%;
+        margin-top: 2px;
+        height: 25px;
+        padding-left: 10px;
+    }

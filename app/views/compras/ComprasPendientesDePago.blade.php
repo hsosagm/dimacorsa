@@ -1,43 +1,71 @@
+<?php 
+$total_saldo = 0;
+$saldo_vencido = 0;
+?>
 
-<script>
-$(document).ready(function() {
+<table id="example" class="display" width="100%" cellspacing="0">
 
-    proccess_table('Inventario');
+    <thead>
+        <tr id="hhh">
+            <th>Fecha</th>
+            <th>Usuario</th>
+            <th>Cliente</th>
+            <th>Numero</th>
+            <th>Saldo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
 
-    $('#example').dataTable({
+    <tbody>
 
-        "language": {
-            "lengthMenu": "Mostrar _MENU_ archivos por pagina",
-            "zeroRecords": "No se encontro ningun archivo",
-            "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay archivos disponibles",
-            "infoFiltered": "- ( filtrado de _MAX_ archivos )"
-        },
-        
-        "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [3]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
-                "orderable": false,
-                "mRender": function() {
-                    return '<a href="javascript:void(0);">Detalle</a> <a href="javascript:void(0);" onClick="AbonarCompraPendienteDePago(this)">Abonar</a>';
-                }
-            }, 
-        ],
+        @foreach($compras as $q)
+        <?php
+        $total_saldo = $total_saldo + $q->saldo;
+        $saldo = number_format($q->saldo,2,'.',',');
 
-        "fnDrawCallback": function( oSettings ) {
-            $( ".DTTT" ).html("");
-        },
+        $fecha_entrada = $q->fecha;
+        $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+        $fecha_vencida = date('Ymd', strtotime("-30 days"));
+        ?>
 
-        "bJQueryUI": false,
-        "bProcessing": true,
-        "bServerSide": true,
-        "sAjaxSource": "admin/datatables/ComprasPendientesDePago?proveedor_id={{Input::get('proveedor_id')}}"
-    });
+        @if( $fecha_entrada < $fecha_vencida )
+        <?php
+        $saldo_vencido = $saldo_vencido + $q->saldo;
+        ?>
+        <tr class="red" id="{{ $q->id }}">
+            <td class="center" width="15%"> {{ $q->fecha }} </td>
+            <td                width="21%"> {{ $q->usuario }} </td>
+            <td                width="40%"> {{ $q->proveedor }} </td>
+            <td                width="12%"> {{ $q->numero_documento }} </td>
+            <td class="right"  width="12%"> {{ $saldo }} </td>
+            <td>
+                <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <i id="{{ $q->id }}" class="fa fa-credit-card btn-link theme-c" onClick="AbonarCompraPendienteDePago(this)" ></i>
+            </td>
+        </tr>
+        @else
+        <tr id="{{ $q->id }}">
+            <td class="center" width="15%"> {{ $q->fecha  }} </td>
+            <td                width="21%"> {{ $q->usuario }} </td>
+            <td                width="40%"> {{ $q->proveedor }} </td>
+            <td                width="12%"> {{ $q->numero_documento }} </td>
+            <td class="right"  width="12%"> {{ $saldo }} </td>
+            <td>
+                <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <i id="{{ $q->id }}" class="fa fa-credit-card btn-link theme-c" onClick="AbonarCompraPendienteDePago(this)" ></i>
+            </td>
+        </tr>
+        @endif
 
-});
-</script>
+        @endforeach
+
+    </tbody>
+
+</table>
+<?php $total_saldo = number_format($total_saldo,2,'.',','); ?>
+<?php $saldo_vencido = number_format($saldo_vencido,2,'.',','); ?>
+
+{{ Form::hidden('total_saldo', $total_saldo) }}
+{{ Form::hidden('saldo_vencido', $saldo_vencido) }}

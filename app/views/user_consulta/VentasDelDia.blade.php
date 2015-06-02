@@ -15,17 +15,15 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "widthM",   "sTitle": "Fecha",      "aTargets": [0]},
-            {"sClass": "widthM",   "sTitle": "Vendedor",   "aTargets": [1]},
-            {"sClass": "widthM",   "sTitle": "Cliente",    "aTargets": [2]},
-            {"sClass": "widthS",   "sTitle": "Factura",    "aTargets": [3]},
-            {"sClass": "widthS",   "sTitle": "Total",      "aTargets": [4]},
-            
-            "sClass": "widthS",   "sTitle": "Saldo",      "aTargets": [5]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
-                "orderable": false,
+            {"sClass": "widthM",       "sTitle": "Fecha",                        "aTargets": [0]},
+            {"sClass": "widthM",       "sTitle": "Vendedor",                     "aTargets": [1]},
+            {"sClass": "widthM",       "sTitle": "Cliente",                      "aTargets": [2]},
+            {"sClass": "widthS",       "sTitle": "Factura",                      "aTargets": [3]},
+            {"sClass": "widthS",       "sTitle": "Saldo",                        "aTargets": [4]},
+            {"sClass": "widthS",       "sTitle": "Completed", "bVisible": false, "aTargets": [5]},
+            {"sClass": "widthS icons", "sTitle": "Acciones", "orderable": false, "aTargets": [6],
                 "mRender": function() {
-                    return '<a href="javascript:void(0);" onclick="showSalesDetail(this)" class="fa fa-plus-square  show_detail">';
+                    return '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14"><a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
                 }
             }
         ],
@@ -34,10 +32,16 @@ $(document).ready(function() {
             $( ".DTTT" ).html("");
         },
 
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+            if ( aData[5] == 0){
+                jQuery(nRow).addClass('red');
+            }               
+        },
+
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/VentasDelDiaUsuario"
+        "sAjaxSource": "user/datatables/SalesOfDay"
     });
 
 });

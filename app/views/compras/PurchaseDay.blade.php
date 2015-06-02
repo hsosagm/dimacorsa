@@ -21,16 +21,22 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [3]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
+            {"sClass": "widthS",          "sTitle": "Completed", "bVisible": false,     "aTargets": [6]},
+            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {
-                    return '<a href="javascript:void(0);">Detalle</a> <a href="javascript:void(0);" onClick="VerFacturaDeCompra(this)">Factura</a>';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i> <a href="javascript:void(0);" title="" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
                 }
             }, 
         ],
 
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
+        },
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+            if ( aData[6] == 0){
+                jQuery(nRow).addClass('red');
+            }               
         },
 
         "bJQueryUI": false,

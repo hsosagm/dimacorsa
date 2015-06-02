@@ -55,7 +55,9 @@ class DatatablesController extends Controller {
 	{
 		$table = 'clientes';
 
-		$columns = array("nombre","direccion","telefono","nit");
+		$columns = array(
+			"CONCAT_WS(' ',nombre,apellido) as cliente",
+			"direccion","telefono","nit");
 
 		$Searchable = array("nombre","direccion","telefono");
 
@@ -113,7 +115,8 @@ class DatatablesController extends Controller {
 			"proveedores.nombre as proveedor_nombre",
 			"numero_documento",
 			"total",
-			"saldo");
+			"saldo",
+			"completed");
 
 		$Search_columns = array("users.nombre","users.apellido","numero_documento","proveedores.nombre");
 
@@ -349,14 +352,14 @@ class DatatablesController extends Controller {
 //**********************************************************************************************************************
 	public function VentasDelDiaUsuario()
 	{
+		
 		$table = 'ventas';
 
 		$columns = array(
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-			"numero_documento",
-			"total",
+			"numero_documento","completed",
 			"saldo"
 			);
 
@@ -364,8 +367,7 @@ class DatatablesController extends Controller {
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-		$where = " 
-		DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d') AND
+		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')  AND
 		users.id =".Auth::user()->id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
