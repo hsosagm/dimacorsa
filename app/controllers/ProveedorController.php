@@ -129,9 +129,8 @@ class ProveedorController extends BaseController {
 
     public function TotalCredito()
     {
-        $total = Compra::select(DB::Raw('sum(saldo) as total'))
-        ->where('proveedor_id','=', Input::get('proveedor_id'))
-        ->where('saldo','>', 0 )->first();
+        $total = Compra::where('proveedor_id','=', Input::get('proveedor_id'))
+        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
         return $total->total;
     }

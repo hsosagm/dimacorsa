@@ -17,7 +17,7 @@ class CreatePagosVentasTable extends Migration {
 			$table->increments('id');
 			$table->integer('venta_id')->unsigned();
 			$table->decimal('monto', 8, 2);
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
 
             $table->foreign('venta_id')->references('id')->on('ventas')->onDelete('cascade')->onUpdate('cascade');

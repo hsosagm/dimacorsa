@@ -18,7 +18,7 @@ class CreateDetalleIngresosTable extends Migration {
 			$table->string('descripcion');
 			$table->decimal('monto', 8, 2);
 			$table->integer('ingreso_id')->unsigned();
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
 
 			$table->foreign('ingreso_id')->references('id')->on('ingresos')->onDelete('cascade')->onUpdate('cascade');

@@ -17,7 +17,7 @@ class CreateAbonosVentasTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->integer('cliente_id')->unsigned();
 			$table->decimal('monto', 8, 2)->default(0.00);
 			$table->string('observaciones')->nullable();

@@ -17,7 +17,7 @@ class CreatePagosComprasTable extends Migration {
 			$table->increments('id');
 			$table->integer('compra_id')->unsigned();
 			$table->decimal('monto', 8, 2)->default(0.00);
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
 
 			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');

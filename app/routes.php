@@ -325,15 +325,18 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelDia' );
 Route::get('test', function()
 {   
+    $nombre = 'madrid';
+    return "leonel {$nombre}";
 
     
-$numero = 1225.25;
+  $numero = 15.00;
  
   $letra = new Convertidor;
 
   $total_letras = $letra->ConvertirALetras($numero);
 
   return View::make('ventas.ImprimirFactura',compact('total_letras'));
+  return View::make('ventas.ImprimirGarantia',compact('total_letras'));
 });
 
 

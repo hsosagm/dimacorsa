@@ -8,7 +8,7 @@
     <!-- END @HEAD -->
     
 
-    <body class="page-header-fixed page-sidebar-fixed">
+    <body style="display: block;" class="page-header-fixed page-sidebar-fixed page-footer-fixed">
 
         <div id="loading">
             <div class="loading-inner">

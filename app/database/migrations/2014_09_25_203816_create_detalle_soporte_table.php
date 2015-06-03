@@ -18,7 +18,7 @@ class CreateDetalleSoporteTable extends Migration {
 			$table->string('descripcion');
 			$table->decimal('monto', 8, 2);
 			$table->integer('soporte_id')->unsigned();
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
 
 			$table->foreign('soporte_id')->references('id')->on('soporte')->onDelete('cascade')->onUpdate('cascade');
