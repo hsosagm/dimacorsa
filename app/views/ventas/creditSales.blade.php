@@ -7,11 +7,12 @@ $saldo_vencido = 0;
 
     <thead>
         <tr id="hhh">
-            <th>Fecha</th>
             <th>Usuario</th>
-            <th>Cliente</th>
-            <th>Numero</th>
+            <th>Fecha</th>
+            <th>Factura</th>
+            <th>Total</th>
             <th>Saldo</th>
+            <th>Operaciones</th>
         </tr>
     </thead>
 
@@ -21,6 +22,7 @@ $saldo_vencido = 0;
 		    <?php
 		        $total_saldo = $total_saldo + $q->saldo;
 		        $saldo = number_format($q->saldo,2,'.',',');
+		        $total = number_format($q->total,2,'.',',');
 
 		        $fecha_entrada = $q->fecha;
                 $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
@@ -31,21 +33,30 @@ $saldo_vencido = 0;
 			    <?php
 			        $saldo_vencido = $saldo_vencido + $q->saldo;
 		        ?>
-	            <tr class="red">
-		            <td class="center" width="15%"> {{ $q->fecha }} </td>
+	            <tr id="{{ $q->id }}" class="red">
 		            <td                width="21%"> {{ $q->usuario }} </td>
-		            <td                width="40%"> {{ $q->cliente }} </td>
-		            <td                width="12%"> {{ $q->numero_documento }} </td>
+		            <td class="center" width="15%"> {{ $q->fecha }} </td>
+		            <td class="right"  width="12%"> {{ $q->numero_documento }} </td>
+		            <td class="right"  width="12%"> {{ $total }} </td>
 		            <td class="right"  width="12%"> {{ $saldo }} </td>
+		            <td class="widthS center font14"  width="12%"> 
+		                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> 
+		                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-paypal"> 
+		            </td>
 		        </tr>
 			@else
-		        <tr>
-		            <td class="center" width="15%"> {{ $q->fecha }} </td>
+		        <tr id="{{ $q->id }}">
 		            <td                width="21%"> {{ $q->usuario }} </td>
-		            <td                width="40%"> {{ $q->cliente }} </td>
-		            <td                width="12%"> {{ $q->numero_documento }} </td>
+		            <td class="center" width="15%"> {{ $q->fecha }} </td>
+		            <td class="right"  width="12%"> {{ $q->numero_documento }} </td>
+		            <td class="right"  width="12%"> {{ $total }} </td>
 		            <td class="right"  width="12%"> {{ $saldo }} </td>
+		            <td class="widthS center font14"  width="12%"> 
+		                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> 
+		                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-paypal"> 
+		            </td>
 		        </tr>
+
 			@endif
 
 		@endforeach

@@ -77,6 +77,10 @@
             Route::get('contacto_nuevo'    , 'ClienteController@contacto_nuevo' );
             Route::post('contacto_update'  , 'ClienteController@contacto_update');
             Route::post('contacto_info'    , 'ClienteController@contacto_info'  );
+            Route::get('salesByCustomer', 'ClienteController@salesByCustomer');
+            Route::get('DT_salesByCustomer'   , 'ClienteController@DT_salesByCustomer');
+            Route::get('creditSalesByCustomer'   , 'ClienteController@creditSalesByCustomer');
+            Route::get('info_cliente'      , 'ClienteController@info_cliente');
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -475,37 +479,79 @@ Route::get('cod', function() {
 // $names = $collection->implode('nombre', ',');
 // echo $names;    
 
-        $table = 'ventas';
+    //     $table = 'ventas';
 
-        $columns = array(
-            "ventas.created_at as fecha", 
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-            "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-            "numero_documento",
-            "saldo",
-            "completed"
-            );
+    //     $columns = array(
+    //         "ventas.created_at as fecha", 
+    //         "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+    //         "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+    //         "numero_documento",
+    //         "saldo",
+    //         "completed"
+    //         );
 
-        $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
+    //     $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
 
-        $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+    //     $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-        $where = "saldo > 0";
+    //     $where = "saldo > 0";
 
 
-    $query = DB::table('ventas')
-        ->select(DB::raw("ventas.created_at as fecha, 
-            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
-            numero_documento,
-            saldo"))
-        ->join('users', 'ventas.user_id', '=', 'users.id')
-        ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
+    // $query = DB::table('ventas')
+    //     ->select(DB::raw("ventas.created_at as fecha, 
+    //         CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+    //         CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
+    //         numero_documento,
+    //         saldo"))
+    //     ->join('users', 'ventas.user_id', '=', 'users.id')
+    //     ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
+    //     ->where('saldo', '>', 0)
+    //     ->orderBy('fecha', 'ASC')
+    //     ->get();
+
+    //     return $query;
+
+        // $query = Venta::where('cliente_id','=', 3914)
+        // ->where('saldo', '>', 0)
+        // ->get();
+
+
+        //     return $query[0]->cliente->nombre;
+
+        $query = Venta::where('cliente_id','=', 3914)
         ->where('saldo', '>', 0)
-        ->orderBy('fecha', 'ASC')
         ->get();
 
-        return $query;
+        $saldo_total = 0;
+        $saldo_vencido = 0;
+
+        foreach ($query as  $q)
+        {
+            $fecha_entrada = $q->created_at;
+            $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+            $fecha_vencida = date('Ymd',strtotime("-30 days"));
+
+            if ($fecha_entrada < $fecha_vencida)
+            {
+                $saldo_vencido = $saldo_vencido + $q->saldo;
+            }
+            $saldo_total = $saldo_total + $q->saldo;
+        }
+
+        $cliente = $query[0]->cliente->nombre . "&nbsp;" . $query[0]->cliente->apellido;
+
+        $saldo_total   = f_num::get($saldo_total);
+        $saldo_vencido = f_num::get($saldo_vencido);
+
+        $tab = "";
+
+        $info = $cliente . $tab . " Saldo total &nbsp;". $saldo_total . $tab ." Saldo vencido &nbsp;" .$saldo_vencido;
+
+        return Response::json(array(
+            'success'       => true,
+            'info' => $info
+        ));
+      
 });
 
 

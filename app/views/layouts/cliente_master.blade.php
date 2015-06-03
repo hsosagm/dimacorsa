@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+
     <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
     <!-- START @HEAD -->
     @include('cliente_partials.head')
@@ -31,7 +29,7 @@
 
                 <!-- Start page header -->
                 <div class="header-content">
-                    <h2><i class="fa fa-home"></i> <span id="InformacionClienteBuscado"></span></h2>
+                    <h2><i class="fa fa-home"></i> <span id="info_cliente"></span></h2>
 
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
@@ -65,17 +63,13 @@
 
     $(document.body).delegate(":input", "keyup", function(e) {
 
-        if(e.which == 13) {
-            $(this).trigger("enter");
-        }
-
         if (e.keyCode == 13 && e.shiftKey) {
             $(this).trigger("shift_enter");
             e.preventDefault();
         }
     });
 
-    $(document).on("keydown",".input",function(event) {
+    $(document).on("keydown",".focus_next_on_enter",function(event) {
         if (event.which === 13 || event.keyCode === 13) {
             event.stopPropagation();
             var position = $(this).index('input');
@@ -83,32 +77,10 @@
         }
     });
 
-    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
-        var term = this.term.split(' ').join('|');
-        var re = new RegExp("(" + term + ")", "gi");
-        var t = item.label.replace(re, "<b class='hiligth'>$1</b>");
-        return $("<li></li>")
-        .data("item.autocomplete", item)
-        .append("<a>" + t + "</a>")
-        .appendTo(ul);
-    };
-
     $('#date-input').datepicker();
 
 </script> 
 
-<script>
-
-    $('#BuscadorClientes').autocomplete({
-        serviceUrl: '/user/cliente/buscar',
-        onSelect: function (q) {
-            $("input[name='cliente_id']").val(q.id);
-            $("#InformacionClienteBuscado").html(q.value);
-            var position = $(this).index('input');
-            $("input, select").eq(position+1).select();
-        }
-    });
-</script>
 
 
     </body>

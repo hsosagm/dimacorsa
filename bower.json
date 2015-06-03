@@ -18,7 +18,7 @@
     "jquery": "~2.0.3",
     "modernizr": "~2.7.0",
     "requirejs": "~2.1.9",
-    "font-awesome": "~4.1.0",
+    "font-awesome": "~4.3.0",
     "datatables": "~1.10.2",
     "highcharts": "~4.0.3",
     "jquery-nicescroll": "~3.5.6",

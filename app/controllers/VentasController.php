@@ -4,7 +4,7 @@ class VentasController extends \BaseController {
 
 	public function create()
 	{
-		if (Input::has('_token'))
+		if (Session::token() == Input::get('_token'))
 		{
 			$venta = new Venta;
 
@@ -155,7 +155,7 @@ class VentasController extends \BaseController {
 	public function ModalSalesPayments()
 	{
 
-		if (Input::has('_token'))
+		if (Session::token() == Input::get('_token'))
 		{
 			if($this->check_if_payment_already_exists() == true) 
 				return "Seleccione otro metodo de pago o modifique el que ya existe";
@@ -302,7 +302,9 @@ class VentasController extends \BaseController {
 	public function getCreditSales()
 	{
 		$ventas = DB::table('ventas')
-        ->select(DB::raw("ventas.created_at as fecha, 
+        ->select(DB::raw("ventas.id,
+        	ventas.total,
+        	ventas.created_at as fecha, 
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
             numero_documento,

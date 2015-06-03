@@ -18,7 +18,7 @@
     <li class="navbar-search">           
         <form class="navbar-form" onsubmit=" return false">
             <div class="form-group has-feedback">
-                <input id="BuscadorClientes" type="text" class="form-control typeahead rounded" placeholder="Buscar Proveedor">
+                <input id="customer_search" type="text" class="form-control rounded customer_search" placeholder="Buscar Cliente">
                 <input type="hidden" name="cliente_id">
             </div>
         </form>
@@ -37,10 +37,10 @@
                 <span class="arrow"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);" id=""> Historial de Ventas</a></li>
-                <li><a href="javascript:void(0);" id=""> Ventas pendientes de pago</a></li>
-                <li><a href="javascript:void(0);" id=""> Historial de pagos</a></li>
-                <li><a href="javascript:void(0);" id=""> Historial de abonos</a></li>
+                <li><a href="javascript:void(0);" onclick="salesByCustomer(this);">Historial de Ventas</a></li>
+                <li><a href="javascript:void(0);" onclick="creditSalesByCustomer(this);">Pendientes de pago</a></li>
+                <li><a href="javascript:void(0);">Historial de pagos</a></li>
+                <li><a href="javascript:void(0);">Historial de abonos</a></li>
             </ul>
         </li>
 
