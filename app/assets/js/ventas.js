@@ -200,7 +200,7 @@ function showSalesDetail(e) {
     if ($(e).hasClass("hide_detail")) 
     {
         $(e).removeClass('hide_detail');
-        $('.subtable').fadeOut('slow');
+        $('.subtable').fadeOut('fast');
     } 
     else 
     {

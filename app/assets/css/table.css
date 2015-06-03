@@ -221,3 +221,7 @@ table {
   min-width: 88px;
   text-align: right;
 }
+
+.display tr td a {
+  margin-left: 10px;
+}

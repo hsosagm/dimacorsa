@@ -508,12 +508,46 @@ Route::get('cod', function() {
 
     //     return $query;
 
+        // $query = Venta::where('cliente_id','=', 3914)
+        // ->where('saldo', '>', 0)
+        // ->get();
+
+
+        //     return $query[0]->cliente->nombre;
+
         $query = Venta::where('cliente_id','=', 3914)
         ->where('saldo', '>', 0)
         ->get();
 
+        $saldo_total = 0;
+        $saldo_vencido = 0;
 
-            return $query[0]->cliente->nombre;
+        foreach ($query as  $q)
+        {
+            $fecha_entrada = $q->created_at;
+            $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+            $fecha_vencida = date('Ymd',strtotime("-30 days"));
+
+            if ($fecha_entrada < $fecha_vencida)
+            {
+                $saldo_vencido = $saldo_vencido + $q->saldo;
+            }
+            $saldo_total = $saldo_total + $q->saldo;
+        }
+
+        $cliente = $query[0]->cliente->nombre . "&nbsp;" . $query[0]->cliente->apellido;
+
+        $saldo_total   = f_num::get($saldo_total);
+        $saldo_vencido = f_num::get($saldo_vencido);
+
+        $tab = "";
+
+        $info = $cliente . $tab . " Saldo total &nbsp;". $saldo_total . $tab ." Saldo vencido &nbsp;" .$saldo_vencido;
+
+        return Response::json(array(
+            'success'       => true,
+            'info' => $info
+        ));
       
 });
 
