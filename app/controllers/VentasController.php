@@ -65,7 +65,12 @@ class VentasController extends \BaseController {
 	public function getSalesDetail()
 	{
 		$detalle = DB::table('detalle_ventas')
-        ->select(array('detalle_ventas.id', 'venta_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->select(array('
+        	detalle_ventas.id',
+        	'venta_id', 'producto_id',
+        	'cantidad', 
+        	'precio', 
+        	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
         ->where('venta_id', Input::get('venta_id'))
         ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')

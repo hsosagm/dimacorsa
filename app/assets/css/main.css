@@ -64,3 +64,11 @@
 .header-content td {
     padding: 0.0em !important;
 }
+
+.nav-pills li {
+	width: 300px;
+}
+
+.abonosDetalle {
+	height: 150px;
+}

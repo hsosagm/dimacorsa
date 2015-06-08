@@ -27,8 +27,6 @@
 
     Route::group(array('prefix' => 'user'), function()
     {
-        
-    
         Route::group(array('prefix' => 'datatables'),function() 
         {
             Route::get('md_search'             , 'InventarioController@md_search');
@@ -152,6 +150,12 @@
             Route::get('showSalesDetail', 'VentasController@showSalesDetail');
             Route::get('openSale', 'VentasController@openSale');
             Route::get('getCreditSales', 'VentasController@getCreditSales');
+
+            Route::group(array('prefix' => 'payments'),function() 
+            {
+                Route::get('formPayments', 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination', 'SalesPaymentsController@formPaymentsPagination');
+            });
 
         });
 
@@ -515,40 +519,59 @@ Route::get('cod', function() {
 
         //     return $query[0]->cliente->nombre;
 
-        $query = Venta::where('cliente_id','=', 3914)
-        ->where('saldo', '>', 0)
-        ->get();
+        // $query = Venta::where('cliente_id','=', 3914)
+        // ->where('saldo', '>', 0)
+        // ->get();
 
-        $saldo_total = 0;
-        $saldo_vencido = 0;
+        // $saldo_total = 0;
+        // $saldo_vencido = 0;
 
-        foreach ($query as  $q)
-        {
-            $fecha_entrada = $q->created_at;
-            $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-            $fecha_vencida = date('Ymd',strtotime("-30 days"));
+        // foreach ($query as  $q)
+        // {
+        //     $fecha_entrada = $q->created_at;
+        //     $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+        //     $fecha_vencida = date('Ymd',strtotime("-30 days"));
 
-            if ($fecha_entrada < $fecha_vencida)
-            {
-                $saldo_vencido = $saldo_vencido + $q->saldo;
-            }
-            $saldo_total = $saldo_total + $q->saldo;
-        }
+        //     if ($fecha_entrada < $fecha_vencida)
+        //     {
+        //         $saldo_vencido = $saldo_vencido + $q->saldo;
+        //     }
+        //     $saldo_total = $saldo_total + $q->saldo;
+        // }
 
-        $cliente = $query[0]->cliente->nombre . "&nbsp;" . $query[0]->cliente->apellido;
+        // $cliente = $query[0]->cliente->nombre . "&nbsp;" . $query[0]->cliente->apellido;
 
-        $saldo_total   = f_num::get($saldo_total);
-        $saldo_vencido = f_num::get($saldo_vencido);
+        // $saldo_total   = f_num::get($saldo_total);
+        // $saldo_vencido = f_num::get($saldo_vencido);
 
-        $tab = "";
+        // $tab = "";
 
-        $info = $cliente . $tab . " Saldo total &nbsp;". $saldo_total . $tab ." Saldo vencido &nbsp;" .$saldo_vencido;
+        // $info = $cliente . $tab . " Saldo total &nbsp;". $saldo_total . $tab ." Saldo vencido &nbsp;" .$saldo_vencido;
 
-        return Response::json(array(
-            'success'       => true,
-            'info' => $info
-        ));
+        // return Response::json(array(
+        //     'success'       => true,
+        //     'info' => $info
+        // ));
       
+        $table = 'ventas';
+
+        $columns = array(
+            "ventas.created_at as fecha", 
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+            "numero_documento","completed",
+            "saldo"
+            );
+
+        $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
+
+        $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+        $where = null;
+
+        $productos = DB::table('users')->get();
+
+        $data = Paginator::make($productos, 4, 2);
 });
 
 

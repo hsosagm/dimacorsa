@@ -51,7 +51,7 @@
                 <span class="arrow"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);" id=""> Abonar Cliente</a></li>
+                <li><a href="javascript:void(0);" onclick="getFormAbonosVentas(this)">Abonar a deuda</a></li>
                 <li><a href="javascript:void(0);" id="cliente_edit"> Editar Cliente</a></li>
             </ul>
         </li>

@@ -206,6 +206,8 @@ module.exports = function(grunt) {
                     './app/assets/js/main.js',
                     './app/assets/js/ventas.js',
                     './app/assets/js/cliente.js',
+                    './app/assets/js/abonos_ventas.js',
+                    './app/assets/js/v-cliente.js',
                   ],
                   dest: './public/js/cliente.js'
                 },
