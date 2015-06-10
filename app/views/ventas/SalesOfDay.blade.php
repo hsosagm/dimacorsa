@@ -18,8 +18,8 @@ $(document).ready(function() {
             {"sClass": "widthS",       "sTitle": "Fecha",                        "aTargets": [0]},
             {"sClass": "widthM",       "sTitle": "Usuario",                     "aTargets": [1]},
             {"sClass": "widthL",       "sTitle": "Cliente",                      "aTargets": [2]},
-            {"sClass": "widthS right",       "sTitle": "Numero",                      "aTargets": [3]},
-            {"sClass": "widthS right",       "sTitle": "Saldo",                        "aTargets": [4]},
+            {"sClass": "widthS right", "sTitle": "Numero",                      "aTargets": [3]},
+            {"sClass": "widthS right", "sTitle": "Saldo",                        "aTargets": [4]},
             {"sClass": "widthS",       "sTitle": "Completed", "bVisible": false, "aTargets": [5]},
             {"sClass": "widthS center", "sTitle": "Acciones", "orderable": false, "aTargets": [6],
                 "mRender": function() {

@@ -15,7 +15,7 @@ $(function() {
 
 function Inv_dt_open() {
 
-    $.get( "admin/datatables/inventario_dt", function( data ) {
+    $.get( "admin/productos/inventario_dt", function( data ) {
         makeTable(data, 'admin/productos/', 'Producto');
         $('#example').addClass('tableSelected');
     });
@@ -23,7 +23,7 @@ function Inv_dt_open() {
 
 function inventario_user() {
 
-    $.get( "user/datatables/user_inventario", function( data ) {
+    $.get( "user/productos/user_inventario", function( data ) {
         makeTable(data, '', 'Producto');
         $('#example').addClass('tableSelected');
     });

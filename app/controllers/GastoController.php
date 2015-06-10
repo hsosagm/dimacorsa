@@ -9,7 +9,7 @@ class GastoController extends \BaseController {
 
      public function create()
     {
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
             $query = new DetalleGasto;
            
@@ -55,6 +55,30 @@ class GastoController extends \BaseController {
     public function OpenTableExpensesDay()
     {
         return View::make('gastos.ExpensesDay');
+    }
+
+    function ExpensesDay_dt(){
+
+        $table = 'detalle_gastos';
+
+        $columns = array(
+            "tiendas.nombre as tienda_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "gastos.created_at as fecha",
+            "detalle_gastos.descripcion as detalle_descripcion",
+            "metodo_pago.descripcion as metodo_descripcion",
+            'monto');
+
+        $Searchable = array("users.nombre","users.apellido");
+
+        $Join = "JOIN gastos ON (gastos.id = detalle_gastos.gasto_id) 
+        JOIN users ON (users.id = gastos.user_id)
+        JOIN tiendas ON (tiendas.id = gastos.tienda_id)
+        JOIN metodo_pago ON (metodo_pago.id = detalle_gastos.metodo_pago_id)";
+
+        $where = " DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
     }
 
 }

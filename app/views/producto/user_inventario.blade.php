@@ -31,7 +31,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/user_datatables"
+        "sAjaxSource": "user/productos/user_inventario_dt"
     });
 
 });

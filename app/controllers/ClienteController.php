@@ -14,7 +14,7 @@ class ClienteController extends \BaseController {
 
      public function create()
     {
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
             $cliente = new Cliente;
 
@@ -69,7 +69,7 @@ class ClienteController extends \BaseController {
 
     public function contacto_update()
     {
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
             $contacto = ClienteContacto::find(Input::get('id'));
 
@@ -100,7 +100,7 @@ class ClienteController extends \BaseController {
 
     public function edit()
     {
-         if (Input::has('_token'))
+         if (Session::token() == Input::get('_token'))
         {
             $cliente = Cliente::find(Input::get('id'));
 
@@ -193,7 +193,6 @@ class ClienteController extends \BaseController {
         ));
     }
 
-
     public function creditSalesByCustomer()
     {
         $ventas = DB::table('ventas')
@@ -215,6 +214,19 @@ class ClienteController extends \BaseController {
             'success' => true,
             'table' => View::make('ventas.creditSales', compact('ventas'))->render()
         ));
+    }
+
+    public function clientes()
+    {
+        $table = 'clientes';
+
+        $columns = array(
+            "CONCAT_WS(' ',nombre,apellido) as cliente",
+            "direccion","telefono","nit");
+
+        $Searchable = array("nombre","direccion","telefono");
+
+        echo TableSearch::get($table, $columns, $Searchable);
     }
 
 }

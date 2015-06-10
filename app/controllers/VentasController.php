@@ -251,23 +251,16 @@ class VentasController extends \BaseController {
         else {
             $saldo = $credit->monto;
         }
+        $total = DetalleVenta::where('venta_id','=',Input::get('venta_id'))->first(array(DB::raw('sum(cantidad * precio) as total')));
 
-		$venta = Venta::where('id', Input::get('venta_id'))->update(array('completed' => 1, 'saldo' => $saldo));
+		$venta = Venta::where('id', Input::get('venta_id'))
+		->update(array('completed' => 1, 'saldo' => $saldo,'total' => $total->total));
 		
 		if ($venta) {
 			return Response::json(array( 'success' => true ));
 		}
 
 		return 'Huvo un error intentelo de nuevo';
-	}
-
-
-	public function OpenTableSalesOfDay()
-	{
-		return Response::json(array(
-			'success' => true,
-			'table' => View::make('ventas.SalesOfDay')->render()
-        ));
 	}
 
 
@@ -321,4 +314,33 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	public function OpenTableSalesOfDay()
+	{
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('ventas.SalesOfDay')->render()
+        ));
+	}
+	
+	function SalesOfDay() {
+
+		$table = 'ventas';
+
+		$columns = array(
+			"ventas.created_at as fecha", 
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"numero_documento",
+			"saldo",
+			"completed"
+			);
+
+		$Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
+
+		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')";
+
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );	
+	}
 }

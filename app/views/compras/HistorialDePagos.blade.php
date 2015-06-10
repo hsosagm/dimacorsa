@@ -30,7 +30,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/datatables/HistorialDePagos?proveedor_id={{Input::get('proveedor_id')}}"
+        "sAjaxSource": "admin/compras/HistorialDePagos?proveedor_id={{Input::get('proveedor_id')}}"
     });
 
 });

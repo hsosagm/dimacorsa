@@ -9,7 +9,7 @@ class ProveedorController extends BaseController {
  
     public function create()
     {
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
             $proveedor = new Proveedor;
 
@@ -46,6 +46,17 @@ class ProveedorController extends BaseController {
     {
         return View::make('proveedor.index');
     }
+    
+    public function proveedores()
+    {
+        $table = 'proveedores';
+
+        $columns = array("nombre","direccion","telefono","nit");
+
+        $Searchable = array("nombre","direccion","telefono");
+
+        echo TableSearch::get($table, $columns, $Searchable);
+    }
 
     public function contacto_create()
     {
@@ -69,7 +80,7 @@ class ProveedorController extends BaseController {
 
     public function contacto_update()
     {
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
             $contacto = ProveedorContacto::find(Input::get('id'));
 
@@ -100,7 +111,7 @@ class ProveedorController extends BaseController {
 
     public function edit()
     {
-         if (Input::has('_token'))
+         if (Session::token() == Input::get('_token'))
         {
             $proveedor = Proveedor::find(Input::get('id'));
 
@@ -139,7 +150,7 @@ class ProveedorController extends BaseController {
     {
         $compra = Compra::find(Input::get('compra_id'));
 
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
             if($compra->saldo < Input::get("monto") || Input::get("monto") == 0)
                 return 'El moto ingresado no puede ser mayor al monto Restante..!';

@@ -31,7 +31,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/IngresosDelDiaUsuario"
+        "sAjaxSource": "user/consulta/IngresosDelDiaUsuario_dt"
     });
 
 });

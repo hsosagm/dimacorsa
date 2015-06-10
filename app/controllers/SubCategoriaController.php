@@ -4,7 +4,7 @@ class SubCategoriaController extends \BaseController {
 
 	public function create()
     {
-    	if (Input::has('_token'))
+    	if (Session::token() == Input::get('_token'))
         {
             $sub_categorias = new SubCategoria;
 

@@ -31,7 +31,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/md_datatables"
+        "sAjaxSource": "user/productos/md_search_dt"
     });
 
 });

@@ -36,7 +36,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/ExpendituresDay_dt"
+        "sAjaxSource": "user/egresos/ExpendituresDay_dt"
     });
 
 });

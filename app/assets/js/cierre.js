@@ -10,6 +10,15 @@ function CierreDelDia()
 		$('.bs-modal').modal('show');
 	});
 
+}
+
+function CierreDelMes()
+{
+	$.get( "admin/cierre/CierreDelMes", function( data ) {
+		$('.modal-body').html(data);
+		$('.modal-title').text('Cierre del Mes');
+		$('.bs-modal').modal('show');
+	});
 
 }
 

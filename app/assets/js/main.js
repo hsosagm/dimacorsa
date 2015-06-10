@@ -1,4 +1,5 @@
 msg = toastr;
+$('.loader').hide();
 
 $(function() {
     $(document).on("click", "#_create", function(){ _create(this); });
@@ -9,14 +10,14 @@ $(function() {
 });
  
 
-// $( document ).ajaxSend(function() {
-//   $('.loader').show();
-// });
+$( document ).ajaxSend(function() {
+  $('.loader').show();
+});
 
-// $( document ).ajaxSuccess(function() {
-//   $('.loader').hide();
-//   $('input').attr('autocomplete','off');
-// });
+$( document ).ajaxSuccess(function() {
+  $('.loader').hide();
+  $('input').attr('autocomplete','off');
+});
 
 $( document ).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     $.ajax(this);

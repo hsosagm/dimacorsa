@@ -24,6 +24,7 @@
 		        ->where('metodo_pago_id','!=', 2)
 		        ->where('created_at','<',$dt->fecha)->first();
 
+		        // $saldo_ant = $dt->total - ($abonos->total + $pagos->total);
 		        $saldo_ant = $dt->total - ($abonos->total + $pagos->total);
 		        $saldo_anterior = number_format($saldo_ant ,2,'.',',');
 		        $saldo = number_format(($saldo_ant - $dt->monto),2,'.',',');

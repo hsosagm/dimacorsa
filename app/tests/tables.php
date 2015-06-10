@@ -31,6 +31,9 @@ INSERT INTO tipo_cliente(nombre) values('Consumidor Final');
 //adelantos - detalle adelantos
 
 //proveedores
+
+//en ventas y compras enviar la tienda id dela base de datos antigua
+
 //compras
 
 //antes de importar detalles de compras /crear una tabla temporar con la estructura de la tabla de la 

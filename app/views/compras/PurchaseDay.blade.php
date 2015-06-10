@@ -42,7 +42,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/datatables/PurchaseDay_dt"
+        "sAjaxSource": "admin/compras/PurchaseDay_dt"
     });
 
 });

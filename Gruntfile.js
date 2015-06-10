@@ -79,6 +79,7 @@ module.exports = function(grunt) {
                     './app/assets/css/proveedor.css',
                     './app/assets/css/categorias.css',
                     './app/assets/css/consultas.css',
+                    './app/assets/css/cierre.css',
                     './app/assets/css/datepicker-pickadate-custom.css',
                     
                 ],

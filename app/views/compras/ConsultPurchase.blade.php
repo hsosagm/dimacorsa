@@ -36,7 +36,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/datatables/Purchase_dt?proveedor_id={{Input::get('proveedor_id')}}"
+        "sAjaxSource": "admin/compras/Purchase_dt?proveedor_id={{Input::get('proveedor_id')}}"
     });
 
 });

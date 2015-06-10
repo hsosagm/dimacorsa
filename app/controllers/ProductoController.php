@@ -2,9 +2,10 @@
 
 class ProductoController extends Controller {
 
+
 	public function create()
     {
-    	if (Input::has('_token'))
+    	if (Session::token() == Input::get('_token'))
         {
             $producto = new Producto;
 
@@ -24,7 +25,7 @@ class ProductoController extends Controller {
 
     public function edit()
     {
-    	if (Input::has('_token'))
+    	if (Session::token() == Input::get('_token'))
         {
 	    	$producto = Producto::find(Input::get('id'));
 
@@ -98,9 +99,64 @@ class ProductoController extends Controller {
             );
     }
 
+     public function inventario_dt()
+    {
+        return View::make('producto.inventario_dt');
+    }
+
+    public function index()
+    {
+        $table = 'productos';
+
+        $columns = array("codigo","nombre","descripcion","p_costo","p_publico");
+
+        $Searchable = array("codigo","nombre","descripcion");
+        
+        $Join = 'JOIN marcas ON productos.marca_id = marcas.id';
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join);
+    }
+
+    public function md_search()
+    {
+        return View::make('producto.md-search');
+    }
+
+    public function md_search_dt()
+    {
+        $table = 'productos';
+
+        $columns = array("codigo","nombre","descripcion","existencia","p_publico");
+
+        $Searchable = array("codigo","nombre","descripcion");
+        
+        $Join = 'JOIN marcas ON productos.marca_id = marcas.id';
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join);
+    } 
+
     public function user_inventario()
     {
-        return View::make("producto.user_inventario");       
+        return View::make('producto.user_inventario');
+    }
+
+    public function user_inventario_dt()
+    {
+        $table = 'productos';
+
+        $columns = array(
+            "codigo",
+            "nombre",
+            "descripcion",
+            "p_publico",
+            "existencias.existencia as existencia");
+
+        $Searchable = array("codigo","nombre","descripcion");
+        
+        $Join = 'JOIN marcas ON productos.marca_id = marcas.id  Join  existencias ON productos.id = existencias.producto_id ';
+        $where = "tienda_id = ".Auth::user()->tienda_id.' AND productos.existencia > 0';
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
     }
 
     public function view_existencias()
