@@ -59,15 +59,17 @@ class SST {
         }
 
 
-        $query = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
-                     $table.id as id  FROM $table $sJoin $sWhere $sLimit");
+        $table = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
+                    $table.id as id  FROM $table $sJoin $sWhere $sLimit");
 
         $Found_Rows = DB::select('SELECT FOUND_ROWS() as num_rows');
 
         $Found_Rows = (int) $Found_Rows['0']->num_rows;
 
-        $data = Paginator::make($query, $Found_Rows, $limit);
+        if (!$Found_Rows) {
+           return false;
+        }
 
-        return $data;
+        return Paginator::make($table, $Found_Rows, $limit);
     }
 }

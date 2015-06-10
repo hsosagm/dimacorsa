@@ -198,7 +198,7 @@ function showSalesDetail(e) {
     if ($(e).hasClass("hide_detail")) 
     {
         $(e).removeClass('hide_detail');
-        $('.subtable').fadeOut('fast');
+        $('.subtable').hide();
     } 
     else 
     {
@@ -232,6 +232,7 @@ function getSalesDetail(e) {
         url: "user/ventas/showSalesDetail",
         data: { venta_id: $id},
         success: function (data) {
+
             if (data.success == true)
             {
                 $('.grid_detalle_factura').html(data.table);

@@ -39,6 +39,7 @@ class SalesPaymentsController extends \BaseController {
 		$table = 'ventas';
 
 		$columns = array(
+			"ventas.id", 
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
@@ -51,13 +52,13 @@ class SalesPaymentsController extends \BaseController {
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-		$where = '';
+		$where = " cliente_id = ". Input::get('cliente_id') ." AND saldo > 0";
 
 		$ventas = SST::get($table, $columns, $Search_columns, $Join, $where );
 
         return Response::json(array(
             'success' => true,
-            'form' => View::make('ventas.payments.formPaymentsPagination', compact('ventas'))->render()
+            'table' => View::make('ventas.payments.formPaymentsSST', compact('ventas'))->render()
         ));
 	}
 

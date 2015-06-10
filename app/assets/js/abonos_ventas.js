@@ -35,7 +35,7 @@ function GetSalesForPaymentsBySelection(page = 1, sSearch = "")
 
             if (data.success == true)
             {
-                $('#tab4').html(data.form);
+                $('#tab4').html(data.table);
             }
             else
             {
@@ -65,3 +65,18 @@ function SST_search() {
         GetSalesForPaymentsBySelection( 1, $(this).val() );
     });
 }
+
+
+$(document).on("click", ".SST .select", function() {
+
+    if ( $(this).closest("tr").hasClass( "row_selected" ) ) 
+    {
+        $(this).closest("tr").removeClass("row_selected");
+    }
+
+    else
+    {
+        $(this).closest("tr").addClass('row_selected');
+    }
+
+});

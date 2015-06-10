@@ -65,8 +65,8 @@ class VentasController extends \BaseController {
 	public function getSalesDetail()
 	{
 		$detalle = DB::table('detalle_ventas')
-        ->select(array('
-        	detalle_ventas.id',
+        ->select(array(
+        	'detalle_ventas.id',
         	'venta_id', 'producto_id',
         	'cantidad', 
         	'precio', 
