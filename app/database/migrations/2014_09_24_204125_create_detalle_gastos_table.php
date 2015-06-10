@@ -16,7 +16,7 @@ class CreateDetalleGastosTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('gasto_id')->unsigned();
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->string('descripcion', 100);
 			$table->decimal('monto', 7, 2);
 			$table->timestamps();

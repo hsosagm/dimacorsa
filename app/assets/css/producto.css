@@ -43,3 +43,8 @@
     font-size: 14px;
 }
 
+
+.producto-body
+{
+	height: 200px !important;
+}

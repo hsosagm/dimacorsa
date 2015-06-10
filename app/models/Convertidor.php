@@ -498,7 +498,7 @@ class Convertidor
        } 
        $tex = $neg . substr($tex, 1) . $fin; 
        //Zi hack --> return ucfirst($tex);
-       $ff = $float[1] == '' ? '00':$float[1] ;
+       @$ff = @$float[1] == '' ? '00':@$float[1] ;
        $end_num=ucfirst($tex).' quetzales con '.$ff.'/100 centavos';
        return $end_num; 
     } 

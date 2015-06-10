@@ -18,7 +18,7 @@ class CreateDetalleEgresosTable extends Migration {
 			$table->string('descripcion');
 			$table->decimal('monto', 8, 2);
 			$table->integer('egreso_id')->unsigned();
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
 
 			$table->foreign('egreso_id')->references('id')->on('egresos')->onDelete('cascade')->onUpdate('cascade');

@@ -36,7 +36,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/IncomeDay_dt"
+        "sAjaxSource": "user/ingresos/IncomeDay_dt"
     });
 
 });

@@ -1,7 +1,7 @@
 
 <br> 
 
-{{Form::open(array('data-remote-product' ,'data-success' => 'Producto Creado'))}} 
+	{{Form::open(array('data-remote-product' ,'data-success' => 'Producto Creado'))}} 
 
 	<div class="form-producto">
 
@@ -10,7 +10,6 @@
 		{{ Form::_text('descripcion') }}
 
 		{{ Form::_text('p_publico') }}
-		
 		<div class="form-group">
 
 			{{ Form::label('body', 'Marca', array('class'=>'col-sm-2 control-label')) }} 
@@ -67,7 +66,7 @@
 
 	</div>
 
-{{ Form::close() }}
+	{{ Form::close() }}
 
 <style type="text/css">
 
@@ -79,9 +78,9 @@
 
 <style type="text/css">
 
-    .bs-modal .Lightbox{
-        width: 450px !important;
-    }
+	.bs-modal .Lightbox{
+		width: 450px !important;
+	}
 
 </style>
 <script>

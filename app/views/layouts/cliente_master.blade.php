@@ -30,6 +30,10 @@
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2><i class="fa fa-home"></i> <span id="info_cliente"></span></h2>
+                    <span class="loader" style="position:absolute; width:100%;">
+                <div align="center" width="100%">
+                   <img src="img/loader/general/2.gif" alt="">
+               </div>
 
                 </div><!-- /.header-content -->
                 <!--/ End page header -->

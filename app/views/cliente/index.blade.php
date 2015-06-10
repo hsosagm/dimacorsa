@@ -22,7 +22,7 @@ $(document).ready(function()
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/clientes"
+        "sAjaxSource": "user/cliente/clientes"
     });
 
 });

@@ -36,7 +36,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/SupportDay_dt"
+        "sAjaxSource": "user/soporte/SupportDay_dt"
     });
 
 });

@@ -18,7 +18,7 @@ class CreateClienteAbonosTable extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->integer('cliente_id')->unsigned();
 			$table->decimal('monto', 8, 2);
-			$table->integer('metodo_pago_id')->unsigned();
+			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->string('observaciones');
 			$table->timestamps();
 

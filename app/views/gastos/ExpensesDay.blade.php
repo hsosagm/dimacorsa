@@ -36,7 +36,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/ExpensesDay_dt"
+        "sAjaxSource": "user/gastos/ExpensesDay_dt"
     });
 
 });

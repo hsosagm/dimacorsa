@@ -9,7 +9,7 @@ class EgresoController extends \BaseController {
 
      public function create()
     {
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
             $query = new DetalleEgreso;
             
@@ -55,6 +55,30 @@ class EgresoController extends \BaseController {
     public function OpenTableExpendituresDay()
     {
         return View::make('egresos.ExpendituresDay');
+    }
+
+    function ExpendituresDay_dt(){
+
+        $table = 'detalle_egresos';
+
+        $columns = array(
+            "tiendas.nombre as tienda_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "egresos.created_at as fecha",
+            "detalle_egresos.descripcion as detalle_descripcion",
+            "metodo_pago.descripcion as metodo_descripcion",
+            'monto');
+
+        $Searchable = array("users.nombre","users.apellido");
+
+        $Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id) 
+        JOIN users ON (users.id = egresos.user_id)
+        JOIN tiendas ON (tiendas.id = egresos.tienda_id)
+        JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
+
+        $where = " DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
     }
 }
  

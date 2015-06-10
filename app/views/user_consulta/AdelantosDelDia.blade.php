@@ -31,7 +31,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/AdelantosDelDiaUsuario"
+        "sAjaxSource": "user/consulta/AdelantosDelDiaUsuario_dt"
     });
 
 });

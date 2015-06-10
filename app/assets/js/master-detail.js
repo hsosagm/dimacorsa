@@ -94,11 +94,11 @@ function DeleteDetalle(element) {
             });
         }
     });
-}
+} 
 
 function md_search()
 {
-    $.get( "user/datatables/md_search", function( data ) 
+    $.get( "user/productos/md_search", function( data ) 
     {
        makeTable(data, '', 'Inventario');
        $('#iSearch').focus();

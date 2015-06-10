@@ -17,9 +17,20 @@ class UserController extends Controller {
 		return View::make('user.index');
 	}
 
+	public function users()
+	{
+		$table = 'users';
+
+		$columns = array("username","nombre","apellido","email","tienda_id","status");
+
+		$Searchable = array("username","nombre","apellido","email","tienda_id","status");
+
+		echo TableSearch::get($table, $columns, $Searchable);
+	}
+	
 	public function create()
 	{
-		if (Input::has('_token'))
+		if (Session::token() == Input::get('_token'))
 		{
 			if ($this->user->_create())
 			{
@@ -37,7 +48,7 @@ class UserController extends Controller {
 	public function edit_profile()
 	{
 
-		if (Input::has('_token'))
+		if (Session::token() == Input::get('_token'))
 		{
 			$user = $this->user->find(Input::get('id'));
 
@@ -175,4 +186,175 @@ class UserController extends Controller {
 		return View::make('user_consulta.Clientes');
 	}
 
+
+//**********************************************************************************************************************
+//Consultas del Usuario
+//**********************************************************************************************************************
+	public function VentasDelDiaUsuario()
+	{
+		
+		$table = 'ventas';
+
+		$columns = array(
+			"ventas.created_at as fecha", 
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"numero_documento","completed",
+			"saldo"
+			);
+
+		$Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
+
+		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')  AND
+		users.id =".Auth::user()->id;
+
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+	}
+
+	public function SoporteDelDiaUsuario()
+	{
+		$table = 'detalle_soporte';
+
+		$columns = array(
+			"tiendas.nombre as tienda_nombre",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+			"soporte.created_at as fecha",
+			"detalle_soporte.descripcion as detalle_descripcion",
+			'monto',
+			"metodo_pago.descripcion as metodo_descripcion"
+			);
+
+		$Searchable = array("users.nombre","users.apellido");
+
+		$Join = "JOIN soporte ON (soporte.id = detalle_soporte.soporte_id) 
+		JOIN users ON (users.id = soporte.user_id)
+		JOIN tiendas ON (tiendas.id = soporte.tienda_id)
+		JOIN metodo_pago ON (metodo_pago.id = detalle_soporte.metodo_pago_id)";
+
+		$where = " 
+		DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
+		users.id =".Auth::user()->id;
+
+		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+	}
+
+	public function IngresosDelDiaUsuario()
+	{
+		$table = 'detalle_ingresos';
+
+		$columns = array(
+			"tiendas.nombre as tienda_nombre",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+			"ingresos.created_at as fecha",
+			"detalle_ingresos.descripcion as detalle_descripcion",
+			"metodo_pago.descripcion as metodo_descripcion",
+			'monto');
+
+		$Searchable = array("users.nombre","users.apellido");
+
+		$Join = "JOIN ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
+		JOIN users ON (users.id = ingresos.user_id)
+		JOIN tiendas ON (tiendas.id = ingresos.tienda_id)
+		JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";
+
+		$where = " 
+		DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
+		users.id =".Auth::user()->id;
+
+		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
+		
+	}
+
+	public function EgresosDelDiaUsuario()
+	{
+		$table = 'detalle_egresos';
+
+		$columns = array(
+			"tiendas.nombre as tienda_nombre",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+			"egresos.created_at as fecha",
+			"detalle_egresos.descripcion as detalle_descripcion",
+			"metodo_pago.descripcion as metodo_descripcion",
+			'monto');
+
+		$Searchable = array("users.nombre","users.apellido");
+
+		$Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id) 
+		JOIN users ON (users.id = egresos.user_id)
+		JOIN tiendas ON (tiendas.id = egresos.tienda_id)
+		JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
+
+		$where = " 
+		DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
+		users.id =".Auth::user()->id;
+
+		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
+	}
+
+	public function GastosDelDiaUsuario()
+	{
+		$table = 'detalle_gastos';
+
+		$columns = array(
+			"tiendas.nombre as tienda_nombre",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+			"gastos.created_at as fecha",
+			"detalle_gastos.descripcion as detalle_descripcion",
+			"metodo_pago.descripcion as metodo_descripcion",
+			'monto');
+
+		$Searchable = array("users.nombre","users.apellido");
+
+		$Join = "JOIN gastos ON (gastos.id = detalle_gastos.gasto_id) 
+		JOIN users ON (users.id = gastos.user_id)
+		JOIN tiendas ON (tiendas.id = gastos.tienda_id)
+		JOIN metodo_pago ON (metodo_pago.id = detalle_gastos.metodo_pago_id)";
+
+		$where = "
+		DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
+		users.id =".Auth::user()->id;
+		
+		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );		
+	}
+
+	public function AdelantosDelDiaUsuario()
+	{
+		$table = 'detalle_adelantos';
+
+		$columns = array(
+			"tiendas.nombre as tienda_nombre",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+			"adelantos.created_at as fecha",
+			"detalle_adelantos.descripcion as detalle_descripcion",
+			"metodo_pago.descripcion as metodo_descripcion",
+			'monto');
+
+		$Searchable = array("users.nombre","users.apellido");
+
+		$Join = "JOIN adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
+		JOIN users ON (users.id = adelantos.user_id)
+		JOIN tiendas ON (tiendas.id = adelantos.tienda_id)
+		JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";
+
+		$where = "
+		DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
+		users.id =".Auth::user()->id;
+
+		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
+	}
+	
+	public function clientes()
+	{
+		$table = 'clientes';
+
+		$columns = array(
+			"CONCAT_WS(' ',nombre,apellido) as cliente",
+			"direccion","telefono","nit");
+
+		$Searchable = array("nombre","direccion","telefono");
+
+		echo TableSearch::get($table, $columns, $Searchable);
+	}
 }

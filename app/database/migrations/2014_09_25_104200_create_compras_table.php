@@ -16,7 +16,7 @@ class CreateComprasTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('proveedor_id')->unsigned();
-            $table->integer('tienda_id')->unsigned();
+            $table->integer('tienda_id')->unsigned()->default(1);
             $table->integer('user_id')->unsigned();
             $table->string('numero_documento', 100);
             $table->date('fecha_documento');

@@ -4,7 +4,7 @@ class BarCodeController extends \BaseController {
 
 	public function create()
     {
-        if (Input::has('_token'))
+        if (Session::token() == Input::get('_token'))
         {
 
             $estilo = BarCode::find(1);

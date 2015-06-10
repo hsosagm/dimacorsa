@@ -24,7 +24,7 @@
 
     <div class="header-right">
 
-        <div class="navbar navbar-toolbar">
+        <div class="navbar navbar-toolbar navbar-dark">
 
             <ul class="nav navbar-nav navbar-left">
 

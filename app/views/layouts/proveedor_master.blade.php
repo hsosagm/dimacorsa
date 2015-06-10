@@ -8,7 +8,7 @@
     <!-- END @HEAD -->
     
 
-    <body class="page-header-fixed page-sidebar-fixed">
+    <body style="display: block;" class="page-header-fixed page-sidebar-fixed page-footer-fixed">
 
         <div id="loading">
             <div class="loading-inner">
@@ -35,6 +35,10 @@
                     <i class="fa fa-home"></i> 
                     <span id="InformationProviderSearches"></span>
                     <span id="home"></span>
+                    <span class="loader" style="position:absolute; width:100%;">
+                <div align="center" width="100%">
+                   <img src="img/loader/general/2.gif" alt="">
+               </div>
                     </h2>
 
                 </div><!-- /.header-content -->

@@ -1,9 +1,9 @@
-
+<br>
 
 {{Form::open(array('data-remote-product', 'data-success' => 'Producto Actualizado'))}} 
 
 
-<div >
+<div class="form-producto">
 
 	{{ Form::hidden('id', @$producto->id) }}
 
