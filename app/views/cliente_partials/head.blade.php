@@ -7,9 +7,8 @@
 	
 	<title>{{$tienda->nombre}} | Web App</title>
 
-	
+	{{ HTML::style('css/cliente.css'); }}
 	<link href="css/themes/default.theme.css" rel="stylesheet" id="theme">
 	<link href="calendar/themes/classic.css" rel="stylesheet">
 	<link href="calendar/themes/classic.date.css" rel="stylesheet">
-	{{ HTML::style('css/cliente.css'); }}
 </head>
