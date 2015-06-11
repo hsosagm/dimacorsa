@@ -1,4 +1,4 @@
-<div class="panel panel-tab rounded shadow">
+<div id="formPayments" class="panel panel-tab rounded shadow">
 	<div class="panel-heading no-padding">
 		<ul class="nav nav-tabs nav-pills">
 			<li class="active" id="saldo_vencido">
@@ -27,13 +27,16 @@
 	<div class="panel-body tab-content panel-body-abonos">
 
 		<div class="tab-pane fade inner-all active in" id="tab1">
-			{{ Form::open(array('data-remote-OverdueBalance','onsubmit'=>"return false")) }} 
-				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
+
+			{{ Form::open(array('v-on="submit: onSubmitForm"')) }}
+
+				<input type="hidden" name="cliente_id" value="{{$cliente_id}}">
+
 				<div class="row">
 					<div class="form-group">
 						<div class="col-md-5">
-						<input type="hidden" value="{{(@$saldo_vencido == null) ? '0' : $saldo_vencido; }}" name="monto">
-							<input class="form-control" type="text" value="{{(@$saldo_vencido == null) ? '0' : $saldo_vencido; }}" disabled="true">
+						    <input name="monto" value="{{ $saldo_vencido }}" class="hide">
+							<input name="monto" class="form-control" value="{{ $saldo_vencido }}" disabled>
 						</div>
 						<div class="col-md-5">
 							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
@@ -47,20 +50,20 @@
 				<div class="abonosDetalle"></div>
 
 				<div class="form-footer" align="right">
-					<button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
 					<input  class="btn theme-button" type="submit" value="Enviar" >
 				</div>
+
 			{{Form::close()}}
+
 		</div>
 
 		<div class="tab-pane fade inner-all" id="tab2">
-			{{ Form::open(array('data-remote-FullBalance')) }} 
-				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
+			{{ Form::open(array('v-on="submit: onSubmitForm"')) }}
+				<input type="hidden" name="cliente_id" value="{{$cliente_id}}">
 				<div class="row">
 					<div class="form-group">
 						<div class="col-md-5">
-							<input type="hidden" value="{{(@$saldo_total == null) ? '0' : $saldo_total; }}" name="monto">
-							<input class="form-control" type="text" value="{{(@$saldo_total == null) ? '0' : $saldo_total; }}" disabled="true">
+							<input name="monto" class="form-control" value="{{ $saldo_total }}" disabled="true">
 						</div>
 						<div class="col-md-5">
 							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
@@ -81,12 +84,12 @@
 		</div>
 
 		<div class="tab-pane fade inner-all" id="tab3">
-			{{ Form::open(array('data-remote-PartialBalance')) }}
-				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
+			{{ Form::open(array('v-on="submit: onSubmitForm"')) }}
+				<input type="hidden" name="cliente_id" value="{{$cliente_id}}">
 				<div class="row">
 					<div class="form-group">
 						<div class="col-md-5">
-							<input class="form-control" type="text" name="monto" placeholder="Monto" >
+							<input name="monto" class="form-control" placeholder="Monto">
 						</div>
 						<div class="col-md-5">
 							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
@@ -111,3 +114,35 @@
 	</div>
 
 </div>
+
+
+<script type="text/javascript">
+
+new Vue({
+
+    el: '#formPayments',
+
+    methods: {
+
+        onSubmitForm: function(e) {
+
+            e.preventDefault();
+
+            var form = $(e.target).closest("form");
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (data) {
+                	alert(data);
+                },
+                error: function(errors){
+
+                }
+            });
+        }
+    }
+});
+
+</script>

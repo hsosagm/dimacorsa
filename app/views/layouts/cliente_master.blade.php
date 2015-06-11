@@ -5,7 +5,6 @@
     @include('cliente_partials.head')
     <!-- END @HEAD -->
     
-
     <body style="display: block;" class="page-header-fixed page-sidebar-fixed page-footer-fixed">
 
         <div id="loading">
@@ -56,36 +55,34 @@
             <i class="fa fa-angle-up"></i>
         </div>
 
-<script src="js/main.js"></script>
-<script src="js/cliente.js"></script>
-<script src="calendar/picker.js"></script>
-<script src="calendar/picker.date.js"></script>
-<script src="calendar/translations/es_ES.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/cliente.js"></script>
+        <script src="js/vue.min.js"></script>
+        <script src="calendar/picker.js"></script>
+        <script src="calendar/picker.date.js"></script>
+        <script src="calendar/translations/es_ES.js"></script>
 
+        <script>
 
-<script>
+            $(document.body).delegate(":input", "keyup", function(e) {
 
-    $(document.body).delegate(":input", "keyup", function(e) {
+                if (e.keyCode == 13 && e.shiftKey) {
+                    $(this).trigger("shift_enter");
+                    e.preventDefault();
+                }
+            });
 
-        if (e.keyCode == 13 && e.shiftKey) {
-            $(this).trigger("shift_enter");
-            e.preventDefault();
-        }
-    });
+            $(document).on("keydown",".focus_next_on_enter",function(event) {
+                if (event.which === 13 || event.keyCode === 13) {
+                    event.stopPropagation();
+                    var position = $(this).index('input');
+                    $("input, select").eq(position+1).select();
+                }
+            });
 
-    $(document).on("keydown",".focus_next_on_enter",function(event) {
-        if (event.which === 13 || event.keyCode === 13) {
-            event.stopPropagation();
-            var position = $(this).index('input');
-            $("input, select").eq(position+1).select();
-        }
-    });
+            $('#date-input').datepicker();
 
-    $('#date-input').datepicker();
-
-</script> 
-
-
+        </script> 
 
     </body>
 

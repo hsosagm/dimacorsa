@@ -4,10 +4,31 @@ class SalesPaymentsController extends \BaseController {
 
 	public function formPayments()
 	{
+		if (Session::token() == Input::get('_token'))
+		{
+			return json_encode(Input::all());
+			
+			$venta = new Venta;
+
+			if (!$venta->create_master())
+			{
+				return $venta->errors();
+			}
+
+			$venta_id = $venta->get_id();
+
+			return Response::json(array(
+				'success' => true,
+				'detalle' => View::make('ventas.detalle', compact('venta_id'))->render()
+            ));
+		}
+
+		$cliente_id = Input::get('cliente_id');
+
         $query = DB::table('ventas')
         ->select(DB::raw("ventas.id, ventas.created_at as fecha, saldo"))
         ->where('saldo', '>', 0)
-        ->where('cliente_id', Input::get('cliente_id'))
+        ->where('cliente_id', $cliente_id)
         ->get();
 
         $saldo_total = 0;
@@ -26,11 +47,9 @@ class SalesPaymentsController extends \BaseController {
         $saldo_total = f_num::get($saldo_total);
         $saldo_vencido = f_num::get($saldo_vencido);
 
-        $users = User::paginate(10);
-
         return Response::json(array(
             'success' => true,
-            'form' => View::make('ventas.payments.formPayments', compact('saldo_total', 'saldo_vencido', 'users'))->render()
+            'form' => View::make('ventas.payments.formPayments', compact('saldo_total', 'saldo_vencido', 'cliente_id'))->render()
         ));
 	}
 

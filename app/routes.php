@@ -174,6 +174,7 @@
             Route::group(array('prefix' => 'payments'),function() 
             {
                 Route::get('formPayments', 'SalesPaymentsController@formPayments');
+                Route::post('formPayments', 'SalesPaymentsController@formPayments');
                 Route::get('formPaymentsPagination', 'SalesPaymentsController@formPaymentsPagination');
             });
 
@@ -570,25 +571,27 @@ Route::get('cod', function() {
         //     'info' => $info
         // ));
       
-        $table = 'ventas';
+        // $table = 'ventas';
 
-        $columns = array(
-            "ventas.created_at as fecha", 
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-            "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-            "numero_documento","completed",
-            "saldo"
-            );
+        // $columns = array(
+        //     "ventas.created_at as fecha", 
+        //     "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+        //     "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+        //     "numero_documento","completed",
+        //     "saldo"
+        //     );
 
-        $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
+        // $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
 
-        $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+        // $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-        $where = null;
+        // $where = null;
 
-        $productos = DB::table('users')->get();
+        // $productos = DB::table('users')->get();
 
-        $data = Paginator::make($productos, 4, 2);
+        // $data = Paginator::make($productos, 4, 2);
+
+    return 1;
 });
 
 
