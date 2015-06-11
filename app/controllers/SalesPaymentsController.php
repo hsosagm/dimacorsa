@@ -86,4 +86,94 @@ class SalesPaymentsController extends \BaseController {
         ));
 	}
 
+
+    /* Seccion de Abonos Por Venta */
+
+    public function SelectedPaySales()
+    {
+        $ids_venta = explode(',', Input::get('array_ids_ventas'));
+
+        if (empty(Input::get('array_ids_ventas'))) 
+        {
+            return 'Seleccione almenos una compra para realizar esata accion';
+        }
+
+        $data = array('cliente_id' => Input::get('cliente_id'),
+                    'metodo_pago_id' => Input::get('metodo_pago_id'),
+                    'monto' => 0.00 );
+
+        $abono = new AbonosVenta;
+
+        if (!$abono->create_master($data)) 
+        {   
+            return $abono->errors();
+        }
+
+        $abono_id = $abono->get_id();
+        $total = 0;
+
+        for ($i=0; $i < count($ids_venta) ; $i++) 
+        { 
+            $venta = Venta::find($ids_venta[$i]);
+
+            $total = $total + $venta->saldo;
+
+            $data_detalle = array('venta_id' => $venta->id,
+                'abonos_ventas_id' => $abono_id,
+                'monto' => $venta->saldo );
+
+            $detalle = new DetalleAbonosVenta;
+
+            if (!$detalle->_create($data_detalle)) 
+            {
+                return $detalle->errors();
+            }
+                
+            $venta->saldo = 0.00 ;
+            $venta->save();
+        }
+
+        $abono = AbonosVenta::find($abono_id);
+        $abono->monto = $total;
+        $abono->save();
+
+        $detalle = $this->BalanceDetails($abono_id);
+
+        return Response::json(array(
+            'success' => true ,
+            'detalle' => View::make('ventas.payments.paymentsDetails',compact("detalle",'abono_id'))->render()
+            ));
+    }
+
+    function BalanceDetails($id_pago)
+    {
+        $query = DB::table('detalle_abonos_ventas')
+        ->select('venta_id','total','monto','saldo',DB::raw('(saldo+monto) as saldo_anterior'))
+        ->join('ventas','ventas.id','=','detalle_abonos_ventas.venta_id')
+        ->where('abonos_ventas_id','=',$id_pago)->get();
+
+        return $query;
+    }
+
+     //funcion para eliminar el abono 
+    public function DeleteBalancePay()
+    {
+        $detalle = DetalleAbonosVenta::where('abonos_ventas_id','=',Input::get('id'))->get();
+
+        foreach ($detalle as $key => $dt) 
+        {
+            $this->ReturnBalanceSales($dt->venta_id , $dt->monto);
+        }
+
+        AbonosVenta::destroy(Input::get('id'));
+
+        return 'success';
+    }
+
+    function ReturnBalanceSales($venta_id , $monto)
+    {
+        $update = Venta::find($venta_id);
+        $update->saldo = $update->saldo + $monto ;
+        $update->save();
+    }
 }

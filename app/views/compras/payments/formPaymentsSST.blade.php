@@ -11,7 +11,6 @@
             <input type="hidden" class="total_selected" value="0">
         </div>
         <div class="col-md-4">
-
             {{ Form::open(array('data-remote-SelectedPayPurchases','onSubmit'=>'return false')) }}
             <div class="row">
                 <div class="col-md-9">
@@ -27,8 +26,6 @@
             
         </div>
     </div>
-
-
 </div>
 
 <table class="SST" cellspacing='0'>

@@ -150,6 +150,9 @@
                 Route::get('formPayments', 'SalesPaymentsController@formPayments');
                 Route::post('formPayments', 'SalesPaymentsController@formPayments');
                 Route::get('formPaymentsPagination', 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('DeleteBalancePay'     , 'SalesPaymentsController@DeleteBalancePay'  );
+                Route::post('SelectedPaySales'     , 'SalesPaymentsController@SelectedPaySales'  );
+                
             });
 
         });
@@ -336,12 +339,8 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelMes' );
 Route::get('test', function()
 {   
-    $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
-      ->where('tienda_id','=',Auth::user()->tienda_id)
-      ->where('existencias.existencia','>', 0)
-      ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
-
-    return $inversion;
+    $venta = Venta::find(26035);
+    return View::make('ventas.ImprimirGarantia', compact('venta'));
 });
 
 

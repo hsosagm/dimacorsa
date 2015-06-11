@@ -12,22 +12,22 @@
             <label style="margin-right: 100px;">3ra calle 13-71 zona 1, Chiquimula   Telefono: 7942-1383</label>
           </div><br>
           <div style="display:inline-block;">
-            <label > {{ @$garantia_fecha }} </label>
+            <label > {{ @$venta->created_at }} </label>
           </div>
           <div style="display:inline-block;">
-            <label style="margin-left:12px;">{{ @$garantia_numero }}</label>
+            <label style="margin-left:12px;">{{ @$venta->id }}</label>
           </div><br>
           <div style="display:inline-block;">
-            <label> {{ @$garantia_nombre }}</label>
+            <label> {{ @$venta->cliente->nombre.' '.@$venta->cliente->apellido }}</label>
           </div>
           <div style="display:inline-block;">
-            <label style="margin-left:12px;" id="garantia_direccion">{{ @$garantia_direccion }}</label>
+            <label style="margin-left:12px;" id="garantia_direccion">{{ @$venta->cliente->direccion }}</label>
           </div>
           <div style="display:inline-block;">
-            <label style="margin-left:12px;" id="garantia_nit">{{ @$garantia_nit }}</label>
+            <label style="margin-left:12px;" id="garantia_nit">{{ @$venta->cliente->nit }}</label>
           </div>
           <div style="display:inline-block;">
-            <label style="margin-left:12px;" id="garantia_telefono">{{ @$garantia_telefono }}</label>
+            <label style="margin-left:12px;" id="garantia_telefono">{{ @$venta->cliente->telefono }}</label>
           </div>
         </div>
       </td>
