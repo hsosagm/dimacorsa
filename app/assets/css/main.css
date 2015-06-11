@@ -65,10 +65,11 @@
     padding: 0.0em !important;
 }
 
-.nav-pills li {
-	width: 300px;
-}
-
 .abonosDetalle {
 	height: 150px;
+}
+
+.pagination {
+    margin:0px;
+    padding-top: 5px
 }

@@ -26,33 +26,7 @@
     Route::post('index', 'HomeController@validate');
 
     Route::group(array('prefix' => 'user'), function()
-
-    {
-        Route::group(array('prefix' => 'datatables'),function() 
-        {
-            Route::get('md_search'             , 'InventarioController@md_search');
-            Route::get('md_datatables'         , 'DatatablesController@md_search');
-            Route::get('user_inventario'       , 'InventarioController@user_inventario');
-            Route::get('user_datatables'       , 'DatatablesController@user_inventario');
-            Route::get('proveedores'           , 'DatatablesController@proveedores'    );
-            Route::get('clientes'              , 'DatatablesController@clientes'           );
-            Route::get('users'                 , 'DatatablesController@users');
-            Route::get('/'                     , 'DatatablesController@index');
-            Route::get('SalesOfDay'            , 'DatatablesController@SalesOfDay');
-            Route::get('SupportDay_dt'         , 'DatatablesController@SupportDay_dt');
-            Route::get('ExpensesDay_dt'        , 'DatatablesController@ExpensesDay_dt');
-            Route::get('ExpendituresDay_dt'    , 'DatatablesController@ExpendituresDay_dt');
-            Route::get('IncomeDay_dt'          , 'DatatablesController@IncomeDay_dt');
-            Route::get('AdvancesDay_dt'        , 'DatatablesController@AdvancesDay_dt');
-            Route::get('VentasDelDiaUsuario'   , 'DatatablesController@VentasDelDiaUsuario');
-            Route::get('SoporteDelDiaUsuario'  , 'DatatablesController@SoporteDelDiaUsuario');
-            Route::get('IngresosDelDiaUsuario' , 'DatatablesController@IngresosDelDiaUsuario');
-            Route::get('EgresosDelDiaUsuario'  , 'DatatablesController@EgresosDelDiaUsuario');
-            Route::get('GastosDelDiaUsuario'   , 'DatatablesController@GastosDelDiaUsuario');
-            Route::get('AdelantosDelDiaUsuario', 'DatatablesController@AdelantosDelDiaUsuario');
-            Route::get('creditSales', 'DatatablesController@creditSales');
-        });
-        
+    {   
         Route::group(array('prefix' => 'consulta'), function()
         {
             Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario'   );
@@ -231,10 +205,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('contacto_info'       , 'ProveedorController@contacto_info'  );
         Route::post('total_credito'       , 'ProveedorController@TotalCredito'   );
         Route::get('ShowModalPaySupplier' , 'ProveedorController@ShowModalPaySupplier'  );
-        Route::post('OverdueBalancePay'   , 'ProveedorController@OverdueBalancePay'  );
-        Route::post('DeleteBalancePay'    , 'ProveedorController@DeleteBalancePay'  );
-        Route::post('FullBalancePay'      , 'ProveedorController@FullBalancePay'  );
-        Route::post('PartialBalancePay'   , 'ProveedorController@PartialBalancePay'  );
+        
         Route::get('AbonarCompra'         , 'ProveedorController@AbonarCompra');
         Route::post('AbonarCompra'        , 'ProveedorController@AbonarCompra');
         Route::post('EliminarAbonoCompra' , 'ProveedorController@EliminarAbonoCompra');
@@ -273,6 +244,17 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('ComprasPendientesDePago'        , 'CompraController@ComprasPendientesDePago');
         Route::get('HistorialDePagos'               , 'CompraController@HistorialDePagos');
         Route::get('HistorialDeAbonos'              , 'CompraController@HistorialDeAbonos');
+
+        Route::group(array('prefix' => 'payments'),function() 
+        {
+            Route::get('formPayments'          , 'PurchasePaymentsController@formPayments');
+            Route::get('formPaymentsPagination', 'PurchasePaymentsController@formPaymentsPagination');
+            Route::post('OverdueBalancePay'    , 'PurchasePaymentsController@OverdueBalancePay'  );
+            Route::post('DeleteBalancePay'     , 'PurchasePaymentsController@DeleteBalancePay'  );
+            Route::post('FullBalancePay'       , 'PurchasePaymentsController@FullBalancePay'  );
+            Route::post('PartialBalancePay'    , 'PurchasePaymentsController@PartialBalancePay'  );
+            Route::post('SelectedPayPurchases' , 'PurchasePaymentsController@SelectedPayPurchases'  );
+        });
 
     });
 

@@ -56,7 +56,7 @@
                 <span class="arrow"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);" id="ShowModalPaySupplier"> Abonar Proveedor</a></li>
+                <li><a href="javascript:void(0);" onclick="getFormAbonosCompras(this)"> Abonar Proveedor</a></li>
                 <li><a href="javascript:void(0);" id="ShowModalEditSuppliers"> Editar Proveedor</a></li>
             </ul>
         </li>

@@ -2,10 +2,6 @@
 	padding: 5px;
 } 
 
-.panel-body-abonos {
-	height:240px !important;
-}
-
 .OverdueBalance_Details , .FullBalance_Details {
 	height: 125px;
 	margin-top: 5px;
@@ -66,3 +62,34 @@
     {
         margin-bottom: 15px;
     }
+
+.panel-tab .panel-heading ul {
+    width: 100%;
+}
+
+.nav-pills li {
+    width: 25%;
+}
+
+.container_selected {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    border: 1px solid #DCDCDC;
+    width: 100%;
+    position: relative;
+    float: left;
+    padding: 2px 10px;  
+}
+
+.container_selected select{
+    padding: 0px;
+    
+}
+
+.container_selected #total_selected{
+    margin-right: 15px !important;
+    padding-left: 15px;
+    text-align: right;
+    
+}
+

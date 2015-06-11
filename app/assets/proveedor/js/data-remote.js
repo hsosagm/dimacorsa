@@ -6,20 +6,20 @@ $(function() {
 });
 
 function OverdueBalancePay(e , element)
-{
+{ 
 	form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
 
     $.ajax({
             type: "POST",
-            url:  "admin/proveedor/OverdueBalancePay",
+            url:  "admin/compras/payments/OverdueBalancePay",
             data: form.serialize(),
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
                 if (data.success == true) 
                 {
                 	msg.success('Saldo vencido abonado con exito..!', 'Listo!');
-                	$('.OverdueBalance_Details').html(data.detalle)
+                	$('.abonosDetalle_detail').html(data.detalle)
                 	$('#saldo_total').hide();
                 	$('#saldo_parcial').hide();
                 }
@@ -44,14 +44,14 @@ function FullBalancePay(e , element)
 
     $.ajax({
             type: "POST",
-            url:  "admin/proveedor/FullBalancePay",
+            url:  "admin/compras/payments/FullBalancePay",
             data: form.serialize(),
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
                 if (data.success == true) 
                 {
                 	msg.success('Saldo total abonado con exito..!', 'Listo!');
-                	$('.FullBalance_Details').html(data.detalle)
+                	$('.abonosDetalle_detail').html(data.detalle)
                 	$('#saldo_vencido').hide();
                 	$('#saldo_parcial').hide();
                 }
@@ -76,14 +76,14 @@ function PartialBalancePay(e , element)
 
     $.ajax({
             type: "POST",
-            url:  "admin/proveedor/PartialBalancePay",
+            url:  "admin/compras/payments/PartialBalancePay",
             data: form.serialize(),
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
                 if (data.success == true) 
                 {
                     msg.success('Saldo parcial abonado con exito..!', 'Listo!');
-                    $('.PartialBalance_Details').html(data.detalle)
+                    $('.abonosDetalle_detail').html(data.detalle)
                     $('#saldo_vencido').hide();
                     $('#saldo_total').hide();
                 }
@@ -109,7 +109,7 @@ function IngresarAbonoAlaCompra(e , element)
 
     $.ajax({
             type: "POST",
-            url:  "admin/proveedor/AbonarCompra",
+            url:  "admin/compras/payments/AbonarCompra",
             data: form.serialize(),
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
