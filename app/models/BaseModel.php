@@ -6,11 +6,16 @@ class BaseModel extends Eloquent   {
     protected $errors;
     protected $model_id;
 
-    public function _create()
+    public function _create($data = null)
     {
+        if ($data == null) 
+        {
+            $data = Input::all();
+        }
+
         $class = get_class($this);
         $path = "App\\Validators\\{$class}Validator";
-        $v = $path::make();
+        $v = $path::make($data);
 
         if ($v->fails())
         {
@@ -18,7 +23,7 @@ class BaseModel extends Eloquent   {
             return false;
         }
 
-        $values = array_map('trim', Input::all());
+        $values = array_map('trim', $data);
         $values = preg_replace('/\s{2,}/', ' ', $values);
         $values = array_map('ucfirst', $values);
         $model = $class::create($values);
@@ -89,9 +94,13 @@ class BaseModel extends Eloquent   {
     }
 
 
-    public function create_master()
+    public function create_master($data = null)
     {
-        $data = Input::all();
+        if ($data == null) 
+        {
+            $data = Input::all();
+        }
+
         $data['user_id'] = Auth::user()->id;
         $data['tienda_id'] = Auth::user()->tienda_id;
         $class = get_class($this);

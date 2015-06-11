@@ -10,7 +10,7 @@ class CompraController extends \BaseController {
 
 			if (!$compra->create_master())
 			{
-				return $compra->errors();
+				return $compra->errors(); 
 			}
 
 			$id = $compra->get_id();
