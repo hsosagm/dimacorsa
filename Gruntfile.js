@@ -109,7 +109,7 @@ module.exports = function(grunt) {
                 ],
                  './public/css/cliente.css': 
                 [
-                    './app/assets/components/bower/bootstrap/dist/css/bootstrap.min.css',
+                   './app/assets/components/bower/bootstrap/dist/css/bootstrap.min.css',
                     './app/assets/components/bower/font-awesome/css/font-awesome.min.css',
                     './app/assets/css/theme/layout.css',
                     './app/assets/css/theme/components.css',
@@ -128,7 +128,6 @@ module.exports = function(grunt) {
                     './app/assets/css/not-scroll.css',
                     './app/assets/css/consultas.css',
                     './app/assets/css/datepicker-pickadate-custom.css',
-                    './app/assets/css/cliente.css',
                     './app/assets/cliente/css/*',
                     
                 ]
