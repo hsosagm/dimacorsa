@@ -35,8 +35,8 @@
 				<div class="row">
 					<div class="form-group">
 						<div class="col-md-5">
-						    <input name="monto" value="{{ $saldo_vencido }}" class="hide">
-							<input name="monto" class="form-control" value="{{ $saldo_vencido }}" disabled>
+						    <input name="monto" value="{{ Crypt::encrypt($saldo_vencido) }}" class="">
+							<input class="form-control" value="{{ f_num::get($saldo_vencido) }}" disabled>
 						</div>
 						<div class="col-md-5">
 							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}

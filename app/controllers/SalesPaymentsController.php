@@ -6,16 +6,22 @@ class SalesPaymentsController extends \BaseController {
 	{
 		if (Session::token() == Input::get('_token'))
 		{
-			return json_encode(Input::all());
-			
-			$venta = new Venta;
+			// return json_encode(Input::all());
 
-			if (!$venta->create_master())
+		    $monto = Crypt::decrypt(Input::get('monto'));
+
+		    Input::merge(array('monto' => $monto));
+
+		    return json_encode(Input::all());
+
+			$abonosVenta = new AbonosVenta;
+
+			if (!$abonosVenta->create_master())
 			{
-				return $venta->errors();
+				return $abonosVenta->errors();
 			}
 
-			$venta_id = $venta->get_id();
+			$abonosVenta_id = $abonosVenta->get_id();
 
 			return Response::json(array(
 				'success' => true,
@@ -45,7 +51,6 @@ class SalesPaymentsController extends \BaseController {
         }
 
         $saldo_total = f_num::get($saldo_total);
-        $saldo_vencido = f_num::get($saldo_vencido);
 
         return Response::json(array(
             'success' => true,
