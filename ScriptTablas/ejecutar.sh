@@ -4,12 +4,4 @@ mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < roles.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < permissions.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < permission_role.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < assigned_roles.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < categorias.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < marcas.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < metodo_pago.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < productos.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < proveedores.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < soporte.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < detalle_soporte.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < tipo_cliente.sql
-mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < clientes.sql
+
