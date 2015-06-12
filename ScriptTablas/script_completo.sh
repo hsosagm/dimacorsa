@@ -9,6 +9,7 @@ mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < marcas.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < metodo_pago.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < productos.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < proveedores.sql
+mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < soporte_estados.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < soporte.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < detalle_soporte.sql
 mysql -u clickdb -pRjAzsMSBzLzPcxWM laravel < tipo_cliente.sql

@@ -36,7 +36,7 @@
 							<input class="form-control" type="text" value="{{(@$saldo_vencido == null) ? '0' : $saldo_vencido; }}" disabled="true">
 						</div>
 						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
 						<div class="col-md-2">
 							<button class="form-control">nota</button>
@@ -63,7 +63,7 @@
 							<input class="form-control" type="text" value="{{(@$saldo_total == null) ? '0' : $saldo_total; }}" disabled="true">
 						</div>
 						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
 						<div class="col-md-2">
 							<button class="form-control">nota</button>
@@ -89,7 +89,7 @@
 							<input class="form-control" type="text" name="monto" placeholder="Monto" >
 						</div>
 						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
 						<div class="col-md-2">
 							<button class="form-control">nota</button>

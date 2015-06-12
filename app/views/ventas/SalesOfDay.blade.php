@@ -41,7 +41,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/SalesOfDay"
+        "sAjaxSource": "user/ventas/SalesOfDay"
     });
 
 });

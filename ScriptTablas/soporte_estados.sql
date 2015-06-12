@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-06-2015 a las 11:09:04
+-- Tiempo de generación: 12-06-2015 a las 11:05:42
 -- Versión del servidor: 5.6.24-0ubuntu2
 -- Versión de PHP: 5.6.4-4ubuntu6
 
@@ -21,15 +21,15 @@ SET time_zone = "+00:00";
 --
 
 --
--- Volcado de datos para la tabla `metodo_pago`
+-- Volcado de datos para la tabla `soporte_estados`
 --
 
-INSERT INTO `metodo_pago` (`id`, `descripcion`, `created_at`, `updated_at`) VALUES
-(1, 'Efectivo', '2015-02-16 23:23:05', '2015-02-16 23:23:05'),
-(2, 'Credito', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 'Cheque', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'Tarjeta', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(5, 'Deposito', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `soporte_estados` (`id`, `estado`, `created_at`, `updated_at`) VALUES
+(1, 'Espera', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Proceso', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'Finalizado', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Entregado', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'Pendiente', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
