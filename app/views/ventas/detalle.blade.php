@@ -50,7 +50,7 @@
 <div class="form-footer" >
 	<div class="row">
 		<div class="col-md-6">
-			{{ Form::button('Imprimir', ['class'=>'btn btn-info','onClick'=>'imprimir_venta_modal(this , {{$venta_id}});']);}}
+			{{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirVentaModal(this,'.$venta_id.');']);}}
 		</div>
 		<div class="col-md-6" align="right">
 

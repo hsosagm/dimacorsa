@@ -348,4 +348,40 @@ class VentasController extends \BaseController {
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );	
 	}
+
+	function ImprimirVentaModal()
+	{
+		$venta_id = Input::get('venta_id');
+
+		return Response::json(array(
+			'success' => true,
+			'form' => View::make('ventas.ImprimirVentaModal',compact('venta_id'))->render()
+        ));
+	}
+
+	function ImprimirFacturaVenta()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return Response::json(array(
+				'success' => true,
+				'detalle' => View::make('ventas.ImprimirFactura', compact('venta'))->render()
+        	));
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirGarantiaVenta()
+	{
+
+		$venta = Venta::with('cliente')->find(Input::get('venta_id'));
+
+		return Response::json(array(
+				'success' => true,
+				'detalle' => View::make('ventas.ImprimirGarantia', compact('venta'))->render()
+        	));
+	}
+
 }

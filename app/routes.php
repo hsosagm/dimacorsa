@@ -144,6 +144,9 @@
             Route::get('openSale'               , 'VentasController@openSale');
             Route::get('getCreditSales'         , 'VentasController@getCreditSales');
             Route::get('SalesOfDay'             , 'VentasController@SalesOfDay'  );
+            Route::get('ImprimirVentaModal'     , 'VentasController@ImprimirVentaModal'  );
+            Route::post('ImprimirFacturaVenta'  , 'VentasController@ImprimirFacturaVenta'  );
+            Route::post('ImprimirGarantiaVenta' , 'VentasController@ImprimirGarantiaVenta'  );
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -338,8 +341,11 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelMes' );
 Route::get('test', function()
 {   
-    $venta = Venta::find(26035);
-    return View::make('ventas.ImprimirGarantia', compact('venta'));
+    $venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+    if(count($venta->detalle_venta)>0)
+        return View::make('ventas.ImprimirFactura', compact('venta'));
+    else
+        return 'Ingrese productos ala factura para poder inprimir';
 });
 
 
