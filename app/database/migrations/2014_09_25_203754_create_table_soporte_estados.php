@@ -15,7 +15,7 @@ class CreateTableSoporteEstados extends Migration {
 		Schema::create('soporte_estados', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('nota');
+			$table->string('estado');
 			$table->timestamps();
 		});
 	} 
