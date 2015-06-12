@@ -572,7 +572,16 @@ Route::get('cod', function() {
 
         // $data = Paginator::make($productos, 4, 2);
 
-    return 1;
+        $ventas = DB::table('ventas')
+        ->where('cliente_id', 3914)
+        ->where('saldo', '>', 0)
+        ->orderBy('created_at', 'ASC')
+        ->get();
+
+        if (!$ventas) {
+           return 'no';
+        }
+        return 'si';
 });
 
 

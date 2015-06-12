@@ -35,7 +35,7 @@
 				<div class="row">
 					<div class="form-group">
 						<div class="col-md-5">
-						    <input name="monto" value="{{ Crypt::encrypt($saldo_vencido) }}" class="">
+						    <input class="hide" name="monto" value="{{ Crypt::encrypt($saldo_vencido) }}" class="">
 							<input class="form-control" value="{{ f_num::get($saldo_vencido) }}" disabled>
 						</div>
 						<div class="col-md-5">

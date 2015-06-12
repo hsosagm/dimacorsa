@@ -6,13 +6,11 @@ class SalesPaymentsController extends \BaseController {
 	{
 		if (Session::token() == Input::get('_token'))
 		{
-			// return json_encode(Input::all());
-
+			return json_encode(Input::all());
+			
 		    $monto = Crypt::decrypt(Input::get('monto'));
 
 		    Input::merge(array('monto' => $monto));
-
-		    return json_encode(Input::all());
 
 			$abonosVenta = new AbonosVenta;
 
@@ -23,10 +21,39 @@ class SalesPaymentsController extends \BaseController {
 
 			$abonosVenta_id = $abonosVenta->get_id();
 
-			return Response::json(array(
-				'success' => true,
-				'detalle' => View::make('ventas.detalle', compact('venta_id'))->render()
-            ));
+	        $ventas = Venta::where('cliente_id', Input::get('cliente_id'))
+	        ->where('saldo', '>', 0)
+	        ->orderBy('created_at', 'ASC')
+	        ->get();
+
+	        if (!$ventas) {
+			    return Response::json(array('success' => false));
+	        }
+
+			foreach ($ventas as $venta) 
+			{
+				$detalleAbono = new DetalleAbonosVenta;
+			    $detalleAbono->abonos_ventas_id = $abonosVenta_id;
+			    $detalleAbono->venta_id = $venta->id;
+
+				if ($monto > $venta->saldo)
+				{
+				    $detalleAbono->monto = $venta->saldo;
+				    $venta->saldo = 0;
+				    $detalleAbono->save();
+				    $venta->save();
+				}
+				else
+				{
+					$detalleAbono->monto = $monto;
+					$venta->saldo = $venta->saldo - $monto;
+					$detalleAbono->save();
+					$venta->save();
+					return 'success';
+				}
+			}
+
+			return '1';
 		}
 
 		$cliente_id = Input::get('cliente_id');
@@ -49,8 +76,6 @@ class SalesPaymentsController extends \BaseController {
             	$saldo_vencido = $saldo_vencido + $q->saldo;
             }
         }
-
-        $saldo_total = f_num::get($saldo_total);
 
         return Response::json(array(
             'success' => true,
