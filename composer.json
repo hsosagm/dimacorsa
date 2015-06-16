@@ -11,7 +11,8 @@
 		"pusher/pusher-php-server": "~2.0",
         "laravelrus/localized-carbon": "1.*",
         "fadion/validator-assistant": "dev-master",
-		"nekman/laravel-model-logger": "1.*"
+		"nekman/laravel-model-logger": "1.*",
+		"rap2hpoutre/laravel-log-viewer": "^0.3.0"
 	},
 	"autoload": {
 		"classmap": [
