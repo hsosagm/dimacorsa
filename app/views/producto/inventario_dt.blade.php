@@ -20,6 +20,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthXL",              "sTitle": "Descripcion",  "aTargets": [2]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "P costo",      "aTargets": [3]},
             {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "P publico",    "aTargets": [4]},
+            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Existencias",    "aTargets": [5]},
         ],
 
         "fnDrawCallback": function( oSettings ) {

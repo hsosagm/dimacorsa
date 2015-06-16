@@ -94,7 +94,7 @@ class CompraController extends \BaseController {
 
 	public function DeletePurchaseInitial()
 	{
-		$compra = Compra::destroy(Input::get('id'));
+		Compra::destroy(Input::get('id'));
 
 		return 'success';
 	}

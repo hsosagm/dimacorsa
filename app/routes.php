@@ -25,6 +25,16 @@
     Route::get('logout', 'HomeController@logout'  );
     Route::post('index', 'HomeController@validate');
 
+    Route::get('proveedor', function()
+    {
+        return View::make('layouts.proveedor_master');
+    });
+
+    Route::get('cliente', function()
+    {
+        return View::make('layouts.cliente_master');
+    });
+
     Route::group(array('prefix' => 'user'), function()
     {   
         Route::group(array('prefix' => 'consulta'), function()
@@ -349,16 +359,6 @@ Route::get('test', function()
 });
 
 
-Route::get('proveedor', function()
-{
-    return View::make('layouts.proveedor_master');
-
-});
-Route::get('cliente', function()
-{
-    return View::make('layouts.cliente_master');
-
- });
 
 
 

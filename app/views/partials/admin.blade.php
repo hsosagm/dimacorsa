@@ -5,6 +5,14 @@
 </li>
 <!--/ End category development -->
 
+<li class="submenu">
+        <a href="/proveedor" target="_blank">
+            <span class="icon"><i class="fa fa-file-o"></i></span>
+            <span class="text">Proveedor</span>
+            <span class=""></span>
+        </a>
+    </li>
+
 <!-- Start development - components -->
 <li class="submenu">
     <a href="javascript:void(0);">

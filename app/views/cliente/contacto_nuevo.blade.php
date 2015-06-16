@@ -1,5 +1,4 @@
 {{Form::open(array('data-remote-contact-cn'))}} 
-
     <div class="row">
         <div class="col-md-12">{{ Form::text("nombre", "" , array('placeholder' => 'Nombre'))}}</div>
     </div>

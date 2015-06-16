@@ -141,7 +141,7 @@ $(document).on('submit', 'form[data-remote-cat]', function(e) {
                 $('.categorias-detail').html(data.lista);
                 $('.select_'+data.model).html(data.select);
 
-                if (data.model == 'categorias') 
+               /* if (data.model == 'categorias') 
                 {
                     $.confirm({
                         text: "desea Ingresar Sub Categorias para la Categoria "+nombre.val()+"?",
@@ -150,7 +150,7 @@ $(document).on('submit', 'form[data-remote-cat]', function(e) {
                             $('.form-select-'+data.model).html(data.select);
                         }
                     });
-                }
+                }*/
 
                 nombre.val('');
             }

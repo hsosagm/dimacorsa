@@ -16,18 +16,11 @@
 
         <section id="wrapper">
 
-             <!--/ START HEADER -->
             @include('cliente_partials.header')
-            <!--/ END HEADER -->
-
-            <!-- /#sidebar-left -->
-             @include('cliente_partials.slidebar-left')
-            <!--/ END SIDEBAR LEFT -->
-
-            <!-- START @PAGE CONTENT -->
+            @include('cliente_partials.slidebar-left')
+            
             <section id="page-content">
 
-                <!-- Start page header -->
                 <div class="header-content">
                     <h2><i class="fa fa-home"></i> <span id="info_cliente"></span></h2>
                     <span class="loader" style="position:absolute; width:100%;">
@@ -35,19 +28,15 @@
                    <img src="img/loader/general/2.gif" alt="">
                </div>
 
-                </div><!-- /.header-content -->
-                <!--/ End page header -->
+                </div>
 
             @include('cliente_partials.body-content')
 
             @include('cliente_partials.footer')
 
-            </section><!-- /#page-content -->
-            <!--/ END PAGE CONTENT -->
+            </section>
 
-            <!-- START @SIDEBAR RIGHT -->
             @include('cliente_partials.slidebar-right')
-            <!-- END   @SIDEBAR RIGHT -->
             
         </section>
 

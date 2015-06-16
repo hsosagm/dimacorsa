@@ -55,6 +55,8 @@
 
 <style type="text/css">
 
+.bs-modal .Lightbox{
+  }
 .master-detail-body2 {
     max-height: 150px !important;
     height: 150px !important;*/
@@ -66,4 +68,6 @@
     background: white;
 }
     
+
+
 </style>

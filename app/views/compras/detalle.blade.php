@@ -57,6 +57,6 @@
 </div>
 
 <div class="form-footer" align="right">
-	{{Form::button('Eliminar!', ['class'=>'btn btn-warning','compra_id'=> @$id,'onClick'=>'DeletePurchaseInitial();']);}}
+	{{Form::button('Eliminar!', ['class'=>'btn btn-warning','compra_id'=> @$id,'onClick'=>'DeletePurchaseInitial(this);']);}}
 	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button','id'=> @$id,'onClick'=>'ModalPurchasePayment(this);']) }}
 </div>

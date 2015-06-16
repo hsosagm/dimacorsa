@@ -6,9 +6,15 @@
 <div class="container_selected" >
     <div class="row">
         <div class="col-md-8">
-            <label style="text-align:left"> Total Seleccionado: Q</label>
-            <label id="total_selected" ></label>
-            <input type="hidden" class="total_selected" value="0">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <label style="text-align:left"> Total Seleccionado: </label>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="total_selected form-control" value="0" disabled>
+                </div>
+            </div>
         </div>
         <div class="col-md-4">
             {{ Form::open(array('data-remote-SelectedPayPurchases','onSubmit'=>'return false')) }}

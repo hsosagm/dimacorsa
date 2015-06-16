@@ -181,7 +181,7 @@ function InsertPurchaseItemSerials(element)
     }
 }
 
-function DeletePurchaseInitial()
+function DeletePurchaseInitial(element)
 {
     var compra_id = $(element).attr('compra_id');
     $.confirm({

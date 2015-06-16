@@ -7,8 +7,13 @@
 <br>
 
 <div class="categorias-detail lista-col2">
-
-	{{HTML::ul(Categoria::lists('nombre'))}} 
+	<?php $categorias = Categoria::all(); ?>
+	{{-- {{HTML::ul(Categoria::lists('nombre'))}}  --}}
+	<ul>
+		@foreach($categorias as $cat)
+			<li >{{$cat->nombre}} <i class="fa fa-pencil btn theme-c" onClick="categoria_edit(this,{{$cat->id}})"></i></li>
+		@endforeach
+	</ul>
 
 </div>
 
