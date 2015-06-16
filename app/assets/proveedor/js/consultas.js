@@ -55,12 +55,6 @@ function ShowTableUnpaidShopping (e)
                 setTimeout(function()
                 {
                     $('#example_length').prependTo("#table_length");
-                    $( "#home" ).append('<td style="width:150px; text-align:right;">/ Compras al credito: </td>');
-                    $( "#home" ).append('<td style="width:60px; text-align:right;">Total:</td>');
-                    $( "#home" ).append('<td class="home_num">'+saldo+'</td>');
-                    $( "#home" ).append('<td style="width:85px; text-align:right;">Vencido:</td>');
-                    $( "#home" ).append('<td class="home_num">'+saldo_vencido+'</td>');
-        
                     $('.dt-container').show();
                     
                     oTable = $('#example').dataTable();

@@ -379,6 +379,14 @@ function ImprimirFacturaVenta(e,id)
 
 }
 
+function ImprimirFacturaVenta_dt(e,user)
+{
+    id = $(e).closest('tr').attr('id');
+
+    window.open('user/ventas/'+id+'/ImprimirFacturaVenta/','scrollbars=No,status=no,width=100%,height=100%');
+
+}
+
 function ImprimirGarantiaVenta(e,id)
 {
      $.ajax({

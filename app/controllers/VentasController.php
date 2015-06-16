@@ -373,6 +373,17 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
+	function ImprimirFacturaVenta_dt($id)
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find($id);
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
 	function ImprimirGarantiaVenta()
 	{
 

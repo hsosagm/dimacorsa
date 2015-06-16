@@ -50,11 +50,6 @@
 		@include('compras.detalle_body')
 	</div>
 </div>
-<div class="row">
-	<div class="col-md-8"> <textarea name="nota" cols="30" rows="2"></textarea></div>
-	<div class="col-md-4">
-	</div>
-</div>
 
 <div class="form-footer" align="right">
 	{{Form::button('Eliminar!', ['class'=>'btn btn-warning','compra_id'=> @$id,'onClick'=>'DeletePurchaseInitial(this);']);}}

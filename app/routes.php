@@ -139,24 +139,25 @@
 
         Route::group(array('prefix' => 'ventas'), function()
         {
-            Route::get('create'                 , 'VentasController@create' );
-            Route::post('create'                , 'VentasController@create' );
-            Route::post('detalle'               , 'VentasController@detalle');
-            Route::post('RemoveSale'            , 'VentasController@RemoveSale');
-            Route::post('RemoveSaleItem'        , 'VentasController@RemoveSaleItem');
-            Route::get('ModalSalesPayments'     , 'VentasController@ModalSalesPayments');
-            Route::post('ModalSalesPayments'    , 'VentasController@ModalSalesPayments');
-            Route::post('RemoveSalePayment'     , 'VentasController@RemoveSalePayment');
-            Route::post('FinalizeSale'          , 'VentasController@FinalizeSale');
-            Route::get('OpenModalSalesPayments' , 'VentasController@OpenModalSalesPayments');
-            Route::get('OpenTableSalesOfDay'    , 'VentasController@OpenTableSalesOfDay');
-            Route::get('showSalesDetail'        , 'VentasController@showSalesDetail');
-            Route::get('openSale'               , 'VentasController@openSale');
-            Route::get('getCreditSales'         , 'VentasController@getCreditSales');
-            Route::get('SalesOfDay'             , 'VentasController@SalesOfDay'  );
-            Route::get('ImprimirVentaModal'     , 'VentasController@ImprimirVentaModal'  );
-            Route::post('ImprimirFacturaVenta'  , 'VentasController@ImprimirFacturaVenta'  );
-            Route::post('ImprimirGarantiaVenta' , 'VentasController@ImprimirGarantiaVenta'  );
+            Route::get('create'                             , 'VentasController@create' );
+            Route::post('create'                            , 'VentasController@create' );
+            Route::post('detalle'                           , 'VentasController@detalle');
+            Route::post('RemoveSale'                        , 'VentasController@RemoveSale');
+            Route::post('RemoveSaleItem'                    , 'VentasController@RemoveSaleItem');
+            Route::get('ModalSalesPayments'                 , 'VentasController@ModalSalesPayments');
+            Route::post('ModalSalesPayments'                , 'VentasController@ModalSalesPayments');
+            Route::post('RemoveSalePayment'                 , 'VentasController@RemoveSalePayment');
+            Route::post('FinalizeSale'                      , 'VentasController@FinalizeSale');
+            Route::get('OpenModalSalesPayments'             , 'VentasController@OpenModalSalesPayments');
+            Route::get('OpenTableSalesOfDay'                , 'VentasController@OpenTableSalesOfDay');
+            Route::get('showSalesDetail'                    , 'VentasController@showSalesDetail');
+            Route::get('openSale'                           , 'VentasController@openSale');
+            Route::get('getCreditSales'                     , 'VentasController@getCreditSales');
+            Route::get('SalesOfDay'                         , 'VentasController@SalesOfDay'  );
+            Route::get('ImprimirVentaModal'                 , 'VentasController@ImprimirVentaModal'  );
+            Route::post('ImprimirFacturaVenta'              , 'VentasController@ImprimirFacturaVenta'  );
+            Route::get('{id}/ImprimirFacturaVenta'   , 'VentasController@ImprimirFacturaVenta_dt'  );
+            Route::post('ImprimirGarantiaVenta'             , 'VentasController@ImprimirGarantiaVenta'  );
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -259,6 +260,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('ComprasPendientesDePago'        , 'CompraController@ComprasPendientesDePago');
         Route::get('HistorialDePagos'               , 'CompraController@HistorialDePagos');
         Route::get('HistorialDeAbonos'              , 'CompraController@HistorialDeAbonos');
+        Route::get('getCreditPurchase'              , 'CompraController@getCreditPurchase');
 
         Route::group(array('prefix' => 'payments'),function() 
         {
@@ -358,6 +360,7 @@ Route::get('test', function()
         return 'Ingrese productos ala factura para poder inprimir';
 });
 
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
 

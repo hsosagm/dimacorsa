@@ -18,12 +18,12 @@
 
 			<tr class="">
 				<td>Ventas</td>
-				<td> {{ $pagos_ventas['efectivo'] }} </td> <!-- al credito -->
-				<td> {{ $pagos_ventas['credito'] }} </td> <!-- al credito -->
-				<td> {{ $pagos_ventas['cheque']  }} </td> <!-- con cheque -->
-				<td> {{ $pagos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td> {{ $pagos_ventas['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $pagos_ventas['total']   }} </td> <!-- total -->
+				<td> {{ number_format($pagos_ventas['efectivo'],2,'.',','); }} </td> <!-- al credito -->
+				<td> {{ number_format($pagos_ventas['credito'],2,'.',','); }} </td> <!-- al credito -->
+				<td> {{ number_format($pagos_ventas['cheque'],2,'.',',');  }} </td> <!-- con cheque -->
+				<td> {{ number_format($pagos_ventas['tarjeta'],2,'.',','); }} </td> <!-- con tarjeta -->
+				<td> {{ number_format($pagos_ventas['deposito'],2,'.',',');}} </td> <!-- con deposito -->
+				<td> {{ number_format($pagos_ventas['total'],2,'.',',');   }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -114,9 +114,10 @@
 
 					$caja_positivos = $ingresos['efectivo'] + $adelantos['efectivo'] + $soporte['efectivo'] + $pagos_ventas['efectivo'] + $abonos_ventas['efectivo'];
 
-					$caja = $caja_positivos - $caja_negativos ;
+					$caja =  $caja_positivos - $caja_negativos;
+					$total_caja = number_format($caja,2,'.',','); 
 
-					echo ($caja < 0) ? '('.$caja.')':$caja;
+					echo $total_caja;
 					?>
 				</td> 
 				<td></td> 

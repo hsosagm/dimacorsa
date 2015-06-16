@@ -46,6 +46,7 @@
             </a>
             <ul>
                 <li id="OpenTablePurchaseDay"><a href="javascript:void(0);">Compras del Dia</a></li>
+                <li onclick="CreditPurchases(this)"><a href="javascript:void(0);">Compras al Credito</a></li>
                 <li id="OpenTablePurchaseForDate"><a href="javascript:void(0);">Compras por Fechas</a></li>
             </ul>
         </li>

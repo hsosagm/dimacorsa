@@ -124,6 +124,7 @@ return array(
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Laravelrus\LocalizedCarbon\LocalizedCarbonServiceProvider',
 		'NEkman\ModelLogger\ModelLoggerServiceProvider',
+		'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
 
 	),
 

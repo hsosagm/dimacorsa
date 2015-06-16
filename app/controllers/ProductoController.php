@@ -91,7 +91,7 @@ class ProductoController extends Controller {
             return array(
                 'success'           => true,
                 'descripcion'       => $query->descripcion,
-                'p_costo'           => 'Precio Costo: '.$precio_c,
+                'p_costo'           => 'Precio Costo: '.number_format($precio_c,2,'.',','),
                 'p_publico'         => 'Precio Publico: '.$query->p_publico,
                 'existencia_total'  => 'Existencia: '.$query->existencia,
                 'existencia'        => 'Existencia: '.$Existencia,

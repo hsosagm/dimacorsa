@@ -149,7 +149,7 @@ class CompraController extends \BaseController {
 
 		$total_compra = $this->TotalPurchase();
 
-		ProcesarCompra::set(Input::get('compra_id'),"nota",@$credito->monto, $total_compra);
+		ProcesarCompra::set(Input::get('compra_id'),"nota", @$credito->monto, $total_compra);
 
 		return 'success';
 	}
@@ -223,8 +223,10 @@ class CompraController extends \BaseController {
 
 	public function SaveEditPurchaseItemDetails()
 	{
-		$datos = array( Input::get('tipo_dato') => Input::get('dato'));
-		$validaciones = array( Input::get('tipo_dato') => array('required','numeric','min:1'));
+		$datos = array( Input::get('dato') => Input::get('dato'));
+		$validaciones = array( 
+			Input::get('dato') => array('required','numeric','min:1')
+			);
 		$validator = Validator::make($datos, $validaciones);
 
 		if ( $validator->fails() )
@@ -233,7 +235,9 @@ class CompraController extends \BaseController {
 		}
 
 		$procesar = ProcesarCompra::EditarDetalleCompra(Input::get('detalle_id'),Input::get('tipo_dato'),Input::get('dato'));
-		$detalle = $this->TablePurchaseDetails();
+		$compra_detalle = DetalleCompra::find(Input::get('detalle_id'));
+
+		$detalle = $this->TablePurchaseDetailsEdit($compra_detalle->compra_id);
 
 		return Response::json(array(
 			'success' => $procesar,
@@ -446,6 +450,28 @@ class CompraController extends \BaseController {
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join ,$where);
 		
+	}
+
+	public function getCreditPurchase()
+	{
+		$compras = DB::table('compras')
+        	->select(DB::raw("compras.fecha_documento as fecha, 
+            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+            proveedores.nombre as proveedor,
+            numero_documento,
+            compras.id as id ,
+            saldo"))
+        ->join('users', 'compras.user_id', '=', 'users.id')
+        ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
+        ->where('saldo', '>', 0)
+        ->orderBy('fecha', 'ASC')
+        ->get();
+
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('compras.ComprasPendientesDePago', compact('compras'))->render()
+        ));
+
 	}
 	
 	public function ShowTableHistoryPayment()

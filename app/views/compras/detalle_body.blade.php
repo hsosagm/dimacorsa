@@ -52,7 +52,7 @@
 		    <td>
 				<div class="row">
 					<div class="col-md-8" >  Total a cancelar </div>
-					<div class="col-md-4" id="totalcompra" class="td_total_text" style="text-align:center" >
+					<div class="col-md-4" id="totalcompra" class="td_total_text" style="text-align: right; padding-right:30px;" >
 						{{ $deuda }} 
 						{{ Form::hidden('saldo_compra', $deuda2) }}
 					</div>

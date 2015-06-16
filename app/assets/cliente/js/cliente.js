@@ -84,20 +84,8 @@ function cliente_new(e,element)
                 {
                     $('.bs-modal').slideUp('slow' , function () {
                         msg.success('Cliente Creado..!', 'Listo!');
-                        $('.modal-body').html(data.form);
-                        $('.modal-title').text('Crear proveedor');
-                        $('.bs-modal').modal('show');
-                        $('#tab-cliente-informacio').removeClass('active')
-                        $('#tab-cliente-informacion').removeClass('active  in')
-                        $('#tab-cliente-contactos').addClass('active  in')
-                        $('#tab-cliente-contacto').addClass('active')
-                        contacto_nuevo();
-                        $('.bs-modal').slideDown('slow', function() {
-
-                        });
-                        
+                        $('.bs-modal').modal('hide');
                     });
-                    
                 }
                 else
                 {
