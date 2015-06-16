@@ -93,7 +93,12 @@
 			codigo_generado = d.getFullYear() +((''+month).length<2 ? '0' : '') + month +
 			((''+day).length<2 ? '0' : '') + day + d.getHours()+d.getMinutes()+d.getSeconds();
 
-			$(this).val(codigo_generado);
+			cod = $(this).val();
+			if($.trim(cod) == "")
+			{
+				$(this).val(codigo_generado);
+			}
+			
 		});
 
 		$("form[data-remote-product] select[name=categoria_id]").change(function(){

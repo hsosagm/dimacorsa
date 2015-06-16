@@ -4,7 +4,7 @@ $(function() {
     $(document).on('click', '#OpenModalPurchaseItemSerials',      function() { OpenModalPurchaseItemSerials(this);    });
     $(document).on('click', '#_edit_producto',                    function() { _edit_producto(this); });
     $(document).on('click', '#_add_producto',                     function() { _add_producto(this); });
-     $(document).on("click","#print_code_producto",               function() { print_code_producto(this); })
+    $(document).on("click","#print_code_producto",               function() { print_code_producto(this); })
     $(document).on('click', '.return_compras',                    function() { return_compras(this); });
     $(document).on('submit'  ,'form[data-remote-PurchasePayment]',function(e){ SavePurchasePayment(e,this);  });
     $(document).on('dblclick','.EditPurchaseItemDetails' ,        function() { EditPurchaseItemDetails(this);  });
@@ -176,6 +176,7 @@ function InsertPurchaseItemSerials(element)
             $("input[name='serials']").val(series);
 
             $("#SerialTable tr:first").after(myRow);
+            $("input[name='InsertPurchaseItemSerials']").val('');
             msg.success('Ingresado..!', 'Listo!');
         }
     }
@@ -298,6 +299,7 @@ function DeletePurchasePaymentItem(id , compra_id)
 function FinishInitialPurchase(element,compra_id)
 {    
     $(element).prop("disabled", true);
+    
     $.ajax({
         type: 'POST',
         url: 'admin/compras/FinishInitialPurchase',
@@ -320,7 +322,6 @@ function FinishInitialPurchase(element,compra_id)
             $(element).prop("disabled", false);
         }
     });
-     $(element).removeAttr('disabled');
     return false;
 }
 

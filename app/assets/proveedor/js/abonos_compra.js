@@ -25,7 +25,7 @@ function getFormAbonosCompras(e)
     });
 }
 
-function GetPurchasesForPaymentsBySelection(page = 1 , sSearch = "")
+function GetPurchasesForPaymentsBySelection(page , sSearch )
 {
     $proveedor_id = $("input[name='proveedor_id']").val();
 

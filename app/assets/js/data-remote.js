@@ -219,6 +219,8 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
                     $('.body-detail').html(data.table);
 
                     form.trigger('reset');
+                     $('input[name=serials]', form).val('');
+
                 }
                 else
                 {

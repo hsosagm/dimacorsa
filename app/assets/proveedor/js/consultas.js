@@ -55,8 +55,6 @@ function ShowTableUnpaidShopping (e)
                 setTimeout(function()
                 {
                     $('#example_length').prependTo("#table_length");
-                    var saldo = ($('input[name=total_saldo]').val());
-                    var saldo_vencido = ($('input[name=saldo_vencido]').val());
                     $( "#home" ).append('<td style="width:150px; text-align:right;">/ Compras al credito: </td>');
                     $( "#home" ).append('<td style="width:60px; text-align:right;">Total:</td>');
                     $( "#home" ).append('<td class="home_num">'+saldo+'</td>');

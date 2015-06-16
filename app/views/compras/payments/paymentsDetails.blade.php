@@ -1,11 +1,11 @@
-<table width="100%" class="table">
+<table width="100%" class="SST">
 	<thead>
 		<tr>
-			<td>No. Compra</td>
-			<td>Total</td>
-			<td>Saldo Anterior</td>
-			<td>Monto Abonado</td>
-			<td>Nuevo Saldo</td>
+			<th>No. Compra</th>
+			<th>Total</th>
+			<th>Saldo Anterior</th>
+			<th>Monto Abonado</th>
+			<th>Nuevo Saldo</th>
 		</tr>
 	</thead>
 	<tbody>

@@ -8,12 +8,14 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-2"></div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label style="text-align:left"> Total Seleccionado: </label>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <input type="text" class="total_selected form-control" value="0" disabled>
                 </div>
+                <div class="col-md-4"></div>
+
             </div>
         </div>
         <div class="col-md-4">

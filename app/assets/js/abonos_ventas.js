@@ -23,7 +23,7 @@ function getFormAbonosVentas(e)
     });
 }
 
-function GetSalesForPaymentsBySelection(page = 1, sSearch = "")
+function GetSalesForPaymentsBySelection(page, sSearch)
 {
     $cliente_id = $("input[name='cliente_id']").val();
 

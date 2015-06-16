@@ -119,7 +119,7 @@
                 data: {proveedor_id:$proveedor_id},
                 success: function (data) 
                 {
-                    $("#InformationProviderSearches").html(q.value+'  Saldo   Q: '+data);
+                    $("#InformationProviderSearches").html(q.value+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+data);
                 },
                 error: function(errors)
                 {
