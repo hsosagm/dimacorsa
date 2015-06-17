@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-footer" align="right">
-          <button type="submit" class="theme-button">Ok!</button>
+          <button type="submit" class="btn theme-button">Ok!</button>
     </div>
 
 {{ Form::close() }}

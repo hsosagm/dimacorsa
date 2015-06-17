@@ -129,7 +129,6 @@ function contacto_create(e,element)
      form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
         formData = form.serialize()+'&proveedor_id='+$("input[name='proveedor_id']").val();
-        alert();
         $.ajax({
             type: "POST",
             url:  "admin/proveedor/contacto_create",

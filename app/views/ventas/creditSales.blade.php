@@ -9,7 +9,6 @@ $saldo_vencido = 0;
         <tr id="hhh">
             <th>Usuario</th>
             <th>Fecha</th>
-            <th>Factura</th>
             <th>Total</th>
             <th>Saldo</th>
             <th>Operaciones</th>
@@ -36,7 +35,6 @@ $saldo_vencido = 0;
 	            <tr id="{{ $q->id }}" class="red">
 		            <td                width="21%"> {{ $q->usuario }} </td>
 		            <td class="center" width="15%"> {{ $q->fecha }} </td>
-		            <td class="right"  width="12%"> {{ $q->numero_documento }} </td>
 		            <td class="right"  width="12%"> {{ $total }} </td>
 		            <td class="right"  width="12%"> {{ $saldo }} </td>
 		            <td class="widthS center font14"  width="12%"> 
@@ -47,7 +45,6 @@ $saldo_vencido = 0;
 		        <tr id="{{ $q->id }}">
 		            <td                width="21%"> {{ $q->usuario }} </td>
 		            <td class="center" width="15%"> {{ $q->fecha }} </td>
-		            <td class="right"  width="12%"> {{ $q->numero_documento }} </td>
 		            <td class="right"  width="12%"> {{ $total }} </td>
 		            <td class="right"  width="12%"> {{ $saldo }} </td>
 		            <td class="widthS center font14"  width="12%"> 

@@ -156,8 +156,9 @@ class CompraController extends \BaseController {
 
 	public function OpenModalPurchaseItemSerials()
 	{
+		
 		$data = explode(",", Input::get('serial'));;
-
+		
 		return View::make('compras.serial', compact('data'));
 	}
 

@@ -78,52 +78,52 @@
 
         Route::group(array('prefix' => 'soporte'), function()
         {
-            Route::get('create'        , 'SoporteController@create');
-            Route::post('delete'       , 'SoporteController@delete');
-            Route::post('create'       , 'SoporteController@create');
-            Route::post('delete_detail', 'SoporteController@delete_detail');
+            Route::get('create'             , 'SoporteController@create');
+            Route::post('delete'            , 'SoporteController@delete');
+            Route::post('create'            , 'SoporteController@create');
+            Route::post('delete_detail'     , 'SoporteController@delete_detail');
             Route::get('OpenTableSupportDay', 'SoporteController@OpenTableSupportDay');
             Route::get('SupportDay_dt'      , 'SoporteController@SupportDay_dt');
         });
 
         Route::group(array('prefix' => 'gastos'), function()
         {
-            Route::get('create'        , 'GastoController@create');
-            Route::post('delete'       , 'GastoController@delete');
-            Route::post('create'       , 'GastoController@create');
-            Route::post('delete_detail', 'GastoController@delete_detail');
-            Route::get('OpenTableExpensesDay', 'GastoController@OpenTableExpensesDay');
-            Route::get('ExpensesDay_dt'      , 'GastoController@ExpensesDay_dt');
+            Route::get('create'                , 'GastoController@create');
+            Route::post('delete'               , 'GastoController@delete');
+            Route::post('create'               , 'GastoController@create');
+            Route::post('delete_detail'        , 'GastoController@delete_detail');
+            Route::get('OpenTableExpensesDay'  , 'GastoController@OpenTableExpensesDay');
+            Route::get('ExpensesDay_dt'        , 'GastoController@ExpensesDay_dt');
         });
 
         Route::group(array('prefix' => 'egresos'), function()
         {
-            Route::get('create'        , 'EgresoController@create');
-            Route::post('delete'       , 'EgresoController@delete');
-            Route::post('create'       , 'EgresoController@create');
-            Route::post('delete_detail', 'EgresoController@delete_detail');
+            Route::get('create'                  , 'EgresoController@create');
+            Route::post('delete'                 , 'EgresoController@delete');
+            Route::post('create'                 , 'EgresoController@create');
+            Route::post('delete_detail'          , 'EgresoController@delete_detail');
             Route::get('OpenTableExpendituresDay', 'EgresoController@OpenTableExpendituresDay');
             Route::get('ExpendituresDay_dt'      , 'EgresoController@ExpendituresDay_dt');
         });
 
         Route::group(array('prefix' => 'ingresos'), function()
         {
-            Route::get('create'        , 'IngresoController@create');
-            Route::post('delete'       , 'IngresoController@delete');
-            Route::post('create'       , 'IngresoController@create');
-            Route::post('delete_detail', 'IngresoController@delete_detail');
-            Route::get('OpenTableIncomeDay', 'IngresoController@OpenTableIncomeDay');
-            Route::get('IncomeDay_dt'      , 'IngresoController@IncomeDay_dt');
+            Route::get('create'                , 'IngresoController@create');
+            Route::post('delete'               , 'IngresoController@delete');
+            Route::post('create'               , 'IngresoController@create');
+            Route::post('delete_detail'        , 'IngresoController@delete_detail');
+            Route::get('OpenTableIncomeDay'    , 'IngresoController@OpenTableIncomeDay');
+            Route::get('IncomeDay_dt'          , 'IngresoController@IncomeDay_dt');
         });
 
         Route::group(array('prefix' => 'adelantos'), function()
         {
-            Route::get('create'        , 'AdelantoController@create');
-            Route::post('delete'       , 'AdelantoController@delete');
-            Route::post('create'       , 'AdelantoController@create');
-            Route::post('delete_detail', 'AdelantoController@delete_detail');
-            Route::get('OpenTableAdvancesDay', 'AdelantoController@OpenTableAdvancesDay');
-            Route::get('AdvancesDay_dt'      , 'AdelantoController@AdvancesDay_dt');
+            Route::get('create'                , 'AdelantoController@create');
+            Route::post('delete'               , 'AdelantoController@delete');
+            Route::post('create'               , 'AdelantoController@create');
+            Route::post('delete_detail'        , 'AdelantoController@delete_detail');
+            Route::get('OpenTableAdvancesDay'  , 'AdelantoController@OpenTableAdvancesDay');
+            Route::get('AdvancesDay_dt'        , 'AdelantoController@AdvancesDay_dt');
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -139,25 +139,25 @@
 
         Route::group(array('prefix' => 'ventas'), function()
         {
-            Route::get('create'                             , 'VentasController@create' );
-            Route::post('create'                            , 'VentasController@create' );
-            Route::post('detalle'                           , 'VentasController@detalle');
-            Route::post('RemoveSale'                        , 'VentasController@RemoveSale');
-            Route::post('RemoveSaleItem'                    , 'VentasController@RemoveSaleItem');
-            Route::get('ModalSalesPayments'                 , 'VentasController@ModalSalesPayments');
-            Route::post('ModalSalesPayments'                , 'VentasController@ModalSalesPayments');
-            Route::post('RemoveSalePayment'                 , 'VentasController@RemoveSalePayment');
-            Route::post('FinalizeSale'                      , 'VentasController@FinalizeSale');
-            Route::get('OpenModalSalesPayments'             , 'VentasController@OpenModalSalesPayments');
-            Route::get('OpenTableSalesOfDay'                , 'VentasController@OpenTableSalesOfDay');
-            Route::get('showSalesDetail'                    , 'VentasController@showSalesDetail');
-            Route::get('openSale'                           , 'VentasController@openSale');
-            Route::get('getCreditSales'                     , 'VentasController@getCreditSales');
-            Route::get('SalesOfDay'                         , 'VentasController@SalesOfDay'  );
-            Route::get('ImprimirVentaModal'                 , 'VentasController@ImprimirVentaModal'  );
-            Route::post('ImprimirFacturaVenta'              , 'VentasController@ImprimirFacturaVenta'  );
-            Route::get('{id}/ImprimirFacturaVenta'   , 'VentasController@ImprimirFacturaVenta_dt'  );
-            Route::post('ImprimirGarantiaVenta'             , 'VentasController@ImprimirGarantiaVenta'  );
+            Route::get('create'                    , 'VentasController@create' );
+            Route::post('create'                   , 'VentasController@create' );
+            Route::post('detalle'                  , 'VentasController@detalle');
+            Route::post('RemoveSale'               , 'VentasController@RemoveSale');
+            Route::post('RemoveSaleItem'           , 'VentasController@RemoveSaleItem');
+            Route::get('ModalSalesPayments'        , 'VentasController@ModalSalesPayments');
+            Route::post('ModalSalesPayments'       , 'VentasController@ModalSalesPayments');
+            Route::post('RemoveSalePayment'        , 'VentasController@RemoveSalePayment');
+            Route::post('FinalizeSale'             , 'VentasController@FinalizeSale');
+            Route::get('OpenModalSalesPayments'    , 'VentasController@OpenModalSalesPayments');
+            Route::get('OpenTableSalesOfDay'       , 'VentasController@OpenTableSalesOfDay');
+            Route::get('showSalesDetail'           , 'VentasController@showSalesDetail');
+            Route::get('openSale'                  , 'VentasController@openSale');
+            Route::get('getCreditSales'            , 'VentasController@getCreditSales');
+            Route::get('SalesOfDay'                , 'VentasController@SalesOfDay'  );
+            Route::get('ImprimirVentaModal'        , 'VentasController@ImprimirVentaModal'  );
+            Route::post('ImprimirFacturaVenta'     , 'VentasController@ImprimirFacturaVenta'  );
+            Route::get('{id}/ImprimirFacturaVenta' , 'VentasController@ImprimirFacturaVenta_dt'  );
+            Route::post('ImprimirGarantiaVenta'    , 'VentasController@ImprimirGarantiaVenta'  );
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -170,9 +170,9 @@
 
         });
 
-        Route::get('profile' , 'UserController@edit_profile');
-        Route::post('new'    , 'UserController@create_new'  );
-        Route::post('profile', 'UserController@edit_profile');
+        Route::get('profile'         , 'UserController@edit_profile');
+        Route::post('new'            , 'UserController@create_new'  );
+        Route::post('profile'        , 'UserController@edit_profile');
         Route::get('buscar_marca'    , 'MarcaController@search'   );
         Route::get('buscar_categoria', 'CategoriaController@search');
         Route::get('view_existencias', 'ProductoController@view_existencias');
@@ -223,11 +223,6 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('contacto_info'       , 'ProveedorController@contacto_info'  );
         Route::post('total_credito'       , 'ProveedorController@TotalCredito'   );
         Route::get('ShowModalPaySupplier' , 'ProveedorController@ShowModalPaySupplier'  );
-        
-        Route::get('AbonarCompra'         , 'ProveedorController@AbonarCompra');
-        Route::post('AbonarCompra'        , 'ProveedorController@AbonarCompra');
-        Route::post('EliminarAbonoCompra' , 'ProveedorController@EliminarAbonoCompra');
-        Route::post('EliminarDetalleAbono', 'ProveedorController@EliminarDetalleAbono');
         Route::get('proveedores'          , 'ProveedorController@proveedores' );
     });
 
@@ -339,18 +334,18 @@ Route::group(array('prefix' => 'owner'), function()
 
     Route::group(array('prefix' => 'soporte'), function()
     {
-        Route::post('graph_by_day', 'App\graphics\SoporteGraph@graph_by_day');
-        Route::get('form_graph_by_date', 'App\graphics\SoporteGraph@form_graph_by_date_get');
+        Route::post('graph_by_day'      , 'App\graphics\SoporteGraph@graph_by_day');
+        Route::get('form_graph_by_date' , 'App\graphics\SoporteGraph@form_graph_by_date_get');
         Route::post('form_graph_by_date', 'App\graphics\SoporteGraph@form_graph_by_date_post');
-        Route::post('graph_by_date', 'App\graphics\SoporteGraph@graph_by_date');
+        Route::post('graph_by_date'     , 'App\graphics\SoporteGraph@graph_by_date');
     });
 
     Route::group(array('prefix' => 'gastos'), function()
     {
-        Route::post('graph_by_day', 'App\graphics\GastoGraph@graph_by_day');
-        Route::get('form_graph_by_date', 'App\graphics\GastoGraph@form_graph_by_date_get');
+        Route::post('graph_by_day'      , 'App\graphics\GastoGraph@graph_by_day');
+        Route::get('form_graph_by_date' , 'App\graphics\GastoGraph@form_graph_by_date_get');
         Route::post('form_graph_by_date', 'App\graphics\GastoGraph@form_graph_by_date_post');
-        Route::post('graph_by_date', 'App\graphics\GastoGraph@graph_by_date');
+        Route::post('graph_by_date'     , 'App\graphics\GastoGraph@graph_by_date');
     });
 
 });

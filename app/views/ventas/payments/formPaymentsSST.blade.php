@@ -31,7 +31,6 @@
     <tr>
         <th class="center" width="18%">Usuario</th>
         <th class="center" width="18%">Fecha</th>
-        <th class="center" width="18%">Factura</th>
         <th class="center" width="18%">Total</th>
         <th class="center" width="18%">Saldo</th>
     </tr>
@@ -40,7 +39,6 @@
     <tr id="{{ $q->id }}">
         <td> {{ $q->usuario }} </td>
         <td> {{ $q->fecha }} </td>
-        <td> {{ $q->numero_documento }} </td>
         <td class="right"> {{ $q->total }} </td>
         <td class="right"> {{ $q->saldo }} </td>
         <td class="widthS center tbutton"  width="10%"> 
