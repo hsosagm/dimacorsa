@@ -18,12 +18,12 @@
 
 			<tr class="">
 				<td>Ventas</td>
-				<td> {{ number_format($pagos_ventas['efectivo'],2,'.',','); }} </td> <!-- al credito -->
-				<td> {{ number_format($pagos_ventas['credito'],2,'.',','); }} </td> <!-- al credito -->
-				<td> {{ number_format($pagos_ventas['cheque'],2,'.',',');  }} </td> <!-- con cheque -->
-				<td> {{ number_format($pagos_ventas['tarjeta'],2,'.',','); }} </td> <!-- con tarjeta -->
-				<td> {{ number_format($pagos_ventas['deposito'],2,'.',',');}} </td> <!-- con deposito -->
-				<td> {{ number_format($pagos_ventas['total'],2,'.',',');   }} </td> <!-- total -->
+				<td> {{ $pagos_ventas['efectivo'] }} </td> <!-- al credito -->
+				<td> {{ $pagos_ventas['credito'] }} </td> <!-- al credito -->
+				<td> {{ $pagos_ventas['cheque']  }} </td> <!-- con cheque -->
+				<td> {{ $pagos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
+				<td> {{ $pagos_ventas['deposito']}} </td> <!-- con deposito -->
+				<td> {{ f_num::get($pagos_ventas['total']) }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -33,7 +33,7 @@
 				<td> {{ $abonos_ventas['cheque']  }} </td> <!-- con cheque -->
 				<td> {{ $abonos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
 				<td> {{ $abonos_ventas['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $abonos_ventas['total']   }} </td> <!-- total -->
+				<td> {{ f_num::get($abonos_ventas['total'])  }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -43,7 +43,7 @@
 				<td> {{ $soporte['cheque']  }} </td> <!-- con cheque -->
 				<td> {{ $soporte['tarjeta'] }} </td> <!-- con tarjeta -->
 				<td> {{ $soporte['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $soporte['total']   }} </td> <!-- total -->
+				<td> {{ f_num::get($soporte['total'])  }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -53,7 +53,7 @@
 				<td> {{ $adelantos['cheque']  }} </td> <!-- con cheque -->
 				<td> {{ $adelantos['tarjeta'] }} </td> <!-- con tarjeta -->
 				<td> {{ $adelantos['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $adelantos['total']   }} </td> <!-- total -->
+				<td> {{ f_num::get($adelantos['total'])   }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -63,7 +63,7 @@
 				<td> {{ $ingresos['cheque']  }} </td> <!-- con cheque -->
 				<td> {{ $ingresos['tarjeta'] }} </td> <!-- con tarjeta -->
 				<td> {{ $ingresos['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $ingresos['total']   }} </td> <!-- total -->
+				<td> {{ f_num::get($ingresos['total'])   }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -73,7 +73,7 @@
 				<td> {{ $gastos['cheque']  }} </td> <!-- con cheque -->
 				<td> {{ $gastos['tarjeta'] }} </td> <!-- con tarjeta -->
 				<td> {{ $gastos['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $gastos['total']   }} </td> <!-- total -->
+				<td> {{ f_num::get($gastos['total'])   }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -83,7 +83,7 @@
 				<td> {{ $egresos['cheque']  }} </td> <!-- con cheque -->
 				<td> {{ $egresos['tarjeta'] }} </td> <!-- con tarjeta -->
 				<td> {{ $egresos['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $egresos['total']   }} </td> <!-- total -->
+				<td> {{ f_num::get($egresos['total'])   }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -93,7 +93,7 @@
 				<td> {{ $pagos_compras['cheque']  }} </td> <!-- con cheque -->
 				<td> {{ $pagos_compras['tarjeta'] }} </td> <!-- con tarjeta -->
 				<td> {{ $pagos_compras['deposito']}} </td> <!-- con deposito -->
-				<td> {{ $pagos_compras['total']   }} </td> <!-- total -->
+				<td> {{ f_num::get($pagos_compras['total'])   }} </td> <!-- total -->
 			</tr>
 
 			<tr>
@@ -103,7 +103,7 @@
 				<td> {{ $abonos_compras['cheque']  }} </td> <!--con cheque -->
 				<td> {{ $abonos_compras['tarjeta'] }} </td> <!--con tarjeta -->
 				<td> {{ $abonos_compras['deposito']}} </td> <!--con deposito -->
-				<td> {{ $abonos_compras['total']   }} </td> <!-- total-->
+				<td> {{ f_num::get($abonos_compras['total'])  }} </td> <!-- total-->
 			</tr>
 
 			<tr>

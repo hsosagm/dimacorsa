@@ -46,6 +46,13 @@ class ProductoController extends Controller {
         return View::make('producto.edit', compact('producto', 'message','inactivo'));
     }
 
+    public function edit_dt()
+    {
+        
+        $producto = Producto::find(Input::get('id'));
+
+        return View::make('producto.edit_dt', compact('producto'));
+    }
 
     public function delete()
     {

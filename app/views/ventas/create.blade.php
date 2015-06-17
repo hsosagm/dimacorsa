@@ -14,10 +14,6 @@
                         <i class="fa fa-plus-square btn-link theme-c" id="cliente_create"></i>
                     </td>
                 </tr>
-                <tr>
-                    <td>Factura No.: </td>
-                    <td> <input type="text" name="numero_documento" class="input"> </td>
-                </tr>
 
             </table>
         </div>

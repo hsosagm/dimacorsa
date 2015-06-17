@@ -63,8 +63,10 @@ class ProveedorController extends BaseController {
         
         $proveedor_id = Input::get('proveedor_id');
         $contacto = new ProveedorContacto;
-
-        if (!$contacto->_create())
+        $data = Input::all();
+        $data['proveedor_id'] = $proveedor_id;
+        
+        if (!$contacto->_create($data))
         {
             return $contacto->errors();
         }

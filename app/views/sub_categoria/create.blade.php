@@ -16,14 +16,6 @@
 
 {{ Form::_text('nombre') }}
 
-<div class="categorias-detail lista-col1">
-
-	<ul>
-		<li>Unasigned</li>
-	</ul>
-
-</div>
-
 <div class="form-footer" align="right">
 
 	{{ Form::submit('Crear!', array('class'=>'theme-button')) }}
@@ -33,6 +25,17 @@
 {{ Form::close() }}
 
 
+<div class="edit_categorias">
+	
+</div>
+
+<div class="categorias-detail lista-col1">
+
+	<ul>
+		<li>Unasigned</li>
+	</ul>
+
+</div>
 
 <style type="text/css">
 

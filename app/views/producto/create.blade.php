@@ -5,7 +5,12 @@
 
 	<div class="form-producto">
 
-		{{ Form::_text('codigo') }}
+		<div class="form-group">
+			<label for="body" class="col-sm-2 control-label">Codigo</label>
+			<div class="col-sm-9">
+				<input class="form-control" autocomplete="off" name="codigo" type="text" autofocus>
+			</div>
+		</div>
 
 		{{ Form::_text('descripcion') }}
 
@@ -76,13 +81,6 @@
 
 </style>
 
-<style type="text/css">
-
-	.bs-modal .Lightbox{
-		width: 450px !important;
-	}
-
-</style>
 <script>
 	$(function(){
 

@@ -51,7 +51,6 @@
 <div class="proveedor-body">
 
 	<div class="form-footer" align="right">
-		<button class="btn btn-warning" data-dismiss="modal" type="button">Cerrar!</button>
 	</div>
 
 </div>

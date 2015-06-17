@@ -24,18 +24,19 @@ $(document).on('submit', 'form[data-remote]', function(e) {
             {
                 msg.success(form.data('success'), 'Listo!');
                 $('.bs-modal').modal('hide');
+                $('input[type=submit]', this).removeAttr('disabled');
             }
             else
             {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', this).removeAttr('disabled');
             }
         },
         error: function(errors){
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+            $('input[type=submit]', this).removeAttr('disabled');
         }
     });
-
-    $('input[type=submit]', this).removeAttr('disabled'); //??
 
     e.preventDefault();
 
@@ -140,18 +141,6 @@ $(document).on('submit', 'form[data-remote-cat]', function(e) {
                 msg.success(form.data('success'), 'Listo!');
                 $('.categorias-detail').html(data.lista);
                 $('.select_'+data.model).html(data.select);
-
-               /* if (data.model == 'categorias') 
-                {
-                    $.confirm({
-                        text: "desea Ingresar Sub Categorias para la Categoria "+nombre.val()+"?",
-                        confirm: function() {
-                            new_sub_categoria();
-                            $('.form-select-'+data.model).html(data.select);
-                        }
-                    });
-                }*/
-
                 nombre.val('');
             }
             else

@@ -198,6 +198,8 @@ Route::group(array('prefix' => 'admin'), function()
     Route::group(array('prefix' => 'productos'), function()
     {
         Route::post('edit'         , 'ProductoController@edit'   );
+        Route::get('edit_dt'       , 'ProductoController@edit_dt'   );
+        Route::post('edit_dt'      , 'ProductoController@edit'   );
         Route::post('delete'       , 'ProductoController@delete' );
         Route::get('create'        , 'ProductoController@create' );
         Route::post('create'       , 'ProductoController@create' );
@@ -280,6 +282,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('create' , 'CategoriaController@create' );
         Route::post('create', 'CategoriaController@create' );
         Route::post('edit'  , 'CategoriaController@edit'   );
+        Route::get('edit'   , 'CategoriaController@edit'   );
     });
 
     Route::group(array('prefix' => 'marcas'), function()
@@ -287,6 +290,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('create' , 'MarcaController@create');
         Route::post('create', 'MarcaController@create');
         Route::post('edit'  , 'MarcaController@edit'  );
+        Route::get('edit'   , 'MarcaController@edit'  );
     });
 
     Route::group(array('prefix' => 'sub_categorias'), function()
@@ -294,7 +298,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('create' , 'SubCategoriaController@create');
         Route::post('create', 'SubCategoriaController@create');
         Route::get('filtro' , 'SubCategoriaController@filter_select');
-        Route::post('edit'  , 'SubCategoriaController@edit');
+        Route::post('edit'  , 'SubCategoriaController@edit'  );
+        Route::get('edit'   , 'SubCategoriaController@edit');
     });
 
 });

@@ -5,18 +5,6 @@
 <br>
 {{ Form::_text('nombre') }}
 <br>
-
-<div class="categorias-detail lista-col2">
-	<?php $categorias = Categoria::all(); ?>
-	{{-- {{HTML::ul(Categoria::lists('nombre'))}}  --}}
-	<ul>
-		@foreach($categorias as $cat)
-			<li >{{$cat->nombre}} <i class="fa fa-pencil btn theme-c" onClick="categoria_edit(this,{{$cat->id}})"></i></li>
-		@endforeach
-	</ul>
-
-</div>
-
 <div class="form-footer" align="right">
 
 	{{ Form::submit('Crear!', array('class'=>'theme-button')) }}
@@ -24,6 +12,16 @@
 </div>
 
 {{ Form::close() }}
+
+<div class="edit_categorias">
+	
+</div>
+
+<div class="categorias-detail lista-col2">
+	@include('categoria.list')
+</div>
+
+
 
 <style type="text/css">
 
@@ -34,6 +32,7 @@
 </style>
 
 <script>
+
 	$('form[data-remote-cat] input[name=nombre]').keyup(function(event) {
 		var texto = $(this).val().toLowerCase();
 

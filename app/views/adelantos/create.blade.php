@@ -46,16 +46,16 @@
 
     <div class="modal-footer">
 
-        <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
-
-        <button class="btn btn-warning" id="delete_adelanto" type="button">Eliminar!</button>
+        <button class="btn btn-danger" id="delete_adelanto" type="button">Eliminar!</button>
 
     </div>
 
 {{ Form::close() }}
 
 <style type="text/css">
-
+.bs-modal .Lightbox{
+    width:700px !important;
+  }
 .master-detail-body2 {
     max-height: 150px !important;
     height: 150px !important;*/

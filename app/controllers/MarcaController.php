@@ -10,9 +10,9 @@ class MarcaController extends BaseController {
 
             if ($marcas->_create())
             {
-            	$id = DB::getPdo()->lastInsertId();
+            	$id = $marcas->get_id();
 
-            	$lista = HTML::ul(Marca::lists('nombre'));
+            	$lista = View::make('marca.list')->render();
 
             	$select = Form::select('marca_id',Marca::lists('nombre', 'id'), $id , array('class'=>'form-control'));
 
@@ -23,5 +23,29 @@ class MarcaController extends BaseController {
     	}
 
         return View::make('marca.create');
+    }
+
+    public function edit()
+    {
+        
+        if (Session::token() == Input::get('_token'))
+        {
+            $marca = Marca::find(Input::get('id'));
+
+            if (!$marca->_update())
+            {
+                return $marca->errors();
+            }
+
+            $lista = View::make('marca.list')->render();
+
+            $select = Form::select('marca_id',Marca::lists('nombre', 'id'),Input::get('id'), array('class'=>'form-control'));
+
+            return array('success' => true ,'lista' => $lista ,'model' => 'marcas' ,'select' => $select );
+        }
+
+        $marca = Marca::find(Input::get('marca_id'));
+
+        return View::make('marca.edit',compact("marca"));
     }
 }

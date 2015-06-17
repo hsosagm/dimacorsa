@@ -18,7 +18,6 @@ class CreateVentasTable extends Migration {
 			$table->integer('cliente_id')->unsigned();
             $table->integer('tienda_id')->unsigned()->default(1);
             $table->integer('user_id')->unsigned();
-            $table->string('numero_documento', 100);
             $table->decimal('saldo', 8, 2)->default(0.00);
             $table->decimal('total')->default(0.00);
             $table->boolean('completed')->default(0);
