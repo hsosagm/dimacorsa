@@ -47,6 +47,22 @@ class ClienteController extends \BaseController {
         return View::make('cliente.info',compact('cliente' , 'contactos'));
     }
 
+    public function contacto_delete()
+    {
+        $contacto = ClienteContacto::find(Input::get('cliente_contacto_id'));
+        $cliente_id = $contacto->cliente_id;
+
+        ClienteContacto::destroy(Input::get('cliente_contacto_id'));
+
+        $lista = View::make('cliente.contactos_list',compact('cliente_id'))->render();
+        
+        return Response::json(array(
+            'success' => true, 
+            'lista' => $lista
+            ));
+
+    }
+
     public function contacto_create()
     {
         

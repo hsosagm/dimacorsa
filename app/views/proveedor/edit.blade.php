@@ -54,7 +54,6 @@
 
 
             <div style="" class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
                 <input class="btn theme-button" value="Guardar!" type="submit">
             </div>
 
@@ -66,13 +65,27 @@
                 {{ Form::hidden('proveedor_id', @$proveedor->id) }}
                 <div class="row">
                     <div class="col-md-4 contactos-lista">
-                     <?php  $producto = ProveedorContacto::where('proveedor_id','=', @$proveedor->id)->get(); ?>
-                         <ul>
-                                @foreach($producto as $key => $dt)
-                                    <li contacto_id="{{$dt->id}}"  id="contacto_view" class="btn-link theme-c"> {{ $dt->nombre.' '.$dt->apellido }}</li>
-                                @endforeach
-                                <br>
-                         </ul>
+                     <?php  $contacto = ProveedorContacto::where('proveedor_id','=', @$proveedor->id)->get(); ?>
+                        <div class="list-group">
+                            <a href="javascript:void(0);" class="list-group-item disabled">
+                                Lista de contactos
+                            </a>
+                            
+                            @foreach($contacto as $key => $dt)
+                                <a href="javascript:void(0);" class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-8">{{ $dt->nombre.' '.$dt->apellido }} </div>
+                                        <div class="col-md-2">
+                                            <i contacto_id="{{$dt->id}}"  id="contacto_view" class="fa fa-pencil btn-link theme-c"></i>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <i class="btn-link fa fa-trash-o" style="color:#FF0000;;" onclick="proveedor_contacto_delete(this,{{$dt->id}})"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="body-contactos">

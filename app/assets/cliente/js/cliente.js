@@ -260,3 +260,31 @@ function clear_contacto_body()
     $('.body-contactos').slideUp('slow');
 }
 
+ function cliente_contacto_delete(element,cliente_contacto_id)
+ {
+
+    $.confirm({
+        confirm: function(button) {
+            $.ajax({
+            type: "POST",
+            url:  "user/cliente/contacto_delete",
+            data: {cliente_contacto_id:cliente_contacto_id},
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                if (data.success == true) 
+                {
+                    $('.contactos-lista').html(data.lista);
+                    msg.success('Contacto Eliminado..!', 'Listo!');
+                }
+                else
+                {
+                    msg.warning(data, 'Advertencia!');
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+        }
+    });
+ }

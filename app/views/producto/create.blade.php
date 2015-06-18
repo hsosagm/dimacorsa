@@ -85,19 +85,27 @@
 	$(function(){
 
 		$("form[data-remote-product] input[name=codigo]").focusout(function(event) {
+				generar_codigo_producto();
+		});
+
+		$("form[data-remote-product] input[name=descripcion]").focusin(function(event) {
+				generar_codigo_producto();
+		});
+
+		function generar_codigo_producto()
+		{
 			var d = new Date();
 			var month = d.getMonth()+1;
 			var day = d.getDate();
 			codigo_generado = d.getFullYear() +((''+month).length<2 ? '0' : '') + month +
 			((''+day).length<2 ? '0' : '') + day + d.getHours()+d.getMinutes()+d.getSeconds();
 
-			cod = $(this).val();
+			cod = $("form[data-remote-product] input[name=codigo]").val();
 			if($.trim(cod) == "")
 			{
-				$(this).val(codigo_generado);
+				$("form[data-remote-product] input[name=codigo]").val(codigo_generado);
 			}
-			
-		});
+		}
 
 		$("form[data-remote-product] select[name=categoria_id]").change(function(){
 			

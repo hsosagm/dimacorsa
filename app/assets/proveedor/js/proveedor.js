@@ -271,3 +271,32 @@ function proveedor_update(e,element)
      e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
 }
+
+function proveedor_contacto_delete(element,proveedor_contacto_id)
+ {
+
+    $.confirm({
+        confirm: function(button) {
+            $.ajax({
+            type: "POST",
+            url:  "admin/proveedor/contacto_delete",
+            data: {proveedor_contacto_id:proveedor_contacto_id},
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                if (data.success == true) 
+                {
+                    $('.contactos-lista').html(data.lista);
+                    msg.success('Contacto Eliminado..!', 'Listo!');
+                }
+                else
+                {
+                    msg.warning(data, 'Advertencia!');
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+        }
+    });
+ }

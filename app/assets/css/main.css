@@ -73,3 +73,14 @@
     margin:0px;
     padding-top: 5px
 }
+
+#home i {
+	font-size: 12px;
+	margin-left: 10px;
+	border: 0;
+}
+
+.input_numeric {
+	text-align: right;
+	padding-right: 10px;
+}

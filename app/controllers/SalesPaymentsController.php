@@ -43,7 +43,6 @@ class SalesPaymentsController extends \BaseController {
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-			"numero_documento",
 			"saldo",
 			"total"
 			);

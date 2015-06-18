@@ -30,16 +30,13 @@
        <section id="page-content">
 
         <!-- Start page header -->
+
         <div class="header-content">
-            <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span> 
-
-            <span class="loader" style="position:absolute; width:100%;">
-                <div align="center" width="100%">
+            <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span>  <span id="home"></span></h2>
+            {{-- <span class="loader" style="position:absolute; width:100%;">
                    <img src="img/loader/general/2.gif" alt="">
-               </div>
-           </span>
-
-           <span id="home"></span>
+            </span> --}}
+        </div>
 
        </div><!-- /.header-content -->
        <!--/ End page header -->

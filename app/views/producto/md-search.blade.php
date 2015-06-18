@@ -18,8 +18,8 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Codigo",       "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Marca",        "aTargets": [1]},
             {"sClass": "mod_codigo hover widthL",              "sTitle": "Descripcion",  "aTargets": [2]},
-            {"sClass": "mod_codigo hover aling_right widthS",  "sTitle": "Existencia",   "aTargets": [3]},
-            {"sClass": "mod_codigo hover aling_right widthS",  "sTitle": "P publico",    "aTargets": [4]},
+            {"sClass": "mod_codigo hover dt-right widthS",     "sTitle": "Existencia",   "aTargets": [3]},
+            {"sClass": "mod_codigo hover dt-right widthS",     "sTitle": "P publico",    "aTargets": [4]},
         ],
 
         "fnDrawCallback": function( oSettings ) {

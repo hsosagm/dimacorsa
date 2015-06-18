@@ -58,6 +58,22 @@ class ProveedorController extends BaseController {
         echo TableSearch::get($table, $columns, $Searchable);
     }
 
+    public function contacto_delete()
+    {
+        $contacto = ProveedorContacto::find(Input::get('proveedor_contacto_id'));
+        $proveedor_id = $contacto->proveedor_id;
+
+        ProveedorContacto::destroy(Input::get('proveedor_contacto_id'));
+
+        $lista = View::make('proveedor.contactos_list',compact('proveedor_id'))->render();
+        
+        return Response::json(array(
+            'success' => true, 
+            'lista' => $lista
+            ));
+
+    }
+
     public function contacto_create()
     {
         
