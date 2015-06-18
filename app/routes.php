@@ -22,6 +22,7 @@
     //rutas para evitar los errores de las imagenes no encontradas
     Route::get('img/avatar/50/{img}.png', function(){ return "";});
     Route::get('images/{img}.png', function(){ return "";});
+    Route::get('/{img}.ico', function(){ return "";});
     Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
     /******************************************************************************/
     
