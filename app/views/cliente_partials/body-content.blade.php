@@ -40,8 +40,8 @@
   </div>
 
   <!-- TABLES --> <!-- GRAPHS -->
-  <div class="dt-container col-md-11">
-    <div class="panel dt-panel rounded shadow">
+  <div class="col-md-11">
+    <div v-show="PanelBody" class="panel rounded shadow">
       <div class="panel-heading">
         <div id="table_length" class="pull-left"></div>
         <div class="DTTT btn-group"></div>
@@ -51,7 +51,7 @@
         </div>
         <div class="clearfix"></div>
       </div>
-      <div class="panel-body no-padding table"></div>
+      <div v-html="PanelBody" class="panel-body no-padding"></div>
     </div>
   </div>
 

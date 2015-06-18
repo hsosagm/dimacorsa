@@ -12,61 +12,56 @@
                <small>Tecnologia Moderna</small>
            </div>
        </div>
-   </div>
+    </div>
 
-   <ul class="sidebar-menu">
-    <li class="navbar-search">           
-        <form class="navbar-form" onsubmit=" return false">
-            <div class="form-group has-feedback">
-                <input id="customer_search" type="text" class="form-control rounded customer_search" placeholder="Buscar Cliente">
-                <input type="hidden" name="cliente_id">
-            </div>
-        </form>
-    </li>
+    <ul class="sidebar-menu">
+        
+        <input v-model="customer_search" id="customer_search" type="text" class="form-control" spellcheck="false" placeholder="Buscar cliente...">
 
-    <li class="sidebar-category">
-        <span>Cliente</span>
-        <span class="pull-right"><i class="fa fa-magic"></i></span>
-        <span class="selected"></span
-        </li>
+        <li class="sidebar-category">
+            <span>Cliente</span>
+            <span class="pull-right"><i class="fa fa-magic"></i></span>
+            <span class="selected"></span
+            </li>
 
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Consultas</span>
-                <span class="arrow"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);" onclick="salesByCustomer(this);">Historial de Ventas</a></li>
-                <li><a href="javascript:void(0);" onclick="creditSalesByCustomer(this);">Pendientes de pago</a></li>
-                <li><a href="javascript:void(0);">Historial de pagos</a></li>
-                <li><a href="javascript:void(0);">Historial de abonos</a></li>
-            </ul>
-        </li>
+            <li v-show="cliente_id" class="submenu">
+                <a href="javascript:void(0);">
+                    <span class="icon"><i class="fa fa-file-o"></i></span>
+                    <span class="text">Consultas</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul>
+                    <li><a href="javascript:void(0);" onclick="salesByCustomer(this);">Historial de Ventas</a></li>
+                    <li><a href="javascript:void(0);" onclick="creditSalesByCustomer(this);">Pendientes de pago</a></li>
+                    <li><a href="javascript:void(0);">Historial de pagos</a></li>
+                    <li><a href="javascript:void(0);">Historial de abonos</a></li>
+                </ul>
+            </li>
 
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Operaciones</span>
-                <span class="arrow"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);" onclick="getFormAbonosVentas(this)">Abonar a deuda</a></li>
-                <li><a href="javascript:void(0);" id="cliente_edit"> Editar Cliente</a></li>
-            </ul>
-        </li>
+            <li v-show="cliente_id" class="submenu">
+                <a href="javascript:void(0);">
+                    <span class="icon"><i class="fa fa-file-o"></i></span>
+                    <span class="text">Operaciones</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul>
+                    <li><a href="javascript:void(0);" v-on="click: getFormAbonosVentas">Abonar a deuda</a></li>
+                    <li><a href="javascript:void(0);" id="cliente_edit"> Editar Cliente</a></li>
+                </ul>
+            </li>
 
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Graficos</span>
-                <span class="arrow"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);"> Ventas anuales</a></li>
-                <li><a href="javascript:void(0);"> Ventas Mensuales</a></li>
-            </ul>
-        </li>
+            <li v-show="cliente_id" class="submenu">
+                <a href="javascript:void(0);">
+                    <span class="icon"><i class="fa fa-file-o"></i></span>
+                    <span class="text">Graficos</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul>
+                    <li><a href="javascript:void(0);"> Ventas anuales</a></li>
+                    <li><a href="javascript:void(0);"> Ventas Mensuales</a></li>
+                </ul>
+            </li>
+        </li>    
 
     </ul>
 

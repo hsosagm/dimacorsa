@@ -156,11 +156,30 @@ class ClienteController extends \BaseController {
         echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );   
     }
 
+
     public function info_cliente()
     {
         $query = Venta::where('cliente_id','=', Input::get('cliente_id'))
         ->where('saldo', '>', 0)
         ->get();
+
+        $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+
+        if (!count($query) ) 
+        {
+            $cliente = Cliente::find(Input::get('cliente_id'));
+
+            $cliente = $cliente->nombre . "&nbsp;" . $cliente->apellido;
+
+            $info = $cliente . $tab . " Saldo total &nbsp; 0.00" . $tab ." Saldo vencido &nbsp; 0.00";
+
+            return Response::json(array(
+                'success'       => true, 
+                'info'          => $info,
+                'saldo_total'   => 0,
+                'saldo_vencido' => 0
+            ));
+        }
 
         $saldo_total = 0;
         $saldo_vencido = 0;
@@ -180,18 +199,16 @@ class ClienteController extends \BaseController {
 
         $cliente = $query[0]->cliente->nombre . "&nbsp;" . $query[0]->cliente->apellido;
 
-        $saldo_total   = f_num::get($saldo_total);
-        $saldo_vencido = f_num::get($saldo_vencido);
+        $info = $cliente . $tab . " Saldo total &nbsp;". f_num::get($saldo_total) . $tab ." Saldo vencido &nbsp;" .f_num::get($saldo_vencido);
 
-        $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
-        $info = $cliente . $tab . " Saldo total &nbsp;". $saldo_total . $tab ." Saldo vencido &nbsp;" .$saldo_vencido;
-
-        return Response::json(array(
-            'success'       => true,
-            'info' => $info
-        ));
+            return Response::json(array(
+                'success'       => true, 
+                'info'          => $info,
+                'saldo_total'   => $saldo_total,
+                'saldo_vencido' => $saldo_vencido
+            ));
     }
+
 
     public function creditSalesByCustomer()
     {

@@ -4421,7 +4421,7 @@ input.spinner[type="url"],
 input.spinner[type="search"],
 input.spinner[type="tel"],
 input.spinner[type="color"] {
-  background-image: url('../../global/img/loader/general/1.gif') !important;
+  background-image: url('../img/loader/general/1.gif') !important;
   background-repeat: no-repeat;
   background-position: right 6px bottom 6px;
   background-size: 20px Auto;
@@ -4440,8 +4440,9 @@ input.spinner[type="url"].flat,
 input.spinner[type="search"].flat,
 input.spinner[type="tel"].flat,
 input.spinner[type="color"].flat {
-  background-image: url('../../global/img/loader/flat/1.gif') !important;
+  background-image: url('../img/loader/flat/1.gif') !important;
 }
+
 /* ========================================================================
  * FORM MISC
  * ======================================================================== */
@@ -7003,7 +7004,7 @@ table.dataTable thead .sorting_desc_disabled {
   margin-left: -9px;
   width: 18px;
   height: 18px;
-  background-image: url('../../../assets/global/img/loader/general/1.gif');
+  background-image: url('../img/loader/general/1.gif');
   background-repeat: no-repeat;
 }
 /* ========================================================================

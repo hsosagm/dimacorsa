@@ -1,5 +1,4 @@
 msg = toastr;
-$('.loader').hide();
 
 $(function() {
     $(document).on("click", "#_create", function(){ _create(this); });
@@ -11,11 +10,11 @@ $(function() {
  
 
 $( document ).ajaxSend(function() {
-  $('.loader').show();
+  $('#loader').show();
 });
 
 $( document ).ajaxSuccess(function() {
-  $('.loader').hide();
+  $('#loader').hide();
   $('input').attr('autocomplete','off');
 });
 

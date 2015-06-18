@@ -1,31 +1,6 @@
-function getFormAbonosVentas(e)
-{
-   $cliente_id = $("input[name='cliente_id']").val();
-
-    $.ajax({
-        type: 'GET',
-        url: "user/ventas/payments/formPayments",
-        data: { cliente_id: $cliente_id },
-        success: function (data) {
-
-            if (data.success == true)
-            {
-                clean_panel();
-                $('.table').html(data.form);
-                $('.dt-container').show();
-                SST_search();
-            }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-        } 
-    });
-}
-
 function GetSalesForPaymentsBySelection(page = 1, sSearch = "")
 {
-    $cliente_id = $("input[name='cliente_id']").val();
+    $cliente_id = vm.cliente_id;
 
     $.ajax({
         type: 'GET',
@@ -113,10 +88,13 @@ function SelectedPaySales(element)
             data: formData,
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
+
                 if (data.success == true) 
                 {
-                      $('#tab4').html(data.detalle);
-                      msg.success('Abonos Ingresados', 'Listo!');
+                    vm.divAbonosPorSeleccion = data.detalle;
+                    msg.success('Abonos Ingresados', 'Listo!');
+                    vm.updateInfoCliente();
+                    compile();
                 }
                 else
                 {
@@ -125,32 +103,7 @@ function SelectedPaySales(element)
                 }
             },
             error: function (request, status, error) {
-                alert(request.responseText);
+
             }
         });
-
-}
-
-function DeleteBalancePay(element,id)
-{
-    $(element).prop("disabled", true);
-
-    $.ajax({
-        type: 'POST',
-        url: "user/ventas/payments/DeleteBalancePay",
-        data: { id: id},
-        success: function (data) {
-            if (data == 'success')
-            {
-                getFormAbonosVentas(element);
-                msg.success('Abonos Eliminados', 'Listo!');
-
-            }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-                $(element).prop("disabled", false);
-            }
-        }
-    });
 }

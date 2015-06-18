@@ -3,7 +3,7 @@
 
 class SST {
 
-    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null, $limit = 2) {
+    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null, $limit = 10) {
 
         $sLimit = "";
 

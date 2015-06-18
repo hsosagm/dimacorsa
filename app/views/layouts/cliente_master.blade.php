@@ -26,14 +26,10 @@
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
 
+            <div id="loader"><div class="spinner flat"></div></div>
                 <!-- Start page header -->
                 <div class="header-content">
-                    <h2><i class="fa fa-home"></i> <span id="info_cliente"></span></h2>
-                    <span class="loader" style="position:absolute; width:100%;">
-                <div align="center" width="100%">
-                   <img src="img/loader/general/2.gif" alt="">
-               </div>
-
+                    <h2><i class="fa fa-home"></i> <span v-html="infoCliente"></span></h2>
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
 
@@ -56,14 +52,23 @@
         </div>
 
         <script src="js/main.js"></script>
-        <script src="js/cliente.js"></script>
         <script src="js/vue.min.js"></script>
+        <script src="js/cliente.js"></script>
         <script src="calendar/picker.js"></script>
         <script src="calendar/picker.date.js"></script>
         <script src="calendar/translations/es_ES.js"></script>
 
         <script>
 
+            $('#customer_search').autocomplete({
+                serviceUrl: '/user/cliente/buscar',
+                onSelect: function (q) {
+                    vm.cliente_id = q.id;
+                    vm.infoCliente = q.value;
+                    vm.getInfoCliente(q.id);
+                }
+            });
+            
             $(document.body).delegate(":input", "keyup", function(e) {
 
                 if (e.keyCode == 13 && e.shiftKey) {

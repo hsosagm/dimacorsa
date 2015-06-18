@@ -150,7 +150,7 @@
                 Route::get('formPayments', 'SalesPaymentsController@formPayments');
                 Route::post('formPayments', 'SalesPaymentsController@formPayments');
                 Route::get('formPaymentsPagination', 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('DeleteBalancePay'     , 'SalesPaymentsController@DeleteBalancePay'  );
+                Route::post('eliminarAbonoVenta'     , 'SalesPaymentsController@eliminarAbonoVenta'  );
                 Route::post('SelectedPaySales'     , 'SalesPaymentsController@SelectedPaySales'  );
                 
             });
@@ -572,16 +572,39 @@ Route::get('cod', function() {
 
         // $data = Paginator::make($productos, 4, 2);
 
-        $ventas = DB::table('ventas')
-        ->where('cliente_id', 3914)
-        ->where('saldo', '>', 0)
-        ->orderBy('created_at', 'ASC')
-        ->get();
+        // $ventas = DB::table('ventas')
+        // ->where('cliente_id', 3914)
+        // ->where('saldo', '>', 0)
+        // ->orderBy('created_at', 'ASC')
+        // ->get();
 
-        if (!$ventas) {
-           return 'no';
+        // if (!$ventas) {
+        //    return 'no';
+        // }
+        // return 'si';
+
+            // $ventas = Venta::where('cliente_id', 39143 )
+            // ->where('saldo', '>', 0)
+            // ->orderBy('created_at', 'ASC')
+            // ->get();
+
+            // if (!count($ventas) ) {
+            //     return Response::json(array('success' => false));
+            // }
+
+            // return 'paso';
+
+        $query = Venta::where('cliente_id','=', 124)
+        ->where('saldo', '>', 0)
+        ->first();
+
+        if (!count($query) ) {
+            return Response::json(array('success' => false));
         }
-        return 'si';
+
+        return 'paso';
+
+
 });
 
 
@@ -598,6 +621,11 @@ Route::get('cod', function() {
 // die();
 // });
 
+// App::missing(function($e) {
+//     $url = Request::fullUrl();
+//     Log::warning("404 for URL: $url");
+//     return Response::view('errors.not-found', array(), 404);
+// });
 
 Route::get('pusher', function()
 {

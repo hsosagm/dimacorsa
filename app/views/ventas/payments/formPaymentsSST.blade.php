@@ -8,10 +8,10 @@
         <div class="col-md-8">
             <label style="text-align:left"> Total Seleccionado: Q</label>
             <label id="total_selected" ></label>
-            <input type="hidden" class="total_selected" value="0">
         </div>
         <div class="col-md-4">
             {{ Form::open(array('data-remote-SelectedPaySales','onSubmit'=>'return false')) }}
+            <input type="hidden" name="monto" class="total_selected" value="0">
             <div class="row">
                 <div class="col-md-9">
                     <input type="hidden" name="cliente_id" value="{{Input::get('cliente_id')}}">

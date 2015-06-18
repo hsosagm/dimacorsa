@@ -33,12 +33,6 @@
         <div class="header-content">
             <span class="fa fa-home" style="font-size:22px;"></span> 
 
-            <span class="loader" style="position:absolute; width:100%;">
-                <div align="center" width="100%">
-                   <img src="img/loader/general/2.gif" alt="">
-               </div>
-           </span>
-
            <span id="home"></span>
 
        </div><!-- /.header-content -->

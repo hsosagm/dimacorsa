@@ -5,12 +5,15 @@ class SalesPaymentsController extends \BaseController {
 	public function formPayments()
 	{
 		if (Session::token() == Input::get('_token'))
-		{
-			return json_encode(Input::all());
-			
-		    $monto = Crypt::decrypt(Input::get('monto'));
+		{	
+            $ventas = Venta::where('cliente_id', Input::get('cliente_id'))
+            ->where('saldo', '>', 0)
+            ->orderBy('created_at', 'ASC')
+            ->get();
 
-		    Input::merge(array('monto' => $monto));
+            if (!count($ventas) ) {
+                return Response::json('El saldo de este cliente se encuentra en 0.00');
+            }
 
 			$abonosVenta = new AbonosVenta;
 
@@ -19,25 +22,18 @@ class SalesPaymentsController extends \BaseController {
 				return $abonosVenta->errors();
 			}
 
-			$abonosVenta_id = $abonosVenta->get_id();
-
-	        $ventas = Venta::where('cliente_id', Input::get('cliente_id'))
-	        ->where('saldo', '>', 0)
-	        ->orderBy('created_at', 'ASC')
-	        ->get();
-
-	        if (!$ventas) {
-			    return Response::json(array('success' => false));
-	        }
+			$abonos_ventas_id = $abonosVenta->get_id();
 
 			foreach ($ventas as $venta) 
 			{
+                $monto = Input::get('monto');
 				$detalleAbono = new DetalleAbonosVenta;
-			    $detalleAbono->abonos_ventas_id = $abonosVenta_id;
+			    $detalleAbono->abonos_ventas_id = $abonos_ventas_id;
 			    $detalleAbono->venta_id = $venta->id;
 
 				if ($monto > $venta->saldo)
 				{
+				    $monto = $monto - $venta->saldo;
 				    $detalleAbono->monto = $venta->saldo;
 				    $venta->saldo = 0;
 				    $detalleAbono->save();
@@ -49,11 +45,21 @@ class SalesPaymentsController extends \BaseController {
 					$venta->saldo = $venta->saldo - $monto;
 					$detalleAbono->save();
 					$venta->save();
-					return 'success';
+
+			        $detalle = $this->BalanceDetails($abonos_ventas_id);
+
+			        return Response::json(array(
+			            'success' => true,
+			            'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id'))->render()
+			        ));
 				}
 			}
-
-			return '1';
+			    $detalle = $this->BalanceDetails($abonos_ventas_id);
+			    
+		        return Response::json(array(
+		            'success' => true,
+		            'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id'))->render()
+		        ));
 		}
 
 		$cliente_id = Input::get('cliente_id');
@@ -97,6 +103,7 @@ class SalesPaymentsController extends \BaseController {
 			"total"
 			);
 
+
 		$Search_columns = array("users.nombre","users.apellido","numero_documento");
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
@@ -120,12 +127,12 @@ class SalesPaymentsController extends \BaseController {
 
         if (empty(Input::get('array_ids_ventas'))) 
         {
-            return 'Seleccione almenos una compra para realizar esata accion';
+            return 'Seleccione almenos una venta para realizar esata accion';
         }
 
         $data = array('cliente_id' => Input::get('cliente_id'),
                     'metodo_pago_id' => Input::get('metodo_pago_id'),
-                    'monto' => 0.00 );
+                    'monto' => Input::get('monto') );
 
         $abono = new AbonosVenta;
 
@@ -134,17 +141,21 @@ class SalesPaymentsController extends \BaseController {
             return $abono->errors();
         }
 
-        $abono_id = $abono->get_id();
+        $abonos_ventas_id = $abono->get_id();
         $total = 0;
 
         for ($i=0; $i < count($ids_venta) ; $i++) 
         { 
             $venta = Venta::find($ids_venta[$i]);
 
+            if (!$venta) {
+            	return false;
+            }
+
             $total = $total + $venta->saldo;
 
             $data_detalle = array('venta_id' => $venta->id,
-                'abonos_ventas_id' => $abono_id,
+                'abonos_ventas_id' => $abonos_ventas_id,
                 'monto' => $venta->saldo );
 
             $detalle = new DetalleAbonosVenta;
@@ -158,47 +169,42 @@ class SalesPaymentsController extends \BaseController {
             $venta->save();
         }
 
-        $abono = AbonosVenta::find($abono_id);
+        $abono = AbonosVenta::find($abonos_ventas_id);
         $abono->monto = $total;
         $abono->save();
 
-        $detalle = $this->BalanceDetails($abono_id);
+        $detalle = $this->BalanceDetails($abonos_ventas_id);
 
         return Response::json(array(
-            'success' => true ,
-            'detalle' => View::make('ventas.payments.paymentsDetails',compact("detalle",'abono_id'))->render()
-            ));
+            'success' => true,
+            'detalle' => View::make('ventas.payments.paymentsDetailsBySelection', compact("detalle", 'abonos_ventas_id'))->render()
+        ));
     }
 
-    function BalanceDetails($id_pago)
+    function BalanceDetails($abonos_ventas_id) 
     {
         $query = DB::table('detalle_abonos_ventas')
-        ->select('venta_id','total','monto','saldo',DB::raw('(saldo+monto) as saldo_anterior'))
-        ->join('ventas','ventas.id','=','detalle_abonos_ventas.venta_id')
-        ->where('abonos_ventas_id','=',$id_pago)->get();
+        ->select('venta_id', 'total', 'monto', 'saldo', DB::raw('(saldo+monto) as saldo_anterior'))
+        ->join('ventas','ventas.id', '=', 'detalle_abonos_ventas.venta_id')
+        ->where('abonos_ventas_id', '=', $abonos_ventas_id)->get();
 
         return $query;
     }
 
      //funcion para eliminar el abono 
-    public function DeleteBalancePay()
+    public function eliminarAbonoVenta()
     {
-        $detalle = DetalleAbonosVenta::where('abonos_ventas_id','=',Input::get('id'))->get();
+        $detalle = DetalleAbonosVenta::where('abonos_ventas_id','=',Input::get('abonos_ventas_id'))->get();
 
-        foreach ($detalle as $key => $dt) 
+        foreach ($detalle as $dt) 
         {
-            $this->ReturnBalanceSales($dt->venta_id , $dt->monto);
+            $venta = Venta::find($dt->venta_id);
+            $venta->saldo = $venta->saldo + $dt->monto ;
+            $venta->save();
         }
 
-        AbonosVenta::destroy(Input::get('id'));
+        AbonosVenta::destroy(Input::get('abonos_ventas_id'));
 
         return 'success';
-    }
-
-    function ReturnBalanceSales($venta_id , $monto)
-    {
-        $update = Venta::find($venta_id);
-        $update->saldo = $update->saldo + $monto ;
-        $update->save();
     }
 }

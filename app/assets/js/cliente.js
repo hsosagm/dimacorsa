@@ -267,32 +267,6 @@ function cliente_help() {
     }
 };
 
-// Busca el cliente y al seleccionar busca la informacion mediante el id
-$('#customer_search').autocomplete({
-    serviceUrl: '/user/cliente/buscar',
-    onSelect: function (q) {
-        $("input[name='cliente_id']").val(q.id);
-        $("#info_cliente").html(q.value);
-
-        $.ajax({
-            type: 'GET',
-            url: "user/cliente/info_cliente",
-            data: { cliente_id: q.id },
-            success: function (data) {
-                if (data.success == true)
-                {
-                    $("#info_cliente").html(data.info);
-                    $(".dt-container").hide();
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            }
-        });
-    }
-});
-
 
 // Habre datatables en serverside con el historial del cliente
 // el cliente_id lo obtiene en customerSalesHistory.blade.php 
@@ -304,7 +278,7 @@ function salesByCustomer(e)
         success: function (data) {
             if (data.success == true)
             {
-                makeTable(data.table, '', 'Historial de ventas');
+               $('.table').html(data.table);
             }
             else
             {

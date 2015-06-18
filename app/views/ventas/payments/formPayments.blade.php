@@ -6,16 +6,7 @@
 					<i class="fa fa-paypal"></i> <span>Saldo Vencido</span>
 				</a>
 			</li>
-			<li class="" id="saldo_total">
-				<a aria-expanded="false" href="#tab2" data-toggle="tab">
-					<i class="fa fa-paypal"></i> <span>Saldo Total</span>
-				</a>
-			</li>
-			<li class="" id="saldo_parcial">
-				<a aria-expanded="false" href="#tab3" data-toggle="tab">
-					<i class="fa fa-paypal"></i> <span>Saldo Parcial</span>
-				</a>
-			</li>
+
 			<li>
 				<a aria-expanded="false" href="#tab4" data-toggle="tab" onclick="GetSalesForPaymentsBySelection();">
 					<i class="fa fa-paypal"></i> <span>Seleccionar ventas</span>
@@ -24,125 +15,89 @@
 		</ul>
 	</div>
 
-	<div class="panel-body tab-content panel-body-abonos">
+
+	<div class="tab-content divFormPayments">
 
 		<div class="tab-pane fade inner-all active in" id="tab1">
 
-			{{ Form::open(array('v-on="submit: onSubmitForm"')) }}
+			{{ Form::open(array('v-if="!tableDetail" v-on="submit: onSubmitForm"')) }}
+               
+               <input type="hidden" name="cliente_id" v-model="cliente_id">
 
-				<input type="hidden" name="cliente_id" value="{{$cliente_id}}">
+				<div class="form-group">
+					<div class="col-md-7">
 
-				<div class="row">
-					<div class="form-group">
-						<div class="col-md-5">
-						    <input class="hide" name="monto" value="{{ Crypt::encrypt($saldo_vencido) }}" class="">
-							<input class="form-control" value="{{ f_num::get($saldo_vencido) }}" disabled>
+					    <label class="col-md-4 control-label">Seleccione monto</label>
+
+					    <div class="col-md-8">
+					        <div class="radio-inline rdio rdio-theme">
+					            <input v-on="click: montoFocus" v-model="saldoParcial" id="radio3" type="radio" name="monto" checked></input>
+					            <label for="radio3">Parcial</label>
+					        </div>
+
+					        <div class="radio-inline rdio rdio-theme">
+					            <input v-on="click: resetSaldoParcial" value="@{{saldo_total}}" id="radio2" type="radio" name="monto"></input>
+					            <label for="radio2">Total</label>
+					        </div>
+					        <div class="radio-inline rdio rdio-theme">
+					            <input v-on="click: resetSaldoParcial" value="@{{saldo_vencido}}" id="radio1" type="radio" name="monto"></input>
+					            <label for="radio1">Vencido</label>
+					        </div>
+					    </div>
+
+						<div class="form-group" style="margin-top:10px;">
+							<div class="col-md-4">
+								<input v-if="saldoParcial" id="monto" type="text" v-model="monto" name="monto" value="0" class="form-control" number>
+							</div>
+
+							<div class="col-md-4">
+								{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							</div>
+
+							<div class="col-md-2">
+								<input v-show="!tableDetail" class="btn theme-button" type="submit" value="Enviar">
+							</div>
 						</div>
-						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+
+						<div class="form-group">
+                           	<div class="col-md-10" style="margin-top:10px;">
+								<textarea name="observaciones" class="form-control" placeholder="Comentario ..." rows="2"></textarea>
+							</div>
 						</div>
-						<div class="col-md-2">
-							<button class="form-control">nota</button>
+
+					</div>
+
+					<div class="col-md-5">
+						<div>
+						    <div class="col-md-6">
+							    <label>Usted abonara: </label>
+							</div>
+							<div class="col-md-4" style="text-align:right;">
+							    <label>@{{ monto | currency ' ' }}</label>
+							</div>
+						</div>
+
+						<div>
+						    <div class="col-md-6">
+							    <label>Su nuevo saldo sera: </label>
+							</div>
+							<div class="col-md-4" style="text-align:right;">
+							    <label>@{{ saldo_total - monto | currency ' ' }}</label>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="abonosDetalle"></div>
-
-				<div class="form-footer" align="right">
-					<input  class="btn theme-button" type="submit" value="Enviar" >
 				</div>
 
 			{{Form::close()}}
 
+		    <div v-html="tableDetail" class="row" style="min-height:150px;"></div>
+
 		</div>
 
-		<div class="tab-pane fade inner-all" id="tab2">
-			{{ Form::open(array('v-on="submit: onSubmitForm"')) }}
-				<input type="hidden" name="cliente_id" value="{{$cliente_id}}">
-				<div class="row">
-					<div class="form-group">
-						<div class="col-md-5">
-							<input name="monto" class="form-control" value="{{ $saldo_total }}" disabled="true">
-						</div>
-						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
-						</div>
-						<div class="col-md-2">
-							<button class="form-control">nota</button>
-						</div>
-					</div>
-				</div>
 
-				<div class="abonosDetalle"></div>
-
-				<div class="form-footer" align="right">
-					<button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
-					<input  class="btn theme-button" type="submit" value="Enviar" >
-				</div>
-			{{Form::close()}}
-		</div>
-
-		<div class="tab-pane fade inner-all" id="tab3">
-			{{ Form::open(array('v-on="submit: onSubmitForm"')) }}
-				<input type="hidden" name="cliente_id" value="{{$cliente_id}}">
-				<div class="row">
-					<div class="form-group">
-						<div class="col-md-5">
-							<input name="monto" class="form-control" placeholder="Monto">
-						</div>
-						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
-						</div>
-						<div class="col-md-2">
-							<button class="form-control">nota</button>
-						</div>
-					</div>
-				</div>
-
-				<div class="abonosDetalle"></div>
-
-				<div class="form-footer" align="right">
-					<button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
-					<input  class="btn theme-button" type="submit" value="Enviar" >
-				</div>
-			{{Form::close()}}
-		</div>
-
-		<div class="tab-pane fade inner-all abonosDetalle" id="tab4">Cargando . . .</div>
+		<div v-html="divAbonosPorSeleccion" class="tab-pane fade inner-all" id="tab4">Cargando . . .</div>
 
 	</div>
 
 </div>
-
-
-<script type="text/javascript">
-
-new Vue({
-
-    el: '#formPayments',
-
-    methods: {
-
-        onSubmitForm: function(e) {
-
-            e.preventDefault();
-
-            var form = $(e.target).closest("form");
-
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (data) {
-                	alert(data);
-                },
-                error: function(errors){
-
-                }
-            });
-        }
-    }
-});
-
-</script>
