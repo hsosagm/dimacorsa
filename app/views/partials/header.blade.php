@@ -48,7 +48,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                
+
                 <li class="dropdown navbar-message">
                     <a  href="javascript:void(0)" id="search-inventario-user" target="_blank" class="dropdown-toggle" data-placement="bottom"  title="Inventario"  data-toggle="tooltip"><i class="fa fa-list-alt"></i></a>
                 </li>
@@ -68,53 +68,42 @@
                 </li>
 
                 <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" class="dropdown-toggle f_ven_op" data-placement="bottom"  title="Venta" data-toggle="tooltip"><i class="fa fa-dollar"></i></a >
+                    <a href="javascript:void(0)" class="dropdown-toggle f_ven_op" data-placement="bottom"  title="Venta" data-toggle="tooltip"><i class="fa fa-dollar"></i></a>
                 </li>
-                    
+
                 @if($slide_bar_left == 2 || $slide_bar_left == 3)
                 <li class="dropdown navbar-message">
-                        <a id="f_com_op" href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compra"  data-toggle="tooltip"><i class="fa fa-shopping-cart"></i></a>
+                    <a id="f_com_op" href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compra"  data-toggle="tooltip"><i class="fa fa-shopping-cart"></i></a>
                 </li>
                 @endif
 
-                    <li class="dropdown navbar-profile">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="meta">
-                                <span class="avatar"><img src="img/avatar/35/1.png" class="img-circle" alt="admin"></span>
-                                <span class="text hidden-xs hidden-sm text-muted">
-                                    <?php 
-                                    $user_nombre = explode(' ',Auth::user()->nombre);
-                                    $user_apellido = explode(' ',Auth::user()->apellido);
+                <li class="dropdown navbar-profile">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="meta">
+                            <span class="avatar"><img src="img/avatar/35/1.png" class="img-circle" alt="admin"></span>
+                            <span class="text hidden-xs hidden-sm text-muted">
+                                <?php 
+                                $user_nombre = explode(' ',Auth::user()->nombre);
+                                $user_apellido = explode(' ',Auth::user()->apellido);
 
-                                    echo $user_nombre[0].' '.$user_apellido[0];
-                                    ?>
-                                    <span class="caret"></span>
-                                </span>
-
+                                echo $user_nombre[0].' '.$user_apellido[0];
+                                ?>
+                                <span class="caret"></span>
                             </span>
-                        </a>
-                        <!-- Start dropdown menu -->
-                        <ul class="dropdown-menu animated flipInX">
-                            <li class="dropdown-header">Account</li>
-                            <li><a id="profile" href="javascript:void(0)"><i class="fa fa-user"></i>View profile</a></li>
-                            <li><a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li>
-                        </ul>
-                        <!--/ End dropdown menu -->
-                    </li><!-- /.dropdown navbar-profile -->
-                    <!--/ End profile -->
 
-                    <!-- Start settings -->
-                    <li class="navbar-setting pull-right">
-                        <a href="javascript:void(0);"><i class="fa fa-cog"></i></a>
-                    </li><!-- /.navbar-setting pull-right -->
-                    <!--/ End settings -->
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated flipInX">
+                        <li class="dropdown-header">Account</li>
+                        <li><a id="profile" href="javascript:void(0)"><i class="fa fa-user"></i>View profile</a></li>
+                        <li><a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li>
+                    </ul>
+                </li><!-- /.dropdown navbar-profile -->
 
-                </ul>
-                <!--/ End right navigation -->
-
-            </div><!-- /.navbar-toolbar -->
-            <!--/ End navbar toolbar -->
-        </div><!-- /.header-right -->
-        <!--/ End header left -->
-
-            </header> <!-- /#header -->
+                <li class="navbar-setting pull-right">
+                    <a href="javascript:void(0);"><i class="fa fa-cog"></i></a>
+                </li><!-- /.navbar-setting pull-right -->
+            </ul>
+        </div>
+    </div>
+</header> 
