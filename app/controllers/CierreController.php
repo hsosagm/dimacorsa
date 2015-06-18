@@ -171,4 +171,28 @@ class CierreController extends \BaseController {
       return $arreglo_ordenado;
   }
 
+    function cierre() {
+
+        if (Session::token() == Input::get('_token'))
+        {
+            $cierre = new Cierre;
+
+            if (!$cierre->create_master())
+            {
+                return $cierre->errors();
+            }
+
+            return Response::json(array( 'success' => true ));
+        }
+
+        $movimientos = [
+            'efectivo' => 36100,
+            'cheque'   => 24000,
+            'tarjeta'  => 4900,
+            'deposito' => 10809
+        ];
+
+        return View::make('cierre.cierre', compact('movimientos') );
+    }
+
 }

@@ -117,8 +117,8 @@ var vm = new Vue({
         onSubmitForm: function(e) {
 
             e.preventDefault();
-            $('input[type=submit]', form).prop('disabled', true);
             var form = $(e.target).closest("form");
+            $('input[type=submit]', form).prop('disabled', true);
 
             $.ajax({
                 type: form.attr('method'),

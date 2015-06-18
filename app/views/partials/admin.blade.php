@@ -127,7 +127,8 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li><a href="javascript:void(0);" id="CierreDelDia">Cierre del dia</a></li>
+        <li><a href="javascript:void(0);" id="CierreDelDia">Movimientos del dia</a></li>
+        <li><a href="javascript:void(0);" onClick="cierre();">Realizar cierre</a></li>
         <li><a href="javascript:void(0);" onClick="imprimir_cierre();">Imprimir cierre del dia</a></li>
         <li><a href="javascript:void(0);" onClick="CierreDelMes();"> cierre del mes</a></li>
     </ul>

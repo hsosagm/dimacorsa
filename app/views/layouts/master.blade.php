@@ -59,6 +59,7 @@
 </div>
 <div id="print_barcode"></div>
 <script src="js/main.js"></script>
+<script src="js/vue.min.js"></script>
 <script src="js/custom.js"></script>
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>

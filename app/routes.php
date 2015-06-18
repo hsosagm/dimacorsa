@@ -186,6 +186,8 @@ Route::group(array('prefix' => 'admin'), function()
     Route::group(array('prefix' => 'cierre'),function() 
     {
          Route::get('CierreDelDia' , 'CierreController@CierreDelDia' );
+         Route::get('cierre'       , 'CierreController@cierre' );
+         Route::post('cierre'      , 'CierreController@cierre' );
          Route::get('CierreDelMes' , 'CierreController@CierreDelMes' );
     });
 
@@ -603,16 +605,24 @@ Route::get('cod', function() {
 
             // return 'paso';
 
-        $query = Venta::where('cliente_id','=', 124)
-        ->where('saldo', '>', 0)
-        ->first();
+        // $query = Venta::where('cliente_id','=', 124)
+        // ->where('saldo', '>', 0)
+        // ->first();
 
-        if (!count($query) ) {
-            return Response::json(array('success' => false));
-        }
+        // if (!count($query) ) {
+        //     return Response::json(array('success' => false));
+        // }
 
-        return 'paso';
+        // return 'paso';
 
+        $movimientos = [
+            'efectivo' => 36100,
+            'cheque'   => 24000,
+            'tarjeta'  => 4900,
+            'deposito' => 10809
+        ];
+
+        return $movimientos;
 
 });
 

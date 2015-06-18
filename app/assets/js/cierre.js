@@ -31,3 +31,12 @@ function imprimir_cierre()
 		$("#print_barcode").hide();
 	});
 }
+
+
+function cierre() {
+	$.get( "admin/cierre/cierre", function( data ) {
+		$('.modal-body').html(data);
+		$('.modal-title').text('Cierre del Dia');
+		$('.bs-modal').modal('show');
+	});	
+}
