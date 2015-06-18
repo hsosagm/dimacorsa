@@ -500,8 +500,8 @@ function CreditPurchases(e)
                     $('#example_length').prependTo("#table_length");
                     var saldo = ($('input[name=total_saldo]').val());
                     var saldo_vencido = ($('input[name=saldo_vencido]').val());
-                    $( "#home" ).append('/ Compras al credito: ');
-                    $( "#home" ).append('Total: ');
+                    $( "#home" ).append('<i style="width:150px; text-align:right;">/ Compras al credito: </i>');
+                    $( "#home" ).append('<i style="width:60px; text-align:right;">Total:</i>');
                     $( "#home" ).append('<i class="home_num">'+saldo+'</i>');
                     $( "#home" ).append('<i style="width:85px; text-align:right;">Vencido:</i>');
                     $( "#home" ).append('<i class="home_num">'+saldo_vencido+'</i>');

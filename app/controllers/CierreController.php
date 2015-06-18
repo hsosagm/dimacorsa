@@ -22,7 +22,7 @@ class CierreController extends \BaseController {
 
         $pagos_compras = $this->generar_consulta('pagos_compras','monto');
 
-        return View::make('cierre.table',compact('pagos_compras','abonos_compras','egresos','gastos','ingresos','adelantos','soporte','abonos_ventas','pagos_ventas'));
+        return View::make('cierre.CierreDia',compact('pagos_compras','abonos_compras','egresos','gastos','ingresos','adelantos','soporte','abonos_ventas','pagos_ventas'));
 
     }
 
