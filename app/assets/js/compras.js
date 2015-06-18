@@ -25,7 +25,7 @@ function f_com_op()
         $(".producto-container").hide();
         $(".form-panel").show();
     });
-}
+} 
 
 function print_code_producto()
 {    

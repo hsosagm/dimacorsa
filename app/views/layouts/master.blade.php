@@ -3,10 +3,32 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
-<!-- START @HEAD -->
-@include('partials.head')
-<!-- END @HEAD -->
 
+<?php 
+$assigned = Assigned_roles::where('user_id', Auth::user()->id)
+->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
+->orderBy('roles.id', 'DESC')->get();
+
+ $slide_bar_left = 0;
+?>
+
+@foreach (@$assigned as $roles)
+
+    @if(strtolower($roles->name) == 'user' || strtolower($roles->name) == 'admin' || strtolower($roles->name) == 'owner' && $slide_bar_left == 0)
+        <?php $slide_bar_left = 1;  ?>
+    @endif
+
+    @if(strtolower($roles->name) == 'admin' || strtolower($roles->name) == 'owner' && $slide_bar_left == 1)
+        <?php $slide_bar_left = 2;  ?>
+    @endif  
+
+    @if(strtolower($roles->name) == 'owner' && $slide_bar_left == 2)
+        <?php $slide_bar_left = 3;  ?>
+    @endif
+    
+@endforeach 
+
+@include('partials.head')
 
 <body style="display: block;" class="page-header-fixed page-sidebar-fixed page-footer-fixed">
 
@@ -18,18 +40,11 @@
 
     <section id="wrapper">
 
-       <!--/ START HEADER -->
        @include('partials.header')
-       <!--/ END HEADER -->
 
-       <!-- /#sidebar-left -->
        @include('partials.slidebar-left')
-       <!--/ END SIDEBAR LEFT -->
 
-       <!-- START @PAGE CONTENT -->
        <section id="page-content">
-
-        <!-- Start page header -->
 
         <div class="header-content">
             <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span>  <span id="home"></span></h2>
@@ -38,21 +53,17 @@
             </span> --}}
         </div>
 
-       </div><!-- /.header-content -->
-       <!--/ End page header -->
+       </div>
+
        @include('partials.body-content')
-       <!-- Start footer content -->
+
        <footer class="footer-content">
         2015 &copy; {{$tienda->nombre}} admin. Created by <a href="javascript:void(0)" target="_blank">Hsosa</a>, GM
     </footer><!-- /.footer-content -->
-    <!--/ End footer content -->
 
 </section><!-- /#page-content -->
-<!--/ END PAGE CONTENT -->
 
-<!-- START @SIDEBAR RIGHT -->
 @include('partials.slidebar-right')
-<!-- END   @SIDEBAR RIGHT -->
 
 </section>
 
@@ -92,8 +103,17 @@
 
     $('#date-input').datepicker();
 
-</script> 
+</script>
 
+<style>
+  #wrapper {
+    height: 100% !important;
+  }
+  
+  #page-content {
+    height: 100% !important;
+  }
+</style>
 </body>
 
 </html>

@@ -18,101 +18,101 @@
 
 			<tr class="">
 				<td>Ventas</td>
-				<td class="right"> {{ $pagos_ventas['efectivo'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $pagos_ventas['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $pagos_ventas['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $pagos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $pagos_ventas['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($pagos_ventas['total']) }} </td> <!-- total -->
+				<td class="right"> {{ $data['pagos_ventas']['efectivo'] }} </td> 
+				<td class="right"> {{ $data['pagos_ventas']['credito'] }} </td> 
+				<td class="right"> {{ $data['pagos_ventas']['cheque']  }} </td> 
+				<td class="right"> {{ $data['pagos_ventas']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['pagos_ventas']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['total']) }} </td> 
 			</tr>
 
 			<tr>
 				<td>Abonos</td>
-				<td class="right"> {{ $abonos_ventas['efectivo'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $abonos_ventas['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $abonos_ventas['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $abonos_ventas['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $abonos_ventas['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($abonos_ventas['total'])  }} </td> <!-- total -->
+				<td class="right"> {{ $data['abonos_ventas']['efectivo'] }} </td> 
+				<td class="right"> {{ $data['abonos_ventas']['credito'] }} </td> 
+				<td class="right"> {{ $data['abonos_ventas']['cheque']  }} </td> 
+				<td class="right"> {{ $data['abonos_ventas']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['abonos_ventas']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['abonos_ventas']['total'])  }} </td> 
 			</tr>
 
 			<tr>
 				<td>Soporte</td>
-				<td class="right"> {{ $soporte['efectivo'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $soporte['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $soporte['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $soporte['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $soporte['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($soporte['total'])  }} </td> <!-- total -->
+				<td class="right"> {{ $data['soporte']['efectivo'] }} </td> 
+				<td class="right"> {{ $data['soporte']['credito'] }} </td> 
+				<td class="right"> {{ $data['soporte']['cheque']  }} </td> 
+				<td class="right"> {{ $data['soporte']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['soporte']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['soporte']['total'])  }} </td> 
 			</tr>
 
 			<tr>
 				<td>Adelantos</td>
-				<td class="right"> {{ $adelantos['efectivo'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $adelantos['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $adelantos['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $adelantos['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $adelantos['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($adelantos['total'])   }} </td> <!-- total -->
+				<td class="right"> {{ $data['adelantos']['efectivo'] }} </td> 
+				<td class="right"> {{ $data['adelantos']['credito'] }} </td> 
+				<td class="right"> {{ $data['adelantos']['cheque']  }} </td> 
+				<td class="right"> {{ $data['adelantos']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['adelantos']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['adelantos']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Ingresos</td>
-				<td class="right"> {{ $ingresos['efectivo'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $ingresos['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $ingresos['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $ingresos['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $ingresos['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($ingresos['total'])   }} </td> <!-- total -->
+				<td class="right"> {{ $data['ingresos']['efectivo'] }} </td> 
+				<td class="right"> {{ $data['ingresos']['credito'] }} </td> 
+				<td class="right"> {{ $data['ingresos']['cheque']  }} </td> 
+				<td class="right"> {{ $data['ingresos']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['ingresos']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['ingresos']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Gastos</td>
-				<td class="right">({{ ($gastos['efectivo'] == 0) ?  '0.00':$gastos['efectivo']}})</td> <!--  en efectivo -->
-				<td class="right"> {{ $gastos['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $gastos['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $gastos['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $gastos['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($gastos['total'])   }} </td> <!-- total -->
+				<td class="right">({{ ($data['gastos']['efectivo'] == 0) ?  '0.00':$data['gastos']['efectivo']}})</td> 
+				<td class="right"> {{ $data['gastos']['credito'] }} </td> 
+				<td class="right"> {{ $data['gastos']['cheque']  }} </td> 
+				<td class="right"> {{ $data['gastos']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['gastos']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['gastos']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Egresos</td>
-				<td class="right">({{ ($egresos['efectivo'] == 0) ?  '0.00':$egresos['efectivo']}})</td> <!--  en efectivo -->
-				<td class="right"> {{ $egresos['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $egresos['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $egresos['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $egresos['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($egresos['total'])   }} </td> <!-- total -->
+				<td class="right">({{ ($data['egresos']['efectivo'] == 0) ?  '0.00':$data['egresos']['efectivo']}})</td> 
+				<td class="right"> {{ $data['egresos']['credito'] }} </td> 
+				<td class="right"> {{ $data['egresos']['cheque']  }} </td> 
+				<td class="right"> {{ $data['egresos']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['egresos']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['egresos']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Pagos Compras</td>
-				<td class="right"> ({{ ($pagos_compras['efectivo'] == 0) ?  '0.00':$pagos_compras['efectivo']}}) </td> <!--en efectivo -->
-				<td class="right"> {{ $pagos_compras['credito'] }} </td> <!-- al credito -->
-				<td class="right"> {{ $pagos_compras['cheque']  }} </td> <!-- con cheque -->
-				<td class="right"> {{ $pagos_compras['tarjeta'] }} </td> <!-- con tarjeta -->
-				<td class="right"> {{ $pagos_compras['deposito']}} </td> <!-- con deposito -->
-				<td class="right"> {{ f_num::get($pagos_compras['total'])   }} </td> <!-- total -->
+				<td class="right"> ({{ ($data['pagos_compras']['efectivo'] == 0) ?  '0.00':$data['pagos_compras']['efectivo']}}) </td>
+				<td class="right"> {{ $data['pagos_compras']['credito'] }} </td> 
+				<td class="right"> {{ $data['pagos_compras']['cheque']  }} </td> 
+				<td class="right"> {{ $data['pagos_compras']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['pagos_compras']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_compras']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Abonos Compras</td>
-				<td class="right"> ({{ ($abonos_compras['efectivo'] == 0) ?  '0.00':$abonos_compras['efectivo']}}) </td> <!--en efectivo -->
-				<td class="right"> {{ $abonos_compras['credito'] }} </td> <!--al credito -->
-				<td class="right"> {{ $abonos_compras['cheque']  }} </td> <!--con cheque -->
-				<td class="right"> {{ $abonos_compras['tarjeta'] }} </td> <!--con tarjeta -->
-				<td class="right"> {{ $abonos_compras['deposito']}} </td> <!--con deposito -->
-				<td class="right"> {{ f_num::get($abonos_compras['total'])  }} </td> <!-- total-->
+				<td class="right"> ({{ ($data['abonos_compras']['efectivo'] == 0) ?  '0.00':$data['abonos_compras']['efectivo']}}) </td> 
+				<td class="right"> {{ $data['abonos_compras']['credito'] }} </td> 
+				<td class="right"> {{ $data['abonos_compras']['cheque']  }} </td> 
+				<td class="right"> {{ $data['abonos_compras']['tarjeta'] }} </td> 
+				<td class="right"> {{ $data['abonos_compras']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['abonos_compras']['total'])  }} </td> 
 			</tr>
 
 			<tr>
 				<td>Efectivo esperado en caja</td>
 				<td>
 					<?php 
-					$caja_negativos = $abonos_compras['efectivo'] + $pagos_compras['efectivo'] + $egresos['efectivo'] + $gastos['efectivo'];
+					$caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
 
-					$caja_positivos = $ingresos['efectivo'] + $adelantos['efectivo'] + $soporte['efectivo'] + $pagos_ventas['efectivo'] + $abonos_ventas['efectivo'];
+					$caja_positivos = $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
 
 					$caja =  $caja_positivos - $caja_negativos;
 					$total_caja = number_format($caja,2,'.',','); 

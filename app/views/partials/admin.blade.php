@@ -1,17 +1,9 @@
 <!-- Start category development -->
 <li class="sidebar-category">
-    <span>ADMINISTRADOR</span>
+    <span>ADMIN</span>
     <span class="pull-right"><i class="fa fa-code"></i></span>
 </li>
 <!--/ End category development -->
-
-<li class="submenu">
-    <a href="/proveedor" target="_blank">
-        <span class="icon"><i class="fa fa-file-o"></i></span>
-        <span class="text">Proveedor</span>
-        <span class=""></span>
-    </a>
-</li>
 
 <!-- Start development - components -->
 <li class="submenu">

@@ -299,7 +299,7 @@ function CreditSales(e)
                     $( "#home" ).append('<i id="saldo_por_busqueda" class="home_num"></i>');
                     $( "#home" ).append('<i style="width:139px; text-align:right;">Filtrado vencido:</i>');
                     $( "#home" ).append('<i id="saldo_por_busqueda_vencido" class="home_num"></i>');
-                    $('.dt-container').show();
+                    $('.dt-container').show(); 
                     
                     oTable = $('#example').dataTable();
                     $('#iSearch').keyup(function() {

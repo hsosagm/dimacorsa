@@ -186,7 +186,7 @@ class CompraController extends \BaseController {
 		$detalle_compra = DetalleCompra::where('compra_id','=', Input::get('compra_id'))
 		->first(array(DB::Raw('sum(cantidad * precio) as total')));
 
-		if (count($detalle_compra))
+		if (!count($detalle_compra))
 			return 'no a ingresado productos a la factura...!';
 
 		$pagos = PagosCompra::where('compra_id','=',Input::get('compra_id'));
