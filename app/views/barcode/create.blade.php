@@ -45,7 +45,7 @@
 	</div>
 </div>
 
-<div style="margin-right:50px;">
+<div style="">
 	{{ Form::_submit('Guardar Cambios') }}
 </div>
 

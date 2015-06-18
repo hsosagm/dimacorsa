@@ -39,7 +39,7 @@
                     <a href="javascript:void(0)" class="trigger-search"><i class="fa fa-search"></i></a>
                     <form class="navbar-form" onsubmit=" return false">
                         <div class="form-group has-feedback">
-                            <input id="iSearch" type="text" class="form-control typeahead rounded" placeholder="Search for people, places and things">
+                            <input id="iSearch" type="text" class="form-control typeahead rounded" placeholder="Buscar">
                             <button type="" class="btn btn-theme fa fa-search form-control-feedback rounded" id="search-inventario-user"></button>
                         </div>
                     </form>
@@ -53,11 +53,11 @@
                 </li>
 
                 <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" class="dropdown-toggle f_ven_op" data-toggle="dropdown"><i class="fa fa-dollar"></i></a>
+                    <a href="javascript:void(0)" class="dropdown-toggle f_ven_op" data-placement="bottom"  title="Venta" data-toggle="tooltip"><i class="fa fa-dollar"></i></a >
                 </li>
 
                 <li class="dropdown navbar-message">
-                    <a id="f_com_op" href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i></a>
+                    <a id="f_com_op" href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compra"  data-toggle="tooltip"><i class="fa fa-shopping-cart"></i></a>
                 </li>
 
                 <li class="dropdown navbar-message hide">

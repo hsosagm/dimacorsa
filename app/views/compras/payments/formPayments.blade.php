@@ -18,7 +18,7 @@
 				</a>
 			</li>
 			<li>
-				<a aria-expanded="false" href="#tab4" data-toggle="tab" onclick="GetPurchasesForPaymentsBySelection();">
+				<a aria-expanded="false" href="#tab4" data-toggle="tab" onclick="GetPurchasesForPaymentsBySelection(1,'');">
 					<i class="fa fa-paypal"></i> <span>Seleccionar Compras</span>
 				</a>
 			</li>
@@ -36,7 +36,7 @@
 							<label> {{(@$saldo_vencido == null) ? '0.00' : @$saldo_vencido; }} </label>
 						</div>
 						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
 						<div class="col-md-2">
 							<button class="form-control">nota</button>
@@ -61,7 +61,7 @@
 							<label> {{(@$saldo_total == null) ? '0.00' : @$saldo_total; }} </label>
 						</div>
 						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
 						<div class="col-md-2">
 							<button class="form-control">nota</button>
@@ -86,7 +86,7 @@
 							<input class="form-control" type="text" name="total" placeholder="Monto" >
 						</div>
 						<div class="col-md-5">
-							{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
 						<div class="col-md-2">
 							<button class="form-control">nota</button>

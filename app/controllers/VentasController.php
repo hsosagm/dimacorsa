@@ -305,7 +305,6 @@ class VentasController extends \BaseController {
         	ventas.created_at as fecha, 
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
-            numero_documento,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
@@ -335,7 +334,6 @@ class VentasController extends \BaseController {
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-			"numero_documento",
 			"saldo",
 			"completed"
 			);
@@ -348,4 +346,51 @@ class VentasController extends \BaseController {
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );	
 	}
+
+	function ImprimirVentaModal()
+	{
+		$venta_id = Input::get('venta_id');
+
+		return Response::json(array(
+			'success' => true,
+			'form' => View::make('ventas.ImprimirVentaModal',compact('venta_id'))->render()
+        ));
+	}
+
+	function ImprimirFacturaVenta()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return Response::json(array(
+				'success' => true,
+				'detalle' => View::make('ventas.ImprimirFactura', compact('venta'))->render()
+        	));
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirFacturaVenta_dt($id)
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find($id);
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirGarantiaVenta()
+	{
+
+		$venta = Venta::with('cliente')->find(Input::get('venta_id'));
+
+		return Response::json(array(
+				'success' => true,
+				'detalle' => View::make('ventas.ImprimirGarantia', compact('venta'))->render()
+        	));
+	}
+
 }

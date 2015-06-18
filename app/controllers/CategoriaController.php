@@ -10,9 +10,9 @@ class CategoriaController extends \BaseController {
 
             if ($categorias->_create())
             {
-                $id = DB::getPdo()->lastInsertId();
+                $id = $categorias->get_id();
 
-            	$lista = HTML::ul(Categoria::lists('nombre'));
+            	$lista = View::make('categoria.list')->render();
 
                 $this->create_unasigned( $id );
 
@@ -27,6 +27,29 @@ class CategoriaController extends \BaseController {
         return View::make('categoria.create');
     }
 
+     public function edit()
+    {
+        
+        if (Session::token() == Input::get('_token'))
+        {
+            $categoria = Categoria::find(Input::get('id'));
+
+            if (!$categoria->_update())
+            {
+                return $categoria->errors();
+            }
+
+            $lista = View::make('categoria.list')->render();
+
+            $select = Form::select('categoria_id',Categoria::lists('nombre', 'id'),Input::get('id'), array('class'=>'form-control'));
+
+            return array('success' => true ,'lista' => $lista ,'model' => 'categorias' ,'select' => $select );
+        }
+
+        $categoria = Categoria::find(Input::get('categoria_id'));
+
+        return View::make('categoria.edit',compact("categoria"));
+    }
 
     /*
         funcion para crear la sub categoria unsigned para la creacion de una categoria

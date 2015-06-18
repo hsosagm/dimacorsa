@@ -26,18 +26,40 @@
             </a>
         </li>
 
-        <?php 
+       <?php 
             $assigned = Assigned_roles::where('user_id', Auth::user()->id)
             ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
             ->orderBy('roles.id', 'DESC')->get();
+
+             $slide_bar_left = 0;
         ?>
 
         @foreach (@$assigned as $roles)
-            
-        @include('partials.'.strtolower(@$roles->name))
 
-        @endforeach
+            @if(strtolower($roles->name) == 'user' || strtolower($roles->name) == 'admin' || strtolower($roles->name) == 'owner' && $slide_bar_left == 0)
+                <?php $slide_bar_left = 1;  ?>
+            @endif
 
+            @if(strtolower($roles->name) == 'admin' || strtolower($roles->name) == 'owner' && $slide_bar_left == 1)
+                <?php $slide_bar_left = 2;  ?>
+            @endif  
+
+            @if(strtolower($roles->name) == 'owner' && $slide_bar_left == 2)
+                <?php $slide_bar_left = 3;  ?>
+            @endif
+        @endforeach 
+        
+
+        @if($slide_bar_left == 1)
+            @include('partials.user')
+        @elseif($slide_bar_left == 2)
+            @include('partials.user')
+            @include('partials.admin')
+        @elseif($slide_bar_left == 3)
+            @include('partials.user')
+            @include('partials.admin')
+            @include('partials.owner')
+        @endif
 
 
     </ul><!-- /.sidebar-menu -->

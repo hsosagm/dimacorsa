@@ -14,10 +14,6 @@
                         <i class="fa fa-plus-square btn-link theme-c" id="cliente_create"></i>
                     </td>
                 </tr>
-                <tr>
-                    <td>Factura No.: </td>
-                    <td> <input type="text" name="numero_documento" class="input"> </td>
-                </tr>
 
             </table>
         </div>
@@ -25,7 +21,7 @@
     </div>
 
     <div class="form-footer" align="right">
-          <button type="submit" class="theme-button">Ok!</button>
+          <button type="submit" class="btn theme-button">Ok!</button>
     </div>
 
 {{ Form::close() }}

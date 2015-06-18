@@ -328,3 +328,86 @@ function CreditSales(e)
         }
     }); 
 }
+
+
+function ImprimirVentaModal(e,id)
+{
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/ImprimirVentaModal",
+        data: { venta_id: id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.modal-body').html(data.form);
+                $('.modal-title').text('Imprimir Venta');
+                $('.bs-modal').modal('show');
+            }
+
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    });       
+}
+
+function ImprimirFacturaVenta(e,id)
+{
+    $.ajax({
+        type: 'POST',
+        url: "user/ventas/ImprimirFacturaVenta",
+         data: { venta_id: id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('#print_barcode').html(data.detalle);
+                $("#print_barcode").show();
+                $.print("#print_barcode");
+                $("#print_barcode").hide();
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        },
+        error: function(errors) {
+                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+        }
+    }); 
+
+
+}
+
+function ImprimirFacturaVenta_dt(e,user)
+{
+    id = $(e).closest('tr').attr('id');
+
+    window.open('user/ventas/'+id+'/ImprimirFacturaVenta/','scrollbars=No,status=no,width=100%,height=100%');
+
+}
+
+function ImprimirGarantiaVenta(e,id)
+{
+     $.ajax({
+        type: 'POST',
+        url: "user/ventas/ImprimirGarantiaVenta",
+        data: { venta_id: id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('#print_barcode').html(data.detalle);
+                $("#print_barcode").show();
+                $.print("#print_barcode");
+                $("#print_barcode").hide();
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        },
+        error: function(errors) {
+                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+        }
+    }); 
+}

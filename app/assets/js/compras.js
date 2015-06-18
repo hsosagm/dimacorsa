@@ -4,7 +4,7 @@ $(function() {
     $(document).on('click', '#OpenModalPurchaseItemSerials',      function() { OpenModalPurchaseItemSerials(this);    });
     $(document).on('click', '#_edit_producto',                    function() { _edit_producto(this); });
     $(document).on('click', '#_add_producto',                     function() { _add_producto(this); });
-     $(document).on("click","#print_code_producto",               function() { print_code_producto(this); })
+    $(document).on("click","#print_code_producto",               function() { print_code_producto(this); })
     $(document).on('click', '.return_compras',                    function() { return_compras(this); });
     $(document).on('submit'  ,'form[data-remote-PurchasePayment]',function(e){ SavePurchasePayment(e,this);  });
     $(document).on('dblclick','.EditPurchaseItemDetails' ,        function() { EditPurchaseItemDetails(this);  });
@@ -97,8 +97,9 @@ var val_anterior;
 function EditPurchaseItemDetails(element)
 {
     val_anterior = $(element).text();
-    $(element).html('<input type="text" class="SaveEditPurchaseItemDetails" />');
+    $(element).html('<input type="text" value="'+$.trim(val_anterior)+'" class="SaveEditPurchaseItemDetails" />');
     $('.SaveEditPurchaseItemDetails').focus();
+    $('.SaveEditPurchaseItemDetails').select();
 }
 
 function DisableEditPurchaseItemDetails(element)
@@ -176,12 +177,13 @@ function InsertPurchaseItemSerials(element)
             $("input[name='serials']").val(series);
 
             $("#SerialTable tr:first").after(myRow);
+            $("input[name='InsertPurchaseItemSerials']").val('');
             msg.success('Ingresado..!', 'Listo!');
         }
     }
 }
 
-function DeletePurchaseInitial()
+function DeletePurchaseInitial(element)
 {
     var compra_id = $(element).attr('compra_id');
     $.confirm({
@@ -296,8 +298,9 @@ function DeletePurchasePaymentItem(id , compra_id)
 }
 
 function FinishInitialPurchase(element,compra_id)
-{   
-    $(element).attr('disabled', 'disabled');
+{    
+    $(element).prop("disabled", true);
+    
     $.ajax({
         type: 'POST',
         url: 'admin/compras/FinishInitialPurchase',
@@ -312,13 +315,14 @@ function FinishInitialPurchase(element,compra_id)
             else
             {
                 msg.warning(data, 'Advertencia!');
+                $(element).prop("disabled", false);
             }
         },
         error: function(errors){
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+            $(element).prop("disabled", false);
         }
     });
-     $(element).removeAttr('disabled');
     return false;
 }
 
@@ -477,4 +481,60 @@ function getPurchaseDetail(e) {
             }
         }
     });
+}
+
+function CreditPurchases(e)
+{
+    $(e).prop("disabled", true);
+
+    $.ajax({
+        type: 'GET',
+        url: "admin/compras/getCreditPurchase",
+        success: function (data) {
+            if (data.success == true)
+            {
+                generate_dt_local(data.table);
+
+                setTimeout(function()
+                {
+                    $('#example_length').prependTo("#table_length");
+                    var saldo = ($('input[name=total_saldo]').val());
+                    var saldo_vencido = ($('input[name=saldo_vencido]').val());
+                    $( "#home" ).append('<td style="width:150px; text-align:right;">/ Ventas al credito: </td>');
+                    $( "#home" ).append('<td style="width:60px; text-align:right;">Total:</td>');
+                    $( "#home" ).append('<td class="home_num">'+saldo+'</td>');
+                    $( "#home" ).append('<td style="width:85px; text-align:right;">Vencido:</td>');
+                    $( "#home" ).append('<td class="home_num">'+saldo_vencido+'</td>');
+                    $( "#home" ).append('<td style="width:85px; text-align:right;">Filtrado:</td>');
+                    $( "#home" ).append('<td id="saldo_por_busqueda" class="home_num"></td>');
+                    $( "#home" ).append('<td style="width:139px; text-align:right;">Filtrado vencido:</td>');
+                    $( "#home" ).append('<td id="saldo_por_busqueda_vencido" class="home_num"></td>');
+                    $('.dt-container').show();
+                    
+                    oTable = $('#example').dataTable();
+                    $('#iSearch').keyup(function() {
+                        oTable.fnFilter( $(this).val() );
+                        var table = $('#example').DataTable();
+                        var s_filter_applied = table.column( 4, {"filter": "applied"} ).data().sum();
+                        s_filter_applied = accounting.formatMoney(s_filter_applied,"", 2, ",", ".");
+                        $('#saldo_por_busqueda').text(s_filter_applied);
+
+                        var sv_filter_applied=0;
+
+                        $("tbody tr.red").each(function () {
+                            var getValue = $(this).find("td:eq(4)").html().replace("$", "");
+                            var filteresValue=getValue.replace(/\,/g, '');
+                            sv_filter_applied +=Number(filteresValue)
+                        });
+                        sv_filter_applied = accounting.formatMoney(sv_filter_applied,"", 2, ",", ".");
+                        $('#saldo_por_busqueda_vencido').text(sv_filter_applied);
+                    })
+                }, 300);
+            }
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    }); 
 }

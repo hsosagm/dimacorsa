@@ -45,9 +45,7 @@
     
     <div class="modal-footer">
 
-        <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
-
-        <button class="btn btn-info" type="button" id="delete_soporte">Eliminar!</button>
+        <button class="btn btn-danger" type="button" id="delete_soporte">Eliminar!</button>
 
     </div>
 
@@ -55,6 +53,9 @@
 
 <style type="text/css">
 
+.bs-modal .Lightbox{
+    width:700px !important;
+  }
 .master-detail-body2 {
     max-height: 150px !important;
     height: 150px !important;*/
@@ -66,4 +67,6 @@
     background: white;
 }
     
+
+
 </style>

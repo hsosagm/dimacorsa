@@ -10,7 +10,10 @@
 
 			<tr>
 				<td width="100%">{{$data[$i]}}</td>
-				<td><i class="fa fa-times btn-link theme-c" id=",{{$data[$i]}}" onclick="DeletePurchaseItemSerials(this)"></i>
+				<td>
+				@if($data[$i] != '')
+					<i class="fa fa-times btn-link theme-c" id=",{{$data[$i]}}" onclick="DeletePurchaseItemSerials(this)"></i>
+				@endif
 				</td>
 			</tr>
 

@@ -5,7 +5,12 @@
 
 	<div class="form-producto">
 
-		{{ Form::_text('codigo') }}
+		<div class="form-group">
+			<label for="body" class="col-sm-2 control-label">Codigo</label>
+			<div class="col-sm-9">
+				<input class="form-control" autocomplete="off" name="codigo" type="text" autofocus>
+			</div>
+		</div>
 
 		{{ Form::_text('descripcion') }}
 
@@ -76,15 +81,24 @@
 
 </style>
 
-<style type="text/css">
-
-	.bs-modal .Lightbox{
-		width: 450px !important;
-	}
-
-</style>
 <script>
 	$(function(){
+
+		$("form[data-remote-product] input[name=codigo]").focusout(function(event) {
+			var d = new Date();
+			var month = d.getMonth()+1;
+			var day = d.getDate();
+			codigo_generado = d.getFullYear() +((''+month).length<2 ? '0' : '') + month +
+			((''+day).length<2 ? '0' : '') + day + d.getHours()+d.getMinutes()+d.getSeconds();
+
+			cod = $(this).val();
+			if($.trim(cod) == "")
+			{
+				$(this).val(codigo_generado);
+			}
+			
+		});
+
 		$("form[data-remote-product] select[name=categoria_id]").change(function(){
 			
 			$.ajax({

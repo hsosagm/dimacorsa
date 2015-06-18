@@ -93,7 +93,7 @@
 .body-detail table  thead, .body-detail table  tbody { display: block; }
 
 .body-detail table tbody {
-    height:80px;
+    height:160px !important;
     overflow-y: auto;
     overflow-x: hidden;
 }

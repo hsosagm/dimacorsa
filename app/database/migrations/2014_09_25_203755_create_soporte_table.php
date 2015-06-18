@@ -17,8 +17,8 @@ class CreateSoporteTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
-			$table->integer('soporte_estado_id')->unsigned();
-			$table->date('fecha_entrega');
+			$table->integer('soporte_estado_id')->unsigned()->default(1);
+			$table->date('fecha_entrega')->nullable();
 			$table->timestamps();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

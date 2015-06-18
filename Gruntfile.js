@@ -307,5 +307,6 @@ module.exports = function(grunt) {
     grunt.registerTask('dev', ['cssmin', 'concat', 'notify:end', 'watch']);
 
     grunt.registerTask('build', ['cssmin', 'concat', 'uglify', 'copy', 'watch']);
+    //grunt.registerTask('build', ['cssmin', 'concat', 'uglify', 'copy', 'watch']);
 
 };

@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <input type="hidden" name="cliente_id" value="{{Input::get('cliente_id')}}">
-                    {{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+                    {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
                 </div>
                 <div class="col-md-2">
                     <input  class="btn theme-button" type="button" value="Enviar" onclick="SelectedPaySales(this);" >
@@ -31,7 +31,6 @@
     <tr>
         <th class="center" width="18%">Usuario</th>
         <th class="center" width="18%">Fecha</th>
-        <th class="center" width="18%">Factura</th>
         <th class="center" width="18%">Total</th>
         <th class="center" width="18%">Saldo</th>
     </tr>
@@ -40,7 +39,6 @@
     <tr id="{{ $q->id }}">
         <td> {{ $q->usuario }} </td>
         <td> {{ $q->fecha }} </td>
-        <td> {{ $q->numero_documento }} </td>
         <td class="right"> {{ $q->total }} </td>
         <td class="right"> {{ $q->saldo }} </td>
         <td class="widthS center tbutton"  width="10%"> 

@@ -18,15 +18,14 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Codigo",       "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Marca",        "aTargets": [1]},
             {"sClass": "mod_codigo hover widthXL",              "sTitle": "Descripcion",  "aTargets": [2]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "P costo",      "aTargets": [3]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "P publico",    "aTargets": [4]},
+            {"sClass": "mod_codigo hover dt-right widthS",  "sTitle": "P costo",      "aTargets": [3]},
+            {"sClass": "mod_codigo hover dt-right widthS",  "sTitle": "P publico",    "aTargets": [4]},
+            {"sClass": "mod_codigo hover dt-right widthS",  "sTitle": "Existencias",    "aTargets": [5]},
         ],
 
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
-            $( ".DTTT" ).append( '<button id="_create" class="btn btngrey">New</button>' );
-            $( ".DTTT" ).append( '<button id="_edit" class="btn btngrey btn_edit" disabled>Edit</button>' );
-            $( ".DTTT" ).append( '<button id="_delete" class="btn btngrey btn_edit" disabled>Delete</button>' );
+            $( ".DTTT" ).append( '<button id="_edit_dt" class="btn btngrey btn_edit" disabled>Edit</button>' );
             $( ".DTTT" ).append( '<button id="_print"  class="btn btngrey btn_edit" disabled><i class="fa fa-barcode"></i> Imprimir</button>' );
         },
 

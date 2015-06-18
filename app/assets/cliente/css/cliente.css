@@ -100,3 +100,9 @@
         padding-left: 10px;
     }
 
+#customer_search{ 
+	background: transparent;
+	border: solid 1px #CABCBC;
+	color: #965B5B !important;
+	padding-right: 25px !important;
+}

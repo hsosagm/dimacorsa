@@ -3,6 +3,7 @@ msg = toastr;
 $(function() {
     $(document).on("click", "#_create", function(){ _create(this); });
     $(document).on("click", "#_edit", function(){ _edit(this); });
+    $(document).on("click", "#_edit_dt", function(){ _edit_dt(this); });
     $(document).on("click", "#_delete", function(){ _delete(this); });
     $(document).on("click", "#_print",      function(){ _print(this); })
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
@@ -127,6 +128,27 @@ function _edit() {
 
     $.ajax({
         type: "POST",
+        url: $url,
+        data: {id: $id},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            $('.modal-body').html(data);
+            $('.modal-title').text( 'Editar ' + $('.dataTable').attr('title') );
+            $('.bs-modal').modal('show');
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+};
+
+function _edit_dt() {
+
+    $id  = $('.dataTable tbody .row_selected').attr('id');
+    $url = $('.dataTable').attr('url') + 'edit_dt';
+
+    $.ajax({
+        type: "GET",
         url: $url,
         data: {id: $id},
         contentType: 'application/x-www-form-urlencoded',
@@ -266,3 +288,11 @@ jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
         return a + b;
     }, 0 );
 } );
+
+function limpiar_home()
+{
+    $( "#home" ).html("");
+    $(".dt-panel").hide();
+    $(".form-panel").hide();
+    $(".producto-panel").hide();
+}

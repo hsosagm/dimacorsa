@@ -5,17 +5,18 @@ class Table {
     public function detail($query, $table_detail_id, $href)
     {
     	$detalle = $query->where($table_detail_id, '=', Input::get($table_detail_id))->get();
-
+      $table = '<table width="100%">';
         foreach($detalle as $ds)
         {
-            $table[] = 
+            $table .= 
             '<tr>
-            <td width="345">' . $ds->descripcion . '</td>
-            <td class="right" width="100">' . $ds->monto . '</td>
-            <td class="center" width="100">' . $ds->metodo_pago->descripcion . '</td>
-            <td class="center" width="40"><i class="fa fa-times pointer btn-link theme-c" id="'.$ds->id.'" href="'.$href.'" onclick="DeleteDetalle(this);"  title="Eliminar"></i></td>
+            <td width="40%">' . $ds->descripcion . '</td>
+            <td class="right" width="20%">' . $ds->monto . '</td>
+            <td class="center" width="20%">' . $ds->metodo_pago->descripcion . '</td>
+            <td class="center" width="10%"><i class="fa fa-times pointer btn-link theme-c" id="'.$ds->id.'" href="'.$href.'" onclick="DeleteDetalle(this);"  title="Eliminar"></i></td>
             </tr>';
         }
+        $table .= '</table>';
 
         return $table;
     }

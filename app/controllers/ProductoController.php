@@ -46,6 +46,13 @@ class ProductoController extends Controller {
         return View::make('producto.edit', compact('producto', 'message','inactivo'));
     }
 
+    public function edit_dt()
+    {
+        
+        $producto = Producto::find(Input::get('id'));
+
+        return View::make('producto.edit_dt', compact('producto'));
+    }
 
     public function delete()
     {
@@ -91,7 +98,7 @@ class ProductoController extends Controller {
             return array(
                 'success'           => true,
                 'descripcion'       => $query->descripcion,
-                'p_costo'           => 'Precio Costo: '.$precio_c,
+                'p_costo'           => 'Precio Costo: '.number_format($precio_c,2,'.',','),
                 'p_publico'         => 'Precio Publico: '.$query->p_publico,
                 'existencia_total'  => 'Existencia: '.$query->existencia,
                 'existencia'        => 'Existencia: '.$Existencia,
@@ -108,13 +115,20 @@ class ProductoController extends Controller {
     {
         $table = 'productos';
 
-        $columns = array("codigo","nombre","descripcion","p_costo","p_publico");
+        $columns = array(
+            "codigo",
+            "nombre",
+            "descripcion",
+            "ROUND(p_costo/100,2) as p_costo",
+            "p_publico",
+            "existencias.existencia as existencia");
 
         $Searchable = array("codigo","nombre","descripcion");
         
-        $Join = 'JOIN marcas ON productos.marca_id = marcas.id';
+        $Join = 'JOIN marcas ON productos.marca_id = marcas.id  Join  existencias ON productos.id = existencias.producto_id ';
+        $where = "tienda_id = ".Auth::user()->tienda_id.' AND productos.existencia > 0';
 
-        echo TableSearch::get($table, $columns, $Searchable, $Join);
+        echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
     }
 
     public function md_search()

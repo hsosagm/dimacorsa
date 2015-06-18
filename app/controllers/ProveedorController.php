@@ -63,8 +63,10 @@ class ProveedorController extends BaseController {
         
         $proveedor_id = Input::get('proveedor_id');
         $contacto = new ProveedorContacto;
-
-        if (!$contacto->_create())
+        $data = Input::all();
+        $data['proveedor_id'] = $proveedor_id;
+        
+        if (!$contacto->_create($data))
         {
             return $contacto->errors();
         }
@@ -140,10 +142,21 @@ class ProveedorController extends BaseController {
 
     public function TotalCredito()
     {
-        $total = Compra::where('proveedor_id','=', Input::get('proveedor_id'))
+        $saldo_total = Compra::where('proveedor_id','=', Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
-        return $total->total;
+        $saldo_vencido = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))
+        ->where('saldo','>',0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+
+        $total = f_num::get($saldo_total->total);
+        $vencido = f_num::get($saldo_vencido->total);
+        $tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        return "Saldo Total: {$total} {$tab} Saldo Vencido: {$vencido}";
     }
    
 

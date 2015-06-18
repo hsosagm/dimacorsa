@@ -11,8 +11,13 @@
         <span class=""></span>
     </a>
 </li>
-
-<!-- Start navigation - clientes -->
+<li class="submenu">
+    <a href="/cliente" target="_blank">
+        <span class="icon"><i class="fa fa-file-o"></i></span>
+        <span class="text">Cliente</span>
+        <span class=""></span>
+    </a>
+</li>
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-file-o"></i></span>

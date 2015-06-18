@@ -5,12 +5,6 @@
 {{ Form::_text('nombre') }}
 <br>
 
-<div class="categorias-detail lista-col3">
-
-	{{HTML::ul(Marca::lists('nombre'))}} 
-
-</div>
-
 <div class="form-footer" align="right">
 
 	{{ Form::submit('Crear!', array('class'=>'theme-button')) }}
@@ -18,6 +12,18 @@
 </div>
 
 {{ Form::close() }}
+
+<div class="edit_categorias">
+	
+</div>
+
+<div class="categorias-detail lista-col3">
+
+	@include('marca.list')
+
+</div>
+
+
 
 
 

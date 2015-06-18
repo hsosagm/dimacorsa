@@ -94,7 +94,7 @@ class CierreController extends \BaseController {
 
       $ventas = Venta::whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")->first(array(DB::raw('sum(total) as total')));
 
-      $ganancias  = DetalleVenta::whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")->first(array(DB::raw('sum(ganancias) as total')));
+      $ganancias  = DetalleVenta::whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")->first(array(DB::raw(' sum(cantidad * ganancias) as total')));
 
        $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
       ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
@@ -118,7 +118,7 @@ class CierreController extends \BaseController {
       $ventas_usuarios =  DB::table('users')
       ->select(DB::raw('users.nombre, users.apellido,
                         sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
-                        sum(detalle_ventas.ganancias) as utilidad'))
+                        sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
       ->join('ventas','ventas.user_id','=','users.id')
       ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
       ->where('users.tienda_id','=',Auth::user()->tienda_id)
@@ -132,9 +132,9 @@ class CierreController extends \BaseController {
       $total_gastos    = f_num::get($gastos->total);
       $ganancias_netas = f_num::get(($ganancias->total+$soporte->total)-$gastos->total);
       $compras_credito = f_num::get($compras->total);
-      $ventas_credito = f_num::get($ventas_c->total);
+      $ventas_credito =  f_num::get($ventas_c->total);
       $inversion_actual = f_num::get($inversion->total);
-
+ 
       return View::make('cierre.CierreMes',compact('total_ventas','total_ganancias','total_soporte','total_gastos','ganancias_netas','ventas_usuarios','compras_credito','ventas_credito','inversion_actual'));
    }
 

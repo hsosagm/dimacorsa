@@ -18,12 +18,11 @@ $(document).ready(function() {
             {"sClass": "widthS",       "sTitle": "Fecha",                        "aTargets": [0]},
             {"sClass": "widthM",       "sTitle": "Usuario",                     "aTargets": [1]},
             {"sClass": "widthL",       "sTitle": "Cliente",                      "aTargets": [2]},
-            {"sClass": "widthS right", "sTitle": "Numero",                      "aTargets": [3]},
-            {"sClass": "widthS right", "sTitle": "Saldo",                        "aTargets": [4]},
-            {"sClass": "widthS",       "sTitle": "Completed", "bVisible": false, "aTargets": [5]},
-            {"sClass": "widthS center", "sTitle": "Acciones", "orderable": false, "aTargets": [6],
+            {"sClass": "widthS right", "sTitle": "Saldo",                        "aTargets": [3]},
+            {"sClass": "widthS",       "sTitle": "Completed", "bVisible": false, "aTargets": [4]},
+            {"sClass": "widthS center", "sTitle": "Acciones", "orderable": false, "aTargets": [5],
                 "mRender": function() {
-                    return '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14"><a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                    return '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14"><a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px"><a href="javascript:void(0);" title="Imprimir Venta" onclick="ImprimirFacturaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px">';
                 }
             }
         ],
@@ -41,7 +40,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/datatables/SalesOfDay"
+        "sAjaxSource": "user/ventas/SalesOfDay"
     });
 
 });

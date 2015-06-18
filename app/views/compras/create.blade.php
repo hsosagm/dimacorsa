@@ -89,7 +89,7 @@
 				data: {proveedor_id:$proveedor_id},
 				success: function (data) 
 				{
-					$(".proveedor-credito").html('<strong>Saldo   Q: '+data+'</strong>');
+					$(".proveedor-credito").html('<strong> '+data+'</strong>');
 				},
 				error: function(errors)
 				{

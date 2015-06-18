@@ -25,7 +25,7 @@ function getFormAbonosCompras(e)
     });
 }
 
-function GetPurchasesForPaymentsBySelection(page = 1, sSearch = "")
+function GetPurchasesForPaymentsBySelection(page , sSearch )
 {
     $proveedor_id = $("input[name='proveedor_id']").val();
 
@@ -74,7 +74,6 @@ $(document).on("click", ".SST .select", function() {
     {
         $(this).closest("tr").removeClass("row_selected");
         total = parseFloat($('.total_selected').val()) - parseFloat($(this).attr('total')) ;
-        $("#total_selected").html(total);
         $('.total_selected').val(total);
     }
 
@@ -82,7 +81,6 @@ $(document).on("click", ".SST .select", function() {
     {
         $(this).closest("tr").addClass('row_selected');
         total = parseFloat($(this).attr('total')) + parseFloat($('.total_selected').val()) ;
-        $("#total_selected").html(total);
         $('.total_selected').val(total);
     }
 });

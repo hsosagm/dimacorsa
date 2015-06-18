@@ -40,8 +40,6 @@ $saldo_vencido = 0;
             <td class="right"  width="12%"> {{ $saldo }} </td>
             <td>
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <i id="{{ $q->id }}" class="fa fa-credit-card btn-link theme-c" onClick="AbonarCompraPendienteDePago(this)" ></i>
             </td>
         </tr>
         @else
@@ -53,8 +51,6 @@ $saldo_vencido = 0;
             <td class="right"  width="12%"> {{ $saldo }} </td>
             <td>
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <i id="{{ $q->id }}" class="fa fa-credit-card btn-link theme-c" onClick="AbonarCompraPendienteDePago(this)" ></i>
             </td>
         </tr>
         @endif

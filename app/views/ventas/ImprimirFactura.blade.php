@@ -9,14 +9,14 @@
 					<td width="15%"></td>
 				</tr >
 				<tr height="25" > 
-					<td width="70%"> Fecha : 21/06/2015</td>
+					<td width="70%"> Fecha : {{ date('d-m-Y')}}</td>
 					<td width="15%"></td>
 					<td width="15%"></td>
 				</tr >
 				<tr height="25"> 
 					<td width="70%"> 
-						LEONEL ALBERTO MADRID FRANCO &nbsp;&nbsp;&nbsp;&nbsp;
-						Direccion: Zacapa , Zacapa
+						{{ $venta->cliente->nombre .' '.$venta->cliente->apellido}} &nbsp;&nbsp;&nbsp;&nbsp;
+						{{ $venta->cliente->direccion}}
 					</td>
 					<td width="15%"></td>
 					<td width="15%"></td>
@@ -29,64 +29,23 @@
 				<tr>
 					<td colspan="3" width="100%">
 						<div style="height:300 !important; ">
-							<table width="100%">
+							<table width="100%"	>
+								@foreach($venta->detalle_venta as $key => $dt)
 								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
+									<td width="15%"> 
+										{{ $dt->cantidad }}
+									</td>	
+									<td width="55%"> 
+										{{ $dt->producto->descripcion}}
+									</td>
+									<td width="15%" style="text-align:right; padding-right:15px">
+										 {{ f_num::get($dt->precio) }}
+									</td>
+									<td width="15%" style="text-align:right; padding-right:15px">
+										 {{ f_num::get($dt->cantidad * $dt->precio)}}
+									</td>	
 								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
-								<tr>
-									<td colspan="4"><div style="height:100% !important;"></div></td>	
-								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
-								<tr height="1"  style="font-size:12px; ">
-									<td width="15%">5</td>	
-									<td width="55%"> 	Etiquetas para CDs LB234 2 por hoja</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 1.00</td>
-									<td width="15%" style="text-align:right; padding-right:15px">Q 5.00</td>	
-								</tr>
+								@endforeach
 								<tr>
 									<td colspan="4"><div style="height:100% !important;"></div></td>	
 								</tr>
@@ -100,9 +59,9 @@
 			<tfoot height="15">
 				<tr>
 					<td style="font-size:12px; " colspan="2">
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{@$total_letras}}
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{@$total_letras}}
 					</td>
-					<td style="text-align:right; padding-right:15px"> Q 15.00</td>
+					<td style="text-align:right; padding-right:15px"> Q {{f_num::get($venta->total)}}</td>
 				</tr>
 			</tfoot>
 		</table>	
@@ -112,9 +71,9 @@
 
 <style>
 	td {
-	font-family: Lucida Sans Typewriter,Lucida Typewriter,monospace , bold;
-	font-size: 13px !important;
-	font-variant: normal;
-	font-weight: 500;
+		font-family: Lucida Sans Typewriter,Lucida Typewriter,monospace , bold;
+		font-size: 13px !important;
+		font-variant: normal;
+		font-weight: 500;
 	}
 </style>

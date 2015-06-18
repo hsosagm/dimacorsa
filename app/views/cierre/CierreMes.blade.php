@@ -1,4 +1,4 @@
-<table width="100%" class="table table-hover cierre_table">
+<table width="100%" class="SST">
  
 	<thead>
 		<tr>
@@ -19,16 +19,14 @@
 			<td style="text-align: right;">{{ $total_gastos    }}</td>
 			<td style="text-align: right;">{{ $ganancias_netas }}</td>
 		</tr>
-		<tr class="cierre_title">
+		<tr>
 			<td colspan="5">
-				Ventas por Usuario
 			</td>
 		</tr>
-		<tr class="cierre_title">
-			<td colspan="2"> Nombre </td>
-			<td> Ventas </td>
-			<td> Ganancias </td>
-			<td>  </td>
+		<tr>
+			<th colspan="5">
+				- Ventas por Usuario -
+			</th>
 		</tr>
 		@foreach(@$ventas_usuarios as $key => $user)
 			<tr class="cierre_body">
@@ -38,6 +36,14 @@
 				<td style="text-align: right;"> </td>
 			</tr>
 		@endforeach 
+		<tr>
+			<th colspan="5">
+			</th>
+		</tr>
+		<tr class="">
+			<th colspan="5">
+			</th>
+		</tr>
 
 	<tfoot>
 		<tr>

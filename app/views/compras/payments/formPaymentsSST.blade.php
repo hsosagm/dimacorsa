@@ -6,16 +6,24 @@
 <div class="container_selected" >
     <div class="row">
         <div class="col-md-8">
-            <label style="text-align:left"> Total Seleccionado: Q</label>
-            <label id="total_selected" ></label>
-            <input type="hidden" class="total_selected" value="0">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    <label style="text-align:left"> Total Seleccionado: </label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="total_selected form-control" value="0" disabled>
+                </div>
+                <div class="col-md-4"></div>
+
+            </div>
         </div>
         <div class="col-md-4">
             {{ Form::open(array('data-remote-SelectedPayPurchases','onSubmit'=>'return false')) }}
             <div class="row">
                 <div class="col-md-9">
                     <input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
-                    {{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+                    {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
                 </div>
                 <div class="col-md-2">
                     <input  class="btn theme-button" type="button" value="Enviar" onclick="SelectedPayPurchases(this);" >

@@ -51,9 +51,13 @@ class ClienteController extends \BaseController {
     {
         
         $cliente_id = Input::get('cliente_id');
+
         $contacto = new ClienteContacto;
 
-        if (!$contacto->_create())
+        $data = Input::all();
+        $data['cliente_id'] = $cliente_id;
+
+        if (!$contacto->_create($data))
         {
             return $contacto->errors();
         }

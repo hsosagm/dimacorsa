@@ -31,7 +31,7 @@
 
         <!-- Start page header -->
         <div class="header-content">
-            <span class="fa fa-home" style="font-size:22px;"></span> 
+            <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span> 
 
            <span id="home"></span>
 

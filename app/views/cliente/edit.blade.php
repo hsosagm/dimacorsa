@@ -74,7 +74,7 @@
 
         </div>
         <div class="tab-pane fade" id="tab-cliente-contactos" style="background:white !important">
-                {{ Form::hidden('cliente_id', @$cliente->id) }}
+                {{ Form::hidden('cliente_id', $cliente->id) }}
                 <div class="row">
                     <div class="col-md-5 contactos-lista">
                      <?php  $producto = ClienteContacto::where('cliente_id','=', @$cliente->id)->get(); ?>
