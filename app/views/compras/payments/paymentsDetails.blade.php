@@ -22,5 +22,5 @@
 </table> 
 
 <div class="form-footer" align="right">
-	<input  class="btn theme-button" onClick="DeleteBalancePay(this,{{$abono_id}})" type="button" value="Eliminar" >
+	<input  class="btn btn-danger" onClick="DeleteBalancePay(this,{{$abono_id}})" type="button" value="Eliminar" >
 </div>

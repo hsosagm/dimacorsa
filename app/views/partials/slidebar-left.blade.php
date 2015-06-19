@@ -26,28 +26,6 @@
             </a>
         </li>
 
-       <?php 
-            $assigned = Assigned_roles::where('user_id', Auth::user()->id)
-            ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
-            ->orderBy('roles.id', 'DESC')->get();
-
-             $slide_bar_left = 0;
-        ?>
-
-        @foreach (@$assigned as $roles)
-
-            @if(strtolower($roles->name) == 'user' || strtolower($roles->name) == 'admin' || strtolower($roles->name) == 'owner' && $slide_bar_left == 0)
-                <?php $slide_bar_left = 1;  ?>
-            @endif
-
-            @if(strtolower($roles->name) == 'admin' || strtolower($roles->name) == 'owner' && $slide_bar_left == 1)
-                <?php $slide_bar_left = 2;  ?>
-            @endif  
-
-            @if(strtolower($roles->name) == 'owner' && $slide_bar_left == 2)
-                <?php $slide_bar_left = 3;  ?>
-            @endif
-        @endforeach 
         
 
         @if($slide_bar_left == 1)

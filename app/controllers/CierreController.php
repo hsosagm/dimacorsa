@@ -6,7 +6,7 @@ class CierreController extends \BaseController {
     {
         $data = $this->resumen_movimientos();
 
-        return View::make('cierre.table',compact('pagos_compras','abonos_compras','egresos','gastos','ingresos','adelantos','soporte','abonos_ventas','pagos_ventas'));
+        return View::make('cierre.CierreDia',compact('data'));
     }
 
     //funcion para genrar la consulta agrupandolos por el metodo de pago

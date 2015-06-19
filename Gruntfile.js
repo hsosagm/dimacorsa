@@ -163,6 +163,7 @@ module.exports = function(grunt) {
                 './app/assets/js/drilldown.js',
                 './app/assets/js/barcode/barcode.js',
                 './app/assets/js/barcode/jqprint.js',
+                './app/assets/js/barcode/jquery.md5.js',
               ],
               dest: './public/js/main.js',
             },

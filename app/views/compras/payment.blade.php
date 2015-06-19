@@ -22,7 +22,6 @@
 </div>
 
 <div class="form-footer" align="right">
-    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
     <input  class="btn theme-button" type="submit" value="Enviar" >
 </div>
 

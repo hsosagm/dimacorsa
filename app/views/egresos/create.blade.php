@@ -23,7 +23,7 @@
     
     <div class="form-group">
          <div class="col-lg-4"> 
-            <input name="descripcion" type="text" class="form-control" autocomplete="off">
+            <input name="descripcion" type="text" class="form-control input" autocomplete="off">
         </div>
 
         <div class="col-lg-3"> 

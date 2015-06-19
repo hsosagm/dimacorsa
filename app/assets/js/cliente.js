@@ -15,7 +15,9 @@ $(function() {
 function clientes_table() {
     $.get( "user/cliente/index", function( data ) {
         makeTable(data, 'user/cliente/', 'Clientes');
+        $('#example').addClass('tableSelected');
     });
+
 };
 
 function cliente_create() {

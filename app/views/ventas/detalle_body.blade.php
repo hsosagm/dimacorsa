@@ -8,7 +8,7 @@
             <th width="70%">Descripcion</th>
             <th width="10%">Precio</th>
             <th width="10%">Totales</th>
-            <th width="5%">Eliminar</th>
+            <th width="5%"></th>
         </tr>
     </thead>
 
@@ -25,9 +25,9 @@
 	        <tr>
 	            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
-	            <td field="precio" cod="{{ $q->id }}" class="edit" width="10%"> {{ $precio }} </td>
-	            <td width="10%"> {{ $total }} </td>
-	            <td width="5%"><i onclick="RemoveSaleItem(this, {{ $q->id }});" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
+	            <td field="precio" style="text-align:right;   padding-right: 20px !important;" cod="{{ $q->id }}" class="edit" width="10%"> {{ $precio }} </td>
+	            <td width="10%" style="text-align:right;   padding-right: 20px !important; "> {{ $total }} </td>
+	            <td width="5%" ><i onclick="RemoveSaleItem(this, {{ $q->id }});" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
 	        </tr>
 		@endforeach
 	    
@@ -42,7 +42,7 @@
 		    <td>
 				<div class="row">
 					<div class="col-md-8" >  Total a cancelar </div>
-					<div class="col-md-4" id="totalventas" class="td_total_text" style="text-align:center" >
+					<div class="col-md-4" id="totalventas" class="td_total_text" style="text-align:right; padding-right:50px;" >
 						{{ $deuda }} 
 						{{ Form::hidden('saldo_venta', $deuda2) }}
 					</div>

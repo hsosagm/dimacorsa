@@ -19,7 +19,6 @@
     </div>
 
     <div class="modal-footer" style="margin-top:20px">
-        <button class="btn btn-default" type="button" data-dismiss="modal">Cancelar</button>
         <button class="btn theme-button" type="submit">Enviar</button>
     </div>
 

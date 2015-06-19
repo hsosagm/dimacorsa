@@ -299,7 +299,7 @@ function CreditSales(e)
                     $( "#home" ).append('<i id="saldo_por_busqueda" class="home_num"></i>');
                     $( "#home" ).append('<i style="width:139px; text-align:right;">Filtrado vencido:</i>');
                     $( "#home" ).append('<i id="saldo_por_busqueda_vencido" class="home_num"></i>');
-                    $('.dt-container').show();
+                    $('.dt-container').show(); 
                     
                     oTable = $('#example').dataTable();
                     $('#iSearch').keyup(function() {
@@ -352,62 +352,23 @@ function ImprimirVentaModal(e,id)
     });       
 }
 
+var FacturaWindow;
+
 function ImprimirFacturaVenta(e,id)
 {
-    $.ajax({
-        type: 'POST',
-        url: "user/ventas/ImprimirFacturaVenta",
-         data: { venta_id: id},
-        success: function (data) {
-            if (data.success == true)
-            {
-                $('#print_barcode').html(data.detalle);
-                $("#print_barcode").show();
-                $.print("#print_barcode");
-                $("#print_barcode").hide();
-            }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-        },
-        error: function(errors) {
-                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-        }
-    }); 
-
-
+    FacturaWindow = open('user/ventas/ImprimirFacturaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
 
 function ImprimirFacturaVenta_dt(e,user)
 {
     id = $(e).closest('tr').attr('id');
+    var md5 = $.md5('encript'+user); 
 
-    window.open('user/ventas/'+id+'/ImprimirFacturaVenta/','scrollbars=No,status=no,width=100%,height=100%');
+     FacturaWindow = open('user/ventas/ImprimirFacturaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 
 }
 
 function ImprimirGarantiaVenta(e,id)
 {
-     $.ajax({
-        type: 'POST',
-        url: "user/ventas/ImprimirGarantiaVenta",
-        data: { venta_id: id},
-        success: function (data) {
-            if (data.success == true)
-            {
-                $('#print_barcode').html(data.detalle);
-                $("#print_barcode").show();
-                $.print("#print_barcode");
-                $("#print_barcode").hide();
-            }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-        },
-        error: function(errors) {
-                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-        }
-    }); 
+     FacturaWindow = open('user/ventas/ImprimirGarantiaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=1000');
 }

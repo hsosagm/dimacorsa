@@ -32,7 +32,7 @@ $(document).ready(function() {
         },
 
         "fnRowCallback": function( nRow, aData ) {                
-            if ( aData[5] == 0){
+            if ( aData[4] == 0){
                 $(nRow).addClass('red');
             }               
         },

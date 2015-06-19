@@ -357,23 +357,11 @@ class VentasController extends \BaseController {
         ));
 	}
 
-	function ImprimirFacturaVenta()
+	function ImprimirFacturaVenta($id)
 	{
-		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
-    	if(count($venta->detalle_venta)>0)
-    	{
-        	return Response::json(array(
-				'success' => true,
-				'detalle' => View::make('ventas.ImprimirFactura', compact('venta'))->render()
-        	));
-    	}
-    	else
-        	return 'Ingrese productos ala factura para poder inprimir';
-	}
+		$venta_id = Crypt::decrypt($id);
 
-	function ImprimirFacturaVenta_dt($id)
-	{
-		$venta = Venta::with('cliente', 'detalle_venta')->find($id);
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
     	if(count($venta->detalle_venta)>0)
     	{
         	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
@@ -382,15 +370,32 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
-	function ImprimirGarantiaVenta()
+
+	function ImprimirFacturaVenta_dt($code,$id)
+	{
+		$venta_id = $id;
+
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirGarantiaVenta($id)
 	{
 
-		$venta = Venta::with('cliente')->find(Input::get('venta_id'));
+		$venta_id = Crypt::decrypt($id);
 
-		return Response::json(array(
-				'success' => true,
-				'detalle' => View::make('ventas.ImprimirGarantia', compact('venta'))->render()
-        	));
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
 }

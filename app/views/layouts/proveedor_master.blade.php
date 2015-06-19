@@ -32,7 +32,7 @@
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2>
-                    <i class="fa fa-home"></i> 
+                    <a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> 
                     <span id="InformationProviderSearches"></span>
                     <span id="home"></span>
                     <span class="loader" style="position:absolute; width:100%;">

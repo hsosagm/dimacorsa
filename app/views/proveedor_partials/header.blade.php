@@ -59,18 +59,10 @@
 
                                 echo $user_nombre[0].' '.$user_apellido[0];
                                 ?>
-                                <span class="caret"></span>
                             </span>
                             
                         </span>
                     </a>
-                    <!-- Start dropdown menu -->
-                    <ul class="dropdown-menu animated flipInX">
-                        <li class="dropdown-header">Account</li>
-                        <li><a id="profile" href="javascript:void(0)"><i class="fa fa-user"></i>View profile</a></li>
-                        <li><a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li>
-                    </ul>
-                    <!--/ End dropdown menu -->
                 </li><!-- /.dropdown navbar-profile -->
                 <!--/ End profile -->
 
