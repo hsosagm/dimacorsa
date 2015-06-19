@@ -8,7 +8,7 @@
         
         <div class="navbar-header">
 
-            <a class="navbar-brand" href="dashboard.html">
+            <a class="navbar-brand" href="javascript:void(0)">
                 <img class="logo" src="img/logo/logo-white.png" alt="brand logo"/>
             </a>
 

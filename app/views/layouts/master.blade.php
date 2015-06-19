@@ -30,10 +30,13 @@
        <section id="page-content">
 
         <!-- Start page header -->
-        <div class="header-content">
-            <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span> 
 
-           <span id="home"></span>
+        <span id="home"></span>
+
+        <div class="header-content">
+            <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span>  <span id="home"></span></h2>
+        </div>
+
 
        </div><!-- /.header-content -->
        <!--/ End page header -->
@@ -61,6 +64,7 @@
 <script src="js/main.js"></script>
 <script src="js/vue.min.js"></script>
 <script src="js/custom.js"></script>
+<script src="js/autoNumeric.js"></script>
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>
 <script src="calendar/translations/es_ES.js"></script>

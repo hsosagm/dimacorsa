@@ -1,3 +1,8 @@
+.numeric {
+    text-align: right !important;
+    padding-right: 10px;
+}
+
 .pointer {
     cursor: pointer;
 }
@@ -117,4 +122,15 @@ div.spinner.flat {
 
 #customer_search:focus {
     border: 1px solid #5F5252 !important;
+}
+
+#home i {
+	font-size: 12px;
+	margin-left: 10px;
+	border: 0;
+}
+
+.input_numeric {
+	text-align: right;
+	padding-right: 10px;
 }

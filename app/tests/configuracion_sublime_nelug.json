@@ -1,0 +1,20 @@
+{
+	"Seti_SB_bright": true,
+	"Seti_blue_tab_label": true,
+	"Seti_in_4_a_treat": true,
+	"Seti_pad_3": true,
+	"Seti_rainbow": true,
+	"Seti_sb_small_padding": true,
+	"Seti_sb_tree_miny": true,
+	"Seti_sb_tree_small": true,
+	"Seti_sb_wild": true,
+	"Seti_tabs_small": true,
+	"color_scheme": "Packages/User/SublimeLinter/Seti (SL).tmTheme",
+	"font_size": 10,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"theme": "Seti.sublime-theme",
+	"word_wrap": "true"
+}

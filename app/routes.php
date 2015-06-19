@@ -19,7 +19,13 @@
     DetalleSoporte::observe(new \NEkman\ModelLogger\Observer\Logger);
  
     /******************************************************************************/
-
+    //rutas para evitar los errores de las imagenes no encontradas
+    Route::get('img/avatar/50/{img}.png', function(){ return "";});
+    Route::get('images/{img}.png', function(){ return "";});
+    Route::get('/{img}.ico', function(){ return "";});
+    Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
+    /******************************************************************************/
+    
     Route::get('/'     , 'HomeController@index'   );
     Route::get('logIn' , 'HomeController@login'   );
     Route::get('logout', 'HomeController@logout'  );
@@ -60,12 +66,14 @@
         Route::group(array('prefix' => 'cliente'), function()
         {
             Route::get('buscar'                , 'ClienteController@search');
+            Route::post('delete'               , 'ClienteController@delete');
             Route::get('index'                 , 'ClienteController@index');
             Route::get('create'                , 'ClienteController@create');
             Route::post('create'               , 'ClienteController@create');
             Route::post('edit'                 , 'ClienteController@edit'  );
             Route::get('info'                  , 'ClienteController@info'  );
             Route::post('contacto_create'      , 'ClienteController@contacto_create');
+            Route::post('contacto_delete'      , 'ClienteController@contacto_delete');
             Route::get('contacto_nuevo'        , 'ClienteController@contacto_nuevo' );
             Route::post('contacto_update'      , 'ClienteController@contacto_update');
             Route::post('contacto_info'        , 'ClienteController@contacto_info'  );
@@ -221,6 +229,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('create'              , 'ProveedorController@create');
         Route::post('delete'              , 'ProveedorController@delete');
         Route::post('contacto_create'     , 'ProveedorController@contacto_create');
+        Route::post('contacto_delete'     , 'ProveedorController@contacto_delete');
         Route::get('contacto_nuevo'       , 'ProveedorController@contacto_nuevo' );
         Route::post('contacto_update'     , 'ProveedorController@contacto_update');
         Route::post('contacto_info'       , 'ProveedorController@contacto_info'  );
@@ -615,12 +624,12 @@ Route::get('cod', function() {
 
         // return 'paso';
 
-        $movimientos = [
+        $movimientos = array(
             'efectivo' => 36100,
             'cheque'   => 24000,
             'tarjeta'  => 4900,
             'deposito' => 10809
-        ];
+        );
 
         return $movimientos;
 

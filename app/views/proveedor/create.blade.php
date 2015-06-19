@@ -27,12 +27,12 @@
     </div>
 
     <div style="" class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar!</button>
         <input class="btn theme-button" value="Guardar!" type="submit">
     </div>
 
-{{ Form::close() }}
+    {{ Form::close() }}
 </div>
+
 <style type="text/css">
 
     .bs-modal .Lightbox{

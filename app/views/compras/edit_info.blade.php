@@ -3,7 +3,7 @@
 <div class="row">
 
 	<div class="col-md-6 master-detail-info">
-		<input type="hidden"  name="proveedor_id" id="proveedor_id_info">
+		<input type="hidden"  name="proveedor_id" id="proveedor_id_info" value="{{$proveedor->id}}">
 		{{ Form::hidden('id',$compra->id) }}
 		<table class="master-table-info">
 			<tr>
@@ -34,7 +34,9 @@
 
 </div>
 
-{{ Form::_submit('Enviar') }}
+<div class="modal-footer">
+	<input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
+</div>
 
 {{ Form::close() }}
 <script>

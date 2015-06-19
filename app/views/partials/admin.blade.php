@@ -6,12 +6,12 @@
 <!--/ End category development -->
 
 <li class="submenu">
-        <a href="/proveedor" target="_blank">
-            <span class="icon"><i class="fa fa-file-o"></i></span>
-            <span class="text">Proveedor</span>
-            <span class=""></span>
-        </a>
-    </li>
+    <a href="/proveedor" target="_blank">
+        <span class="icon"><i class="fa fa-file-o"></i></span>
+        <span class="text">Proveedor</span>
+        <span class=""></span>
+    </a>
+</li>
 
 <!-- Start development - components -->
 <li class="submenu">
@@ -21,12 +21,6 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li id="Inv_dt_open"><a href="javascript:void(0);">Inventario</a></li>
-        <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
-        <li id="proveedores"><a href="javascript:void(0);">Proveedores</a></li>
-        <li id="clientes_table"><a href="javascript:void(0);">Clientes</a></li>
-
-
         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="text">Ventas</span>
@@ -105,8 +99,21 @@
                 <li id="OpenTableAdvancesForDate"><a href="javascript:void(0);">Adelantos por Fechas</a></li>
             </ul>
         </li>
+    </ul>
+</li>
 
-        <li class="submenu">
+<li class="submenu">
+    <a href="javascript:void(0);">
+        <span class="icon"><i class="fa fa-cube"></i></span>
+        <span class="text">Informacion</span>
+        <span class="plus"></span>
+    </a>
+    <ul>
+        <li id="Inv_dt_open"><a href="javascript:void(0);">Inventario</a></li>
+        <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
+        <li id="proveedores"><a href="javascript:void(0);">Proveedores</a></li>
+        <li id="clientes_table"><a href="javascript:void(0);">Clientes</a></li>
+         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="text">logs</span>
                 <span class="arrow"></span>
