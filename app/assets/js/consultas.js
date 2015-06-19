@@ -22,7 +22,7 @@ function OpenTablePurchaseDay()
 {
 	$.get( "admin/compras/OpenTablePurchaseDay", function( data ) 
 	{
-        makeTable(data, '', 'Compras del Dia');
+        makeTable(data, '', '');
     });
 }
 
@@ -30,7 +30,7 @@ function OpenTableSupportDay()
 {
 	$.get( "user/soporte/OpenTableSupportDay", function( data ) 
 	{
-        makeTable(data, '', 'Soporte del Dia');
+        makeTable(data, '', '');
     });
 }
 
@@ -38,7 +38,7 @@ function OpenTableExpensesDay()
 {
 	$.get( "user/gastos/OpenTableExpensesDay", function( data ) 
 	{
-        makeTable(data, '', 'Gasto del Dia');
+        makeTable(data, '', '');
     });
 }
 
@@ -46,7 +46,7 @@ function OpenTableExpendituresDay()
 {
 	$.get( "user/egresos/OpenTableExpendituresDay", function( data ) 
 	{
-        makeTable(data, '', 'Egresos del Dia');
+        makeTable(data, '', '');
     });
 }
 
@@ -54,7 +54,7 @@ function OpenTableIncomeDay()
 {
 	$.get( "user/ingresos/OpenTableIncomeDay", function( data ) 
 	{
-        makeTable(data, '', 'Ingrseos del Dia');
+        makeTable(data, '', '');
     });
 }
 
@@ -62,6 +62,6 @@ function OpenTableAdvancesDay()
 {
     $.get( "user/adelantos/OpenTableAdvancesDay", function( data ) 
     {
-        makeTable(data, '', 'Adelantos del Dia');
+        makeTable(data, '', '');
     });
 }

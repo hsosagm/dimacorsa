@@ -1,6 +1,7 @@
 $(function() {
     $(document).on("click", "#settings_barcode",    function(){ settings_barcode(this);});
     $(document).on("change", "#barcode_live", function(e){ viewCode_barcode();});
+    $(document).on("keyup", "#barcode_live", function(e){ viewCode_barcode();});
 });
 
 function settings_barcode()
@@ -8,7 +9,7 @@ function settings_barcode()
     $.get( "admin/barcode/create", function( data )
     {
         $('.modal-body').html(data);
-        $('.modal-title').text('Barcode settings');
+        $('.modal-title').text('Configuracion de codigo de barras');
         $('.bs-modal').modal('show');
         viewCode_barcode();
     });  

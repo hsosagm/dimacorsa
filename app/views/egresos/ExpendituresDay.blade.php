@@ -2,7 +2,7 @@
 <script>
 $(document).ready(function() {
 
-    proccess_table('Inventario');
+    proccess_table('Egresos del dia');
 
     $('#example').dataTable({
 
@@ -24,7 +24,7 @@ $(document).ready(function() {
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                    return ' <i class="fa fa-trash-o btn-link theme-c" onclick=""></i> ';
+                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar" onclick=""></i> ';
                 }
             },
         ],

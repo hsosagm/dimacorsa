@@ -108,7 +108,7 @@
 
 			<tr>
 				<td>Efectivo esperado en caja</td>
-				<td>
+				<td class="right"> 
 					<?php 
 					$caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
 

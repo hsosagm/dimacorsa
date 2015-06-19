@@ -45,8 +45,8 @@
 	</div>
 </div>
 
-<div style="">
-	{{ Form::_submit('Guardar Cambios') }}
+<div class="modal-footer">
+	<input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
 </div>
 
 {{ Form::close() }}

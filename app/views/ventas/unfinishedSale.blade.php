@@ -8,15 +8,11 @@
                 <tr>
                     <td>Cliente:</td>
                     <td>
-                        <input type="text" id="cliente_id" value="jose"> 
+                        <input type="text" id="cliente_id" value="{{$venta->cliente->nombre.' '.$venta->cliente->apellido}}"> 
                         <i class="fa fa-question-circle btn-link theme-c" id="cliente_help"></i>
                         <i class="fa fa-pencil btn-link theme-c" id="cliente_edit"></i>
                         <i class="fa fa-plus-square btn-link theme-c" id="cliente_create"></i>
                     </td>
-                </tr>
-                <tr>
-                    <td>Factura No.: </td>
-                    <td> <input type="text" name="numero_documento" class="input" value="{{ $venta->numero_documento }}"> </td>
                 </tr>
 
             </table>

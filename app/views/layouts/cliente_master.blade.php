@@ -22,7 +22,10 @@
             <section id="page-content">
 
                 <div class="header-content">
-                    <h2><i class="fa fa-home"></i> <span id="info_cliente"></span></h2>
+                    <h2>
+                    <a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> 
+                    <span id="info_cliente"></span>
+                    </h2>
                     <span class="loader" style="position:absolute; width:100%;">
                 <div align="center" width="100%">
                    <img src="img/loader/general/2.gif" alt="">
