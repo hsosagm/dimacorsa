@@ -28,16 +28,9 @@ class ClienteController extends \BaseController {
                 return $cliente->errors();
             }
 
-            // $cliente_id = $cliente->get_id();
-
-            // $cliente = Cliente::find($cliente_id);
-
-            // $contactos = ClienteContacto::where('cliente_id','=',$cliente_id)->get();
-
             return Response::json(array(
                 'success' => true,
                 'info'    =>  Cliente::find( $cliente->get_id() ),
-                // 'form' => View::make('cliente.edit',compact('cliente' , 'contactos'))->render()
             ));
         }
 
@@ -46,7 +39,7 @@ class ClienteController extends \BaseController {
 
     public function info()
     {
-    	$cliente =  Cliente::find(Input::get('id'));
+        $cliente =  Cliente::find(Input::get('id'));
 
         $contactos = ClienteContacto::where('cliente_id','=',Input::get('id'))->get();
 

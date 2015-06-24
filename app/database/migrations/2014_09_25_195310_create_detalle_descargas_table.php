@@ -14,10 +14,10 @@ class CreateDetalleDescargasTable extends Migration {
 	{
 		Schema::create('detalle_descargas', function(Blueprint $table)
 		{
+			$table->increments('id');
 			$table->integer('descarga_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
-			$table->primary(array('descarga_id','producto_id'));
-			$table->integer('cantidad')->unsigned();
+			$table->decimal('cantidad', 8, 2);
 			$table->decimal('precio', 8, 2);
 			$table->timestamps();
 

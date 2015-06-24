@@ -4,7 +4,7 @@ class CompraController extends \BaseController {
 
 	public function create()
 	{
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			$compra = new Compra;
 
@@ -56,7 +56,7 @@ class CompraController extends \BaseController {
 	public function OpenModalPurchaseInfo()
 	{
 
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			$id = Input::get('id');
 	    	$compra = Compra::find(Input::get('id'));
@@ -101,7 +101,7 @@ class CompraController extends \BaseController {
 
 	public function detalle()
 	{
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			$codigo = DetalleCompra::where('compra_id','=',Input::get("compra_id"))
 			->where('producto_id','=',Input::get("producto_id"))->get();
@@ -165,7 +165,7 @@ class CompraController extends \BaseController {
 	public function ModalPurchasePayment()
 	{
 
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			if ($this->SeachPaymentMethod() != null ) 
 				return 'no puede ingresar dos pagos con el mismo metodo..!';

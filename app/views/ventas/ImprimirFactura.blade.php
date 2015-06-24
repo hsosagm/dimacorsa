@@ -1,5 +1,5 @@
 
-<body onblur="javascript:window.close()" >
+<body>
 	<div align="center">
 		<div class="" width="750" height="" >
 			<table border="0" width="750" id="table">
@@ -11,7 +11,7 @@
 						<td width="15%"></td>
 					</tr >
 					<tr height="25" > 
-						<td width="70%"> Fecha : {{ date('d-m-Y')}}</td>
+						<td width="70%">Nit: {{$venta->cliente->nit}} &nbsp;&nbsp;&nbsp;&nbsp; Fecha : {{ date('d-m-Y')}}</td>
 						<td width="15%"></td>
 						<td width="15%"></td>
 					</tr >
@@ -63,7 +63,11 @@
 				<tfoot height="15">
 					<tr>
 						<td style="font-size:12px; " colspan="2">
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{@$total_letras}}
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<?php 
+							$convertir =new Convertidor;
+							echo $convertir->ConvertirALetras($total);
+							?>
 						</td>
 						<td style="text-align:right; padding-right:15px"> Q {{f_num::get($total)}}</td>
 					</tr>

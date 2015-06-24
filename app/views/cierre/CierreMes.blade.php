@@ -1,5 +1,5 @@
 <table width="100%" class="SST">
- 
+	
 	<thead>
 		<tr>
 			<th width="20%" style="text-align: center;" >Ventas</th>
@@ -29,12 +29,12 @@
 			</th>
 		</tr>
 		@foreach(@$ventas_usuarios as $key => $user)
-			<tr class="cierre_body">
-				<td colspan="2">{{ $user->nombre .' '. $user->apellido}}</td>
-				<td style="text-align: right;">{{ $user->total }} </td>
-				<td style="text-align: right;">{{ $user->utilidad }} </td>
-				<td style="text-align: right;"> </td>
-			</tr>
+		<tr class="cierre_body">
+			<td colspan="2">{{ $user->nombre .' '. $user->apellido}}</td>
+			<td style="text-align: right;">{{ $user->total }} </td>
+			<td style="text-align: right;">{{ $user->utilidad }} </td>
+			<td style="text-align: right;"> </td>
+		</tr>
 		@endforeach 
 		<tr>
 			<th colspan="5">
@@ -44,7 +44,7 @@
 			<th colspan="5">
 			</th>
 		</tr>
-
+	</tbody>
 	<tfoot>
 		<tr>
 			<td colspan="2">Inversion Actual :</td>

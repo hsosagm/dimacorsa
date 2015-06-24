@@ -26,6 +26,7 @@ function search_producto(e, element)
                 $('.precio-publico').html(data.p_publico);
                 $('.precio-costo').html(data.p_costo);
                 $('.existencia').html(data.existencia);
+                $('#precio-costo').val(data.p_costo_descarga);
             }
             else
             {
@@ -55,6 +56,7 @@ function search_producto_dt()
                 $('.precio-publico').html(data.p_publico);
                 $('.precio-costo').html(data.p_costo);
                 $('.existencia').html(data.existencia);
+                $('#precio-costo').val(data.p_costo_descarga);
             }
             else
             {

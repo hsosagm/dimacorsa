@@ -9,7 +9,7 @@ class EgresoController extends \BaseController {
 
      public function create()
     {
-        if (Session::token() == Input::get('_token'))
+        if (Input::has('_token'))
         {
             $query = new DetalleEgreso;
             
@@ -59,7 +59,7 @@ class EgresoController extends \BaseController {
 
     function ExpendituresDay_dt(){
 
-        $table = 'detalle_egresos';
+        $table = 'egresos';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -71,7 +71,7 @@ class EgresoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id) 
+        $Join = "JOIN detalle_egresos ON (egresos.id = detalle_egresos.egreso_id) 
         JOIN users ON (users.id = egresos.user_id)
         JOIN tiendas ON (tiendas.id = egresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";

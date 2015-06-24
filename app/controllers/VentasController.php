@@ -4,7 +4,7 @@ class VentasController extends \BaseController {
 
 	public function create()
 	{
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			$venta = new Venta;
 
@@ -27,7 +27,7 @@ class VentasController extends \BaseController {
 
 	public function detalle()
 	{
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			if ($this->check_if_code_exists_in_this_sale() == true) {
 				return "El codigo ya ha sido ingresado..";
@@ -399,6 +399,19 @@ class VentasController extends \BaseController {
     	if(count($venta->detalle_venta)>0)
     	{
         	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirGarantiaVenta_dt($code,$id)
+	{
+		$venta_id = $id;
+
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
     	}
     	else
         	return 'Ingrese productos ala factura para poder inprimir';

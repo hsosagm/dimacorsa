@@ -1,18 +1,20 @@
 {{ Form::_open('Perfil actualizado') }}
 
-    {{ Form::hidden('id', @Auth::user()->id) }}
+{{ Form::hidden('id', @Auth::user()->id) }}
 
-    {{ Form::_text('username', @Auth::user()->username) }}
+{{ Form::_text('username', @Auth::user()->username) }}
 
-    {{ Form::_text('nombre', @Auth::user()->nombre) }}
+{{ Form::_text('nombre', @Auth::user()->nombre) }}
 
-    {{ Form::_text('apellido', @Auth::user()->apellido) }}
-  
-    {{ Form::_text('email', @Auth::user()->email) }}
+{{ Form::_text('apellido', @Auth::user()->apellido) }}
 
-    {{ Form::_password('password') }}
+{{ Form::_text('email', @Auth::user()->email) }}
 
-    {{ Form::_submit('Enviar') }}
+{{ Form::_password('password') }}
+
+<div class="modal-footer">
+    <input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
+</div>
 
 {{ Form::close() }}
 

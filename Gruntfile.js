@@ -192,6 +192,7 @@ module.exports = function(grunt) {
                 './app/assets/js/master-detail.js',
                 './app/assets/js/consultas.js',
                 './app/assets/js/cierre.js',
+                './app/assets/js/descargas.js',
                 './app/assets/js/codigobarras.js',
                 './app/assets/js/usuario-consultas.js',
               ],

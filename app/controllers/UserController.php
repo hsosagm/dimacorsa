@@ -30,7 +30,7 @@ class UserController extends Controller {
 	
 	public function create()
 	{
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			if ($this->user->_create())
 			{
@@ -48,7 +48,7 @@ class UserController extends Controller {
 	public function edit_profile()
 	{
 
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			$user = $this->user->find(Input::get('id'));
 

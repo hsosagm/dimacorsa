@@ -4,7 +4,7 @@ class CategoriaController extends \BaseController {
 
 	public function create()
     {
-    	if (Session::token() == Input::get('_token'))
+    	if (Input::has('_token'))
         {
             $categorias = new Categoria;
 
@@ -30,7 +30,7 @@ class CategoriaController extends \BaseController {
      public function edit()
     {
         
-        if (Session::token() == Input::get('_token'))
+        if (Input::has('_token'))
         {
             $categoria = Categoria::find(Input::get('id'));
 
