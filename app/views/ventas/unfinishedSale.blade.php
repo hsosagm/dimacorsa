@@ -16,7 +16,12 @@
                         <i class="fa fa-plus-square btn-link theme-c" v-on="click: showNewCustomer"></i>
                     </td>
                 </tr>
-
+                <tr>
+                    <td>Tipo Cliente:</td>
+                    <td>
+                        <input type="text" v-model="cliente.tipo_cliente.nombre" style="margin-top:6px; background: #EEF8F1;" disabled>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="col-md-6"><label v-show="cliente.id">@{{fullName}}</label></div>
@@ -149,6 +154,7 @@
     app.$nextTick(function() {
         app.$compile(app.$el);
         app.reset();
+        app.venta_id = {{ $venta_id }};
         app.getInfoCliente({{$venta->cliente->id}});
     });
 
