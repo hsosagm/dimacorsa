@@ -103,6 +103,12 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
         }
     });
 
+    $(document).on("keydown",".preventDefault",function(event) {
+        if (event.which === 13 || event.keyCode === 13) {
+            event.preventDefault();
+        }
+    });
+
     $('#date-input').datepicker();
 
 </script>

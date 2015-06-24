@@ -25,7 +25,7 @@
             <input type="hidden" name="efectivo_esp" value="@{{ movimientos.efectivo }}">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="0" v-on="keyup : set_efectivo" class="form-control numeric" style="background:#E3F4CF;">
+            <input type="text" value="0" v-on="keyup : set_efectivo" class="form-control numeric preventDefault" style="background:#E3F4CF;">
             <input type="hidden" name="efectivo" v-model="efectivo">
         </div>
         <div class="col-sm-3">
@@ -42,7 +42,7 @@
             <input type="hidden" name="cheque_esp" value="@{{ movimientos.cheque }}">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="0" v-on="keyup : set_cheque" class="form-control numeric" style="background:#E3F4CF;">
+            <input type="text" value="0" v-on="keyup : set_cheque" class="form-control numeric preventDefault" style="background:#E3F4CF;">
             <input type="hidden" name="cheque" v-model="cheque">
         </div>
         <div class="col-sm-3">
@@ -59,7 +59,7 @@
             <input type="hidden" name="tarjeta_esp" value="@{{ movimientos.tarjeta }}">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="0" v-on="keyup : set_tarjeta" class="form-control numeric" style="background:#E3F4CF;">
+            <input type="text" value="0" v-on="keyup : set_tarjeta" class="form-control numeric preventDefault" style="background:#E3F4CF;">
             <input type="hidden" name="tarjeta" v-model="tarjeta">
         </div>
         <div class="col-sm-3">
@@ -76,7 +76,7 @@
             <input type="hidden" name="deposito_esp" value="@{{ movimientos.deposito }}">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="0" v-on="keyup : set_deposito" class="form-control numeric" style="background:#E3F4CF;">
+            <input type="text" value="0" v-on="keyup : set_deposito" class="form-control numeric preventDefault" style="background:#E3F4CF;">
             <input type="hidden" name="deposito" v-model="deposito">
         </div>
         <div class="col-sm-3">
@@ -115,7 +115,6 @@
 
 
     <div class="modal-footer" style="margin-top:20px">
-        <button class="btn btn-default" type="button" data-dismiss="modal">Cancelar</button>
         <button class="btn theme-button" type="submit">Enviar</button>
     </div>
 
