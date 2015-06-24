@@ -654,12 +654,9 @@ Route::get('cod', function() {
 
         // return $movimientos;
 
+    return Cliente::with('tipo_cliente')->find(1);
 
-            return Response::json(array(
-                'success' => true,
-                'info'    =>  [ 'id' => 2, 'value' => 'Jose' . ' ' . 'Pop' ],
-                // 'form' => View::make('cliente.edit',compact('cliente' , 'contactos'))->render()
-            ));
+
 });
 
 
