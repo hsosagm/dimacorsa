@@ -64,3 +64,11 @@ $saldo_vencido = 0;
 
 {{ Form::hidden('total_saldo', $total_saldo) }}
 {{ Form::hidden('saldo_vencido', $saldo_vencido) }}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#example').dataTable({});
+
+    });
+</script>

@@ -71,8 +71,9 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
     <i class="fa fa-angle-up"></i>
 </div>
 <div id="print_barcode"></div>
-<script src="js/main.js"></script>
+
 <script src="js/vue.min.js"></script>
+<script src="js/main.js"></script>
 <script src="js/custom.js"></script>
 <script src="js/autoNumeric.js"></script>
 <script src="calendar/picker.js"></script>
@@ -96,9 +97,9 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 
     $(document).on("keydown",".input",function(event) {
         if (event.which === 13 || event.keyCode === 13) {
-            event.stopPropagation();
             var position = $(this).index('input');
             $("input, select").eq(position+1).select();
+            event.preventDefault();
         }
     });
 

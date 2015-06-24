@@ -2,17 +2,22 @@
 
 class ClienteController extends \BaseController {
 
-    public function search()
-    {
-        return Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
-    }
-
     public function index()
     {
         return View::make('cliente.index');
     }
 
-     public function create()
+    public function search()
+    {
+        return Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
+    }
+
+    public function getInfo()
+    {
+        return Cliente::find(Input::get('id'));
+    }
+
+    public function create()
     {
         if (Session::token() == Input::get('_token'))
         {
@@ -23,16 +28,17 @@ class ClienteController extends \BaseController {
                 return $cliente->errors();
             }
 
-            $cliente_id = $cliente->get_id();
+            // $cliente_id = $cliente->get_id();
 
-            $cliente = Cliente::find($cliente_id);
+            // $cliente = Cliente::find($cliente_id);
 
-            $contactos = ClienteContacto::where('cliente_id','=',$cliente_id)->get();
+            // $contactos = ClienteContacto::where('cliente_id','=',$cliente_id)->get();
 
             return Response::json(array(
-                'success' => true, 
-                'form' => View::make('cliente.edit',compact('cliente' , 'contactos'))->render()
-                ));
+                'success' => true,
+                'info'    =>  Cliente::find( $cliente->get_id() ),
+                // 'form' => View::make('cliente.edit',compact('cliente' , 'contactos'))->render()
+            ));
         }
 
         return View::make('cliente.create');
@@ -120,8 +126,8 @@ class ClienteController extends \BaseController {
 
     public function edit()
     {
-         if (Session::token() == Input::get('_token'))
-        {
+        if (Input::has('_token')) {
+
             $cliente = Cliente::find(Input::get('id'));
 
             if (!$cliente->_update())
@@ -129,7 +135,10 @@ class ClienteController extends \BaseController {
                 return $cliente->errors();
             }
 
-            return 'success'; 
+            return Response::json(array(
+                'success' => true,
+                'info'    => Cliente::find( Input::get('id') ),
+            ));
         }
 
         $cliente = Cliente::find(Input::get('id'));
@@ -162,12 +171,12 @@ class ClienteController extends \BaseController {
         $columns = array(
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "ventas.created_at as fecha", 
-            "numero_documento",
+            "ventas.id as idventa",
             "total",
             "saldo"
             );
 
-        $Search_columns = array("users.nombre","users.apellido","numero_documento");
+        $Search_columns = array("users.nombre","users.apellido","ventas.id");
 
         $Join = "JOIN users ON (users.id = ventas.user_id)";
 
@@ -238,7 +247,7 @@ class ClienteController extends \BaseController {
             ventas.created_at as fecha, 
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
-            numero_documento,
+            ventas.id,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')

@@ -7,12 +7,6 @@
     
     <body style="display: block;" class="page-header-fixed page-sidebar-fixed page-footer-fixed">
 
-        <div id="loading">
-            <div class="loading-inner">
-                <img src="img/loader/flat/3.gif" alt="..."/>
-            </div>
-        </div>
-
         <section id="wrapper">
 
              <!--/ START HEADER -->
@@ -34,14 +28,6 @@
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
 
-                    <h2>
-                    <a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> 
-                    <span id="info_cliente"></span>
-                    </h2>
-                    <span class="loader" style="position:absolute; width:100%;">
-                <div align="center" width="100%">
-                    <img src="img/loader/general/2.gif" alt="">
-                </div>
 
             @include('cliente_partials.body-content')
 
@@ -61,8 +47,8 @@
             <i class="fa fa-angle-up"></i>
         </div>
 
-        <script src="js/main.js"></script>
         <script src="js/vue.min.js"></script>
+        <script src="js/main.js"></script>
         <script src="js/cliente.js"></script>
         <script src="calendar/picker.js"></script>
         <script src="calendar/picker.date.js"></script>
@@ -87,7 +73,7 @@
                 }
             });
 
-            $(document).on("keydown",".focus_next_on_enter",function(event) {
+            $(document).on("keydown",".input",function(event) {
                 if (event.which === 13 || event.keyCode === 13) {
                     event.stopPropagation();
                     var position = $(this).index('input');

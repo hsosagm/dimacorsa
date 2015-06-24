@@ -1,6 +1,5 @@
 $(function() {
     $(document).on('click', '#clientes_table',              function() { clientes_table();                 });
-    $(document).on('click', '#cliente_edit',                function() { cliente_edit();                   });
     $(document).on('click', '#cliente_create',              function() { cliente_create();                 });
     $(document).on('click', '#cliente_contacto_view_info',  function() { cliente_contacto_view_info(this); });
     $(document).on('click', '#cliente_contacto_view',       function() { cliente_contacto_view(this);      });
@@ -47,28 +46,6 @@ function cliente_contacto_view_info(element)
             }
         });
 }
-
-function cliente_edit() {
-
-    $id = $("input[name='cliente_id']").val();
-    if($id > 0)
-    {
-        $.ajax({
-            type: "POST",
-            url: "user/cliente/edit",
-            data: {id: $id},
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                $('.modal-body').html(data);
-                $('.modal-title').text('Editar cliente');
-                $('.bs-modal').modal('show');
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
-    }
-};
 
 
 function cliente_new(e,element)
@@ -128,9 +105,10 @@ function cliente_update(e,element)
             data: form.serialize(),
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
-                if (data == 'success') 
+                if (data.success == true) 
                 {
                     msg.success('Cliente Actualizado..!', 'Listo!');
+                    ventas.cliente = data.info;
                 }
                 else
                 {
@@ -138,7 +116,7 @@ function cliente_update(e,element)
                 }
             },
             error: function (request, status, error) {
-                alert(request.responseText);
+                $('input[type=submit]', form).removeAttr('disabled');  // rev
             }
         });
 
@@ -288,57 +266,45 @@ function cliente_help() {
 };
 
 
-// Habre datatables en serverside con el historial del cliente
-// el cliente_id lo obtiene en customerSalesHistory.blade.php 
-function salesByCustomer(e)
+
+// Habre datatables en local con las ventas del cliente al credito
+function creditSalesByCustomer()
 {
     $.ajax({
         type: 'GET',
-        url: "user/cliente/salesByCustomer",
+        url: "user/cliente/creditSalesByCustomer",
+        data: { cliente_id: vm.cliente_id },
         success: function (data) {
             if (data.success == true)
             {
-               $('.table').html(data.table);
+                return generate_dt(data.table);
             }
-            else
-            {
-                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-            }
+            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
         }
     }); 
 }
 
+//corregir
+function generate_dt(data) {
 
-// Habre datatables en local con las ventas del cliente al credito
-function creditSalesByCustomer(e)
-{
-    $cliente_id = $("input[name='cliente_id']").val();
+    vm.clearPanelBody();
+    $("#iSearch").val("");
+    $("#iSearch").unbind();
+    $("#iSearch").focus();
+    $('.table').html(data);
+    $("#table_length").html("");
+    $( ".DTTT" ).html("");
+    $('.dt-panel').show();
 
-    $.ajax({
-        type: 'GET',
-        url: "user/cliente/creditSalesByCustomer",
-        data: { cliente_id: $cliente_id },
-        success: function (data) {
-            if (data.success == true)
-            {
-                generate_dt_local(data.table);
+    setTimeout(function()
+    {
+        $('#example_length').prependTo("#table_length");
+        $('.dt-container').show();
+        
+        oTable = $('#example').dataTable();
+        $('#iSearch').keyup(function() {
+            oTable.fnFilter( $(this).val() );
+        });
 
-                setTimeout(function()
-                {
-                    $('#example_length').prependTo("#table_length");
-                    $('.dt-container').show();
-                    
-                    oTable = $('#example').dataTable();
-                    $('#iSearch').keyup(function() {
-                        oTable.fnFilter( $(this).val() );
-                    });
-
-                }, 300);
-            }
-            else
-            {
-                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-            }
-        }
-    }); 
+    }, 300);
 }

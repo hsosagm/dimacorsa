@@ -30,6 +30,8 @@ var vm = new Vue({
     	clearPanelBody: function() {
     		this.PanelBody = '';
     		vm.tableDetail = '';
+    		$('.table').html('');
+    		$('.dt-container').hide();
     	},
 
 
@@ -205,9 +207,39 @@ var vm = new Vue({
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
-        }
+        },
+
+        editCustomer: function() {
+
+	        $.ajax({
+	            type: "POST",
+	            url: "user/cliente/edit",
+	            data: {id: vm.cliente_id },
+	            contentType: 'application/x-www-form-urlencoded',
+	            success: function (data) {
+	                $('.modal-body').html(data);
+	                $('.modal-title').text('Editar cliente');
+	                $('.bs-modal').modal('show');
+	            },
+	            error: function (request, status, error) {
+	                alert(request.responseText);
+	            }
+	        });
+        },
+
+        salesByCustomer: function() {
+
+            $.get( "/user/cliente/salesByCustomer", function( data ) {
+	            if (data.success == true)
+	            {
+	               return generate_dt(data.table);
+	            }
+	            
+	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            });
+        },
     }
-})
+});
 
 
 function compile() {

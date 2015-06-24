@@ -22,10 +22,11 @@
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ movimientos.efectivo | currency ' ' }}" class="form-control right" disabled>
+            <input type="hidden" name="efectivo_esp" value="@{{ movimientos.efectivo }}">
         </div>
         <div class="col-sm-3">
             <input type="text" value="0" v-on="keyup : set_efectivo" class="form-control numeric" style="background:#E3F4CF;">
-            <input type="hidden" name="efectivo" v-model="efectivo" class="form-control">
+            <input type="hidden" name="efectivo" v-model="efectivo">
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ dif_efectivo | currency ' ' }}" class="form-control right" disabled>
@@ -38,10 +39,11 @@
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ movimientos.cheque | currency ' ' }}" class="form-control right" disabled>
+            <input type="hidden" name="cheque_esp" value="@{{ movimientos.cheque }}">
         </div>
         <div class="col-sm-3">
             <input type="text" value="0" v-on="keyup : set_cheque" class="form-control numeric" style="background:#E3F4CF;">
-            <input type="hidden" name="cheque" v-model="cheque" class="form-control">
+            <input type="hidden" name="cheque" v-model="cheque">
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ dif_cheque | currency ' ' }}"  class="form-control right" disabled>
@@ -54,10 +56,11 @@
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ movimientos.tarjeta | currency ' ' }}" class="form-control right" disabled>
+            <input type="hidden" name="tarjeta_esp" value="@{{ movimientos.tarjeta }}">
         </div>
         <div class="col-sm-3">
             <input type="text" value="0" v-on="keyup : set_tarjeta" class="form-control numeric" style="background:#E3F4CF;">
-            <input type="hidden" name="tarjeta" v-model="tarjeta" class="form-control">
+            <input type="hidden" name="tarjeta" v-model="tarjeta">
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ dif_tarjeta | currency ' ' }}" class="form-control right" disabled>
@@ -70,10 +73,11 @@
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ movimientos.deposito | currency ' ' }}" class="form-control right" disabled>
+            <input type="hidden" name="deposito_esp" value="@{{ movimientos.deposito }}">
         </div>
         <div class="col-sm-3">
             <input type="text" value="0" v-on="keyup : set_deposito" class="form-control numeric" style="background:#E3F4CF;">
-            <input type="hidden" name="deposito" v-model="deposito" class="form-control">
+            <input type="hidden" name="deposito" v-model="deposito">
         </div>
         <div class="col-sm-3">
             <input type="text" value="@{{ dif_deposito | currency ' ' }}" class="form-control right" disabled>
@@ -217,7 +221,7 @@
                 });
             }
         }
-})
+});
 
 
 $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});

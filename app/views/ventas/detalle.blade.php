@@ -4,7 +4,7 @@
 		{{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Venta Generada', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}
 		{{ Form::hidden('serials','') }}
-		{{ Form::hidden('venta_id', $venta_id) }}
+		{{ Form::hidden('venta_id', $venta->id) }}
 		{{ Form::hidden('ganancias', 0) }}
 		<table class="master-table">
 			<tr>
@@ -17,7 +17,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="text" id="search_producto"> 
+					<input v-el="search_producto" type="text" id="search_producto"> 
 				</td>
 				<td><input class="input input_numeric" type="text" name="cantidad"> </td>
 				<td><input class="input_numeric" type="text" name="precio" id="venta_save_producto"> </td>
@@ -44,18 +44,19 @@
 </div>
 
 <div class="body-detail">
+
 	@include('ventas.detalle_body')
 </div>
 
 <div class="form-footer" >
 	<div class="row">
 		<div class="col-md-6">
-			{{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirVentaModal(this,'.$venta_id.');']);}}
+			{{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirVentaModal(this,'.$venta->id.');']);}}
 		</div>
 		<div class="col-md-6" align="right">
 
 		{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'RemoveSale();']);}}
-		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'OpenModalSalesPayments('.$venta_id.');']) }}
+		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'OpenModalSalesPayments('.$venta->id.');']) }}
 		</div>
 	</div>
 </div>
@@ -63,5 +64,5 @@
 
 
 <script>
-	$("form[data-remote-md] :input").prop("disabled", true);
+	app.venta_id = {{ $venta->id }};
 </script>

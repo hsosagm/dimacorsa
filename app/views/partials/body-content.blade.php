@@ -14,7 +14,7 @@
   <!-- End caledar container -->
 
   <!-- FORMS -->
-  <div class="form-container col-md-10">
+  <div id="forms" class="form-container col-md-10">
     <div class="panel form-h form-panel shadow">
       <div align="right">
         <div class="panel-heading custom-form">

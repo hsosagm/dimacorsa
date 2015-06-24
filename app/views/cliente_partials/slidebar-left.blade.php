@@ -31,7 +31,7 @@
                     <span class="arrow"></span>
                 </a>
                 <ul>
-                    <li><a href="javascript:void(0);" onclick="salesByCustomer(this);">Historial de Ventas</a></li>
+                    <li><a href="javascript:void(0);" v-on="click: salesByCustomer">Historial de Ventas</a></li>
                     <li><a href="javascript:void(0);" onclick="creditSalesByCustomer(this);">Pendientes de pago</a></li>
                     <li><a href="javascript:void(0);">Historial de pagos</a></li>
                     <li><a href="javascript:void(0);">Historial de abonos</a></li>
@@ -46,7 +46,7 @@
                 </a>
                 <ul>
                     <li><a href="javascript:void(0);" v-on="click: getFormAbonosVentas">Abonar a deuda</a></li>
-                    <li><a href="javascript:void(0);" id="cliente_edit"> Editar Cliente</a></li>
+                    <li><a href="javascript:void(0);" v-on="click: editCustomer">Editar Cliente</a></li>
                 </ul>
             </li>
 

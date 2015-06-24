@@ -1,5 +1,3 @@
-msg = toastr;
-
 $(function() {
     $(document).on("click", "#_create", function(){ _create(this); });
     $(document).on("click", "#_edit", function(){ _edit(this); });
@@ -8,19 +6,20 @@ $(function() {
     $(document).on("click", "#_print",      function(){ _print(this); })
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
- 
 
 $( document ).ajaxSend(function() {
-  $('#loader').show();
+    $('#loader').show();
 });
 
 $( document ).ajaxSuccess(function() {
-  $('#loader').hide();
-  $('input').attr('autocomplete','off');
+    $('#loader').hide();
+    $('input').attr('autocomplete','off');
 });
 
 $( document ).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     $.ajax(this);
+    msg.error(jqXHR.responseText, 'Error');
+    $('[type=submit]').prop('disabled', false);
 });
 
 function input_numeric(element)

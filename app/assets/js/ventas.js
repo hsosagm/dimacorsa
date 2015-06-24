@@ -94,11 +94,9 @@ function OpenModalSalesPayments($venta_id)
 
 $(document).on('submit', 'form[data-remote-sales-payment]', function(e) {
 
-    $button = $('button[type=submit]', this);
-
-    $button.attr('disabled', 'disabled');
-
     var form = $(this);
+
+    $('input[type=submit]', form).prop('disabled', true);
 
         $.ajax({
             type: form.attr('method'),
@@ -114,7 +112,7 @@ $(document).on('submit', 'form[data-remote-sales-payment]', function(e) {
                 else
                 {
                     msg.warning(data, 'Advertencia!');
-                    $button.removeAttr('disabled');
+                    $('input[type=submit]', form).prop('disabled', false);
                 }
             }
 

@@ -159,11 +159,26 @@ class VentasController extends \BaseController {
 
 	public function ModalSalesPayments()
 	{
-
-		if (Session::token() == Input::get('_token'))
+		if (Input::has('_token'))
 		{
 			if($this->check_if_payment_already_exists() == true) 
 				return "Seleccione otro metodo de pago o modifique el que ya existe";
+
+            $vuelto = 0;
+            $monto = str_replace(',', '', Input::get('monto'));
+            $TotalVenta = $this->getTotalVenta();
+	        $resta_abonar = $TotalVenta - $this->getTotalPagado();
+
+            if ($monto > $resta_abonar)
+            {
+            	Input::merge(array('monto' => $resta_abonar));
+            	$vuelto = $monto - $resta_abonar;
+            	$resta_abonar = 0;
+
+            } else {
+            	$resta_abonar = $resta_abonar - $monto;
+            	Input::merge(array('monto' => $monto));
+            }
 
 			$pv = new PagosVenta;
 
@@ -172,7 +187,13 @@ class VentasController extends \BaseController {
 				return $pv->errors();
 			}
 
-			return $this->ViewPayments();
+			$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
+
+			return Response::json(array(
+				'success' => true, 
+				'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto'))->render()
+			));
+
 		}
 
 		PagosVenta::where('venta_id', Input::get('venta_id'))->delete();
@@ -211,10 +232,11 @@ class VentasController extends \BaseController {
 		$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
 		$TotalVenta = $this->getTotalVenta();
         $resta_abonar = $TotalVenta - $this->getTotalPagado();
+        $vuelto = 0;
 
 		return Response::json(array(
 			'success' => true, 
-			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar'))->render()
+			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto'))->render()
 		));
 	}
 
@@ -286,13 +308,11 @@ class VentasController extends \BaseController {
 
 		$venta->update(array('completed' => 0, 'saldo' => 0));
 
-		$venta_id = $venta->id;
-
 		$detalle = $this->getSalesDetail();
 
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('ventas.unfinishedSale', compact('venta', 'venta_id', 'detalle'))->render()
+			'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle'))->render()
         ));
 	}
 
@@ -396,6 +416,21 @@ class VentasController extends \BaseController {
     	}
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+
+	function updateClienteId()
+	{
+		$venta = Venta::find(Input::get('venta_id'));
+		$venta->cliente_id = Input::get('cliente_id');
+		$venta->save();
+
+		if (!$venta)
+			return false;
+
+		return Response::json(array(
+			'success' => true
+        ));
 	}
 
 }

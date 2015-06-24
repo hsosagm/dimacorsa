@@ -1,6 +1,10 @@
 <?php
 
-    /* 
+    /*******************************************************************************/
+        Route::when('*', 'csrf', array('post', 'put', 'delete'));
+    /*
+
+    /*
     funciones para hacer el guardado de logs
     /*******************************************************************************/
 
@@ -66,11 +70,12 @@
         Route::group(array('prefix' => 'cliente'), function()
         {
             Route::get('buscar'                , 'ClienteController@search');
+            Route::get('getInfo'               , 'ClienteController@getInfo');
             Route::post('delete'               , 'ClienteController@delete');
             Route::get('index'                 , 'ClienteController@index');
             Route::get('create'                , 'ClienteController@create');
             Route::post('create'               , 'ClienteController@create');
-            Route::post('edit'                 , 'ClienteController@edit'  );
+            Route::post('edit'                 , 'ClienteController@edit');
             Route::get('info'                  , 'ClienteController@info'  );
             Route::post('contacto_create'      , 'ClienteController@contacto_create');
             Route::post('contacto_delete'      , 'ClienteController@contacto_delete');
@@ -150,6 +155,7 @@
             Route::get('create'                                 , 'VentasController@create' );
             Route::post('create'                                , 'VentasController@create' );
             Route::post('detalle'                               , 'VentasController@detalle');
+            Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
             Route::post('RemoveSale'                            , 'VentasController@RemoveSale');
             Route::post('RemoveSaleItem'                        , 'VentasController@RemoveSaleItem');
             Route::get('ModalSalesPayments'                     , 'VentasController@ModalSalesPayments');
@@ -624,15 +630,21 @@ Route::get('cod', function() {
 
         // return 'paso';
 
-        $movimientos = array(
-            'efectivo' => 36100,
-            'cheque'   => 24000,
-            'tarjeta'  => 4900,
-            'deposito' => 10809
-        );
+        // $movimientos = array(
+        //     'efectivo' => 36100,
+        //     'cheque'   => 24000,
+        //     'tarjeta'  => 4900,
+        //     'deposito' => 10809
+        // );
 
-        return $movimientos;
+        // return $movimientos;
 
+
+            return Response::json(array(
+                'success' => true,
+                'info'    =>  [ 'id' => 2, 'value' => 'Jose' . ' ' . 'Pop' ],
+                // 'form' => View::make('cliente.edit',compact('cliente' , 'contactos'))->render()
+            ));
 });
 
 

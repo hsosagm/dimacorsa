@@ -71,7 +71,7 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
 
                 $('form .form-footer').hide();
 
-                $('#desabilitar_input').attr('disabled', 'disabled'); // ???
+                // $('#desabilitar_input').attr('disabled', 'disabled'); // ???
             }
             else
             {

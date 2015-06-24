@@ -19,10 +19,15 @@ Route::filter('auth', function()
 
 Route::filter('csrf', function()
 {
-	if (Session::token() != Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
+	if (Input::has('_token')) {
+
+		if (Session::token() != Input::get('_token'))
+		{
+			throw new Illuminate\Session\TokenMismatchException;
+		}
+
 	}
+
 });
 
 

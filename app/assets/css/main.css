@@ -134,3 +134,7 @@ div.spinner.flat {
 	text-align: right;
 	padding-right: 10px;
 }
+
+.fa {
+	cursor: pointer;
+}

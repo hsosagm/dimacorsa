@@ -10,7 +10,7 @@ class ClienteValidator extends ValidatorAssistant
         'direccion' =>  'required|min:5|',
         'telefono'  =>  'integer|min:8',
         'nit'       =>  'required|min:3',
-        'email'     =>  'email',
+        'email'     =>  'email|unique:clientes,email, {id}'
     );
 
     protected function before()

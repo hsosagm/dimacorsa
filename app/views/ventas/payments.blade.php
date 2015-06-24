@@ -1,25 +1,49 @@
-{{ Form::open(array('url' => '/user/ventas/ModalSalesPayments', 'data-remote-sales-payment')) }}
+<div id="pagosventa">
     
-    {{ Form::hidden('venta_id', Input::get('venta_id')) }}
+    {{ Form::open(array('url' => '/user/ventas/ModalSalesPayments', 'data-remote-sales-payment')) }}
+        
+        {{ Form::hidden('venta_id', Input::get('venta_id')) }}
 
-    <div class="row" style="margin-left:10px">
-        <div class="col-md-6"><p>Total a cancelar: {{$TotalVenta}}</p></div>
-        <div class="col-md-6"><p>Resta abonar: {{$resta_abonar}}</p></div>
-    </div>
+        <div class="row" style="margin-left:10px">
+            <div class="col-md-6"><p>Total a cancelar: @{{ TotalVenta | currency ' '}}</p></div>
+            <div v-show="!vuelto" class="col-md-6"><p>Resta abonar: @{{ resta_abonar | currency ' '}}</p></div>
+            <div v-show="vuelto" class="col-md-6"><p>Su vuelto es: @{{ vuelto | currency ' ' }}</p></div>
+        </div>
 
-    <div class="row" style="margin-top:10px; margin-left:20px; width:90%">
-        <div class="col-md-2"><p>Monto</p></div> 
-        <div class="col-md-4"><input class="form-control" type="text" name="monto" value="{{$resta_abonar}}"></div>
-        <div class="col-md-2"><p>Metodo</p></div> 
-        <div class="col-md-4">{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}</div>
-    </div>
+        <div class="row" style="margin-top:10px; margin-left:20px; width:90%">
+            <div class="col-md-2"><p>Monto</p></div> 
+            <div class="col-md-4"><input class="form-control numeric" type="text" value="{{ $resta_abonar }}" name="monto"></div>
+            <div class="col-md-2"><p>Metodo</p></div> 
+            <div class="col-md-4">{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}</div>
+        </div>
 
-    <div style="height:150px">
-        @include('ventas.payments_detail')
-    </div>
+        <div style="height:150px">
+            @include('ventas.payments_detail')
+        </div>
 
-    <div class="modal-footer" style="margin-top:20px">
-        <button class="btn theme-button" type="submit">Enviar</button>
-    </div>
+        <div class="modal-footer" style="margin-top:20px">
+            <button class="btn theme-button" type="submit">Enviar</button>
+        </div>
 
-{{Form::close()}}
+    {{Form::close()}}
+
+</div>
+
+
+<script type="text/javascript">
+
+    var pagosventa = new Vue({
+
+        el: '#pagosventa',
+
+        data: {
+            resta_abonar: {{ $resta_abonar }},
+            vuelto: {{ $vuelto }},
+            TotalVenta: {{ $TotalVenta }},
+        }
+});
+
+
+$('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+
+</script>

@@ -173,6 +173,7 @@ module.exports = function(grunt) {
                 './app/assets/js/main.js',
                 './app/assets/js/user.js',
                 './app/assets/js/graph.js',
+                './app/assets/js/v-ventas.js',
                 './app/assets/js/ventas.js',
                 './app/assets/js/compras.js',
                 './app/assets/js/soporte.js',

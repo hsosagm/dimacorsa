@@ -98,3 +98,9 @@ App::singleton('Pusher', function($app) {
 
     return new Pusher( $keys['public'], $keys['secret'], $keys['app_id']);
 });
+
+
+App::error(function(Illuminate\Session\TokenMismatchException $exception, $code)
+{
+	return Response::json('Token invalido !', 403);
+});

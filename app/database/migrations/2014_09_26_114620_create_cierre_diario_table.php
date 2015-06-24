@@ -17,6 +17,10 @@ class CreateCierreDiarioTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
+			$table->decimal('efectivo_esp', 8, 2);
+			$table->decimal('cheque_esp', 8, 2);
+			$table->decimal('tarjeta_esp', 8, 2);
+			$table->decimal('deposito_esp', 8, 2);
 			$table->decimal('efectivo', 8, 2);
 			$table->decimal('cheque', 8, 2);
 			$table->decimal('tarjeta', 8, 2);

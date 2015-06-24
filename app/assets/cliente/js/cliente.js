@@ -1,6 +1,5 @@
 $(function() {
     $(document).on('click', '#clientes_table',              function() { clientes_table();                 });
-    $(document).on('click', '#cliente_edit',                function() { cliente_edit();                   });
     $(document).on('click', '#cliente_create',              function() { cliente_create();                 });
     $(document).on('click', '#cliente_contacto_view_info',  function() { cliente_contacto_view_info(this); });
     $(document).on('click', '#cliente_contacto_view',       function() { cliente_contacto_view(this);      });
@@ -45,28 +44,6 @@ function cliente_contacto_view_info(element)
             }
         });
 }
-
-function cliente_edit() {
-
-    $id = $("input[name='cliente_id']").val();
-    if($id > 0)
-    {
-        $.ajax({
-            type: "POST",
-            url: "user/cliente/edit",
-            data: {id: $id},
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                $('.modal-body').html(data);
-                $('.modal-title').text('Editar cliente');
-                $('.bs-modal').modal('show');
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
-    }
-};
 
 
 function cliente_new(e,element)
@@ -125,7 +102,7 @@ function cliente_update(e,element)
             data: form.serialize(),
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
-                if (data == 'success') 
+                if (data.success == true) 
                 {
                     msg.success('Cliente Actualizado..!', 'Listo!');
                 }
