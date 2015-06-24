@@ -190,7 +190,7 @@ class UserController extends Controller {
 //**********************************************************************************************************************
 //Consultas del Usuario
 //**********************************************************************************************************************
-	public function VentasDelDiaUsuario()
+	public function VentasDelDiaUsuario_dt()
 	{
 		
 		$table = 'ventas';
@@ -199,6 +199,7 @@ class UserController extends Controller {
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"total",
 			"saldo",
 			"completed"
 			);
