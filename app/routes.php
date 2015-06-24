@@ -166,6 +166,7 @@
             Route::get('ImprimirFacturaVenta/{id}'              , 'VentasController@ImprimirFacturaVenta'  );
             Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
             Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
+            Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -280,6 +281,23 @@ Route::group(array('prefix' => 'admin'), function()
         });
 
     });
+    
+    Route::group(array('prefix' => 'descargas'), function()
+    {
+        Route::get('create'                             , 'DescargaController@create' );
+        Route::post('create'                            , 'DescargaController@create' );
+        Route::post('edit'                              , 'DescargaController@edit'   );
+        Route::get('edit'                               , 'DescargaController@edit'   );
+        Route::post('eliminar_detalle'                  , 'DescargaController@eliminar_detalle'   );
+        Route::post('delete'                            , 'DescargaController@delete'   );
+        Route::get('ImprimirDescarga/{id}'              , 'DescargaController@ImprimirDescarga'   );
+        Route::get('ImprimirDescarga/dt/{code}/{id}'    , 'DescargaController@ImprimirDescarga_dt'  );
+        Route::get('OpenTableDownloadsDay'              , 'DescargaController@OpenTableDownloadsDay' );
+        Route::get('DownloadsDay_dt'                    , 'DescargaController@DownloadsDay_dt'  );
+        Route::get('showgDownloadsDetail'               , 'DescargaController@showgDownloadsDetail'  );
+        Route::get('OpenDownload'                       , 'DescargaController@OpenDownload'  );
+
+    });
 
     Route::group(array('prefix' => 'categorias'), function()
     {
@@ -362,11 +380,8 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelMes' );
 Route::get('test', function()
 {   
-    $venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
-    if(count($venta->detalle_venta)>0)
-        return View::make('ventas.ImprimirFactura', compact('venta'));
-    else
-        return 'Ingrese productos ala factura para poder inprimir';
+    $convertir =new Convertidor;
+    return $convertir->ConvertirALetras(1000);
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

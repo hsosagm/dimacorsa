@@ -24,7 +24,7 @@ $(document).ready(function() {
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar"  onclick=""></i> ';
+                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar"  onclick="_delete_dt(this)"></i> ';
                 }
             },
         ],

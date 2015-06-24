@@ -9,7 +9,7 @@ class SoporteController extends BaseController {
 
     public function create()
     {
-        if (Session::token() == Input::get('_token'))
+        if (Input::has('_token'))
         {
             $query = new DetalleSoporte;
 
@@ -59,7 +59,7 @@ class SoporteController extends BaseController {
 
     function SupportDay_dt(){
 
-        $table = 'detalle_soporte';
+        $table = 'soporte';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -72,7 +72,7 @@ class SoporteController extends BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN soporte ON (soporte.id = detalle_soporte.soporte_id) 
+        $Join = "JOIN detalle_soporte ON (soporte.id = detalle_soporte.soporte_id) 
         JOIN users ON (users.id = soporte.user_id)
         JOIN tiendas ON (tiendas.id = soporte.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_soporte.metodo_pago_id)";

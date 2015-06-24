@@ -9,7 +9,7 @@ class IngresoController extends \BaseController {
 
      public function create()
     {
-        if (Session::token() == Input::get('_token'))
+        if (Input::has('_token'))
         {
             $query = new DetalleIngreso;
            
@@ -59,7 +59,7 @@ class IngresoController extends \BaseController {
 
     function IncomeDay_dt(){
 
-        $table = 'detalle_ingresos';
+        $table = 'ingresos';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -71,7 +71,7 @@ class IngresoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
+        $Join = "JOIN detalle_ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
         JOIN users ON (users.id = ingresos.user_id)
         JOIN tiendas ON (tiendas.id = ingresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";

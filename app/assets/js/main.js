@@ -6,6 +6,7 @@ $(function() {
     $(document).on("click", "#_edit", function(){ _edit(this); });
     $(document).on("click", "#_edit_dt", function(){ _edit_dt(this); });
     $(document).on("click", "#_delete", function(){ _delete(this); });
+    $(document).on("click", "#_delete_dt", function(){ _delete_dt(this); });
     $(document).on("click", "#_print",      function(){ _print(this); })
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
@@ -170,6 +171,42 @@ function _delete() {
     $id  = $('.dataTable tbody .row_selected').attr('id');
     $url = $('.dataTable').attr('url') + 'delete';
 
+    $.confirm({
+
+        confirm: function(){
+
+            $.ajax({
+                type: "POST",
+                url: $url,
+                data: { id: $id },
+                contentType: 'application/x-www-form-urlencoded',
+                success: function (data, text) {
+                    if (data == 'success') {
+
+                        msg.success('Dato eliminado', 'Listo!')
+                        oTable.fnDraw();
+                        
+                    } else {
+
+                        msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
+                    }
+                },
+                error: function (request, status, error) {
+
+                    msg.error(request.responseText, 'Error!')
+                }
+            });
+        }
+    });
+
+    $('.modal-title').text( 'Eliminar ' + $('.dataTable').attr('title') );
+};
+
+function _delete_dt(e) {
+
+    $id = $(e).closest('tr').attr('id');    
+    $url = $('.dataTable').attr('url') + 'delete';
+    alert($url);
     $.confirm({
 
         confirm: function(){

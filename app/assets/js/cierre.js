@@ -15,9 +15,8 @@ function CierreDelDia()
 function CierreDelMes()
 {
 	$.get( "admin/cierre/CierreDelMes", function( data ) {
-		$('.modal-body').html(data);
-		$('.modal-title').text('Cierre del Mes');
-		$('.bs-modal').modal('show');
+		generate_dt_local(data);
+		$('.dt-container').show();
 	});
 
 }

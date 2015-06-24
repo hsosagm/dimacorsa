@@ -1,4 +1,4 @@
-<body onblur="javascript:window.close()">
+<body onblur="">
     <div align="center">
         <div style="" id="garantia" height="100%"> 
             <table>
@@ -34,13 +34,14 @@
                         </div>
                     </td>
                 </tr>
+
             </table>
 
 
             <div id="garantia_detalle">
                 <table width="100%" class="table">
                     <tr>
-                        <th width="15%">Cantida</th>
+                        <th width="15%">Cantidad</th>
                         <th width="55%">Descripcion</th>
                         <th width="15%">Precio</th>
                         <th width="15%">Total</th>
@@ -63,11 +64,20 @@
                     </tr>
                     <?php $total = $total +($dt->cantidad * $dt->precio); ?>
                     @endforeach
+
+                    <tfoot height="15">
+                    <tr>
+                        <td style="font-size:12px; " colspan="3">
+                           Total:
+                        </td>
+                        <td style="text-align:right; padding-right:15px"> Q {{f_num::get($total)}}</td>
+                    </tr>
+                </tfoot>
                 </table>
             </div>
 
             <div id="garantia_terminos">
-                <p class="texto_garantia" align="justify" style="font-size:8px">
+                <p class="texto_garantia" align="left" style="font-size:10px">
                     IMPORTANTE:  Click, garantiza este producto en todos sus componentes funcionales  y mano de obra contra cualquier defecto de fabricación a partir de  la fecha de entrega, de acuerdo con las siguientes condiciones.
                     VIGENCIAS:  Computadoras portátiles y de mesa, monitores, ups y respaldos de energía (excluye cargador y batería en portátiles y fuente de poder en desktops): 1 año.    Cargador, batería y fuente de poder 3 meses.   Sistemas de audio, Bocinas, Cámaras Digitales.
                     6 meses.    Accesorios, impresoras, ratones, teclados, audífonos, unidades de almacenamiento internas y externas, unidades ópticas, lectores de medios y cables de todo tipo 3 meses.

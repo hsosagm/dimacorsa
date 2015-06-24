@@ -9,7 +9,7 @@ class AdelantoController extends \BaseController {
 
      public function create()
     {
-        if (Session::token() == Input::get('_token'))
+        if (Input::has('_token'))
         {
             $query = new DetalleAdelanto;
            
@@ -59,7 +59,7 @@ class AdelantoController extends \BaseController {
 
     function AdvancesDay_dt(){
 
-        $table = 'detalle_adelantos';
+        $table = 'adelantos';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -71,7 +71,7 @@ class AdelantoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
+        $Join = "JOIN detalle_adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
         JOIN users ON (users.id = adelantos.user_id)
         JOIN tiendas ON (tiendas.id = adelantos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";

@@ -39,6 +39,17 @@
 
         <li class="submenu">
             <a href="javascript:void(0);">
+                <span class="text">Descargas</span>
+                <span class="arrow"></span>
+            </a>
+            <ul>
+                <li onclick="OpenTableDownloadsDay(this)"><a href="javascript:void(0);">Descargas del Dia</a></li>
+                <li ><a href="javascript:void(0);">Descargas por Fechas</a></li>
+            </ul>
+        </li>
+
+        <li class="submenu">
+            <a href="javascript:void(0);">
                 <span class="text">Soporte</span>
                 <span class="arrow"></span>
             </a>
@@ -139,7 +150,6 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li id="new_producto"><a href="javascript:void(0);">Crear Producto</a></li>
         <li id="new_marca"><a href="javascript:void(0);">Crear Marca</a></li>
         <li id="new_categoria"><a href="javascript:void(0);">Crear Categoria</a></li>
         <li id="new_sub_categoria"><a href="javascript:void(0);">Crear Sub Categoria</a></li>

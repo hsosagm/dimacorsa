@@ -5,7 +5,7 @@ class ProductoController extends Controller {
 
 	public function create()
     {
-    	if (Session::token() == Input::get('_token'))
+    	if (Input::has('_token'))
         {
             $producto = new Producto;
 
@@ -25,7 +25,7 @@ class ProductoController extends Controller {
 
     public function edit()
     {
-    	if (Session::token() == Input::get('_token'))
+    	if (Input::has('_token'))
         {
 	    	$producto = Producto::find(Input::get('id'));
 
@@ -99,6 +99,7 @@ class ProductoController extends Controller {
                 'success'           => true,
                 'descripcion'       => $query->descripcion,
                 'p_costo'           => 'Precio Costo: '.number_format($precio_c,2,'.',','),
+                'p_costo_descarga'  =>  number_format($precio_c,2,'.',','),
                 'p_publico'         => 'Precio Publico: '.$query->p_publico,
                 'existencia_total'  => 'Existencia: '.$query->existencia,
                 'existencia'        => 'Existencia: '.$Existencia,

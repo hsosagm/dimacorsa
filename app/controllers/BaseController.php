@@ -21,7 +21,7 @@ class BaseController extends Controller {
 
 	public function create()
     {
-    	if (Session::token() == Input::get('_token'))
+    	if (Input::has('_token'))
         {
             $model = $this->getModel();
 
@@ -39,7 +39,7 @@ class BaseController extends Controller {
 
     public function edit()
     {
-    	if (Session::token() == Input::get('_token'))
+    	if (Input::has('_token'))
         {
 	    	$model = $this->getModel()->find(Input::get('id'));
 

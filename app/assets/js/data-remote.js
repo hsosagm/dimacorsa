@@ -209,6 +209,7 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
 
                     form.trigger('reset');
                      $('input[name=serials]', form).val('');
+                     $('input[name=producto_id]', form).val('');
 
                 }
                 else

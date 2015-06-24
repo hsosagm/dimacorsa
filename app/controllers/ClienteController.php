@@ -14,7 +14,7 @@ class ClienteController extends \BaseController {
 
      public function create()
     {
-        if (Session::token() == Input::get('_token'))
+        if (Input::has('_token'))
         {
             $cliente = new Cliente;
 
@@ -89,7 +89,7 @@ class ClienteController extends \BaseController {
 
     public function contacto_update()
     {
-        if (Session::token() == Input::get('_token'))
+        if (Input::has('_token'))
         {
             $contacto = ClienteContacto::find(Input::get('id'));
 
@@ -120,7 +120,7 @@ class ClienteController extends \BaseController {
 
     public function edit()
     {
-         if (Session::token() == Input::get('_token'))
+         if (Input::has('_token'))
         {
             $cliente = Cliente::find(Input::get('id'));
 

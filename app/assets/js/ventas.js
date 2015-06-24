@@ -357,6 +357,9 @@ var FacturaWindow;
 function ImprimirFacturaVenta(e,id)
 {
     FacturaWindow = open('user/ventas/ImprimirFacturaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+
+    setTimeout('CerrarVentana(FacturaWindow)',15000);
+
 }
 
 function ImprimirFacturaVenta_dt(e,user)
@@ -365,10 +368,27 @@ function ImprimirFacturaVenta_dt(e,user)
     var md5 = $.md5('encript'+user); 
 
      FacturaWindow = open('user/ventas/ImprimirFacturaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+     setTimeout('CerrarVentana(FacturaWindow)',15000);
 
 }
 
 function ImprimirGarantiaVenta(e,id)
 {
-     FacturaWindow = open('user/ventas/ImprimirGarantiaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=1000');
+     FacturaWindow = open('user/ventas/ImprimirGarantiaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+     setTimeout('CerrarVentana(FacturaWindow)',15000);
+}
+
+function ImprimirGarantiaVenta_dt(e,user)
+{
+    id = $(e).closest('tr').attr('id');
+    var md5 = $.md5('encript'+user); 
+
+     FacturaWindow = open('user/ventas/ImprimirGarantiaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+     setTimeout('CerrarVentana(FacturaWindow)',15000);
+
+}
+
+function CerrarVentana(Windows) 
+{
+    Windows.close();              
 }
