@@ -310,9 +310,11 @@ class VentasController extends \BaseController {
 
 		$detalle = $this->getSalesDetail();
 
+		$venta_id = $venta->id;
+
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle'))->render()
+			'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle', 'venta_id'))->render()
         ));
 	}
 
