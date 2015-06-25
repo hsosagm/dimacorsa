@@ -58,7 +58,7 @@
             Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
 
             //datatables de consultas de los usuarios
-            Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario'           );
+            Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
             Route::get('SoporteDelDiaUsuario_dt'       , 'UserController@SoporteDelDiaUsuario'          );
             Route::get('IngresosDelDiaUsuario_dt'      , 'UserController@IngresosDelDiaUsuario'         );
             Route::get('EgresosDelDiaUsuario_dt'       , 'UserController@EgresosDelDiaUsuario'          );
@@ -654,12 +654,9 @@ Route::get('cod', function() {
 
         // return $movimientos;
 
+    return Cliente::with('tipo_cliente')->find(1);
 
-            return Response::json(array(
-                'success' => true,
-                'info'    =>  [ 'id' => 2, 'value' => 'Jose' . ' ' . 'Pop' ],
-                // 'form' => View::make('cliente.edit',compact('cliente' , 'contactos'))->render()
-            ));
+
 });
 
 

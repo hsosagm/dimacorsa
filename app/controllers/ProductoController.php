@@ -141,7 +141,7 @@ class ProductoController extends Controller {
     {
         $table = 'productos';
 
-        $columns = array("codigo","nombre","descripcion","existencia","p_publico");
+        $columns = array("codigo", "nombre", "descripcion", "p_publico", "existencia");
 
         $Searchable = array("codigo","nombre","descripcion");
         

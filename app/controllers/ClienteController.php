@@ -14,7 +14,7 @@ class ClienteController extends \BaseController {
 
     public function getInfo()
     {
-        return Cliente::find(Input::get('id'));
+        return Cliente::with('tipo_cliente')->find(Input::get('id'));
     }
 
     public function create()

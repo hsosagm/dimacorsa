@@ -310,9 +310,11 @@ class VentasController extends \BaseController {
 
 		$detalle = $this->getSalesDetail();
 
+		$venta_id = $venta->id;
+
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle'))->render()
+			'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle', 'venta_id'))->render()
         ));
 	}
 
@@ -354,6 +356,7 @@ class VentasController extends \BaseController {
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"total",
 			"saldo",
 			"completed"
 			);

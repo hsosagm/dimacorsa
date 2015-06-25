@@ -4,7 +4,7 @@
 		{{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Venta Generada', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}
 		{{ Form::hidden('serials','') }}
-		{{ Form::hidden('venta_id', $venta->id) }}
+		{{ Form::hidden('venta_id', $venta_id) }}
 		{{ Form::hidden('ganancias', 0) }}
 		<table class="master-table">
 			<tr>
@@ -51,12 +51,12 @@
 <div class="form-footer" >
 	<div class="row">
 		<div class="col-md-6">
-			{{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirVentaModal(this,'.$venta->id.');']);}}
+			{{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirVentaModal(this,'.$venta_id.');']);}}
 		</div>
 		<div class="col-md-6" align="right">
 
 		{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'RemoveSale();']);}}
-		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'OpenModalSalesPayments('.$venta->id.');']) }}
+		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'OpenModalSalesPayments('.$venta_id.');']) }}
 		</div>
 	</div>
 </div>
@@ -64,5 +64,5 @@
 
 
 <script>
-	app.venta_id = {{ $venta->id }};
+	app.venta_id = {{ $venta_id }};
 </script>
