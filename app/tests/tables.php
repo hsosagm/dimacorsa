@@ -19,7 +19,7 @@ INSERT INTO `metodo_pago` (`id`, `descripcion`, `created_at`, `updated_at`) VALU
 (4, 'Tarjeta', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (5, 'Deposito', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
-//productos
+//productos 
 
 //ejecutar antes de crear los clientes
 INSERT INTO tipo_cliente(nombre) values('Consumidor Final');
@@ -58,3 +58,8 @@ producto_id = (SELECT id from productos WHERE codigo = detalleventa.codigo) ;
 
 //crear abonos ventas
 //crear detalle abonos ventas
+
+//crear descargas
+//crear detalle descargas
+
+//--1220157.8600
