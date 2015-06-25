@@ -1,31 +1,31 @@
 <body onblur="">
     <div align="center">
         <div style="" id="garantia" height="100%"> 
-            <table>
+            <table width="100%">
                 <tr>
                     <td>
                         <img src="http://hsystemas.com/images/click.jpg" width="127" height="83">
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align="left">
                         <div id="encabezado_factura" style="display:inline-block;">
                             <div style="display:inline-block;">
-                                <label style="margin-right: 100px;">3ra calle 13-71 zona 1, Chiquimula   Telefono: 7942-1383</label>
+                                <label style="">3ra calle 13-71 zona 1, Chiquimula   Telefono: 7942-1383</label>
                             </div>
                             <br/>
                             <div style="display:inline-block;">
-                                <label> {{ @$venta->created_at }} </label>
+                                <label>Fecha: {{ @$venta->created_at }} </label>
                             </div>
                             <div style="display:inline-block;">
-                                <label style="margin-left:12px;"> {{ @$venta->id }} </label>
+                                <label style="margin-left:12px;"> Garantia No. :{{ @$venta->id }} </label>
                             </div>
                             <br/>
                             <div style="display:inline-block;">
                                 <label> {{ @$venta->cliente->nombre.' '.@$venta->cliente->apellido }} </label>
                             </div>
                             <div style="display:inline-block;">
-                                <label style="margin-left:12px;" id="garantia_direccion"> {{ @$venta->cliente->direccion }} </label>
+                                <label style="margin-left:12px;" id="garantia_direccion">{{ @$venta->cliente->direccion }} </label>
                             </div>
                             <div style="display:inline-block;">
                                 <label style="margin-left:12px;" id="garantia_nit"> {{ @$venta->cliente->nit }} </label>
@@ -77,7 +77,7 @@
             </div>
 
             <div id="garantia_terminos">
-                <p class="texto_garantia" align="left" style="font-size:10px">
+                <p class="texto_garantia" align="justify" style="font-size:10px">
                     IMPORTANTE:  Click, garantiza este producto en todos sus componentes funcionales  y mano de obra contra cualquier defecto de fabricación a partir de  la fecha de entrega, de acuerdo con las siguientes condiciones.
                     VIGENCIAS:  Computadoras portátiles y de mesa, monitores, ups y respaldos de energía (excluye cargador y batería en portátiles y fuente de poder en desktops): 1 año.    Cargador, batería y fuente de poder 3 meses.   Sistemas de audio, Bocinas, Cámaras Digitales.
                     6 meses.    Accesorios, impresoras, ratones, teclados, audífonos, unidades de almacenamiento internas y externas, unidades ópticas, lectores de medios y cables de todo tipo 3 meses.

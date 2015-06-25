@@ -1,7 +1,7 @@
 <div class="row">
 
 	<div class="col-md-6">
-		Correlarivo: {{ $id }} 
+		CORRELATIVO: {{ $id }} 
 		
 		{{ Form::open(array('url' => '/admin/descargas/create', 'data-remote-md-d', 'data-success' => 'Descarga Generada', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}

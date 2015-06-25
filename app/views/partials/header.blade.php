@@ -6,10 +6,10 @@
             <i class="fa fa-bars"></i>
         </div>
         
-        <div class="navbar-header">
+        <div class="navbar-header" style="text-align:left !important">
 
             <a class="navbar-brand" href="javascript:void(0)">
-                <img class="logo" src="img/logo/logo-white.png" alt="brand logo"/>
+                <img class="logo" src="img/logo/logo_empresa.png" alt="brand logo"/>
             </a>
 
         </div>

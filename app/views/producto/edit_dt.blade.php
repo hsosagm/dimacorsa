@@ -72,7 +72,9 @@
 		<div class="col-md-1"></div>
 	</div>
 </div>
-{{ Form::_submit('Enviar') }}
+<div class="modal-footer">
+	<input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
+</div>
 
 {{ Form::close() }}
 

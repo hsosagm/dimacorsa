@@ -59,7 +59,8 @@ class CierreController extends \BaseController {
 
     function CierreDelMes()
     {
-        $ventas = Venta::whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
+        $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
         ->first(array(DB::raw('sum(total) as total')));
 
         $ganancias  = DetalleVenta::whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")->first(array(DB::raw(' sum(cantidad * ganancias) as total')));
@@ -92,7 +93,9 @@ class CierreController extends \BaseController {
         ->where('users.tienda_id','=',Auth::user()->tienda_id)
         ->where('users.status','=',1)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
-        ->groupBy('users.id','users.nombre','users.apellido')->get();
+        ->orderBy('total', 'DESC')
+        ->groupBy('users.id','users.nombre','users.apellido')
+        ->get();
 
         $total_ventas     = f_num::get($ventas->total   );
         $total_ganancias  = f_num::get($ganancias->total);

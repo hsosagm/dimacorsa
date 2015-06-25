@@ -389,8 +389,8 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelMes' );
 Route::get('test', function()
 {   
-    $convertir =new Convertidor;
-    return $convertir->ConvertirALetras(1000);
+
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

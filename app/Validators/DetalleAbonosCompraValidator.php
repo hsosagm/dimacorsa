@@ -8,6 +8,5 @@ class DetalleAbonosCompraValidator extends ValidatorAssistant
         'abonos_compra_id'  =>  'required|min:1',
         'compra_id'         =>  'required|min:1',
         'monto'  		    =>  'required|min:1',
-        'metodo_pago_id'    =>  'required|min:1',
     );
 }
