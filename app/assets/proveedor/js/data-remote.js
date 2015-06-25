@@ -41,7 +41,7 @@ function FullBalancePay(e , element)
 {
 	form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
-
+    
     $.ajax({
             type: "POST",
             url:  "admin/compras/payments/FullBalancePay",

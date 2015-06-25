@@ -93,7 +93,7 @@ class CierreController extends \BaseController {
         ->where('users.tienda_id','=',Auth::user()->tienda_id)
         ->where('users.status','=',1)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
-        ->orderBy('total', 'ASC')
+        ->orderBy('total', 'DESC')
         ->groupBy('users.id','users.nombre','users.apellido')
         ->get();
 

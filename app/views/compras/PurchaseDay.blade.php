@@ -16,12 +16,13 @@ $(document).ready(function() {
         
         "aoColumnDefs": [
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha",       "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [2]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [3]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [4]},
-            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [5]},
-            {"sClass": "widthS",          "sTitle": "Completed", "bVisible": false,     "aTargets": [6]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha Doc.",  "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [2]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [3]},
+            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Factura",     "aTargets": [4]},
+            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Total",       "aTargets": [5]},
+            {"sClass": "mod_codigo hover align_right widthS",  "sTitle": "Saldo",       "aTargets": [6]},
+            {"sClass": "widthS",          "sTitle": "Completed", "bVisible": false,     "aTargets": [7]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {

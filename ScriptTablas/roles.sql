@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 
 INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Owner', '2015-02-16 17:25:17', '2015-02-16 17:25:17'),
-(2, 'admin', '2015-02-16 17:25:17', '2015-02-16 17:25:17'),
+(2, 'Admin', '2015-02-16 17:25:17', '2015-02-16 17:25:17'),
 (3, 'User', '2015-02-16 17:25:17', '2015-02-16 17:25:17');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

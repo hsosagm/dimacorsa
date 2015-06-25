@@ -170,7 +170,7 @@ class CompraController extends \BaseController {
 			if ($this->SeachPaymentMethod() != null ) 
 				return 'no puede ingresar dos pagos con el mismo metodo..!';
 
-			if(($this->TotalPurchase() - $this->TotalPurchasePayment()) < Input::get("monto"))
+			if((($this->TotalPurchase() - $this->TotalPurchasePayment())*100) < (Input::get("monto")*100))
 				return 'El moto ingresado no puede ser mayor al monto Restante..!';
 
 			$pagos = new PagosCompra;
@@ -364,6 +364,7 @@ class CompraController extends \BaseController {
 		$table = 'compras';
 
 		$columns = array(
+			"compras.created_at as fecha",
 			"fecha_documento",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			'proveedores.nombre as proveedor_nombre',
@@ -392,6 +393,7 @@ class CompraController extends \BaseController {
 
 		$columns = array(
 			"compras.created_at as fecha",
+			"fecha_documento",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"proveedores.nombre as proveedor_nombre",
 			"numero_documento",
@@ -412,11 +414,12 @@ class CompraController extends \BaseController {
 	{
 			$compras = DB::table('compras')
         	->select(DB::raw("compras.fecha_documento as fecha, 
-            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            proveedores.nombre as proveedor,
-            numero_documento,
-            compras.id as id ,
-            saldo"))
+        		compras.created_at as  fecha_ingreso,
+            	CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+            	proveedores.nombre as proveedor,
+            	numero_documento,
+            	compras.id as id ,
+            	saldo,compras.total as total"))
         ->join('users', 'compras.user_id', '=', 'users.id')
         ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
         ->where('saldo', '>', 0)
@@ -438,6 +441,7 @@ class CompraController extends \BaseController {
 		$columns = array(
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			'proveedores.nombre as proveedor_nombre',
+			'compras.created_at',
 			"fecha_documento",
 			"numero_documento",
 			"completed",

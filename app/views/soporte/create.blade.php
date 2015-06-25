@@ -31,8 +31,7 @@
         </div>
         <div class="col-lg-3">                               
         
-         {{Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id'),'', array('class'=>'form-control'));}}
-
+         {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
         </div>
         <div class="col-lg-1">
             <input autocomplete="off" class="btn theme-button" value="Guardar!" type="submit">
