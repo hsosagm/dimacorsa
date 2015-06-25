@@ -46,7 +46,7 @@ var vm = new Vue({
 	                    vm.infoCliente   = data.info;
 	                    vm.saldo_total   = data.saldo_total;
 	                    vm.saldo_vencido = data.saldo_vencido;
-	                    GetSalesForPaymentsBySelection();
+	                    GetSalesForPaymentsBySelection(1, null);
 	                    vm.updateMonto();
 	                    return;
 	                }

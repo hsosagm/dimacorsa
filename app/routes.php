@@ -69,7 +69,7 @@
 
         Route::group(array('prefix' => 'cliente'), function()
         {
-            Route::get('buscar'                , 'ClienteController@search');
+            Route::get('search'                , 'ClienteController@search');
             Route::get('getInfo'               , 'ClienteController@getInfo');
             Route::post('delete'               , 'ClienteController@delete');
             Route::get('index'                 , 'ClienteController@index');
@@ -654,8 +654,38 @@ Route::get('cod', function() {
 
         // return $movimientos;
 
-    return Cliente::with('tipo_cliente')->find(1);
+    $cliente = Cliente::with('tipo_cliente')->find(3);
 
+    $query = Venta::where('cliente_id','=', 3)
+    ->where('saldo', '>', 0)
+    ->get();
+
+    if (!count($query) ) 
+    {
+        $cliente['saldo_total']   = 0;
+        $cliente['saldo_vencido'] = 0;
+    }
+
+    $saldo_total = 0;
+    $saldo_vencido = 0;
+
+    foreach ($query as  $q)
+    {
+        $fecha_entrada = $q->created_at;
+        $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+        $fecha_vencida = date('Ymd',strtotime("-30 days"));
+
+        if ($fecha_entrada < $fecha_vencida)
+        {
+            $saldo_vencido = $saldo_vencido + $q->saldo;
+        }
+        $saldo_total = $saldo_total + $q->saldo;
+    }
+
+    $cliente['saldo_total']   = $saldo_total;
+    $cliente['saldo_vencido'] = $saldo_vencido;
+
+    return $cliente;
 
 });
 

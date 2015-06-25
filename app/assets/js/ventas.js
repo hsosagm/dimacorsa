@@ -264,7 +264,7 @@ function openSale(e)
             }
             else
             {
-                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+                msg.warning(data, 'Advertencia!');
             }
         }
     });

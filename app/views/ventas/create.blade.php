@@ -24,7 +24,15 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-6"><label v-show="cliente.id">@{{fullName}}</label></div>
+        <div class="col-md-6" style="font-size:11px">
+            <label class="col-md-3 btn-success" v-show="cliente.id">Saldo total:</label>
+            <label class="col-md-3 btn-success" v-show="cliente.id">@{{ cliente.saldo_total | currency ' '}}</label>
+            <label class="col-md-3 btn-danger" v-show="cliente.id">Saldo Vencido:</label>
+            <label class="col-md-3 btn-danger" v-show="cliente.id">@{{ cliente.saldo_vencido | currency ' '}}</label>
+            <label class="col-md-12" v-show="cliente.id">@{{ FullName }}</label>
+            <label class="col-md-1" v-show="cliente.id">NIt:</label>
+            <label class="col-md-3" v-show="cliente.id">@{{ cliente.nit }}</label>
+        </div>
     </div>
 
     <div v-show="!venta_id" class="form-footer footer" align="right">
@@ -66,7 +74,7 @@
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="email" class="input sm_input" placeholder="Email">
+                <input type="text" name="email" class="sm_input" placeholder="Email">
             </div>
         </div>
 
@@ -141,7 +149,7 @@
 <script type="text/javascript">
 
     $('#cliente').autocomplete({
-        serviceUrl: '/user/cliente/buscar',
+        serviceUrl: '/user/cliente/search',
         onSelect: function (data) {
             app.getInfoCliente(data.id);
             $('#cliente').val("");

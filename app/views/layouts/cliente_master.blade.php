@@ -57,7 +57,7 @@
         <script>
 
             $('#customer_search').autocomplete({
-                serviceUrl: '/user/cliente/buscar',
+                serviceUrl: '/user/cliente/search',
                 onSelect: function (q) {
                     vm.cliente_id = q.id;
                     vm.infoCliente = q.value;

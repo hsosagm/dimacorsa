@@ -7,7 +7,7 @@
         <div class="row" style="margin-left:10px">
             <div class="col-md-6"><p>Total a cancelar: @{{ TotalVenta | currency ' '}}</p></div>
             <div v-show="!vuelto" class="col-md-6"><p>Resta abonar: @{{ resta_abonar | currency ' '}}</p></div>
-            <div v-show="vuelto" class="col-md-6"><p>Su vuelto es: @{{ vuelto | currency ' ' }}</p></div>
+            <div v-show="vuelto" class="col-md-4"><p class="btn-success" style="padding-left:10px">Su vuelto es: @{{ vuelto | currency ' ' }}</p></div>
         </div>
 
         <div class="row" style="margin-top:10px; margin-left:20px; width:90%">

@@ -12,9 +12,44 @@ class ClienteController extends \BaseController {
         return Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
     }
 
-    public function getInfo()
+    public function getInfo($id = null)
     {
-        return Cliente::with('tipo_cliente')->find(Input::get('id'));
+        if(!$id) {
+            $id = Input::get('id');
+        }
+        
+        $cliente = Cliente::with('tipo_cliente')->find($id);
+
+        $query = Venta::where('cliente_id','=', $id)
+        ->where('saldo', '>', 0)
+        ->get();
+
+        if (!count($query) ) 
+        {
+            $cliente['saldo_total']   = 0;
+            $cliente['saldo_vencido'] = 0;
+        }
+
+        $saldo_total = 0;
+        $saldo_vencido = 0;
+
+        foreach ($query as  $q)
+        {
+            $fecha_entrada = $q->created_at;
+            $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+            $fecha_vencida = date('Ymd',strtotime("-30 days"));
+
+            if ($fecha_entrada < $fecha_vencida)
+            {
+                $saldo_vencido = $saldo_vencido + $q->saldo;
+            }
+            $saldo_total = $saldo_total + $q->saldo;
+        }
+
+        $cliente['saldo_total']   = $saldo_total;
+        $cliente['saldo_vencido'] = $saldo_vencido;
+
+        return $cliente;
     }
 
     public function create()
@@ -30,7 +65,7 @@ class ClienteController extends \BaseController {
 
             return Response::json(array(
                 'success' => true,
-                'info'    =>  Cliente::find( $cliente->get_id() ),
+                'info'    =>  $this->getInfo( $cliente->get_id() ),
             ));
         }
 
@@ -130,7 +165,7 @@ class ClienteController extends \BaseController {
 
             return Response::json(array(
                 'success' => true,
-                'info'    => Cliente::find( Input::get('id') ),
+                'info'    => $this->getInfo(),
             ));
         }
 

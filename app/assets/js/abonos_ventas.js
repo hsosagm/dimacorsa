@@ -1,4 +1,4 @@
-function GetSalesForPaymentsBySelection(page = 1, sSearch = "")
+function GetSalesForPaymentsBySelection(page, sSearch)
 {
     $cliente_id = vm.cliente_id;
 
@@ -18,7 +18,7 @@ function GetSalesForPaymentsBySelection(page = 1, sSearch = "")
             }
         }
     });
-}
+};
 
 $(document).on('click', '.pagination a', function (e) {
 
@@ -26,7 +26,7 @@ $(document).on('click', '.pagination a', function (e) {
 
     var page = $(this).attr('href').split('page=')[1];
 
-    GetSalesForPaymentsBySelection(page);
+    GetSalesForPaymentsBySelection(page, null);
 
 });
 
@@ -39,7 +39,7 @@ function SST_search() {
     $('#iSearch').keyup(function() {
         GetSalesForPaymentsBySelection( 1, $(this).val() );
     });
-}
+};
 
 
 $(document).on("click", ".SST .select", function() {
@@ -71,7 +71,7 @@ function GetSalessSelected()
     });
 
     return checkboxValues;
-}
+};
 
 function SelectedPaySales(element)
 {
@@ -106,4 +106,4 @@ function SelectedPaySales(element)
 
             }
         });
-}
+};

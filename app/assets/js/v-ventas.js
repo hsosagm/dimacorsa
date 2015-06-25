@@ -13,9 +13,9 @@ var app = new Vue({
 
     computed: {
 
-        fullName: function () {
+        FullName: function () {
             return this.cliente.nombre + ' ' + this.cliente.apellido
-        }   
+        }
     },
 
     methods: {
@@ -158,10 +158,6 @@ var app = new Vue({
                     }
                 });
             };
-        },
-
-        openFormSale: function() {
-            alert(2);
         }
    }
 
