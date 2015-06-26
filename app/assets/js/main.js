@@ -8,7 +8,12 @@ $(function() {
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
 
+$('.btnremove').on('click', function() {
+    $('#home').empty();
+});
+    
 $( document ).ajaxSend(function() {
+    $('#home').empty();
     $('#loader').show();
 });
 
@@ -281,7 +286,6 @@ function makeTable($data, $url, $title) {
 
 
 function clean_panel() {
-    $('#home').empty();
     $('.table').html("");
     $("#table_length").html("");
     $( ".DTTT" ).html("");
@@ -293,7 +297,6 @@ function clean_panel() {
 function generate_dt_local(data) {
     $("#iSearch").val("");
     $("#iSearch").unbind();
-    $('#home').empty();
     $('.table').html("");
     $("#table_length").html("");
     $( ".DTTT" ).html("");

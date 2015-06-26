@@ -334,6 +334,7 @@ class VentasController extends \BaseController {
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
         ->where('saldo', '>', 0)
         ->orderBy('fecha', 'ASC')
         ->get();

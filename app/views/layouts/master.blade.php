@@ -48,10 +48,9 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 
         <!-- Start page header -->
 
-        <span id="home"></span>
-
         <div class="header-content">
-            <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span>  <span id="home"></span></h2>
+            <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span>  
+            <span id="home"></span></h2>
         </div>
 
        @include('partials.body-content')
