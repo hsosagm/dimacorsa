@@ -9,7 +9,7 @@ class ClienteController extends \BaseController {
 
     public function search()
     {
-        return Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
+        return Autocomplete::get('clientes', array('id', 'nombre', 'apellido', 'nit'));
     }
 
     public function getInfo($id = null)

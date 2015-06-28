@@ -200,9 +200,7 @@
             Submit: function(e) {
 
                 e.preventDefault();
-
                 var form = $(e.target).closest("form");
-
                 $('input[type=submit]', form).prop('disabled', true);
 
                 $.ajax({
@@ -210,19 +208,18 @@
                     url: form.attr('action'),
                     data: form.serialize(),
                     success: function (data) {
-
                         if (data.success == true)
-                            return msg.success('Cierre realizado correctamente', 'Listo!');
-
+                            msg.success('Cierre realizado correctamente', 'Listo!');
+                            return $('.bs-modal').modal('hide');
+                            
                         msg.warning(data, 'Advertencia!');
                         $('input[type=submit]', form).prop('disabled', false);
                     }
                 });
             }
         }
-});
+    });
 
-
-$('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+    $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
 
 </script>

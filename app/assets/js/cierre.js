@@ -31,11 +31,13 @@ function imprimir_cierre()
 	});
 }
 
-
 function cierre() {
 	$.get( "admin/cierre/cierre", function( data ) {
-		$('.modal-body').html(data);
-		$('.modal-title').text('Cierre del Dia');
-		$('.bs-modal').modal('show');
+    	if ( data.success == true ) {
+			$('.modal-body').html(data.form);
+			$('.modal-title').text('Cierre del Dia');
+			return $('.bs-modal').modal('show');
+    	};
+    	return msg.error('El cierre ya ha sido realizado por' + " " + data.user, 'Error!');
 	});	
 }

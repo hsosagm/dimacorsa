@@ -10,7 +10,7 @@
                 <tr>
                     <td>Cliente:</td>
                     <td>
-                        <input type="text" id="cliente" class="input">
+                        <input type="text" id="cliente" class="input" style="width:260px">
                         <i v-if="cliente.id" class="fa fa-question-circle btn-link theme-c" id="cliente_help"></i>
                         <i v-if="cliente.id" class="fa fa-pencil btn-link theme-c" v-on="click: showEditCustomer"></i>
                         <i class="fa fa-plus-square btn-link theme-c" v-on="click: showNewCustomer"></i>
@@ -19,7 +19,7 @@
                 <tr>
                     <td>Tipo Cliente:</td>
                     <td>
-                        <input type="text" v-model="cliente.tipo_cliente.nombre" style="margin-top:6px; background: #EEF8F1;" disabled>
+                        <input type="text" v-model="cliente.tipo_cliente.nombre" style="margin-top:6px; background: #EEF8F1; width:260px" disabled>
                     </td>
                 </tr>
             </table>
