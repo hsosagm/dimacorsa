@@ -67,6 +67,8 @@ class VentasController extends \BaseController {
 	{
 		$detalle = DB::table('detalle_ventas')
         ->select(array(
+        	'detalle_ventas.id',
+        	'venta_id', 'producto_id',
         	'cantidad', 
         	'precio', 
         	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
