@@ -62,4 +62,5 @@ producto_id = (SELECT id from productos WHERE codigo = detalleventa.codigo) ;
 //crear descargas
 //crear detalle descargas
 
-//--1220157.8600
+//pasar los precios costo a base de 100
+//colocarle el metodo de pagos a todos 

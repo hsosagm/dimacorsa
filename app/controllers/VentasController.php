@@ -465,7 +465,6 @@ class VentasController extends \BaseController {
         ));
 	}
 
-<<<<<<< HEAD
 	public function OpenTableSalesForDate()
 	{
 		return View::make('ventas.SalesForDate')->render();
@@ -507,8 +506,8 @@ class VentasController extends \BaseController {
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
-=======
-
+	}
+	
 	public function UpdateDetalle()
 	{
 		if ( Input::get('values.cantidad') < 1 )
@@ -534,7 +533,6 @@ class VentasController extends \BaseController {
 			'success' => true,
 			'nuevaExistencia' => $nueva_existencia
         ));
->>>>>>> 239a71773019f220c59b744100d5a9475b2511fd
 	}
 
 }

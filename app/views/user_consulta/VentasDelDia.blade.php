@@ -23,7 +23,7 @@ $(document).ready(function() {
             {"bVisible": false,                                                  "aTargets": [5]},
             {"sClass": "widthS icons", "sTitle": "Acciones", "orderable": false, "aTargets": [6],
                 "mRender": function() {
-                    return '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14"><a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px"><a href="javascript:void(0);" title="Imprimir Factura" onclick="ImprimirFacturaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px"><a href="javascript:void(0);" title="Imprimir Garantia" onclick="ImprimirGarantiaVenta(this,{{Auth::user()->id}})" class="fa fa-file-o font14" style="padding-left:10px">';
+                    return '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14"><a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px"><a href="javascript:void(0);" title="Imprimir Factura" onclick="ImprimirFacturaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px"><a href="javascript:void(0);" title="Imprimir Garantia" onclick="ImprimirGarantiaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-file-o font14" style="padding-left:10px">';
                 }
             }
         ],
