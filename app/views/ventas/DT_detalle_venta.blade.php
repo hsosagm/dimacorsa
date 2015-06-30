@@ -14,13 +14,13 @@
 		@foreach($detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
-		        $precio = number_format($q->precio,2,'.',',');
-		        $total = number_format($q->total,2,'.',',');
+		        $precio = f_num::get($q->precio);
+		        $total = f_num::get($q->total);
 	        ?>
 	        <tr>
-	            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          
+	            <td width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
-	            <td field="precio" cod="{{ $q->id }}" class="edit right" width="10%"> {{ $precio }} </td>
+	            <td class="right" width="10%"> {{ $precio }} </td>
 	            <td width="10%" class="right"> {{ $total }} </td>
 	        </tr>
 		@endforeach
@@ -29,7 +29,7 @@
 
 	<tfoot width="100%">
 		<?php
-		    $deuda = number_format($deuda,2,'.',',');
+		    $deuda = f_num::get($deuda);
         ?>
 		<tr>
 		    <td></td>
