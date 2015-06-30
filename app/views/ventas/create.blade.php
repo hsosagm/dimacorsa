@@ -16,10 +16,10 @@
                         <i class="fa fa-plus-square btn-link theme-c" v-on="click: showNewCustomer"></i>
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="cliente.tipocliente">
                     <td>Tipo Cliente:</td>
                     <td>
-                        <input type="text" v-model="cliente.tipo_cliente.nombre" style="margin-top:6px; background: #EEF8F1; width:260px" disabled>
+                        <input type="text" v-model="cliente.tipocliente.nombre" style="margin-top:6px; background: #EEF8F1; width:260px" disabled>
                     </td>
                 </tr>
             </table>
@@ -136,9 +136,7 @@
         </div>
     </div>
     {{ Form::close() }}
-
 </div>
-
 
 <div class="master-detail">
     <div class="master-detail-body"></div>
@@ -155,7 +153,6 @@
             $('#cliente').val("");
         }
     });
-
 
     app.$nextTick(function() {
         app.$compile(app.$el);

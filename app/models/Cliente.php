@@ -17,7 +17,7 @@ class Cliente extends \BaseModel implements Logable{
         return $this->hasMany('Venta');
     }
 
-    public function tipo_cliente()
+    public function tipocliente()
     {
         return $this->belongsTo('TipoCliente', 'tipo_cliente_id');    
     }

@@ -155,6 +155,7 @@
             Route::get('create'                                 , 'VentasController@create' );
             Route::post('create'                                , 'VentasController@create' );
             Route::post('detalle'                               , 'VentasController@detalle');
+            Route::post('UpdateDetalle'                         , 'VentasController@UpdateDetalle' );
             Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
             Route::post('RemoveSale'                            , 'VentasController@RemoveSale');
             Route::post('RemoveSaleItem'                        , 'VentasController@RemoveSaleItem');
@@ -687,11 +688,24 @@ Route::get('cod', function() {
 
     // return $cliente;
 
-    $query = Cierre::where(DB::raw('DATE(created_at)'), '=', DATE('Y-m-d'))
-        ->where('tienda_id', Auth::user()->tienda_id)
-        ->first();
+    // $query = Cierre::where(DB::raw('DATE(created_at)'), '=', DATE('Y-m-d'))
+    //     ->where('tienda_id', Auth::user()->tienda_id)
+    //     ->first();
 
-    return $query->user->nombre;
+    // return $query->user->nombre;
+
+        $detalle = DetalleVenta::where('venta_id', 27001)
+        ->select(array(
+            'detalle_ventas.id',
+            'venta_id', 'producto_id',
+            'cantidad', 
+            'precio', 
+            DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get()->toArray();
+
+        return $detalle;
 
 });
 

@@ -138,3 +138,20 @@ div.spinner.flat {
 .fa {
 	cursor: pointer;
 }
+
+.editing  .view {
+	display: none;
+}
+
+.editing .edit {
+	display: block;
+}
+
+.edit {
+	display: none;
+}
+
+.edit input {
+	width: 90px !important;
+	line-height: 1.4em;
+}

@@ -18,7 +18,7 @@ class ClienteController extends \BaseController {
             $id = Input::get('id');
         }
         
-        $cliente = Cliente::with('tipo_cliente')->find($id);
+        $cliente = Cliente::with('tipocliente')->find($id);
 
         $query = Venta::where('cliente_id','=', $id)
         ->where('saldo', '>', 0)
