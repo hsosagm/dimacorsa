@@ -43,7 +43,8 @@
         <td class="right"> {{ $q->saldo }} </td>
         <td class="widthS center tbutton"  width="10%"> 
             <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> </a>
-            <input type="checkbox" name="selectedSales[]" title="Seleccionar" total="{{ $q->saldo }}" class="checkbox select fa fa-check-square-o" value="{{ $q->id }}"> 
+            <input type="checkbox" name="selectedSales[]" title="Seleccionar" total="{{ $q->saldo }}" value="{{ $q->id }}" class="select"> 
+
         </td>
     </tr>
     @endforeach

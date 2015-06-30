@@ -66,8 +66,9 @@ class EgresoController extends \BaseController {
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "egresos.created_at as fecha",
             "detalle_egresos.descripcion as detalle_descripcion",
-            "metodo_pago.descripcion as metodo_descripcion",
-            'monto');
+            'monto',
+            "metodo_pago.descripcion as metodo_descripcion"
+            );
 
         $Searchable = array("users.nombre","users.apellido");
 

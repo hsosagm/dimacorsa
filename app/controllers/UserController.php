@@ -250,8 +250,9 @@ class UserController extends Controller {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"ingresos.created_at as fecha",
 			"detalle_ingresos.descripcion as detalle_descripcion",
-			"metodo_pago.descripcion as metodo_descripcion",
-			'monto');
+			'monto',
+			"metodo_pago.descripcion as metodo_descripcion"
+			);
 
 		$Searchable = array("users.nombre","users.apellido");
 
@@ -277,8 +278,9 @@ class UserController extends Controller {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"egresos.created_at as fecha",
 			"detalle_egresos.descripcion as detalle_descripcion",
-			"metodo_pago.descripcion as metodo_descripcion",
-			'monto');
+			'monto',
+			"metodo_pago.descripcion as metodo_descripcion"
+			);
 
 		$Searchable = array("users.nombre","users.apellido");
 
@@ -303,8 +305,9 @@ class UserController extends Controller {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"gastos.created_at as fecha",
 			"detalle_gastos.descripcion as detalle_descripcion",
-			"metodo_pago.descripcion as metodo_descripcion",
-			'monto');
+			'monto',
+			"metodo_pago.descripcion as metodo_descripcion"
+			);
 
 		$Searchable = array("users.nombre","users.apellido");
 
@@ -329,8 +332,9 @@ class UserController extends Controller {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"adelantos.created_at as fecha",
 			"detalle_adelantos.descripcion as detalle_descripcion",
-			"metodo_pago.descripcion as metodo_descripcion",
-			'monto');
+			'monto',
+			"metodo_pago.descripcion as metodo_descripcion"
+			);
 
 		$Searchable = array("users.nombre","users.apellido");
 

@@ -14,7 +14,7 @@
         {{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
     </div>
     <div class="col-md-2">
-        <button class="form-control">nota</button>
+        <button class="form-control" disabled>nota</button>
     </div>
 </div><br>
 <div class="pagos-detalle">

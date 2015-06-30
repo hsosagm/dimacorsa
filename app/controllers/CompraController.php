@@ -412,14 +412,15 @@ class CompraController extends \BaseController {
 
 	public function ShowTableUnpaidShopping()
 	{
-			$compras = DB::table('compras')
+		$compras = DB::table('compras')
         	->select(DB::raw("compras.fecha_documento as fecha, 
         		compras.created_at as  fecha_ingreso,
             	CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             	proveedores.nombre as proveedor,
             	numero_documento,
             	compras.id as id ,
-            	saldo,compras.total as total"))
+            	saldo,
+                total"))
         ->join('users', 'compras.user_id', '=', 'users.id')
         ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
         ->where('saldo', '>', 0)
@@ -445,7 +446,8 @@ class CompraController extends \BaseController {
 			"fecha_documento",
 			"numero_documento",
 			"completed",
-			"saldo");
+			"saldo",
+			"compras.total as total");
 
 		$Search_columns = array("users.nombre","users.apellido","fecha_documento","numero_documento");
 
@@ -460,15 +462,19 @@ class CompraController extends \BaseController {
 	public function getCreditPurchase()
 	{
 		$compras = DB::table('compras')
-        	->select(DB::raw("compras.fecha_documento as fecha, 
+        	->select(DB::raw("
+        	compras.created_at as fecha_ingreso,
+        	compras.fecha_documento as fecha, 
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             proveedores.nombre as proveedor,
             numero_documento,
             compras.id as id ,
-            saldo"))
+            saldo,
+            total"))
         ->join('users', 'compras.user_id', '=', 'users.id')
         ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
         ->where('saldo', '>', 0)
+        ->where('completed', '=', 1)
         ->orderBy('fecha', 'ASC')
         ->get();
 
@@ -498,7 +504,7 @@ class CompraController extends \BaseController {
 			'monto');
 
 
-		$Searchable = array("users.nombre","users.apellido");
+		$Searchable = array("users.nombre","users.apellido","compras.numero_documento");
 
 		$Join = "
 		JOIN compras ON (compras.id = pagos_compras.compra_id) 
@@ -524,11 +530,11 @@ class CompraController extends \BaseController {
 		$columns = array(
 			"CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-			"abonos_compras.created_at as fecha",
+			"DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
 			"metodo_pago.descripcion as metodo_descripcion",
 			'total','observaciones');
 
-		$Searchable = array("users.nombre","users.apellido");
+		$Searchable = array("users.nombre","users.apellido",);
 
 		$Join = "
 		JOIN users ON (users.id = abonos_compras.user_id)
@@ -540,4 +546,46 @@ class CompraController extends \BaseController {
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
 
+	public function OpenTablePurchaseForDate()
+	{
+		return View::make('compras.PurchaseForDate');
+	}
+
+	public function PurchaseForDate()
+	{	
+		$fecha    = Input::get('fecha');
+		$consulta = Input::get('consulta');
+
+		$where = null;
+
+		if ($consulta == 'dia') 
+			$where = "DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
+
+		if ($consulta == 'semana') 
+			$where = " YEARWEEK(DATE_FORMAT(compras.created_at, '%Y-%m-%d')) = YEARWEEK(DATE_FORMAT('{$fecha}', '%Y-%m-%d')) ";
+
+		if ($consulta == 'mes') 
+			$where = "DATE_FORMAT(compras.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
+
+		if ($where == null)
+			$where = "DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
+		
+		$table = 'compras';
+
+		$columns = array(
+			"compras.created_at as fecha",
+			"fecha_documento",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+			"proveedores.nombre as proveedor_nombre",
+			"numero_documento",
+			"total",
+			"saldo",
+			"completed");
+
+		$Search_columns = array("users.nombre","users.apellido","numero_documento","proveedores.nombre");
+
+		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
+
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+	}
 }	

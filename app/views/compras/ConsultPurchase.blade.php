@@ -22,7 +22,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Factura",     "aTargets": [4]},
             {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Total",       "aTargets": [5]},
             {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Saldo",       "aTargets": [6]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
+            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {
                     return ' <i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i>';

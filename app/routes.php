@@ -91,32 +91,41 @@
 
         Route::group(array('prefix' => 'soporte'), function()
         {
-            Route::get('create'             , 'SoporteController@create');
-            Route::post('delete'            , 'SoporteController@delete');
-            Route::post('create'            , 'SoporteController@create');
-            Route::post('delete_detail'     , 'SoporteController@delete_detail');
-            Route::get('OpenTableSupportDay', 'SoporteController@OpenTableSupportDay');
-            Route::get('SupportDay_dt'      , 'SoporteController@SupportDay_dt');
+            Route::get('create'                 , 'SoporteController@create');
+            Route::post('delete'                , 'SoporteController@delete');
+            Route::post('create'                , 'SoporteController@create');
+            Route::post('delete_detail'         , 'SoporteController@delete_detail');
+            Route::get('OpenTableSupportDay'    , 'SoporteController@OpenTableSupportDay');
+            Route::get('SupportDay_dt'          , 'SoporteController@SupportDay_dt');
+            Route::get('OpenTableSupportForDate', 'SoporteController@OpenTableSupportForDate');
+            Route::get('SupportForDate'         , 'SoporteController@SupportForDate');
+
         });
 
         Route::group(array('prefix' => 'gastos'), function()
         {
-            Route::get('create'                , 'GastoController@create');
-            Route::post('delete'               , 'GastoController@delete');
-            Route::post('create'               , 'GastoController@create');
-            Route::post('delete_detail'        , 'GastoController@delete_detail');
-            Route::get('OpenTableExpensesDay'  , 'GastoController@OpenTableExpensesDay');
-            Route::get('ExpensesDay_dt'        , 'GastoController@ExpensesDay_dt');
+            Route::get('create'                    , 'GastoController@create');
+            Route::post('delete'                   , 'GastoController@delete');
+            Route::post('create'                   , 'GastoController@create');
+            Route::post('delete_detail'            , 'GastoController@delete_detail');
+            Route::get('OpenTableExpensesDay'      , 'GastoController@OpenTableExpensesDay');
+            Route::get('ExpensesDay_dt'            , 'GastoController@ExpensesDay_dt');
+            Route::get('OpenTableExpensesForDate'  , 'GastoController@OpenTableExpensesForDate');
+            Route::get('ExpensesForDate'           , 'GastoController@ExpensesForDate');
+
         });
 
         Route::group(array('prefix' => 'egresos'), function()
         {
-            Route::get('create'                  , 'EgresoController@create');
-            Route::post('delete'                 , 'EgresoController@delete');
-            Route::post('create'                 , 'EgresoController@create');
-            Route::post('delete_detail'          , 'EgresoController@delete_detail');
-            Route::get('OpenTableExpendituresDay', 'EgresoController@OpenTableExpendituresDay');
-            Route::get('ExpendituresDay_dt'      , 'EgresoController@ExpendituresDay_dt');
+            Route::get('create'                      , 'EgresoController@create');
+            Route::post('delete'                     , 'EgresoController@delete');
+            Route::post('create'                     , 'EgresoController@create');
+            Route::post('delete_detail'              , 'EgresoController@delete_detail');
+            Route::get('OpenTableExpendituresDay'    , 'EgresoController@OpenTableExpendituresDay');
+            Route::get('ExpendituresDay_dt'          , 'EgresoController@ExpendituresDay_dt');
+            Route::get('OpenTableExpendituresForDate', 'EgresoController@OpenTableExpendituresForDate');
+            Route::get('ExpendituresForDate'         , 'EgresoController@ExpendituresForDate');
+
         });
 
         Route::group(array('prefix' => 'ingresos'), function()
@@ -127,16 +136,22 @@
             Route::post('delete_detail'        , 'IngresoController@delete_detail');
             Route::get('OpenTableIncomeDay'    , 'IngresoController@OpenTableIncomeDay');
             Route::get('IncomeDay_dt'          , 'IngresoController@IncomeDay_dt');
+            Route::get('OpenTableIncomeForDate', 'IngresoController@OpenTableIncomeForDate');
+            Route::get('IncomeForDate'         , 'IngresoController@IncomeForDate');
+
         });
 
         Route::group(array('prefix' => 'adelantos'), function()
         {
-            Route::get('create'                , 'AdelantoController@create');
-            Route::post('delete'               , 'AdelantoController@delete');
-            Route::post('create'               , 'AdelantoController@create');
-            Route::post('delete_detail'        , 'AdelantoController@delete_detail');
-            Route::get('OpenTableAdvancesDay'  , 'AdelantoController@OpenTableAdvancesDay');
-            Route::get('AdvancesDay_dt'        , 'AdelantoController@AdvancesDay_dt');
+            Route::get('create'                    , 'AdelantoController@create');
+            Route::post('delete'                   , 'AdelantoController@delete');
+            Route::post('create'                   , 'AdelantoController@create');
+            Route::post('delete_detail'            , 'AdelantoController@delete_detail');
+            Route::get('OpenTableAdvancesDay'      , 'AdelantoController@OpenTableAdvancesDay');
+            Route::get('AdvancesDay_dt'            , 'AdelantoController@AdvancesDay_dt');
+            Route::get('OpenTableAdvancesForDate'  , 'AdelantoController@OpenTableAdvancesForDate');
+            Route::get('AdvancesForDate'           , 'AdelantoController@AdvancesForDate');
+
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -173,6 +188,9 @@
             Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
             Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
             Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
+            Route::get('OpenTableSalesForDate'                  , 'VentasController@OpenTableSalesForDate');
+            Route::get('SalesForDate'                           , 'VentasController@SalesForDate');
+
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -277,6 +295,9 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('HistorialDePagos'               , 'CompraController@HistorialDePagos');
         Route::get('HistorialDeAbonos'              , 'CompraController@HistorialDeAbonos');
         Route::get('getCreditPurchase'              , 'CompraController@getCreditPurchase');
+        Route::get('OpenTablePurchaseForDate'       , 'CompraController@OpenTablePurchaseForDate');
+        Route::get('PurchaseForDate'                , 'CompraController@PurchaseForDate');
+
 
         Route::group(array('prefix' => 'payments'),function() 
         {
@@ -305,6 +326,9 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('DownloadsDay_dt'                    , 'DescargaController@DownloadsDay_dt'  );
         Route::get('showgDownloadsDetail'               , 'DescargaController@showgDownloadsDetail'  );
         Route::get('OpenDownload'                       , 'DescargaController@OpenDownload'  );
+        Route::get('OpenTableDownloadsForDate'          , 'DescargaController@OpenTableDownloadsForDate' );
+        Route::get('DownloadsForDate'                   , 'DescargaController@DownloadsForDate' );
+
 
     });
 
@@ -389,8 +413,18 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelMes' );
 Route::get('test', function()
 {   
+    $fecha =  Carbon::createFromFormat('Y-m-d', "2015-06-29");
+
+    $fecha_inicio = $fecha->startOfWeek();
+    $fecha_final  = $fecha->endOfWeek();
+
+    echo "{$fecha_inicio} ala {$fecha_final}";
 
 
+    $fecha_inicio = new Carbon('this week');
+    $fecha_final  = new Carbon('next week last day');
+
+    echo "<br>{$fecha_inicio} ala {$fecha_final}";
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

@@ -21,7 +21,7 @@
             <ul>
                 <li onclick="OpenTableSalesOfDay(this)"><a href="javascript:void(0);">Ventas del Dia</a></li>
                 <li onclick="CreditSales(this)"><a href="javascript:void(0);">Ventas al credito</a></li>
-                <li id="OpenTableSalesForDate"><a href="javascript:void(0);">Ventas por Fechas</a></li>
+                <li onclick="OpenTableSalesForDate(this)"><a href="javascript:void(0);">Ventas por Fechas</a></li>
             </ul>
         </li>
 
@@ -33,7 +33,7 @@
             <ul>
                 <li id="OpenTablePurchaseDay"><a href="javascript:void(0);">Compras del Dia</a></li>
                 <li onclick="CreditPurchases(this)"><a href="javascript:void(0);">Compras al Credito</a></li>
-                <li id="OpenTablePurchaseForDate"><a href="javascript:void(0);">Compras por Fechas</a></li>
+                <li onclick="OpenTablePurchaseForDate(this)"><a href="javascript:void(0);">Compras por Fechas</a></li>
             </ul>
         </li>
 
@@ -44,7 +44,7 @@
             </a>
             <ul>
                 <li onclick="OpenTableDownloadsDay(this)"><a href="javascript:void(0);">Descargas del Dia</a></li>
-                <li ><a href="javascript:void(0);">Descargas por Fechas</a></li>
+                <li onclick="OpenTableDownloadsForDate(this)"><a href="javascript:void(0);">Descargas por Fechas</a></li>
             </ul>
         </li>
 
@@ -55,7 +55,7 @@
             </a>
             <ul>
                 <li id="OpenTableSupportDay"><a href="javascript:void(0);">Soporte del Dia</a></li>
-                <li id="OpenTableSupportForDate"><a href="javascript:void(0);">Soporte por Fechas</a></li>
+                <li onclick="OpenTableSupportForDate(this)"><a href="javascript:void(0);">Soporte por Fechas</a></li>
             </ul>
         </li>
 
@@ -66,7 +66,7 @@
             </a>
             <ul>
                 <li id="OpenTableExpensesDay"><a href="javascript:void(0);">Gastos del Dia</a></li>
-                <li id="OpenTableExpensesForDate"><a href="javascript:void(0);">Gastos por Fechas</a></li>
+                <li onclick="OpenTableExpensesForDate(this)"><a href="javascript:void(0);">Gastos por Fechas</a></li>
             </ul>
         </li>
 
@@ -77,7 +77,7 @@
             </a>
             <ul>
                 <li id="OpenTableExpendituresDay"><a href="javascript:void(0);">Egresos del Dia</a></li>
-                <li id="OpenTableExpendituresForDate"><a href="javascript:void(0);">Egresos por Fechas</a></li>
+                <li onclick="OpenTableExpendituresForDate(this)"><a href="javascript:void(0);">Egresos por Fechas</a></li>
             </ul>
         </li>
 
@@ -88,7 +88,7 @@
             </a>
             <ul>
                 <li id="OpenTableIncomeDay"><a href="javascript:void(0);">Ingresos del Dia</a></li>
-                <li id="OpenTableIncomeForDate"><a href="javascript:void(0);">Ingresos por Fechas</a></li>
+                <li onclick="OpenTableIncomeForDate(this)"><a href="javascript:void(0);">Ingresos por Fechas</a></li>
             </ul>
         </li>
 
@@ -99,7 +99,7 @@
             </a>
             <ul>
                 <li id="OpenTableAdvancesDay"><a href="javascript:void(0);">Adelantos del Dia</a></li>
-                <li id="OpenTableAdvancesForDate"><a href="javascript:void(0);">Adelantos por Fechas</a></li>
+                <li onclick="OpenTableAdvancesForDate(this)"><a href="javascript:void(0);">Adelantos por Fechas</a></li>
             </ul>
         </li>
     </ul>

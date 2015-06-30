@@ -29,6 +29,9 @@ $(document).ready(function() {
 
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
+            $( ".DTTT" ).append( '<button consulta="dia"    onclick="OpenTableDownloadsForDate(this)">Dia</button>'    );
+            $( ".DTTT" ).append( '<button consulta="semana" onclick="OpenTableDownloadsForDate(this)">Semana</button>' );
+            $( ".DTTT" ).append( '<button consulta="mes"    onclick="OpenTableDownloadsForDate(this)">Mes</button>'    );
         },
 
         "fnRowCallback": function( nRow, aData ) {                
@@ -38,7 +41,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/descargas/DownloadsDay_dt"
+        "sAjaxSource": "admin/descargas/DownloadsForDate?fecha={{Input::get('fecha')}}&consulta={{Input::get('consulta')}}"
     });
 
 });
