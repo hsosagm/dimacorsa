@@ -112,6 +112,7 @@
 			            } else {
 			                $('#saldo_por_busqueda').text(saldo);
 			                $('#saldo_por_busqueda_vencido').text(saldo_vencido);
+			                oTable.fnFilter( $(this).val() );
 			            }
                     })
                 }, 300);

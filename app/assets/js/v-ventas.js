@@ -4,11 +4,14 @@ var app = new Vue({
 
     data: {
 
-        cliente: '',
+        cliente: [],
         venta_id: 0,
         showNewCustomerForm: false,
         showEditCustomerForm: false,
         detalle: false,
+        detalleTable: [],
+        totalVenta: 0,
+        editedTodo: null,
     },
 
     computed: {
@@ -18,14 +21,86 @@ var app = new Vue({
         }
     },
 
+    watch: {
+        'detalleTable': function () {
+            app.$compile(app.$el);
+            var sum = 0;
+            for (var i = this.detalleTable.length - 1; i >= 0; i--) {
+                sum += parseFloat(this.detalleTable[i]["total"]);
+            }
+            this.totalVenta = sum;
+        }
+    },
+
+    directives: {
+        'item-focus': function () {
+            this.el.focus();
+        }
+    },
+
     methods: {
 
         reset: function() {
-            app.cliente = '';
+            app.cliente = [];
             app.venta_id = 0;
             app.showNewCustomerForm = false;
             app.showEditCustomerForm = false;
             app.detalle = false;
+        },
+
+        editItem: function (e) {
+            this.beforeEditCache = e.dt.cantidad;
+            this.editedTodo = e;
+        },
+
+        cancelEdit: function (e) {
+            this.editedTodo = null;
+            e.dt.cantidad = this.beforeEditCache;
+        },
+
+        doneEdit: function (e) {
+            e.dt.cantidad = e.dt.cantidad.trim();
+            if (!e.dt.cantidad) {
+                this.editedTodo = null;
+                e.dt.cantidad = this.beforeEditCache;
+                return;
+            }
+            var that = this;
+            e.dt.cantidad = parseInt(e.dt.cantidad);
+            $.ajax({
+                type: 'POST',
+                url: 'user/ventas/UpdateDetalle',
+                data: { values: e.dt, oldvalue: this.beforeEditCache },
+                success: function (data) {
+                    console.log(data);
+                    if (data.success == true)
+                    {
+                        that.editedTodo = null;
+                        return msg.success('Producto actualizado', 'Listo!');
+                    }
+                    msg.warning(data, 'Advertencia!');
+                }
+            });
+        },
+
+        removeItem: function (index, id) {
+            $.confirm({
+                confirm: function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'user/ventas/RemoveSaleItem',
+                        data: { id: id },
+                        success: function (data) {
+                            if (data.success == true)
+                            {
+                                app.detalleTable.$remove(index);
+                                return msg.success('Producto eliminado', 'Listo!');
+                            }
+                            msg.warning(data, 'Advertencia!');
+                        }
+                    });
+                }
+            });
         },
 
         showEditCustomer: function() {

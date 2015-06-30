@@ -10,16 +10,16 @@
                 <tr>
                     <td>Cliente:</td>
                     <td>
-                        <input type="text" id="cliente" class="input">
+                        <input type="text" id="cliente" class="input" style="width:260px">
                         <i v-if="cliente.id" class="fa fa-question-circle btn-link theme-c" id="cliente_help"></i>
                         <i v-if="cliente.id" class="fa fa-pencil btn-link theme-c" v-on="click: showEditCustomer"></i>
                         <i class="fa fa-plus-square btn-link theme-c" v-on="click: showNewCustomer"></i>
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="cliente.tipocliente">
                     <td>Tipo Cliente:</td>
                     <td>
-                        <input type="text" v-model="cliente.tipo_cliente.nombre" style="margin-top:6px; background: #EEF8F1;" disabled>
+                        <input type="text" v-model="cliente.tipocliente.nombre" style="margin-top:6px; background: #EEF8F1; width:260px" disabled>
                     </td>
                 </tr>
             </table>
@@ -136,9 +136,7 @@
         </div>
     </div>
     {{ Form::close() }}
-
 </div>
-
 
 <div class="master-detail">
     <div class="master-detail-body">
@@ -151,7 +149,7 @@
 <script type="text/javascript">
 
     $('#cliente').autocomplete({
-        serviceUrl: '/user/cliente/buscar',
+        serviceUrl: '/user/cliente/search',
         onSelect: function (data) {
             app.getInfoCliente(data.id);
             $('#cliente').val("");
@@ -159,9 +157,9 @@
     });
 
     app.$nextTick(function() {
-        app.$compile(app.$el);
         app.reset();
         app.venta_id = {{ $venta_id }};
+        app.$compile(app.$el);
         $.get( "/user/cliente/getInfo",  { id: {{ $venta->cliente->id}} }, function( data ) {
             app.cliente = data;
         });

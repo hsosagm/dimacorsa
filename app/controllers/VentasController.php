@@ -34,13 +34,11 @@ class VentasController extends \BaseController {
 			}
 
 			$nueva_existencia = $this->check_inventory();
-
 			if ($nueva_existencia === false) {
 				return "La cantidad que esta ingresando es mayor a la existencia..";
 			}
 
 			$query = new DetalleVenta;
-
 			if ( !$query->SaleItem())
 			{
 				return $query->errors();
@@ -51,6 +49,7 @@ class VentasController extends \BaseController {
 			->update(array('existencia' => $nueva_existencia));
 
 			$detalle = $this->getSalesDetail();
+			$detalle = json_encode($detalle);
 
 			return Response::json(array(
 				'success' => true,
@@ -60,6 +59,8 @@ class VentasController extends \BaseController {
 
 		return 'Token invalido';
 	}
+
+
 
 
 	public function getSalesDetail()
@@ -143,15 +144,23 @@ class VentasController extends \BaseController {
     }
 
 
-    public function check_inventory()
+    public function check_inventory( $producto_id = null, $cantidad = null )
     {
-	    $query = Existencia::where('producto_id', Input::get('producto_id'))->where('tienda_id', Auth::user()->tienda_id)->first();
+    	if ($producto_id === null) {
+    		$producto_id = Input::get('producto_id');
+    	}
 
-	    if ( $query == null || $query->existencia < Input::get('cantidad') ) {
+    	if ($cantidad === null) {
+    		$cantidad = Input::get('cantidad');
+    	}
+
+	    $query = Existencia::where('producto_id', $producto_id )->where('tienda_id', Auth::user()->tienda_id)->first();
+
+	    if ( $query == null || $query->existencia < $cantidad ) {
 	    	return false;
 	    }
 
-	    $nueva_existencia = $query->existencia - Input::get('cantidad');
+	    $nueva_existencia = $query->existencia - $cantidad;
 
 	    return $nueva_existencia;
     }
@@ -314,6 +323,8 @@ class VentasController extends \BaseController {
 
 		$detalle = $this->getSalesDetail();
 
+		$detalle = json_encode($detalle);
+
 		$venta_id = $venta->id;
 
 		return Response::json(array(
@@ -454,6 +465,7 @@ class VentasController extends \BaseController {
         ));
 	}
 
+<<<<<<< HEAD
 	public function OpenTableSalesForDate()
 	{
 		return View::make('ventas.SalesForDate')->render();
@@ -495,6 +507,34 @@ class VentasController extends \BaseController {
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+=======
+
+	public function UpdateDetalle()
+	{
+		if ( Input::get('values.cantidad') < 1 )
+			return 'La cantidad deve ser mayor a 0';
+
+		$cantidad =  Input::get('values.cantidad') - Input::get('oldvalue');
+
+		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), $cantidad );
+
+		if ($nueva_existencia === false) {
+			return "La cantidad que esta ingresando es mayor a la existencia..";
+		}
+
+		$dv = DetalleVenta::find( Input::get('values.id') );
+		$dv->cantidad = Input::get('values.cantidad');
+		$dv->save();
+
+		Existencia::where('producto_id', Input::get('values.producto_id'))
+		->where('tienda_id', Auth::user()->tienda_id)
+		->update(array('existencia' => $nueva_existencia));
+
+		return Response::json(array(
+			'success' => true,
+			'nuevaExistencia' => $nueva_existencia
+        ));
+>>>>>>> 239a71773019f220c59b744100d5a9475b2511fd
 	}
 
 }

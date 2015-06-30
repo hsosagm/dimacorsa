@@ -170,6 +170,7 @@
             Route::get('create'                                 , 'VentasController@create' );
             Route::post('create'                                , 'VentasController@create' );
             Route::post('detalle'                               , 'VentasController@detalle');
+            Route::post('UpdateDetalle'                         , 'VentasController@UpdateDetalle' );
             Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
             Route::post('RemoveSale'                            , 'VentasController@RemoveSale');
             Route::post('RemoveSaleItem'                        , 'VentasController@RemoveSaleItem');
@@ -688,38 +689,57 @@ Route::get('cod', function() {
 
         // return $movimientos;
 
-    $cliente = Cliente::with('tipo_cliente')->find(3);
+    // $cliente = Cliente::with('tipo_cliente')->find(3);
 
-    $query = Venta::where('cliente_id','=', 3)
-    ->where('saldo', '>', 0)
-    ->get();
+    // $query = Venta::where('cliente_id','=', 3)
+    // ->where('saldo', '>', 0)
+    // ->get();
 
-    if (!count($query) ) 
-    {
-        $cliente['saldo_total']   = 0;
-        $cliente['saldo_vencido'] = 0;
-    }
+    // if (!count($query) ) 
+    // {
+    //     $cliente['saldo_total']   = 0;
+    //     $cliente['saldo_vencido'] = 0;
+    // }
 
-    $saldo_total = 0;
-    $saldo_vencido = 0;
+    // $saldo_total = 0;
+    // $saldo_vencido = 0;
 
-    foreach ($query as  $q)
-    {
-        $fecha_entrada = $q->created_at;
-        $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-        $fecha_vencida = date('Ymd',strtotime("-30 days"));
+    // foreach ($query as  $q)
+    // {
+    //     $fecha_entrada = $q->created_at;
+    //     $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+    //     $fecha_vencida = date('Ymd',strtotime("-30 days"));
 
-        if ($fecha_entrada < $fecha_vencida)
-        {
-            $saldo_vencido = $saldo_vencido + $q->saldo;
-        }
-        $saldo_total = $saldo_total + $q->saldo;
-    }
+    //     if ($fecha_entrada < $fecha_vencida)
+    //     {
+    //         $saldo_vencido = $saldo_vencido + $q->saldo;
+    //     }
+    //     $saldo_total = $saldo_total + $q->saldo;
+    // }
 
-    $cliente['saldo_total']   = $saldo_total;
-    $cliente['saldo_vencido'] = $saldo_vencido;
+    // $cliente['saldo_total']   = $saldo_total;
+    // $cliente['saldo_vencido'] = $saldo_vencido;
 
-    return $cliente;
+    // return $cliente;
+
+    // $query = Cierre::where(DB::raw('DATE(created_at)'), '=', DATE('Y-m-d'))
+    //     ->where('tienda_id', Auth::user()->tienda_id)
+    //     ->first();
+
+    // return $query->user->nombre;
+
+        $detalle = DetalleVenta::where('venta_id', 27001)
+        ->select(array(
+            'detalle_ventas.id',
+            'venta_id', 'producto_id',
+            'cantidad', 
+            'precio', 
+            DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get()->toArray();
+
+        return $detalle;
 
 });
 

@@ -112,7 +112,7 @@ class CierreController extends \BaseController {
 
     function cierre()
     {
-        if (Session::token() == Input::get('_token'))
+        if ( Input::has('_token') )
         {
             $cierre = new Cierre;
 
@@ -123,6 +123,16 @@ class CierreController extends \BaseController {
 
             return Response::json(array( 'success' => true ));
         }
+
+        $query = Cierre::where(DB::raw('DATE(created_at)'), '=', DATE('Y-m-d'))
+            ->where('tienda_id', Auth::user()->tienda_id)
+            ->first();
+
+        if (count($query))
+            return Response::json(array(
+                'success' => false,
+                'user' => $query->user->nombre. " " . $query->user->apellido
+            ));
 
         $data = $this->resumen_movimientos();
 
@@ -143,7 +153,10 @@ class CierreController extends \BaseController {
 
         $movimientos = json_encode($movimientos);
 
-        return View::make('cierre.cierre', compact('movimientos') );
+        return Response::json(array(
+            'success' => true,
+            'form' => View::make('cierre.cierre', compact('movimientos'))->render()
+        ));
     }
 
 

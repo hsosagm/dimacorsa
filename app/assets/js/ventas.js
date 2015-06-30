@@ -39,34 +39,6 @@ function RemoveSale() {
     }); 
 }
 
-function RemoveSaleItem(element, $id) {
-
-    $.confirm({
-        confirm: function() {
-			$.ajax({
-				type: 'POST',
-				url: 'user/ventas/RemoveSaleItem',
-				data: { id:$id },
-				success: function (data) {
-		            if (data.success == true)
-		            {
-		                msg.success('Producto eliminado', 'Listo!');
-	                    $(element).closest("tr").hide("slow");
-		            }
-		            else
-		            {
-		                msg.warning(data, 'Advertencia!');
-		            }
-				},
-				error: function(errors) {
-					msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-				}
-			});
-        }
-    });
-}
-
-
 function OpenModalSalesPayments($venta_id)
 {
     $.ajax({

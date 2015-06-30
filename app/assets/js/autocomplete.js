@@ -1,5 +1,5 @@
 /**
-*  Ajax Autocomplete for jQuery, version %version%
+*  Ajax Autocomplete for jQuery, version 1.2.21
 *  (c) 2015 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
@@ -56,21 +56,21 @@
             that = this,
             defaults = {
                 ajaxSettings: {},
-                autoSelectFirst: true,
+                autoSelectFirst: false,
                 appendTo: document.body,
                 serviceUrl: null,
                 lookup: null,
                 onSelect: null,
                 width: 'auto',
-                minChars: 3,
+                minChars: 2,
                 maxHeight: 300,
-                deferRequestBy: 30,
+                deferRequestBy: 0,
                 params: {},
                 formatResult: Autocomplete.formatResult,
                 delimiter: null,
                 zIndex: 9999,
                 type: 'GET',
-                noCache: true,
+                noCache: false,
                 onSearchStart: noop,
                 onSearchComplete: noop,
                 onSearchError: noop,
@@ -79,8 +79,8 @@
                 tabDisabled: false,
                 dataType: 'text',
                 currentRequest: null,
-                triggerSelectOnValidInput: false,
-                preventBadQueries: false,
+                triggerSelectOnValidInput: true,
+                preventBadQueries: true,
                 lookupFilter: function (suggestion, originalQuery, queryLowerCase) {
                     return suggestion.value.toLowerCase().indexOf(queryLowerCase) !== -1;
                 },
@@ -89,7 +89,7 @@
                     return typeof response === 'string' ? $.parseJSON(response) : response;
                 },
                 showNoSuggestionNotice: true,
-                noSuggestionNotice: 'Not Found',
+                noSuggestionNotice: 'No hay resultados',
                 orientation: 'bottom',
                 forceFixPosition: false
             };
@@ -134,11 +134,8 @@
             .replace(/"/g, '&quot;');
 
         var pattern = '(' + utils.escapeRegExChars(currentValue) + ')';
-
         pattern = pattern.replace(/  +/g, ' ');
-
-        var pattern = pattern.split(' ').join('|');
-
+        pattern = pattern.split(' ').join('|');
         return htmlSafeString.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
     };
 
@@ -208,17 +205,12 @@
             that.el.on('focus.autocomplete', function () { that.onFocus(); });
             that.el.on('change.autocomplete', function (e) { that.onKeyUp(e); });
             that.el.on('input.autocomplete', function (e) { that.onKeyUp(e); });
-            that.el.on('blur.input.autocomplete', function (e) { that.onInputBlur(e); });
-        },
-
-        onInputBlur: function(e) {
-            $('div.autocomplete-suggestions').hide();
         },
 
         onFocus: function () {
             var that = this;
             that.fixPosition();
-            if (that.options.minChars <= that.el.val().length) {
+            if (that.options.minChars === 0 && that.el.val().length === 0) {
                 that.onValueChange();
             }
         },
@@ -589,7 +581,7 @@
                 that.currentRequest = $.ajax(ajaxSettings).done(function (data) {
                     var result;
                     that.currentRequest = null;
-                    result = options.transformResult(data);
+                    result = options.transformResult(data, q);
                     that.processResponse(result, q, cacheKey);
                     options.onSearchComplete.call(that.element, q, result.suggestions);
                 }).fail(function (jqXHR, textStatus, errorThrown) {

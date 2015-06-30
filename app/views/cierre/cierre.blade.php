@@ -21,7 +21,7 @@
             <label>Efectivo: </label>
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ movimientos.efectivo | currency ' ' }}" class="form-control right" disabled>
+            <input type="text" value="@{{ movimientos.efectivo | currency }}" class="form-control right" disabled>
             <input type="hidden" name="efectivo_esp" value="@{{ movimientos.efectivo }}">
         </div>
         <div class="col-sm-3">
@@ -29,7 +29,7 @@
             <input type="hidden" name="efectivo" v-model="efectivo">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ dif_efectivo | currency ' ' }}" class="form-control right" disabled>
+            <input type="text" value="@{{ dif_efectivo | currency }}" class="form-control right" disabled>
         </div>
     </div>
 
@@ -38,7 +38,7 @@
             <label>Cheque: </label>
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ movimientos.cheque | currency ' ' }}" class="form-control right" disabled>
+            <input type="text" value="@{{ movimientos.cheque | currency }}" class="form-control right" disabled>
             <input type="hidden" name="cheque_esp" value="@{{ movimientos.cheque }}">
         </div>
         <div class="col-sm-3">
@@ -46,7 +46,7 @@
             <input type="hidden" name="cheque" v-model="cheque">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ dif_cheque | currency ' ' }}"  class="form-control right" disabled>
+            <input type="text" value="@{{ dif_cheque | currency }}"  class="form-control right" disabled>
         </div>
     </div>
 
@@ -55,7 +55,7 @@
             <label>Tarjeta: </label>
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ movimientos.tarjeta | currency ' ' }}" class="form-control right" disabled>
+            <input type="text" value="@{{ movimientos.tarjeta | currency }}" class="form-control right" disabled>
             <input type="hidden" name="tarjeta_esp" value="@{{ movimientos.tarjeta }}">
         </div>
         <div class="col-sm-3">
@@ -63,7 +63,7 @@
             <input type="hidden" name="tarjeta" v-model="tarjeta">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ dif_tarjeta | currency ' ' }}" class="form-control right" disabled>
+            <input type="text" value="@{{ dif_tarjeta | currency }}" class="form-control right" disabled>
         </div>
     </div>
 
@@ -72,7 +72,7 @@
             <label>Deposito: </label>
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ movimientos.deposito | currency ' ' }}" class="form-control right" disabled>
+            <input type="text" value="@{{ movimientos.deposito | currency }}" class="form-control right" disabled>
             <input type="hidden" name="deposito_esp" value="@{{ movimientos.deposito }}">
         </div>
         <div class="col-sm-3">
@@ -80,7 +80,7 @@
             <input type="hidden" name="deposito" v-model="deposito">
         </div>
         <div class="col-sm-3">
-            <input type="text" value="@{{ dif_deposito | currency ' ' }}" class="form-control right" disabled>
+            <input type="text" value="@{{ dif_deposito | currency }}" class="form-control right" disabled>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
             <label>Total: </label>
         </div>
         <div class="col-sm-3">
-            <label style="float:right">@{{ total | currency ' ' }}</label>
+            <label style="float:right">@{{ total | currency }}</label>
         </div>
         <div class="col-sm-3"></div>
     </div>
@@ -102,7 +102,7 @@
             <label>Diferencia: </label>
         </div>
         <div class="col-sm-3">
-            <label style="float:right">@{{ total_diferencia | currency ' ' }}</label>
+            <label style="float:right">@{{ total_diferencia | currency }}</label>
         </div>
         <div class="col-sm-3"></div>
     </div>
@@ -200,9 +200,7 @@
             Submit: function(e) {
 
                 e.preventDefault();
-
                 var form = $(e.target).closest("form");
-
                 $('input[type=submit]', form).prop('disabled', true);
 
                 $.ajax({
@@ -210,19 +208,18 @@
                     url: form.attr('action'),
                     data: form.serialize(),
                     success: function (data) {
-
                         if (data.success == true)
-                            return msg.success('Cierre realizado correctamente', 'Listo!');
-
+                            msg.success('Cierre realizado correctamente', 'Listo!');
+                            return $('.bs-modal').modal('hide');
+                            
                         msg.warning(data, 'Advertencia!');
                         $('input[type=submit]', form).prop('disabled', false);
                     }
                 });
             }
         }
-});
+    });
 
-
-$('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
-
+    $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+    
 </script>

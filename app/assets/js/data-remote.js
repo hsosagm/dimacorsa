@@ -188,11 +188,9 @@ $(document).on('submit', 'form[data-chart]', function(e) {
 
 
 $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
-
     var form = $(this);
 
-    if ( form.attr('status') == 0 ) {
-
+    if (form.attr('status') == 0) {
         form.attr('status', '1');
 
         $.ajax({
@@ -200,28 +198,19 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (data) {
-
                 if (data.success == true)
                 {
                     msg.success(form.data('success'), 'Listo!');
-
                     $('.body-detail').html(data.table);
-
                     form.trigger('reset');
-                     $('input[name=serials]', form).val('');
-                     $('input[name=producto_id]', form).val('');
-
+                    $('input[name=serials]', form).val('');
+                    $('input[name=producto_id]', form).val('');
+                    form.attr('status', '0');
+                    return;
                 }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-                form.attr('status', '0');
-            },
-            error: function(errors) {
+                msg.warning(data, 'Advertencia!');
                 form.attr('status', '0');
             }
-
         });
     }
 });
