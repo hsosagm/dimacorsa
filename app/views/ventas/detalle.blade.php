@@ -20,7 +20,7 @@
 					<input v-el="search_producto" type="text" id="search_producto"> 
 				</td>
 				<td><input class="input input_numeric" type="text" name="cantidad"> </td>
-				<td><input class="input_numeric" type="text" name="precio" id="venta_save_producto"> </td>
+				<td><input class="numeric" type="text" name="precio" value=""></td>
 				<td>
 					<button type="button" class="btn btn-default btn-lg" onclick="OpenModalSalesItemSerials(this);">
 						<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
@@ -65,4 +65,5 @@
 
 <script>
 	app.venta_id = {{ $venta_id }};
+	$('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
 </script>

@@ -1,6 +1,6 @@
 <?php
 
-class AbonosVenta extends \BaseModel  {
+class AbonosVenta extends \BaseModel {
 	
 	protected $table = 'abonos_ventas';
 
@@ -10,5 +10,5 @@ class AbonosVenta extends \BaseModel  {
     {
         return $this->belongsTo('MetodoPago', 'metodo_pago_id');
     }
-
+    
 }

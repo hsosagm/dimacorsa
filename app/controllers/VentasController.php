@@ -29,6 +29,8 @@ class VentasController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
+			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
+
 			if ($this->check_if_code_exists_in_this_sale() == true) {
 				return "El codigo ya ha sido ingresado..";
 			}

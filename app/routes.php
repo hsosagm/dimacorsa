@@ -13,13 +13,7 @@
     Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
     DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
     Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Gasto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Soporte::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Egreso::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Adelanto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Descarga::observe(new \NEkman\ModelLogger\Observer\Logger);
-    PagosCompra::observe(new \NEkman\ModelLogger\Observer\Logger);
-    PagosVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
+
  
     /******************************************************************************/
     //rutas para evitar los errores de las imagenes no encontradas

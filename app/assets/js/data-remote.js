@@ -210,6 +210,9 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
                 }
                 msg.warning(data, 'Advertencia!');
                 form.attr('status', '0');
+            },
+            error: function(errors) {
+                form.attr('status', '0');
             }
         });
     }
