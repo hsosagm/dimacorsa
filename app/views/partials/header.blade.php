@@ -77,10 +77,12 @@
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Graficas Ventas" data-toggle="tooltip"><i class="fa fa-bar-chart-o"></i></a>
                 </li>
-
+                
+                @if($slide_bar_left == 2 || $slide_bar_left == 3)
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_descarga();" title="Descargas" data-toggle="tooltip"><i class="fa fa-download"></i></a>
                 </li>
+                @endif
 
                 <li class="dropdown navbar-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

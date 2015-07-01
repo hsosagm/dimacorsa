@@ -33,6 +33,6 @@ Route::filter('csrf', function()
 
 Entrust::routeNeedsRole( 'owner/*'  ,  array('Owner')				 , Redirect::to('/'), false );
 Entrust::routeNeedsRole( 'admin/*'  ,  array('Owner','Admin')		 , Redirect::to('/'), false );
+Entrust::routeNeedsRole( 'proveedor',  array('Owner','Admin')        , Redirect::to('/'), false );
 Entrust::routeNeedsRole( 'user/*'   ,  array('Owner','Admin','User') , Redirect::to('/'), false );
 Entrust::routeNeedsRole( 'cliente'  ,  array('Owner','Admin','User') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'proveedor',  array('Owner','Admin')        , Redirect::to('/'), false );

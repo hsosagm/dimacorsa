@@ -1,9 +1,6 @@
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 
-use Carbon\Carbon;
-
-class Marca extends \BaseModel implements Logable{
+class Marca extends \BaseModel {
 
 	protected $table = 'marcas';
 
@@ -14,8 +11,4 @@ class Marca extends \BaseModel implements Logable{
         return $this->hasMany('Producto', 'marca_id');
     }
 
-    public function getLogName()
-    {
-        return $this->id;
-    }
 }

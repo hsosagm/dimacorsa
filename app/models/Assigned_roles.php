@@ -1,11 +1,6 @@
 <?php
 
-use \NEkman\ModelLogger\Contract\Logable;
 
-class Assigned_roles extends Eloquent  implements Logable{
+class Assigned_roles extends Eloquent {
 	
-	public function getLogName()
-    {
-        return $this->id;
-    }
 }

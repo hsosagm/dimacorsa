@@ -319,6 +319,25 @@ function ImprimirGarantiaVenta_dt(e,user)
 
 }
 
+function OpenModalSalesItemSerials(e)
+{
+     $serial = $("input[name='serials']").val();
+    $.ajax({
+        type: "GET",
+        url: "user/OpenModalSalesItemSerials",
+        data: {serial: $serial},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            $('.modal-body').html(data);
+            $('.modal-title').text('Seriales');
+            $('.bs-modal').modal('show');
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+}
+
 function CerrarVentana(Windows) 
 {
     Windows.close();              

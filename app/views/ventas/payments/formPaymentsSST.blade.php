@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <input type="hidden" name="cliente_id" value="{{Input::get('cliente_id')}}">
-                    {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+                   {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
                 </div>
                 <div class="col-md-2">
                     <input  class="btn theme-button" type="button" value="Enviar" onclick="SelectedPaySales(this);" >

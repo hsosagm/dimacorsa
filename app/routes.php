@@ -8,19 +8,18 @@
     funciones para hacer el guardado de logs
     /*******************************************************************************/
 
-    User::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Tienda::observe(new \NEkman\ModelLogger\Observer\Logger);
     Producto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Cliente::observe(new \NEkman\ModelLogger\Observer\Logger);
     Compra::observe(new \NEkman\ModelLogger\Observer\Logger);
-    DetalleCompra::observe(new \NEkman\ModelLogger\Observer\Logger);
     Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
     DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
     Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
     Gasto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    DetalleGasto::observe(new \NEkman\ModelLogger\Observer\Logger);
     Soporte::observe(new \NEkman\ModelLogger\Observer\Logger);
-    DetalleSoporte::observe(new \NEkman\ModelLogger\Observer\Logger);
+    Egreso::observe(new \NEkman\ModelLogger\Observer\Logger);
+    Adelanto::observe(new \NEkman\ModelLogger\Observer\Logger);
+    Descarga::observe(new \NEkman\ModelLogger\Observer\Logger);
+    PagosCompra::observe(new \NEkman\ModelLogger\Observer\Logger);
+    PagosVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
  
     /******************************************************************************/
     //rutas para evitar los errores de las imagenes no encontradas
@@ -192,7 +191,6 @@
             Route::get('OpenTableSalesForDate'                  , 'VentasController@OpenTableSalesForDate');
             Route::get('SalesForDate'                           , 'VentasController@SalesForDate');
 
-
             Route::group(array('prefix' => 'payments'),function() 
             {
                 Route::get('formPayments', 'SalesPaymentsController@formPayments');
@@ -205,14 +203,15 @@
 
         });
 
-        Route::get('profile'         , 'UserController@edit_profile');
-        Route::post('new'            , 'UserController@create_new'  );
-        Route::post('profile'        , 'UserController@edit_profile');
-        Route::get('buscar_marca'    , 'MarcaController@search'   );
-        Route::get('buscar_categoria', 'CategoriaController@search');
-        Route::get('view_existencias', 'ProductoController@view_existencias');
+        Route::get('profile'                   , 'UserController@edit_profile');
+        Route::post('new'                      , 'UserController@create_new'  );
+        Route::post('profile'                  , 'UserController@edit_profile');
+        Route::get('buscar_marca'              , 'MarcaController@search'   );
+        Route::get('buscar_categoria'          , 'CategoriaController@search');
+        Route::get('view_existencias'          , 'ProductoController@view_existencias');
+        Route::get('OpenModalSalesItemSerials' , 'CompraController@OpenModalPurchaseItemSerials' );
 
-    });
+});
 
 Route::group(array('prefix' => 'admin'), function()
 {

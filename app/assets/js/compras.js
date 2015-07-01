@@ -12,7 +12,7 @@ $(function() {
     $(document).on('enter','.SaveEditPurchaseItemDetails',        function(e){ SaveEditPurchaseItemDetails(e,this); });
     $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);});
    
-
+ 
 });
 
 function f_com_op() 

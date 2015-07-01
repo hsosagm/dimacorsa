@@ -142,7 +142,7 @@ class SalesPaymentsController extends \BaseController {
         }
 
         $abonos_ventas_id = $abono->get_id();
-        $total = 0;
+        $total = 0; 
 
         for ($i=0; $i < count($ids_venta) ; $i++) 
         { 
