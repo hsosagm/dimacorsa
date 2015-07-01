@@ -32,7 +32,10 @@ $(document).ready(function() {
         ],
 
         "fnDrawCallback": function( oSettings ) {
-            $( ".DTTT" ).html("");
+             $( ".DTTT" ).html("");
+            $( ".DTTT" ).append( '<button consulta="dia"    onclick="OpenTablePurchaseForDate(this)">Dia</button>'    );
+            $( ".DTTT" ).append( '<button consulta="semana" onclick="OpenTablePurchaseForDate(this)">Semana</button>' );
+            $( ".DTTT" ).append( '<button consulta="mes"    onclick="OpenTablePurchaseForDate(this)">Mes</button>'    );
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
             if ( aData[8] == 0){
@@ -43,7 +46,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/compras/PurchaseDay_dt"
+        "sAjaxSource": "admin/compras/PurchaseForDate?fecha={{Input::get('fecha')}}&consulta={{Input::get('consulta')}}"
     });
 
 });

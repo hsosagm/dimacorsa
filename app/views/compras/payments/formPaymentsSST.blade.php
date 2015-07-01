@@ -12,7 +12,7 @@
                     <label style="text-align:left"> Total Seleccionado: </label>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="total_selected form-control" value="0" disabled>
+                    <input type="text" class="total_selected form-control numeric" value="0" disabled>
                 </div>
                 <div class="col-md-4"></div>
 
@@ -62,4 +62,8 @@
 </table>
 <div style="float:right" class="pagination"> {{ $compras->links() }} </div>
 
-@endif
+@endif 
+
+<script>
+ $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+</script>

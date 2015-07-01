@@ -465,7 +465,49 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	public function OpenTableSalesForDate()
+	{
+		return View::make('ventas.SalesForDate')->render();
+	}
 
+	public function SalesForDate()
+	{
+
+		 $fecha    = Input::get('fecha');
+		 $consulta = Input::get('consulta');
+
+		$where = null;
+
+		if ($consulta == 'dia') 
+			$where = "DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
+
+		if ($consulta == 'semana') 
+			$where = " YEARWEEK(DATE_FORMAT(ventas.created_at, '%Y-%m-%d')) = YEARWEEK(DATE_FORMAT('{$fecha}', '%Y-%m-%d')) ";
+
+		if ($consulta == 'mes') 
+			$where = "DATE_FORMAT(ventas.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
+
+		if ($where == null)
+			$where = "DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
+		
+		$table = 'ventas';
+
+		$columns = array(
+			"ventas.created_at as fecha", 
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"total",
+			"saldo",
+			"completed"
+			);
+
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","clientes.apellido");
+
+		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+	}
+	
 	public function UpdateDetalle()
 	{
 		if ( Input::get('values.cantidad') < 1 )

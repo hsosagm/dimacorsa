@@ -17,7 +17,7 @@ function clientes_table() {
         $('#example').addClass('tableSelected');
     });
 
-};
+}; 
 
 function cliente_create() {
 

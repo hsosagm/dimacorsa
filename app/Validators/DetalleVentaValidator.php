@@ -1,6 +1,6 @@
 <?php namespace App\Validators;
 
-use ValidatorAssistant, Input;
+use ValidatorAssistant;
 
 class DetalleVentaValidator extends ValidatorAssistant {
 

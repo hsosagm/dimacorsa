@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <input type="hidden" name="cliente_id" value="{{Input::get('cliente_id')}}">
-                    {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+                   {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
                 </div>
                 <div class="col-md-2">
                     <input  class="btn theme-button" type="button" value="Enviar" onclick="SelectedPaySales(this);" >
@@ -43,7 +43,8 @@
         <td class="right"> {{ $q->saldo }} </td>
         <td class="widthS center tbutton"  width="10%"> 
             <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> </a>
-            <input type="checkbox" name="selectedSales[]" title="Seleccionar" total="{{ $q->saldo }}" class="checkbox select fa fa-check-square-o" value="{{ $q->id }}"> 
+            <input type="checkbox" name="selectedSales[]" title="Seleccionar" total="{{ $q->saldo }}" value="{{ $q->id }}" class="select"> 
+
         </td>
     </tr>
     @endforeach

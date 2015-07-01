@@ -10,7 +10,6 @@
 .container_selected {
     margin-top: -10px;
     margin-bottom: 10px;
-    border: 1px solid #DCDCDC;
     width: 100%;
     position: relative;
     float: left;
@@ -27,4 +26,22 @@
     padding-left: 15px;
     text-align: right;
     
+}
+
+
+.ckbox label:before{
+  width: 15px !important;
+  height: 15px !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+  display: inline-block;
+  border: 1px solid #BBB;
+  background: #FFF;
+}
+
+..ckbox {
+    padding: 0px !important;
+    margin: 0px !important;
 }

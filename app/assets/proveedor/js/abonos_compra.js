@@ -53,7 +53,7 @@ $(document).on('click', '.pagination a', function (e) {
 
     var page = $(this).attr('href').split('page=')[1];
 
-    GetPurchasesForPaymentsBySelection(page);
+    GetPurchasesForPaymentsBySelection(page,null);
 
 });
 

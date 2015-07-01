@@ -2,7 +2,7 @@
 <script>
 $(document).ready(function() {
 
-    proccess_table('Inventario');
+    proccess_table('Ventas Por Fecha');
 
     $('#example').dataTable({
 
@@ -27,9 +27,9 @@ $(document).ready(function() {
                     
                     $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
                     
-                    $v += '<a href="javascript:void(0);" title="Imprimir Factura" onclick="ImprimirFacturaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px">';
+                    $v += '<a href="javascript:void(0);" title="Imprimir Venta" onclick="ImprimirFacturaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px">';
                     
-                    $v += '<a href="javascript:void(0);" title="Imprimir Garantia" onclick="ImprimirGarantiaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-file-o font14" style="padding-left:10px">';
+                    $v += '<a href="javascript:void(0);" title="Imprimir Factura" onclick="ImprimirGarantiaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-file-o font14" style="padding-left:10px">';
 
                     return $v;
                 }
@@ -38,6 +38,9 @@ $(document).ready(function() {
 
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
+            $( ".DTTT" ).append( '<button consulta="dia"    onclick="OpenTableSalesForDate(this)">Dia</button>'    );
+            $( ".DTTT" ).append( '<button consulta="semana" onclick="OpenTableSalesForDate(this)">Semana</button>' );
+            $( ".DTTT" ).append( '<button consulta="mes"    onclick="OpenTableSalesForDate(this)">Mes</button>'    );
         },
 
         "fnRowCallback": function( nRow, aData ) {                
@@ -49,7 +52,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/ventas/SalesOfDay"
+        "sAjaxSource": "user/ventas/SalesForDate?fecha={{Input::get('fecha')}}&consulta={{Input::get('consulta')}}"
     });
 
 });

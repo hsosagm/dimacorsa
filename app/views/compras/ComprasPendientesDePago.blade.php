@@ -12,8 +12,8 @@ $saldo_vencido = 0;
             <th>Usuario</th>
             <th>Proveedor</th>
             <th>Numero</th>
-            <th>Saldo</th>
             <th>Total</th>
+            <th>Saldo</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -40,8 +40,8 @@ $saldo_vencido = 0;
             <td                width="21%"> {{ $q->usuario }} </td>
             <td                width="40%"> {{ $q->proveedor }} </td>
             <td                width="12%"> {{ $q->numero_documento }} </td>
-            <td class="right"  width="12%"> {{ $saldo }} </td>
             <td class="right"  width="12%"> {{ $total }} </td>
+            <td class="right"  width="12%"> {{ $saldo }} </td>
             <td>
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
             </td>
@@ -53,8 +53,8 @@ $saldo_vencido = 0;
             <td                width="21%"> {{ $q->usuario }} </td>
             <td                width="40%"> {{ $q->proveedor }} </td>
             <td                width="12%"> {{ $q->numero_documento }} </td>
-            <td class="right"  width="12%"> {{ $saldo }} </td>
             <td class="right"  width="12%"> {{ $total }} </td>
+            <td class="right"  width="12%"> {{ $saldo }} </td>
 
             <td>
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>

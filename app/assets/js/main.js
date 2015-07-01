@@ -209,9 +209,8 @@ function _delete_dt(e) {
 
     $id = $(e).closest('tr').attr('id');    
     $url = $('.dataTable').attr('url') + 'delete';
-    alert($url);
+    
     $.confirm({
-
         confirm: function(){
 
             $.ajax({

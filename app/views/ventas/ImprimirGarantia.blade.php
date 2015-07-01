@@ -46,7 +46,7 @@
                         <th width="15%">Precio</th>
                         <th width="15%">Total</th>
                     </tr>
-                    <?php $total = 0; ?>
+                    <?php $total = 0;  $serials = "";?>
                     @foreach($venta->detalle_venta as $key => $dt)
                     <tr height="1"  style="font-size:12px; ">
                         <td width="15%"> 
@@ -62,7 +62,13 @@
                             {{ f_num::get($dt->cantidad * $dt->precio)}}
                         </td>   
                     </tr>
-                    <?php $total = $total +($dt->cantidad * $dt->precio); ?>
+                    <?php 
+                        $total = $total +($dt->cantidad * $dt->precio); 
+                         if ($dt->serials != null ) 
+                         {
+                             $serials .= $dt->serials;
+                         }
+                    ?>
                     @endforeach
 
                     <tfoot height="15">
@@ -71,6 +77,12 @@
                            Total:
                         </td>
                         <td style="text-align:right; padding-right:15px"> Q {{f_num::get($total)}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"> Series </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"> {{$serials}} </td>
                     </tr>
                 </tfoot>
                 </table>

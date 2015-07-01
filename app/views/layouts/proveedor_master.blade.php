@@ -29,17 +29,14 @@
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
 
+                <div id="loader"><div class="spinner flat"></div></div>
+                
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2>
                     <a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> 
                     <span id="InformationProviderSearches"></span>
                     <span id="home"></span>
-                    <span class="loader" style="position:absolute; width:100%;">
-                <div align="center" width="100%">
-                   <img src="img/loader/general/2.gif" alt="">
-               </div>
-                    </h2>
 
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
