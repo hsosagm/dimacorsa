@@ -143,15 +143,15 @@ div.spinner.flat {
 	display: none;
 }
 
-.editing .edit {
+.editing .detail-input-edit {
 	display: block;
 }
 
-.edit {
+.detail-input-edit {
 	display: none;
 }
 
-.edit input {
+.detail-input-edit input {
 	width: 90px !important;
 	line-height: 1.4em;
 }
