@@ -25,7 +25,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Precio Publico: </div>
 		<div class="col-md-7">
-			<input type="text" name="p_publico" value="{{$producto->p_publico}}" class="form-control">
+			<input type="text" name="p_publico" value="{{$producto->p_publico}}" class="form-control numeric">
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -77,6 +77,12 @@
 </div>
 
 {{ Form::close() }}
+
+
+<script type="text/javascript">
+    $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+</script>
+
 
 <style type="text/css">
 

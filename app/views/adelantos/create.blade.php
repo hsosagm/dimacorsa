@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-lg-3"> 
-            <input name="monto" type="text" class="form-control" autocomplete="off">
+            <input name="monto" type="text" class="form-control numeric" autocomplete="off">
         </div>
 
         <div class="col-lg-3">                               
@@ -51,6 +51,10 @@
     </div>
 
 {{ Form::close() }}
+
+<script type="text/javascript">
+    $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+</script>
 
 <style type="text/css">
 .bs-modal .Lightbox{

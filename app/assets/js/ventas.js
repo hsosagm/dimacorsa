@@ -24,12 +24,9 @@ function RemoveSale() {
 		            {
 		                msg.success('Venta eliminada', 'Listo!');
 		                $(".form-panel").hide();
+                        return;
 		            }
-		            else
-		            {
-		                msg.warning(data, 'Advertencia!');
-		            }
-					$(".forms").html(data); // ??
+		            msg.warning(data, 'Advertencia!');
 				},
 				error: function(errors) {
 					msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');

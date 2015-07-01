@@ -1,6 +1,7 @@
 <?php
+use \NEkman\ModelLogger\Contract\Logable;
 
-class BarCode extends \BaseModel {
+class BarCode extends \BaseModel implements Logable{
 	
 	protected $table = 'barcode';
 
@@ -8,4 +9,12 @@ class BarCode extends \BaseModel {
 
 	protected $fillable = [];
 
+/**
+ * [getLogName description]
+ * @return 
+ */
+	public function getLogName() 
+	{
+		return $this->id;
+	}
 }

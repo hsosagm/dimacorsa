@@ -1,5 +1,7 @@
 <?php
 
+Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
+
 $min = Carbon::createFromFormat('Y-m-d h:i:s', Soporte::first()->created_at);
 
 $query = DB::table('detalle_venta')

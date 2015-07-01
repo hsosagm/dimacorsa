@@ -1,8 +1,6 @@
 <?php
 
-use \NEkman\ModelLogger\Contract\Logable;
-
-class PagosVenta extends \BaseModel  implements Logable {
+class PagosVenta extends \BaseModel {
 
 	protected $guarded = array('id');
 
@@ -16,11 +14,6 @@ class PagosVenta extends \BaseModel  implements Logable {
     public function metodo_pago()
     {
         return $this->belongsTo('MetodoPago', 'metodo_pago_id');    
-    }
-
-    public function getLogName()
-    {
-        return $this->id; 
     }
     
 }
