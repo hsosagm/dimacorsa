@@ -65,12 +65,12 @@
                 </li>
 
                 <li class="dropdown navbar-message">
-                    <a  href="/cliente" class="dropdown-toggle" target="_blank" data-placement="bottom"  title="Clientes"  data-toggle="tooltip"><i class="fa fa-users"></i></a>
+                    <a  href="/cliente" class="dropdown-toggle"  data-placement="bottom"  title="Clientes"  data-toggle="tooltip"><i class="fa fa-users"></i></a>
                 </li>
 
                 @if($slide_bar_left == 2 || $slide_bar_left == 3)
                 <li class="dropdown navbar-message">
-                    <a  href="/proveedor" target="_blank" class="dropdown-toggle" data-placement="bottom"  title="Proveedores"  data-toggle="tooltip"><i class="fa fa-folder-open"></i></a>
+                    <a  href="/proveedor" class="dropdown-toggle" data-placement="bottom"  title="Proveedores"  data-toggle="tooltip"><i class="fa fa-folder-open"></i></a>
                 </li>
                 @endif
                 
