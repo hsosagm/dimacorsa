@@ -157,7 +157,7 @@ module.exports = function(grunt) {
                 './app/assets/components/bower/highcharts/highcharts-3d.js',
                 './app/assets/components/bower/highcharts/modules/exporting.js',
                 './app/assets/components/bower/toastr/toastr.js',
-                './app/assets/js/jquery.numeric.js',
+                './app/assets/js/autoNumeric.js',
                 './app/assets/js/jquery_confirm.js',
                 './app/assets/js/accounting.js',
                 './app/assets/js/drilldown.js',

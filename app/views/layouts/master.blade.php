@@ -74,7 +74,6 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 <script src="js/vue.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/custom.js"></script>
-<script src="js/autoNumeric.js"></script>
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>
 <script src="calendar/translations/es_ES.js"></script>
