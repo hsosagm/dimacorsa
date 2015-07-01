@@ -64,4 +64,3 @@ producto_id = (SELECT id from productos WHERE codigo = detalleventa.codigo) ;
 
 //pasar los precios costo a base de 100
 //colocarle el metodo de pagos a todos 
-

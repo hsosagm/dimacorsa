@@ -13,10 +13,6 @@
     Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
     DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
     Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
-<<<<<<< HEAD
-=======
-
->>>>>>> 3f5e109d820a2c12c416c5d583e02e1f49a67a38
  
     /******************************************************************************/
     //rutas para evitar los errores de las imagenes no encontradas

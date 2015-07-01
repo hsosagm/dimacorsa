@@ -324,6 +324,8 @@ class CompraController extends \BaseController {
 
 		$deuda = 0;
 
+		//return View::make('compras.DT_detalle_compra', compact('detalle', 'deuda'));
+
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.DT_detalle_compra', compact('detalle', 'deuda'))->render()
