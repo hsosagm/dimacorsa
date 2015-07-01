@@ -13,13 +13,6 @@
     Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
     DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
     Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Gasto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Soporte::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Egreso::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Adelanto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Descarga::observe(new \NEkman\ModelLogger\Observer\Logger);
-    PagosCompra::observe(new \NEkman\ModelLogger\Observer\Logger);
-    PagosVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
  
     /******************************************************************************/
     //rutas para evitar los errores de las imagenes no encontradas
@@ -413,18 +406,8 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('test2' , 'CierreController@CierreDelMes' );
 Route::get('test', function()
 {   
-    $fecha =  Carbon::createFromFormat('Y-m-d', "2015-06-29");
-
-    $fecha_inicio = $fecha->startOfWeek();
-    $fecha_final  = $fecha->endOfWeek();
-
-    echo "{$fecha_inicio} ala {$fecha_final}";
-
-
-    $fecha_inicio = new Carbon('this week');
-    $fecha_final  = new Carbon('next week last day');
-
-    echo "<br>{$fecha_inicio} ala {$fecha_final}";
+    $cadena = "950477-k";
+    return  preg_replace('/[^A-Za-z0-9_]/', '', strtoupper($cadena));
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

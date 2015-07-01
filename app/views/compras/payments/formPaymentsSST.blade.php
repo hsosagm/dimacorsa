@@ -63,7 +63,3 @@
 <div style="float:right" class="pagination"> {{ $compras->links() }} </div>
 
 @endif 
-
-<script>
- $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
-</script>
