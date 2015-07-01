@@ -14,7 +14,7 @@
 		<tbody>
 		    <tr v-repeat="dt: detalleTable" v-class="editing : this == editedTodo">
                 <td width="10%" class="view" v-text="dt.cantidad" v-on="dblclick: editItem(this)"></td>
-                <td width="10%" class="edit">
+                <td width="10%" class="detail-input-edit">
                     <input type="text" v-model="dt.cantidad" v-item-focus="this == editedTodo" class="input_numeric" 
                         v-on="keyup : doneEdit(this) | key 'enter', keyup : cancelEdit(this) | key 'esc'">
                 </td>

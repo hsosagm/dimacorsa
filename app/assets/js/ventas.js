@@ -27,9 +27,6 @@ function RemoveSale() {
                         return;
 		            }
 		            msg.warning(data, 'Advertencia!');
-				},
-				error: function(errors) {
-					msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
 				}
 			});
         }
