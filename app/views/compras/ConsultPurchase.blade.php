@@ -19,9 +19,9 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Fecha Doc.",  "aTargets": [1]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [2]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [3]},
-            {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Factura",     "aTargets": [4]},
-            {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Total",       "aTargets": [5]},
-            {"sClass": "mod_codigo hover align_right widthM",  "sTitle": "Saldo",       "aTargets": [6]},
+            {"sClass": "mod_codigo hover  widthM",             "sTitle": "Factura",     "aTargets": [4]},
+            {"sClass": "mod_codigo hover right widthM",        "sTitle": "Total",       "aTargets": [5]},
+            {"sClass": "mod_codigo hover right widthM",        "sTitle": "Saldo",       "aTargets": [6]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {
