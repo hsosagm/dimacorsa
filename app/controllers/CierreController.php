@@ -4,24 +4,34 @@ class CierreController extends \BaseController {
 
     function CierreDelDia()
     {
-        $data = $this->resumen_movimientos();
+        $data = $this->resumen_movimientos('current_date');
+
+        return View::make('cierre.CierreDia',compact('data'));
+    }
+
+    public function CierreDelDiaPorFecha()
+    {
+        $data = $this->resumen_movimientos(Input::get('fecha'));
 
         return View::make('cierre.CierreDia',compact('data'));
     }
 
     //funcion para genrar la consulta agrupandolos por el metodo de pago
     //$tabla = es la tabla a la que se le va a sumar el $campo que mande como segundo parametro
-    function query( $tabla , $campo )
+    function query( $tabla , $campo , $fecha )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT(current_date, '%Y-%m-%d')")
+        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT('{$fecha}', '%Y-%m-%d')")
         ->groupBy('metodo_pago.id')->get();
 
         return $this->llenar_arreglo($Query);
     }
 
+    //funcion para ordenar el arreglo de los metodos de pago
+    //retorna un arreglo de una dimencion 
+    //forma de uso $arreglo['efectivo']
     function llenar_arreglo($Query)
     {
         $arreglo_ordenado = array( 
@@ -63,13 +73,21 @@ class CierreController extends \BaseController {
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
         ->first(array(DB::raw('sum(total) as total')));
 
-        $ganancias  = DetalleVenta::whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")->first(array(DB::raw(' sum(cantidad * ganancias) as total')));
+       $ganancias =  DB::table('users')
+        ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
+        ->join('ventas','ventas.user_id','=','users.id')
+        ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+        ->where('users.tienda_id','=',Auth::user()->tienda_id)->where('users.status','=',1)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
+        ->orderBy('total', 'DESC')->first();
 
         $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
         ->first(array(DB::raw('sum(monto) as total')));
 
         $gastos = Gasto::join('detalle_gastos','detalle_gastos.gasto_id','=','gastos.id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
         ->first(array(DB::raw('sum(monto) as total')));
 
@@ -134,7 +152,7 @@ class CierreController extends \BaseController {
                 'user' => $query->user->nombre. " " . $query->user->apellido
             ));
 
-        $data = $this->resumen_movimientos();
+        $data = $this->resumen_movimientos('current_date');
 
         $efectivo = $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo']
         - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
@@ -159,22 +177,87 @@ class CierreController extends \BaseController {
         ));
     }
 
-
-    public function resumen_movimientos()
+    //Funcion que nos retorna una matriz de dos dimenciones
+    //su forma de uso es  $data['pagos_ventas']['efectivo'];
+    public function resumen_movimientos($fecha)
     {
         $data = [];
 
-        $data['pagos_ventas']     =   $this->query('pagos_ventas','monto');
-        $data['abonos_ventas']    =   $this->query('abonos_ventas','monto');
-        $data['soporte']          =   $this->query('detalle_soporte','monto');
-        $data['adelantos']        =   $this->query('detalle_adelantos','monto');
-        $data['ingresos']         =   $this->query('detalle_ingresos','monto');
-        $data['egresos']          =   $this->query('detalle_egresos','monto');
-        $data['gastos']           =   $this->query('detalle_gastos','monto');
-        $data['abonos_compras']   =   $this->query('abonos_compras','total');
-        $data['pagos_compras']    =   $this->query('pagos_compras','monto');
+        $data['pagos_ventas']     =   $this->query('pagos_ventas','monto',$fecha);
+        $data['abonos_ventas']    =   $this->query('abonos_ventas','monto',$fecha);
+        $data['soporte']          =   $this->query('detalle_soporte','monto',$fecha);
+        $data['adelantos']        =   $this->query('detalle_adelantos','monto',$fecha);
+        $data['ingresos']         =   $this->query('detalle_ingresos','monto',$fecha);
+        $data['egresos']          =   $this->query('detalle_egresos','monto',$fecha);
+        $data['gastos']           =   $this->query('detalle_gastos','monto',$fecha);
+        $data['abonos_compras']   =   $this->query('abonos_compras','total',$fecha);
+        $data['pagos_compras']    =   $this->query('pagos_compras','monto',$fecha);
 
         return $data;
     }
+
+    function CierreDelMesPorFecha()
+    {
+
+        $fecha = Input::get('fecha');
+
+        $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->first(array(DB::raw('sum(total) as total')));
+
+        $ganancias =  DB::table('users')
+        ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
+        ->join('ventas','ventas.user_id','=','users.id')
+        ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+        ->where('users.tienda_id','=',Auth::user()->tienda_id)->where('users.status','=',1)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->orderBy('total', 'DESC')->first();
+
+        $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        $gastos = Gasto::join('detalle_gastos','detalle_gastos.gasto_id','=','gastos.id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        $compras = Compra::where('tienda_id','=',Auth::user()->tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
+
+        $ventas_c = Venta::where('tienda_id','=',Auth::user()->tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
+
+        $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('existencias.existencia','>', 0)
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+
+        $ventas_usuarios =  DB::table('users')
+        ->select(DB::raw('users.nombre, users.apellido,
+            sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
+            sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
+        ->join('ventas','ventas.user_id','=','users.id')
+        ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+        ->where('users.tienda_id','=',Auth::user()->tienda_id)
+        ->where('users.status','=',1)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->orderBy('total', 'DESC')
+        ->groupBy('users.id','users.nombre','users.apellido')
+        ->get();
+
+        $total_ventas     = f_num::get($ventas->total   );
+        $total_ganancias  = f_num::get($ganancias->total);
+        $total_soporte    = f_num::get($soporte->total  );
+        $total_gastos     = f_num::get($gastos->total   );
+        $compras_credito  = f_num::get($compras->total  );
+        $ventas_credito   = f_num::get($ventas_c->total );
+        $inversion_actual = f_num::get($inversion->total);
+        $ganancias_netas  = f_num::get(($ganancias->total+$soporte->total)-$gastos->total);
+
+        return View::make('cierre.CierreMes',compact('total_ventas','total_ganancias','total_soporte','total_gastos','ganancias_netas','ventas_usuarios','compras_credito','ventas_credito','inversion_actual','fecha'));
+    }
+
 
 }

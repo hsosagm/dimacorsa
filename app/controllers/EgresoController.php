@@ -81,5 +81,49 @@ class EgresoController extends \BaseController {
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
     }
+
+    public function EgresosPorFecha()
+    {
+        return View::make('egresos.EgresosPorFecha');
+    }
+
+    function EgresosPorFecha_dt(){
+        $fecha    = Input::get('fecha');
+        $consulta = Input::get('consulta');
+
+        $where = null;
+
+        if ($consulta == 'dia') 
+            $where = "DATE_FORMAT(egresos.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
+
+        if ($consulta == 'semana') 
+            $where = " WEEK(egresos.created_at) = WEEK('{$fecha}')  AND YEAR(egresos.created_at) = YEAR('{$fecha}')  ";
+
+        if ($consulta == 'mes') 
+            $where = "DATE_FORMAT(egresos.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
+
+        if ($where == null)
+            $where = "DATE_FORMAT(egresos.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
+        
+        $table = 'egresos';
+
+        $columns = array(
+            "tiendas.nombre as tienda_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "egresos.created_at as fecha",
+            "detalle_egresos.descripcion as detalle_descripcion",
+            'monto',
+            "metodo_pago.descripcion as metodo_descripcion"
+            );
+
+        $Searchable = array("users.nombre","users.apellido");
+
+        $Join = "JOIN detalle_egresos ON (egresos.id = detalle_egresos.egreso_id) 
+        JOIN users ON (users.id = egresos.user_id)
+        JOIN tiendas ON (tiendas.id = egresos.tienda_id)
+        JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
+    }
 }
  

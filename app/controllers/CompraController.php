@@ -426,6 +426,7 @@ class CompraController extends \BaseController {
         ->join('users', 'compras.user_id', '=', 'users.id')
         ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
         ->where('saldo', '>', 0)
+        ->where('compras.tienda_id', '=', Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))
         ->orderBy('fecha', 'ASC')
         ->get();
@@ -477,6 +478,7 @@ class CompraController extends \BaseController {
         ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
         ->where('saldo', '>', 0)
         ->where('completed', '=', 1)
+        ->where('compras.tienda_id', '=', Auth::user()->tienda_id)
         ->orderBy('fecha', 'ASC')
         ->get();
 
@@ -564,7 +566,7 @@ class CompraController extends \BaseController {
 			$where = "DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
 
 		if ($consulta == 'semana') 
-			$where = " YEARWEEK(DATE_FORMAT(compras.created_at, '%Y-%m-%d')) = YEARWEEK(DATE_FORMAT('{$fecha}', '%Y-%m-%d')) ";
+			$where = " WEEK(compras.created_at) = WEEK('{$fecha}')  AND YEAR(compras.created_at) = YEAR('{$fecha}')  ";
 
 		if ($consulta == 'mes') 
 			$where = "DATE_FORMAT(compras.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";

@@ -64,3 +64,23 @@ function VerTablaClientesUsuario(e)
         $('#example').addClass('tableSelected');
     });
 } 
+
+function VentasAlCreditoUsuario(e)
+{
+    $(e).prop("disabled", true);
+
+    $.ajax({
+        type: 'GET',
+        url: "user/consulta/VentasAlCreditoUsuario",
+        success: function (data) {
+            if (data.success == true)
+            {
+                generate_dt_local(data.table);
+            }
+            else
+            {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    }); 
+}

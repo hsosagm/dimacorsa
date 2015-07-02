@@ -248,7 +248,6 @@ function CreditSales(e)
             if (data.success == true)
             {
                 generate_dt_local(data.table);
-                msg.success('Listo', 'Ok!');
             }
             else
             {

@@ -1,11 +1,11 @@
 <?php
-
+    // 725009.50
     /*******************************************************************************/
         Route::when('*', 'csrf', array('post', 'put', 'delete'));
     /*
 
     /*
-    funciones para hacer el guardado de logs
+    funciones para hacer el guardado de logs    
     /*******************************************************************************/
 
     Producto::observe(new \NEkman\ModelLogger\Observer\Logger);
@@ -48,6 +48,7 @@
             Route::get('VerTablaGastosDelDiaUsuario'   , 'UserController@VerTablaGastosDelDiaUsuario'   );
             Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
             Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
+            Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'       );
 
             //datatables de consultas de los usuarios
             Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
@@ -89,8 +90,8 @@
             Route::post('delete_detail'         , 'SoporteController@delete_detail');
             Route::get('OpenTableSupportDay'    , 'SoporteController@OpenTableSupportDay');
             Route::get('SupportDay_dt'          , 'SoporteController@SupportDay_dt');
-            Route::get('OpenTableSupportForDate', 'SoporteController@OpenTableSupportForDate');
-            Route::get('SupportForDate'         , 'SoporteController@SupportForDate');
+            Route::get('SoportePorFecha'        , 'SoporteController@SoportePorFecha');
+            Route::get('SoportePorFecha_dt'     , 'SoporteController@SoportePorFecha_dt');
 
         });
 
@@ -102,8 +103,8 @@
             Route::post('delete_detail'            , 'GastoController@delete_detail');
             Route::get('OpenTableExpensesDay'      , 'GastoController@OpenTableExpensesDay');
             Route::get('ExpensesDay_dt'            , 'GastoController@ExpensesDay_dt');
-            Route::get('OpenTableExpensesForDate'  , 'GastoController@OpenTableExpensesForDate');
-            Route::get('ExpensesForDate'           , 'GastoController@ExpensesForDate');
+            Route::get('GastosPorFecha'            , 'GastoController@GastosPorFecha');
+            Route::get('GastosPorFecha_dt'         , 'GastoController@GastosPorFecha_dt');
 
         });
 
@@ -115,8 +116,8 @@
             Route::post('delete_detail'              , 'EgresoController@delete_detail');
             Route::get('OpenTableExpendituresDay'    , 'EgresoController@OpenTableExpendituresDay');
             Route::get('ExpendituresDay_dt'          , 'EgresoController@ExpendituresDay_dt');
-            Route::get('OpenTableExpendituresForDate', 'EgresoController@OpenTableExpendituresForDate');
-            Route::get('ExpendituresForDate'         , 'EgresoController@ExpendituresForDate');
+            Route::get('EgresosPorFecha'             , 'EgresoController@EgresosPorFecha');
+            Route::get('EgresosPorFecha_dt'          , 'EgresoController@EgresosPorFecha_dt');
 
         });
 
@@ -128,8 +129,8 @@
             Route::post('delete_detail'        , 'IngresoController@delete_detail');
             Route::get('OpenTableIncomeDay'    , 'IngresoController@OpenTableIncomeDay');
             Route::get('IncomeDay_dt'          , 'IngresoController@IncomeDay_dt');
-            Route::get('OpenTableIncomeForDate', 'IngresoController@OpenTableIncomeForDate');
-            Route::get('IncomeForDate'         , 'IngresoController@IncomeForDate');
+            Route::get('IngresosPorFecha'      , 'IngresoController@IngresosPorFecha');
+            Route::get('IngresosPorFecha_dt'   , 'IngresoController@IngresosPorFecha_dt');
 
         });
 
@@ -141,8 +142,8 @@
             Route::post('delete_detail'            , 'AdelantoController@delete_detail');
             Route::get('OpenTableAdvancesDay'      , 'AdelantoController@OpenTableAdvancesDay');
             Route::get('AdvancesDay_dt'            , 'AdelantoController@AdvancesDay_dt');
-            Route::get('OpenTableAdvancesForDate'  , 'AdelantoController@OpenTableAdvancesForDate');
-            Route::get('AdvancesForDate'           , 'AdelantoController@AdvancesForDate');
+            Route::get('AdelantosPorFecha'         , 'AdelantoController@AdelantosPorFecha');
+            Route::get('AdelantosPorFecha_dt'      , 'AdelantoController@AdelantosPorFecha_dt');
 
         });
 
@@ -211,10 +212,12 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'cierre'),function() 
     {
-         Route::get('CierreDelDia' , 'CierreController@CierreDelDia' );
-         Route::get('cierre'       , 'CierreController@cierre' );
-         Route::post('cierre'      , 'CierreController@cierre' );
-         Route::get('CierreDelMes' , 'CierreController@CierreDelMes' );
+         Route::get('CierreDelDia'         , 'CierreController@CierreDelDia' );
+         Route::get('cierre'               , 'CierreController@cierre' );
+         Route::post('cierre'              , 'CierreController@cierre' );
+         Route::get('CierreDelMes'         , 'CierreController@CierreDelMes' );
+         Route::get('CierreDelDiaPorFecha' , 'CierreController@CierreDelDiaPorFecha' );
+         Route::get('CierreDelMesPorFecha' , 'CierreController@CierreDelMesPorFecha' );
     });
 
     Route::group(array('prefix' => 'barcode'),function() 
@@ -403,113 +406,15 @@ Route::group(array('prefix' => 'owner'), function()
 
 });
 
-Route::get('test2' , 'CierreController@CierreDelMes' );
 Route::get('test', function()
 {   
-    $cadena = "950477-k";
-    return  preg_replace('/[^A-Za-z0-9_]/', '', strtoupper($cadena));
+   
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
-
-
-Route::get('init', function()
-{
-    $metodo_pago = new MetodoPago;
-    $metodo_pago->descripcion = 'Efectivo';
-    $metodo_pago->save();
-
-    $tienda = new Tienda;
-    $tienda->nombre = 'Click';
-    $tienda->direccion = 'Chiquimula';
-    $tienda->telefono = '79421383';
-    $tienda->status = 1;
-    $tienda->save();
-
-    $tienda = new Tienda;
-    $tienda->nombre = 'Bodega';
-    $tienda->direccion = 'Chiquimula';
-    $tienda->telefono = '78787878';
-    $tienda->status = 1;
-    $tienda->save();
-});
-
-Route::get('init2', function()
-{
-    $user = new User;
-    $user->tienda_id = 1;
-    $user->username = 'hsosan1';
-    $user->nombre = 'Gilder';
-    $user->apellido = 'Hernandez';
-    $user->email = 'hsosan1@hotmail.com';
-    $user->password = '003210';
-    $user->status = 1;
-    $user->save();
-
-    $user = new User;
-    $user->tienda_id = 1;
-    $user->username = 'admin';
-    $user->nombre = 'admin';
-    $user->apellido = 'admin';
-    $user->email = 'admin@hotmail.com';
-    $user->password = '123456';
-    $user->status = 1;
-    $user->save();
-
-    $user = new User;
-    $user->tienda_id = 1;
-    $user->username = 'usuario';
-    $user->nombre = 'usuario';
-    $user->apellido = 'usuario';
-    $user->email = 'usuario@hotmail.com';
-    $user->password = '123456';
-    $user->status = 1;
-    $user->save();
-
-    $owner = new Role;
-    $owner->name = 'Owner';
-    $owner->save();
-
-    $admin = new Role;
-    $admin->name = 'admin';
-    $admin->save();
-
-    $usuario = new Role();
-    $usuario->name = 'User';
-    $usuario->save();
-
-
-    $user = User::where('username','=','hsosan1')->first();
-    $user->attachRole( $owner );
-
-    $user = User::where('username','=','admin')->first();
-    $user->attachRole( $admin );
-
-    $user = User::where('username','=','usuario')->first();
-    $user->attachRole( $usuario );
-
-
-    $manageProductos = new Permission;
-    $manageProductos->name = 'manage_productos';
-    $manageProductos->display_name = 'Manage productos';
-    $manageProductos->save();
-
-    $manageUsers = new Permission;
-    $manageUsers->name = 'manage_users';
-    $manageUsers->display_name = 'Manage Users';
-    $manageUsers->save();
-
-    $owner->perms()->sync(array($manageProductos->id,$manageUsers->id));
-    $admin->perms()->sync(array($manageProductos->id));
-
-    return 'Success!';
-});
-
-Route::get('dbseed', 'LoadDataController@index');
-
-Route::get('timetest', function() 
+/*Route::get('timetest', function() 
 {
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);
@@ -521,231 +426,4 @@ Route::get('timetest', function()
 
     return $end -$start;
 });
-
-Route::get('cod', function() {
-    
-    // $venta = Venta::with('cliente', 'detalle_venta')->find(74);
-
-    // return $venta->detalle_venta[0]->producto->descripcion;
-
-//     $collection = User::all();
-// $grouped = $collection->groupBy('status');
-//  return $grouped; 
-
-
-//     $collection = User::all();
-// $names = $collection->implode('nombre', ',');
-// echo $names;    
-
-    //     $table = 'ventas';
-
-    //     $columns = array(
-    //         "ventas.created_at as fecha", 
-    //         "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-    //         "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-    //         "numero_documento",
-    //         "saldo",
-    //         "completed"
-    //         );
-
-    //     $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
-
-    //     $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
-
-    //     $where = "saldo > 0";
-
-
-    // $query = DB::table('ventas')
-    //     ->select(DB::raw("ventas.created_at as fecha, 
-    //         CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-    //         CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
-    //         numero_documento,
-    //         saldo"))
-    //     ->join('users', 'ventas.user_id', '=', 'users.id')
-    //     ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
-    //     ->where('saldo', '>', 0)
-    //     ->orderBy('fecha', 'ASC')
-    //     ->get();
-
-    //     return $query;
-
-        // $query = Venta::where('cliente_id','=', 3914)
-        // ->where('saldo', '>', 0)
-        // ->get();
-
-
-        //     return $query[0]->cliente->nombre;
-
-        // $query = Venta::where('cliente_id','=', 3914)
-        // ->where('saldo', '>', 0)
-        // ->get();
-
-        // $saldo_total = 0;
-        // $saldo_vencido = 0;
-
-        // foreach ($query as  $q)
-        // {
-        //     $fecha_entrada = $q->created_at;
-        //     $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-        //     $fecha_vencida = date('Ymd',strtotime("-30 days"));
-
-        //     if ($fecha_entrada < $fecha_vencida)
-        //     {
-        //         $saldo_vencido = $saldo_vencido + $q->saldo;
-        //     }
-        //     $saldo_total = $saldo_total + $q->saldo;
-        // }
-
-        // $cliente = $query[0]->cliente->nombre . "&nbsp;" . $query[0]->cliente->apellido;
-
-        // $saldo_total   = f_num::get($saldo_total);
-        // $saldo_vencido = f_num::get($saldo_vencido);
-
-        // $tab = "";
-
-        // $info = $cliente . $tab . " Saldo total &nbsp;". $saldo_total . $tab ." Saldo vencido &nbsp;" .$saldo_vencido;
-
-        // return Response::json(array(
-        //     'success'       => true,
-        //     'info' => $info
-        // ));
-      
-        // $table = 'ventas';
-
-        // $columns = array(
-        //     "ventas.created_at as fecha", 
-        //     "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-        //     "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
-        //     "numero_documento","completed",
-        //     "saldo"
-        //     );
-
-        // $Search_columns = array("users.nombre","users.apellido","numero_documento","clientes.nombre","clientes.apellido");
-
-        // $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
-
-        // $where = null;
-
-        // $productos = DB::table('users')->get();
-
-        // $data = Paginator::make($productos, 4, 2);
-
-        // $ventas = DB::table('ventas')
-        // ->where('cliente_id', 3914)
-        // ->where('saldo', '>', 0)
-        // ->orderBy('created_at', 'ASC')
-        // ->get();
-
-        // if (!$ventas) {
-        //    return 'no';
-        // }
-        // return 'si';
-
-            // $ventas = Venta::where('cliente_id', 39143 )
-            // ->where('saldo', '>', 0)
-            // ->orderBy('created_at', 'ASC')
-            // ->get();
-
-            // if (!count($ventas) ) {
-            //     return Response::json(array('success' => false));
-            // }
-
-            // return 'paso';
-
-        // $query = Venta::where('cliente_id','=', 124)
-        // ->where('saldo', '>', 0)
-        // ->first();
-
-        // if (!count($query) ) {
-        //     return Response::json(array('success' => false));
-        // }
-
-        // return 'paso';
-
-        // $movimientos = array(
-        //     'efectivo' => 36100,
-        //     'cheque'   => 24000,
-        //     'tarjeta'  => 4900,
-        //     'deposito' => 10809
-        // );
-
-        // return $movimientos;
-
-    // $cliente = Cliente::with('tipo_cliente')->find(3);
-
-    // $query = Venta::where('cliente_id','=', 3)
-    // ->where('saldo', '>', 0)
-    // ->get();
-
-    // if (!count($query) ) 
-    // {
-    //     $cliente['saldo_total']   = 0;
-    //     $cliente['saldo_vencido'] = 0;
-    // }
-
-    // $saldo_total = 0;
-    // $saldo_vencido = 0;
-
-    // foreach ($query as  $q)
-    // {
-    //     $fecha_entrada = $q->created_at;
-    //     $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-    //     $fecha_vencida = date('Ymd',strtotime("-30 days"));
-
-    //     if ($fecha_entrada < $fecha_vencida)
-    //     {
-    //         $saldo_vencido = $saldo_vencido + $q->saldo;
-    //     }
-    //     $saldo_total = $saldo_total + $q->saldo;
-    // }
-
-    // $cliente['saldo_total']   = $saldo_total;
-    // $cliente['saldo_vencido'] = $saldo_vencido;
-
-    // return $cliente;
-
-    // $query = Cierre::where(DB::raw('DATE(created_at)'), '=', DATE('Y-m-d'))
-    //     ->where('tienda_id', Auth::user()->tienda_id)
-    //     ->first();
-
-    // return $query->user->nombre;
-
-        $detalle = DetalleVenta::where('venta_id', 27001)
-        ->select(array(
-            'detalle_ventas.id',
-            'venta_id', 'producto_id',
-            'cantidad', 
-            'precio', 
-            DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-        ->get()->toArray();
-
-        return $detalle;
-
-});
-
-
-// App::error(function(Exception $exception) {
-//     echo '<pre>';
-//     echo 'MESSAGE :: ';
-//         print_r($exception->getMessage());
-//     echo '<br> CODE ::';
-//         print_r($exception->getCode());
-//     echo '<br> IN ::';
-//         print_r($exception->getFile());
-//     echo '<br> ON LINE ::';
-//         print_r($exception->getLine());
-// die();
-// });
-
-// App::missing(function($e) {
-//     $url = Request::fullUrl();
-//     Log::warning("404 for URL: $url");
-//     return Response::view('errors.not-found', array(), 404);
-// });
-
-Route::get('pusher', function()
-{
-    App::make('Pusher')->trigger('demoChannel', 'userPost', ['title' => 'pusher test'] );
-});
+*/

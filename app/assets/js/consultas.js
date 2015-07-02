@@ -101,14 +101,14 @@ function OpenTablePurchaseForDate(element)
     });
 }
 
-function OpenTableSupportForDate(element)
+function SoportePorFecha(element)
 {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
     $.ajax({
         type: "GET",
-        url: 'user/soporte/OpenTableSupportForDate',
+        url: 'user/soporte/SoportePorFecha',
         data: { fecha:fecha , consulta:consulta },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
@@ -117,14 +117,14 @@ function OpenTableSupportForDate(element)
     });
 }
 
-function OpenTableExpensesForDate(element)
+function GastosPorFecha(element)
 {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
     $.ajax({
         type: "GET",
-        url: 'user/gastos/OpenTableExpensesForDate',
+        url: 'user/gastos/GastosPorFecha',
         data: { fecha:fecha , consulta:consulta },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
@@ -133,14 +133,14 @@ function OpenTableExpensesForDate(element)
     });
 }
 
-function OpenTableExpendituresForDate(element)
+function EgresosPorFecha(element)
 {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
     $.ajax({
         type: "GET",
-        url: 'user/egresos/OpenTableExpendituresForDate',
+        url: 'user/egresos/EgresosPorFecha',
         data: { fecha:fecha , consulta:consulta },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
@@ -149,14 +149,14 @@ function OpenTableExpendituresForDate(element)
     });
 }
 
-function OpenTableIncomeForDate(element)
+function IngresosPorFecha(element)
 {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
     $.ajax({
         type: "GET",
-        url: 'user/ingresos/OpenTableIncomeForDate',
+        url: 'user/ingresos/IngresosPorFecha',
         data: { fecha:fecha , consulta:consulta },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
@@ -165,14 +165,14 @@ function OpenTableIncomeForDate(element)
     });
 } 
 
-function OpenTableAdvancesForDate(element)
+function AdelantosPorFecha(element)
 {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
     $.ajax({
         type: "GET",
-        url: 'user/adelantos/OpenTableAdvancesForDate',
+        url: 'user/adelantos/AdelantosPorFecha',
         data: { fecha:fecha , consulta:consulta },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {

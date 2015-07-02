@@ -17,6 +17,7 @@
         <li><a href="javascript:void(0);" id="VerTablaIngresosDelDiaUsuario">Ingresos del Dia</a></li>
         <li><a href="javascript:void(0);" id="VerTablaGastosDelDiaUsuario">Gastos del Dia</a></li>
         <li><a href="javascript:void(0);" id="VerTablaAdelantosDelDiaUsuario">Adelantos del Dia</a></li>
+        <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
         <li><a href="javascript:void(0);" id="VerTablaClientesUsuario">Clientes </a></li>
     </ul>
 </li>

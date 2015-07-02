@@ -55,7 +55,7 @@
             </a>
             <ul>
                 <li id="OpenTableSupportDay"><a href="javascript:void(0);">Soporte del Dia</a></li>
-                <li onclick="OpenTableSupportForDate(this)"><a href="javascript:void(0);">Soporte por Fechas</a></li>
+                <li onclick="SoportePorFecha(this)"><a href="javascript:void(0);">Soporte por Fechas</a></li>
             </ul>
         </li>
 
@@ -66,7 +66,7 @@
             </a>
             <ul>
                 <li id="OpenTableExpensesDay"><a href="javascript:void(0);">Gastos del Dia</a></li>
-                <li onclick="OpenTableExpensesForDate(this)"><a href="javascript:void(0);">Gastos por Fechas</a></li>
+                <li onclick="GastosPorFecha(this)"><a href="javascript:void(0);">Gastos por Fechas</a></li>
             </ul>
         </li>
 
@@ -77,7 +77,7 @@
             </a>
             <ul>
                 <li id="OpenTableExpendituresDay"><a href="javascript:void(0);">Egresos del Dia</a></li>
-                <li onclick="OpenTableExpendituresForDate(this)"><a href="javascript:void(0);">Egresos por Fechas</a></li>
+                <li onclick="EgresosPorFecha(this)"><a href="javascript:void(0);">Egresos por Fechas</a></li>
             </ul>
         </li>
 
@@ -88,7 +88,7 @@
             </a>
             <ul>
                 <li id="OpenTableIncomeDay"><a href="javascript:void(0);">Ingresos del Dia</a></li>
-                <li onclick="OpenTableIncomeForDate(this)"><a href="javascript:void(0);">Ingresos por Fechas</a></li>
+                <li onclick="IngresosPorFecha(this)"><a href="javascript:void(0);">Ingresos por Fechas</a></li>
             </ul>
         </li>
 
@@ -99,7 +99,7 @@
             </a>
             <ul>
                 <li id="OpenTableAdvancesDay"><a href="javascript:void(0);">Adelantos del Dia</a></li>
-                <li onclick="OpenTableAdvancesForDate(this)"><a href="javascript:void(0);">Adelantos por Fechas</a></li>
+                <li onclick="AdelantosPorFecha(this)"><a href="javascript:void(0);">Adelantos por Fechas</a></li>
             </ul>
         </li>
     </ul>
@@ -141,6 +141,8 @@
         <li><a href="javascript:void(0);" onClick="cierre();">Realizar cierre</a></li>
         <li><a href="javascript:void(0);" onClick="imprimir_cierre();">Imprimir cierre del dia</a></li>
         <li><a href="javascript:void(0);" onClick="CierreDelMes();"> cierre del mes</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelDiaPorFecha();"> cierre del dia por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelMesPorFecha();"> cierre del mes por fecha</a></li>
     </ul>
 </li>
 
