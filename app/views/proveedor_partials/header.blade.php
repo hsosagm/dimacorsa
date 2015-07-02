@@ -48,7 +48,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!-- Start profile -->
-                <li class="dropdown navbar-profile">
+                 <li class="dropdown navbar-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
                             <span class="avatar"><img src="img/avatar/35/1.png" class="img-circle" alt="admin"></span>
@@ -59,11 +59,17 @@
 
                                 echo $user_nombre[0].' '.$user_apellido[0];
                                 ?>
+                                <span class="caret"></span>
                             </span>
-                            
+
                         </span>
-                    </a>
-                </li><!-- /.dropdown navbar-profile -->
+                    </a> 
+                    <ul class="dropdown-menu animated flipInX">
+                        <li class="dropdown-header">Account</li>
+                        <li><a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li>
+                    </ul>
+                </li>
+                <!-- /.dropdown navbar-profile -->
                 <!--/ End profile -->
 
                 <!-- Start settings -->
