@@ -173,11 +173,14 @@ class SalesPaymentsController extends \BaseController {
         $abono->monto = $total;
         $abono->save();
 
+       $m_pago = AbonosVenta::find(868);
+       $m_pago = $m_pago->metodo_pago->descripcion;
+
         $detalle = $this->BalanceDetails($abonos_ventas_id);
 
         return Response::json(array(
             'success' => true,
-            'detalle' => View::make('ventas.payments.paymentsDetailsBySelection', compact("detalle", 'abonos_ventas_id'))->render()
+            'detalle' => View::make('ventas.payments.paymentsDetailsBySelection', compact("detalle", 'abonos_ventas_id', 'm_pago'))->render()
         ));
     }
 

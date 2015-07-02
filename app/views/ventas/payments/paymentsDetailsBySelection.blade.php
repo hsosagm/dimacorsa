@@ -1,6 +1,7 @@
 <table class="SST">
 	<thead>
 		<tr>
+			<th>Metodo de pago</th>
 			<th>No. Venta</th>
 			<th>Total</th>
 			<th>Saldo Anterior</th>
@@ -11,11 +12,12 @@
 	<tbody>
 		@foreach($detalle as $key => $dt)
 		<tr>
+			<td>{{$m_pago}}</td>
 			<td>{{$dt->venta_id}}</td>
-			<td>{{$dt->total}}</td>
-			<td>{{$dt->saldo_anterior}}</td>
-			<td>{{$dt->monto}}</td>
-			<td>{{$dt->saldo}}</td>
+			<td class="right">{{ f_num::get($dt->total) }}</td>
+			<td class="right">{{ f_num::get($dt->saldo_anterior) }}</td>
+			<td class="right">{{ f_num::get($dt->monto) }}</td>
+			<td class="right">{{ f_num::get($dt->saldo) }}</td>
 		</tr>
 		@endforeach
 	</tbody>
