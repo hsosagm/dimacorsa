@@ -566,7 +566,7 @@ class CompraController extends \BaseController {
 			$where = "DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
 
 		if ($consulta == 'semana') 
-			$where = " YEARWEEK(DATE_FORMAT(compras.created_at, '%Y-%m-%d')) = YEARWEEK(DATE_FORMAT('{$fecha}', '%Y-%m-%d')) ";
+			$where = " WEEK(compras.created_at) = WEEK('{$fecha}')  AND YEAR(compras.created_at) = YEAR('{$fecha}')  ";
 
 		if ($consulta == 'mes') 
 			$where = "DATE_FORMAT(compras.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
