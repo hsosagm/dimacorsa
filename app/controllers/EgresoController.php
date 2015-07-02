@@ -78,6 +78,7 @@ class EgresoController extends \BaseController {
         JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
 
         $where = " DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+        $where .= ' AND egresos.tienda_id = '.Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
     }
@@ -118,6 +119,8 @@ class EgresoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
+        $where .= ' AND egresos.tienda_id = '.Auth::user()->tienda_id;
+        
         $Join = "JOIN detalle_egresos ON (egresos.id = detalle_egresos.egreso_id) 
         JOIN users ON (users.id = egresos.user_id)
         JOIN tiendas ON (tiendas.id = egresos.tienda_id)

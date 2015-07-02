@@ -206,6 +206,7 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
                     $('input[name=serials]', form).val('');
                     $('input[name=producto_id]', form).val('');
                     form.attr('status', '0');
+                    $("#search_producto").focus();
                     return;
                 }
                 msg.warning(data, 'Advertencia!');

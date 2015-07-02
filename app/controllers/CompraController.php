@@ -379,6 +379,7 @@ class CompraController extends \BaseController {
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 
 		$where = " proveedor_id = ".Input::get('proveedor_id');
+		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
@@ -408,6 +409,8 @@ class CompraController extends \BaseController {
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 
 		$where = " DATE_FORMAT(compras.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
+
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
@@ -457,6 +460,8 @@ class CompraController extends \BaseController {
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 
 		$where = " proveedor_id = ".Input::get('proveedor_id')." AND saldo > 0";
+		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
+
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join ,$where);
 		
@@ -517,6 +522,8 @@ class CompraController extends \BaseController {
 		JOIN metodo_pago ON (metodo_pago.id = pagos_compras.metodo_pago_id)";
 
 		$where = " proveedor_id = ".Input::get('proveedor_id');
+		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
+
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
@@ -546,6 +553,7 @@ class CompraController extends \BaseController {
 		JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)";
 
 		$where = " proveedor_id = ".Input::get('proveedor_id');
+		$where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;	
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
@@ -587,6 +595,8 @@ class CompraController extends \BaseController {
 			"completed");
 
 		$Search_columns = array("users.nombre","users.apellido","numero_documento","proveedores.nombre");
+		
+		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
 
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 

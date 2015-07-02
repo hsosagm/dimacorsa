@@ -16,12 +16,10 @@
 						<td width="15%"></td>
 					</tr >
 					<tr height="25"> 
-						<td width="70%"> 
+						<td colspan="3" width="100%"> 
 							{{ $venta->cliente->nombre .' '.$venta->cliente->apellido}} &nbsp;&nbsp;&nbsp;&nbsp;
 							{{ $venta->cliente->direccion}}
 						</td>
-						<td width="15%"></td>
-						<td width="15%"></td>
 					</tr>
 					<tr height="30" > 
 						<td width="70%"> </td>

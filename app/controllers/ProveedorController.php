@@ -175,5 +175,81 @@ class ProveedorController extends BaseController {
         return "Saldo Total: {$total} {$tab} Saldo Vencido: {$vencido}";
     }
    
+    public function AbonosDelDia()
+    {
+         return View::make('proveedor.AbonosDelDia');
+    }
 
+    public function AbonosDelDia_dt()
+    {
+        $table = 'abonos_compras';
+
+        $columns = array(
+            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
+            "proveedores.nombre as proveedor_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
+            "metodo_pago.descripcion as metodo_descripcion",
+            'total','observaciones');
+
+        $Searchable = array("users.nombre","users.apellido",);
+
+        $Join = "
+        JOIN users ON (users.id = abonos_compras.user_id)
+        JOIN tiendas ON (tiendas.id = abonos_compras.tienda_id)
+        JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)
+        JOIN proveedores ON (proveedores.id = abonos_compras.proveedor_id)";
+
+        $where = " DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+        $where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+    }
+
+    public function AbonosPorFecha()
+    {
+         return View::make('proveedor.AbonosPorFecha');
+    }
+
+    public function AbonosPorFecha_dt()
+    {
+        $fecha    = Input::get('fecha');
+        $consulta = Input::get('consulta');
+
+        $where = null;
+
+        if ($consulta == 'dia') 
+            $where = "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
+
+        if ($consulta == 'semana') 
+            $where = " WEEK(abonos_compras.created_at) = WEEK('{$fecha}')  AND YEAR(abonos_compras.created_at) = YEAR('{$fecha}')  ";
+
+        if ($consulta == 'mes') 
+            $where = "DATE_FORMAT(abonos_compras.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
+
+        if ($where == null)
+            $where = "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
+
+        $table = 'abonos_compras';
+
+        $columns = array(
+            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
+            "proveedores.nombre as proveedor_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
+            "metodo_pago.descripcion as metodo_descripcion",
+            'total','observaciones');
+
+        $Searchable = array("users.nombre","users.apellido",);
+
+        $where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;
+
+        $Join = "
+        JOIN users ON (users.id = abonos_compras.user_id)
+        JOIN tiendas ON (tiendas.id = abonos_compras.tienda_id)
+        JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)
+        JOIN proveedores ON (proveedores.id = abonos_compras.proveedor_id)";
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+    }
 }

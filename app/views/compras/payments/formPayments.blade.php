@@ -32,18 +32,21 @@
 				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
 				<div class="row">
 					<div class="form-group">
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<label> {{(@$saldo_vencido == null) ? '0.00' : @$saldo_vencido; }} </label>
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-6">
 							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
-						</div>
-						<div class="col-md-2">
-							<button class="form-control">nota</button>
 						</div>
 					</div>
 				</div>
-
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<TEXTAREA name="observaciones" row="1" class="form-control"> </TEXTAREA>
+					</div>
+				</div>
+				<br>
 				<div class="abonosDetalle_detail">
 					<div class="form-footer" align="right">
 						<input  class="btn theme-button" type="submit" value="Enviar" >
@@ -57,15 +60,18 @@
 				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
 				<div class="row">
 					<div class="form-group">
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<label> {{(@$saldo_total == null) ? '0.00' : @$saldo_total; }} </label>
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-6">
 							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
-						<div class="col-md-2">
-							<button class="form-control">nota</button>
-						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<TEXTAREA name="observaciones" row="1" class="form-control"> </TEXTAREA>
 					</div>
 				</div>
 
@@ -82,14 +88,18 @@
 				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
 				<div class="row">
 					<div class="form-group">
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<input class="form-control" type="text" name="total" placeholder="Monto" >
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-6">
 							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 						</div>
-						<div class="col-md-2">
-							<button class="form-control">nota</button>
+					</div>
+					<br>
+					<br>
+					<div class="row">
+						<div class="col-md-12">
+							<TEXTAREA name="observaciones" row="1" class="form-control"> </TEXTAREA>
 						</div>
 					</div>
 				</div>

@@ -27,7 +27,7 @@ $(document).ready(function() {
             $( ".DTTT" ).html("");
             $( ".DTTT" ).append( '<button id="_edit_dt" class="btn btngrey btn_edit" disabled>Edit</button>' );
             $( ".DTTT" ).append( '<button id="_print"  class="btn btngrey btn_edit" disabled><i class="fa fa-barcode"></i> Imprimir</button>' );
-            $( ".DTTT" ).append( '<button id="_view_existencias"  class="btn btngrey btn_edit" disabled><i class="fa fa-barcode"></i> Existencias</button>' );
+            $( ".DTTT" ).append( '<button id="_view_existencias"  class="btn btngrey btn_edit" disabled><i class=""></i> Existencias</button>' );
         },
 
         "bJQueryUI": false,

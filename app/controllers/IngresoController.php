@@ -78,6 +78,7 @@ class IngresoController extends \BaseController {
         JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";
 
         $where = " DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+        $where .= ' AND ingresos.tienda_id = '.Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
     }
@@ -120,6 +121,8 @@ class IngresoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
+        $where .= ' AND ingresos.tienda_id = '.Auth::user()->tienda_id;
+        
         $Join = "JOIN detalle_ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
         JOIN users ON (users.id = ingresos.user_id)
         JOIN tiendas ON (tiendas.id = ingresos.tienda_id)

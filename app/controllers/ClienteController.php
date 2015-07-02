@@ -3,7 +3,7 @@
 class ClienteController extends \BaseController {
 
     public function index()
-    {
+    { 
         return View::make('cliente.index');
     }
 
@@ -315,4 +315,81 @@ class ClienteController extends \BaseController {
         return  preg_replace('/[^A-Za-z0-9]/', '', strtoupper($nit));
     }
 
+     public function AbonosDelDia()
+    {
+         return View::make('cliente.AbonosDelDia');
+    }
+
+    public function AbonosDelDia_dt()
+    {
+        $table = 'abonos_ventas';
+
+        $columns = array(
+            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
+            "CONCAT_WS(' ',clientes.nombre ,clientes.apellido) as cliente",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')",
+            "metodo_pago.descripcion as metodo_descripcion",
+            'monto','observaciones');
+
+        $Searchable = array("users.nombre","users.apellido",);
+
+        $Join = "
+        JOIN users ON (users.id = abonos_ventas.user_id)
+        JOIN tiendas ON (tiendas.id = abonos_ventas.tienda_id)
+        JOIN metodo_pago ON (metodo_pago.id = abonos_ventas.metodo_pago_id)
+        JOIN clientes ON (clientes.id = abonos_ventas.cliente_id)";
+
+        $where = " DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+        $where .= ' AND abonos_ventas.tienda_id = '.Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+    }
+
+    public function AbonosPorFecha()
+    {
+         return View::make('cliente.AbonosPorFecha');
+    }
+
+    public function AbonosPorFecha_dt()
+    {
+        $fecha    = Input::get('fecha');
+        $consulta = Input::get('consulta');
+
+        $where = null;
+
+        if ($consulta == 'dia') 
+            $where = "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
+
+        if ($consulta == 'semana') 
+            $where = " WEEK(abonos_ventas.created_at) = WEEK('{$fecha}')  AND YEAR(abonos_ventas.created_at) = YEAR('{$fecha}')  ";
+
+        if ($consulta == 'mes') 
+            $where = "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
+
+        if ($where == null)
+            $where = "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
+
+        $table = 'abonos_ventas';
+
+         $columns = array(
+            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
+            "CONCAT_WS(' ',clientes.nombre ,clientes.apellido) as cliente",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')",
+            "metodo_pago.descripcion as metodo_descripcion",
+            'monto','observaciones');
+
+        $Searchable = array("users.nombre","users.apellido",);
+
+        $where .= ' AND abonos_ventas.tienda_id = '.Auth::user()->tienda_id;
+
+         $Join = "
+        JOIN users ON (users.id = abonos_ventas.user_id)
+        JOIN tiendas ON (tiendas.id = abonos_ventas.tienda_id)
+        JOIN metodo_pago ON (metodo_pago.id = abonos_ventas.metodo_pago_id)
+        JOIN clientes ON (clientes.id = abonos_ventas.cliente_id)";
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+    }
 }

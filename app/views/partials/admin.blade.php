@@ -50,6 +50,19 @@
 
         <li class="submenu">
             <a href="javascript:void(0);">
+                <span class="text">Abonos</span>
+                <span class="arrow"></span>
+            </a>
+            <ul>
+                <li onclick="AbonosDelDiaClientes(this)"><a href="javascript:void(0);">clientes del Dia</a></li>
+                <li onclick="AbonosPorFechaClientes(this)"><a href="javascript:void(0);">clientes por Fechas</a></li>
+                <li onclick="AbonosDelDiaProveedores(this)"><a href="javascript:void(0);">Proveedores del Dia</a></li>
+                <li onclick="AbonosPorFechaProveedores(this)"><a href="javascript:void(0);">Proveedores por Fechas</a></li>
+            </ul>
+        </li>
+
+        <li class="submenu">
+            <a href="javascript:void(0);">
                 <span class="text">Soporte</span>
                 <span class="arrow"></span>
             </a>

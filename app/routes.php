@@ -1,9 +1,9 @@
 <?php
-    // 725009.50
+    //
     /*******************************************************************************/
         Route::when('*', 'csrf', array('post', 'put', 'delete'));
+    /*abonos de dia y por fecha
     /*
-
     /*
     funciones para hacer el guardado de logs    
     /*******************************************************************************/
@@ -49,7 +49,6 @@
             Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
             Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
             Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'       );
-
             //datatables de consultas de los usuarios
             Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
             Route::get('SoporteDelDiaUsuario_dt'       , 'UserController@SoporteDelDiaUsuario'          );
@@ -80,6 +79,10 @@
             Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
             Route::get('info_cliente'          , 'ClienteController@info_cliente');
             Route::get('clientes'              , 'ClienteController@clientes'    );
+            Route::get('AbonosDelDia'          , 'ClienteController@AbonosDelDia'    );
+            Route::get('AbonosDelDia_dt'       , 'ClienteController@AbonosDelDia_dt'    );
+            Route::get('AbonosPorFecha'        , 'ClienteController@AbonosPorFecha'    );
+            Route::get('AbonosPorFecha_dt'     , 'ClienteController@AbonosPorFecha_dt'    );
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -257,6 +260,10 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('total_credito'       , 'ProveedorController@TotalCredito'   );
         Route::get('ShowModalPaySupplier' , 'ProveedorController@ShowModalPaySupplier'  );
         Route::get('proveedores'          , 'ProveedorController@proveedores' );
+        Route::get('AbonosDelDia'         , 'ProveedorController@AbonosDelDia' );
+        Route::get('AbonosDelDia_dt'      , 'ProveedorController@AbonosDelDia_dt' );
+        Route::get('AbonosPorFecha'       , 'ProveedorController@AbonosPorFecha' );
+        Route::get('AbonosPorFecha_dt'    , 'ProveedorController@AbonosPorFecha_dt' );
     });
 
     Route::group(array('prefix' => 'compras'), function()
