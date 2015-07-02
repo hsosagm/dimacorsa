@@ -140,12 +140,23 @@ class UserController extends Controller {
 
 	public function no_assigned($user_id)
 	{
+		$user_role = Assigned_roles::where('user_id','=',Auth::user()->id)->where('role_id','=',1)->first();
+		if ($user_role) 
+		{
+			$no_assigned = EntrustRole::whereNotIn('id', function($query) use ($user_id)
+			{
+				$query->select(DB::raw('role_id'))->from('assigned_roles')->whereRaw("user_id = ?", array($user_id));
+			})->lists('name', 'id');
+
+			return $no_assigned; 
+		}
+
 		$no_assigned = EntrustRole::whereNotIn('id', function($query) use ($user_id)
 		{
 			$query->select(DB::raw('role_id'))->from('assigned_roles')->whereRaw("user_id = ?", array($user_id));
-		})->lists('name', 'id');
+		})->where('id','!=',1)->lists('name', 'id');
 
-		return $no_assigned;
+		return $no_assigned; 
 	}
 
 
@@ -362,4 +373,28 @@ class UserController extends Controller {
 
 		echo TableSearch::get($table, $columns, $Searchable);
 	}
+
+	public function VentasAlCreditoUsuario()
+	{
+		$ventas = DB::table('ventas')
+        ->select(DB::raw("ventas.id,
+        	ventas.total,
+        	ventas.created_at as fecha, 
+            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
+            saldo"))
+        ->join('users', 'ventas.user_id', '=', 'users.id')
+        ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where('saldo', '>', 0)
+        ->where('ventas.user_id', '=', Auth::user()->id)
+        ->orderBy('fecha', 'ASC')
+        ->get();
+
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('ventas.creditSales', compact('ventas'))->render()
+        ));
+	}
 }
+

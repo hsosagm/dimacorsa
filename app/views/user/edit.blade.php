@@ -67,16 +67,32 @@
 
         @foreach ($assigned as $roles)
 
-        {{ Form::open(array('url' => 'owner/user/remove_role', 'method' =>'post', 'role'=>'form', 'class' => 'form-add-group')) }}
-        <div class="input-group form-roles" style="margin-bottom: 5px">
-            <span class="input-group-addon form-button button-del-group" name="1">
-                <span class="glyphicon glyphicon-minus-sign remove_role pointer"></span>
-            </span>
-            {{ Form::text('name', @$roles->name, array('class'=>'form-control', 'disabled')) }}
-            {{ Form::hidden('user_id', @$roles->user_id) }}
-            {{ Form::hidden('role_id', @$roles->role_id) }}
-        </div>
-        {{ Form::close() }}
+        @if($roles->role_id == 1)
+
+            <div class="input-group form-roles" style="margin-bottom: 5px">
+                <span class="input-group-addon form-button button-del-group" name="1">
+                    <span class="glyphicon glyphicon-minus-sign"></span>
+                </span>
+                {{ Form::text('name', @$roles->name, array('class'=>'form-control', 'disabled')) }}
+                {{ Form::hidden('user_id', @$roles->user_id) }}
+                {{ Form::hidden('role_id', @$roles->role_id) }}
+            </div>
+
+        @else
+
+
+            {{ Form::open(array('url' => 'owner/user/remove_role', 'method' =>'post', 'role'=>'form', 'class' => 'form-add-group')) }}
+            <div class="input-group form-roles" style="margin-bottom: 5px">
+                <span class="input-group-addon form-button button-del-group" name="1">
+                    <span class="glyphicon glyphicon-minus-sign remove_role pointer"></span>
+                </span>
+                {{ Form::text('name', @$roles->name, array('class'=>'form-control', 'disabled')) }}
+                {{ Form::hidden('user_id', @$roles->user_id) }}
+                {{ Form::hidden('role_id', @$roles->role_id) }}
+            </div>
+            {{ Form::close() }}
+            
+        @endif
 
         @endforeach
     </div>

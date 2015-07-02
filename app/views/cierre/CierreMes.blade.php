@@ -1,3 +1,4 @@
+
 <table width="100%" class="SST">
 	
 	<thead>
@@ -25,7 +26,7 @@
 		</tr>
 		<tr>
 			<th colspan="5">
-				- Ventas por Usuario -
+				- Ventas por Usuario - Fecha {{@$fecha}}
 			</th>
 		</tr>
 		@foreach(@$ventas_usuarios as $key => $user)

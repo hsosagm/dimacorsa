@@ -48,6 +48,7 @@
             Route::get('VerTablaGastosDelDiaUsuario'   , 'UserController@VerTablaGastosDelDiaUsuario'   );
             Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
             Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
+            Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'       );
 
             //datatables de consultas de los usuarios
             Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
@@ -89,8 +90,8 @@
             Route::post('delete_detail'         , 'SoporteController@delete_detail');
             Route::get('OpenTableSupportDay'    , 'SoporteController@OpenTableSupportDay');
             Route::get('SupportDay_dt'          , 'SoporteController@SupportDay_dt');
-            Route::get('OpenTableSupportForDate', 'SoporteController@OpenTableSupportForDate');
-            Route::get('SupportForDate'         , 'SoporteController@SupportForDate');
+            Route::get('SoportePorFecha'        , 'SoporteController@SoportePorFecha');
+            Route::get('SoportePorFecha_dt'     , 'SoporteController@SoportePorFecha_dt');
 
         });
 
@@ -102,8 +103,8 @@
             Route::post('delete_detail'            , 'GastoController@delete_detail');
             Route::get('OpenTableExpensesDay'      , 'GastoController@OpenTableExpensesDay');
             Route::get('ExpensesDay_dt'            , 'GastoController@ExpensesDay_dt');
-            Route::get('OpenTableExpensesForDate'  , 'GastoController@OpenTableExpensesForDate');
-            Route::get('ExpensesForDate'           , 'GastoController@ExpensesForDate');
+            Route::get('GastosPorFecha'            , 'GastoController@GastosPorFecha');
+            Route::get('GastosPorFecha_dt'         , 'GastoController@GastosPorFecha_dt');
 
         });
 
@@ -115,8 +116,8 @@
             Route::post('delete_detail'              , 'EgresoController@delete_detail');
             Route::get('OpenTableExpendituresDay'    , 'EgresoController@OpenTableExpendituresDay');
             Route::get('ExpendituresDay_dt'          , 'EgresoController@ExpendituresDay_dt');
-            Route::get('OpenTableExpendituresForDate', 'EgresoController@OpenTableExpendituresForDate');
-            Route::get('ExpendituresForDate'         , 'EgresoController@ExpendituresForDate');
+            Route::get('EgresosPorFecha'             , 'EgresoController@EgresosPorFecha');
+            Route::get('EgresosPorFecha_dt'          , 'EgresoController@EgresosPorFecha_dt');
 
         });
 
@@ -128,8 +129,8 @@
             Route::post('delete_detail'        , 'IngresoController@delete_detail');
             Route::get('OpenTableIncomeDay'    , 'IngresoController@OpenTableIncomeDay');
             Route::get('IncomeDay_dt'          , 'IngresoController@IncomeDay_dt');
-            Route::get('OpenTableIncomeForDate', 'IngresoController@OpenTableIncomeForDate');
-            Route::get('IncomeForDate'         , 'IngresoController@IncomeForDate');
+            Route::get('IngresosPorFecha'      , 'IngresoController@IngresosPorFecha');
+            Route::get('IngresosPorFecha_dt'   , 'IngresoController@IngresosPorFecha_dt');
 
         });
 
@@ -141,8 +142,8 @@
             Route::post('delete_detail'            , 'AdelantoController@delete_detail');
             Route::get('OpenTableAdvancesDay'      , 'AdelantoController@OpenTableAdvancesDay');
             Route::get('AdvancesDay_dt'            , 'AdelantoController@AdvancesDay_dt');
-            Route::get('OpenTableAdvancesForDate'  , 'AdelantoController@OpenTableAdvancesForDate');
-            Route::get('AdvancesForDate'           , 'AdelantoController@AdvancesForDate');
+            Route::get('AdelantosPorFecha'         , 'AdelantoController@AdelantosPorFecha');
+            Route::get('AdelantosPorFecha_dt'      , 'AdelantoController@AdelantosPorFecha_dt');
 
         });
 
@@ -211,10 +212,12 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'cierre'),function() 
     {
-         Route::get('CierreDelDia' , 'CierreController@CierreDelDia' );
-         Route::get('cierre'       , 'CierreController@cierre' );
-         Route::post('cierre'      , 'CierreController@cierre' );
-         Route::get('CierreDelMes' , 'CierreController@CierreDelMes' );
+         Route::get('CierreDelDia'         , 'CierreController@CierreDelDia' );
+         Route::get('cierre'               , 'CierreController@cierre' );
+         Route::post('cierre'              , 'CierreController@cierre' );
+         Route::get('CierreDelMes'         , 'CierreController@CierreDelMes' );
+         Route::get('CierreDelDiaPorFecha' , 'CierreController@CierreDelDiaPorFecha' );
+         Route::get('CierreDelMesPorFecha' , 'CierreController@CierreDelMesPorFecha' );
     });
 
     Route::group(array('prefix' => 'barcode'),function() 
