@@ -4,7 +4,7 @@ INSERT INTO `tiendas` (`id`, `nombre`, `direccion`, `telefono`, `status`, `creat
 (1, 'Click', 'Chiquimula', '79421383', 1, '2015-02-16 17:23:05', '2015-02-16 17:23:05'),
 (2, 'Bodega', 'Chiquimula', '78787878', 1, '2015-02-16 17:23:05', '2015-02-16 17:23:05');
 
-// crear usuarios -- usar el colocar tienda id 2
+// crear usuarios -- usar el colocar tienda id 1
 // crear categorias
 // crear marcas //agregar la marca 492
 INSERT INTO marcas(id,nombre) VALUES(492,'ups');

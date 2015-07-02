@@ -58,7 +58,14 @@ class ClienteController extends \BaseController {
         {
             $cliente = new Cliente;
 
-            if (!$cliente->_create())
+            $data = Input::all();
+
+            if (Input::get('nit') == "") 
+                $data['nit'] = 'C/F';
+            else
+                $data['nit'] = $this->limpiaNit(Input::get('nit'));
+
+            if (!$cliente->_create($data))
             {
                 return $cliente->errors();
             }
@@ -301,6 +308,11 @@ class ClienteController extends \BaseController {
         $Searchable = array("nombre","direccion","telefono");
 
         echo TableSearch::get($table, $columns, $Searchable);
+    }
+
+    function limpiaNit($nit) 
+    {
+        return  preg_replace('/[^A-Za-z0-9]/', '', strtoupper($nit));
     }
 
 }

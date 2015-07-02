@@ -9,15 +9,21 @@ class ClienteValidator extends ValidatorAssistant
         'apellido'  =>  'required|alpha_spaces|min:3|',
         'direccion' =>  'required|min:5|',
         'telefono'  =>  'integer|min:8',
-        'nit'       =>  'required|min:3',
-        'email'     =>  'email|unique:clientes,email, {id}'
+        'nit'       =>  'min:3',
+        'email'     =>  ''
     );
 
     protected function before()
     {
+        if (Input::has('email')) 
+        {
+            $this->addRule('email', 'email|unique:clientes,email, {id}');
+        }
+
     	if (Input::has('id'))
     	{
             $this->bind('id', Input::get('id'));
     	}
+
     }
 }
