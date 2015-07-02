@@ -48,7 +48,7 @@ $(document).on("click", ".SST .select", function() {
     {
         $(this).closest("tr").removeClass("row_selected");
         total = parseFloat($('.total_selected').val()) - parseFloat($(this).attr('total')) ;
-        $("#total_selected").html(total);
+        $("#total_selected").html(accounting.formatMoney(total,"", 2, ",", "."));
         $('.total_selected').val(total);
     }
 
@@ -56,7 +56,7 @@ $(document).on("click", ".SST .select", function() {
     {
         $(this).closest("tr").addClass('row_selected');
         total = parseFloat($(this).attr('total')) + parseFloat($('.total_selected').val()) ;
-        $("#total_selected").html(total);
+        $("#total_selected").html(accounting.formatMoney(total,"", 2, ",", "."));
         $('.total_selected').val(total);
     }
 

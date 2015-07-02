@@ -408,7 +408,7 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {   
-   
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
