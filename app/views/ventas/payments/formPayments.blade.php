@@ -20,7 +20,7 @@
 
 		<div class="tab-pane fade inner-all active in" id="tab1">
 
-			{{ Form::open(array('v-if="!tableDetail" v-on="submit: onSubmitForm"')) }}
+			{{ Form::open(array('v-show="!tableDetail" v-on="submit: onSubmitForm"')) }}
                
                <input type="hidden" name="cliente_id" v-model="cliente_id">
 
@@ -47,7 +47,8 @@
 
 						<div class="form-group" style="margin-top:10px;">
 							<div class="col-md-4">
-								<input v-if="saldoParcial" id="monto" type="text" v-model="monto" name="monto" value="0" class="form-control" number>
+							    <input v-show="saldoParcial" v-on="keyup: setMonto" type="text" class="form-control montoAbono">
+								<input id="monto" type="text" v-model="monto" name="monto" value="0" class="hide">
 							</div>
 
 							<div class="col-md-4">
@@ -101,3 +102,7 @@
 	</div>
 
 </div>
+
+<script type="text/javascript">
+    $('.montoAbono').autoNumeric({ aNeg:'', mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+</script>

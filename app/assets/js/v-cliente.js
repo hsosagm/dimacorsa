@@ -4,7 +4,7 @@ var vm = new Vue({
 
     data: {
     	customer_search: '',
-    	PanelBody: '',
+    	PanelBody: false,
     	tableDetail: '',
     	cliente_id: '',
     	divAbonosPorSeleccion: '',
@@ -24,16 +24,20 @@ var vm = new Vue({
     	resetSaldoParcial: function(e) {
     		this.saldoParcial = '';
     		this.monto = e.target.value;
+    		$('.montoAbono').val('');
     	},
 
-
     	clearPanelBody: function() {
-    		this.PanelBody = '';
+    		this.PanelBody = false;
     		vm.tableDetail = '';
     		$('.table').html('');
     		$('.dt-container').hide();
     	},
 
+    	setMonto: function() {
+    		var monto = $('.montoAbono').autoNumeric('get');
+    		vm.monto = $('.montoAbono').autoNumeric('get');
+    	},
 
     	getInfoCliente: function(id) {
 	        $.ajax({
@@ -70,7 +74,7 @@ var vm = new Vue({
 
     	montoFocus: function() {
     		setTimeout(function() {
-    			$('#monto').focus();
+    			$('.montoAbono').focus();
     		}, 100);
     	},
 
@@ -105,7 +109,8 @@ var vm = new Vue({
 		            if (data.success == true)
 		            {
 		                $("#table_length").html("");
-		                vm.PanelBody = data.form;
+		                $(".PanelBody").html(data.form);
+		                vm.PanelBody = true;
 		                SST_search();
 		                return compile();
 		            }
@@ -127,15 +132,14 @@ var vm = new Vue({
                 url: form.attr('action'),
                 data: form.serialize(),
                 success: function (data) {
-
 		            if (data.success == true)
 		            {
 		            	vm.tableDetail = data.detalle;
 		                msg.success('Abono ingresado', 'Listo!');
 		                vm.updateInfoCliente();
+		                $('input[type=submit]', form).prop('disabled', false);
 		                return compile();
 		            }
-
 		            msg.warning(data, 'Advertencia!');
 		            $('input[type=submit]', form).prop('disabled', false);
                 }

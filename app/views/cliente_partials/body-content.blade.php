@@ -51,7 +51,7 @@
         </div>
         <div class="clearfix"></div>
       </div>
-      <div v-html="PanelBody" class="PanelBody panel-body no-padding"></div>
+      <div class="PanelBody panel-body no-padding"></div>
     </div>
   </div>
 
