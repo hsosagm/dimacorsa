@@ -158,6 +158,7 @@ class DescargaController extends BaseController {
 
         $where = " DATE_FORMAT(descargas.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND 
         Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) > 0.00";
+        $where .= ' AND descargas.tienda_id = '.Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
     }
@@ -238,6 +239,8 @@ class DescargaController extends BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
+        $where .= ' AND descargas.tienda_id = '.Auth::user()->tienda_id;
+        
         $where .= " AND Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) > 0.00";
         $Join = "
         JOIN users ON (users.id = descargas.user_id)

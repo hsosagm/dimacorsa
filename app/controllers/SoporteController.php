@@ -79,6 +79,8 @@ class SoporteController extends BaseController {
 
         $where = " DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
 
+        $where .= ' AND soporte.tienda_id = '.Auth::user()->tienda_id;
+
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
     }
 
@@ -120,6 +122,8 @@ class SoporteController extends BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
+        $where .= ' AND soporte.tienda_id = '.Auth::user()->tienda_id;
+        
         $Join = "JOIN detalle_soporte ON (soporte.id = detalle_soporte.soporte_id) 
         JOIN users ON (users.id = soporte.user_id)
         JOIN tiendas ON (tiendas.id = soporte.tienda_id)

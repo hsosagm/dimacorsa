@@ -197,3 +197,50 @@ function OpenTableDownloadsForDate(element)
     });
 }
 
+function AbonosDelDiaProveedores(element)
+{
+    $.get( "admin/proveedor/AbonosDelDia", function( data ) 
+    {
+        makeTable(data, 'admin/proveedor/', '');
+    });
+}
+
+function AbonosPorFechaProveedores(element)
+{
+    fecha = $(".datepicker .calendar .days .selected").attr('date');
+    consulta = $(element).attr('consulta');
+    $.ajax({
+        type: "GET",
+        url: 'admin/proveedor/AbonosPorFecha',
+        data: { fecha:fecha , consulta:consulta },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) {
+            makeTable(data, '', '');
+        }
+    });
+}
+
+function AbonosDelDiaClientes(element)
+{
+    $.get( "user/cliente/AbonosDelDia", function( data ) 
+    {
+        makeTable(data, 'admin/proveedor/', '');
+    });
+}
+
+function AbonosPorFechaClientes(element)
+{
+    fecha = $(".datepicker .calendar .days .selected").attr('date');
+    consulta = $(element).attr('consulta');
+    $.ajax({
+        type: "GET",
+        url: 'user/cliente/AbonosPorFecha',
+        data: { fecha:fecha , consulta:consulta },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) {
+            makeTable(data, '', '');
+        }
+    });
+}
+
+

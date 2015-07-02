@@ -24,7 +24,7 @@ class UserController extends Controller {
 		$columns = array("username","nombre","apellido","email","tienda_id","status");
 
 		$Searchable = array("username","nombre","apellido","email","tienda_id","status");
-
+		
 		echo TableSearch::get($table, $columns, $Searchable);
 	}
 	

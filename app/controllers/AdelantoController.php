@@ -78,6 +78,7 @@ class AdelantoController extends \BaseController {
         JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";
 
         $where = " DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+        $where .= ' AND adelantos.tienda_id = '.Auth::user()->tienda_id;
 
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
@@ -120,6 +121,8 @@ class AdelantoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
+        $where .= ' AND adelantos.tienda_id = '.Auth::user()->tienda_id;
+        
         $Join = "JOIN detalle_adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
         JOIN users ON (users.id = adelantos.user_id)
         JOIN tiendas ON (tiendas.id = adelantos.tienda_id)

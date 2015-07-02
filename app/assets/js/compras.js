@@ -10,9 +10,7 @@ $(function() {
     $(document).on('dblclick','.EditPurchaseItemDetails' ,        function() { EditPurchaseItemDetails(this);  });
     $(document).on('blur' ,'.SaveEditPurchaseItemDetails',        function() { DisableEditPurchaseItemDetails(this); });
     $(document).on('enter','.SaveEditPurchaseItemDetails',        function(e){ SaveEditPurchaseItemDetails(e,this); });
-    $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);});
-   
- 
+    $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);}); 
 });
 
 function f_com_op() 
@@ -538,3 +536,57 @@ function CreditPurchases(e)
         }
     }); 
 }
+
+function showPaymentsDetail(e){
+
+ if ($(e).hasClass("hide_detail")) 
+    {
+        $(e).removeClass('hide_detail');
+        $('.subtable').fadeOut('slow');
+    } 
+    else 
+    {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length )
+        {
+            $('.subtable').fadeOut('slow', function(){
+                getPaymentsDetail(e);
+            })
+        }
+        else
+        {
+            getPaymentsDetail(e);
+        }
+    }
+}
+
+function getPaymentsDetail(e)
+{
+    $id = $(e).closest('tr').attr('id');
+
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=8><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: 'GET',
+        url: "admin/compras/showPaymentsDetail",
+        data: { id: $id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.grid_detalle_factura').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                $(e).addClass('hide_detail');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
