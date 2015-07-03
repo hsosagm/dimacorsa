@@ -172,9 +172,7 @@ class SalesPaymentsController extends \BaseController {
         $abono = AbonosVenta::find($abonos_ventas_id);
         $abono->monto = $total;
         $abono->save();
-
-       $m_pago = AbonosVenta::find(868);
-       $m_pago = $m_pago->metodo_pago->descripcion;
+        $m_pago = $abono->metodo_pago->descripcion;
 
         $detalle = $this->BalanceDetails($abonos_ventas_id);
 
