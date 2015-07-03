@@ -484,7 +484,7 @@ class VentasController extends \BaseController {
 			$where = "DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
 
 		if ($consulta == 'semana') 
-			$where = " WEEK(ventas.created_at) = WEEK('{$fecha}')  AND YEAR(ventas.created_at) = YEAR('{$fecha}')  ";
+			$where = " YEARWEEK(DATE_FORMAT(ventas.created_at, '%Y-%m-%d')) = YEARWEEK(DATE_FORMAT('{$fecha}', '%Y-%m-%d')) ";
 
 		if ($consulta == 'mes') 
 			$where = "DATE_FORMAT(ventas.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";

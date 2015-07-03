@@ -16,8 +16,10 @@ class CierreController extends \BaseController {
         return View::make('cierre.CierreDia',compact('data'));
     }
 
-    //funcion para genrar la consulta agrupandolos por el metodo de pago
-    //$tabla = es la tabla a la que se le va a sumar el $campo que mande como segundo parametro
+    /*    
+        Funcion para genrar la consulta agrupandolos por el metodo de pago
+        $tabla = es la tabla a la que se le va a sumar el $campo que mande como segundo parametro
+    */
     function query( $tabla , $campo , $fecha )
     {
         $fecha_enviar = "'{$fecha}'";
@@ -29,14 +31,17 @@ class CierreController extends \BaseController {
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+
         ->groupBy('metodo_pago.id')->get();
 
         return $this->llenar_arreglo($Query);
     }
 
-    //funcion para ordenar el arreglo de los metodos de pago
-    //retorna un arreglo de una dimencion 
-    //forma de uso $arreglo['efectivo']
+    /*
+        funcion para ordenar el arreglo de los metodos de pago
+        retorna un arreglo de una dimencion 
+        forma de uso $arreglo['efectivo']
+    */
     function llenar_arreglo($Query)
     {
         $arreglo_ordenado = array( 
@@ -182,8 +187,10 @@ class CierreController extends \BaseController {
         ));
     }
 
-    //Funcion que nos retorna una matriz de dos dimenciones
-    //su forma de uso es  $data['pagos_ventas']['efectivo'];
+    /*
+        Funcion que nos retorna una matriz de dos dimenciones
+        su forma de uso es  $data['pagos_ventas']['efectivo'];
+    */
     public function resumen_movimientos($fecha)
     {
         $data = [];
