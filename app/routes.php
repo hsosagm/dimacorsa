@@ -245,25 +245,26 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'proveedor'), function()
     {
-        Route::get('buscar'               , 'ProveedorController@search');
-        Route::get('index'                , 'ProveedorController@index' );
-        Route::get('create'               , 'ProveedorController@create');
-        Route::get('help'                 , 'ProveedorController@help'  );
-        Route::post('edit'                , 'ProveedorController@edit'  );
-        Route::post('create'              , 'ProveedorController@create');
-        Route::post('delete'              , 'ProveedorController@delete');
-        Route::post('contacto_create'     , 'ProveedorController@contacto_create');
-        Route::post('contacto_delete'     , 'ProveedorController@contacto_delete');
-        Route::get('contacto_nuevo'       , 'ProveedorController@contacto_nuevo' );
-        Route::post('contacto_update'     , 'ProveedorController@contacto_update');
-        Route::post('contacto_info'       , 'ProveedorController@contacto_info'  );
-        Route::post('total_credito'       , 'ProveedorController@TotalCredito'   );
-        Route::get('ShowModalPaySupplier' , 'ProveedorController@ShowModalPaySupplier'  );
-        Route::get('proveedores'          , 'ProveedorController@proveedores' );
-        Route::get('AbonosDelDia'         , 'ProveedorController@AbonosDelDia' );
-        Route::get('AbonosDelDia_dt'      , 'ProveedorController@AbonosDelDia_dt' );
-        Route::get('AbonosPorFecha'       , 'ProveedorController@AbonosPorFecha' );
-        Route::get('AbonosPorFecha_dt'    , 'ProveedorController@AbonosPorFecha_dt' );
+        Route::get('buscar'                      , 'ProveedorController@search');
+        Route::get('index'                       , 'ProveedorController@index' );
+        Route::get('create'                      , 'ProveedorController@create');
+        Route::get('help'                        , 'ProveedorController@help'  );
+        Route::post('edit'                       , 'ProveedorController@edit'  );
+        Route::post('create'                     , 'ProveedorController@create');
+        Route::post('delete'                     , 'ProveedorController@delete');
+        Route::post('contacto_create'            , 'ProveedorController@contacto_create');
+        Route::post('contacto_delete'            , 'ProveedorController@contacto_delete');
+        Route::get('contacto_nuevo'              , 'ProveedorController@contacto_nuevo' );
+        Route::post('contacto_update'            , 'ProveedorController@contacto_update');
+        Route::post('contacto_info'              , 'ProveedorController@contacto_info'  );
+        Route::post('total_credito'              , 'ProveedorController@TotalCredito'   );
+        Route::get('ShowModalPaySupplier'        , 'ProveedorController@ShowModalPaySupplier'  );
+        Route::get('proveedores'                 , 'ProveedorController@proveedores' );
+        Route::get('AbonosDelDia'                , 'ProveedorController@AbonosDelDia' );
+        Route::get('AbonosDelDia_dt'             , 'ProveedorController@AbonosDelDia_dt' );
+        Route::get('AbonosPorFecha'              , 'ProveedorController@AbonosPorFecha' );
+        Route::get('AbonosPorFecha_dt'           , 'ProveedorController@AbonosPorFecha_dt' );
+        Route::get('ImprimirAbono/dt/{code}/{id}', 'ProveedorController@ImprimirAbono_dt' );
     });
 
     Route::group(array('prefix' => 'compras'), function()

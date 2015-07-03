@@ -1,17 +1,16 @@
 <div class="row">
 
 	<div class="col-md-6">
-		CORRELATIVO: {{ $id }} 
+	  Descarga  Id: {{ $id }}  {{-- Para mostrar el Id de la descarga  --}}
 		
 		{{ Form::open(array('url' => '/admin/descargas/create', 'data-remote-md-d', 'data-success' => 'Descarga Generada', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}
-		{{ Form::hidden('precio','',array('id'=>'precio-costo')) }}
 		{{ Form::hidden('descarga_id', $id) }}
 
 		<table class="master-table">
 			<tr>
 				<td>
-					Codigo: 
+					Codigo:  
 					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
 				</td>
 				<td>Cantidad:</td>

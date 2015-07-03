@@ -11,6 +11,8 @@ class GastoController extends \BaseController {
     {
         if (Input::has('_token'))
         {
+            Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
+            
             $query = new DetalleGasto;
            
             if ($query->_create())

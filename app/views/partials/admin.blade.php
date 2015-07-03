@@ -1,11 +1,10 @@
-<!-- Start category development -->
+<!-- comienzo categoria  Administrador -->
 <li class="sidebar-category">
     <span>ADMIN</span>
     <span class="pull-right"><i class="fa fa-code"></i></span>
 </li>
-<!--/ End category development -->
 
-<!-- Start development - components -->
+<!-- comienza menu consultas-->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-cube"></i></span>
@@ -117,7 +116,26 @@
         </li>
     </ul>
 </li>
+<!-- fin menu consultas-->
 
+<!-- Inicio menu operaciones -->
+<li class="submenu">
+    <a href="javascript:void(0);">
+        <span class="icon"><i class="fa fa-columns"></i></span>
+        <span class="text">Operaciones</span>
+        <span class="plus"></span>
+    </a>
+    <ul>
+        <li><a href="javascript:void(0);" id="f_soporte">Soporte</a></li>
+        <li><a href="javascript:void(0);" id="f_gastos">Gastos</a></li>
+        <li><a href="javascript:void(0);" id="f_egreso">Egresos</a></li>
+        <li><a href="javascript:void(0);" id="f_ingreso">Ingresos</a></li>
+        <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
+    </ul>
+</li>
+<!-- Fin menu operaciones -->
+
+<!-- inicio menu Informacion -->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-cube"></i></span>
@@ -142,7 +160,9 @@
         </li>
     </ul>
 </li>
+<!-- Fin menu Informacion -->
 
+<!-- inicio menu Cierre -->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-columns"></i></span>
@@ -182,5 +202,6 @@
         <li id="settings_barcode"><a href="javascript:void(0);">Configuracion</a></li>
     </ul>
 </li>
+<!-- fin menu Cierre -->
 
-        <!--/ End development - components -->
+<!--/ End development - components -->

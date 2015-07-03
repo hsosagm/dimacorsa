@@ -31,10 +31,8 @@
         @if($slide_bar_left == 1)
             @include('partials.user')
         @elseif($slide_bar_left == 2)
-            @include('partials.user')
             @include('partials.admin')
         @elseif($slide_bar_left == 3)
-            @include('partials.user')
             @include('partials.admin')
             @include('partials.owner')
         @endif

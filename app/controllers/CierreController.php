@@ -20,10 +20,15 @@ class CierreController extends \BaseController {
     //$tabla = es la tabla a la que se le va a sumar el $campo que mande como segundo parametro
     function query( $tabla , $campo , $fecha )
     {
+        $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date') 
+            $fecha_enviar = 'current_date';
+
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT('{$fecha}', '%Y-%m-%d')")
+        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
         ->groupBy('metodo_pago.id')->get();
 
         return $this->llenar_arreglo($Query);

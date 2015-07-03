@@ -24,17 +24,17 @@ $(document).on('submit', 'form[data-remote]', function(e) {
             {
                 msg.success(form.data('success'), 'Listo!');
                 $('.bs-modal').modal('hide');
-                $('input[type=submit]', this).removeAttr('disabled');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
             else
             {
                 msg.warning(data, 'Advertencia!');
-                $('input[type=submit]', this).removeAttr('disabled');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         },
         error: function(errors){
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-            $('input[type=submit]', this).removeAttr('disabled');
+            $('input[type=submit]', form).removeAttr('disabled');
         }
     });
 
@@ -107,18 +107,19 @@ $(document).on('submit', 'form[data-remote-md-2]', function(e) {
                 $('.master-detail-body2').html(data.detalle);
 
                 form.trigger('reset');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
             else
             {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         },
         error: function(errors) {
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+            $('input[type=submit]', form).removeAttr('disabled');
          }
     });
-
-    $('input[type=submit]', this).removeAttr('disabled');
 
     e.preventDefault();
 });

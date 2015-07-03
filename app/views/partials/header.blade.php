@@ -99,7 +99,7 @@
                             </span>
 
                         </span>
-                    </a>
+                    </a> 
                     <ul class="dropdown-menu animated flipInX">
                         <li class="dropdown-header">Account</li>
                         <li><a id="profile" href="javascript:void(0)"><i class="fa fa-user"></i>View profile</a></li>

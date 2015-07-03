@@ -31,7 +31,7 @@
     </div>
 
     <div style="" class="proveedor-footer">
-        <button class="btn btn-default" onclick="clear_contacto_body();" type="button">Cerrar!</button>
+        <button class="btn btn-default" onclick="clear_contacto_body();" type="button">Cancelar!</button>
         <input class="btn theme-button" value="Guardar!" type="submit">
     </div>
 
