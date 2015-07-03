@@ -8,6 +8,5 @@ class DetalleDescargaValidator extends ValidatorAssistant {
         'descarga_id'     =>  'required|integer|min:1',
         'producto_id'     =>  'required|integer|min:1',
         'cantidad'        =>  'required|numeric',
-        'precio'          =>  'required|numeric',
     );
 }
