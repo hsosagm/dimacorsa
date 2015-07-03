@@ -76,5 +76,80 @@ function CierreDelMesPorFecha()
 			$('.dt-container').show();
         }
     });
+}
 
+function CierresDelMes()
+{
+	fecha = $(".datepicker .calendar .days .selected").attr('date');
+
+    $.ajax({
+        type: "GET",
+        url: 'admin/cierre/CierresDelMes',
+        data: { fecha:fecha },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) 
+        {
+			 makeTable(data, '', '');
+        }
+    });
+}
+
+function VerDetalleDelCierreDelDia(e) {
+
+    if ($(e).hasClass("hide_detail")) 
+    {
+        $(e).removeClass('hide_detail');
+        $('.subtable').hide();
+    } 
+    else 
+    {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length )
+        {
+            $('.subtable').fadeOut('slow', function(){
+                ObtenerDetalleDelCierreDelDia(e);
+            })
+        }
+        else
+        {
+            ObtenerDetalleDelCierreDelDia(e);
+        }
+    }
+}
+
+function ObtenerDetalleDelCierreDelDia(e) {
+
+    $id = $(e).closest('tr').attr('id');
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=5><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+    $.ajax({
+        type: 'GET',
+        url: "admin/cierre/VerDetalleDelCierreDelDia",
+        data: { cierre_id: $id},
+        success: function (data) {
+
+            if (data.success == true)
+            {
+                $('.grid_detalle_factura').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                $(e).addClass('hide_detail');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+function ImprimirCierreDelDia_dt(e,user)
+{
+    id = $(e).closest('tr').attr('id');
+    var md5 = $.md5('encript'+user); 
+
+     window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }

@@ -215,12 +215,16 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'cierre'),function() 
     {
-         Route::get('CierreDelDia'         , 'CierreController@CierreDelDia' );
-         Route::get('cierre'               , 'CierreController@cierre' );
-         Route::post('cierre'              , 'CierreController@cierre' );
-         Route::get('CierreDelMes'         , 'CierreController@CierreDelMes' );
-         Route::get('CierreDelDiaPorFecha' , 'CierreController@CierreDelDiaPorFecha' );
-         Route::get('CierreDelMesPorFecha' , 'CierreController@CierreDelMesPorFecha' );
+         Route::get('CierreDelDia'                        , 'CierreController@CierreDelDia' );
+         Route::get('cierre'                              , 'CierreController@cierre' );
+         Route::post('cierre'                             , 'CierreController@cierre' );
+         Route::get('CierreDelMes'                        , 'CierreController@CierreDelMes' );
+         Route::get('CierreDelDiaPorFecha'                , 'CierreController@CierreDelDiaPorFecha' );
+         Route::get('CierreDelMesPorFecha'                , 'CierreController@CierreDelMesPorFecha' );
+         Route::get('CierresDelMes'                       , 'CierreController@CierresDelMes' );
+         Route::get('CierresDelMes_dt'                    , 'CierreController@CierresDelMes_dt' );
+         Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
+         Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
     });
 
     Route::group(array('prefix' => 'barcode'),function() 

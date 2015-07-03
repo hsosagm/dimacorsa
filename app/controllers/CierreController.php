@@ -271,5 +271,48 @@ class CierreController extends \BaseController {
         return View::make('cierre.CierreMes',compact('total_ventas','total_ganancias','total_soporte','total_gastos','ganancias_netas','ventas_usuarios','compras_credito','ventas_credito','inversion_actual','fecha'));
     }
 
+    public function CierresDelMes()
+    {
+         return View::make('cierre.CierresDelMes');
+    }
+
+    public function CierresDelMes_dt()
+    {
+         $table = 'cierre_diario';
+
+        $columns = array(
+            "tiendas.nombre as tienda_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "nota",
+            "cierre_diario.created_at as fecha"
+            );
+
+        $Searchable = array("users.nombre","users.apellido","cierre_diario.created_at","nota");
+
+        $Join = "
+        JOIN users ON (users.id = cierre_diario.user_id)
+        JOIN tiendas ON (tiendas.id = cierre_diario.tienda_id)";
+
+        $where = " DATE_FORMAT(cierre_diario.created_at, '%Y-%m')  = DATE_FORMAT(current_date, '%Y-%m')";
+        $where .= ' AND cierre_diario.tienda_id = '.Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where ); 
+    }
+
+    public function VerDetalleDelCierreDelDia()
+    {
+        $cierre = Cierre::find(Input::get('cierre_id'));
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('cierre.DT_detalle_cierre', compact('cierre'))->render()
+        ));
+    }
+
+    public function ImprimirCierreDelDia_dt($cod , $id)
+    {
+        $cierre = Cierre::find($id);
+        return View::make('cierre.ImprimirCierreDelDia_dt', compact('cierre'));
+    }
 
 }

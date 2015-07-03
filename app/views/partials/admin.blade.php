@@ -173,12 +173,13 @@
         <li><a href="javascript:void(0);" id="CierreDelDia">Movimientos del dia</a></li>
         <li><a href="javascript:void(0);" onClick="cierre();">Realizar cierre</a></li>
         <li><a href="javascript:void(0);" onClick="imprimir_cierre();">Imprimir cierre del dia</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelMes();"> cierre del mes</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelDiaPorFecha();"> cierre del dia por fecha</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelMesPorFecha();"> cierre del mes por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelMes();"> Cierre del mes</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelDiaPorFecha();"> Cierre del dia por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelMesPorFecha();"> Cierre del mes por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierresDelMes();"> Cierres del mes</a></li>
     </ul>
 </li>
-
+<!-- fin menu Cierre -->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-columns"></i></span>
@@ -202,6 +203,6 @@
         <li id="settings_barcode"><a href="javascript:void(0);">Configuracion</a></li>
     </ul>
 </li>
-<!-- fin menu Cierre -->
+
 
 <!--/ End development - components -->
