@@ -5,7 +5,8 @@ class DescargaController extends BaseController {
     public function create()
     {
         if (Input::has('_token'))
-        {   
+        {  
+            Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 
             $existencia = Existencia::where('producto_id','=',Input::get('producto_id'))
             ->where('tienda_id','=',Auth::user()->tienda_id)->first();

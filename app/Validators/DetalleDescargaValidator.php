@@ -7,6 +7,7 @@ class DetalleDescargaValidator extends ValidatorAssistant {
     protected $rules = array(
         'descarga_id'     =>  'required|integer|min:1',
         'producto_id'     =>  'required|integer|min:1',
-        'cantidad'        =>  'required|numeric',
+        'cantidad'        =>  'required|integer',
+        'precio'          =>  'required|numeric',
     );
 }
