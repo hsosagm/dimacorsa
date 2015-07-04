@@ -1,3 +1,9 @@
+<p>
+	Cierre realizado por {{ $cierre->user->nombre .' '. $cierre->user->apellido }}
+</p>
+<p>	
+	Fecha de creacion : {{ $cierre->created_at }}
+</p>
 <table class="table" width="100%">
 	<tr>
 		<th class="center" width="25%">  </th>

@@ -188,7 +188,7 @@ class CierreController extends \BaseController {
     }
 
     /*
-        Funcion que nos retorna una matriz de dos dimenciones
+        Funcion que nos retorna una matriz de dos dimencionespero voy a esperar que este solo
         su forma de uso es  $data['pagos_ventas']['efectivo'];
     */
     public function resumen_movimientos($fecha)
@@ -311,7 +311,7 @@ class CierreController extends \BaseController {
 
     public function ImprimirCierreDelDia_dt($cod , $id)
     {
-        $cierre = Cierre::find($id);
+        $cierre = Cierre::with('user')->find($id);
         return View::make('cierre.ImprimirCierreDelDia_dt', compact('cierre'));
     }
 
