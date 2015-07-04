@@ -39,14 +39,12 @@
     </div>
   </div>
 
-  <!-- TABLES --> <!-- GRAPHS -->
+  <!-- PAYMENTS -->
   <div class="col-md-11 div_master">
     <div v-show="PanelBody" class="panel rounded shadow">
       <div class="panel-heading">
-        <div id="table_length" class="pull-left"></div>
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
-          <button class="btn" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
           <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
@@ -55,19 +53,18 @@
     </div>
   </div>
 
- <!-- CORREGIR TABLES --> <!-- GRAPHS -->
+  <!-- TABLES --> <!-- GRAPHS -->
   <div class="dt-container col-md-11">
     <div class="panel dt-panel rounded shadow">
       <div class="panel-heading">
         <div id="table_length" class="pull-left"></div>
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
-          <button class="btn" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
           <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
       </div>
-      <div class="panel-body no-padding table"></div>
+      <div class="no-padding table"></div>
     </div>
   </div>
 

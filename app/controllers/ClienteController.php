@@ -221,7 +221,7 @@ class ClienteController extends \BaseController {
     }
 
 
-    public function info_cliente()
+    public function getInfoCliente()
     {
         $query = Venta::where('cliente_id','=', Input::get('cliente_id'))
         ->where('saldo', '>', 0)
@@ -238,7 +238,7 @@ class ClienteController extends \BaseController {
             $info = $cliente . $tab . " Saldo total &nbsp; 0.00" . $tab ." Saldo vencido &nbsp; 0.00";
 
             return Response::json(array(
-                'success'       => true, 
+                'success'       => true,
                 'info'          => $info,
                 'saldo_total'   => 0,
                 'saldo_vencido' => 0
@@ -282,7 +282,6 @@ class ClienteController extends \BaseController {
             ventas.created_at as fecha, 
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
-            ventas.id,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
@@ -293,7 +292,7 @@ class ClienteController extends \BaseController {
 
         return Response::json(array(
             'success' => true,
-            'table' => View::make('ventas.creditSales', compact('ventas'))->render()
+            'table' => View::make('ventas.cliente.CreditSalesByCustomer', compact('ventas'))->render()
         ));
     }
 
@@ -391,5 +390,28 @@ class ClienteController extends \BaseController {
         JOIN clientes ON (clientes.id = abonos_ventas.cliente_id)";
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+    }
+
+    public function getHistorialAbonos()
+    {
+        $abonosVentas = DB::table('abonos_ventas')
+            ->select(DB::raw("abonos_ventas.id,
+                abonos_ventas.created_at as fecha, 
+                CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+                metodo_pago.descripcion as metodoPago,
+                abonos_ventas.monto,
+                observaciones"))
+            ->join('users', 'abonos_ventas.user_id', '=', 'users.id')
+            ->join('metodo_pago', 'abonos_ventas.metodo_pago_id', '=', 'metodo_pago.id')
+            ->where('cliente_id', Input::get('cliente_id'))
+            ->orderBy('fecha', 'ASC')
+            ->get();
+
+            $abonosVentas = json_encode($abonosVentas);
+
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('ventas.historialAbonos', compact('abonosVentas'))->render()
+        ));
     }
 }
