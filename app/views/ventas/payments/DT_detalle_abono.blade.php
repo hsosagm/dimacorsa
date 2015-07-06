@@ -3,8 +3,8 @@
     <tr class="DT_table_div_detail">
         	<td class="center">No. Venta</td>
 			<td class="center">Total</td>
-			<td class="center">Monto Abonado </td>
 			<td class="center">Saldo Anterior</td>
+			<td class="center">Monto Abonado </td>
 			<td class="center">Nuevo Saldo</td>
     </tr>
 
@@ -31,8 +31,8 @@
 		<tr>
 			<td>{{$dt->venta_id}}</td>
 			<td class="right">{{$total}}</td>
-			<td class="right">{{$monto}}</td>
 			<td class="right">{{$saldo_anterior}}</td>
+			<td class="right">{{$monto}}</td>
 			<td class="right">{{$saldo}}</td>
 		</tr>
 		@endforeach
