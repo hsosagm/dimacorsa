@@ -220,6 +220,21 @@ class SalesPaymentsController extends \BaseController {
         $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
 
         return View::make('ventas.payments.ImprimirAbonoVenta', compact("detalle", 'abonos_venta','saldo'));
+    }
+    
+    public function getDetalleAbono()
+    {
+         $detalle = DB::table('detalle_abonos_ventas')
+        ->select('venta_id','total','monto',DB::raw('detalle_abonos_ventas.created_at as fecha'))
+        ->join('ventas','ventas.id','=','detalle_abonos_ventas.venta_id')
+        ->where('abonos_ventas_id','=', Input::get('abono_id'))
+        ->get();
 
+        $deuda = 0;
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('ventas.payments.DT_detalle_abono', compact('detalle', 'deuda'))->render()
+        ));
     }
 }

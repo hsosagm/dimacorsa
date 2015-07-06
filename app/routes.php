@@ -76,7 +76,8 @@
             Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer');
             Route::get('DT_salesByCustomer'    , 'ClienteController@DT_salesByCustomer');
             Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
-            Route::get('info_cliente'          , 'ClienteController@info_cliente');
+            Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
+            Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
             Route::get('clientes'              , 'ClienteController@clientes'    );
             Route::get('AbonosDelDia'          , 'ClienteController@AbonosDelDia'    );
             Route::get('AbonosDelDia_dt'       , 'ClienteController@AbonosDelDia_dt'    );
@@ -190,13 +191,13 @@
 
             Route::group(array('prefix' => 'payments'),function() 
             {
-                Route::get('formPayments'             , 'SalesPaymentsController@formPayments');
-                Route::post('formPayments'            , 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination'   , 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'      , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'        , 'SalesPaymentsController@SelectedPaySales'  );
-                Route::get('imprimirAbonoVenta/{id}'  , 'SalesPaymentsController@imprimirAbonoVenta'  );
-                
+                Route::get('formPayments'           , 'SalesPaymentsController@formPayments');
+                Route::post('formPayments'          , 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination' , 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('eliminarAbonoVenta'    , 'SalesPaymentsController@eliminarAbonoVenta'  );
+                Route::post('SelectedPaySales'      , 'SalesPaymentsController@SelectedPaySales'  );
+                Route::get('getDetalleAbono'        , 'SalesPaymentsController@getDetalleAbono'  );
+                Route::get('imprimirAbonoVenta/{id}', 'SalesPaymentsController@imprimirAbonoVenta'  );
             });
 
         });

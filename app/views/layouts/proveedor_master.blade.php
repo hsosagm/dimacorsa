@@ -34,7 +34,7 @@
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2>
-                    <a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> 
+                    <a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> 
                     <span id="InformationProviderSearches"></span>
                     <span id="home"></span>
 

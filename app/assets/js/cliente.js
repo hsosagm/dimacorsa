@@ -266,8 +266,6 @@ function cliente_help() {
 };
 
 
-
-// Habre datatables en local con las ventas del cliente al credito
 function creditSalesByCustomer()
 {
     $.ajax({
@@ -284,27 +282,21 @@ function creditSalesByCustomer()
     }); 
 }
 
-//corregir
-function generate_dt(data) {
 
+function generate_dt(data) {
     vm.clearPanelBody();
-    $("#iSearch").val("");
-    $("#iSearch").unbind();
-    $("#iSearch").focus();
     $('.table').html(data);
+    $("#iSearch").unbind().val("").focus();
     $("#table_length").html("");
     $( ".DTTT" ).html("");
     $('.dt-panel').show();
-
     setTimeout(function()
     {
+        $('#example').dataTable();
         $('#example_length').prependTo("#table_length");
         $('.dt-container').show();
-        
-        oTable = $('#example').dataTable();
         $('#iSearch').keyup(function() {
-            oTable.fnFilter( $(this).val() );
+            $('#example').dataTable().fnFilter( $(this).val() );
         });
-
-    }, 300);
+    }, 0);
 }

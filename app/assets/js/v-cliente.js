@@ -24,25 +24,24 @@ var vm = new Vue({
     	resetSaldoParcial: function(e) {
     		this.saldoParcial = '';
     		this.monto = e.target.value;
-    		$('.montoAbono').val('');
+    		$('.montoAbono').val(0);
     	},
 
     	clearPanelBody: function() {
     		this.PanelBody = false;
-    		vm.tableDetail = '';
+    		this.tableDetail = '';
     		$('.table').html('');
     		$('.dt-container').hide();
     	},
 
     	setMonto: function() {
-    		var monto = $('.montoAbono').autoNumeric('get');
-    		vm.monto = $('.montoAbono').autoNumeric('get');
+    		this.monto = $('.montoAbono').autoNumeric('get');
     	},
 
     	getInfoCliente: function(id) {
 	        $.ajax({
 	            type: 'GET',
-	            url: "user/cliente/info_cliente",
+	            url: "user/cliente/getInfoCliente",
 	            data: { cliente_id: id },
 	            success: function (data) {
 	                if (data.success == true)
@@ -74,6 +73,7 @@ var vm = new Vue({
 
     	montoFocus: function() {
     		setTimeout(function() {
+    			vm.monto = parseFloat(0);
     			$('.montoAbono').focus();
     		}, 100);
     	},
@@ -81,7 +81,7 @@ var vm = new Vue({
     	updateInfoCliente: function() {
 	        $.ajax({
 	            type: 'GET',
-	            url: "user/cliente/info_cliente",
+	            url: "user/cliente/getInfoCliente",
 	            data: { cliente_id: vm.cliente_id },
 	            success: function (data) {
 	                if (data.success == true)
@@ -211,6 +211,7 @@ var vm = new Vue({
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
+
         },
 
         editCustomer: function() {
@@ -229,6 +230,7 @@ var vm = new Vue({
 	                alert(request.responseText);
 	            }
 	        });
+
         },
 
         salesByCustomer: function() {
@@ -241,10 +243,31 @@ var vm = new Vue({
 	            
 	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             });
+
         },
         imprimirAbonoVenta: function(e,id) {
         	 window.open('user/ventas/payments/imprimirAbonoVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
         },
+        getHistorialAbonos: function() {
+
+        	this.PanelBody = false;
+        	$('.dt-container').hide();
+
+		    $.ajax({
+		        type: 'GET',
+		        url: "user/cliente/getHistorialAbonos",
+		        data: { cliente_id: vm.cliente_id, sSearch: null },
+		        success: function (data) {
+		            if (data.success == true)
+		            {
+		            	return $('.table').html(data.table);
+		            }
+
+		            msg.warning(data, 'Advertencia!');
+		        }
+		    });
+
+        }
     }
 });
 
