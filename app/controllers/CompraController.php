@@ -428,6 +428,7 @@ class CompraController extends \BaseController {
                 total"))
         ->join('users', 'compras.user_id', '=', 'users.id')
         ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
+        ->where('compras.completed', '=', 0)
         ->where('saldo', '>', 0)
         ->where('compras.tienda_id', '=', Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))
@@ -461,6 +462,7 @@ class CompraController extends \BaseController {
 
 		$where = " proveedor_id = ".Input::get('proveedor_id')." AND saldo > 0";
 		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
+		$where .= ' AND compras.completed = 1';
 
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join ,$where);

@@ -266,4 +266,20 @@ class ProveedorController extends BaseController {
 
         return View::make('proveedor.ImprimirAbono',compact('abono', 'detalle' , 'saldo'))->render();
     }
+
+     public function ImprimirAbono($id)
+    {
+        $abono_id = Crypt::decrypt($id);
+
+        $detalle = DB::table('detalle_abonos_compra')
+        ->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
+        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+        ->where('abonos_compra_id','=', $abono_id)->get();
+
+        $abono = AbonosCompra::with('proveedor','user','metodoPago')->find($abono_id);
+
+        $saldo = Compra::where('proveedor_id', '=' , $abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        return View::make('proveedor.ImprimirAbono',compact('abono', 'detalle' , 'saldo'))->render();
+    }
 }

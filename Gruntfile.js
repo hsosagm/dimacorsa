@@ -195,12 +195,14 @@ module.exports = function(grunt) {
                 './app/assets/js/descargas.js',
                 './app/assets/js/codigobarras.js',
                 './app/assets/js/usuario-consultas.js',
+                './app/assets/js/impresiones.js',
               ],
               dest: './public/js/custom.js'
             },
             proveedor: {
                 src: [
                     './app/assets/js/main.js',
+                     './app/assets/js/impresiones.js',
                     './app/assets/proveedor/js/*',
                   ],
                   dest: './public/js/proveedor.js'
@@ -208,6 +210,7 @@ module.exports = function(grunt) {
             cliente: {
                 src: [
                     './app/assets/js/main.js',
+                    './app/assets/js/impresiones.js',
                     './app/assets/js/ventas.js',
                     './app/assets/js/cliente.js',
                     './app/assets/js/abonos_ventas.js',

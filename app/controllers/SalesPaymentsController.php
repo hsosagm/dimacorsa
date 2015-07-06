@@ -209,7 +209,19 @@ class SalesPaymentsController extends \BaseController {
         return 'success';
     }
 
+    function imprimirAbonoVenta($id)
+    {
+        $abonos_ventas_id = Crypt::decrypt($id);
 
+        $detalle = $this->BalanceDetails($abonos_ventas_id);
+
+        $abonos_venta = AbonosVenta::with('cliente','user','metodoPago')->find($abonos_ventas_id);
+
+        $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        return View::make('ventas.payments.ImprimirAbonoVenta', compact("detalle", 'abonos_venta','saldo'));
+    }
+    
     public function getDetalleAbono()
     {
          $detalle = DB::table('detalle_abonos_ventas')
@@ -217,7 +229,6 @@ class SalesPaymentsController extends \BaseController {
         ->join('ventas','ventas.id','=','detalle_abonos_ventas.venta_id')
         ->where('abonos_ventas_id','=', Input::get('abono_id'))
         ->get();
-
 
         $deuda = 0;
 

@@ -33,7 +33,10 @@ class PurchasePaymentsController extends \BaseController {
 
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 
-		$where = " proveedor_id = ". Input::get('proveedor_id') ." AND saldo > 0";
+		$where = " proveedor_id = ". Input::get('proveedor_id') ." AND saldo > 0 ";
+		$where .= " AND users.tienda_id = ".Auth::user()->tienda_id;
+		$where .= " AND compras.completed = 1";
+
 
 		$compras = SST::get($table, $columns, $Search_columns, $Join, $where );
 
@@ -48,6 +51,7 @@ class PurchasePaymentsController extends \BaseController {
 		$query = DB::table('compras')
 		->select(DB::raw('sum(saldo) as total'))
 		->where('saldo','>',0)
+		->where('completed','=',1)
 		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
 		->where('tienda_id','=',Auth::user()->tienda_id)
 		->where('proveedor_id','=',Input::get('proveedor_id'))->first();
@@ -60,6 +64,7 @@ class PurchasePaymentsController extends \BaseController {
 	{
 		$query = DB::table('compras')
 		->select(DB::raw('sum(saldo) as total'))
+		->where('completed','=',1)
 		->where('saldo','>',0)
 		->where('tienda_id','=',Auth::user()->tienda_id)
 		->where('proveedor_id','=',Input::get('proveedor_id'))->first();
@@ -89,6 +94,7 @@ class PurchasePaymentsController extends \BaseController {
 		$abono_id = $abono->get_id();
 
 		$compras = DB::table('compras')
+		->where('completed','=',1)
 		->where('saldo','>',0)
 		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
 		->where('proveedor_id','=',Input::get('proveedor_id'))
@@ -109,6 +115,7 @@ class PurchasePaymentsController extends \BaseController {
 		}
 
 		DB::table('compras')
+		->where('completed','=',1)
 		->where('saldo','>',0)
 		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
 		->where('proveedor_id','=',Input::get('proveedor_id'))
@@ -145,6 +152,7 @@ class PurchasePaymentsController extends \BaseController {
 		$abono_id = $abono->get_id();
 
 		$compras = DB::table('compras')
+		->where('completed','=',1)
 		->where('saldo','>',0)
 		->where('proveedor_id','=',Input::get('proveedor_id'))
 		->where('tienda_id','=',Auth::user()->tienda_id)
@@ -165,6 +173,7 @@ class PurchasePaymentsController extends \BaseController {
 		}
 
 		DB::table('compras')
+		->where('completed','=',1)
 		->where('saldo','>',0)
 		->where('proveedor_id','=',Input::get('proveedor_id'))
 		->where('tienda_id','=',Auth::user()->tienda_id)
@@ -195,6 +204,7 @@ class PurchasePaymentsController extends \BaseController {
 		$monto = number_format(Input::get('total'),2,'.','');
 
 		$compras = DB::table('compras')
+		->where('completed','=',1)
 		->where('saldo','>',0)
 		->where('proveedor_id','=',Input::get('proveedor_id'))
 		->where('tienda_id','=',Auth::user()->tienda_id)

@@ -112,20 +112,5 @@ function OpenDownload(e)
 }
 
 function FinalizarDescarga() {
-
 	$(".form-panel").slideUp('slow');	
 }
-
-function ImprimirDescarga(e , id) {
-
-	window.open('admin/descargas/ImprimirDescarga/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function ImprimirDescarga_dt(e,user)
-{
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-
-     window.open('admin/descargas/ImprimirDescarga/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-

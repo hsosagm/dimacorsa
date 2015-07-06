@@ -213,7 +213,7 @@ function contacto_nuevo()
 
 function contacto_update(e,element)
 {
-     form = $(element);
+    form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
 
         $.ajax({
@@ -246,7 +246,7 @@ function contacto_update(e,element)
 
 function proveedor_update(e,element)
 {
-     form = $(element);
+    form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
 
         $.ajax({
@@ -275,7 +275,6 @@ function proveedor_update(e,element)
  
  function proveedor_contacto_delete(element,proveedor_contacto_id)
  {
-
     $.confirm({
         confirm: function(button) {
             $.ajax({
@@ -301,11 +300,3 @@ function proveedor_update(e,element)
         }
     });
  }
-
- function ImprimirAbonoProveedor_dt(e,user)
-{
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-
-     FacturaWindow = open('admin/proveedor/ImprimirAbono/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}

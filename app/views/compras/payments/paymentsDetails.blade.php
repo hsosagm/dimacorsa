@@ -20,7 +20,8 @@
 		@endforeach
 	</tbody>
 </table> 
-
+ <?php $id = "'".Crypt::encrypt($abono_id)."'";?>
 <div class="form-footer" align="right">
+	<input  class="btn btn-info" onClick="ImprimirAbonoProveedor(this,{{ $id }})" type="button" value="Imprimir" >
 	<input  class="btn btn-danger" onClick="DeleteBalancePay(this,{{$abono_id}})" type="button" value="Eliminar" >
 </div>

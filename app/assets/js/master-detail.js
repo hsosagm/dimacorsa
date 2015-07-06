@@ -107,3 +107,9 @@ function md_search()
        $('#example').addClass('tableSelected');
     });
 }
+function CerrarVentanaIngresoDeSeries()
+{
+    $(this).removeAttr('data-dismiss');
+    $(".master-serials").focus();
+    
+}

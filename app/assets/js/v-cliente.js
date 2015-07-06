@@ -245,7 +245,9 @@ var vm = new Vue({
             });
 
         },
-
+        imprimirAbonoVenta: function(e,id) {
+        	 window.open('user/ventas/payments/imprimirAbonoVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+        },
         getHistorialAbonos: function() {
 
         	this.PanelBody = false;

@@ -24,7 +24,7 @@
                 <!-- Start page header -->
                 <div class="header-content">
 
-                    <h2><i class="fa fa-home"></i> <span v-html="infoCliente"></span></h2>
+                    <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoCliente"></span></h2>
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
 

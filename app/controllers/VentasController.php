@@ -440,7 +440,6 @@ class VentasController extends \BaseController {
 
 	function ImprimirGarantiaVenta($id)
 	{
-
 		$venta_id = Crypt::decrypt($id);
 
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
@@ -451,7 +450,6 @@ class VentasController extends \BaseController {
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
-
 
 	function updateClienteId()
 	{

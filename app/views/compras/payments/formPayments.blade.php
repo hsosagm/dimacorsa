@@ -33,7 +33,7 @@
 				<div class="row">
 					<div class="form-group">
 						<div class="col-md-6">
-							<label> {{(@$saldo_vencido == null) ? '0.00' : @$saldo_vencido; }} </label>
+							<label> Q {{(@$saldo_vencido == null) ? '0.00' : f_num::get(@$saldo_vencido); }} </label>
 						</div>
 						<div class="col-md-6">
 							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
@@ -61,7 +61,7 @@
 				<div class="row">
 					<div class="form-group">
 						<div class="col-md-6">
-							<label> {{(@$saldo_total == null) ? '0.00' : @$saldo_total; }} </label>
+							<label> Q {{(@$saldo_total == null) ? '0.00' : f_num::get(@$saldo_total); }} </label>
 						</div>
 						<div class="col-md-6">
 							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
