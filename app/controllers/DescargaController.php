@@ -3,10 +3,14 @@
 class DescargaController extends BaseController {
 
     public function create()
-    {
+    { 
         if (Input::has('_token'))
-        {  
-            Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
+        {   
+            $consultar = DetalleDescarga::where('descarga_id','=',Input::get('descarga_id'))
+            ->where('producto_id','=',Input::get('producto_id'))->get();
+
+            if (count($consultar))
+                return 'el producto ya fue ingresado ..!';
 
             $existencia = Existencia::where('producto_id','=',Input::get('producto_id'))
             ->where('tienda_id','=',Auth::user()->tienda_id)->first();
@@ -14,18 +18,16 @@ class DescargaController extends BaseController {
             if ($existencia->existencia < Input::get('cantidad')) 
                 return 'No puede descargar mas de la Existencia';
 
-            $consultar = DetalleDescarga::where('descarga_id','=',Input::get('descarga_id'))
-            ->where('producto_id','=',Input::get('producto_id'))->get();
+            $producto = Producto::find(Input::get('producto_id'));
 
-            if (count($consultar))
-                return 'el producto ya fue ingresado ..!';
+            $data = Input::all();
+            $data['precio'] =( $producto->p_costo / 100);
 
-            $query = new DetalleDescarga;
+            $detalle_descarga = new DetalleDescarga;
 
-            if ($query->_create())
+            if ($detalle_descarga->_create($data))
             {
-
-                $id = $query->get_id();
+                $id = $detalle_descarga->get_id();
 
                 $detalle = DetalleDescarga::find($id);
 
@@ -42,7 +44,7 @@ class DescargaController extends BaseController {
                     'table' => View::make('descargas.detalle',compact('detalle'))->render() ));
             }
 
-            return $query->errors();
+            return $detalle_descarga->errors();
         }
 
         $descarga = new Descarga;

@@ -11,6 +11,8 @@ class EgresoController extends \BaseController {
     {
         if (Input::has('_token'))
         {
+            Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
+            
             $query = new DetalleEgreso;
             
             if ($query->_create())

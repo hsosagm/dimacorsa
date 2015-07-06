@@ -11,7 +11,7 @@ class Table {
             $table .= 
             '<tr>
             <td width="40%">' . $ds->descripcion . '</td>
-            <td class="right" width="20%">' . $ds->monto . '</td>
+            <td class="right" width="20%">Q ' . f_num::get($ds->monto) . '</td>
             <td class="center" width="20%">' . $ds->metodo_pago->descripcion . '</td>
             <td class="center" width="10%"><i class="fa fa-times pointer btn-link theme-c" id="'.$ds->id.'" href="'.$href.'" onclick="DeleteDetalle(this);"  title="Eliminar"></i></td>
             </tr>';

@@ -252,4 +252,18 @@ class ProveedorController extends BaseController {
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
     }
+
+    public function ImprimirAbono_dt($code,$id)
+    {
+        $detalle = DB::table('detalle_abonos_compra')
+        ->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
+        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+        ->where('abonos_compra_id','=', $id)->get();
+
+        $abono = AbonosCompra::with('proveedor','user','metodoPago')->find($id);
+
+        $saldo = Compra::where('proveedor_id', '=' , $abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        return View::make('proveedor.ImprimirAbono',compact('abono', 'detalle' , 'saldo'))->render();
+    }
 }

@@ -1,11 +1,10 @@
-<!-- Start category development -->
+<!-- comienzo categoria  Administrador -->
 <li class="sidebar-category">
     <span>ADMIN</span>
     <span class="pull-right"><i class="fa fa-code"></i></span>
 </li>
-<!--/ End category development -->
 
-<!-- Start development - components -->
+<!-- comienza menu consultas-->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-cube"></i></span>
@@ -117,7 +116,26 @@
         </li>
     </ul>
 </li>
+<!-- fin menu consultas-->
 
+<!-- Inicio menu operaciones -->
+<li class="submenu">
+    <a href="javascript:void(0);">
+        <span class="icon"><i class="fa fa-columns"></i></span>
+        <span class="text">Operaciones</span>
+        <span class="plus"></span>
+    </a>
+    <ul>
+        <li><a href="javascript:void(0);" id="f_soporte">Soporte</a></li>
+        <li><a href="javascript:void(0);" id="f_gastos">Gastos</a></li>
+        <li><a href="javascript:void(0);" id="f_egreso">Egresos</a></li>
+        <li><a href="javascript:void(0);" id="f_ingreso">Ingresos</a></li>
+        <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
+    </ul>
+</li>
+<!-- Fin menu operaciones -->
+
+<!-- inicio menu Informacion -->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-cube"></i></span>
@@ -142,7 +160,9 @@
         </li>
     </ul>
 </li>
+<!-- Fin menu Informacion -->
 
+<!-- inicio menu Cierre -->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-columns"></i></span>
@@ -153,12 +173,13 @@
         <li><a href="javascript:void(0);" id="CierreDelDia">Movimientos del dia</a></li>
         <li><a href="javascript:void(0);" onClick="cierre();">Realizar cierre</a></li>
         <li><a href="javascript:void(0);" onClick="imprimir_cierre();">Imprimir cierre del dia</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelMes();"> cierre del mes</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelDiaPorFecha();"> cierre del dia por fecha</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelMesPorFecha();"> cierre del mes por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelMes();"> Cierre del mes</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelDiaPorFecha();"> Cierre del dia por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelMesPorFecha();"> Cierre del mes por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierresDelMes();"> Cierres del mes</a></li>
     </ul>
 </li>
-
+<!-- fin menu Cierre -->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-columns"></i></span>
@@ -183,4 +204,5 @@
     </ul>
 </li>
 
-        <!--/ End development - components -->
+
+<!--/ End development - components -->

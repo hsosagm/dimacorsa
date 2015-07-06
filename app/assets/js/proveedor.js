@@ -301,3 +301,11 @@ function proveedor_update(e,element)
         }
     });
  }
+
+ function ImprimirAbonoProveedor_dt(e,user)
+{
+    id = $(e).closest('tr').attr('id');
+    var md5 = $.md5('encript'+user); 
+
+     FacturaWindow = open('admin/proveedor/ImprimirAbono/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}
