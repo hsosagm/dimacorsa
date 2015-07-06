@@ -414,4 +414,40 @@ class ClienteController extends \BaseController {
             'table' => View::make('ventas.historialAbonos', compact('abonosVentas'))->render()
         ));
     }
+
+    public function getHistorialPagos()
+    {
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('ventas.historialPagos', compact('pagosVentas'))->render()
+        ));
+    }
+
+    public function DtHistorialPagos()
+    {
+        $table = 'pagos_ventas';
+
+        $columns = array(
+            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "pagos_ventas.created_at as fecha",
+            "ventas.id as factura",
+            "metodo_pago.descripcion as metodo_descripcion",
+            'monto'
+        );
+
+        $Searchable = array("users.nombre","users.apellido","ventas.id");
+
+        $Join="
+            JOIN ventas ON (ventas.id = pagos_ventas.venta_id) 
+            JOIN users ON (users.id = ventas.user_id)
+            JOIN tiendas ON (tiendas.id = ventas.tienda_id)
+            JOIN metodo_pago ON (metodo_pago.id = pagos_ventas.metodo_pago_id)";
+
+        $where = "cliente_id = ".Input::get('cliente_id');
+        $where .= ' AND ventas.tienda_id = '.Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
+    }
+
 }

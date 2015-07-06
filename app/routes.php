@@ -79,6 +79,8 @@
             Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
             Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
             Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
+            Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
+            Route::get('DtHistorialPagos'      , 'ClienteController@DtHistorialPagos');
             Route::get('clientes'              , 'ClienteController@clientes'    );
             Route::get('AbonosDelDia'          , 'ClienteController@AbonosDelDia'    );
             Route::get('AbonosDelDia_dt'       , 'ClienteController@AbonosDelDia_dt'    );
