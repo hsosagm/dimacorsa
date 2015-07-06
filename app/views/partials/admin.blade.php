@@ -147,17 +147,6 @@
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
         <li id="proveedores"><a href="javascript:void(0);">Proveedores</a></li>
         <li id="clientes_table"><a href="javascript:void(0);">Clientes</a></li>
-         <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="text">logs</span>
-                <span class="arrow"></span>
-            </a>
-            <ul>
-                <li id=""><a href="javascript:void(0);">Productos</a></li>
-                <li id=""><a href="javascript:void(0);">Usuarios</a></li>
-                <li id=""><a href="javascript:void(0);">Proveedores</a></li>
-            </ul>
-        </li>
     </ul>
 </li>
 <!-- Fin menu Informacion -->

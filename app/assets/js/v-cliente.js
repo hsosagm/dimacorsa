@@ -242,6 +242,9 @@ var vm = new Vue({
 	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             });
         },
+        imprimirAbonoVenta: function(e,id) {
+        	 window.open('user/ventas/payments/imprimirAbonoVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+        },
     }
 });
 

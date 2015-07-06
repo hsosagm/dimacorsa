@@ -513,14 +513,14 @@ function CreditPurchases(e)
                     $('#iSearch').keyup(function() {
                         oTable.fnFilter( $(this).val() );
                         var table = $('#example').DataTable();
-                        var s_filter_applied = table.column( 4, {"filter": "applied"} ).data().sum();
+                        var s_filter_applied = table.column( 6, {"filter": "applied"} ).data().sum();
                         s_filter_applied = accounting.formatMoney(s_filter_applied,"", 2, ",", ".");
                         $('#saldo_por_busqueda').text(s_filter_applied);
 
                         var sv_filter_applied=0;
 
                         $("tbody tr.red").each(function () {
-                            var getValue = $(this).find("td:eq(4)").html().replace("$", "");
+                            var getValue = $(this).find("td:eq(6)").html().replace("$", "");
                             var filteresValue=getValue.replace(/\,/g, '');
                             sv_filter_applied +=Number(filteresValue)
                         });

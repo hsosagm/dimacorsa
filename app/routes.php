@@ -7,7 +7,6 @@
     /*
     funciones para hacer el guardado de logs    
     /*******************************************************************************/
-
     Producto::observe(new \NEkman\ModelLogger\Observer\Logger);
     Compra::observe(new \NEkman\ModelLogger\Observer\Logger);
     Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
@@ -185,16 +184,18 @@
             Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
             Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
             Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
+            Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
             Route::get('OpenTableSalesForDate'                  , 'VentasController@OpenTableSalesForDate');
             Route::get('SalesForDate'                           , 'VentasController@SalesForDate');
 
             Route::group(array('prefix' => 'payments'),function() 
             {
-                Route::get('formPayments', 'SalesPaymentsController@formPayments');
-                Route::post('formPayments', 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination', 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'     , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'     , 'SalesPaymentsController@SelectedPaySales'  );
+                Route::get('formPayments'             , 'SalesPaymentsController@formPayments');
+                Route::post('formPayments'            , 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination'   , 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('eliminarAbonoVenta'      , 'SalesPaymentsController@eliminarAbonoVenta'  );
+                Route::post('SelectedPaySales'        , 'SalesPaymentsController@SelectedPaySales'  );
+                Route::get('imprimirAbonoVenta/{id}'  , 'SalesPaymentsController@imprimirAbonoVenta'  );
                 
             });
 
@@ -269,6 +270,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('AbonosPorFecha'              , 'ProveedorController@AbonosPorFecha' );
         Route::get('AbonosPorFecha_dt'           , 'ProveedorController@AbonosPorFecha_dt' );
         Route::get('ImprimirAbono/dt/{code}/{id}', 'ProveedorController@ImprimirAbono_dt' );
+        Route::get('ImprimirAbono/{id}'          , 'ProveedorController@ImprimirAbono' );
     });
 
     Route::group(array('prefix' => 'compras'), function()

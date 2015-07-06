@@ -10,5 +10,20 @@ class AbonosVenta extends \BaseModel {
     {
         return $this->belongsTo('MetodoPago', 'metodo_pago_id');
     }
+
+    public function cliente()
+    {
+        return $this->belongsTo('Cliente');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
+
+    public function detalle_abonos_ventas()
+    {
+        return $this->hasMany('DetalleAbonosVenta');
+    }
     
 }

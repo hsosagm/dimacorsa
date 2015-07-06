@@ -257,7 +257,6 @@ function CreditSales(e)
     }); 
 }
 
-
 function ImprimirVentaModal(e,id)
 {
     $.ajax({
@@ -280,38 +279,6 @@ function ImprimirVentaModal(e,id)
     });       
 }
 
-var FacturaWindow;
-
-function ImprimirFacturaVenta(e,id)
-{
-    FacturaWindow = open('user/ventas/ImprimirFacturaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-
-
-}
-
-function ImprimirFacturaVenta_dt(e,user)
-{
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-
-     FacturaWindow = open('user/ventas/ImprimirFacturaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-
-}
-
-function ImprimirGarantiaVenta(e,id)
-{
-     FacturaWindow = open('user/ventas/ImprimirGarantiaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function ImprimirGarantiaVenta_dt(e,user)
-{
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-
-     FacturaWindow = open('user/ventas/ImprimirGarantiaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-
-}
-
 function OpenModalSalesItemSerials(e)
 {
      $serial = $("input[name='serials']").val();
@@ -329,9 +296,4 @@ function OpenModalSalesItemSerials(e)
             alert(request.responseText);
         }
     });
-}
-
-function CerrarVentana(Windows) 
-{
-    Windows.close();              
 }

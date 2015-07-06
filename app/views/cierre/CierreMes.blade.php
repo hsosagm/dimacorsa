@@ -34,7 +34,7 @@
 			<td colspan="2">{{ $user->nombre .' '. $user->apellido}}</td>
 			<td style="text-align: right;">{{ $user->total }} </td>
 			<td style="text-align: right;">{{ $user->utilidad }} </td>
-			<td style="text-align: right;"> </td>
+			<td style="text-align: right; color:#FF0000">%{{ f_num::get(($user->utilidad * 100 )/str_replace(',', '', $total_ganancias))}}</td>
 		</tr>
 		@endforeach 
 		<tr>
