@@ -191,11 +191,12 @@
 
             Route::group(array('prefix' => 'payments'),function() 
             {
-                Route::get('formPayments', 'SalesPaymentsController@formPayments');
-                Route::post('formPayments', 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination', 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'     , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'     , 'SalesPaymentsController@SelectedPaySales'  );
+                Route::get('formPayments'           , 'SalesPaymentsController@formPayments');
+                Route::post('formPayments'          , 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination' , 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('eliminarAbonoVenta'    , 'SalesPaymentsController@eliminarAbonoVenta'  );
+                Route::post('SelectedPaySales'      , 'SalesPaymentsController@SelectedPaySales'  );
+                Route::get('getDetalleAbono'        , 'SalesPaymentsController@getDetalleAbono'  );
                 
             });
 

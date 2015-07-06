@@ -208,4 +208,22 @@ class SalesPaymentsController extends \BaseController {
 
         return 'success';
     }
+
+
+    public function getDetalleAbono()
+    {
+         $detalle = DB::table('detalle_abonos_ventas')
+        ->select('venta_id','total','monto',DB::raw('detalle_abonos_ventas.created_at as fecha'))
+        ->join('ventas','ventas.id','=','detalle_abonos_ventas.venta_id')
+        ->where('abonos_ventas_id','=', Input::get('abono_id'))
+        ->get();
+
+
+        $deuda = 0;
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('ventas.payments.DT_detalle_abono', compact('detalle', 'deuda'))->render()
+        ));
+    }
 }
