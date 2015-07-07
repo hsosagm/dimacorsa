@@ -13,13 +13,19 @@
 
 		<tbody>
 		    <tr v-repeat="dt: detalleTable" v-class="editing : this == editedTodo">
-                <td width="10%" class="view" v-text="dt.cantidad" v-on="dblclick: editItem(this)"></td>
+                <td width="10%" class="view" v-text="dt.cantidad" v-on="dblclick: editItem"></td>
                 <td width="10%" class="detail-input-edit">
-                    <input type="text" v-model="dt.cantidad" v-item-focus="this == editedTodo" class="input_numeric" 
-                        v-on="keyup : doneEdit(this) | key 'enter', keyup : cancelEdit(this) | key 'esc'">
+                    <input field="cantidad" type="text" v-model="dt.cantidad" class="input_numeric" 
+                        v-on="keyup : doneEdit(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
                 </td>
                 <td width="70%"> @{{ dt.descripcion }} </td>
-                <td style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency }}</td>
+
+                <td v-on="dblclick: editItem" style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency }}</td>
+                <td width="10%" class="detail-input-edit">
+                    <input field="precio" type="text" v-model="dt.precio" class="input_numeric" 
+                        v-on="keyup : doneEdit(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
+                </td>
+
                 <td width="10%" style="text-align:right; padding-right: 20px !important;"> @{{ dt.total | currency }} </td>
                 <td width="5%" ><i  v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
             </tr>

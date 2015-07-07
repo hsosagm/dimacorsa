@@ -425,7 +425,19 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {   
+        $detalle = DB::table('detalle_ventas')
+        ->select(array(
+            'detalle_ventas.id',
+            'venta_id', 'producto_id',
+            'cantidad', 
+            'precio', 
+            DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->where('venta_id', 27177)
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get();
 
+        return $detalle;
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
