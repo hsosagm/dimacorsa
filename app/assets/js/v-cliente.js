@@ -267,6 +267,27 @@ var vm = new Vue({
 		        }
 		    });
 
+        },
+
+        getHistorialPagos: function() {
+
+        	this.PanelBody = false;
+        	$('.dt-container').hide();
+
+		    $.ajax({
+		        type: 'GET',
+		        url: "user/cliente/getHistorialPagos",
+		        data: { cliente_id: vm.cliente_id, sSearch: null },
+		        success: function (data) {
+		            if (data.success == true)
+		            {
+		            	return $('.table').html(data.table);
+		            }
+
+		            msg.warning(data, 'Advertencia!');
+		        }
+		    });
+		    
         }
     }
 });
