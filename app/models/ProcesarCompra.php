@@ -262,8 +262,8 @@ class ProcesarCompra
 
 	public static function setExistencia($producto_id, $existencia)
 	{
-
-		$Exist = Existencia::where('producto_id','=',$producto_id)->first() ;
+		$Exist = Existencia::where('producto_id','=',$producto_id)
+		->where('tienda_id' , '=' , Auth::user()->tienda_id)->first();
 
 		if($Exist == null)
 		{
