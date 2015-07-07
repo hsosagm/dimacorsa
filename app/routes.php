@@ -342,8 +342,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('OpenDownload'                       , 'DescargaController@OpenDownload'  );
         Route::get('OpenTableDownloadsForDate'          , 'DescargaController@OpenTableDownloadsForDate' );
         Route::get('DownloadsForDate'                   , 'DescargaController@DownloadsForDate' );
-
-
+        Route::get('descripcion'                        , 'DescargaController@descripcion' );
+        Route::post('descripcion'                       , 'DescargaController@descripcion' );
     });
 
     Route::group(array('prefix' => 'categorias'), function()

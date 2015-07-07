@@ -21,7 +21,7 @@
 				</td>
 				<td><input class="input input_numeric" type="text" name="cantidad"> </td>
 				<td>
-					
+					<a class="form-control btn-theme" style=" cursor: pointer" onclick="IngresarDescripcionDescarga(this,{{$id}});">Descripcion</a>
 				</td>
 			</tr>
 		</table>
