@@ -94,10 +94,11 @@ class ProductoController extends Controller {
             $Existencia = 0;
         }
             $precio_c = $query->p_costo / 100;
-            
+            $marca = Marca::find($query->marca_id);
+
             return array(
                 'success'           => true,
-                'descripcion'       => $query->descripcion,
+                'descripcion'       =>  "[ ".$marca->nombre." ] ".$query->descripcion,
                 'p_costo'           => 'Precio Costo: '.f_num::get($precio_c,2),
                 'p_costo_descarga'  =>  f_num::get($precio_c),
                 'p_publico'         => 'Precio Publico: '.$query->p_publico,
@@ -169,7 +170,7 @@ class ProductoController extends Controller {
         $Searchable = array("codigo","nombre","descripcion");
         
         $Join = 'JOIN marcas ON productos.marca_id = marcas.id  JOIN  existencias ON productos.id = existencias.producto_id ';
-        $where = "tienda_id = ".Auth::user()->tienda_id.' AND productos.existencia > 0';
+        $where = "tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
     }

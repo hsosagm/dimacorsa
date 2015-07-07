@@ -18,7 +18,7 @@
                                 <label>Fecha: {{ @$venta->created_at }} </label>
                             </div>
                             <div style="display:inline-block;">
-                                <label style="margin-left:12px;"> Garantia No. :{{ @$venta->id }} </label>
+                                <label style="margin-left:12px;"> Garantia No. : {{ @$venta->id }} </label>
                             </div>
                             <br/>
                             <div style="display:inline-block;">

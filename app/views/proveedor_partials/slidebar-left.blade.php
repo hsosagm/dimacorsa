@@ -43,7 +43,7 @@
             </a>
             <ul>
                 <li><a href="javascript:void(0);" id="ShowTableHistoryShopping"> Historial de compras</a></li>
-                <li><a href="javascript:void(0);" id="ShowTableUnpaidShopping"> Compras pendientes de pago</a></li>
+                <li><a href="javascript:void(0);" id="ShowTableUnpaidShopping"> Cuentas por pagar</a></li>
                 <li><a href="javascript:void(0);" id="ShowTableHistoryPayment"> Historial de pagos</a></li>
                 <li><a href="javascript:void(0);" id="ShowTableHistoryPaymentDetails"> Historial de abonos</a></li>
             </ul>

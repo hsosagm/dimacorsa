@@ -24,9 +24,6 @@
 </div>
 
 
-
-
-
 <style type="text/css">
 
 	.Lightbox .modal-dialog {

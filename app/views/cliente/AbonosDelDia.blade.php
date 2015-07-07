@@ -25,7 +25,7 @@ $(document).ready(function() {
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {
-                    return '<i class="fa fa-plus-square btn-link theme-c" onClick=""></i>';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleAbonosClietes(this)"></i>';
                 }
             },
         ],

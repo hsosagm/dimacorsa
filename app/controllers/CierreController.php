@@ -187,11 +187,12 @@ class CierreController extends \BaseController {
         return $data;
     }
 
-      /*    
-        Funcion para genrar la consulta agrupandolos por el metodo de pago
-        $tabla = es la tabla a la que se le va a sumar el $campo que mande como segundo parametro
-    */
-    function query( $tabla , $campo , $fecha ) // funcion cuando la tabla si tiene el campo tienda id
+    /*********************************************************************************************************************************    
+        Inicio de Funciones para generar la consulta agrupandolos por el metodo de pago
+    **********************************************************************************************************************************/
+
+    // funcion cuando la tabla si tiene el campo tienda id
+    function query( $tabla , $campo , $fecha ) 
     {
         $fecha_enviar = "'{$fecha}'";
 
@@ -245,6 +246,9 @@ class CierreController extends \BaseController {
 
         return $this->llenar_arreglo($Query);
     }
+    /*********************************************************************************************************************************    
+        Fin de Funciones para generar la consulta agrupandolos por el metodo de pago
+    **********************************************************************************************************************************/
 
     function CierreDelMesPorFecha()
     {

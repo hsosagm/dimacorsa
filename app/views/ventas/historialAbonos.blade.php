@@ -20,6 +20,7 @@
             <td width="40%"> @{{ av.observaciones }} </td>
             <td class="widthS center font14"  width="10%"> 
                 <a href="javascript:void(0);" title="Ver detalle" v-on="click: toggleActive(this, av)" v-class="hide_detail: av.active" class="fa fa-plus-square"> 
+                <a href="javascript:void(0);" title="Imprimir abono" v-on="click: imprimirAbonoVenta(this, av)" class="fa fa-print font14"> 
             </td>
         </tr>
 	</tbody>
@@ -68,7 +69,9 @@
 				    });
 				}
 	        },
-
+	         imprimirAbonoVenta: function(e ,av) {
+				 window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+av.id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+        	},
         }	
     });
 

@@ -24,7 +24,7 @@ class CompraController extends \BaseController {
 				'success' => true, 
 				'detalle' => View::make('compras.detalle',compact("id"))->render(),
 				'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
-				));
+			));
 		}
 
 		return View::make('compras.create');
@@ -69,8 +69,8 @@ class CompraController extends \BaseController {
 				$saldo = $this->TotalCreditoProveedor($proveedor->id);
 
 		       return Response::json(array(
-				'success' => true, 
-				'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
+					'success' => true, 
+					'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
 				));
 			}
 			else
@@ -123,7 +123,7 @@ class CompraController extends \BaseController {
 			return Response::json(array(
 				'success' => true,
 				'table'   => View::make('compras.detalle_body', compact("detalle"))->render()
-				));
+			));
 		}
 
 		return false;
@@ -198,7 +198,7 @@ class CompraController extends \BaseController {
 			'success' => true, 
 			'detalle' => View::make('compras.payment',compact('total_compra'))
 			->render()
-			));
+		));
 	}
 
 	public function PurchasePaymentDetail()
@@ -210,8 +210,7 @@ class CompraController extends \BaseController {
 		return Response::json( array(
 			'success' => true,
 		    'detalle' => View::make('compras.payment',compact('total_pagos','total_compra','det_pagos'))->render() 
-		  ));
-		
+		));
 	}
 
 	//funcion para eliminar un detalle de pago
@@ -224,10 +223,13 @@ class CompraController extends \BaseController {
 
 	public function SaveEditPurchaseItemDetails()
 	{
+		Input::merge(array('dato' => str_replace(',', '', Input::get('dato'))));
 		$datos = array( Input::get('dato') => Input::get('dato'));
+		
 		$validaciones = array( 
 			Input::get('dato') => array('required','numeric','min:1')
-			);
+		);
+
 		$validator = Validator::make($datos, $validaciones);
 
 		if ( $validator->fails() )
@@ -243,7 +245,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => $procesar,
 			'table'   => View::make('compras.detalle_body', compact("detalle"))->render()
-			));
+		));
 	}
 
 	//funcion para verificar si ya se ingreso un pago con ese metodo
