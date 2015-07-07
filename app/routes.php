@@ -193,13 +193,14 @@
 
             Route::group(array('prefix' => 'payments'),function() 
             {
-                Route::get('formPayments'           , 'SalesPaymentsController@formPayments');
-                Route::post('formPayments'          , 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination' , 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'    , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'      , 'SalesPaymentsController@SelectedPaySales'  );
-                Route::get('getDetalleAbono'        , 'SalesPaymentsController@getDetalleAbono'  );
-                Route::get('imprimirAbonoVenta/{id}', 'SalesPaymentsController@imprimirAbonoVenta'  );
+                Route::get('formPayments'              , 'SalesPaymentsController@formPayments');
+                Route::post('formPayments'             , 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination'    , 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('eliminarAbonoVenta'       , 'SalesPaymentsController@eliminarAbonoVenta'  );
+                Route::post('SelectedPaySales'         , 'SalesPaymentsController@SelectedPaySales'  );
+                Route::get('getDetalleAbono'           , 'SalesPaymentsController@getDetalleAbono'  );
+                Route::get('imprimirAbonoVenta/{id}'   , 'SalesPaymentsController@imprimirAbonoVenta'  );
+                Route::get('imprimirAbonoVenta/dt/{id}', 'SalesPaymentsController@imprimirAbonoVenta_dt'  );
             });
 
         });
@@ -341,8 +342,8 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('OpenDownload'                       , 'DescargaController@OpenDownload'  );
         Route::get('OpenTableDownloadsForDate'          , 'DescargaController@OpenTableDownloadsForDate' );
         Route::get('DownloadsForDate'                   , 'DescargaController@DownloadsForDate' );
-
-
+        Route::get('descripcion'                        , 'DescargaController@descripcion' );
+        Route::post('descripcion'                       , 'DescargaController@descripcion' );
     });
 
     Route::group(array('prefix' => 'categorias'), function()

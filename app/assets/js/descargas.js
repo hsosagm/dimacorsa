@@ -57,7 +57,6 @@ function showDownloadsDetail(e) {
     }
 }
 
-
 function getDownloadsDetail(e) {
 
     $id = $(e).closest('tr').attr('id');
@@ -113,4 +112,26 @@ function OpenDownload(e)
 
 function FinalizarDescarga() {
 	$(".form-panel").slideUp('slow');	
+}
+
+function IngresarDescripcionDescarga( e , descarga_id) {
+    $.ajax({
+    type: 'GET',
+    url: "admin/descargas/descripcion",
+    data: { descarga_id: descarga_id},
+    success: function (data) {
+            if (data.success == true)
+            {
+                $('.modal-body').html(data.data);
+                $('.modal-title').text('Ingresar Descripcion');
+                $('.bs-modal').modal('show');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+
+    return false;
 }

@@ -19,8 +19,8 @@ $(document).on('submit', 'form[data-remote]', function(e) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-
-            if (data == 'success')
+            console.log($.trim(data));
+            if ($.trim(data) == 'success')
             {
                 msg.success(form.data('success'), 'Listo!');
                 $('.bs-modal').modal('hide');

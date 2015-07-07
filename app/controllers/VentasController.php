@@ -47,7 +47,7 @@ class VentasController extends \BaseController {
 			}
 
 			Existencia::where('producto_id', Input::get('producto_id'))
-			->where('tienda_id', Auth::user()->tienda_id)
+			->where('tienda_id',Auth::user()->tienda_id)
 			->update(array('existencia' => $nueva_existencia));
 
 			$detalle = $this->getSalesDetail();
@@ -341,7 +341,7 @@ class VentasController extends \BaseController {
 		$ventas = DB::table('ventas')
         ->select(DB::raw("ventas.id,
         	ventas.total,
-        	ventas.created_at as fecha, 
+        	DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as fecha,  
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
             saldo"))
@@ -384,6 +384,7 @@ class VentasController extends \BaseController {
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
 		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')";
+		$where .= ' AND ventas.tienda_id = '.Auth::user()->tienda_id ;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );	
 	}
@@ -502,6 +503,8 @@ class VentasController extends \BaseController {
 			);
 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","clientes.apellido");
+		
+		$where .= ' AND ventas.tienda_id = '.Auth::user()->tienda_id ;
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 

@@ -159,13 +159,13 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li><a href="javascript:void(0);" id="CierreDelDia">Movimientos del dia</a></li>
-        <li><a href="javascript:void(0);" onClick="cierre();">Realizar cierre</a></li>
-        <li><a href="javascript:void(0);" onClick="imprimir_cierre();">Imprimir cierre del dia</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelMes();"> Cierre del mes</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelDiaPorFecha();"> Cierre del dia por fecha</a></li>
-        <li><a href="javascript:void(0);" onClick="CierreDelMesPorFecha();"> Cierre del mes por fecha</a></li>
-        <li><a href="javascript:void(0);" onClick="CierresDelMes();"> Cierres del mes</a></li>
+        <li><a href="javascript:void(0);" id="CierreDelDia">Corte del dia</a></li>
+        <li><a href="javascript:void(0);" onClick="cierre();">Realizar Corte</a></li>
+        <li><a href="javascript:void(0);" onClick="imprimir_cierre();">Imprimir Corte del dia</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelMes();"> Corte del mes</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelDiaPorFecha();"> Corte del dia por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierreDelMesPorFecha();"> Corte del mes por fecha</a></li>
+        <li><a href="javascript:void(0);" onClick="CierresDelMes();"> Cortes del mes</a></li>
     </ul>
 </li>
 <!-- fin menu Cierre -->

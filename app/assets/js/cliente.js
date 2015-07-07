@@ -282,7 +282,6 @@ function creditSalesByCustomer()
     }); 
 }
 
-
 function generate_dt(data) {
     vm.clearPanelBody();
     $('.table').html(data);
@@ -300,3 +299,57 @@ function generate_dt(data) {
         });
     }, 0);
 }
+
+function verDetalleAbonosClietes(e){
+
+ if ($(e).hasClass("hide_detail")) 
+    {
+        $(e).removeClass('hide_detail');
+        $('.subtable').fadeOut('slow');
+    } 
+    else 
+    {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length )
+        {
+            $('.subtable').fadeOut('slow', function(){
+                obtenerDetalleAbonosClientes(e);
+            })
+        }
+        else
+        {
+            obtenerDetalleAbonosClientes(e);
+        }
+    }
+}
+
+function obtenerDetalleAbonosClientes(e)
+{
+    $id = $(e).closest('tr').attr('id');
+
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=8><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/payments/getDetalleAbono",
+        data: { abono_id: $id},
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.grid_detalle_factura').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                $(e).addClass('hide_detail');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+

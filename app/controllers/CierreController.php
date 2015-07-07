@@ -16,27 +16,6 @@ class CierreController extends \BaseController {
         return View::make('cierre.CierreDia',compact('data'));
     }
 
-    /*    
-        Funcion para genrar la consulta agrupandolos por el metodo de pago
-        $tabla = es la tabla a la que se le va a sumar el $campo que mande como segundo parametro
-    */
-    function query( $tabla , $campo , $fecha )
-    {
-        $fecha_enviar = "'{$fecha}'";
-
-        if ($fecha == 'current_date') 
-            $fecha_enviar = 'current_date';
-
-        $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
-        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
-
-        ->groupBy('metodo_pago.id')->get();
-
-        return $this->llenar_arreglo($Query);
-    }
-
     /*
         funcion para ordenar el arreglo de los metodos de pago
         retorna un arreglo de una dimencion 
@@ -195,18 +174,81 @@ class CierreController extends \BaseController {
     {
         $data = [];
 
-        $data['pagos_ventas']     =   $this->query('pagos_ventas','monto',$fecha);
-        $data['abonos_ventas']    =   $this->query('abonos_ventas','monto',$fecha);
-        $data['soporte']          =   $this->query('detalle_soporte','monto',$fecha);
-        $data['adelantos']        =   $this->query('detalle_adelantos','monto',$fecha);
-        $data['ingresos']         =   $this->query('detalle_ingresos','monto',$fecha);
-        $data['egresos']          =   $this->query('detalle_egresos','monto',$fecha);
-        $data['gastos']           =   $this->query('detalle_gastos','monto',$fecha);
-        $data['abonos_compras']   =   $this->query('abonos_compras','total',$fecha);
-        $data['pagos_compras']    =   $this->query('pagos_compras','monto',$fecha);
+        $data['pagos_ventas']     =   $this->_query('pagos_ventas','venta','monto',$fecha); //lo tiene en la tabla ventas.tienda_id
+        $data['abonos_ventas']    =   $this->query('abonos_ventas','monto',$fecha); // si tiene tienda_id
+        $data['soporte']          =   $this->__query('detalle_soporte','soporte','monto',$fecha); //lo tieene en la tabla soporte.tienda_id
+        $data['adelantos']        =   $this->_query('detalle_adelantos','adelanto','monto',$fecha); //lo tiene en la tabla adelantos
+        $data['ingresos']         =   $this->_query('detalle_ingresos','ingreso','monto',$fecha); //lo tiene en la tabla ingresos
+        $data['egresos']          =   $this->_query('detalle_egresos','egreso','monto',$fecha); // lo tiene en la tabla egreso
+        $data['gastos']           =   $this->_query('detalle_gastos','gasto','monto',$fecha); // lo tiene en la tabla gastos
+        $data['abonos_compras']   =   $this->query('abonos_compras','total',$fecha); //si tiene tienda_id
+        $data['pagos_compras']    =   $this->_query('pagos_compras','compra','monto',$fecha); // lo tiene en la tabla compras.tienda_id
 
         return $data;
     }
+
+    /*********************************************************************************************************************************    
+        Inicio de Funciones para generar la consulta agrupandolos por el metodo de pago
+    **********************************************************************************************************************************/
+
+    // funcion cuando la tabla si tiene el campo tienda id
+    function query( $tabla , $campo , $fecha ) 
+    {
+        $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date') 
+            $fecha_enviar = 'current_date';
+
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->where("{$tabla}.tienda_id", '=' , Auth::user()->tienda_id)
+        ->groupBy('metodo_pago.id')->get();
+
+        return $this->llenar_arreglo($Query);
+    }
+
+    // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en plural
+    function _query( $tabla ,$tabla_master, $campo , $fecha ) 
+    {
+        $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date') 
+            $fecha_enviar = 'current_date';
+
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
+        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
+        ->groupBy('metodo_pago.id')->get();
+
+        return $this->llenar_arreglo($Query);
+    }
+
+     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en singular
+    function __query( $tabla ,$tabla_master, $campo , $fecha ) 
+    {
+        $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date') 
+            $fecha_enviar = 'current_date';
+
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
+        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
+        ->groupBy('metodo_pago.id')->get();
+
+        return $this->llenar_arreglo($Query);
+    }
+    /*********************************************************************************************************************************    
+        Fin de Funciones para generar la consulta agrupandolos por el metodo de pago
+    **********************************************************************************************************************************/
 
     function CierreDelMesPorFecha()
     {

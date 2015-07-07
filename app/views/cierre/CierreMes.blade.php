@@ -14,11 +14,11 @@
 
 	<tbody>
 		<tr>
-			<td style="text-align: right;">{{ $total_ventas    }}</td>
-			<td style="text-align: right;">{{ $total_ganancias }}</td>
-			<td style="text-align: right;">{{ $total_soporte   }}</td>
-			<td style="text-align: right;">{{ $total_gastos    }}</td>
-			<td style="text-align: right;">{{ $ganancias_netas }}</td>
+			<td style="text-align: right;">Q {{ ($total_ventas	 )}}</td>
+			<td style="text-align: right;">Q {{ ($total_ganancias )}}</td>
+			<td style="text-align: right;">Q {{ ($total_soporte   )}}</td>
+			<td style="text-align: right;">Q {{ ($total_gastos    )}}</td>
+			<td style="text-align: right;">Q {{ ($ganancias_netas )}}</td>
 		</tr>
 		<tr>
 			<td colspan="5">
@@ -32,9 +32,9 @@
 		@foreach(@$ventas_usuarios as $key => $user)
 		<tr class="cierre_body">
 			<td colspan="2">{{ $user->nombre .' '. $user->apellido}}</td>
-			<td style="text-align: right;">{{ $user->total }} </td>
-			<td style="text-align: right;">{{ $user->utilidad }} </td>
-			<td style="text-align: right; color:#FF0000">%{{ f_num::get(($user->utilidad * 100 )/str_replace(',', '', $total_ganancias))}}</td>
+			<td style="text-align: right;">Q {{ f_num::get($user->total) }} </td>
+			<td style="text-align: right;">Q {{ f_num::get($user->utilidad) }} </td>
+			<td style="text-align: right;">%{{ f_num::get(($user->utilidad * 100 )/str_replace(',', '', $user->total ))}}</td>
 		</tr>
 		@endforeach 
 		<tr>

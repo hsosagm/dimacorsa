@@ -42,10 +42,10 @@ class DescargaController extends BaseController {
 
                 return Response::json(array('success' => true, 
                     'table' => View::make('descargas.detalle',compact('detalle'))->render() ));
-            }
+                }
 
-            return $detalle_descarga->errors();
-        }
+                return $detalle_descarga->errors();
+            }
 
         $descarga = new Descarga;
 
@@ -58,6 +58,24 @@ class DescargaController extends BaseController {
 
         return View::make('descargas.create', compact('id'));
 
+    }
+
+    public function descripcion()
+    { 
+        if (Input::has('_token'))
+        {   
+            $descarga = Descarga::find(Input::get('descarga_id'));
+            $descarga->descripcion = trim(Input::get('descripcion'));
+
+           if( $descarga->save())
+                return trim('success');
+        }
+        
+        $descarga = Descarga::find(Input::get('descarga_id'));
+
+        return Response::json(array('success' => true, 
+            'data' => View::make('descargas.descripcion',compact('descarga'))->render() 
+        ));
     }
 
     public function delete()
