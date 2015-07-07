@@ -430,7 +430,7 @@ class CompraController extends \BaseController {
                 total"))
         ->join('users', 'compras.user_id', '=', 'users.id')
         ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
-        ->where('compras.completed', '=', 0)
+        ->where('compras.completed', '=', 1)
         ->where('saldo', '>', 0)
         ->where('compras.tienda_id', '=', Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))

@@ -219,8 +219,9 @@ class UserController extends Controller {
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')  AND
-		users.id =".Auth::user()->id;
+		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d') ";
+		$where .= " AND users.id =".Auth::user()->id;
+		$where .= " AND ventas.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
@@ -246,8 +247,9 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_soporte.metodo_pago_id)";
 
 		$where = " 
-		DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
-		users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
+		$where .= " AND users.id =".Auth::user()->id;
+		$where .= " AND soporte.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
 	}
@@ -273,8 +275,9 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";
 
 		$where = " 
-		DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
-		users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
+		$where .= " AND users.id =".Auth::user()->id;
+		$where .= " AND ingresos.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 		
@@ -301,8 +304,9 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
 
 		$where = " 
-		DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
-		users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
+		$where .= " AND users.id =".Auth::user()->id;
+		$where .= " AND egresos.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
@@ -328,8 +332,9 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_gastos.metodo_pago_id)";
 
 		$where = "
-		DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
-		users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
+		$where .= " AND users.id =".Auth::user()->id;
+		$where .= " AND gastos.tienda_id =".Auth::user()->tienda_id;
 		
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );		
 	}
@@ -355,8 +360,9 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";
 
 		$where = "
-		DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND
-		users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
+		$where .= " AND users.id =".Auth::user()->id;
+		$where .= " AND adelantos.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
