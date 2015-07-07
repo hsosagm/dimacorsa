@@ -218,7 +218,8 @@ class ProcesarCompra
 
 	public static function getCantidad($producto_id, $_cantidad)
 	{
-		$cantidad = Existencia::where('producto_id', '=' , $producto_id)->first();
+		$cantidad = Existencia::where('producto_id', '=' , $producto_id)
+		->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
 		if($cantidad == null)
 		{
@@ -232,7 +233,8 @@ class ProcesarCompra
 
 	public static function resetCantidad($producto_id, $_cantidad)
 	{
-		$cantidad = Existencia::where('producto_id', '=' , $producto_id)->first();
+		$cantidad = Existencia::where('producto_id', '=' , $producto_id)
+		->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
 		if($cantidad == null)
 		{
