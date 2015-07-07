@@ -25,7 +25,7 @@ $(document).ready(function() {
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {
-                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleAbonosClietes(this)"></i>';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleAbonosClietes(this)"></i><a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoCliente(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px"> ';
                 }
             },
         ],

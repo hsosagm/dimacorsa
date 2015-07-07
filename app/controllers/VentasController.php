@@ -341,7 +341,7 @@ class VentasController extends \BaseController {
 		$ventas = DB::table('ventas')
         ->select(DB::raw("ventas.id,
         	ventas.total,
-        	ventas.created_at as fecha, 
+        	DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as fecha,  
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
             saldo"))

@@ -146,14 +146,14 @@
   }
 
   .table tr th {
-      padding:10px 25px 11px 25px !important;
+      padding:5px 5px 5px 5px !important;
       background: #fafafa;
       text-align: center !important;
       border-bottom:1px solid #e0e0e0 !important;
   }
 
   .table tr td {
-      padding:10px !important;
+      padding:2px !important;
       border-bottom:1px solid #e0e0e0 !important;
       border-left: 1px solid #e0e0e0 !important;
       background: #fafafa;
