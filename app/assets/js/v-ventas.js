@@ -48,39 +48,43 @@ var app = new Vue({
             app.detalle = false;
         },
 
-        editItem: function (e) {
-            this.beforeEditCache = e.dt.cantidad;
-            this.editedTodo = e;
+        editItem: function (t) {
+            this.beforeEditCache = t.target.textContent;
+            $(t.target).closest('td').hide();
+            $(t.target).closest('td').next('td').show();
         },
 
-        cancelEdit: function (e) {
-            this.editedTodo = null;
-            e.dt.cantidad = this.beforeEditCache;
+        cancelEdit: function (that, t) {
+            if ( t.target.getAttribute('field') == 'cantidad') {
+                that.dt.cantidad = this.beforeEditCache;
+            } else {
+                that.dt.precio = this.beforeEditCache;
+            }
+
+            app.restoreEdit(t);
         },
 
         doneEdit: function (e) {
-            e.dt.cantidad = e.dt.cantidad.trim();
-            if (!e.dt.cantidad) {
-                this.editedTodo = null;
-                e.dt.cantidad = this.beforeEditCache;
-                return;
-            }
-            var that = this;
             e.dt.cantidad = parseInt(e.dt.cantidad);
             $.ajax({
                 type: 'POST',
                 url: 'user/ventas/UpdateDetalle',
-                data: { values: e.dt, oldvalue: this.beforeEditCache },
+                data: { values: e.dt, venta_id: e.dt.venta_id, oldvalue: this.beforeEditCache },
                 success: function (data) {
-                    console.log(data);
                     if (data.success == true)
                     {
-                        that.editedTodo = null;
+                        $('.body-detail').html(data.table);
+                        app.$compile(app.$el);
                         return msg.success('Producto actualizado', 'Listo!');
                     }
                     msg.warning(data, 'Advertencia!');
                 }
             });
+        },
+
+        restoreEdit: function(t) {
+            $(t.target).closest('td').hide();
+            $(t.target).closest('td').prev('td').show();
         },
 
         removeItem: function (index, id) {

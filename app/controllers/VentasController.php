@@ -524,17 +524,19 @@ class VentasController extends \BaseController {
 			return "La cantidad que esta ingresando es mayor a la existencia..";
 		}
 
-		$dv = DetalleVenta::find( Input::get('values.id') );
-		$dv->cantidad = Input::get('values.cantidad');
-		$dv->save();
+		DetalleVenta::find( Input::get('values.id') )
+		->update(array('cantidad' => Input::get('values.cantidad'), 'precio' => Input::get('values.precio')));
 
 		Existencia::where('producto_id', Input::get('values.producto_id'))
 		->where('tienda_id', Auth::user()->tienda_id)
 		->update(array('existencia' => $nueva_existencia));
 
+		$detalle = $this->getSalesDetail();
+		$detalle = json_encode($detalle);
+
 		return Response::json(array(
 			'success' => true,
-			'nuevaExistencia' => $nueva_existencia
+			'table'   => View::make('ventas.detalle_body', compact('detalle'))->render()
         ));
 	}
 
