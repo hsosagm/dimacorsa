@@ -125,7 +125,7 @@ return array(
 		'Laravelrus\LocalizedCarbon\LocalizedCarbonServiceProvider',
 		'NEkman\ModelLogger\ModelLoggerServiceProvider',
 		'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
-
+		'Maatwebsite\Excel\ExcelServiceProvider',
 	),
 
 	/*
@@ -196,6 +196,7 @@ return array(
 		'Carbon'            => 'Laravelrus\LocalizedCarbon\LocalizedCarbon',
         'DiffFormatter'     => 'Laravelrus\LocalizedCarbon\DiffFactoryFacade',
         'ValidatorAssistant'=> 'Fadion\ValidatorAssistant\ValidatorAssistant',
+        'Excel' 			=> 'Maatwebsite\Excel\Facades\Excel',
 
 	),
 

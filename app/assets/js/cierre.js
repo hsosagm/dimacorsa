@@ -5,9 +5,9 @@ $(function() {
 function CierreDelDia()
 {
 	$.get( "admin/cierre/CierreDelDia", function( data ) {
-		$('.modal-body').html(data);
-		$('.modal-title').text('Cierre del Dia');
-		$('.bs-modal').modal('show');
+		generate_dt_local(data);
+        $(".DTTT").html('Movimientos del Dia');
+        $('.dt-container').show();
 	});
 
 }
@@ -29,6 +29,23 @@ function imprimir_cierre()
 		$.print("#print_barcode");
 		$("#print_barcode").hide();
 	});
+}
+
+function imprimir_cierre_por_fecha(fecha)
+{
+    $.ajax({
+        type: "GET",
+        url: 'admin/cierre/CierreDelDiaPorFecha',
+        data: { fecha:fecha },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) 
+        {
+            $('#print_barcode').html(data);
+            $("#print_barcode").show();
+            $.print("#print_barcode");
+            $("#print_barcode").hide();
+        }
+    });
 }
 
 function cierre() {
@@ -53,9 +70,9 @@ function CierreDelDiaPorFecha()
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) 
         {
-           	$('.modal-body').html(data);
-			$('.modal-title').text('Cierre del Dia');
-			$('.bs-modal').modal('show');
+            generate_dt_local(data);
+            $(".DTTT").html('Movimientos del Dia');
+            $('.dt-container').show();
         }
     });
 
@@ -152,4 +169,9 @@ function ImprimirCierreDelDia_dt(e,user)
     var md5 = $.md5('encript'+user); 
 
      window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}
+
+function ExportarCierreDelDia(tipo,fecha)
+{
+     window.open('admin/cierre/ExportarCierreDelDia/'+tipo+'/'+fecha ,'_blank');
 }

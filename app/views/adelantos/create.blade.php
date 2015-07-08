@@ -2,7 +2,7 @@
 {{ Form::open(array('data-remote-md-2', 'data-success' => $message, 'method' =>'post', 'role'=>'form', 'class' => 'form-horizontal')) }}
 
     <input name="{{$name}}" value="{{$id}}" type="text" class="hide">
-
+    <i class="icon-battery-low"> </i>
     <div class="form-group">
          <div class="col-lg-4"> 
             Descripcion:

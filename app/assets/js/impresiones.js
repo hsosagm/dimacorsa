@@ -51,3 +51,18 @@ function ImprimirAbonoCliente(e,user)
     id = $(e).closest('tr').attr('id');
     FacturaWindow = open('user/ventas/payments/imprimirAbonoVenta/dt/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
+
+function ImprimirCierreDelDia_dt(e,user)
+{
+    id = $(e).closest('tr').attr('id');
+    var md5 = $.md5('encript'+user); 
+
+     window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}
+
+function ImprimirCierreDelDia(id,user)
+{
+    var md5 = $.md5('encript'+user); 
+
+     window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}

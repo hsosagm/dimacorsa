@@ -230,6 +230,8 @@ Route::group(array('prefix' => 'admin'), function()
          Route::get('CierresDelMes_dt'                    , 'CierreController@CierresDelMes_dt' );
          Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
          Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
+         Route::get('ExportarCierreDelDia/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelDia' );
+
     });
 
     Route::group(array('prefix' => 'barcode'),function() 

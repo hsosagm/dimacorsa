@@ -209,6 +209,7 @@
                     data: form.serialize(),
                     success: function (data) {
                         if (data.success == true)
+                            ImprimirCierreDelDia(data.id , {{Auth::user()->id}});
                             msg.success('Cierre realizado correctamente', 'Listo!');
                             return $('.bs-modal').modal('hide');
                             

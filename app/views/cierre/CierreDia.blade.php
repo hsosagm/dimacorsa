@@ -1,17 +1,19 @@
-	<table width="100%" class="table table-responsive">
+	<table width="100%" class="table table-responsive table-theme">
 
-		<thead>
+		<thead class="cierre_head ">
 
 			<tr>
-				<td width="30%">Descripcion</td>
-				<td width="12%">Efectivo</td>
-				<td width="12%">Credito</td>
-				<td width="12%">Cheque</td>
-				<td width="12%">Tarjeta</td>
-				<td width="12%">Deposito</td>
-				<td width="12%">Totales</td>
+				<th width="30%" style="text-align:center" ><i style="cursor:pointer">Descripcion</i></th>
+				<th width="12%" style="text-align:center"><i style="cursor:pointer">Efectivo</i></th>
+				<th width="12%" style="text-align:center"><i style="cursor:pointer">Credito</i></th>
+				<th width="12%" style="text-align:center"><i style="cursor:pointer">Cheque</i></th>
+				<th width="12%" style="text-align:center"><i style="cursor:pointer">Tarjeta</i></th>
+				<th width="12%" style="text-align:center"><i style="cursor:pointer">Deposito</i></th>
+				<th width="12%" style="text-align:center"><i style="cursor:pointer">Totales</i></th>
 			</tr>
-
+			<tr>
+				<th colspan="7" class="DetallePorMetodoDePago"></th>
+			</tr>
 		</thead>
 
 		<tbody class="table-hover cierre_body">
@@ -105,7 +107,8 @@
 				<td class="right"> {{ $data['abonos_compras']['deposito']}} </td> 
 				<td class="right"> {{ f_num::get($data['abonos_compras']['total'])  }} </td> 
 			</tr>
-
+		</tbody>
+		<tfoot class="theme-table-footer cierre_footer">
 			<tr>
 				<td>Efectivo esperado en caja</td>
 				<td class="right"> 
@@ -115,19 +118,19 @@
 					$caja_positivos = $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
 
 					$caja =  $caja_positivos - $caja_negativos;
-					$total_caja = number_format($caja,2,'.',','); 
+					$total_caja = f_num::get($caja); 
 
 					echo $total_caja;
 					?>
 				</td> 
-				<td></td> 
-				<td></td> 
-				<td></td>
-				<td></td> 
-				<td></td> 
+				<td colspan="3"></td> 
+				<td colspan="2" align="right">
+					<i  class="fa fa-file-excel-o fa-2" style="font-size: 22px !important; color:#000000" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
+					<i class="fa fa-file-pdf-o fa-2" style="font-size: 22px !important; color:#000000" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
+					<i class="fa fa-print fa-2" style="font-size: 22px !important; color:#000000" onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
+				</td> 
 			</tr>
-
-		</tbody>
+			</tfoot>
 
 	</table>
 
