@@ -252,7 +252,7 @@ class CierreController extends \BaseController {
         $data['ingresos']         =   $this->_query('detalle_ingresos','ingreso','monto',$fecha); //lo tiene en la tabla ingresos
         $data['egresos']          =   $this->_query('detalle_egresos','egreso','monto',$fecha); // lo tiene en la tabla egreso
         $data['gastos']           =   $this->_query('detalle_gastos','gasto','monto',$fecha); // lo tiene en la tabla gastos
-        $data['abonos_compras']   =   $this->query('abonos_compras','total',$fecha); //si tiene tienda_id
+        $data['abonos_compras']   =   $this->query('abonos_compras','monto',$fecha); //si tiene tienda_id
         $data['pagos_compras']    =   $this->_query('pagos_compras','compra','monto',$fecha); // lo tiene en la tabla compras.tienda_id
         $data['resultados']       =   array();
         return $data;
@@ -323,7 +323,6 @@ class CierreController extends \BaseController {
 
         function CierreDelMesPorFecha()
         {
-
             $fecha = Input::get('fecha');
 
             $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)

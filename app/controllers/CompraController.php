@@ -445,7 +445,6 @@ class CompraController extends \BaseController {
 
 	public function ComprasPendientesDePago()
 	{
-
 		$table = 'compras';
 
 		$columns = array(
@@ -516,7 +515,6 @@ class CompraController extends \BaseController {
 			"metodo_pago.descripcion as metodo_descripcion",
 			'monto');
 
-
 		$Searchable = array("users.nombre","users.apellido","compras.numero_documento");
 
 		$Join = "
@@ -528,7 +526,6 @@ class CompraController extends \BaseController {
 		$where = " proveedor_id = ".Input::get('proveedor_id');
 		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
 
-
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
 	}
 
@@ -536,7 +533,6 @@ class CompraController extends \BaseController {
 	{
 		return View::make('compras.HistorialDeAbonos');
 	}
-
 
 	public function HistorialDeAbonos()
 	{
@@ -547,7 +543,7 @@ class CompraController extends \BaseController {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
 			"metodo_pago.descripcion as metodo_descripcion",
-			'total','observaciones');
+			'abonos_compras.monto as total','observaciones');
 
 		$Searchable = array("users.nombre","users.apellido",);
 

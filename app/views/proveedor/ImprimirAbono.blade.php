@@ -42,7 +42,7 @@
 					<td> Saldo ala fecha:</td>
 					<td> Q {{ f_num::get($saldo->total) }} </td>
 					<td> Monto total abonado :</td>
-					<td> Q {{ f_num::get($abono->total) }} </td>
+					<td> Q {{ f_num::get($abono->monto) }} </td>
 				</tr>
 			</table>
 
@@ -61,8 +61,8 @@
 
 					@foreach($detalle as $key => $dt)
 					<?php
-					$total = number_format($dt->total,2,'.',',');
-					$monto = number_format($dt->monto,2,'.',',');
+					$total = f_num::get($dt->total);
+					$monto = f_num::get($dt->monto);
 
 					$abonos = DetalleAbonosCompra::select(DB::raw('sum(monto) as total'))
 					->where('compra_id','=',$dt->compra_id)
@@ -75,8 +75,8 @@
 
 		        // $saldo_ant = $dt->total - ($abonos->total + $pagos->total);
 					$saldo_ant = $dt->total - ($abonos->total + $pagos->total);
-					$saldo_anterior = number_format($saldo_ant ,2,'.',',');
-					$saldo = number_format(($saldo_ant - $dt->monto),2,'.',',');
+					$saldo_anterior = f_num::get($saldo_ant);
+					$saldo =  f_num::get(($saldo_ant - $dt->monto));
 					?>
 					<tr>
 						<td>{{$dt->compra_id}}</td>
