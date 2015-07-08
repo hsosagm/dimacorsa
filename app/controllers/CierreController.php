@@ -17,6 +17,8 @@ class CierreController extends \BaseController {
         $caja_positivos = $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
         $caja =  $caja_positivos - $caja_negativos;
         $esperado_caja = f_num::get($caja); 
+        if ($fecha == 'current_date')
+            $fecha = Carbon::now();
 
         $data['pagos_ventas']['titulo']   = 'Ventas';
         $data['abonos_ventas']['titulo']  = 'Abonos';
@@ -27,37 +29,42 @@ class CierreController extends \BaseController {
         $data['gastos']['titulo']         = 'Gastos';
         $data['abonos_compras']['titulo'] = 'Abonos Compras';
         $data['pagos_compras']['titulo']  = 'Pagos Compras';
-        $data['resultados'] = array('Efectivo esperado en caja' ,$esperado_caja,'','Fecha:',$fecha);
+        $data['resultados'] = array('Efectivo esperado en caja' ,$esperado_caja,'','Fecha:','',$fecha);
 
         Excel::create('Cierre del dia', function($excel) use($data) 
         {
             $excel->setTitle('Cierre del dia');
             $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
             ->setCompany('Click Chiquimula');
-            $excel->setDescription('A demonstration to change the file properties');
+            $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
+            $excel->setSubject('Click');
 
             $excel->sheet('datos', function($hoja) use($data) 
             {
-                $hoja->setBorder('A1:G10', 'thin');
+                $hoja->setBorder('A1:G13', 'dashDotDot');
                 $hoja->setOrientation('landscape');
-                $hoja->fromArray($data, null, 'A1', true);
-                $hoja->cells('A1:G1', function($celda) 
+                $hoja->fromArray($data, null, 'A3', true);
+                //$sheet->loadView('cierre.CierreDia', array('data' => $data , 'fecha' => ''));
+                $hoja->appendRow( 1, array(
+                    'Constancia de movimientos del dia'
+                ));
+                $hoja->cells('A3:G3', function($celda) 
                 {   
                      $celda->setValignment('middle');
                      $celda->setAlignment('center');
                 });
-                $hoja->cells('A2:A11', function($celda) 
+                $hoja->cells('A3:A13', function($celda) 
                 {   
                      $celda->setValignment('middle');
                      $celda->setAlignment('left');
                 });
-                $hoja->cells('B2:G11', function($celda) 
+                $hoja->cells('B3:G13', function($celda) 
                 {   
                      $celda->setValignment('middle');
                      $celda->setAlignment('right');
                 });
                 $hoja->setColumnFormat(array(
-                    'B2:G11' => '0.00'
+                    'B3:G13' => '#,##0.00_-'
                 ));
                 $hoja->setWidth(array(
                     'A'     =>  30,  'B'     =>  15,
@@ -66,10 +73,10 @@ class CierreController extends \BaseController {
                     'G'     =>  15,  
                 ));
                 $hoja->setHeight(array(
-                   1     =>  23,     5 =>  23,     9 =>  23,
+                   1     =>  23,     5 =>  23,     9 =>  23,    13 =>  23,
                    2     =>  23,     6 =>  23,     10 =>  23,
                    3     =>  23,     7 =>  23,     11 =>  23,
-                   4     =>  23,     8 =>  23,     
+                   4     =>  23,     8 =>  23,     12 =>  23,
                 ));
             });
 
@@ -426,5 +433,4 @@ class CierreController extends \BaseController {
         $cierre = Cierre::with('user')->find($id);
         return View::make('cierre.ImprimirCierreDelDia_dt', compact('cierre'));
     }
-
 }

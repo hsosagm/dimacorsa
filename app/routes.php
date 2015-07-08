@@ -190,6 +190,7 @@
             Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
             Route::get('OpenTableSalesForDate'                  , 'VentasController@OpenTableSalesForDate');
             Route::get('SalesForDate'                           , 'VentasController@SalesForDate');
+            Route::get('VentasPorMetodoDePago'                  , 'VentasController@VentasPorMetodoDePago');
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -313,7 +314,6 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('getCreditPurchase'              , 'CompraController@getCreditPurchase');
         Route::get('OpenTablePurchaseForDate'       , 'CompraController@OpenTablePurchaseForDate');
         Route::get('PurchaseForDate'                , 'CompraController@PurchaseForDate');
-
 
         Route::group(array('prefix' => 'payments'),function() 
         {

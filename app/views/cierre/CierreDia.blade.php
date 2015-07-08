@@ -3,21 +3,47 @@
 		<thead class="cierre_head ">
 
 			<tr>
-				<th width="30%" style="text-align:center" ><i style="cursor:pointer">Descripcion</i></th>
-				<th width="12%" style="text-align:center"><i style="cursor:pointer">Efectivo</i></th>
-				<th width="12%" style="text-align:center"><i style="cursor:pointer">Credito</i></th>
-				<th width="12%" style="text-align:center"><i style="cursor:pointer">Cheque</i></th>
-				<th width="12%" style="text-align:center"><i style="cursor:pointer">Tarjeta</i></th>
-				<th width="12%" style="text-align:center"><i style="cursor:pointer">Deposito</i></th>
-				<th width="12%" style="text-align:center"><i style="cursor:pointer">Totales</i></th>
-			</tr>
-			<tr>
-				<th colspan="7" class="DetallePorMetodoDePago"></th>
+				<th width="30%" style="text-align:center" >
+					<i style="cursor:pointer">
+						Descripcion
+					</i>
+				</th>
+				<th width="12%" style="text-align:center">
+					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 1; VentasPorMetodoDePago(1 , null);">
+						Efectivo
+					</i>
+				</th>
+				<th width="12%" style="text-align:center">
+					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 2; VentasPorMetodoDePago(1 , null);">
+						Credito
+					</i>
+				</th>
+
+				<th width="12%" style="text-align:center">
+					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 3; VentasPorMetodoDePago(1 , null);">
+						Cheque
+					</i>
+				</th>
+				<th width="12%" style="text-align:center">
+					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 4; VentasPorMetodoDePago(1 , null);">
+						Tarjeta
+					</i>
+				</th>
+				<th width="12%" style="text-align:center">
+					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 5; VentasPorMetodoDePago(1 , null);">
+						Deposito
+					</i>
+				</th>
+				<th width="12%" style="text-align:center">
+					<i style="cursor:pointer" >
+						Totales
+					</i>
+				</th>
 			</tr>
 		</thead>
 
 		<tbody class="table-hover cierre_body">
-
+			
 			<tr class="">
 				<td>Ventas</td>
 				<td class="right"> {{ $data['pagos_ventas']['efectivo'] }} </td> 
@@ -130,16 +156,16 @@
 					<i class="fa fa-print fa-2" style="font-size: 22px !important; color:#000000" onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
 				</td> 
 			</tr>
-			</tfoot>
+		</tfoot>
 
 	</table>
 
-<style type="text/css">
-	.bs-modal .Lightbox{width: 850px !important;} 
-	.modal-body { padding: 0px 0px 0px; }
-	.cierre_body .right {
-		text-align:right; 
-		margin-right:20px !important;
-		padding-right:20px !important;
-	}
-</style>
+	<style type="text/css">
+		.bs-modal .Lightbox{width: 850px !important;} 
+		.modal-body { padding: 0px 0px 0px; }
+		.cierre_body .right {
+			text-align:right; 
+			margin-right:20px !important;
+			padding-right:20px !important;
+		}
+	</style>

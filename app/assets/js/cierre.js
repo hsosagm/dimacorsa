@@ -175,3 +175,38 @@ function ExportarCierreDelDia(tipo,fecha)
 {
      window.open('admin/cierre/ExportarCierreDelDia/'+tipo+'/'+fecha ,'_blank');
 }
+
+function VentasPorMetodoDePago(page , sSearch)
+{
+    $.ajax({
+        type: 'GET',
+        url: "user/ventas/VentasPorMetodoDePago?page=" + page,
+        data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar },
+        success: function (data) {
+            if (data.success == true)
+            {
+                $('.modal-body').html(data.table);
+                $('.modal-title').text('Ventas filtradas por metodo de pago');
+                $('.bs-modal').modal('show');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+$(document).on('click', '.pagination a', function (e) {
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+    VentasPorMetodoDePago(page,null);
+});
+
+function SST_search() {
+    $("#iSearch").val("");
+    $("#iSearch").unbind();
+    $('#iSearch').keyup(function() {
+        VentasPorMetodoDePago( 1, $(this).val() );
+    });
+}
