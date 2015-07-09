@@ -51,7 +51,7 @@
 				<td class="right"> {{ f_num::get($data['pagos_ventas']['cheque']) }} </td> 
 				<td class="right"> {{ f_num::get($data['pagos_ventas']['tarjeta']) }} </td> 
 				<td class="right"> {{ f_num::get($data['pagos_ventas']['deposito'])}} </td> 
-				<td class="right"> {{ f_num::get($data['pagos_ventas']['total'])) }} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['total']) }} </td> 
 			</tr>
 
 			<tr>
