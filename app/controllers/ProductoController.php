@@ -83,7 +83,8 @@ class ProductoController extends Controller {
             return 'el codigo que buscas no existe..!';
         }
 
-        $Existencia = Existencia::where('producto_id','=',$query->id)->first();
+        $Existencia = Existencia::where('producto_id','=',$query->id)
+        ->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
         if($Existencia != '')
         {
