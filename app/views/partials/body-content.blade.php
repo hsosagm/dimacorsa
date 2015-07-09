@@ -21,7 +21,7 @@
           <div class="pull-left"> <h3 class="panel-title"></h3> </div>
           <div class="pull-right">
             <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-            <button class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+            <button class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -46,7 +46,7 @@
           <div class="pull-left"> <h3 class="producto-title"></h3> </div>
           <div class="pull-right">
             <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-            <button class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+            <button class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -61,7 +61,6 @@
     </div>
   </div>
 
-
   <!-- TABLES --> <!-- GRAPHS -->
   <div class="dt-container col-md-11">
     <div class="panel dt-panel rounded shadow">
@@ -70,15 +69,13 @@
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
           <button class="btn" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-          <button class="btn btnremove" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+          <button class="btn btnremove" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
       </div>
       <div class="panel-body no-padding table"></div>
     </div>
   </div>
-
-
 
   <!-- MODAL -->
   <div class="col-lg-3 col-md-4 col-sm-6">
@@ -125,7 +122,6 @@
     </div>
   </div>
 
-
   <div class="col-lg-8 col-md-8 col-sm-8">
     <div class="modal modal-info fade" id='bs-modal-table' data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="Lightbox modal-dialog" style="width: 900px !important;">
@@ -155,10 +151,6 @@
       </div>
     </div>
   </div>
-
- 
-
-
-
+  
 </div><!-- /.body-content -->
     <!--/ End body content -->

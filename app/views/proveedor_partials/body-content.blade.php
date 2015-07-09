@@ -2,8 +2,6 @@
  <!-- Start body content -->
  <div class="body-content animated fadeIn">
 
-
-
   <!-- FORMS -->
   <div class="form-container col-md-10">
     <div class="panel form-h form-panel shadow">
@@ -12,7 +10,7 @@
           <div class="pull-left"> <h3 class="panel-title"></h3> </div>
           <div class="pull-right">
             <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-            <button class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+            <button class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -39,7 +37,7 @@
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
           <button class="btn" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
       </div>
