@@ -21,12 +21,10 @@
             <section id="page-content">
 
             <div id="loader"><div class="spinner flat"></div></div>
-                <!-- Start page header -->
-                <div class="header-content">
 
-                    <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoCliente"></span></h2>
-                </div><!-- /.header-content -->
-                <!--/ End page header -->
+            <div class="header-content">
+                <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoCliente"></span></h2>
+            </div>
 
 
             @include('cliente_partials.body-content')

@@ -1,5 +1,4 @@
-
-<div class="panel panel-tab rounded shadow">
+<div id="formPayments" class="panel panel-tab rounded shadow">
 	<div class="panel-heading no-padding">
 		<ul class="nav nav-tabs nav-pills">
 			<li class="active" id="saldo_vencido">
@@ -7,113 +6,92 @@
 					<i class="fa fa-paypal"></i> <span>Saldo Vencido</span>
 				</a>
 			</li>
-			<li class="" id="saldo_total">
-				<a aria-expanded="false" href="#tab2" data-toggle="tab">
-					<i class="fa fa-paypal"></i> <span>Saldo Total</span>
-				</a>
-			</li>
-			<li class="" id="saldo_parcial">
-				<a aria-expanded="false" href="#tab3" data-toggle="tab">
-					<i class="fa fa-paypal"></i> <span>Saldo Parcial</span>
-				</a>
-			</li>
+
 			<li>
-				<a aria-expanded="false" href="#tab4" data-toggle="tab" onclick="GetPurchasesForPaymentsBySelection(1,'');">
-					<i class="fa fa-paypal"></i> <span>Seleccionar Compras</span>
+				<a aria-expanded="false" href="#tab4" data-toggle="tab" onclick="GetPurchasesForPaymentsBySelection(1, null);">
+					<i class="fa fa-paypal"></i> <span>Seleccionar ventas</span>
 				</a>
 			</li>
 		</ul>
 	</div>
 
-	<div class="panel-body tab-content panel-body-abonos">
 
+	<div class="tab-content divFormPayments">
 		<div class="tab-pane fade inner-all active in" id="tab1">
-			{{ Form::open(array('data-remote-OverdueBalance','onsubmit'=>"return false")) }} 
-				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
-				<div class="row">
-					<div class="form-group">
-						<div class="col-md-6">
-							<label> Q {{(@$saldo_vencido == null) ? '0.00' : f_num::get(@$saldo_vencido); }} </label>
+			{{ Form::open(array('v-show="!tableDetail" v-on="submit: postFormAbonos"')) }}
+                <input type="hidden" name="proveedor_id" v-model="proveedor_id">
+				<div class="form-group">
+					<div class="col-md-7">
+					    <label class="col-md-4 control-label">Seleccione monto</label>
+					    <div class="col-md-8">
+					        <div class="radio-inline rdio rdio-theme">
+					            <input v-on="click: montoFocus" v-model="saldoParcial" id="radio3" type="radio" name="monto" checked></input>
+					            <label for="radio3">Parcial</label>
+					        </div>
+
+					        <div class="radio-inline rdio rdio-theme">
+					            <input v-on="click: resetSaldoParcial" value="@{{saldo_total}}" id="radio2" type="radio" name="monto"></input>
+					            <label for="radio2">Total</label>
+					        </div>
+					        <div class="radio-inline rdio rdio-theme">
+					            <input v-on="click: resetSaldoParcial" value="@{{saldo_vencido}}" id="radio1" type="radio" name="monto"></input>
+					            <label for="radio1">Vencido</label>
+					        </div>
+					    </div>
+
+						<div class="form-group" style="margin-top:10px;">
+							<div class="col-md-4">
+							    <input v-show="saldoParcial" v-on="keyup: setMonto" type="text" class="form-control montoAbono">
+								<input id="monto" type="text" v-model="monto" name="monto" value="0" class="hide">
+							</div>
+
+							<div class="col-md-4">
+								{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+							</div>
+
+							<div class="col-md-2">
+								<input v-show="!tableDetail" class="btn theme-button" type="submit" value="Enviar">
+							</div>
 						</div>
-						<div class="col-md-6">
-							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+
+						<div class="form-group">
+                           	<div class="col-md-10" style="margin-top:10px;">
+								<textarea name="observaciones" class="form-control" placeholder="Comentario ..." rows="2"></textarea>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-md-5">
+						<div>
+						    <div class="col-md-6">
+							    <label>Usted abonara: </label>
+							</div>
+							<div class="col-md-4" style="text-align:right;">
+							    <label>@{{ monto | currency ' ' }}</label>
+							</div>
+						</div>
+
+						<div>
+						    <div class="col-md-6">
+							    <label>Su nuevo saldo sera: </label>
+							</div>
+							<div class="col-md-4" style="text-align:right;">
+							    <label>@{{ saldo_total - monto | currency ' ' }}</label>
+							</div>
 						</div>
 					</div>
+
 				</div>
-				<br>
-				<div class="row">
-					<div class="col-md-12">
-						<TEXTAREA name="observaciones" row="1" class="form-control"> </TEXTAREA>
-					</div>
-				</div>
-				<br>
-				<div class="abonosDetalle_detail">
-					<div class="form-footer" align="right">
-						<input  class="btn theme-button" type="submit" value="Enviar" >
-					</div>
-				</div>
+
 			{{Form::close()}}
+		    <div v-html="tableDetail" class="row" style="min-height:150px;"></div>
 		</div>
-
-		<div class="tab-pane fade inner-all" id="tab2">
-			{{ Form::open(array('data-remote-FullBalance')) }} 
-				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
-				<div class="row">
-					<div class="form-group">
-						<div class="col-md-6">
-							<label> Q {{(@$saldo_total == null) ? '0.00' : f_num::get(@$saldo_total); }} </label>
-						</div>
-						<div class="col-md-6">
-							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<div class="col-md-12">
-						<TEXTAREA name="observaciones" row="1" class="form-control"> </TEXTAREA>
-					</div>
-				</div>
-
-				<div class="abonosDetalle_detail">
-					<div class="form-footer" align="right">
-						<input  class="btn theme-button" type="submit" value="Enviar" >
-					</div>
-				</div>
-			{{Form::close()}}
-		</div>
-
-		<div class="tab-pane fade inner-all" id="tab3">
-			{{ Form::open(array('data-remote-PartialBalance')) }}
-				<input type="hidden" name="proveedor_id" value="{{Input::get('proveedor_id')}}">
-				<div class="row">
-					<div class="form-group">
-						<div class="col-md-6">
-							<input class="form-control" type="text" name="total" placeholder="Monto" >
-						</div>
-						<div class="col-md-6">
-							{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
-						</div>
-					</div>
-					<br>
-					<br>
-					<div class="row">
-						<div class="col-md-12">
-							<TEXTAREA name="observaciones" row="1" class="form-control"> </TEXTAREA>
-						</div>
-					</div>
-				</div>
-
-				<div class="abonosDetalle_detail">
-					<div class="form-footer" align="right">
-						<input  class="btn theme-button" type="submit" value="Enviar" >
-					</div>
-				</div>
-			{{Form::close()}}
-		</div>
-
-		<div class="tab-pane fade inner-all abonosDetalle" id="tab4">Cargando . . .</div>
-
+		<div v-html="divAbonosPorSeleccion" class="tab-pane fade inner-all" id="tab4">Cargando . . .</div>
 	</div>
-	<div class="prueba"></div>
+
 </div>
+
+<script type="text/javascript">
+    $('.montoAbono').autoNumeric({ aNeg:'', mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+</script>

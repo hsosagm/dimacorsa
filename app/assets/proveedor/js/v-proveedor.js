@@ -3,12 +3,12 @@ var vm = new Vue({
     el: 'body',
 
     data: {
-    	customer_search: '',
+    	ProviderFinder: '',
     	PanelBody: false,
     	tableDetail: '',
-    	cliente_id: '',
+    	proveedor_id: '',
     	divAbonosPorSeleccion: '',
-    	infoCliente: '',
+    	infoProveedor: '',
     	saldo_total: '',
     	saldo_vencido: '',
     	saldoParcial: '',
@@ -23,6 +23,7 @@ var vm = new Vue({
     		$('.montoAbono').val(0);
     	},
 
+
     	clearPanelBody: function() {
     		this.PanelBody = false;
     		this.tableDetail = '';
@@ -30,28 +31,33 @@ var vm = new Vue({
     		$('.dt-container').hide();
     	},
 
+
     	setMonto: function() {
     		this.monto = $('.montoAbono').autoNumeric('get');
     	},
 
-    	getInfoCliente: function(id) {
+
+    	getInfoProveedor: function(id) {
 	        $.ajax({
 	            type: 'GET',
-	            url: "user/cliente/getInfoCliente",
-	            data: { cliente_id: id },
+	            url: "admin/proveedor/getInfoProveedor",
+	            data: { proveedor_id: id },
 	            success: function (data) {
+	            	console.log(data);
 	                if (data.success == true)
 	                {
-	                    vm.infoCliente   = data.info;
+	                    vm.infoProveedor = data.info;
 	                    vm.saldo_total   = data.saldo_total;
 	                    vm.saldo_vencido = data.saldo_vencido;
-	                    GetSalesForPaymentsBySelection(1, null);
-	                    return vm.updateMonto();
+	                    GetPurchasesForPaymentsBySelection(1, null);
+	                    vm.updateMonto();
+	                    return;
 	                }
 	                msg.warning(data, 'Advertencia!');
 	            }
 	        });
     	},
+
 
     	updateMonto: function() {
 			vm.$nextTick(function() {
@@ -66,6 +72,7 @@ var vm = new Vue({
 		    });
     	},
 
+
     	montoFocus: function() {
     		setTimeout(function() {
     			vm.monto = parseFloat(0);
@@ -73,15 +80,16 @@ var vm = new Vue({
     		}, 100);
     	},
 
-    	updateInfoCliente: function() {
+
+    	updateInfoProveedor: function() {
 	        $.ajax({
 	            type: 'GET',
-	            url: "user/cliente/getInfoCliente",
-	            data: { cliente_id: vm.cliente_id },
+	            url: "admin/proveedor/getInfoProveedor",
+	            data: { proveedor_id: vm.proveedor_id },
 	            success: function (data) {
 	                if (data.success == true)
 	                {
-	                    vm.infoCliente   = data.info;
+	                    vm.infoProveedor   = data.info;
 	                    vm.saldo_total   = data.saldo_total;
 	                    vm.saldo_vencido = data.saldo_vencido;
 	                    return vm.updateMonto();
@@ -91,13 +99,14 @@ var vm = new Vue({
 	        });
     	},
 
-        getFormAbonosVentas: function() {
+
+        getFormAbonos: function() {
         	vm.clearPanelBody();
 
 		    $.ajax({
 		        type: 'GET',
-		        url: "user/ventas/payments/formPayments",
-		        data: { cliente_id: vm.cliente_id },
+		        url: "admin/compras/payments/formPayments",
+		        data: { proveedor_id: vm.proveedor_id },
 		        success: function (data) {
 		            if (data.success == true)
 		            {
@@ -112,8 +121,8 @@ var vm = new Vue({
 		    });
         },
 
-        onSubmitForm: function(e) {
 
+        postFormAbonos: function(e) {
             e.preventDefault();
             var form = $(e.target).closest("form");
             $('input[type=submit]', form).prop('disabled', true);
@@ -127,7 +136,7 @@ var vm = new Vue({
 		            {
 		            	vm.tableDetail = data.detalle;
 		                msg.success('Abono ingresado', 'Listo!');
-		                vm.updateInfoCliente();
+		                vm.updateInfoProveedor();
 		                $('input[type=submit]', form).prop('disabled', false);
 		                return compile();
 		            }
@@ -137,19 +146,20 @@ var vm = new Vue({
             });
         },
 
-        eliminarAbono: function(e, abonos_ventas_id) {
+
+        eliminarAbono: function(e, abonos_compra_id) {
         	$('input[type=button]', e.target).prop('disabled', true);
 
 		    $.ajax({
 		        type: 'POST',
-		        url: "user/ventas/payments/eliminarAbonoVenta",
-		        data: { abonos_ventas_id: abonos_ventas_id },
+		        url: "admin/compras/payments/eliminarAbono",
+		        data: { abonos_compra_id: abonos_compra_id },
 		        success: function (data) {
 		            if (data == 'success')
 		            {
-		                msg.success('Abonos Eliminados', 'Listo!');
+		                msg.success('Abono Eliminado', 'Listo!');
 		                vm.tableDetail = '';
-		                vm.updateInfoCliente();
+		                vm.updateInfoProveedor();
 		                return;
 		            }
 		            msg.warning(data, 'Advertencia!');
@@ -158,20 +168,20 @@ var vm = new Vue({
 		    });
         },
 
-        eliminarAbonoPorSeleccion: function(e, abonos_ventas_id) {
+
+        eliminarAbonoPorSeleccion: function(e, abonos_compra_id) {
         	$('input[type=button]', e.target).prop('disabled', true);
 
 		    $.ajax({
 		        type: 'POST',
-		        url: "user/ventas/payments/eliminarAbonoVenta",
-		        data: { abonos_ventas_id: abonos_ventas_id },
+		        url: "admin/compras/payments/eliminarAbono",
+		        data: { abonos_compra_id: abonos_compra_id },
 		        success: function (data) {
 		            if (data == 'success')
 		            {
 		                msg.success('Abonos Eliminados', 'Listo!');
-		                vm.updateInfoCliente();
-		                vm.GetSalesForPaymentsBySelection();
-		                return;
+		                vm.updateInfoProveedor();
+		                return vm.GetPurchasesForPaymentsBySelection();
 		            }
 		            msg.warning(data, 'Advertencia!');
 		            $('input[type=button]', e.target).prop('disabled', false);
@@ -179,11 +189,13 @@ var vm = new Vue({
 		    });
         },
 
-        GetSalesForPaymentsBySelection: function() {
+
+        GetPurchasesForPaymentsBySelection: function() {
+
 		    $.ajax({
 		        type: 'GET',
-		        url: "user/ventas/payments/formPaymentsPagination",
-		        data: { cliente_id: vm.cliente_id, sSearch: null },
+		        url: "admin/compras/payments/formPaymentsPagination",
+		        data: { proveedor_id: vm.proveedor_id, sSearch: null },
 		        success: function (data) {
 		            if (data.success == true)
 		            {
@@ -193,18 +205,82 @@ var vm = new Vue({
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
+
         },
 
-        editCustomer: function() {
+
+        getEditarProveedor: function() {
+
 	        $.ajax({
 	            type: "POST",
-	            url: "user/cliente/edit",
-	            data: {id: vm.cliente_id },
+	            url: "admin/proveedor/edit",
+	            data: { id: vm.proveedor_id },
 	            contentType: 'application/x-www-form-urlencoded',
 	            success: function (data) {
 	                $('.modal-body').html(data);
-	                $('.modal-title').text('Editar cliente');
+	                $('.modal-title').text('Editar proveedor');
 	                $('.bs-modal').modal('show');
+	            },
+	            error: function (request, status, error) {
+	                alert(request.responseText);
+	            }
+	        });
+
+        },
+
+
+        getHistorialCompras: function() {
+        	this.PanelBody = false;
+
+		    $.ajax({
+		        type: "GET",
+		        url: "admin/compras/ConsultPurchase",
+		        data: { proveedor_id: vm.proveedor_id },
+		        contentType: 'application/x-www-form-urlencoded',
+		        success: function (data) {
+		            makeTable(data, '', 'Compras');
+		        }
+		    });
+        },
+
+
+        getComprasPendientesDePago: function() {
+        	this.PanelBody = false;
+
+		    $.ajax({
+		        type: 'GET',
+		        url: "admin/compras/ShowTableUnpaidShopping",
+		        data: { proveedor_id: vm.proveedor_id },
+		        success: function (data) {
+		            if (data.success == true)
+		            {
+		                setTimeout(function()
+		                {
+		                    $('#example_length').prependTo("#table_length");
+		                    $('.dt-container').show();
+		                    $('#iSearch').keyup(function() {
+		                        $('#example').dataTable().fnFilter( $(this).val() );
+		                    })
+		                }, 300);
+
+		                return generate_dt_local(data.table);
+		            }
+		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+		        }
+		    }); 
+        },
+
+
+        getHistorialAbonos: function() {
+        	this.PanelBody = false;
+
+	        $.ajax({
+	            type: "GET",
+	            url: "admin/compras/ShowTableHistoryPaymentDetails",
+	            data: { proveedor_id: vm.proveedor_id },
+	            contentType: 'application/x-www-form-urlencoded',
+	            success: function (data) {
+	                makeTable(data, '', 'Pagos');
 	            },
 	            error: function (request, status, error) {
 	                alert(request.responseText);
@@ -212,57 +288,24 @@ var vm = new Vue({
 	        });
         },
 
-        salesByCustomer: function() {
-            $.get( "/user/cliente/salesByCustomer", function( data ) {
-	            if (data.success == true)
-	            {
-	               return generate_dt(data.table);
-	            }
-	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-            });
-        },
-
-        imprimirAbonoVenta: function(e,id) {
-        	 window.open('user/ventas/payments/imprimirAbonoVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-        },
-        
-        getHistorialAbonos: function() {
-        	this.PanelBody = false;
-        	$('.dt-container').hide();
-
-		    $.ajax({
-		        type: 'GET',
-		        url: "user/cliente/getHistorialAbonos",
-		        data: { cliente_id: vm.cliente_id, sSearch: null },
-		        success: function (data) {
-		            if (data.success == true)
-		            {
-		            	return $('.table').html(data.table);
-		            }
-		            msg.warning(data, 'Advertencia!');
-		        }
-		    });
-        },
 
         getHistorialPagos: function() {
         	this.PanelBody = false;
-        	$('.dt-container').hide();
 
-		    $.ajax({
-		        type: 'GET',
-		        url: "user/cliente/getHistorialPagos",
-		        data: { cliente_id: vm.cliente_id, sSearch: null },
-		        success: function (data) {
-		            if (data.success == true)
-		            {
-		            	return $('.table').html(data.table);
-		            }
-		            msg.warning(data, 'Advertencia!');
-		        }
-		    });
+	        $.ajax({
+	            type: "GET",
+	            url: "admin/compras/ShowTableHistoryPayment",
+	            data: { proveedor_id: vm.proveedor_id },
+	            contentType: 'application/x-www-form-urlencoded',
+	            success: function (data) {
+	                makeTable(data, '', 'Pagos');
+	            }
+	        });
         }
+
     }
 });
+
 
 function compile() {
     vm.$nextTick(function() {

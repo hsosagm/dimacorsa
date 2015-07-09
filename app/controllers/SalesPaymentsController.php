@@ -101,10 +101,10 @@ class SalesPaymentsController extends \BaseController {
 			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
 			"saldo",
 			"total"
-			);
+		);
 
 
-		$Search_columns = array("users.nombre","users.apellido","numero_documento");
+		$Search_columns = array("users.nombre","users.apellido","ventas.id");
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 

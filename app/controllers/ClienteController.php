@@ -265,12 +265,12 @@ class ClienteController extends \BaseController {
 
         $info = $cliente . $tab . " Saldo total &nbsp;". f_num::get($saldo_total) . $tab ." Saldo vencido &nbsp;" .f_num::get($saldo_vencido);
 
-            return Response::json(array(
-                'success'       => true, 
-                'info'          => $info,
-                'saldo_total'   => $saldo_total,
-                'saldo_vencido' => $saldo_vencido
-            ));
+        return Response::json(array(
+            'success'       => true, 
+            'info'          => $info,
+            'saldo_total'   => $saldo_total,
+            'saldo_vencido' => $saldo_vencido
+        ));
     }
 
 

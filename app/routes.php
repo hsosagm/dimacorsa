@@ -278,6 +278,7 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('AbonosPorFecha_dt'           , 'ProveedorController@AbonosPorFecha_dt' );
         Route::get('ImprimirAbono/dt/{code}/{id}', 'ProveedorController@ImprimirAbono_dt' );
         Route::get('ImprimirAbono/{id}'          , 'ProveedorController@ImprimirAbono' );
+        Route::get('getInfoProveedor'            , 'ProveedorController@getInfoProveedor');
     });
 
     Route::group(array('prefix' => 'compras'), function()
@@ -318,12 +319,13 @@ Route::group(array('prefix' => 'admin'), function()
         Route::group(array('prefix' => 'payments'),function() 
         {
             Route::get('formPayments'          , 'PurchasePaymentsController@formPayments');
+            Route::post('formPayments'         , 'PurchasePaymentsController@formPayments');
             Route::get('formPaymentsPagination', 'PurchasePaymentsController@formPaymentsPagination');
             Route::post('OverdueBalancePay'    , 'PurchasePaymentsController@OverdueBalancePay'  );
-            Route::post('DeleteBalancePay'     , 'PurchasePaymentsController@DeleteBalancePay'  );
+            Route::post('eliminarAbono'        , 'PurchasePaymentsController@eliminarAbono'  );
             Route::post('FullBalancePay'       , 'PurchasePaymentsController@FullBalancePay'  );
             Route::post('PartialBalancePay'    , 'PurchasePaymentsController@PartialBalancePay'  );
-            Route::post('SelectedPayPurchases' , 'PurchasePaymentsController@SelectedPayPurchases'  );
+            Route::post('abonosComprasPorSeleccion' , 'PurchasePaymentsController@abonosComprasPorSeleccion'  );
         });
 
     });
@@ -428,19 +430,7 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {   
-        $detalle = DB::table('detalle_ventas')
-        ->select(array(
-            'detalle_ventas.id',
-            'venta_id', 'producto_id',
-            'cantidad', 
-            'precio', 
-            DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('venta_id', 27177)
-        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-        ->get();
 
-        return $detalle;
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

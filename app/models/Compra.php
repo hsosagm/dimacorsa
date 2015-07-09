@@ -16,4 +16,9 @@ class Compra extends \BaseModel implements Logable{
     {
         return $this->id;
     }
+
+    public function proveedor()
+    {
+        return $this->belongsTo('Proveedor');    
+    }
 }

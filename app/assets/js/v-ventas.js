@@ -61,15 +61,16 @@ var app = new Vue({
                 that.dt.precio = this.beforeEditCache;
             }
 
-            app.restoreEdit(t);
+            $(t.target).closest('td').hide();
+            $(t.target).closest('td').prev('td').show();
         },
 
-        doneEdit: function (e) {
+        doneEdit: function (e, t) {
             e.dt.cantidad = parseInt(e.dt.cantidad);
             $.ajax({
                 type: 'POST',
                 url: 'user/ventas/UpdateDetalle',
-                data: { values: e.dt, venta_id: e.dt.venta_id, oldvalue: this.beforeEditCache },
+                data: { values: e.dt, venta_id: e.dt.venta_id, oldvalue: this.beforeEditCache, field: t.target.getAttribute('field') },
                 success: function (data) {
                     if (data.success == true)
                     {
@@ -80,11 +81,6 @@ var app = new Vue({
                     msg.warning(data, 'Advertencia!');
                 }
             });
-        },
-
-        restoreEdit: function(t) {
-            $(t.target).closest('td').hide();
-            $(t.target).closest('td').prev('td').show();
         },
 
         removeItem: function (index, id) {

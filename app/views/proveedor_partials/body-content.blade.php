@@ -2,29 +2,17 @@
  <!-- Start body content -->
  <div class="body-content animated fadeIn">
 
-  <!-- FORMS -->
-  <div class="form-container col-md-10">
-    <div class="panel form-h form-panel shadow">
-      <div align="right">
-        <div class="panel-heading custom-form">
-          <div class="pull-left"> <h3 class="panel-title"></h3> </div>
-          <div class="pull-right">
-            <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-            <button class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
-          </div>
-          <div class="clearfix"></div>
+  <!-- PAYMENTS -->
+  <div class="col-md-11 div_master">
+    <div v-show="PanelBody" class="panel rounded shadow">
+      <div class="panel-heading">
+        <div class="DTTT btn-group"></div>
+        <div class="pull-right">
+          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
-       <!-- <div class="panel-heading heading-pie"> </div>-->
-        </div>
-      <div class="panel-body no-padding">
-        <div class="form-horizontal forms"></div>
+        <div class="clearfix"></div>
       </div>
-      <div>
-        <!--<div class="panel-heading footer-head"> 
-        </div>-->
-        <div class="panel-heading footer-heading">
-        </div>
-      </div>
+      <div class="PanelBody panel-body no-padding"></div>
     </div>
   </div>
 
@@ -36,7 +24,6 @@
         <div id="table_length" class="pull-left"></div>
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
-          <button class="btn" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
           <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
@@ -60,3 +47,5 @@
     </div>
   </div>
     <!--/ End body content -->
+
+</div>

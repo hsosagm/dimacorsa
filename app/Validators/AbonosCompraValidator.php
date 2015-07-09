@@ -9,6 +9,6 @@ class AbonosCompraValidator extends ValidatorAssistant {
         'tienda_id'		 =>  'required|integer|min:1',
         'proveedor_id'	 =>  'required|integer|min:1',
         'metodo_pago_id' =>  'required|integer|min:1',
-        'total' 		 =>  'required|numeric',
+        'monto' 		 =>  'required|numeric|min:1',
     );
 }

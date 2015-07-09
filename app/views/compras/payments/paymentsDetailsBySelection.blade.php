@@ -23,5 +23,5 @@
  <?php $id = "'".Crypt::encrypt($abonos_compra_id)."'";?>
 <div class="form-footer" align="right">
 	<input class="btn btn-info" onClick="ImprimirAbonoProveedor(this,{{ $id }})" type="button" value="Imprimir">
-	<input class="btn btn-danger" v-on="click: eliminarAbono( this, {{$abonos_compra_id}} )" type="button" value="Eliminar">
+	<input class="btn btn-danger" v-on="click: eliminarAbonoPorSeleccion( this, {{$abonos_compra_id}} )" type="button" value="Eliminar">
 </div>
