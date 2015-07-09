@@ -3,7 +3,6 @@ $(function() {
     $(document).on('click', '#delete_adelanto', function(){ delete_adelanto(this); });
 });
 
-
 function f_adelanto() {
     $.get( "user/adelantos/create", function( data ) {
         $('.modal-body').html(data);
@@ -17,7 +16,7 @@ function delete_adelanto() {
     $url = "user/adelantos/delete";
     
     $.confirm({
-        confirm: function(){
+        confirm: function() {
             $.ajax({
                 type: "POST",
                 url: $url,
@@ -27,8 +26,8 @@ function delete_adelanto() {
                     if (data == 'success') {
                         msg.success('Adelanto eliminado', 'Listo!')
                        $('.bs-modal').modal('hide');
-                    } else 
-                    {
+                    } 
+                    else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }
                 },
@@ -38,5 +37,4 @@ function delete_adelanto() {
             });
         }
     });
-
 };

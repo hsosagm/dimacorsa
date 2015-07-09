@@ -37,11 +37,11 @@
     <table class="SST" cellspacing='0'>
 
         <tr>
-            <th class="center" width="18%">Usuario</th>
-            <th class="center" width="18%">Fecha</th>
-            <th class="center" width="18%">Factura</th>
-            <th class="center" width="18%">Total</th>
-            <th class="center" width="18%">Saldo</th>
+            <th class="center" width="30%">Usuario</th>
+            <th class="center" width="15%">Fecha</th>
+            <th class="center" width="15%">Factura</th>
+            <th class="center" width="15%">Total</th>
+            <th class="center" width="15%">Saldo</th>
         </tr>
 
         @foreach($compras as $q)

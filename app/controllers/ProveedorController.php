@@ -190,7 +190,7 @@ class ProveedorController extends BaseController {
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
             "metodo_pago.descripcion as metodo_descripcion",
-            'total','observaciones');
+            'abonos_compras.monto as total','observaciones');
 
         $Searchable = array("users.nombre","users.apellido",);
 
@@ -238,7 +238,7 @@ class ProveedorController extends BaseController {
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
             "metodo_pago.descripcion as metodo_descripcion",
-            'total','observaciones');
+            'abonos_compras.monto as total','observaciones');
 
         $Searchable = array("users.nombre","users.apellido",);
 

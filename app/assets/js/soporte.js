@@ -1,5 +1,4 @@
 $(function() {
-
     $(document).on('click', '#f_soporte', function(){ f_soporte(this); });
     $(document).on('click', '#delete_soporte', function(){ delete_soporte(this); });
 
@@ -7,7 +6,6 @@ $(function() {
 
 
 function f_soporte() {
-
     $.get( "user/soporte/create", function( data ) {
         $('.modal-body').html(data);
         $('.modal-title').text('Ingresar soporte');
@@ -31,16 +29,12 @@ function delete_soporte() {
                         msg.success('Soporte eliminado', 'Listo!')
                         $('.bs-modal').modal('hide');
                         
-                    } else 
-                    {
+                    } 
+                    else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }
-                },
-                error: function (request, status, error) {
-                    msg.error(request.responseText, 'Error!')
                 }
             });
         }
     });
-
 };

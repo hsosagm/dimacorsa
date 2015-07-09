@@ -8,7 +8,7 @@
       <div class="panel-heading">
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
-          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -24,8 +24,7 @@
         <div id="table_length" class="pull-left"></div>
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
-          <button class="btn" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
       </div>

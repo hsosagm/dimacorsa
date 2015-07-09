@@ -558,4 +558,44 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	public function VentasPorMetodoDePago()
+	{
+		$fecha = "'".Input::get('fecha')."'";
+
+        if (Input::get('fecha') == 'current_date') 
+            $fecha = 'current_date';
+
+		$table = 'ventas';
+
+		$columns = array(
+			"ventas.id",
+        	"ventas.total as total",
+        	"DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as fecha",  
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
+            "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+            "pagos_ventas.monto as pago"
+		);
+
+		$Search_columns = array("users.nombre","users.apellido","venta.created_at");
+
+		$Join  = "JOIN pagos_ventas ON (pagos_ventas.venta_id = ventas.id) ";
+		$Join .= "JOIN metodo_pago ON (pagos_ventas.metodo_pago_id = metodo_pago.id) ";
+		$Join .= "JOIN users ON (users.id = ventas.user_id) ";
+		$Join .= "JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+		$where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
+		$where .= " AND ventas.completed =  1 ";
+		$where .= " AND DATE_FORMAT(ventas.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
+		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
+
+		$ventas = SST::get($table, $columns, $Search_columns, $Join, $where );
+
+		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
+
+        return Response::json(array(
+			'success' => true,
+			'table' => View::make('ventas.VentasPorMetodoDePago', compact('ventas','metodo_pago'))->render()
+        ));
+	}
+
 }

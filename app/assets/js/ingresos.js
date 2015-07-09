@@ -28,16 +28,12 @@ function delete_ingreso() {
                     if (data == 'success') {
                         msg.success('Ingreso eliminado', 'Listo!')
                        $('.bs-modal').modal('hide');
-                    } else 
-                    {
+                    } 
+                    else  {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }
-                },
-                error: function (request, status, error) {
-                    msg.error(request.responseText, 'Error!')
                 }
             });
         }
     });
-
 };

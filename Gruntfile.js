@@ -143,6 +143,7 @@ module.exports = function(grunt) {
             dist: {
               src: [
                 './app/assets/components/bower/jquery/jquery.js',
+                './app/assets/js/draggable.js',
                 './app/assets/js/jquery.cookie.js',
                 './app/assets/components/bower/bootstrap/dist/js/bootstrap.js',
                 './app/assets/components/bower/jquery-nicescroll/jquery.nicescroll.js',

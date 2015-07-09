@@ -1,6 +1,5 @@
 <?php
 
-
 Route::filter('auth', function()
 {
 	if (Auth::guest())
@@ -16,19 +15,18 @@ Route::filter('auth', function()
 	}
 });
 
-
 Route::filter('csrf', function()
 {
 	if (Input::has('_token')) {
-
 		if (Session::token() != Input::get('_token'))
 		{
 			throw new Illuminate\Session\TokenMismatchException;
 		}
-
 	}
-
 });
+
+/** Roles de Administrador , Propietario  y Usuario para verificar el login **/
+Entrust::routeNeedsRole( '/'   ,  array('Owner','Admin','User') , Redirect::to('/logIn'), false );
 
 /** Roles de Administrador , Propietario  y Usuario **/
 Entrust::routeNeedsRole( 'user/*'   ,  array('Owner','Admin','User') , Redirect::to('/'), false );

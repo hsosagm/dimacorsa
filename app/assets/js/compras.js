@@ -13,10 +13,8 @@ $(function() {
     $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);}); 
 });
 
-function f_com_op() 
-{    
-    $.get( "admin/compras/create", function( data ) 
-    {
+function f_com_op()  {    
+    $.get( "admin/compras/create", function( data ) {
         $('.panel-title').text('Formulario Compras');
         $(".forms").html(data);
         $(".dt-container").hide();
@@ -25,66 +23,53 @@ function f_com_op()
     });
 } 
 
-function print_code_producto()
-{    
-     $id  = $("input[name='producto_id']").val();;
+function print_code_producto() {    
+    $id  = $("input[name='producto_id']").val();
 
     $.ajax({
         type: "POST",
         url: "admin/barcode/print_code",
         data: { id: $id },
         contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text)
-        {
-            if (data["success"] == true)
-            {
+        success: function (data, text) {
+            if (data["success"] == true) {
                 $("#print_barcode").barcode(
                     data["codigo"],
-                    data["tipo"],
-                    {
+                    data["tipo"], {
                         barWidth:data["ancho"],
                         barHeight:data["alto"],
                         fontSize:data["letra"]
-                    });   
+                    }
+                    );   
                 $("#print_barcode").show();
                 $.print("#print_barcode");
                 $("#print_barcode").hide();
             }
-            else
-            {
+            else {
                 msg.warning('Hubo un error', 'Advertencia!')
             }
-        },
-        error: function (request, status, error)
-        {
-            msg.error(request.responseText, 'Error!')
         }
     });
 }
 
-function OpenModalPurchaseInfo(element)
-{
- $id  =  $(element).attr('compra_id');
- $url = 'admin/compras/OpenModalPurchaseInfo';
+function OpenModalPurchaseInfo(element) {
+    $id  =  $(element).attr('compra_id');
+    $url = 'admin/compras/OpenModalPurchaseInfo';
 
- $.ajax({
-    type: "POST",
-    url: $url,
-    data: {id: $id},
-    contentType: 'application/x-www-form-urlencoded',
-    success: function (data) {
-        $('.modal-body').html(data);
-        $('.modal-title').text( 'Editar Informacion Compra');
-        $('.bs-modal').modal('show');
-    },
-    error: function (request, status, error) {
-        alert(request.responseText);
-    }
-});
+    $.ajax({
+        type: "POST",
+        url: $url,
+        data: {id: $id},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            $('.modal-body').html(data);
+            $('.modal-title').text( 'Editar Informacion Compra');
+            $('.bs-modal').modal('show');
+        }
+    });
 }
 
-function return_compras()
-{
+function return_compras() {
     $(".dt-container").hide();
     $(".producto-container").hide();
     $(".form-panel").show();
@@ -92,21 +77,18 @@ function return_compras()
 
 var val_anterior;
 
-function EditPurchaseItemDetails(element)
-{
+function EditPurchaseItemDetails(element) {
     val_anterior = $(element).text();
     $(element).html('<input type="text" value="'+$.trim(val_anterior)+'" class="SaveEditPurchaseItemDetails" />');
     $('.SaveEditPurchaseItemDetails').focus();
     $('.SaveEditPurchaseItemDetails').select();
 }
 
-function DisableEditPurchaseItemDetails(element)
-{
+function DisableEditPurchaseItemDetails(element) {
     $(element).closest('td').html(val_anterior);
 }
 
-function SaveEditPurchaseItemDetails(e,element)
-{
+function SaveEditPurchaseItemDetails(e,element) {
     $detalle_id  = $(element).closest('td').attr('cod');
     $tipo_dato = $(element).closest('td').attr('field');
     $dato = $(element).val();
@@ -116,59 +98,42 @@ function SaveEditPurchaseItemDetails(e,element)
         type: 'POST',
         url: 'admin/compras/SaveEditPurchaseItemDetails',
         data: { detalle_id:$detalle_id , tipo_dato:$tipo_dato , dato:$dato ,compra_id:$compra_id },
-        success: function (data) 
-        {
-            if (data.success == true) 
-            {                        
+        success: function (data)  {
+            if (data.success == true) {                        
                 msg.success('Detalle Actualizado..!', 'Listo!');
                 $('.body-detail').html(data.table);
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
-        },
-        error: function(errors)
-        {
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
     e.preventDefault(); 
 }   
 
-function InsertPurchaseItemSerials(element)
-{
+function InsertPurchaseItemSerials(element) {
     var cod = '';
-    $("#SerialTable td").each(function() 
-    {
-        if ($(this).text() === $("input[name='InsertPurchaseItemSerials']").val()) 
-        {
+    $("#SerialTable td").each(function() {
+        if ($(this).text() === $("input[name='InsertPurchaseItemSerials']").val()) {
             cod = $(this).text();
         }
     });
 
-    if (cod === $("input[name='InsertPurchaseItemSerials']").val())
-    {
+    if (cod === $("input[name='InsertPurchaseItemSerials']").val()) {
         msg.error('la serie ya ha sido ingresada', 'Advertencia!');
     }
-    else
-    {
-        if ($(element).val().trim() === '') 
-        {
+    else {
+        if ($(element).val().trim() === '') {
             msg.warning('El Campo se encuentra vacio...!', 'Advertencia!');
         }
-        else 
-        {
+        else {
             var serie = $(element).val().trim();
-
             var series = $("input[name='serials']").val();
 
-            if($("input[name='serials']").val().trim()==='')
-            {
+            if($("input[name='serials']").val().trim()==='') {
                 series = serie;
             }
-            else
-            {
+            else {
                 series = series+","+serie;
             }
             var myRow = '<tr><td width="100%">'+serie+'</td><td><i class="fa fa-times btn-link theme-c" id="'+series+'" onclick="DeletePurchaseItemSerials(this)"></i></td></tr>';
@@ -181,8 +146,7 @@ function InsertPurchaseItemSerials(element)
     }
 }
 
-function DeletePurchaseInitial(element)
-{
+function DeletePurchaseInitial(element) {
     var compra_id = $(element).attr('compra_id');
     $.confirm({
         confirm: function(){
@@ -191,51 +155,39 @@ function DeletePurchaseInitial(element)
                 url: 'admin/compras/DeletePurchaseInitial',
                 data: { id: compra_id },
                 success: function (data) {
-                    if (data == 'success')
-                    {
+                    if (data == 'success') {
                         f_com_op();
                         msg.success('Compra Eliminada..!', 'Listo!');
                     }
-                    else
-                    {
+                    else {
                         msg.warning(data, 'Advertencia!');
                     }
-                },
-                error: function(errors){
-                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
                 }
             });
         }
     });
 }
 
-function ModalPurchasePayment(element)
-{
+function ModalPurchasePayment(element) {
    var compra_id = $(element).attr('id');
    $.ajax({
     type: 'GET',
     url: "admin/compras/ModalPurchasePayment",
     data: { compra_id: compra_id },
     success: function (data) {
-       if (data.success == true) 
-       {
+       if (data.success == true) {
         $('.modal-body').html(data.detalle);
         $('.modal-title').text('Ingresar Pagos');
         $('.bs-modal').modal('show');
     }
-    else
-    {
+    else {
         msg.warning(data, 'Advertencia!');
     }
-},
-error: function(errors){
-    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
 }
 });
 }
 
-function SavePurchasePayment(e,element)
-{
+function SavePurchasePayment(e,element) {
     form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
     
@@ -245,20 +197,15 @@ function SavePurchasePayment(e,element)
         data: form.serialize(),
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
-            if (data.success == true) 
-            {
+            if (data.success == true)  {
                 msg.success('Ingresado', 'Listo!');
                 $('.modal-body').html(data.detalle);
                 $('.modal-title').text('Ingresar Pagos');
                 $('.bs-modal').modal('show');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
         }
     });
 
@@ -276,23 +223,17 @@ function DeletePurchasePaymentItem(id , compra_id)
         url: url,
         data: { id: id , compra_id: compra_id },
         success: function (data) {
-            if (data.success == true) 
-            {
+            if (data.success == true) {
                 msg.success('Eliminado', 'Listo!');
                 $('.modal-body').html(data.detalle);
                 $('.modal-title').text('Ingresar Pagos');
                 $('.bs-modal').modal('show');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
-    
 }
 
 function FinishInitialPurchase(element,compra_id)
@@ -304,29 +245,22 @@ function FinishInitialPurchase(element,compra_id)
         url: 'admin/compras/FinishInitialPurchase',
         data: { compra_id: compra_id ,nota: $("input[name='nota']").val() },
         success: function (data) {
-            if (data == 'success')
-            {
+            if (data == 'success') {
                 f_com_op();
                 msg.success('Compra Finalizada..!', 'Listo!');
                 $('.bs-modal').modal('hide');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
                 $(element).prop("disabled", false);
             }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-            $(element).prop("disabled", false);
         }
     });
     return false;
 }
 
 
-function OpenModalPurchaseItemSerials()
-{
+function OpenModalPurchaseItemSerials() {
     $serial = $("input[name='serials']").val();
     $.ajax({
         type: "GET",
@@ -337,18 +271,15 @@ function OpenModalPurchaseItemSerials()
             $('.modal-body').html(data);
             $('.modal-title').text('Seriales');
             $('.bs-modal').modal('show');
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
+            $("input[name='InsertPurchaseItemSerials']").focus();
         }
     });
 }
 
-function  DeletePurchaseItemSerials(element)
-{
+function  DeletePurchaseItemSerials(element) {
     var id  = $(element).attr('id');
     $.confirm({
-        confirm: function(){
+        confirm: function() {
             series=$("input[name='serials']").val().replace(id,'');
             $("input[name='serials']").val(series);
             $(element).closest('tr').hide();
@@ -357,10 +288,8 @@ function  DeletePurchaseItemSerials(element)
 }
 
 function _edit_producto() {
-
     $id  =  $("input[name='producto_id']").val();
-    if ($id > 0)
-    {
+    if ($id > 0) {
         $.ajax({
             type: "POST",
             url: "admin/productos/edit",
@@ -373,18 +302,13 @@ function _edit_producto() {
                 $(".form-panel").hide();
                 $(".producto-container").show();
                 $(".producto-panel").show();
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     };
 }; 
 
-function _add_producto()
-{
-    $.get( "admin/productos/create", function( data ) 
-    {
+function _add_producto() {
+    $.get( "admin/productos/create", function( data ) {
         $('.producto-title').text('Formulario Producto');
         $(".forms-producto").html(data);
         $(".dt-panel").hide();
@@ -394,66 +318,51 @@ function _add_producto()
     });
 }
 
-function VerFacturaDeCompra(e)
-{
+function VerFacturaDeCompra(e) {
     $id = $(e).closest('tr').attr('id');
     $url= 'admin/compras/verfactura';
 
     $.ajax({
-    type: "POST",
-    url: $url,
-    data: {id: $id},
-    contentType: 'application/x-www-form-urlencoded',
-    success: function (data) {
-        if (data.success == true)
-        {
-            $('.panel-title').text('Formulario Compras');
-            $(".forms").html(data.form);
-            $(".dt-container").hide();
-            $(".producto-container").hide();
-            $(".form-panel").show();
+        type: "POST",
+        url: $url,
+        data: {id: $id},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true) {
+                $('.panel-title').text('Formulario Compras');
+                $(".forms").html(data.form);
+                $(".dt-container").hide();
+                $(".producto-container").hide();
+                $(".form-panel").show();
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
         }
-        else
-        {
-            msg.warning(data, 'Advertencia!');
-        }
-
-    },
-    error: function (request, status, error) {
-        alert(request.responseText);
-    }
- });
-
+    });
 }
-        
+
 
 function showPurchasesDetail(e) {
-
-    if ($(e).hasClass("hide_detail")) 
-    {
+    if ($(e).hasClass("hide_detail")) {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
     } 
-    else 
-    {
+    else {
         $('.hide_detail').removeClass('hide_detail');
 
-        if ( $( ".subtable" ).length )
-        {
+        if ( $( ".subtable" ).length ) {
             $('.subtable').fadeOut('slow', function(){
                 getPurchaseDetail(e);
             })
         }
-        else
-        {
+        else {
             getPurchaseDetail(e);
         }
     }
 }
 
-
 function getPurchaseDetail(e) {
-
     $id = $(e).closest('tr').attr('id');
 
     $('.subtable').remove();
@@ -467,34 +376,29 @@ function getPurchaseDetail(e) {
         url: "admin/compras/showPurchaseDetail",
         data: { id: $id},
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
     });
 }
 
-function CreditPurchases(e)
-{
+function CreditPurchases(e) {
     $(e).prop("disabled", true);
 
     $.ajax({
         type: 'GET',
         url: "admin/compras/getCreditPurchase",
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 generate_dt_local(data.table);
 
-                setTimeout(function()
-                {
+                setTimeout(function() {
                     $('#example_length').prependTo("#table_length");
                     var saldo = ($('input[name=total_saldo]').val());
                     var saldo_vencido = ($('input[name=saldo_vencido]').val());
@@ -529,8 +433,7 @@ function CreditPurchases(e)
                     })
                 }, 300);
             }
-            else
-            {
+            else {
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             }
         }
@@ -538,31 +441,25 @@ function CreditPurchases(e)
 }
 
 function showPaymentsDetail(e){
-
- if ($(e).hasClass("hide_detail")) 
-    {
+    if ($(e).hasClass("hide_detail"))  {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
     } 
-    else 
-    {
+    else {
         $('.hide_detail').removeClass('hide_detail');
 
-        if ( $( ".subtable" ).length )
-        {
+        if ( $( ".subtable" ).length ) {
             $('.subtable').fadeOut('slow', function(){
                 getPaymentsDetail(e);
             })
         }
-        else
-        {
+        else {
             getPaymentsDetail(e);
         }
     }
 }
 
-function getPaymentsDetail(e)
-{
+function getPaymentsDetail(e) {
     $id = $(e).closest('tr').attr('id');
 
     $('.subtable').remove();
@@ -576,17 +473,14 @@ function getPaymentsDetail(e)
         url: "admin/compras/showPaymentsDetail",
         data: { id: $id},
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
     });
 }
-

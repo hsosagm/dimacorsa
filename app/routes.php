@@ -57,7 +57,7 @@
             Route::get('AdelantosDelDiaUsuario_dt'     , 'UserController@AdelantosDelDiaUsuario'        );
             Route::get('clientes_dt'                   , 'UserController@clientes'                      );
         });
-
+ 
         Route::group(array('prefix' => 'cliente'), function()
         {
             Route::get('search'                , 'ClienteController@search');
@@ -190,6 +190,7 @@
             Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
             Route::get('OpenTableSalesForDate'                  , 'VentasController@OpenTableSalesForDate');
             Route::get('SalesForDate'                           , 'VentasController@SalesForDate');
+            Route::get('VentasPorMetodoDePago'                  , 'VentasController@VentasPorMetodoDePago');
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -230,6 +231,8 @@ Route::group(array('prefix' => 'admin'), function()
          Route::get('CierresDelMes_dt'                    , 'CierreController@CierresDelMes_dt' );
          Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
          Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
+         Route::get('ExportarCierreDelDia/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelDia' );
+
     });
 
     Route::group(array('prefix' => 'barcode'),function() 
@@ -312,7 +315,6 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('getCreditPurchase'              , 'CompraController@getCreditPurchase');
         Route::get('OpenTablePurchaseForDate'       , 'CompraController@OpenTablePurchaseForDate');
         Route::get('PurchaseForDate'                , 'CompraController@PurchaseForDate');
-
 
         Route::group(array('prefix' => 'payments'),function() 
         {

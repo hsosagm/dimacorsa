@@ -19,7 +19,7 @@ class CreateAbonosCompras extends Migration {
 			$table->integer('tienda_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->integer('proveedor_id')->unsigned();
-			$table->decimal('total', 8, 2)->default(0.00);
+			$table->decimal('monto', 8, 2);
 			$table->string('observaciones')->nullable();
 			$table->timestamps();
 

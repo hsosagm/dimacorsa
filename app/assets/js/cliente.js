@@ -20,7 +20,6 @@ function clientes_table() {
 }; 
 
 function cliente_create() {
-
     $.get( "user/cliente/create", function( data ) {
         $('.modal-body').html(data);
         $('.modal-title').text('Crear cliente');
@@ -28,225 +27,180 @@ function cliente_create() {
     });
 };
 
-function cliente_contacto_view_info(element)
-{
+function cliente_contacto_view_info(element) {
     $id = $(element).attr('contacto_id');
-     $.ajax({
-            type: "POST",
-            url:  "user/cliente/contacto_info",
-            data: {id:$id},
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                $('.contactos-body-'+$id).slideToggle('slow',function(){
-                    $('.contactos-body-'+$id).html(data);
-                });
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
+    $.ajax({
+        type: "POST",
+        url:  "user/cliente/contacto_info",
+        data: {id:$id},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            $('.contactos-body-'+$id).slideToggle('slow',function() {
+                $('.contactos-body-'+$id).html(data);
+            });
+        }
+    });
 }
 
-
-function cliente_new(e,element)
-{
+function cliente_new(e,element) {
     form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
 
     $.ajax({
-            type: "POST",
-            url:  "user/cliente/create",
-            data: form.serialize(),
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                if (data.success == true) 
-                {
-                    $('.bs-modal').slideUp('slow' , function () {
-                        msg.success('Cliente Creado..!', 'Listo!');
-                        $('.bs-modal').modal('hide');
-                    });
-                    
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
+        type: "POST",
+        url:  "user/cliente/create",
+        data: form.serialize(),
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true)  {
+                $('.bs-modal').slideUp('slow' , function () {
+                    msg.success('Cliente Creado..!', 'Listo!');
+                    $('.bs-modal').modal('hide');
+                });
             }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+    e.preventDefault();
+    $('input[type=submit]', form).removeAttr('disabled');
+}
+
+function cliente_contacto_nuevo() {
+ $.get( "user/cliente/contacto_nuevo", function( data ) {
+
+    $('.body-contactos').slideUp('slow',function() {
+        $('.body-contactos').html(data);
+        $('.body-contactos').slideDown('slow', function() {
+
         });
+    });
+});
+}
+
+function cliente_update(e,element) {
+    form = $(element);
+    $('input[type=submit]', form).attr('disabled', 'disabled');
+
+    $.ajax({
+        type: "POST",
+        url:  "user/cliente/edit",
+        data: form.serialize(),
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true)  {
+                msg.success('Cliente Actualizado..!', 'Listo!');
+                ventas.cliente = data.info;
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+    e.preventDefault();
+    $('input[type=submit]', form).removeAttr('disabled');
+}
+
+
+function cliente_contacto_create(e,element) {
+    form = $(element);
+    $('input[type=submit]', form).attr('disabled', 'disabled');
+    formData = form.serialize()+'& cliente_id='+$("input[name='cliente_id']").val();
+    $.ajax({
+        type: "POST",
+        url:  "user/cliente/contacto_create",
+        data: formData,
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true) {
+                $('.body-contactos').slideUp('slow');
+                $('.body-contactos').html('');
+                $('.contactos-lista').html(data.lista);
+                form.trigger('reset');
+                msg.success('Contacto Creado..!', 'Listo!');
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
 
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
 }
 
-function cliente_contacto_nuevo()
-{
-     $.get( "user/cliente/contacto_nuevo", function( data ) {
 
-        $('.body-contactos').slideUp('slow',function(){
-            $('.body-contactos').html(data);
-            $('.body-contactos').slideDown('slow', function() {
-                
-            });
-        });
+function cliente_contacto_view(element) {
+    $id = $(element).attr('contacto_id');
+    $.ajax({
+        type: "POST",
+        url:  "user/cliente/contacto_update",
+        data: {id:$id},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            $('.body-contactos').slideUp('slow',function() {
+             $('.body-contactos').html(data);
+             $('.body-contactos').slideDown('slow', function() {
+
+             });
+         })
+        }
     });
 }
 
-function cliente_update(e,element)
-{
-     form = $(element);
+function cliente_contacto_update(e,element) {
+    form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
 
-        $.ajax({
-            type: "POST",
-            url:  "user/cliente/edit",
-            data: form.serialize(),
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                if (data.success == true) 
-                {
-                    msg.success('Cliente Actualizado..!', 'Listo!');
-                    ventas.cliente = data.info;
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            },
-            error: function (request, status, error) {
-                $('input[type=submit]', form).removeAttr('disabled');  // rev
+    $.ajax({
+        type: "POST",
+        url:  "user/cliente/contacto_update",
+        data: form.serialize(),
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true) {
+                $('.body-contactos').slideUp('slow');
+                $('.body-contactos').html('');
+                $('.contactos-lista').html(data.lista);
+                form.trigger('reset');
+                msg.success('Contacto Actualizado..!', 'Listo!');
             }
-        });
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
 
-     e.preventDefault();
+    e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
 }
 
-
-function cliente_contacto_create(e,element)
-{
-     form = $(element);
-    $('input[type=submit]', form).attr('disabled', 'disabled');
-        formData = form.serialize()+'& cliente_id='+$("input[name='cliente_id']").val();
-        $.ajax({
-            type: "POST",
-            url:  "user/cliente/contacto_create",
-            data: formData,
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                if (data.success == true) 
-                {
-                    $('.body-contactos').slideUp('slow');
-                    $('.body-contactos').html('');
-                    $('.contactos-lista').html(data.lista);
-                    form.trigger('reset');
-                    msg.success('Contacto Creado..!', 'Listo!');
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
-
-     e.preventDefault();
-    $('input[type=submit]', form).removeAttr('disabled');
-}
-
-
-function cliente_contacto_view(element)
-{
-    $id = $(element).attr('contacto_id');
-     $.ajax({
-            type: "POST",
-            url:  "user/cliente/contacto_update",
-            data: {id:$id},
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                $('.body-contactos').slideUp('slow',function(){
-                     $('.body-contactos').html(data);
-                    $('.body-contactos').slideDown('slow', function() {
-                        
-                    });
-                })
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
-}
-
-function cliente_contacto_update(e,element)
-{
-     form = $(element);
-    $('input[type=submit]', form).attr('disabled', 'disabled');
-
-        $.ajax({
-            type: "POST",
-            url:  "user/cliente/contacto_update",
-            data: form.serialize(),
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                if (data.success == true) 
-                {
-                    $('.body-contactos').slideUp('slow');
-                    $('.body-contactos').html('');
-                    $('.contactos-lista').html(data.lista);
-                    form.trigger('reset');
-                    msg.success('Contacto Actualizado..!', 'Listo!');
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
-
-     e.preventDefault();
-    $('input[type=submit]', form).removeAttr('disabled');
-}
-
- function cliente_contacto_delete(element,cliente_contacto_id)
- {
-
+function cliente_contacto_delete(element,cliente_contacto_id) {
     $.confirm({
         confirm: function(button) {
             $.ajax({
-            type: "POST",
-            url:  "user/cliente/contacto_delete",
-            data: {cliente_contacto_id:cliente_contacto_id},
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                if (data.success == true) 
-                {
-                    $('.contactos-lista').html(data.lista);
-                    msg.success('Contacto Eliminado..!', 'Listo!');
+                type: "POST",
+                url:  "user/cliente/contacto_delete",
+                data: {cliente_contacto_id:cliente_contacto_id},
+                contentType: 'application/x-www-form-urlencoded',
+                success: function (data) {
+                    if (data.success == true) {
+                        $('.contactos-lista').html(data.lista);
+                        msg.success('Contacto Eliminado..!', 'Listo!');
+                    }
+                    else {
+                        msg.warning(data, 'Advertencia!');
+                    }
                 }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
+            });
         }
     });
- }
+}
 
 function cliente_help() {
     $id = $("input[name='cliente_id']").val();
-    if($id > 0)
-    {
+    if($id > 0) {
         $.ajax({
             type: "GET",
             url: "user/cliente/info",
@@ -257,24 +211,18 @@ function cliente_help() {
                 $('.modal-title').text('Informacion del Cliente');
                 $('.bs-modal').modal('show');
                 $(".info-contactos-body").toggle('fast');
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     }
 };
 
-
-function creditSalesByCustomer()
-{
+function creditSalesByCustomer() {
     $.ajax({
         type: 'GET',
         url: "user/cliente/creditSalesByCustomer",
         data: { cliente_id: vm.cliente_id },
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 return generate_dt(data.table);
             }
             msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
@@ -289,8 +237,7 @@ function generate_dt(data) {
     $("#table_length").html("");
     $( ".DTTT" ).html("");
     $('.dt-panel').show();
-    setTimeout(function()
-    {
+    setTimeout(function() {
         $('#example').dataTable();
         $('#example_length').prependTo("#table_length");
         $('.dt-container').show();
@@ -300,32 +247,27 @@ function generate_dt(data) {
     }, 0);
 }
 
-function verDetalleAbonosClietes(e){
+function verDetalleAbonosClietes(e) {
 
- if ($(e).hasClass("hide_detail")) 
-    {
+    if ($(e).hasClass("hide_detail"))   {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
     } 
-    else 
-    {
+    else  {
         $('.hide_detail').removeClass('hide_detail');
 
-        if ( $( ".subtable" ).length )
-        {
+        if ( $( ".subtable" ).length ) {
             $('.subtable').fadeOut('slow', function(){
                 obtenerDetalleAbonosClientes(e);
             })
         }
-        else
-        {
+        else {
             obtenerDetalleAbonosClientes(e);
         }
     }
 }
 
-function obtenerDetalleAbonosClientes(e)
-{
+function obtenerDetalleAbonosClientes(e) {
     $id = $(e).closest('tr').attr('id');
 
     $('.subtable').remove();
@@ -339,17 +281,14 @@ function obtenerDetalleAbonosClientes(e)
         url: "user/ventas/payments/getDetalleAbono",
         data: { abono_id: $id},
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
     });
 }
-

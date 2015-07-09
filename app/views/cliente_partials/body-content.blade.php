@@ -2,14 +2,13 @@
  <!-- Start body content -->
  <div class="body-content">
 
-
   <!-- PAYMENTS -->
   <div class="col-md-11 div_master">
     <div v-show="PanelBody" class="panel rounded shadow">
       <div class="panel-heading">
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
-          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -24,14 +23,13 @@
         <div id="table_length" class="pull-left"></div>
         <div class="DTTT btn-group"></div>
         <div class="pull-right">
-          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+          <button class="btn" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
         <div class="clearfix"></div>
       </div>
       <div class="no-padding table"></div>
     </div>
   </div>
-
 
   <!-- MODAL -->
   <div class="col-lg-3 col-md-4 col-sm-6">
