@@ -21,48 +21,46 @@
         <li class="sidebar-category">
             <span>Cliente</span>
             <span class="pull-right"><i class="fa fa-magic"></i></span>
-            <span class="selected"></span
-            </li>
+            <span class="selected"></span>
+        </li>
 
-            <li v-show="cliente_id" class="submenu">
-                <a href="javascript:void(0);">
-                    <span class="icon"><i class="fa fa-file-o"></i></span>
-                    <span class="text">Consultas</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul>
-                    <li><a href="javascript:void(0);" v-on="click: salesByCustomer">Historial de Ventas</a></li>
-                    <li><a href="javascript:void(0);" onclick="creditSalesByCustomer(this);">Pendientes de pago</a></li>
-                    <li><a href="javascript:void(0);" v-on="click: getHistorialPagos">Historial de pagos</a></li>
-                    <li><a href="javascript:void(0);" v-on="click: getHistorialAbonos">Historial de abonos</a></li>
-                </ul>
-            </li>
+        <li v-show="cliente_id" class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Consultas</span>
+                <span class="arrow"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);" v-on="click: salesByCustomer">Historial de Ventas</a></li>
+                <li><a href="javascript:void(0);" onclick="creditSalesByCustomer(this);">Pendientes de pago</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getHistorialPagos">Historial de pagos</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getHistorialAbonos">Historial de abonos</a></li>
+            </ul>
+        </li>
 
-            <li v-show="cliente_id" class="submenu">
-                <a href="javascript:void(0);">
-                    <span class="icon"><i class="fa fa-file-o"></i></span>
-                    <span class="text">Operaciones</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul>
-                    <li><a href="javascript:void(0);" v-on="click: getFormAbonosVentas">Abonar a deuda</a></li>
-                    <li><a href="javascript:void(0);" v-on="click: editCustomer">Editar Cliente</a></li>
-                </ul>
-            </li>
+        <li v-show="cliente_id" class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Operaciones</span>
+                <span class="arrow"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);" v-on="click: getFormAbonosVentas">Abonar a deuda</a></li>
+                <li><a href="javascript:void(0);" v-on="click: editCustomer">Editar Cliente</a></li>
+            </ul>
+        </li>
 
-            <li v-show="cliente_id" class="submenu">
-                <a href="javascript:void(0);">
-                    <span class="icon"><i class="fa fa-file-o"></i></span>
-                    <span class="text">Graficos</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul>
-                    <li><a href="javascript:void(0);"> Ventas anuales</a></li>
-                    <li><a href="javascript:void(0);"> Ventas Mensuales</a></li>
-                </ul>
-            </li>
-        </li>    
-
+        <li v-show="cliente_id" class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Graficos</span>
+                <span class="arrow"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);"> Ventas anuales</a></li>
+                <li><a href="javascript:void(0);"> Ventas Mensuales</a></li>
+            </ul>
+        </li>   
     </ul>
 
     <div class="sidebar-footer hidden-xs hidden-sm hidden-md">
