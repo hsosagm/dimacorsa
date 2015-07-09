@@ -202,7 +202,7 @@ module.exports = function(grunt) {
             proveedor: {
                 src: [
                     './app/assets/js/main.js',
-                     './app/assets/js/impresiones.js',
+                    './app/assets/js/impresiones.js',
                     './app/assets/proveedor/js/*',
                   ],
                   dest: './public/js/proveedor.js'

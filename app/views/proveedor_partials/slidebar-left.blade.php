@@ -18,16 +18,15 @@
     <!-- Start left navigation - menu -->
     <ul class="sidebar-menu">
         <li class="navbar-search">           
-                <form class="navbar-form" onsubmit=" return false">
-                    <div class="form-group has-feedback">
-                        <input id="ProviderFinder" type="text" class="form-control typeahead rounded" placeholder="Buscar Proveedor">
-                        <input type="hidden" name="proveedor_id">
-                    </div>
-                </form>
+            <form class="navbar-form" onsubmit=" return false">
+                <div class="form-group has-feedback">
+                    <input id="ProviderFinder" type="text" class="form-control typeahead rounded" placeholder="Buscar Proveedor">
+                </div>
+            </form>
         </li>
 
         <!-- Start category Usuario-->
-        <li class="sidebar-category">
+        <li v-show="proveedor_id" class="sidebar-category">
             <span>Proveedor</span>
             <span class="pull-right"><i class="fa fa-magic"></i></span>
             <span class="selected"></span
@@ -35,33 +34,33 @@
         <!--/ End category Usuario-->
 
         <!-- Start navigation - clientes -->
-        <li class="submenu">
+        <li v-show="proveedor_id" class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
                 <span class="text">Consultas</span>
                 <span class="arrow"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);" id="ShowTableHistoryShopping"> Historial de compras</a></li>
-                <li><a href="javascript:void(0);" id="ShowTableUnpaidShopping"> Cuentas por pagar</a></li>
-                <li><a href="javascript:void(0);" id="ShowTableHistoryPayment"> Historial de pagos</a></li>
-                <li><a href="javascript:void(0);" id="ShowTableHistoryPaymentDetails"> Historial de abonos</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getHistorialCompras">Historial de compras</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getComprasPendientesDePago">Cuentas por pagar</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getHistorialPagos">Historial de pagos</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getHistorialAbonos"> Historial de abonos</a></li>
             </ul>
         </li>
 
-        <li class="submenu">
+        <li v-show="proveedor_id" class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
                 <span class="text">Operaciones</span>
                 <span class="arrow"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);" onclick="getFormAbonosCompras(this)"> Abonar Proveedor</a></li>
-                <li><a href="javascript:void(0);" id="ShowModalEditSuppliers"> Editar Proveedor</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getFormAbonos">Abonar a deuda</a></li>
+                <li><a href="javascript:void(0);" v-on="click: getEditarProveedor">Editar Proveedor</a></li>
             </ul>
         </li>
 
-        <li class="submenu">
+        <li v-show="proveedor_id" class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
                 <span class="text">Graficos</span>

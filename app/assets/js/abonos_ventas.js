@@ -47,7 +47,7 @@ $(document).on("click", ".SST .select", function() {
     if ( $(this).closest("tr").hasClass( "row_selected" ) ) 
     {
         $(this).closest("tr").removeClass("row_selected");
-        total = parseFloat($('.total_selected').val()) - parseFloat($(this).attr('total')) ;
+        total = parseFloat($('.total_selected').val()) - parseFloat($(this).attr('total'));
         $("#total_selected").html(accounting.formatMoney(total,"", 2, ",", "."));
         $('.total_selected').val(total);
     }
@@ -55,7 +55,7 @@ $(document).on("click", ".SST .select", function() {
     else
     {
         $(this).closest("tr").addClass('row_selected');
-        total = parseFloat($(this).attr('total')) + parseFloat($('.total_selected').val()) ;
+        total = parseFloat($(this).attr('total')) + parseFloat($('.total_selected').val());
         $("#total_selected").html(accounting.formatMoney(total,"", 2, ",", "."));
         $('.total_selected').val(total);
     }
@@ -75,35 +75,27 @@ function GetSalessSelected()
 
 function SelectedPaySales(element)
 {
-    form = $("form[data-remote-SelectedPaySales]");
-    array_ids_ventas = GetSalessSelected();
-
+    var form = $("form[data-remote-SelectedPaySales]");
+    var array_ids_ventas = GetSalessSelected();
     var formData = form.serialize()+'&array_ids_ventas='+array_ids_ventas;
-
     $(element).prop("disabled", true);
     
     $.ajax({
-            type: "POST",
-            url:  "user/ventas/payments/SelectedPaySales",
-            data: formData,
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-
-                if (data.success == true) 
-                {
-                    vm.divAbonosPorSeleccion = data.detalle;
-                    msg.success('Abonos Ingresados', 'Listo!');
-                    vm.updateInfoCliente();
-                    compile();
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                    $(element).prop("disabled", false);
-                }
-            },
-            error: function (request, status, error) {
-
+        type: "POST",
+        url:  "user/ventas/payments/SelectedPaySales",
+        data: formData,
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true) 
+            {
+                vm.divAbonosPorSeleccion = data.detalle;
+                msg.success('Abonos Ingresados', 'Listo!');
+                vm.updateInfoCliente();
+                return compile();
             }
-        });
+
+            msg.warning(data, 'Advertencia!');
+            $(element).prop("disabled", false);
+        }
+    }); 
 };

@@ -34,10 +34,9 @@
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2>
-                    <a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> 
-                    <span id="InformationProviderSearches"></span>
-                    <span id="home"></span>
-
+                    <div class="header-content">
+                        <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoProveedor"></span></h2>
+                    </div>
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
 
@@ -59,6 +58,7 @@
             <i class="fa fa-angle-up"></i>
         </div>
 
+<script src="js/vue.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/proveedor.js"></script>
 <script src="calendar/picker.js"></script>
@@ -67,6 +67,17 @@
 
 
 <script>
+
+    $('#ProviderFinder').autocomplete({
+        serviceUrl: 'admin/proveedor/buscar',
+        onSelect: function (q) {
+            $('#ProviderFinder').val('');
+            console.log(q);
+            vm.proveedor_id = q.id;
+            vm.infoProveedor = q.value;
+            vm.getInfoProveedor(q.id);
+        }
+    });
 
     $(document.body).delegate(":input", "keyup", function(e) {
 
@@ -91,35 +102,6 @@
     $('#date-input').datepicker();
 
 </script> 
-
- <script>
-
-      $("#ProviderFinder").autocomplete({
-        serviceUrl: 'admin/proveedor/buscar',
-        onSelect: function (q) {
-            $("input[name='proveedor_id']").val(q.id);
-            $proveedor_id = q.id;
-
-            $.ajax({
-                type: 'POST',
-                url: 'admin/proveedor/total_credito',
-                data: {proveedor_id:$proveedor_id},
-                success: function (data) 
-                {
-                    $("#InformationProviderSearches").html(q.value+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+data);
-                },
-                error: function(errors)
-                {
-                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-                }
-            });
-
-            var position = $(this).index('input');
-            $("input, select").eq(position+1).select();
-        }
-    });
-    
-</script>
 
     </body>
 

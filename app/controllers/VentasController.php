@@ -513,8 +513,21 @@ class VentasController extends \BaseController {
 	
 	public function UpdateDetalle()
 	{
-		if ( Input::get('values.cantidad') < 1 )
+		if ( Input::get('field') == 'precio' ) {
+			$precio = str_replace(',', '', Input::get('values.precio'));
+			$precio = preg_replace('/\s{2,}/', ' ', $precio);
+	        $query = Producto::find(Input::get('values.producto_id'));
+	        $ganancias = $precio - ( $query->p_costo / 100);
+
+			DetalleVenta::find( Input::get('values.id') )
+			->update(array('precio' => Input::get('values.precio'), 'ganancias' => $ganancias ));
+
+			return $this->returnDetail();
+		}
+
+		if ( Input::get('values.cantidad') < 1 ) {
 			return 'La cantidad deve ser mayor a 0';
+		}
 
 		$cantidad =  Input::get('values.cantidad') - Input::get('oldvalue');
 
@@ -525,12 +538,17 @@ class VentasController extends \BaseController {
 		}
 
 		DetalleVenta::find( Input::get('values.id') )
-		->update(array('cantidad' => Input::get('values.cantidad'), 'precio' => Input::get('values.precio')));
+		->update(array('cantidad' => Input::get('values.cantidad')));
 
 		Existencia::where('producto_id', Input::get('values.producto_id'))
 		->where('tienda_id', Auth::user()->tienda_id)
 		->update(array('existencia' => $nueva_existencia));
 
+		return $this->returnDetail();
+	}
+
+	public function returnDetail()
+	{
 		$detalle = $this->getSalesDetail();
 		$detalle = json_encode($detalle);
 

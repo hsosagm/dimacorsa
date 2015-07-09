@@ -2,7 +2,7 @@
 
 class PurchasePaymentsController extends \BaseController {
 
-	public function formPayments()
+	public function formPayment()
 	{
 		$saldo_vencido = $this->OverdueBalance();
 		$saldo_total   = $this->FullBalance();
@@ -14,6 +14,96 @@ class PurchasePaymentsController extends \BaseController {
 			'form' => View::make('compras.payments.formPayments', compact('saldo_total', 'saldo_vencido', 'users'))->render()
 			));
 	}
+
+
+	public function formPayments()
+	{
+		if (Input::has('_token'))
+		{
+            $compras = Compra::where('proveedor_id', Input::get('proveedor_id'))
+            ->where('saldo', '>', 0)
+            ->orderBy('created_at', 'ASC')
+            ->get();
+
+            if (!count($compras) ) {
+                return Response::json('El saldo de este proveedr se encuentra en 0.00');
+            }
+
+			$abonosCompra = new AbonosCompra;
+
+			if (!$abonosCompra->create_master())
+			{
+				return $abonosCompra->errors();
+			}
+
+			$abonos_compra_id = $abonosCompra->get_id();
+
+            $monto = Input::get('monto');
+
+			foreach ($compras as $compra) 
+			{
+				$detalleAbono = new DetalleAbonosCompra;
+			    $detalleAbono->abonos_compra_id = $abonos_compra_id;
+			    $detalleAbono->compra_id = $compra->id;
+
+				if ($monto > $compra->saldo)
+				{
+				    $monto = $monto - $compra->saldo;
+				    $detalleAbono->monto = $compra->saldo;
+				    $compra->saldo = 0;
+				    $detalleAbono->save();
+				    $compra->save();
+				}
+				else
+				{
+					$detalleAbono->monto = $monto;
+					$compra->saldo = $compra->saldo - $monto;
+					$detalleAbono->save();
+					$compra->save();
+
+			        $detalle = $this->BalanceDetails($abonos_compra_id);
+
+			        return Response::json(array(
+			            'success' => true,
+			            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id'))->render()
+			        ));
+				}
+			}
+			    $detalle = $this->BalanceDetails($abonos_compra_id);
+			    
+		        return Response::json(array(
+		            'success' => true,
+		            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id'))->render()
+		        ));
+		}
+
+		$proveedor_id = Input::get('proveedor_id');
+
+        $query = DB::table('compras')
+        ->select(DB::raw("id, created_at as fecha, saldo"))
+        ->where('saldo', '>', 0)
+        ->where('proveedor_id', $proveedor_id)
+        ->get();
+
+        $saldo_total = 0;
+        $saldo_vencido = 0;
+
+        foreach ($query as $q) {
+        	$saldo_total   = $saldo_total + $q->saldo;
+            $fecha_entrada = date('Ymd', strtotime($q->fecha));
+            $fecha_vencida = date('Ymd',strtotime("-30 days"));
+
+            if ($fecha_entrada < $fecha_vencida) {
+            	$saldo_vencido = $saldo_vencido + $q->saldo;
+            }
+        }
+
+        return Response::json(array(
+            'success' => true,
+            'form' => View::make('compras.payments.formPayments', compact('saldo_total', 'saldo_vencido', 'proveedor_id'))->render()
+        ));
+	}
+
 
 	public function formPaymentsPagination()
 	{
@@ -27,23 +117,22 @@ class PurchasePaymentsController extends \BaseController {
 			"numero_documento",
 			"saldo",
 			"total"
-			);
+		);
 
 		$Search_columns = array("users.nombre","users.apellido","numero_documento");
 
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 
-		$where = " proveedor_id = ". Input::get('proveedor_id') ." AND saldo > 0 ";
+		$where  = " proveedor_id = ". Input::get('proveedor_id') ." AND saldo > 0 ";
 		$where .= " AND users.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND compras.completed = 1";
-
 
 		$compras = SST::get($table, $columns, $Search_columns, $Join, $where );
 
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('compras.payments.formPaymentsSST', compact('compras'))->render()
-			));
+		));
 	}
 
 	public function OverdueBalance()
@@ -273,9 +362,9 @@ class PurchasePaymentsController extends \BaseController {
 
 
     //funcion para eliminar el abono 
-    public function DeleteBalancePay()
+    public function eliminarAbono()
     {
-        $detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('id'))->get();
+        $detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('abonos_compra_id'))->get();
 
         foreach ($detalle as $key => $dt) 
         {
@@ -297,7 +386,7 @@ class PurchasePaymentsController extends \BaseController {
 
     /* Seccion de Abonos Por Compra */
 
-    public function SelectedPayPurchases()
+    public function abonosComprasPorSeleccion()
     {
 		$ids_compra = explode(',', Input::get('array_ids_compras'));
 
@@ -308,7 +397,7 @@ class PurchasePaymentsController extends \BaseController {
 
     	$data = array('proveedor_id' => Input::get('proveedor_id'),
     				'metodo_pago_id' => Input::get('metodo_pago_id'),
-					'total' => 0.00 );
+					'monto' => Input::get('monto') );
 
     	$abono = new AbonosCompra;
 
@@ -317,17 +406,21 @@ class PurchasePaymentsController extends \BaseController {
 			return $abono->errors();
 		}
 
-		$abono_id = $abono->get_id();
+		$abonos_compra_id = $abono->get_id();
 		$total = 0;
 
     	for ($i=0; $i < count($ids_compra) ; $i++) 
     	{ 
     		$compra = Compra::find($ids_compra[$i]);
 
+            if (!$compra) {
+            	return false;
+            }
+
     		$total = $total + $compra->saldo;
 
 			$data_detalle = array('compra_id' => $compra->id,
-				'abonos_compra_id' => $abono_id,
+				'abonos_compra_id' => $abonos_compra_id,
 				'monto' => $compra->saldo );
 
 			$detalle = new DetalleAbonosCompra;
@@ -341,15 +434,15 @@ class PurchasePaymentsController extends \BaseController {
 			$compra->save();
     	}
 
-    	$abono = AbonosCompra::find($abono_id);
-    	$abono->total = $total;
+    	$abono = AbonosCompra::find($abonos_compra_id);
+    	$abono->monto = $total;
     	$abono->save();
 
-    	$detalle = $this->BalanceDetails($abono_id);
+    	$detalle = $this->BalanceDetails($abonos_compra_id);
 
     	return Response::json(array(
 			'success' => true ,
-			'detalle' => View::make('compras.payments.paymentsDetails',compact("detalle",'abono_id'))->render()
+			'detalle' => View::make('compras.payments.paymentsDetailsBySelection',compact("detalle",'abonos_compra_id'))->render()
 			));
     }
  
