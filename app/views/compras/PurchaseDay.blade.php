@@ -35,7 +35,7 @@ $(document).ready(function() {
             $( ".DTTT" ).html("");
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
-            if ( aData[8] == 0){
+            if ( aData[7] == 0){
                 jQuery(nRow).addClass('red');
             }               
         },

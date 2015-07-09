@@ -290,10 +290,9 @@ function OpenModalSalesItemSerials(e)
             $('.modal-body').html(data);
             $('.modal-title').text('Seriales');
             $('.bs-modal').modal('show');
-            $("input[name='InsertPurchaseItemSerials']").focus();
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
+            setTimeout(function(){
+                $("input[name='InsertPurchaseItemSerials']").focus();
+            }, 500);
         }
     });
 }

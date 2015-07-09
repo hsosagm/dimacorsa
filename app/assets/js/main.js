@@ -35,7 +35,6 @@ function input_numeric(element)
     element.value = (element.value + '').replace(/[^0-9-.]/g, '');
 }
 
-
 function proccess_table($v) {
 
     $("#iSearch").val("");
@@ -54,6 +53,7 @@ function proccess_table($v) {
     setTimeout(function(){
         $("#iSearch").focus();
         $('#example_length').prependTo("#table_length");
+        $('.dt-container').hide();
         $('.dt-container').show();
         
         oTable = $('#example').dataTable();
@@ -126,7 +126,6 @@ function _create() {
         $('.bs-modal').modal('show');
     });
 }
-
 
 function _edit() {
 
@@ -221,7 +220,7 @@ function _delete_dt(e) {
                 data: { id: $id },
                 contentType: 'application/x-www-form-urlencoded',
                 success: function (data, text) {
-                    if (data == 'success') {
+                    if ($.trim(data) == 'success') {
 
                         msg.success('Dato eliminado', 'Listo!')
                         oTable.fnDraw();

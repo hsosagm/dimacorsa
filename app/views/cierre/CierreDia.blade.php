@@ -3,39 +3,39 @@
 		<thead class="cierre_head ">
 
 			<tr>
-				<th width="30%" style="text-align:center" >
-					<i style="cursor:pointer">
+				<th width="30%" style="text-align:center; font-style: normal;" >
+					<i style="cursor:pointer; font-style: normal;">
 						Descripcion
 					</i>
 				</th>
-				<th width="12%" style="text-align:center">
-					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 1; VentasPorMetodoDePago(1 , null);">
+				<th width="12%" style="text-align:center; font-style: normal;">
+					<i style="cursor:pointer; font-style: normal;" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 1; VentasPorMetodoDePago(1 , null);">
 						Efectivo
 					</i>
 				</th>
 				<th width="12%" style="text-align:center">
-					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 2; VentasPorMetodoDePago(1 , null);">
+					<i style="cursor:pointer; font-style: normal;" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 2; VentasPorMetodoDePago(1 , null);">
 						Credito
 					</i>
 				</th>
 
 				<th width="12%" style="text-align:center">
-					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 3; VentasPorMetodoDePago(1 , null);">
+					<i style="cursor:pointer; font-style: normal;" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 3; VentasPorMetodoDePago(1 , null);">
 						Cheque
 					</i>
 				</th>
 				<th width="12%" style="text-align:center">
-					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 4; VentasPorMetodoDePago(1 , null);">
+					<i style="cursor:pointer; font-style: normal;" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 4; VentasPorMetodoDePago(1 , null);">
 						Tarjeta
 					</i>
 				</th>
 				<th width="12%" style="text-align:center">
-					<i style="cursor:pointer" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 5; VentasPorMetodoDePago(1 , null);">
+					<i style="cursor:pointer; font-style: normal;" onclick="cierre_fecha_enviar='{{$fecha}}'; cierre_metodo_pago_id = 5; VentasPorMetodoDePago(1 , null);">
 						Deposito
 					</i>
 				</th>
 				<th width="12%" style="text-align:center">
-					<i style="cursor:pointer" >
+					<i style="cursor:pointer; font-style: normal;" >
 						Totales
 					</i>
 				</th>
@@ -46,98 +46,98 @@
 			
 			<tr class="">
 				<td>Ventas</td>
-				<td class="right"> {{ $data['pagos_ventas']['efectivo'] }} </td> 
-				<td class="right"> {{ $data['pagos_ventas']['credito'] }} </td> 
-				<td class="right"> {{ $data['pagos_ventas']['cheque']  }} </td> 
-				<td class="right"> {{ $data['pagos_ventas']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['pagos_ventas']['deposito']}} </td> 
-				<td class="right"> {{ f_num::get($data['pagos_ventas']['total']) }} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['efectivo']) }} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['credito']) }} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['cheque']) }} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['tarjeta']) }} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['deposito'])}} </td> 
+				<td class="right"> {{ f_num::get($data['pagos_ventas']['total'])) }} </td> 
 			</tr>
 
 			<tr>
 				<td>Abonos</td>
-				<td class="right"> {{ $data['abonos_ventas']['efectivo'] }} </td> 
-				<td class="right"> {{ $data['abonos_ventas']['credito'] }} </td> 
-				<td class="right"> {{ $data['abonos_ventas']['cheque']  }} </td> 
-				<td class="right"> {{ $data['abonos_ventas']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['abonos_ventas']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['abonos_ventas']['efectivo'])}} </td> 
+				<td class="right"> {{ f_num::get($data['abonos_ventas']['credito'])}} </td> 
+				<td class="right"> {{ f_num::get($data['abonos_ventas']['cheque'])}} </td> 
+				<td class="right"> {{ f_num::get($data['abonos_ventas']['tarjeta'])}} </td> 
+				<td class="right"> {{ f_num::get($data['abonos_ventas']['deposito'])}} </td> 
 				<td class="right"> {{ f_num::get($data['abonos_ventas']['total'])  }} </td> 
 			</tr>
 
 			<tr>
 				<td>Soporte</td>
-				<td class="right"> {{ $data['soporte']['efectivo'] }} </td> 
-				<td class="right"> {{ $data['soporte']['credito'] }} </td> 
-				<td class="right"> {{ $data['soporte']['cheque']  }} </td> 
-				<td class="right"> {{ $data['soporte']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['soporte']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['soporte']['efectivo'])}} </td> 
+				<td class="right"> {{ f_num::get($data['soporte']['credito'] )}} </td> 
+				<td class="right"> {{ f_num::get($data['soporte']['cheque']  )}} </td> 
+				<td class="right"> {{ f_num::get($data['soporte']['tarjeta'] )}} </td> 
+				<td class="right"> {{ f_num::get($data['soporte']['deposito'])}} </td> 
 				<td class="right"> {{ f_num::get($data['soporte']['total'])  }} </td> 
 			</tr>
 
 			<tr>
 				<td>Adelantos</td>
-				<td class="right"> {{ $data['adelantos']['efectivo'] }} </td> 
-				<td class="right"> {{ $data['adelantos']['credito'] }} </td> 
-				<td class="right"> {{ $data['adelantos']['cheque']  }} </td> 
-				<td class="right"> {{ $data['adelantos']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['adelantos']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['adelantos']['efectivo'])}} </td> 
+				<td class="right"> {{ f_num::get($data['adelantos']['credito'] )}} </td> 
+				<td class="right"> {{ f_num::get($data['adelantos']['cheque']  )}} </td> 
+				<td class="right"> {{ f_num::get($data['adelantos']['tarjeta'] )}} </td> 
+				<td class="right"> {{ f_num::get($data['adelantos']['deposito'])}} </td> 
 				<td class="right"> {{ f_num::get($data['adelantos']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Ingresos</td>
-				<td class="right"> {{ $data['ingresos']['efectivo'] }} </td> 
-				<td class="right"> {{ $data['ingresos']['credito'] }} </td> 
-				<td class="right"> {{ $data['ingresos']['cheque']  }} </td> 
-				<td class="right"> {{ $data['ingresos']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['ingresos']['deposito']}} </td> 
+				<td class="right"> {{ f_num::get($data['ingresos']['efectivo'])}} </td> 
+				<td class="right"> {{ f_num::get($data['ingresos']['credito'] )}} </td> 
+				<td class="right"> {{ f_num::get($data['ingresos']['cheque']  )}} </td> 
+				<td class="right"> {{ f_num::get($data['ingresos']['tarjeta'] )}} </td> 
+				<td class="right"> {{ f_num::get($data['ingresos']['deposito'])}} </td> 
 				<td class="right"> {{ f_num::get($data['ingresos']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Gastos</td>
-				<td class="right">({{ ($data['gastos']['efectivo'] == 0) ?  '0.00':$data['gastos']['efectivo']}})</td> 
-				<td class="right"> {{ $data['gastos']['credito'] }} </td> 
-				<td class="right"> {{ $data['gastos']['cheque']  }} </td> 
-				<td class="right"> {{ $data['gastos']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['gastos']['deposito']}} </td> 
-				<td class="right"> {{ f_num::get($data['gastos']['total'])  }} </td> 
+				<td class="right">({{  f_num::get(($data['gastos']['efectivo'] == 0) ?  '0.00':$data['gastos']['efectivo'])}})</td> 
+				<td class="right"> {{  f_num::get($data['gastos']['credito'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['gastos']['cheque']  )}} </td> 
+				<td class="right"> {{  f_num::get($data['gastos']['tarjeta'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['gastos']['deposito'])}} </td> 
+				<td class="right"> {{  f_num::get($data['gastos']['total'])  }} </td> 
 			</tr>
 
 			<tr>
 				<td>Egresos</td>
-				<td class="right">({{ ($data['egresos']['efectivo'] == 0) ?  '0.00':$data['egresos']['efectivo']}})</td> 
-				<td class="right"> {{ $data['egresos']['credito'] }} </td> 
-				<td class="right"> {{ $data['egresos']['cheque']  }} </td> 
-				<td class="right"> {{ $data['egresos']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['egresos']['deposito']}} </td> 
+				<td class="right">({{  f_num::get(($data['egresos']['efectivo'] == 0) ?  '0.00':$data['egresos']['efectivo'])}})</td> 
+				<td class="right"> {{  f_num::get($data['egresos']['credito'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['egresos']['cheque']  )}} </td> 
+				<td class="right"> {{  f_num::get($data['egresos']['tarjeta'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['egresos']['deposito'])}} </td> 
 				<td class="right"> {{ f_num::get($data['egresos']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Pagos Compras</td>
-				<td class="right"> ({{ ($data['pagos_compras']['efectivo'] == 0) ?  '0.00':$data['pagos_compras']['efectivo']}}) </td>
-				<td class="right"> {{ $data['pagos_compras']['credito'] }} </td> 
-				<td class="right"> {{ $data['pagos_compras']['cheque']  }} </td> 
-				<td class="right"> {{ $data['pagos_compras']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['pagos_compras']['deposito']}} </td> 
+				<td class="right"> ({{  f_num::get(($data['pagos_compras']['efectivo'] == 0) ?  '0.00':$data['pagos_compras']['efectivo'])}}) </td>
+				<td class="right"> {{  f_num::get($data['pagos_compras']['credito'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['pagos_compras']['cheque']  )}} </td> 
+				<td class="right"> {{  f_num::get($data['pagos_compras']['tarjeta'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['pagos_compras']['deposito'])}} </td> 
 				<td class="right"> {{ f_num::get($data['pagos_compras']['total'])   }} </td> 
 			</tr>
 
 			<tr>
 				<td>Abonos Compras</td>
-				<td class="right"> ({{ ($data['abonos_compras']['efectivo'] == 0) ?  '0.00':$data['abonos_compras']['efectivo']}}) </td> 
-				<td class="right"> {{ $data['abonos_compras']['credito'] }} </td> 
-				<td class="right"> {{ $data['abonos_compras']['cheque']  }} </td> 
-				<td class="right"> {{ $data['abonos_compras']['tarjeta'] }} </td> 
-				<td class="right"> {{ $data['abonos_compras']['deposito']}} </td> 
+				<td class="right"> ({{  f_num::get(($data['abonos_compras']['efectivo'] == 0) ?  '0.00':$data['abonos_compras']['efectivo'])}}) </td> 
+				<td class="right"> {{  f_num::get($data['abonos_compras']['credito'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['abonos_compras']['cheque']  )}} </td> 
+				<td class="right"> {{  f_num::get($data['abonos_compras']['tarjeta'] )}} </td> 
+				<td class="right"> {{  f_num::get($data['abonos_compras']['deposito'])}} </td> 
 				<td class="right"> {{ f_num::get($data['abonos_compras']['total'])  }} </td> 
 			</tr>
 		</tbody>
-		<tfoot class="theme-table-footer cierre_footer">
+		<tfoot class="cierre_footer">
 			<tr>
 				<td>Efectivo esperado en caja</td>
-				<td class="right"> 
+				<td class="right" style="padding-right: 20px !important;"> 
 					<?php 
 					$caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
 
@@ -151,12 +151,18 @@
 				</td> 
 				<td colspan="3"></td> 
 				<td colspan="2" align="right">
-					<i  class="fa fa-file-excel-o fa-2" style="font-size: 22px !important; color:#000000" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
-					<i class="fa fa-file-pdf-o fa-2" style="font-size: 22px !important; color:#000000" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
-					<i class="fa fa-print fa-2" style="font-size: 22px !important; color:#000000" onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
+					<a href="javascript:void(0)">
+						<i  class="fa fa-file-excel-o fa-2" style="font-size: 16px !important; padding-left:10px" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
+					</a>
+					<a href="javascript:void(0)">
+						<i class="fa fa-file-pdf-o fa-2" style="font-size: 16px !important; padding-left:10px" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
+					</a>
+					<a href="javascript:void(0)">
+						<i class="fa fa-print fa-2" style="font-size: 18px !important; padding-left:10px;  padding-right: 12px;" onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
+					</a>
 				</td> 
 			</tr>
-		</tfoot>
+		</tfoot>  
 
 	</table>
 
