@@ -83,7 +83,8 @@ class ProductoController extends Controller {
             return 'el codigo que buscas no existe..!';
         }
 
-        $Existencia = Existencia::where('producto_id','=',$query->id)->first();
+        $Existencia = Existencia::where('producto_id','=',$query->id)
+        ->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
         if($Existencia != '')
         {
@@ -140,15 +141,21 @@ class ProductoController extends Controller {
 
     public function md_search_dt()
     {
-        $table = 'productos';
+       $table = 'productos';
 
-        $columns = array("codigo", "nombre", "descripcion", "p_publico", "existencia");
+        $columns = array(
+            "codigo",
+            "nombre",
+            "descripcion",
+            "p_publico",
+            "existencias.existencia as existencia");
 
         $Searchable = array("codigo","nombre","descripcion");
         
-        $Join = 'JOIN marcas ON productos.marca_id = marcas.id';
+        $Join = 'JOIN marcas ON productos.marca_id = marcas.id  JOIN  existencias ON productos.id = existencias.producto_id ';
+        $where = "tienda_id = ".Auth::user()->tienda_id;
 
-        echo TableSearch::get($table, $columns, $Searchable, $Join);
+        echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
     } 
 
     public function user_inventario()

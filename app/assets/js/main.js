@@ -8,7 +8,7 @@ $(function() {
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
 
-$('.modal-dialog').draggable();
+// $('.modal-dialog').draggable();
 
 $('.btnremove').on('click', function() {
     $('#home').empty();
