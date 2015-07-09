@@ -60,6 +60,7 @@
                     vm.cliente_id = q.id;
                     vm.infoCliente = q.value;
                     vm.getInfoCliente(q.id);
+                    $('#customer_search').val('');
                 }
             });
             
