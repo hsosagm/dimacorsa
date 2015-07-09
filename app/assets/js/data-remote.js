@@ -205,9 +205,10 @@ $(document).on('shift_enter', 'form[data-remote-md-d]', function() {
                     $('.body-detail').html(data.table);
                     form.trigger('reset');
                     $('input[name=serials]', form).val('');
-                    $('input[name=producto_id]', form).val('');
+                    //$('input[name=producto_id]', form).val('');
                     form.attr('status', '0');
                     $("#search_producto").focus();
+                    $('.precio-costo').html(data.p_costo);
                     return;
                 }
                 msg.warning(data, 'Advertencia!');

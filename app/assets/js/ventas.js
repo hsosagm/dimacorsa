@@ -12,7 +12,6 @@ function f_ven_op() {
 }
 
 function RemoveSale() {
-
     $.confirm({
         confirm: function() {
 			$.ajax({

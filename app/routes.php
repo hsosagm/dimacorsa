@@ -57,7 +57,7 @@
             Route::get('AdelantosDelDiaUsuario_dt'     , 'UserController@AdelantosDelDiaUsuario'        );
             Route::get('clientes_dt'                   , 'UserController@clientes'                      );
         });
-
+ 
         Route::group(array('prefix' => 'cliente'), function()
         {
             Route::get('search'                , 'ClienteController@search');

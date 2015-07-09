@@ -2,27 +2,22 @@ $(function() {
 	$(document).on('click', '#CierreDelDia', function(){ CierreDelDia(this); });
 });
 
-function CierreDelDia()
-{
+function CierreDelDia() {
 	$.get( "admin/cierre/CierreDelDia", function( data ) {
 		generate_dt_local(data);
         $(".DTTT").html('Movimientos del Dia');
         $('.dt-container').show();
 	});
-
 }
 
-function CierreDelMes()
-{
+function CierreDelMes() {
 	$.get( "admin/cierre/CierreDelMes", function( data ) {
 		generate_dt_local(data);
 		$('.dt-container').show();
 	});
-
 }
 
-function imprimir_cierre()
-{
+function imprimir_cierre() {
 	$.get( "admin/cierre/CierreDelDia", function( data ) {
 		$('#print_barcode').html(data);
 		$("#print_barcode").show();
@@ -31,15 +26,13 @@ function imprimir_cierre()
 	});
 }
 
-function imprimir_cierre_por_fecha(fecha)
-{
+function imprimir_cierre_por_fecha(fecha) {
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelDiaPorFecha',
         data: { fecha:fecha },
         contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) 
-        {
+        success: function (data, text) {
             $('#print_barcode').html(data);
             $("#print_barcode").show();
             $.print("#print_barcode");
@@ -59,8 +52,7 @@ function cierre() {
 	});	
 }
 
-function CierreDelDiaPorFecha()
-{
+function CierreDelDiaPorFecha() {
 	fecha = $(".datepicker .calendar .days .selected").attr('date');
 
     $.ajax({
@@ -68,18 +60,15 @@ function CierreDelDiaPorFecha()
         url: 'admin/cierre/CierreDelDiaPorFecha',
         data: { fecha:fecha },
         contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) 
-        {
+        success: function (data, text) {
             generate_dt_local(data);
             $(".DTTT").html('Movimientos del Dia');
             $('.dt-container').show();
         }
     });
-
 }
 
-function CierreDelMesPorFecha()
-{
+function CierreDelMesPorFecha() {
 	fecha = $(".datepicker .calendar .days .selected").attr('date');
 
     $.ajax({
@@ -87,16 +76,14 @@ function CierreDelMesPorFecha()
         url: 'admin/cierre/CierreDelMesPorFecha',
         data: { fecha:fecha },
         contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) 
-        {
+        success: function (data, text) {
            	generate_dt_local(data);
 			$('.dt-container').show();
         }
     });
 }
 
-function CierresDelMes()
-{
+function CierresDelMes() {
 	fecha = $(".datepicker .calendar .days .selected").attr('date');
 
     $.ajax({
@@ -104,39 +91,33 @@ function CierresDelMes()
         url: 'admin/cierre/CierresDelMes',
         data: { fecha:fecha },
         contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) 
-        {
+        success: function (data, text) {
 			 makeTable(data, '', '');
         }
     });
 }
 
 function VerDetalleDelCierreDelDia(e) {
-
-    if ($(e).hasClass("hide_detail")) 
-    {
+    if ($(e).hasClass("hide_detail")) {
         $(e).removeClass('hide_detail');
         $('.subtable').hide();
     } 
-    else 
-    {
+
+    else {
         $('.hide_detail').removeClass('hide_detail');
 
-        if ( $( ".subtable" ).length )
-        {
-            $('.subtable').fadeOut('slow', function(){
+        if ( $( ".subtable" ).length ) {
+            $('.subtable').fadeOut('slow', function() {
                 ObtenerDetalleDelCierreDelDia(e);
             })
         }
-        else
-        {
+        else {
             ObtenerDetalleDelCierreDelDia(e);
         }
     }
 }
 
 function ObtenerDetalleDelCierreDelDia(e) {
-
     $id = $(e).closest('tr').attr('id');
     $('.subtable').remove();
     var nTr = $(e).parents('tr')[0];
@@ -148,65 +129,45 @@ function ObtenerDetalleDelCierreDelDia(e) {
         url: "admin/cierre/VerDetalleDelCierreDelDia",
         data: { cierre_id: $id},
         success: function (data) {
-
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
     });
 }
 
-function ImprimirCierreDelDia_dt(e,user)
-{
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-
-     window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ExportarCierreDelDia(tipo,fecha) {
+    window.open('admin/cierre/ExportarCierreDelDia/'+tipo+'/'+fecha ,'_blank');
 }
 
-function ExportarCierreDelDia(tipo,fecha)
-{
-     window.open('admin/cierre/ExportarCierreDelDia/'+tipo+'/'+fecha ,'_blank');
-}
+var cierre_fecha_enviar = "current_date";
+var cierre_metodo_pago_id = 1;
 
-function VentasPorMetodoDePago(page , sSearch)
-{
+function VentasPorMetodoDePago(page , sSearch) {
     $.ajax({
         type: 'GET',
         url: "user/ventas/VentasPorMetodoDePago?page=" + page,
         data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar },
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 $('.modal-body').html(data.table);
                 $('.modal-title').text('Ventas filtradas por metodo de pago');
                 $('.bs-modal').modal('show');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
     });
 }
 
-$(document).on('click', '.pagination a', function (e) {
+$(document).on('click', '.pagination_cierre a', function (e) {
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
     VentasPorMetodoDePago(page,null);
 });
-
-function SST_search() {
-    $("#iSearch").val("");
-    $("#iSearch").unbind();
-    $('#iSearch').keyup(function() {
-        VentasPorMetodoDePago( 1, $(this).val() );
-    });
-}

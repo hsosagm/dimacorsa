@@ -4,16 +4,14 @@ $(function() {
     $(document).on('enter', '#search_producto',  function(e){ search_producto(e, this); });
 });
 
-function _add_producto_md()
-{
+function _add_producto_md() {
     codigo = $('.dataTable tbody .row_selected td:first-child').text();
     $("#search_producto").val(codigo);
     $(".dt-container").hide();
     search_producto_dt();
 }
 
-function search_producto(e, element)
-{   
+function search_producto(e, element) {   
     $.ajax({
         type: 'POST',
         url: 'user/productos/find',
@@ -28,21 +26,15 @@ function search_producto(e, element)
                 $('.existencia').html(data.existencia);
                 $('#precio-costo').val(data.p_costo_descarga);
             }
-            else
-            {
+            else {
                 msg.warning(data);
             }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
-
     e.preventDefault();
 };
 
-function search_producto_dt()
-{   
+function search_producto_dt() {   
 	element = $("#search_producto");
     $.ajax({
         type: 'POST',
@@ -58,13 +50,9 @@ function search_producto_dt()
                 $('.existencia').html(data.existencia);
                 $('#precio-costo').val(data.p_costo_descarga);
             }
-            else
-            {
+            else {
                 msg.warning('El codigo que ingreso no se encuentra en la base de datos', 'Advertencia!');
             }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
 };
@@ -80,36 +68,28 @@ function DeleteDetalle(element) {
                 url: url,
                 data: { id: id },
                 success: function (data) {
-                    if (data == "success")
-                    {
+                    if (data == "success") {
                         msg.success('Eliminado', 'Listo!');
                         $(element).closest('tr').hide();
                     }
-                    else
-                    {
+                    else {
                         msg.warning(data, 'Advertencia!');
                     }
-                },
-                error: function(errors){
-                    msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
                 }
             });
         }
     });
 } 
 
-function md_search()
-{
-    $.get( "user/productos/md_search", function( data ) 
-    {
+function md_search() {
+    $.get( "user/productos/md_search", function( data ) {
        makeTable(data, '', 'Inventario');
        $('#iSearch').focus();
        $('#example').addClass('tableSelected');
     });
 }
-function CerrarVentanaIngresoDeSeries()
-{
+
+function CerrarVentanaIngresoDeSeries() {
     $(this).removeAttr('data-dismiss');
     $(".master-serials").focus();
-    
 }

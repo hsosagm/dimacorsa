@@ -1,5 +1,4 @@
 /* Consultas.js */
- 
 $(function() 
 {
     $(document).on('click', '#OpenTablePurchaseDay', 		function() { OpenTablePurchaseDay(this); 		}); 
@@ -9,68 +8,51 @@ $(function()
     $(document).on('click', '#OpenTableIncomeDay', 			function() { OpenTableIncomeDay(this); 			}); 
     $(document).on('click', '#OpenTableAdvancesDay',        function() { OpenTableAdvancesDay(this);        }); 
     $(document).on('click', '#OpenTableDownloadsDay',       function() { OpenTableDownloadsDay(this);        }); 
-
 });
 
-
-function OpenTablePurchaseDay()
-{
-	$.get( "admin/compras/OpenTablePurchaseDay", function( data ) 
-	{
+function OpenTablePurchaseDay() {
+	$.get( "admin/compras/OpenTablePurchaseDay", function( data ) {
         makeTable(data, '', '');
     });
 }
 
-function OpenTableSupportDay()
-{
-	$.get( "user/soporte/OpenTableSupportDay", function( data ) 
-	{
+function OpenTableSupportDay() {
+	$.get( "user/soporte/OpenTableSupportDay", function( data ) {
         makeTable(data, 'user/soporte/', '');
     });
 }
 
-function OpenTableExpensesDay()
-{
-	$.get( "user/gastos/OpenTableExpensesDay", function( data ) 
-	{
+function OpenTableExpensesDay() {
+	$.get( "user/gastos/OpenTableExpensesDay", function( data ) {
         makeTable(data, 'user/gastos/', '');
     });
 }
 
-function OpenTableExpendituresDay()
-{
-	$.get( "user/egresos/OpenTableExpendituresDay", function( data ) 
-	{
+function OpenTableExpendituresDay() {
+	$.get( "user/egresos/OpenTableExpendituresDay", function( data ) {
         makeTable(data, 'user/egresos/', '');
     });
 }
 
-function OpenTableIncomeDay()
-{
-	$.get( "user/ingresos/OpenTableIncomeDay", function( data ) 
-	{
+function OpenTableIncomeDay() {
+	$.get( "user/ingresos/OpenTableIncomeDay", function( data ) {
         makeTable(data, 'user/ingresos/', '');
     });
 }
 
-function OpenTableAdvancesDay()
-{
-    $.get( "user/adelantos/OpenTableAdvancesDay", function( data ) 
-    {
+function OpenTableAdvancesDay() {
+    $.get( "user/adelantos/OpenTableAdvancesDay", function( data ) {
         makeTable(data, 'user/adelantos/', '');
     });
 }
 
-function OpenTableDownloadsDay() 
-{
-    $.get( "admin/descargas/OpenTableDownloadsDay", function( data ) 
-    {
+function OpenTableDownloadsDay() {
+    $.get( "admin/descargas/OpenTableDownloadsDay", function( data ) {
         makeTable(data, 'admin/descargas/', '');
     });
 }
 
-function OpenTableSalesForDate(element)
-{
+function OpenTableSalesForDate(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -85,8 +67,7 @@ function OpenTableSalesForDate(element)
     });
 }
 
-function OpenTablePurchaseForDate(element)
-{
+function OpenTablePurchaseForDate(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -101,8 +82,7 @@ function OpenTablePurchaseForDate(element)
     });
 }
 
-function SoportePorFecha(element)
-{
+function SoportePorFecha(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -117,8 +97,7 @@ function SoportePorFecha(element)
     });
 }
 
-function GastosPorFecha(element)
-{
+function GastosPorFecha(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -133,8 +112,7 @@ function GastosPorFecha(element)
     });
 }
 
-function EgresosPorFecha(element)
-{
+function EgresosPorFecha(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -149,8 +127,7 @@ function EgresosPorFecha(element)
     });
 }
 
-function IngresosPorFecha(element)
-{
+function IngresosPorFecha(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -165,8 +142,7 @@ function IngresosPorFecha(element)
     });
 } 
 
-function AdelantosPorFecha(element)
-{
+function AdelantosPorFecha(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -181,8 +157,7 @@ function AdelantosPorFecha(element)
     });
 }
 
-function OpenTableDownloadsForDate(element)
-{
+function OpenTableDownloadsForDate(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
 
@@ -197,16 +172,13 @@ function OpenTableDownloadsForDate(element)
     });
 }
 
-function AbonosDelDiaProveedores(element)
-{
-    $.get( "admin/proveedor/AbonosDelDia", function( data ) 
-    {
+function AbonosDelDiaProveedores(element) {
+    $.get( "admin/proveedor/AbonosDelDia", function( data ) {
         makeTable(data, 'admin/proveedor/', '');
     });
 }
 
-function AbonosPorFechaProveedores(element)
-{
+function AbonosPorFechaProveedores(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
     $.ajax({
@@ -220,16 +192,13 @@ function AbonosPorFechaProveedores(element)
     });
 }
 
-function AbonosDelDiaClientes(element)
-{
-    $.get( "user/cliente/AbonosDelDia", function( data ) 
-    {
+function AbonosDelDiaClientes(element) {
+    $.get( "user/cliente/AbonosDelDia", function( data ) {
         makeTable(data, 'admin/proveedor/', '');
     });
 }
 
-function AbonosPorFechaClientes(element)
-{
+function AbonosPorFechaClientes(element) {
     fecha = $(".datepicker .calendar .days .selected").attr('date');
     consulta = $(element).attr('consulta');
     $.ajax({
@@ -242,5 +211,3 @@ function AbonosPorFechaClientes(element)
         }
     });
 }
-
-

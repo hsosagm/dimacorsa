@@ -8,12 +8,10 @@ $(function() {
     $(document).on("click", ".remove_role", function(e){ remove_role(e, this); });
     $(document).on("click", "#_edit_profile", function(){ _edit_profile(this); });
     $(document).on("submit", "form[data-remote-up]", function(e){ _update_profile(e,this); });
-
 });
 
 
 function logs_usuarios() {
-
     $.get( "owner/logs/usuarios", function( data ) {
         $('.table').html(data);
     });
@@ -21,7 +19,6 @@ function logs_usuarios() {
 
 
 function users_list() {
-
     $.get( "owner/users", function( data ) {
         makeTable(data, 'owner/user/', 'Usuario');
         $('#example').addClass('tableSelected');
@@ -30,7 +27,6 @@ function users_list() {
 
 
 function role_edit(element) {
-
     $.ajax({
         type: "POST",
         url: "owner/roles/edit",
@@ -38,16 +34,12 @@ function role_edit(element) {
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
             $(".forms").html(data);
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
         }
     });
 }
 
 
 function profile() {
-
     $.get( "user/profile", function( data ) {
         $('.modal-body').html(data);
         $('.modal-title').text('Actualizar perfil');
@@ -56,7 +48,6 @@ function profile() {
 }
 
 function _edit_profile() {
-
     $id  = $('.dataTable tbody .row_selected').attr('id');
     $url = $('.dataTable').attr('url') + 'edit';
 
@@ -69,33 +60,23 @@ function _edit_profile() {
             $('#modal-body-profile').html(data);
             $('#modal-title-profile').text( 'Editar ' + $('.dataTable').attr('title') );
             $('#bs-modal-profile').modal('show');
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
         }
     });
 }
 
 function _update_profile(e,element) {
-
     var form = $(element);
     $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-
-            if (data == 'success')
-            {
+            if (data == 'success') {
                 msg.success(form.data('success'), 'Listo!');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
 
@@ -109,7 +90,6 @@ function f_user_create() {
 }
 
 function add_user_group(element) {
-
     var id = $('.group_id option:selected').length;
 
     if (id === 0) {
@@ -125,9 +105,6 @@ function add_user_group(element) {
         success: function (data) {
             $("#modal-body-profile").html(data);
             active_tab_roles();
-        },
-        error: function(errors) {
-            Message('Advertencia!', 'Hubo un error, intentelo de nuevo', 'error');
         }
     });
 }
@@ -142,18 +119,14 @@ function remove_role(e, element) {
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
-        success: function (data)
-        {
+        success: function (data) {
             $("#modal-body-profile").html(data);
             active_tab_roles();
-        },
-        error: function(errors){
-            Message('Advertencia!', 'Hubo un error, intentelo de nuevo', 'error');
         }
     });
 };
 
-function active_tab_roles(){
+function active_tab_roles() {
    $("#tab-perfil-role").addClass('active');
    $("#tab-perfil-user").removeClass('active');
    $("#tab-informacion").removeClass('tab-pane fade active in');

@@ -101,7 +101,7 @@
 				<td class="right"> {{ $data['gastos']['cheque']  }} </td> 
 				<td class="right"> {{ $data['gastos']['tarjeta'] }} </td> 
 				<td class="right"> {{ $data['gastos']['deposito']}} </td> 
-				<td class="right"> {{ f_num::get($data['gastos']['total'])   }} </td> 
+				<td class="right"> {{ f_num::get($data['gastos']['total'])  }} </td> 
 			</tr>
 
 			<tr>

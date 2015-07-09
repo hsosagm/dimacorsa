@@ -18,67 +18,53 @@ function EliminarDescarga(e , descarga_id) {
 				data: { descarga_id: descarga_id },
 				contentType: 'application/x-www-form-urlencoded',
 				success: function (data) {
-
 					msg.success('Descarga eliminada', 'Listo!')
 					$(".form-panel").slideUp('slow');
 
-				},
-				error: function (request, status, error) {
-					msg.error(request.responseText, 'Error!')
-					$(e).prop('disabled', false);
 				}
 			});
 		}
 	});
-
 }
 
 function showDownloadsDetail(e) {
-
-    if ($(e).hasClass("hide_detail")) 
-    {
+    if ($(e).hasClass("hide_detail")) {
         $(e).removeClass('hide_detail');
         $('.subtable').hide();
     } 
-    else 
-    {
+    else {
         $('.hide_detail').removeClass('hide_detail');
 
-        if ( $( ".subtable" ).length )
-        {
+        if ( $( ".subtable" ).length ) {
             $('.subtable').fadeOut('slow', function(){
                 getDownloadsDetail(e);
             })
         }
-        else
-        {
+        else {
             getDownloadsDetail(e);
         }
     }
 }
 
 function getDownloadsDetail(e) {
-
     $id = $(e).closest('tr').attr('id');
     $('.subtable').remove();
     var nTr = $(e).parents('tr')[0];
     $(e).addClass('hide_detail');
     $(nTr).after("<tr class='subtable'> <td colspan=7><div class='grid_detalle_factura'></div></td></tr>");
     $('.subtable').addClass('hide_detail');
+
     $.ajax({
         type: 'GET',
         url: "admin/descargas/showgDownloadsDetail",
         data: { descarga_id: $id},
         success: function (data) {
-
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
@@ -94,16 +80,13 @@ function OpenDownload(e)
         url: "admin/descargas/OpenDownload",
         data: { descarga_id: $id},
         success: function (data) {
-
-            if (data.success == true)
-            {
+            if (data.success == true) {
             	$('.panel-title').text('Formulario Descargas');
 				$(".forms").html(data.detalle);
 				$(".dt-container").hide();
 				$(".form-panel").show();
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
@@ -116,18 +99,16 @@ function FinalizarDescarga() {
 
 function IngresarDescripcionDescarga( e , descarga_id) {
     $.ajax({
-    type: 'GET',
-    url: "admin/descargas/descripcion",
-    data: { descarga_id: descarga_id},
-    success: function (data) {
-            if (data.success == true)
-            {
+        type: 'GET',
+        url: "admin/descargas/descripcion",
+        data: { descarga_id: descarga_id},
+        success: function (data) {
+            if (data.success == true) {
                 $('.modal-body').html(data.data);
                 $('.modal-title').text('Ingresar Descripcion');
                 $('.bs-modal').modal('show');
             }
-            else
-            {
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }
