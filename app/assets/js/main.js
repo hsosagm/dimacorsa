@@ -13,22 +13,24 @@ $(function() {
 $('.btnremove').on('click', function() {
     $('#home').empty();
 });
-    
-$( document ).ajaxSend(function() {
+   
+
+$(document).ajaxSend(function() {
     $('#home').empty();
     $('#loader').show();
 });
 
-$( document ).ajaxSuccess(function() {
+
+$(document).ajaxSuccess(function() {
     $('#loader').hide();
-    $('input').attr('autocomplete','off');
 });
 
-$( document ).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
-    $.ajax(this);
+
+$(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     msg.error(jqXHR.responseText, 'Error');
     $('[type=submit]').prop('disabled', false);
 });
+
 
 function input_numeric(element)
 {
