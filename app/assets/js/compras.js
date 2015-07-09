@@ -4,7 +4,7 @@ $(function() {
     $(document).on('click', '#OpenModalPurchaseItemSerials',      function() { OpenModalPurchaseItemSerials(this);    });
     $(document).on('click', '#_edit_producto',                    function() { _edit_producto(this); });
     $(document).on('click', '#_add_producto',                     function() { _add_producto(this); });
-    $(document).on("click","#print_code_producto",               function() { print_code_producto(this); })
+    $(document).on("click","#print_code_producto",               function()  { print_code_producto(this); })
     $(document).on('click', '.return_compras',                    function() { return_compras(this); });
     $(document).on('submit'  ,'form[data-remote-PurchasePayment]',function(e){ SavePurchasePayment(e,this);  });
     $(document).on('dblclick','.EditPurchaseItemDetails' ,        function() { EditPurchaseItemDetails(this);  });
@@ -271,7 +271,9 @@ function OpenModalPurchaseItemSerials() {
             $('.modal-body').html(data);
             $('.modal-title').text('Seriales');
             $('.bs-modal').modal('show');
-            $("input[name='InsertPurchaseItemSerials']").focus();
+            setTimeout(function(){
+                $("input[name='InsertPurchaseItemSerials']").focus();
+            }, 500);
         }
     });
 }

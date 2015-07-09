@@ -90,6 +90,7 @@ function md_search() {
 }
 
 function CerrarVentanaIngresoDeSeries() {
-    $(this).removeAttr('data-dismiss');
-    $(".master-serials").focus();
+    setTimeout(function(){
+        $(".master-serials").focus();
+    }, 500);
 }

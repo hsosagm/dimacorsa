@@ -38,7 +38,7 @@ $(document).ready(function() {
             $( ".DTTT" ).append( '<button consulta="mes"    onclick="OpenTablePurchaseForDate(this)">Mes</button>'    );
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
-            if ( aData[8] == 0){
+            if ( aData[7] == 0){
                 jQuery(nRow).addClass('red');
             }               
         },

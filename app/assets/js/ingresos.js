@@ -25,7 +25,7 @@ function delete_ingreso() {
                 data: { id: $id },
                 contentType: 'application/x-www-form-urlencoded',
                 success: function (data, text) {
-                    if (data == 'success') {
+                    if ($.trim(data) == 'success') {
                         msg.success('Ingreso eliminado', 'Listo!')
                        $('.bs-modal').modal('hide');
                     } 
