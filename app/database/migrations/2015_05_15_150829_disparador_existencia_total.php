@@ -12,7 +12,7 @@ class DisparadorExistenciaTotal extends Migration {
         CREATE TRIGGER calculated_total_exist AFTER INSERT ON `existencias` FOR EACH ROW
         BEGIN
          UPDATE productos SET 
-         	existencia = (SELECT sum(existencia) from existencias where producto_id = NEW.producto_id AND tienda_id = NEW.tienda_id )
+         	existencia = (SELECT sum(existencia) from existencias where producto_id = NEW.producto_id )
          	WHERE id = NEW.producto_id;
    
         END

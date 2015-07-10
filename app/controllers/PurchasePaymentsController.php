@@ -2,6 +2,20 @@
 
 class PurchasePaymentsController extends \BaseController {
 
+	public function delete()
+	{
+		$detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('id'))->get();
+
+        foreach ($detalle as $key => $dt) 
+        {
+            $this->ReturnBalancePurchase($dt->compra_id , $dt->monto);
+        }
+
+        AbonosCompra::destroy(Input::get('id'));
+
+        return 'success';
+	}
+
 	public function formPayment()
 	{
 		$saldo_vencido = $this->OverdueBalance();
@@ -12,9 +26,8 @@ class PurchasePaymentsController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'form' => View::make('compras.payments.formPayments', compact('saldo_total', 'saldo_vencido', 'users'))->render()
-			));
+		));
 	}
-
 
 	public function formPayments()
 	{
@@ -26,7 +39,7 @@ class PurchasePaymentsController extends \BaseController {
             ->get();
 
             if (!count($compras) ) {
-                return Response::json('El saldo de este proveedr se encuentra en 0.00');
+                return Response::json('El saldo de este proveedor se encuentra en 0.00');
             }
 
 			$abonosCompra = new AbonosCompra;
@@ -353,8 +366,12 @@ class PurchasePaymentsController extends \BaseController {
     public function BalanceDetails($id_pago)
     {
         $query = DB::table('detalle_abonos_compra')
-        ->select('compra_id','total','monto','saldo',DB::raw('(saldo+monto) as saldo_anterior'))
+        ->select('compra_id','total','detalle_abonos_compra.monto',
+        	'saldo',DB::raw('(saldo+detalle_abonos_compra.monto) as saldo_anterior'),
+        	 DB::raw('metodo_pago.descripcion as metodo_pago'))
         ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+        ->join('abonos_compras','detalle_abonos_compra.abonos_compra_id','=','abonos_compras.id')
+        ->join('metodo_pago','metodo_pago.id','=','abonos_compras.metodo_pago_id')
         ->where('abonos_compra_id','=',$id_pago)->get();
 
         return $query;
@@ -370,8 +387,7 @@ class PurchasePaymentsController extends \BaseController {
         {
             $this->ReturnBalancePurchase($dt->compra_id , $dt->monto);
         }
-
-        AbonosCompra::destroy(Input::get('id'));
+        AbonosCompra::destroy(Input::get('abonos_compra_id'));
 
         return 'success';
     }

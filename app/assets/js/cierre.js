@@ -5,9 +5,9 @@ $(function() {
 function CierreDelDia() {
 	$.get( "admin/cierre/CierreDelDia", function( data ) {
 		generate_dt_local(data);
-        $(".DTTT").html('Movimientos del Dia');
+        $(".DTTT").html('<h4 style="margin-top:0px; margin-bottom:0px;" >Movimientos del Dia</h4>');
         $('.dt-container').show();
-	});
+	}); 
 }
 
 function CierreDelMes() {

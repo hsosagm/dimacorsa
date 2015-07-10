@@ -29,7 +29,7 @@ $(document).ready(function() {
                 }
             },
         ],
-
+        "order": [[ 3, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
              $( ".DTTT" ).html("");
             $( ".DTTT" ).append( '<button consulta="dia"    onclick="AbonosPorFechaProveedores(this)">Dia</button>'    );

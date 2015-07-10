@@ -22,39 +22,39 @@ $saldo_vencido = 0;
 
         @foreach($compras as $q)
         <?php
-        $total_saldo = $total_saldo + $q->saldo;
-        $saldo = number_format($q->saldo,2,'.',',');
-        $total  = number_format($q->total,2,'.',',');
-        $fecha_entrada = $q->fecha;
-        $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-        $fecha_vencida = date('Ymd', strtotime("-30 days"));
+            $total_saldo = $total_saldo + $q->saldo;
+            $saldo = number_format($q->saldo,2,'.',',');
+            $total  = number_format($q->total,2,'.',',');
+            $fecha_entrada = $q->fecha;
+            $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
+            $fecha_vencida = date('Ymd', strtotime("-30 days"));
         ?>
 
         @if( $fecha_entrada < $fecha_vencida )
         <?php
-        $saldo_vencido = $saldo_vencido + $q->saldo;
+            $saldo_vencido = $saldo_vencido + $q->saldo;
         ?>
         <tr class="red" id="{{ $q->id }}">
-            <td class="center" width="15%"> {{ $q->fecha_ingreso }} </td>
-            <td class="center" width="15%"> {{ $q->fecha }} </td>
-            <td                width="21%"> {{ $q->usuario }} </td>
-            <td                width="40%"> {{ $q->proveedor }} </td>
-            <td                width="12%"> {{ $q->numero_documento }} </td>
-            <td class="right"  width="12%"> {{ $total }} </td>
-            <td class="right"  width="12%"> {{ $saldo }} </td>
+            <td class="center" width="10%"> {{ $q->fecha_ingreso }} </td>
+            <td class="center" width="10%"> {{ $q->fecha }} </td>
+            <td                width="20%"> {{ $q->usuario }} </td>
+            <td                width="30%"> {{ $q->proveedor }} </td>
+            <td                width="10%"> {{ $q->numero_documento }} </td>
+            <td class="right"  width="10%"> Q {{ $total }} </td>
+            <td class="right"  width="10%"> Q {{ $saldo }} </td>
             <td>
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
             </td>
         </tr>
         @else
         <tr id="{{ $q->id }}">
-            <td class="center" width="15%"> {{ $q->fecha_ingreso }} </td>
-            <td class="center" width="15%"> {{ $q->fecha  }} </td>
-            <td                width="21%"> {{ $q->usuario }} </td>
-            <td                width="40%"> {{ $q->proveedor }} </td>
-            <td                width="12%"> {{ $q->numero_documento }} </td>
-            <td class="right"  width="12%"> {{ $total }} </td>
-            <td class="right"  width="12%"> {{ $saldo }} </td>
+            <td class="center" width="10%"> {{ $q->fecha_ingreso }} </td>
+            <td class="center" width="10%"> {{ $q->fecha  }} </td>
+            <td                width="20%"> {{ $q->usuario }} </td>
+            <td                width="30%"> {{ $q->proveedor }} </td>
+            <td                width="10%"> {{ $q->numero_documento }} </td>
+            <td class="right"  width="10%"> Q {{ $total }} </td>
+            <td class="right"  width="10%"> Q {{ $saldo }} </td>
 
             <td>
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>

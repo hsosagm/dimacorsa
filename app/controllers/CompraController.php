@@ -347,9 +347,9 @@ class CompraController extends \BaseController {
 
 
 	/*
-		************************************************************************************************
+	************************************************************************************************
 		SECCION DE CONSULTAS
-		************************************************************************************************
+	************************************************************************************************
 	*/
 
 	public function ConsultPurchase()
@@ -381,13 +381,13 @@ class CompraController extends \BaseController {
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
 
-
 	public function OpenTablePurchaseDay()
 	{
 		return View::make('compras.PurchaseDay');
 	}
 
-	function PurchaseDay_dt(){
+	function PurchaseDay_dt()
+	{
 
 		$table = 'compras';
 
