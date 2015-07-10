@@ -80,7 +80,7 @@ function formato_precio(num) {
     cents = "0" + cents;
     for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
     num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
-    return ((sign) ? '' : '-') + 'Q ' + num + '.' + cents;
+    return ((sign) ? '' : '-') + ' ' + num + '.' + cents;
 }
 
 function proccess_table($v) {
