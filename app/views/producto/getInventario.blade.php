@@ -1,4 +1,4 @@
-@if( Auth::user()->ability(array('Admin', 'Editor'), array())) )
+@if( Auth::user()->ability(array('Admin', 'Owner'), array())) )
     <?php $access = 1;  ?>
 
     <script>
