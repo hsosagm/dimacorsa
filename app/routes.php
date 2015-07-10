@@ -164,13 +164,12 @@
 
         Route::group(array('prefix' => 'productos'), function()
         {
-            Route::get('inventario'        , 'ProductoController@user_inventario');
-            Route::get('view_inventario'   , 'ProductoController@user_inventario');
+            Route::get('/'                 , 'ProductoController@index');
             Route::post('find'             , 'ProductoController@find');
             Route::get('md_search'         , 'ProductoController@md_search');
             Route::get('md_search_dt'      , 'ProductoController@md_search_dt');
-            Route::get('user_inventario'   , 'ProductoController@user_inventario');
             Route::get('user_inventario_dt', 'ProductoController@user_inventario_dt');
+            Route::get('getInventario'     , 'ProductoController@getInventario');
         });
 
         Route::group(array('prefix' => 'ventas'), function()
@@ -261,8 +260,6 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('create'        , 'ProductoController@create' );
         Route::post('create'       , 'ProductoController@create' );
         Route::post('compra'       , 'ProductoController@compra' );
-        Route::get('/'             , 'ProductoController@index');
-        Route::get('inventario_dt' , 'ProductoController@inventario_dt');
     });
 
     Route::group(array('prefix' => 'proveedor'), function()

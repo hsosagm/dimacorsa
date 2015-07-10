@@ -61,7 +61,7 @@
                 @endif
                 
                 <li class="dropdown navbar-message">
-                    <a  href="javascript:void(0)" id="search-inventario-user"  class="dropdown-toggle" data-placement="bottom"  title="Inventario"  data-toggle="tooltip"><i class="fa fa-list-alt"></i></a>
+                    <a  href="javascript:void(0)" onclick="getInventario()" class="dropdown-toggle" data-placement="bottom"  title="Inventario"  data-toggle="tooltip"><i class="fa fa-list-alt"></i></a>
                 </li>
 
                 <li class="dropdown navbar-message">
