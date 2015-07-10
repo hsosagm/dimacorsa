@@ -1,4 +1,4 @@
-@if( Auth::user()->hasRole('Owner', 'Admin') )
+@if( Auth::user()->ability(array('Admin', 'Editor'), array())) )
     <?php $access = 1;  ?>
 
     <script>
@@ -39,7 +39,7 @@ $(document).ready(function() {
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             if ( {{$access}} == true) {
-                $( ".DTTT" ).append( '<button onclick="show_pc()" class="btn btngrey btn_edit">PC</button>');
+                $( ".DTTT" ).append( '<button onclick="show_pc()" class="btn btngrey">PC</button>');
             }
             $( ".DTTT" ).append( '<button id="_edit_dt" class="btn btngrey btn_edit" disabled>Editar</button>');
             $( ".DTTT" ).append( '<button id="_print"  class="btn btngrey btn_edit" disabled><i class="fa fa-barcode"></i> Imprimir</button>' );
