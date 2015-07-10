@@ -64,7 +64,7 @@
                 width: 'auto',
                 minChars: 2,
                 maxHeight: 300,
-                deferRequestBy: 100,
+                deferRequestBy: 10,
                 params: {},
                 formatResult: Autocomplete.formatResult,
                 delimiter: null,
