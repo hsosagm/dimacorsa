@@ -10,7 +10,7 @@
                 <label id="total_selected">0.00</label>
             </div>
             <div class="col-md-8">
-                {{ Form::open(array('data-remote-SelectedPaySales','onSubmit'=>'return false')) }}
+                {{ Form::open(array('data-remote-SelectedPaySales', 'onSubmit'=>'return false')) }}
                     <input type="hidden" name="cliente_id" value="{{Input::get('cliente_id')}}">
                     <input type="hidden" name="monto" class="total_selected" value="0">
 
