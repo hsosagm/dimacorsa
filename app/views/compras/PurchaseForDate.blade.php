@@ -30,7 +30,7 @@ $(document).ready(function() {
                 }
             }, 
         ],
-
+        "order": [[ 0, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
              $( ".DTTT" ).html("");
             $( ".DTTT" ).append( '<button consulta="dia"    onclick="OpenTablePurchaseForDate(this)">Dia</button>'    );

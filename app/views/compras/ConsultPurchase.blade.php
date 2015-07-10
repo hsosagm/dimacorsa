@@ -29,7 +29,7 @@ $(document).ready(function() {
                 }
             },
         ],
-
+        "order": [[ 0, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $("td[class*='formato_precio']").each(function() {

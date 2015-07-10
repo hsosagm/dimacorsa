@@ -29,6 +29,7 @@ $(document).ready(function() {
                 }
             },
         ],
+        "order": [[ 3, "desc" ]],
 
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");

@@ -28,7 +28,7 @@ $(document).ready(function() {
                 }
             },
         ],
-
+        "order": [[ 2, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $("td[class*='formato_precio']").each(function() {
