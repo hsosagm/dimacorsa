@@ -104,3 +104,9 @@ App::error(function(Illuminate\Session\TokenMismatchException $exception, $code)
 {
 	return Response::json('Token invalido !', 403);
 });
+
+
+App::error(function(Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $exception)
+{
+    return Response::json('La direccion requerida no se encuentra! [404]', 404);
+});

@@ -27,8 +27,39 @@ $(document).ajaxSuccess(function() {
 
 
 $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
-    msg.error(jqXHR.responseText, 'Error');
+
+    if (jqXHR.status === 0)
+    {
+        msg.error('No hay coneccion. Verifique network o intentelo de nuevo', 'Error!');
+    }
+
+    else if (jqXHR.status == 401)
+    {
+        msg.error(jqXHR.responseJSON, 'Error!');
+        setTimeout(function() {
+            window.location.href = window.location.href+"logIn";
+        },1000);
+    }
+
+    else if (jqXHR.status == 404)
+    {
+        msg.error(jqXHR.responseJSON, 'Error!');
+    }
+
+    else if (jqXHR.status == 500)
+    {
+        msg.error('Internal Server Error [500].', 'Error!');
+    }
+
+    else
+    {
+        msg.error('Uncaught Error.' + jqXHR.responseText, 'Error!');
+        $('#loader').hide();
+    }
+
+    $('#loader').hide();
     $('[type=submit]').prop('disabled', false);
+
 });
 
 
@@ -36,6 +67,7 @@ function input_numeric(element)
 {
     element.value = (element.value + '').replace(/[^0-9-.]/g, '');
 }
+
 
 function proccess_table($v) {
 
@@ -55,7 +87,6 @@ function proccess_table($v) {
     setTimeout(function(){
         $("#iSearch").focus();
         $('#example_length').prependTo("#table_length");
-        $('.dt-container').hide();
         $('.dt-container').show();
         
         oTable = $('#example').dataTable();
@@ -128,6 +159,7 @@ function _create() {
         $('.bs-modal').modal('show');
     });
 }
+
 
 function _edit() {
 
@@ -222,7 +254,7 @@ function _delete_dt(e) {
                 data: { id: $id },
                 contentType: 'application/x-www-form-urlencoded',
                 success: function (data, text) {
-                    if ($.trim(data) == 'success') {
+                    if (data == 'success') {
 
                         msg.success('Dato eliminado', 'Listo!')
                         oTable.fnDraw();

@@ -3,7 +3,10 @@ $(function() {
 });
 
 function f_ven_op() {
-    $.get( "user/ventas/create", function( data ) {
+    $.ajax({
+      url: "user/ventas/create",
+      type: "GET"
+    }).done(function(data) {
         $('.panel-title').text('Formulario Ventas');
         $(".forms").html(data);
         $(".dt-container").hide();
