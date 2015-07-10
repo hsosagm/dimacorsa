@@ -12,6 +12,9 @@
         <span class="plus"></span>
     </a>
     <ul>
+        <li id="Inv_dt_open"><a href="javascript:void(0);">Inventario</a></li>
+        <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
+
         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="text">Ventas</span>
@@ -136,19 +139,17 @@
 <!-- Fin menu operaciones -->
 
 <!-- inicio menu Informacion -->
-<li class="submenu">
+{{-- <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-cube"></i></span>
         <span class="text">Informacion</span>
         <span class="plus"></span>
     </a>
     <ul>
-        <li id="Inv_dt_open"><a href="javascript:void(0);">Inventario</a></li>
-        <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
         <li id="proveedores"><a href="javascript:void(0);">Proveedores</a></li>
         <li id="clientes_table"><a href="javascript:void(0);">Clientes</a></li>
     </ul>
-</li>
+</li> --}}
 <!-- Fin menu Informacion -->
 
 <!-- inicio menu Cierre -->

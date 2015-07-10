@@ -2,7 +2,10 @@
     //
     /*******************************************************************************/
         Route::when('*', 'csrf', array('post', 'put', 'delete'));
-    /*abonos de dia y por fecha
+        Route::when('user/*' , 'auth');
+        Route::when('admin/*', 'auth');
+        Route::when('owner/*', 'auth');
+    /*abonos del dia y por fecha
     /*
     /*
     funciones para hacer el guardado de logs    

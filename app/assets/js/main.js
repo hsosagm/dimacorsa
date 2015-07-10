@@ -13,22 +13,55 @@ $(function() {
 $('.btnremove').on('click', function() {
     $('#home').empty();
 });
-    
-$( document ).ajaxSend(function() {
+   
+
+$(document).ajaxSend(function() {
     $('#home').empty();
     $('#loader').show();
 });
 
-$( document ).ajaxSuccess(function() {
+
+$(document).ajaxSuccess(function() {
     $('#loader').hide();
-    $('input').attr('autocomplete','off');
 });
 
-$( document ).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
-    $.ajax(this);
-    msg.error(jqXHR.responseText, 'Error');
+
+$(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
+
+    if (jqXHR.status === 0)
+    {
+        msg.error('No hay coneccion. Verifique network o intentelo de nuevo', 'Error!');
+    }
+
+    else if (jqXHR.status == 401)
+    {
+        msg.error(jqXHR.responseJSON, 'Error!');
+        setTimeout(function() {
+            window.location.href = window.location.href+"logIn";
+        },1000);
+    }
+
+    else if (jqXHR.status == 404)
+    {
+        msg.error(jqXHR.responseJSON, 'Error!');
+    }
+
+    else if (jqXHR.status == 500)
+    {
+        msg.error('Internal Server Error [500].', 'Error!');
+    }
+
+    else
+    {
+        msg.error('Uncaught Error.' + jqXHR.responseText, 'Error!');
+        $('#loader').hide();
+    }
+
+    $('#loader').hide();
     $('[type=submit]').prop('disabled', false);
+
 });
+
 
 function input_numeric(element)
 {
@@ -68,7 +101,6 @@ function proccess_table($v) {
     setTimeout(function(){
         $("#iSearch").focus();
         $('#example_length').prependTo("#table_length");
-        $('.dt-container').hide();
         $('.dt-container').show();
         
         oTable = $('#example').dataTable();
@@ -141,6 +173,7 @@ function _create() {
         $('.bs-modal').modal('show');
     });
 }
+
 
 function _edit() {
 
