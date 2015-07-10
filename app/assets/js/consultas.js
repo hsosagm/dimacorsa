@@ -174,7 +174,7 @@ function OpenTableDownloadsForDate(element) {
 
 function AbonosDelDiaProveedores(element) {
     $.get( "admin/proveedor/AbonosDelDia", function( data ) {
-        makeTable(data, 'admin/proveedor/', '');
+        makeTable(data, 'admin/compras/payments/', '');
     });
 }
 

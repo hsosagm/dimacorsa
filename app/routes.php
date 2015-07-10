@@ -318,13 +318,14 @@ Route::group(array('prefix' => 'admin'), function()
 
         Route::group(array('prefix' => 'payments'),function() 
         {
-            Route::get('formPayments'          , 'PurchasePaymentsController@formPayments');
-            Route::post('formPayments'         , 'PurchasePaymentsController@formPayments');
-            Route::get('formPaymentsPagination', 'PurchasePaymentsController@formPaymentsPagination');
-            Route::post('OverdueBalancePay'    , 'PurchasePaymentsController@OverdueBalancePay'  );
-            Route::post('eliminarAbono'        , 'PurchasePaymentsController@eliminarAbono'  );
-            Route::post('FullBalancePay'       , 'PurchasePaymentsController@FullBalancePay'  );
-            Route::post('PartialBalancePay'    , 'PurchasePaymentsController@PartialBalancePay'  );
+            Route::get('formPayments'               , 'PurchasePaymentsController@formPayments');
+            Route::post('formPayments'              , 'PurchasePaymentsController@formPayments');
+            Route::get('formPaymentsPagination'     , 'PurchasePaymentsController@formPaymentsPagination');
+            Route::post('OverdueBalancePay'         , 'PurchasePaymentsController@OverdueBalancePay'  );
+            Route::post('eliminarAbono'             , 'PurchasePaymentsController@eliminarAbono'  );
+            Route::post('FullBalancePay'            , 'PurchasePaymentsController@FullBalancePay'  );
+            Route::post('PartialBalancePay'         , 'PurchasePaymentsController@PartialBalancePay'  );
+            Route::post('delete'                    , 'PurchasePaymentsController@delete'  );
             Route::post('abonosComprasPorSeleccion' , 'PurchasePaymentsController@abonosComprasPorSeleccion'  );
         });
 

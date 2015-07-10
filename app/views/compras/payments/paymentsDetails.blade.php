@@ -6,8 +6,9 @@
 			<th>Saldo Anterior</th>
 			<th>Monto Abonado</th>
 			<th>Nuevo Saldo</th>
+			<th>Metodo Pago</th>
 		</tr>
-	</thead>
+	</thead> 
 	<tbody>
 		@foreach($detalle as $key => $dt)
 		<tr>
@@ -16,6 +17,7 @@
 			<td class="right">{{ f_num::get($dt->saldo_anterior) }}</td>
 			<td class="right">{{ f_num::get($dt->monto) }}</td>
 			<td class="right">{{ f_num::get($dt->saldo) }}</td>
+			<td class=""> {{ $dt->metodo_pago}}</td>
 		</tr>
 		@endforeach
 	</tbody>

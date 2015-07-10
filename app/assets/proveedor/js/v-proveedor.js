@@ -280,7 +280,7 @@ var vm = new Vue({
 	            data: { proveedor_id: vm.proveedor_id },
 	            contentType: 'application/x-www-form-urlencoded',
 	            success: function (data) {
-	                makeTable(data, '', 'Pagos');
+	                makeTable(data, 'admin/compras/payments/', 'Pagos');
 	            },
 	            error: function (request, status, error) {
 	                alert(request.responseText);
