@@ -109,9 +109,9 @@ class ProductoController extends Controller {
             );
     }
 
-     public function inventario_dt()
+    public function getInventario()
     {
-        return View::make('producto.inventario_dt');
+        return View::make('producto.getInventario');
     }
 
     public function index()
@@ -156,11 +156,6 @@ class ProductoController extends Controller {
         $where = "tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
-    } 
-
-    public function user_inventario()
-    {
-        return View::make('producto.user_inventario');
     }
 
     public function user_inventario_dt()

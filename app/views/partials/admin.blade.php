@@ -12,7 +12,6 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li id="Inv_dt_open"><a href="javascript:void(0);">Inventario</a></li>
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
 
         <li class="submenu">

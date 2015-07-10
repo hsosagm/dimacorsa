@@ -1,23 +1,14 @@
  /* productos.js */
 
 $(function() {
-    $(document).on("click", "#Inv_dt_open",    function(){ Inv_dt_open(this); });
     $(document).on("click", "#new_producto",   function(){ new_producto(this); });
     $(document).on("click", "#logs_productos", function(){ logs_productos(this); });
-    $(document).on("click", "#search-inventario-user",   function(){ inventario_user(this); });
     $(document).on("click", "#_view_existencias",        function(){ _view_existencias(this); });
 });
 
-function Inv_dt_open() {
-    $.get( "admin/productos/inventario_dt", function( data ) {
+function getInventario() {
+    $.get( "user/productos/getInventario", function( data ) {
         makeTable(data, 'admin/productos/', 'Producto');
-        $('#example').addClass('tableSelected');
-    });
-};
-
-function inventario_user() {
-    $.get( "user/productos/user_inventario", function( data ) {
-        makeTable(data, '', 'Producto');
         $('#example').addClass('tableSelected');
     });
 };
