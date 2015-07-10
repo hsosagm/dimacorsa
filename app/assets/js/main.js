@@ -31,7 +31,7 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
 
     if (jqXHR.status === 0)
     {
-        if ( ajaxStatus >= 3 ) {
+        if ( ajaxStatus <= 3 ) {
             console.log(ajaxStatus);
             ajaxStatus++;
             $.ajax(this);
