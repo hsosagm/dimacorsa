@@ -34,6 +34,9 @@ class UserController extends Controller {
 		{
 			if ($this->user->_create())
 			{
+				$tema = new Tema;
+				$tema->user_id = $this->user->get_id();
+				$tema->save();
 				return 'success';
 			}
 			else

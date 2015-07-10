@@ -82,20 +82,20 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 <script>
 $(document).ready(function(){
     /*configuracion del thema capturado de la base de datos*/ 
-    $('link#theme').attr('href', 'css/themes/{{$tema->colorSchemes}}.theme.css');
-    $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{$tema->navbarColor}}');
+    $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
+    $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');
 
     if($('#sidebar-left').hasClass('sidebar-box')){
-        $('#sidebar-left').attr('class','sidebar-box sidebar-{{$tema->sidebarColor}}');
+        $('#sidebar-left').attr('class','sidebar-box sidebar-{{@$tema->sidebarColor}}');
     }
     else if($('#sidebar-left').hasClass('sidebar-rounded')){
-        $('#sidebar-left').attr('class','sidebar-rounded sidebar-{{$tema->sidebarColor}}');
+        $('#sidebar-left').attr('class','sidebar-rounded sidebar-{{@$tema->sidebarColor}}');
     }
     else if($('#sidebar-left').hasClass('sidebar-circle')){
-        $('#sidebar-left').attr('class','sidebar-circle sidebar-{{$tema->sidebarColor}}');
+        $('#sidebar-left').attr('class','sidebar-circle sidebar-{{@$tema->sidebarColor}}');
     }
     else if($('#sidebar-left').attr('class') == ''){
-        $('#sidebar-left').attr('class','sidebar-{{$tema->sidebarColor}}');
+        $('#sidebar-left').attr('class','sidebar-{{@$tema->sidebarColor}}');
     } 
 }); 
 </script>
