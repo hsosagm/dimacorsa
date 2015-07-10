@@ -33,7 +33,6 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     {
         if ( ajaxStatus < 4 ) {
             ajaxStatus++;
-            console.log(ajaxStatus);
             $.ajax(this);
         }
         else{
