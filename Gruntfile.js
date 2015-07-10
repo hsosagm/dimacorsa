@@ -164,7 +164,7 @@ module.exports = function(grunt) {
                 './app/assets/js/plugins/barcode.js',
                 './app/assets/js/plugins/jqprint.js',
                 './app/assets/js/plugins/jquery.md5.js',
-                './app/assets/js/plugins/jquery.price_format.js',
+                './app/assets/js/tema.js',
               ], 
               dest: './public/js/main.js',
             },

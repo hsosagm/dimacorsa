@@ -445,7 +445,7 @@ $(document).ready(function(){
     // =========================================================================
 
     // Check cookie for color schemes
-    if ($.cookie('color_schemes')) {
+   /* if ($.cookie('color_schemes')) {
         $('link#theme').attr('href', 'css/themes/'+$.cookie('color_schemes')+'.theme.css');
     }
     // Check cookie for navbar color
@@ -467,9 +467,9 @@ $(document).ready(function(){
         else if($('#sidebar-left').attr('class') == ''){
             $('#sidebar-left').attr('class','sidebar-'+$.cookie('sidebar_color'));
         }
-    }
+    }*/
 
-    $('.color-schemes .theme').on('click',function(){
+    /*$('.color-schemes .theme').on('click',function(){
 
         // Create variable name selector file css
         var themename = $(this).find('.hide').text();
@@ -485,12 +485,12 @@ $(document).ready(function(){
         // Set cookie theme name value to variable themename
         $.cookie('color_schemes',themename, {expires: 1});
 
-    });
+    });*/
 
     // =========================================================================
     // NAVBAR COLOR
     // =========================================================================
-    $('.navbar-color .theme').on('click',function(){
+   /* $('.navbar-color .theme').on('click',function(){
         // Create variable name selector file css
         var classname = $(this).find('.hide').text();
         // Add effect sound
@@ -501,12 +501,12 @@ $(document).ready(function(){
         $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-'+classname);
         // Set cookie theme name value to variable classname
         $.cookie('navbar_color',classname, {expires: 1});
-    });
+    });*/
 
     // =========================================================================
     // SIDEBAR COLOR
     // =========================================================================
-    $('.sidebar-color .theme').on('click',function(){
+    /*$('.sidebar-color .theme').on('click',function(){
         // Create variable name selector file css
         var classname = $(this).find('.hide').text();
         // Add effect sound
@@ -528,7 +528,7 @@ $(document).ready(function(){
         }
         // Set cookie theme name value to variable classname
         $.cookie('sidebar_color',classname, {expires: 1});
-    });
+    });*/
 
     // =========================================================================
     // LAYOUT SETTING

@@ -12,17 +12,22 @@ class CreateTableTheme extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::create('tema', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->integer('user_id')->unsigned();
+			$table->string('colorSchemes')->default('default');
+			$table->string('sidebarColor')->default('dark');
+			$table->string('navbarColor')->default('dark');
+			$table->timestamps();
+
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+		}); 
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
-		//
+		Schema::drop('tema');
 	}
 
 }

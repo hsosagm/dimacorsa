@@ -8,7 +8,8 @@
 $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
 ->orderBy('roles.id', 'DESC')->get();
-
+ 
+ $tema = Tema::where('user_id', Auth::user()->id)->first();
  $slide_bar_left = 0;
 ?>
 
@@ -55,7 +56,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 
        @include('partials.body-content')
 
-       <footer class="footer-content">
+       <footer class="footer-content"> 
         2015 &copy; {{$tienda->nombre}} admin. Created by <a href="javascript:void(0)" target="_blank">Hsosa</a>, GM
        </footer><!-- /.footer-content -->
 
@@ -65,7 +66,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 
 </section>
 
-
+ 
 <div id="back-top" class="animated pulse circle">
     <i class="fa fa-angle-up"></i>
 </div>
@@ -78,6 +79,26 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 <script src="calendar/picker.date.js"></script>
 <script src="calendar/translations/es_ES.js"></script>
 
+<script>
+$(document).ready(function(){
+    /*configuracion del thema capturado de la base de datos*/ 
+    $('link#theme').attr('href', 'css/themes/{{$tema->colorSchemes}}.theme.css');
+    $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{$tema->navbarColor}}');
+
+    if($('#sidebar-left').hasClass('sidebar-box')){
+        $('#sidebar-left').attr('class','sidebar-box sidebar-{{$tema->sidebarColor}}');
+    }
+    else if($('#sidebar-left').hasClass('sidebar-rounded')){
+        $('#sidebar-left').attr('class','sidebar-rounded sidebar-{{$tema->sidebarColor}}');
+    }
+    else if($('#sidebar-left').hasClass('sidebar-circle')){
+        $('#sidebar-left').attr('class','sidebar-circle sidebar-{{$tema->sidebarColor}}');
+    }
+    else if($('#sidebar-left').attr('class') == ''){
+        $('#sidebar-left').attr('class','sidebar-{{$tema->sidebarColor}}');
+    } 
+}); 
+</script>
 
 <script>
 
