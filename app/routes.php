@@ -41,6 +41,13 @@
 
     Route::group(array('prefix' => 'user'), function()
     {   
+        Route::group(array('prefix' => 'tema'), function()
+        {   
+            Route::get('colorSchemes/{color}'   , 'TemaController@colorSchemes' );
+            Route::get('navbarColor/{color}'    , 'TemaController@navbarColor' );
+            Route::get('sidebarColor/{color}'   , 'TemaController@sidebarColor' );
+        }); 
+
         Route::group(array('prefix' => 'consulta'), function()
         {
             Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario'   );
