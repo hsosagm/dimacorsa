@@ -1,4 +1,19 @@
-	<table width="100%" class="table table-responsive table-theme">
+<div class="panel dt-panel-cierre rounded shadow">
+    <div class="panel-heading-cierre bg-theme">
+        <div class="pull-left"><span>Movimientos del Dia</span></div>
+        <div class="pull-right">
+        		<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
+
+        		<i class="fa fa-file-pdf-o fa-2" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
+
+        		<i class="fa fa-print fa-2"  onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
+
+        		<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
+         </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="panel-body-cierre no-padding table">
+			<table width="100%" class="table table-responsive">
 
 		<thead class="cierre_head ">
 
@@ -137,41 +152,30 @@
 		<tfoot class="cierre_footer">
 			<tr>
 				<td>Efectivo esperado en caja</td>
-				<td class="right" style="padding-right: 20px !important;"> 
+				<td class="right" style="padding-right: 10px !important;"> 
 					<?php 
-					$caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
+						$caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
 
-					$caja_positivos = $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
+						$caja_positivos = $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
 
-					$caja =  $caja_positivos - $caja_negativos;
-					$total_caja = f_num::get($caja); 
+						$caja =  $caja_positivos - $caja_negativos;
+						$total_caja = f_num::get($caja); 
 
-					echo $total_caja;
+						echo $total_caja;
 					?>
 				</td> 
 				<td colspan="3"></td> 
 				<td colspan="2" align="right">
-					<a href="javascript:void(0)">
-						<i  class="fa fa-file-excel-o fa-2" style="font-size: 16px !important; padding-left:10px" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
-					</a>
-					<a href="javascript:void(0)">
-						<i class="fa fa-file-pdf-o fa-2" style="font-size: 16px !important; padding-left:10px" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
-					</a>
-					<a href="javascript:void(0)">
-						<i class="fa fa-print fa-2" style="font-size: 18px !important; padding-left:10px;  padding-right: 12px;" onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
-					</a>
+					
 				</td> 
 			</tr>
 		</tfoot>  
 
 	</table>
 
-	<style type="text/css">
-		.bs-modal .Lightbox{width: 850px !important;} 
-		.modal-body { padding: 0px 0px 0px; }
-		.cierre_body .right {
-			text-align:right; 
-			margin-right:20px !important;
-			padding-right:20px !important;
-		}
-	</style>
+
+    </div>
+</div>
+
+
+

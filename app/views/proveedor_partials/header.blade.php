@@ -37,7 +37,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                 <li class="dropdown navbar-profile">
+                 <li class="dropdown navbar-profile" style="margin-right: 25px;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
                             <span class="avatar"><img src="img/avatar/35/1.png" class="img-circle" alt="admin"></span>
@@ -52,15 +52,15 @@
                             </span>
                         </span>
                     </a> 
-                    <ul class="dropdown-menu animated flipInX">
+                    <ul class="dropdown-menu animated flipInX" style="">
                         <li class="dropdown-header">Account</li>
                         <li><a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>
                 </li>
 
-                <li class="navbar-setting pull-right">
+                <!-- <li class="navbar-setting pull-right">
                     <a href="javascript:void(0);"><i class="fa fa-cog"></i></a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>

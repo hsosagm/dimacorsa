@@ -1,4 +1,4 @@
-<aside id="sidebar-right">
+<!-- <aside id="sidebar-right">
 
                 <div class="panel panel-tab">
                     <div class="panel-heading no-padding">
@@ -33,34 +33,34 @@
                             <div class="tab-pane" id="sidebar-profile">
                                 <div class="sidebar-profile">
 
-                                    <!-- Start right navigation - menu -->
+                                    Start right navigation - menu
                                     <ul class="sidebar-menu niceScroll">
 
-                                        <!-- Start category about me -->
+                                        Start category about me
                                         <li class="sidebar-category">
                                             <span>ABOUT ME</span>
                                             <span class="pull-right"><i class="fa fa-newspaper-o"></i></span>
                                         </li>
-                                        <!--/ End category about me -->
+                                        / End category about me
 
                                     </ul>
-                                    <!-- Start right navigation - menu -->
+                                    Start right navigation - menu
                                 </div>
-                            </div><!-- /#sidebar-profile -->
+                            </div>/#sidebar-profile
                             <div class="tab-pane" id="sidebar-layout">
                                 <div class="sidebar-layout">
 
-                                    <!-- Start right navigation - menu -->
+                                    Start right navigation - menu
                                     <ul class="sidebar-menu niceScroll">
 
-                                        <!-- Start category layout -->
+                                        Start category layout
                                         <li class="sidebar-category">
                                             <span>LAYOUT</span>
                                             <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
                                         </li>
-                                        <!--/ End category layout -->
+                                        / End category layout
 
-                                        <!--/ Start navigation - layout -->
+                                        / Start navigation - layout
                                         <li>
                                             <ul class="list-unstyled layout-setting">
                                                 <li>
@@ -77,16 +77,16 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <!--/ End navigation - layout -->
+                                        / End navigation - layout
 
-                                        <!-- Start category header -->
+                                        Start category header
                                         <li class="sidebar-category">
                                             <span>HEADER</span>
                                             <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
                                         </li>
-                                        <!--/ End category header -->
+                                        / End category header
 
-                                        <!--/ Start navigation - header -->
+                                        / Start navigation - header
                                         <li>
                                             <ul class="list-unstyled header-layout-setting">
                                                 <li>
@@ -103,16 +103,16 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <!--/ End navigation - header -->
+                                        / End navigation - header
 
-                                        <!-- Start category sidebar -->
+                                        Start category sidebar
                                         <li class="sidebar-category">
                                             <span>SIDEBAR</span>
                                             <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
                                         </li>
-                                        <!--/ End category sidebar -->
+                                        / End category sidebar
 
-                                        <!--/ Start navigation - sidebar -->
+                                        / Start navigation - sidebar
                                         <li>
                                             <ul class="list-unstyled sidebar-layout-setting">
                                                 <li>
@@ -129,16 +129,16 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <!--/ End navigation - sidebar -->
+                                        / End navigation - sidebar
 
-                                        <!-- Start category sidebar type -->
+                                        Start category sidebar type
                                         <li class="sidebar-category">
                                             <span>SIDEBAR TYPE</span>
                                             <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
                                         </li>
-                                        <!--/ End category sidebar type -->
+                                        / End category sidebar type
 
-                                        <!--/ Start navigation - sidebar -->
+                                        / Start navigation - sidebar
                                         <li>
                                             <ul class="list-unstyled sidebar-type-setting">
                                                 <li>
@@ -167,16 +167,16 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <!--/ End navigation - sidebar -->
+                                        / End navigation - sidebar
 
-                                        <!-- Start category footer -->
+                                        Start category footer
                                         <li class="sidebar-category">
                                             <span>FOOTER</span>
                                             <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
                                         </li>
-                                        <!--/ End category footer -->
+                                        / End category footer
 
-                                        <!--/ Start navigation - footer -->
+                                        / Start navigation - footer
                                         <li>
                                             <ul class="list-unstyled footer-layout-setting">
                                                 <li>
@@ -193,31 +193,31 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <!--/ End navigation - footer -->
+                                        / End navigation - footer
 
-                                        <!--/ Start navigation - reset settings -->
+                                        / Start navigation - reset settings
                                         <li>
                                             <a id="reset-setting" href="javascript:void(0);" class="btn btn-inverse btn-block"><i class="fa fa-refresh fa-spin"></i> RESET SETTINGS</a>
                                         </li>
-                                        <!--/ End navigation - reset settings -->
+                                        / End navigation - reset settings
 
                                     </ul>
-                                    <!-- Start right navigation - menu -->
+                                    Start right navigation - menu
                                 </div>
-                            </div><!-- /#sidebar-layout -->
+                            </div>/#sidebar-layout
                             <div class="tab-pane in active" id="sidebar-setting">
                                 <div class="sidebar-setting">
-                                    <!-- Start right navigation - menu -->
+                                    Start right navigation - menu
                                     <ul class="sidebar-menu">
 
-                                        <!-- Start category color schemes -->
+                                        Start category color schemes
                                         <li class="sidebar-category">
                                             <span>COLOR SCHEMES</span>
                                             <span class="pull-right"><i class="fa fa-tint"></i></span>
                                         </li>
-                                        <!--/ End category color schemes -->
+                                        / End category color schemes
 
-                                        <!-- Start navigation - themes -->
+                                        Start navigation - themes
                                         <li>
                                             <div class="sidebar-themes color-schemes">
 
@@ -253,16 +253,16 @@
 
                                             </div>
                                         </li>
-                                        <!--/ End navigation - themes -->
+                                        / End navigation - themes
 
-                                        <!-- Start category navbar color -->
+                                        Start category navbar color
                                         <li class="sidebar-category">
                                             <span>NAVBAR COLOR</span>
                                             <span class="pull-right"><i class="fa fa-tint"></i></span>
                                         </li>
-                                        <!--/ End category navbar color -->
+                                        / End category navbar color
 
-                                        <!-- Start navigation - navbar color -->
+                                        Start navigation - navbar color
                                         <li>
                                             <div class="sidebar-themes navbar-color">
 
@@ -274,18 +274,18 @@
                                                 <a class="theme bg-warning" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Warning"><span class="hide">warning</span></a>
                                                 <a class="theme bg-danger" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Danger"><span class="hide">danger</span></a>
 
-                                            </div><!-- /.navbar-color -->
+                                            </div>/.navbar-color
                                         </li>
-                                        <!--/ End navigation - navbar color -->
+                                        / End navigation - navbar color
 
-                                        <!-- Start category sidebar color -->
+                                        Start category sidebar color
                                         <li class="sidebar-category">
                                             <span>SIDEBAR COLOR</span>
                                             <span class="pull-right"><i class="fa fa-tint"></i></span>
                                         </li>
-                                        <!--/ End category sidebar color -->
+                                        / End category sidebar color
 
-                                        <!-- Start navigation - sidebar color -->
+                                        Start navigation - sidebar color
                                         <li>
                                             <div class="sidebar-themes sidebar-color">
 
@@ -297,14 +297,14 @@
                                                 <a class="theme bg-warning" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Warning"><span class="hide">warning</span></a>
                                                 <a class="theme bg-danger" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Danger"><span class="hide">danger</span></a>
 
-                                            </div><!-- /.sidebar-color -->
+                                            </div>/.sidebar-color
                                         </li>
-                                        <!--/ End navigation - sidebar color -->
+                                        / End navigation - sidebar color
 
                                     </ul>
-                                    <!-- Start right navigation - menu -->
+                                    Start right navigation - menu
                                 </div>
-                            </div><!-- /#sidebar-setting -->
+                            </div>/#sidebar-setting
                             <div class="tab-pane" id="sidebar-chat">
                                 <div class="sidebar-chat">
 
@@ -315,10 +315,10 @@
                                         </div>
                                     </form>
 
-                                </div><!-- /.sidebar-setting -->
-                            </div><!-- /#sidebar-chat -->
+                                </div>/.sidebar-setting
+                            </div>/#sidebar-chat
                         </div>
                     </div>
                 </div>
 
-            </aside>
+            </aside> -->

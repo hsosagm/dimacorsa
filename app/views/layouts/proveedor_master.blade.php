@@ -3,6 +3,8 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
     <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
+    <?php  $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>
+    
     <!-- START @HEAD -->
     @include('proveedor_partials.head')
     <!-- END @HEAD -->
@@ -62,6 +64,26 @@
 <script src="calendar/picker.date.js"></script>
 <script src="calendar/translations/es_ES.js"></script>
 
+<script>
+$(document).ready(function(){
+    /*configuracion del thema capturado de la base de datos*/ 
+    $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
+    $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');
+
+    if($('#sidebar-left').hasClass('sidebar-box')){
+        $('#sidebar-left').attr('class','sidebar-box sidebar-{{@$tema->sidebarColor}}');
+    }
+    else if($('#sidebar-left').hasClass('sidebar-rounded')){
+        $('#sidebar-left').attr('class','sidebar-rounded sidebar-{{@$tema->sidebarColor}}');
+    }
+    else if($('#sidebar-left').hasClass('sidebar-circle')){
+        $('#sidebar-left').attr('class','sidebar-circle sidebar-{{@$tema->sidebarColor}}');
+    }
+    else if($('#sidebar-left').attr('class') == ''){
+        $('#sidebar-left').attr('class','sidebar-{{@$tema->sidebarColor}}');
+    } 
+}); 
+</script>
 
 <script>
 
