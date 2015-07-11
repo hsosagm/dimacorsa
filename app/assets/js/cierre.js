@@ -4,16 +4,15 @@ $(function() {
 
 function CierreDelDia() {
 	$.get( "admin/cierre/CierreDelDia", function( data ) {
-		generate_dt_local(data);
-        $(".DTTT").html('<h4 style="margin-top:0px; margin-bottom:0px;" >Movimientos del Dia</h4>');
-        $('.dt-container').show();
+		$('.dt-container-cierre').html(data);
+        $('.dt-container-cierre').show();
 	}); 
 }
 
 function CierreDelMes() {
 	$.get( "admin/cierre/CierreDelMes", function( data ) {
-		generate_dt_local(data);
-		$('.dt-container').show();
+		$('.dt-container-cierre').html(data);
+        $('.dt-container-cierre').show();
 	});
 }
 
@@ -61,9 +60,8 @@ function CierreDelDiaPorFecha() {
         data: { fecha:fecha },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
-            generate_dt_local(data);
-            $(".DTTT").html('Movimientos del Dia');
-            $('.dt-container').show();
+            $('.dt-container-cierre').html(data);
+            $('.dt-container-cierre').show();
         }
     });
 }
@@ -77,8 +75,8 @@ function CierreDelMesPorFecha() {
         data: { fecha:fecha },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
-           	generate_dt_local(data);
-			$('.dt-container').show();
+           	$('.dt-container-cierre').html(data);
+            $('.dt-container-cierre').show();
         }
     });
 }

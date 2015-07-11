@@ -45,7 +45,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!-- Start profile -->
-                  <li class="dropdown navbar-profile">
+                  <li class="dropdown navbar-profile" style="margin-right: 25px;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
                             <span class="avatar"><img src="img/avatar/35/1.png" class="img-circle" alt="admin"></span>
@@ -70,9 +70,10 @@
                 <!--/ End profile -->
 
                 <!-- Start settings -->
-                <li class="navbar-setting pull-right">
+                <!-- <li class="navbar-setting pull-right">
                     <a href="javascript:void(0);"><i class="fa fa-cog"></i></a>
-                </li><!-- /.navbar-setting pull-right -->
+                </li> -->
+                <!-- /.navbar-setting pull-right -->
                 <!--/ End settings -->
 
             </ul>
