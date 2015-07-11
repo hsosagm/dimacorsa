@@ -108,7 +108,7 @@ $(document).ready(function(){
             $(this).trigger("enter");
         }
 
-        if (e.keyCode == 13 && e.shiftKey) {
+        if (e.keyCode == 121) {
             $(this).trigger("shift_enter");
             e.preventDefault();
         }
