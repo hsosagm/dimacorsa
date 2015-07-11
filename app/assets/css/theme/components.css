@@ -31,7 +31,7 @@
  * ======================================================================== */
 body,
 html {
-  background-color: #e9eaed;
+  background: #EAEAEA url("../img/bg.png") repeat scroll 0% 0%;
   font-family: "Open Sans", sans-serif;
   color: #636e7b;
   -webkit-font-smoothing: antialiased;
@@ -41,6 +41,20 @@ html {
   margin: 0;
   padding: 0;
 }
+
+#page-content .tienda_nombre {
+    position: fixed;
+    top: 300px;
+    right: -100px;
+    width: 100%;
+    font-size: 65px;
+    font-weight: bold;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
+    text-rendering: optimizelegibility;
+}
+
 a,
 button {
   outline: none !important;
