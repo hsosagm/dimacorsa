@@ -8,7 +8,7 @@ $(function() {
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
 
-// $('.modal-dialog').draggable();
+ajaxStatus = 0;
 
 $('.btnremove').on('click', function() {
     $('#home').empty();
@@ -23,6 +23,7 @@ $(document).ajaxSend(function() {
 
 $(document).ajaxSuccess(function() {
     $('#loader').hide();
+    ajaxStatus = 0;
 });
 
 
@@ -30,7 +31,14 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
 
     if (jqXHR.status === 0)
     {
-        msg.error('No hay coneccion. Verifique network o intentelo de nuevo', 'Error!');
+        if ( ajaxStatus < 4 ) {
+            ajaxStatus++;
+            $.ajax(this);
+        }
+        else{
+            msg.error('No hay coneccion. Verifique network o intentelo de nuevo', 'Error!');
+            ajaxStatus = 0;
+        }
     }
 
     else if (jqXHR.status == 401)

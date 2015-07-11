@@ -1,4 +1,5 @@
 <div id="formPayments" class="panel panel-tab rounded shadow">
+
 	<div class="panel-heading no-padding">
 		<ul class="nav nav-tabs nav-pills">
 			<li class="active" id="saldo_vencido">
@@ -15,15 +16,10 @@
 		</ul>
 	</div>
 
-
 	<div class="tab-content divFormPayments">
-
 		<div class="tab-pane fade inner-all active in" id="tab1">
-
 			{{ Form::open(array('v-show="!tableDetail" v-on="submit: onSubmitForm"')) }}
-               
                <input type="hidden" name="cliente_id" v-model="cliente_id">
-
 				<div class="form-group">
 					<div class="col-md-7">
 
@@ -56,7 +52,7 @@
 							</div>
 
 							<div class="col-md-2">
-								<input v-show="!tableDetail" class="btn theme-button" type="submit" value="Enviar">
+								<input v-if="!tableDetail" class="btn theme-button" type="submit" value="Enviar">
 							</div>
 						</div>
 
@@ -87,22 +83,15 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
-
 			{{Form::close()}}
 
 		    <div v-html="tableDetail" class="row" style="min-height:150px;"></div>
-
 		</div>
-
-
 		<div v-html="divAbonosPorSeleccion" class="tab-pane fade inner-all" id="tab4">Cargando . . .</div>
-
 	</div>
-
 </div>
 
 <script type="text/javascript">
-    $('.montoAbono').autoNumeric({ aNeg:'', mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
+    $('.montoAbono').autoNumeric({ aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
 </script>
