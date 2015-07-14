@@ -8,13 +8,13 @@ $saldo_vencido = 0;
     <thead>
         <tr id="hhh">
             <th>Fecha</th>
-            <th>Fecha Doc.</th>
+            <th>F. Doc.</th>
             <th>Usuario</th>
             <th>Proveedor</th>
-            <th>Numero</th>
+            <th>Factura</th>
             <th>Total</th>
             <th>Saldo</th>
-            <th>Acciones</th>
+            <th>     </th>
         </tr>
     </thead>
 
@@ -35,28 +35,27 @@ $saldo_vencido = 0;
             $saldo_vencido = $saldo_vencido + $q->saldo;
         ?>
         <tr class="red" id="{{ $q->id }}">
-            <td class="center" width="10%"> {{ $q->fecha_ingreso }} </td>
-            <td class="center" width="10%"> {{ $q->fecha }} </td>
+            <td class="center" width="9%"> {{ $q->fecha_ingreso }} </td>
+            <td class="center" width="9%"> {{ $q->fecha }} </td>
             <td                width="20%"> {{ $q->usuario }} </td>
             <td                width="30%"> {{ $q->proveedor }} </td>
-            <td                width="10%"> {{ $q->numero_documento }} </td>
-            <td class="right"  width="10%"> Q {{ $total }} </td>
-            <td class="right"  width="10%"> Q {{ $saldo }} </td>
-            <td>
+            <td                width="9%"> {{ $q->numero_documento }} </td>
+            <td class="right"  width="9%"> {{ $total }} </td>
+            <td class="right"  width="9%"> {{ $saldo }} </td>
+            <td class="center" width="5%">
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
             </td>
         </tr>
         @else
         <tr id="{{ $q->id }}">
-            <td class="center" width="10%"> {{ $q->fecha_ingreso }} </td>
-            <td class="center" width="10%"> {{ $q->fecha  }} </td>
+            <td class="center" width="9%"> {{ $q->fecha_ingreso }} </td>
+            <td class="center" width="9%"> {{ $q->fecha  }} </td>
             <td                width="20%"> {{ $q->usuario }} </td>
             <td                width="30%"> {{ $q->proveedor }} </td>
-            <td                width="10%"> {{ $q->numero_documento }} </td>
-            <td class="right"  width="10%"> Q {{ $total }} </td>
-            <td class="right"  width="10%"> Q {{ $saldo }} </td>
-
-            <td>
+            <td                width="9%"> {{ $q->numero_documento }} </td>
+            <td class="right"  width="9%"> {{ $total }} </td>
+            <td class="right"  width="9%"> {{ $saldo }} </td>
+             <td class="center" width="5%">
                 <i id="{{ $q->id }}" class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)" ></i>
             </td>
         </tr>

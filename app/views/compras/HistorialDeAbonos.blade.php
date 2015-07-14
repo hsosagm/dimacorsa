@@ -18,7 +18,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthS",                      "sTitle": "Tienda",      "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [1]},
             {"sClass": "mod_codigo hover widthS",                      "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover  widthM",                     "sTitle": "Metodo Pago", "aTargets": [3]},
+            {"sClass": "mod_codigo hover  widthM",                     "sTitle": "M.P.",        "aTargets": [3]},
             {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Monto",       "aTargets": [4]},
             {"sClass": "mod_codigo hover  widthL",                     "sTitle": "Observaciones","aTargets": [5]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],

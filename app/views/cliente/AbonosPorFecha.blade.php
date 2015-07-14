@@ -19,7 +19,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Cliente",     "aTargets": [1]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [2]},
             {"sClass": "mod_codigo hover widthS",              "sTitle": "Fecha",       "aTargets": [3]},
-            {"sClass": "mod_codigo hover  widthM",             "sTitle": "Metodo Pago", "aTargets": [4]},
+            {"sClass": "mod_codigo hover widthM",             "sTitle": "M.P.",        "aTargets": [4]},
             {"sClass": "mod_codigo hover right widthS",        "sTitle": "Monto",       "aTargets": [5]},
             {"sClass": "mod_codigo hover  widthL",             "sTitle": "Observaciones","aTargets": [6]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],

@@ -37,3 +37,12 @@
 		</table>
 	</div>
 @endif
+
+<style>
+	.bs-modal-cierres .Lightbox{
+        width: 900px !important;
+    }
+    .modal-body {
+  		padding: 0px;
+	}
+</style>

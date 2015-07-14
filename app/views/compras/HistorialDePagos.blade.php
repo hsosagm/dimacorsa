@@ -19,7 +19,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [1]},
             {"sClass": "mod_codigo hover widthM",                      "sTitle": "Fecha",       "aTargets": [2]},
             {"sClass": "mod_codigo hover widthM",                      "sTitle": "Factura",     "aTargets": [3]},
-            {"sClass": "mod_codigo hover widthS",                      "sTitle": "Metodo Pago", "aTargets": [4]},
+            {"sClass": "mod_codigo hover widthS",                      "sTitle": "M.P.",        "aTargets": [4]},
             {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Monto",       "aTargets": [5]},
         ],
         "order": [[ 2, "desc" ]],

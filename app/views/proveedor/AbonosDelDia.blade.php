@@ -17,9 +17,9 @@ $(document).ready(function() {
         "aoColumnDefs": [
             {"sClass": "mod_codigo hover widthS",              "sTitle": "Tienda",      "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",              "sTitle": "Proveedor",   "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [2]},
+            {"sClass": "mod_codigo hover widthS",              "sTitle": "Usuario",     "aTargets": [2]},
             {"sClass": "mod_codigo hover widthS",              "sTitle": "Fecha",       "aTargets": [3]},
-            {"sClass": "mod_codigo hover  widthM",             "sTitle": "Metodo Pago", "aTargets": [4]},
+            {"sClass": "mod_codigo hover  widthS",             "sTitle": "M.P.",        "aTargets": [4]},
             {"sClass": "mod_codigo hover right widthS",         "sTitle": "Monto",       "aTargets": [5]},
             {"sClass": "mod_codigo hover  widthL",             "sTitle": "Observaciones","aTargets": [6]},
             {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
