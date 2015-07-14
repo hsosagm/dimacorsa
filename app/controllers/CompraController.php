@@ -501,7 +501,6 @@ class CompraController extends \BaseController {
 		$table = 'pagos_compras';
 
 		$columns = array(
-			"CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"pagos_compras.created_at as fecha",
 			"compras.numero_documento as factura",
@@ -533,7 +532,6 @@ class CompraController extends \BaseController {
 		$table = 'abonos_compras';
 
 		$columns = array(
-			"CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
 			"metodo_pago.descripcion as metodo_descripcion",

@@ -69,7 +69,6 @@ class IngresoController extends \BaseController {
         $table = 'detalle_ingresos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "ingresos.created_at as fecha",
             "detalle_ingresos.descripcion as detalle_descripcion",
@@ -118,7 +117,6 @@ class IngresoController extends \BaseController {
         $table = 'detalle_ingresos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "ingresos.created_at as fecha",
             "detalle_ingresos.descripcion as detalle_descripcion",

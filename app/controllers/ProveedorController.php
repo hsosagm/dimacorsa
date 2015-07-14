@@ -185,7 +185,6 @@ class ProveedorController extends BaseController {
         $table = 'abonos_compras';
 
         $columns = array(
-            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
             "proveedores.nombre as proveedor_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
@@ -233,7 +232,6 @@ class ProveedorController extends BaseController {
         $table = 'abonos_compras';
 
         $columns = array(
-            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
             "proveedores.nombre as proveedor_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",

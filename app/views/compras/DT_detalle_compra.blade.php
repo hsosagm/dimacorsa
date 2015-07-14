@@ -12,8 +12,8 @@
 		@foreach($detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
-		        $precio = number_format($q->precio,2,'.',',');
-		        $total = number_format($q->total,2,'.',',');
+		        $precio = f_num::get($q->precio);
+		        $total = f_num::get($q->total);
 	        ?>
 	        <tr>
 	            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          

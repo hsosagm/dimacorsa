@@ -69,7 +69,6 @@ class EgresoController extends \BaseController {
         $table = 'detalle_egresos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "egresos.created_at as fecha",
             "detalle_egresos.descripcion as detalle_descripcion",
@@ -116,7 +115,6 @@ class EgresoController extends \BaseController {
         $table = 'detalle_egresos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "egresos.created_at as fecha",
             "detalle_egresos.descripcion as detalle_descripcion",

@@ -69,7 +69,6 @@ class AdelantoController extends \BaseController {
         $table = 'detalle_adelantos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "adelantos.created_at as fecha",
             "detalle_adelantos.descripcion as detalle_descripcion",
@@ -118,7 +117,6 @@ class AdelantoController extends \BaseController {
         $table = 'detalle_adelantos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "adelantos.created_at as fecha",
             "detalle_adelantos.descripcion as detalle_descripcion",

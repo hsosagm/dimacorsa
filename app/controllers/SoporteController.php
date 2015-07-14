@@ -69,7 +69,6 @@ class SoporteController extends BaseController {
         $table = 'detalle_soporte';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "soporte.created_at as fecha",
             "detalle_soporte.descripcion as detalle_descripcion",
@@ -119,7 +118,6 @@ class SoporteController extends BaseController {
         $table = 'detalle_soporte';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "soporte.created_at as fecha",
             "detalle_soporte.descripcion as detalle_descripcion",

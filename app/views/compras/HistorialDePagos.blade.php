@@ -15,14 +15,13 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Tienda",      "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Factura",     "aTargets": [3]},
-            {"sClass": "mod_codigo hover widthS",                      "sTitle": "M.P.",        "aTargets": [4]},
-            {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Monto",       "aTargets": [5]},
+            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [0]},
+            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Fecha",       "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Factura",     "aTargets": [2]},
+            {"sClass": "mod_codigo hover widthS",                      "sTitle": "M.P.",        "aTargets": [3]},
+            {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Monto",       "aTargets": [4]},
         ],
-        "order": [[ 2, "desc" ]],
+        "order": [[ 1, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $("td[class*='formato_precio']").each(function() {

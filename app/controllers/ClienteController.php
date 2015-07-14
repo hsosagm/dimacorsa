@@ -324,7 +324,6 @@ class ClienteController extends \BaseController {
         $table = 'abonos_ventas';
 
         $columns = array(
-            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
             "CONCAT_WS(' ',clientes.nombre ,clientes.apellido) as cliente",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')",
@@ -372,7 +371,6 @@ class ClienteController extends \BaseController {
         $table = 'abonos_ventas';
 
          $columns = array(
-            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
             "CONCAT_WS(' ',clientes.nombre ,clientes.apellido) as cliente",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')",
