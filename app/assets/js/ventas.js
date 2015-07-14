@@ -10,6 +10,7 @@ function f_ven_op() {
         $('.panel-title').text('Formulario Ventas');
         $(".forms").html(data);
         $(".dt-container").hide();
+        $(".dt-container-cierre").hide();
         $(".form-panel").show();
     });
 }
@@ -228,6 +229,7 @@ function openSale(e)
                 $('.panel-title').text('Formulario Ventas');
                 $(".forms").html(data.table);
                 $(".dt-container").hide();
+                $(".dt-container-cierre").hide();
                 $(".form-panel").show();
             }
             else
