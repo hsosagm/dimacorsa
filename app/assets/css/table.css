@@ -98,6 +98,7 @@ tr:nth-child(odd) td {
     margin-left: auto;
     margin-right: auto;
     position: absolute;  
+    z-index: 2;
 }
 
 .btn-group, .btn-group-vertical {
