@@ -103,14 +103,8 @@ $(document).ready(function(){
 <script>
 
     $(document.body).delegate(":input", "keyup", function(e) {
-
         if(e.which == 13) {
             $(this).trigger("enter");
-        }
-
-        if (e.keyCode == 13 && e.shiftKey) {
-            $(this).trigger("shift_enter");
-            e.preventDefault();
         }
     });
 

@@ -187,37 +187,42 @@ $(document).on('submit', 'form[data-chart]', function(e) {
     e.preventDefault();
 });
 
+    $(document.body).delegate(".md", "keydown", function(e) {
 
-$(document).on('shift_enter', 'form[data-remote-md-d]', function() {
-    var form = $(this);
+    });
 
-    if (form.attr('status') == 0) {
-        form.attr('status', '1');
-
-        $.ajax({
-            type: form.attr('method'),
-            url: form.attr('action'),
-            data: form.serialize(),
-            success: function (data) {
-                if (data.success == true)
-                {
-                    msg.success(form.data('success'), 'Listo!');
-                    $('.body-detail').html(data.table);
-                    form.trigger('reset');
-                    $('input[name=serials]', form).val('');
-                    //$('input[name=producto_id]', form).val('');
+$(document).on('keydown', 'form[data-remote-md-d]', function(e) {
+    if (e.keyCode == 121)
+    {
+        e.preventDefault();
+        var form = $(this);
+        
+        if (form.attr('status') == 0) {
+            form.attr('status', '1');
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (data) {
+                    if (data.success == true)
+                    {
+                        msg.success(form.data('success'), 'Listo!');
+                        $('.body-detail').html(data.table);
+                        form.trigger('reset');
+                        $('input[name=serials]', form).val('');
+                        form.attr('status', '0');
+                        $("#search_producto").focus();
+                        $('.precio-costo').html(data.p_costo);
+                        return;
+                    }
+                    msg.warning(data, 'Advertencia!');
                     form.attr('status', '0');
-                    $("#search_producto").focus();
-                    $('.precio-costo').html(data.p_costo);
-                    return;
+                },
+                error: function(errors) {
+                    form.attr('status', '0');
                 }
-                msg.warning(data, 'Advertencia!');
-                form.attr('status', '0');
-            },
-            error: function(errors) {
-                form.attr('status', '0');
-            }
-        });
+            });
+        }
     }
 });
 

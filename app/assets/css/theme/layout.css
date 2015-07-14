@@ -1790,7 +1790,7 @@ body.page-footer-fixed #page-content .footer-content {
  * BODY CONTENT
  * ======================================================================== */
 .body-content {
-  background-color: #e9eaed;
+  background: #EAEAEA url("../img/bg.png") repeat scroll 0% 0%;
   padding: 20px 20px 0px 20px;
   min-height: 1100px;
   position: relative;
