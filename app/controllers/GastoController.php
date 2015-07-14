@@ -42,6 +42,11 @@ class GastoController extends \BaseController {
 
     }
 
+    public function delete()
+    {
+        return $this->delete_detail();
+    }
+
     public function delete_detail()
     {
         $delete = DetalleGasto::destroy(Input::get('id'));
@@ -61,7 +66,7 @@ class GastoController extends \BaseController {
 
     function ExpensesDay_dt(){
 
-        $table = 'gastos';
+        $table = 'detalle_gastos';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -74,7 +79,7 @@ class GastoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN detalle_gastos ON (gastos.id = detalle_gastos.gasto_id) 
+        $Join = "JOIN gastos ON (gastos.id = detalle_gastos.gasto_id) 
         JOIN users ON (users.id = gastos.user_id)
         JOIN tiendas ON (tiendas.id = gastos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_gastos.metodo_pago_id)";
@@ -109,7 +114,7 @@ class GastoController extends \BaseController {
         if ($where == null)
             $where = "DATE_FORMAT(gastos.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
         
-        $table = 'gastos';
+        $table = 'detalle_gastos';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -124,7 +129,7 @@ class GastoController extends \BaseController {
 
         $where .= ' AND gastos.tienda_id = '.Auth::user()->tienda_id;
         
-        $Join = "JOIN detalle_gastos ON (gastos.id = detalle_gastos.gasto_id) 
+        $Join = "JOIN gastos ON (gastos.id = detalle_gastos.gasto_id) 
         JOIN users ON (users.id = gastos.user_id)
         JOIN tiendas ON (tiendas.id = gastos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_gastos.metodo_pago_id)";

@@ -42,6 +42,11 @@ class EgresoController extends \BaseController {
 
     }
 
+    public function delete()
+    {
+        return $this->delete_detail();
+    }
+
     public function delete_detail()
     {
         $delete = DetalleEgreso::destroy(Input::get('id'));
@@ -61,7 +66,7 @@ class EgresoController extends \BaseController {
 
     function ExpendituresDay_dt(){
 
-        $table = 'egresos';
+        $table = 'detalle_egresos';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -74,7 +79,7 @@ class EgresoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN detalle_egresos ON (egresos.id = detalle_egresos.egreso_id) 
+        $Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id) 
         JOIN users ON (users.id = egresos.user_id)
         JOIN tiendas ON (tiendas.id = egresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
@@ -108,7 +113,7 @@ class EgresoController extends \BaseController {
         if ($where == null)
             $where = "DATE_FORMAT(egresos.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
         
-        $table = 'egresos';
+        $table = 'detalle_egresos';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -123,7 +128,7 @@ class EgresoController extends \BaseController {
 
         $where .= ' AND egresos.tienda_id = '.Auth::user()->tienda_id;
         
-        $Join = "JOIN detalle_egresos ON (egresos.id = detalle_egresos.egreso_id) 
+        $Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id) 
         JOIN users ON (users.id = egresos.user_id)
         JOIN tiendas ON (tiendas.id = egresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";

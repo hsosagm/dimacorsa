@@ -42,6 +42,11 @@ class SoporteController extends BaseController {
 
     }
 
+    public function delete()
+    {
+        return $this->delete_detail();
+    }
+
     public function delete_detail()
     {
         $delete = DetalleSoporte::destroy(Input::get('id'));
@@ -61,7 +66,7 @@ class SoporteController extends BaseController {
 
     function SupportDay_dt(){
 
-        $table = 'soporte';
+        $table = 'detalle_soporte';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -74,7 +79,7 @@ class SoporteController extends BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN detalle_soporte ON (soporte.id = detalle_soporte.soporte_id) 
+        $Join = "JOIN soporte ON (soporte.id = detalle_soporte.soporte_id) 
         JOIN users ON (users.id = soporte.user_id)
         JOIN tiendas ON (tiendas.id = soporte.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_soporte.metodo_pago_id)";
@@ -111,7 +116,7 @@ class SoporteController extends BaseController {
         if ($where == null)
             $where = "DATE_FORMAT(soporte.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
         
-        $table = 'soporte';
+        $table = 'detalle_soporte';
 
         $columns = array(
             "tiendas.nombre as tienda_nombre",
@@ -126,7 +131,7 @@ class SoporteController extends BaseController {
 
         $where .= ' AND soporte.tienda_id = '.Auth::user()->tienda_id;
         
-        $Join = "JOIN detalle_soporte ON (soporte.id = detalle_soporte.soporte_id) 
+        $Join = "JOIN soporte ON (soporte.id = detalle_soporte.soporte_id) 
         JOIN users ON (users.id = soporte.user_id)
         JOIN tiendas ON (tiendas.id = soporte.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_soporte.metodo_pago_id)";
