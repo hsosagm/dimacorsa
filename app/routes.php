@@ -241,8 +241,15 @@ Route::group(array('prefix' => 'admin'), function()
          Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
          Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
          Route::get('ExportarCierreDelDia/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelDia' );
-
+         Route::get('VentasDelMes'                        , 'CierreController@VentasDelMes' );
+         Route::get('VentasDelMes_dt'                     , 'CierreController@VentasDelMes_dt' );
+         Route::get('SoportePorFecha'                     , 'CierreController@SoportePorFecha' );
+         Route::get('SoportePorFecha_dt'                  , 'CierreController@SoportePorFecha_dt' );
+         Route::get('GastosPorFecha'                      , 'CierreController@GastosPorFecha' );
+         Route::get('GastosPorFecha_dt'                   , 'CierreController@GastosPorFecha_dt' );
+         Route::get('DetalleDeVentasPorProducto'          , 'CierreController@DetalleDeVentasPorProducto' );
     });
+
 
     Route::group(array('prefix' => 'barcode'),function() 
     {
@@ -438,7 +445,12 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {   
-
+   /*$detalle = DetalleVenta::with('venta','producto')->where('producto_id',1000038)
+   ->join('ventas','ventas.id','=','venta_id')
+   ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('2015-05-10', '%Y-%m')")
+   ->where('ventas.tienda_id',Auth::user()->tienda_id)->get();
+   
+   return View::make('cierre.DetalleDeVentasPorProducto', compact('detalle'))->render();*/
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
