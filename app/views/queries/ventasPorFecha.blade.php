@@ -1,11 +1,24 @@
+<div class="row HeadQueriesContainer">
+	<div class="col-md-12">
+		<table class="master-table">
+			<tr class="col-md-5">
+				<td class="col-md-4">Fecha inicial:</td>
+				<td class="col-md-6"><input type="text" name="fecha_inicial" data-value="now()"></td>
+				<td class="col-md-2"></td>
+			</tr>
+			<tr class="col-md-5">
+				<td class="col-md-4">Fecha final:</td>
+				<td class="col-md-6"><input type="text" name="fecha_final" data-value="now()"></td>
+				<td class="col-md-2"></td>
+			</tr>
+			<tr class="col-md-2">
+			    <td><button class="btn btn-theme" type="submit"> Actualizar !</button></td>
+			</tr>
+		</table>
+	</div>
+</div>
 
-<table class="dt-table table-striped table-theme" id="example">
-    <tbody style="background: #ffffff;">
-        <tr>
-            <td style="font-size: 14px; color:#1b7be2;" colspan="6" class="dataTables_empty">Cargando datos del servidor...</td>
-        </tr>
-    </tbody>
-</table>
+<table class="dt-table table-striped table-theme" id="example"></table>
 
 <script type="text/javascript">
 
@@ -41,16 +54,26 @@
             "bJQueryUI": false,
             "bProcessing": true,
             "bServerSide": true,
-            "sAjaxSource": "user/cliente/DT_salesByCustomer",
+            "sAjaxSource": "admin/queries/DtVentasPorFecha",
             "fnServerParams": function (aoData) {
-                aoData.push({ "name": "cliente_id", "value": vm.cliente_id });
+                aoData.push({ "name": "cliente_id", "value": 664 });
             }
         });
 
     });
 
-    $("#iSearch").val("");
-    $("#iSearch").unbind();
-    $("#iSearch").focus();
+	$('input[name="fecha_inicial"]').pickadate({ 
+		max: true,
+		selectYears: true,
+        selectMonths: true
+	});
+
+	$('input[name="fecha_final"]').pickadate({ 
+		max: true,
+		selectYears: true,
+        selectMonths: true
+	});
+
+	$('[data-action=collapse_head]').find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
 
 </script>

@@ -1,4 +1,4 @@
-<div class="row md">
+<div class="row">
 
 	<div class="col-md-6">
 		{{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Venta Generada', 'status' => '0')) }}

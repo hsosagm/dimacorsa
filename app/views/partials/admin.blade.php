@@ -12,6 +12,7 @@
         <span class="plus"></span>
     </a>
     <ul>
+        <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Queries</a></li>
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
 
         <li class="submenu">

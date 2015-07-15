@@ -1,3 +1,7 @@
+.left {
+  text-align: left;
+}
+
 .numeric {
     text-align: right !important;
     padding-right: 10px;
