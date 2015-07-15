@@ -228,6 +228,12 @@
 
 Route::group(array('prefix' => 'admin'), function()
 {
+    Route::group(array('prefix' => 'queries'),function() 
+    {
+        Route::get('getMasterQueries', 'QueriesController@getMasterQueries');
+        Route::get('getVentasPorFecha', 'QueriesController@getVentasPorFecha');
+        Route::get('DtVentasPorFecha', 'QueriesController@DtVentasPorFecha');
+    });
 
     Route::group(array('prefix' => 'cierre'),function() 
     {

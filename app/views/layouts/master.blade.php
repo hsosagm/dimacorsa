@@ -57,7 +57,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
        @include('partials.body-content')
 
        <footer class="footer-content"> 
-        2015 &copy; {{$tienda->nombre}} admin. Created by <a href="javascript:void(0)" target="_blank">Hsosa</a>, GM
+        2015 &copy; {{$tienda->nombre}}. Created by <a href="javascript:void(0)">CLICK SOFTWARE.</a>
        </footer><!-- /.footer-content -->
 
 </section><!-- /#page-content -->

@@ -47,13 +47,6 @@
     width: 245px !important;
 }
 
-.master-table tr td input {
-    height: 22px;
-    font-size: 11px !important;
-    margin-right: 15px !important;
-    margin-left: 0px !important;
-}
-
 .picker__nav--prev, .picker__nav--next {
     padding: 0.5em 0.25em !important;
     width: 2em !important;
