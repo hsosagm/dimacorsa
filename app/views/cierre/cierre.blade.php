@@ -141,25 +141,25 @@
 
             dif_efectivo: {
                 get: function() {
-                    return this.movimientos.efectivo - this.efectivo
+                    return this.efectivo - this.movimientos.efectivo
                 }
             },
 
             dif_cheque: {
                 get: function() {
-                    return this.movimientos.cheque - this.cheque
+                    return this.cheque - this.movimientos.cheque
                 }
             },
 
             dif_tarjeta: {
                 get: function() {
-                    return this.movimientos.tarjeta - this.tarjeta
+                    return this.tarjeta - this.movimientos.tarjeta 
                 }
             },
 
             dif_deposito: {
                 get: function() {
-                    return this.movimientos.deposito - this.deposito
+                    return this.deposito - this.movimientos.deposito
                 }
             },
 
