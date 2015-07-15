@@ -257,7 +257,7 @@
 
         // Check the current cookie value
         // If the cookie is empty or set to not active, then add page_sidebar_minimize
-        if ($.cookie('page_sidebar_minimize') == "undefined" || $.cookie('page_sidebar_minimize') == "not_active") {
+        /*if ($.cookie('page_sidebar_minimize') == "undefined" || $.cookie('page_sidebar_minimize') == "not_active") {
 
             // Set cookie value to active
             $.cookie('page_sidebar_minimize','active', {expires: 1});
@@ -272,7 +272,7 @@
             // Create cookie with value to not_active
             $.cookie('page_sidebar_minimize','not_active',  {expires: 1});
 
-        }
+        }*/
 
     });
 
@@ -407,10 +407,10 @@
     // CLEAR ALL COOKIE
     // =========================================================================
     $('#reset-setting').on('click', function(){
-        var cookies = $.cookie();
+        /*  var cookies = $.cookie();
         for(var cookie in cookies) {
             $.removeCookie(cookie);
-        }
+        }*/
         location.reload(true);
     });
 
@@ -534,7 +534,7 @@ $(document).ready(function(){
     // LAYOUT SETTING
     // =========================================================================
     // Check cookie for layout setting
-    if ($.cookie('layout_setting')) {
+    /*if ($.cookie('layout_setting')) {
         $('body').addClass($.cookie('layout_setting'));
     }
 
@@ -736,6 +736,6 @@ $(document).ready(function(){
         // Set cookie theme name value to variable classname
         $.cookie('footer_layout_setting',classname, {expires: 1});
 
-    });
+    });*/
 
 });

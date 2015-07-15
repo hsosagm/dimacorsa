@@ -1,3 +1,4 @@
+
 $('.color-schemes .theme').on('click',function() {
     var themename = $(this).find('.hide').text();
     if($('.page-sound').length) {
@@ -38,6 +39,34 @@ $('.sidebar-color .theme').on('click',function() {
         $('#sidebar-left').attr('class','sidebar-'+classname);
     }
     $.get( "user/tema/sidebarColor/"+classname, function( data ) {
+        // msg.success(data, 'Listo!');
+    });
+});
+
+$('.sidebar-type-setting input').change(function(){
+    var classname = $(this).val();
+
+    if($('.page-sound').length) {
+        ion.sound.play("beer_can_opening");
+    }
+    if($('#sidebar-left').hasClass('sidebar-circle')){
+        $('#sidebar-left').removeClass('sidebar-circle');
+    }
+    if($('#sidebar-left').hasClass('sidebar-box')) {
+        $('#sidebar-left').removeClass('sidebar-box');
+    }
+    else {
+        $('#sidebar-left').addClass($(this).val());
+    }
+
+    if($('#sidebar-left').hasClass('sidebar-rounded')) {
+        $('#sidebar-left').removeClass('sidebar-rounded')
+    }
+    else {
+        $('#sidebar-left').addClass($(this).val());
+    }
+
+    $.get( "user/tema/sidebarTypeSetting/"+classname, function( data ) {
         // msg.success(data, 'Listo!');
     });
 });

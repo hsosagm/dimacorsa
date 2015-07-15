@@ -28,4 +28,13 @@ class TemaController extends \BaseController {
 
 		return 'Color del la barra lateral guardado';
 	}
+
+	public function sidebarTypeSetting($tipo)
+	{
+		$tema = Tema::where("user_id",Auth::user()->id)->first();
+		$tema->sidebarTypeSetting = $tipo;
+		$tema->save();
+
+		return 'success';
+	}
 }

@@ -26,11 +26,11 @@
 					<td width="20%" style="text-align: center;" >Utilidades Netas</td>
 				</tr>
 				<tr>
-					<td style="text-align: right;">Q {{ ($total_ventas	 )}} </td>
-					<td style="text-align: right;">Q {{ ($total_ganancias )}} (%{{ f_num::get(($total_ganancias*100)/$total_ventas) }})</td>
-					<td style="text-align: right;">Q {{ ($total_soporte   )}} </td>
-					<td style="text-align: right;">Q {{ ($total_gastos    )}} (%{{ f_num::get(($total_gastos*100)/$total_ventas) }})</td>
-					<td style="text-align: right;">Q {{ ($ganancias_netas )}} (%{{ f_num::get(($ganancias_netas*100)/$total_ventas) }})</td>
+					<td style="text-align: right;"> {{ ($total_ventas	 )}} </td>
+					<td style="text-align: right;"> {{ ($total_ganancias )}} (%{{ f_num::get(($total_ganancias*100)/$total_ventas) }})</td>
+					<td style="text-align: right;"> {{ ($total_soporte   )}} </td>
+					<td style="text-align: right;"> {{ ($total_gastos    )}} (%{{ f_num::get(($total_gastos*100)/$total_ventas) }})</td>
+					<td style="text-align: right;"> {{ ($ganancias_netas )}} (%{{ f_num::get(($ganancias_netas*100)/$total_ventas) }})</td>
 				</tr>
 			</thead>
 			<tbody class="table-hover cierre_body cierre_detalle" style="display:none">
@@ -42,8 +42,8 @@
 				@foreach(@$ventas_usuarios as $key => $user)
 				<tr>
 					<td colspan="2">{{ $user->nombre .' '. $user->apellido}}</td>
-					<td style="text-align: right;">Q {{ f_num::get($user->total) }} </td>
-					<td style="text-align: right;">Q {{ f_num::get($user->utilidad) }} </td>
+					<td style="text-align: right;"> {{ f_num::get($user->total) }} </td>
+					<td style="text-align: right;"> {{ f_num::get($user->utilidad) }} </td>
 					<td style="text-align: right;">%{{ f_num::get(($user->utilidad * 100 )/str_replace(',', '', $user->total ))}}</td>
 				</tr>
 				@endforeach 

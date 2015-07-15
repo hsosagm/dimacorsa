@@ -461,7 +461,7 @@ class CierreController extends \BaseController {
             "(productos.p_costo/100) as precio_costo",
             "productos.p_publico as precio_publico",
             "(sum(detalle_ventas.precio * detalle_ventas.cantidad )/sum(detalle_ventas.cantidad)) as precio_promedio",
-            "(sum(detalle_ventas.ganancias * detalle_ventas.cantidad)/sum(detalle_ventas.cantidad)) as ganancia_unidad",
+            "(((sum(detalle_ventas.ganancias * detalle_ventas.cantidad)/sum(detalle_ventas.cantidad))*100)/(sum(detalle_ventas.precio * detalle_ventas.cantidad )/sum(detalle_ventas.cantidad))) as porcentaje",
             "sum(detalle_ventas.ganancias * detalle_ventas.cantidad) as ganancia_total"
             );
 
@@ -486,7 +486,6 @@ class CierreController extends \BaseController {
         $table = 'gastos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "gastos.created_at as fecha",
             "detalle_gastos.descripcion as detalle_descripcion",
@@ -518,7 +517,6 @@ class CierreController extends \BaseController {
         $table = 'soporte';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "soporte.created_at as fecha",
             "detalle_soporte.descripcion as detalle_descripcion",

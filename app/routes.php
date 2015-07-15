@@ -43,9 +43,10 @@
     {   
         Route::group(array('prefix' => 'tema'), function()
         {   
-            Route::get('colorSchemes/{color}'   , 'TemaController@colorSchemes' );
-            Route::get('navbarColor/{color}'    , 'TemaController@navbarColor' );
-            Route::get('sidebarColor/{color}'   , 'TemaController@sidebarColor' );
+            Route::get('colorSchemes/{color}'         , 'TemaController@colorSchemes' );
+            Route::get('navbarColor/{color}'          , 'TemaController@navbarColor'  );
+            Route::get('sidebarColor/{color}'         , 'TemaController@sidebarColor' );
+            Route::get('sidebarTypeSetting/{tipo}'    , 'TemaController@sidebarTypeSetting' );
         }); 
 
         Route::group(array('prefix' => 'consulta'), function()
