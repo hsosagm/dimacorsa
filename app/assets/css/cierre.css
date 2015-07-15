@@ -32,7 +32,11 @@
  .theme-table-footer tr:nth-child(odd) td {
 	opacity: 0.6;
 	color: #000000;
-} 
+}
+
+.cierre-font  tbody tr td {
+	font-size: 13px !important;
+}
 
 .dt-container-cierre {
   top: 5%;
@@ -41,6 +45,7 @@
   margin-left: auto;
   margin-right: auto;
   position: absolute;
+  z-index: 1;
 }
 
 .dt-panel-cierre {
@@ -61,15 +66,36 @@
 	text-align: center;
 }
 
-.panel-heading-cierre .pull-left span{
+.panel-heading-cierre .pull-left span {
 	margin-left: 20%;
 }
 
-.panel-heading-cierre .pull-right{
+.panel-heading-cierre .pull-right {
 	width: 10%;
 }
 
-.panel-heading-cierre .pull-right i{
+.panel-heading-cierre .pull-right i {
 	font-size: 18px;
 	padding-left: 5px;
+}
+
+.cierre_detalle tr td{
+	font-size: 13px;
+	line-height: 100% !important 
+}
+
+.cierre_totales .row {
+	border-right:solid 1px #B1B1B1;
+	padding:0px !important;
+}
+
+.cierre_totales {
+	padding: 0px !important
+}
+
+.cierre_totales .row .col-md-4 .row {
+	padding-right: 5px !important;
+	padding-left: 10px !important;
+	padding-top: 6px !important;
+	padding-bottom: 6px !important;
 }

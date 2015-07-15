@@ -18,6 +18,7 @@ function f_com_op()  {
         $('.panel-title').text('Formulario Compras');
         $(".forms").html(data);
         $(".dt-container").hide();
+        $(".dt-container-cierre").hide();
         $(".producto-container").hide();
         $(".form-panel").show();
     });
@@ -72,6 +73,7 @@ function OpenModalPurchaseInfo(element) {
 function return_compras() {
     $(".dt-container").hide();
     $(".producto-container").hide();
+    $(".dt-container-cierre").hide();
     $(".form-panel").show();
 }
 
@@ -302,6 +304,7 @@ function _edit_producto() {
                 $(".forms-producto").html(data);
                 $(".dt-panel").hide();
                 $(".form-panel").hide();
+                $(".dt-container-cierre").hide();
                 $(".producto-container").show();
                 $(".producto-panel").show();
             }
@@ -315,6 +318,7 @@ function _add_producto() {
         $(".forms-producto").html(data);
         $(".dt-panel").hide();
         $(".form-panel").hide();
+        $(".dt-container-cierre").hide();
         $(".producto-container").show();
         $(".producto-panel").show();
     });
@@ -335,6 +339,7 @@ function VerFacturaDeCompra(e) {
                 $(".forms").html(data.form);
                 $(".dt-container").hide();
                 $(".producto-container").hide();
+                $(".dt-container-cierre").hide();
                 $(".form-panel").show();
             }
             else {

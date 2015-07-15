@@ -15,14 +15,13 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthS",              "sTitle": "Tienda",      "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Cliente",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthS",              "sTitle": "Fecha",       "aTargets": [3]},
-            {"sClass": "mod_codigo hover  widthM",             "sTitle": "Metodo Pago", "aTargets": [4]},
-            {"sClass": "mod_codigo hover right widthS",        "sTitle": "Monto",       "aTargets": [5]},
-            {"sClass": "mod_codigo hover  widthL",             "sTitle": "Observaciones","aTargets": [6]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [7],
+            {"sClass": "mod_codigo hover widthL",              "sTitle": "Cliente",     "aTargets": [0]},
+            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthS",              "sTitle": "Fecha",       "aTargets": [2]},
+            {"sClass": "mod_codigo hover  widthM",             "sTitle": "M.P.",        "aTargets": [3]},
+            {"sClass": "mod_codigo hover right widthS",        "sTitle": "Monto",       "aTargets": [4]},
+            {"sClass": "mod_codigo hover  widthL",             "sTitle": "Observaciones","aTargets": [5]},
+            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
                     return '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleAbonosClietes(this)"></i><a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoCliente(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px"> ';

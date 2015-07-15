@@ -53,82 +53,82 @@
                                     <!-- Start right navigation - menu -->
                                     <ul class="sidebar-menu niceScroll">
 
-                                        <!-- Start category layout -->
-                                        <li class="sidebar-category">
-                                            <span>LAYOUT</span>
-                                            <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
-                                        </li>
-                                        <!--/ End category layout -->
+                                       <!--  Start category layout
+                                       <li class="sidebar-category">
+                                           <span>LAYOUT</span>
+                                           <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
+                                       </li>
+                                       / End category layout
+                                       
+                                       / Start navigation - layout
+                                       <li>
+                                           <ul class="list-unstyled layout-setting">
+                                               <li>
+                                                   <div class="rdio rdio-theme">
+                                                       <input id="layout-fluid" type="radio" name="layout" value="">
+                                                       <label for="layout-fluid">Fluid</label>
+                                                   </div>
+                                               </li>
+                                               <li>
+                                                   <div class="rdio rdio-theme">
+                                                       <input id="layout-boxed" type="radio" name="layout" value="page-boxed">
+                                                       <label for="layout-boxed">Boxed</label>
+                                                   </div>
+                                               </li>
+                                           </ul>
+                                       </li>
+                                       / End navigation - layout -->
 
-                                        <!--/ Start navigation - layout -->
-                                        <li>
-                                            <ul class="list-unstyled layout-setting">
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="layout-fluid" type="radio" name="layout" value="">
-                                                        <label for="layout-fluid">Fluid</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="layout-boxed" type="radio" name="layout" value="page-boxed">
-                                                        <label for="layout-boxed">Boxed</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <!--/ End navigation - layout -->
-
-                                        <!-- Start category header -->
-                                        <li class="sidebar-category">
-                                            <span>HEADER</span>
-                                            <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
-                                        </li>
-                                        <!--/ End category header -->
-
-                                        <!--/ Start navigation - header -->
-                                        <li>
-                                            <ul class="list-unstyled header-layout-setting">
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="header-default" type="radio" name="header" value="">
-                                                        <label for="header-default">Default</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="header-fixed" type="radio" name="header" value="page-header-fixed">
-                                                        <label for="header-fixed">Fixed</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <!--/ End navigation - header -->
+                                       <!--  Start category header
+                                       <li class="sidebar-category">
+                                           <span>HEADER</span>
+                                           <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
+                                       </li>
+                                       / End category header
+                                       
+                                       / Start navigation - header
+                                       <li>
+                                           <ul class="list-unstyled header-layout-setting">
+                                               <li>
+                                                   <div class="rdio rdio-theme">
+                                                       <input id="header-default" type="radio" name="header" value="">
+                                                       <label for="header-default">Default</label>
+                                                   </div>
+                                               </li>
+                                               <li>
+                                                   <div class="rdio rdio-theme">
+                                                       <input id="header-fixed" type="radio" name="header" value="page-header-fixed">
+                                                       <label for="header-fixed">Fixed</label>
+                                                   </div>
+                                               </li>
+                                           </ul>
+                                       </li>
+                                       / End navigation - header -->
 
                                         <!-- Start category sidebar -->
-                                        <li class="sidebar-category">
-                                            <span>SIDEBAR</span>
-                                            <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
-                                        </li>
-                                        <!--/ End category sidebar -->
-
-                                        <!--/ Start navigation - sidebar -->
-                                        <li>
-                                            <ul class="list-unstyled sidebar-layout-setting">
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="sidebar-default" type="radio" name="sidebar" value="">
-                                                        <label for="sidebar-default">Default</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="sidebar-fixed" type="radio" name="sidebar" value="page-sidebar-fixed">
-                                                        <label for="sidebar-fixed">Fixed</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                       <!--  <li class="sidebar-category">
+                                           <span>SIDEBAR</span>
+                                           <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
+                                       </li>
+                                       / End category sidebar
+                                       
+                                       / Start navigation - sidebar
+                                       <li>
+                                           <ul class="list-unstyled sidebar-layout-setting">
+                                               <li>
+                                                   <div class="rdio rdio-theme">
+                                                       <input id="sidebar-default" type="radio" name="sidebar" value="">
+                                                       <label for="sidebar-default">Default</label>
+                                                   </div>
+                                               </li>
+                                               <li>
+                                                   <div class="rdio rdio-theme">
+                                                       <input id="sidebar-fixed" type="radio" name="sidebar" value="page-sidebar-fixed">
+                                                       <label for="sidebar-fixed">Fixed</label>
+                                                   </div>
+                                               </li>
+                                           </ul>
+                                       </li> -->
                                         <!--/ End navigation - sidebar -->
 
                                         <!-- Start category sidebar type -->
@@ -143,7 +143,7 @@
                                             <ul class="list-unstyled sidebar-type-setting">
                                                 <li>
                                                     <div class="rdio rdio-theme">
-                                                        <input id="sidebar-type-default" type="radio" name="sidebarType" value="">
+                                                        <input id="sidebar-type-default" type="radio" name="sidebarType" value="sidebar-default">
                                                         <label for="sidebar-type-default">Default</label>
                                                     </div>
                                                 </li>
@@ -170,35 +170,35 @@
                                         <!--/ End navigation - sidebar -->
 
                                         <!-- Start category footer -->
-                                        <li class="sidebar-category">
-                                            <span>FOOTER</span>
-                                            <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
-                                        </li>
-                                        <!--/ End category footer -->
-
-                                        <!--/ Start navigation - footer -->
-                                        <li>
-                                            <ul class="list-unstyled footer-layout-setting">
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="footer-default" type="radio" name="footer" value="">
-                                                        <label for="footer-default">Default</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="rdio rdio-theme">
-                                                        <input id="footer-fixed" type="radio" name="footer" value="page-footer-fixed">
-                                                        <label for="footer-fixed">Fixed</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                      <!--   <li class="sidebar-category">
+                                          <span>FOOTER</span>
+                                          <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
+                                      </li>
+                                      / End category footer
+                                      
+                                      / Start navigation - footer
+                                      <li>
+                                          <ul class="list-unstyled footer-layout-setting">
+                                              <li>
+                                                  <div class="rdio rdio-theme">
+                                                      <input id="footer-default" type="radio" name="footer" value="">
+                                                      <label for="footer-default">Default</label>
+                                                  </div>
+                                              </li>
+                                              <li>
+                                                  <div class="rdio rdio-theme">
+                                                      <input id="footer-fixed" type="radio" name="footer" value="page-footer-fixed">
+                                                      <label for="footer-fixed">Fixed</label>
+                                                  </div>
+                                              </li>
+                                          </ul>
+                                      </li> -->
                                         <!--/ End navigation - footer -->
 
                                         <!--/ Start navigation - reset settings -->
-                                        <li>
-                                            <a id="reset-setting" href="javascript:void(0);" class="btn btn-inverse btn-block"><i class="fa fa-refresh fa-spin"></i> RESET SETTINGS</a>
-                                        </li>
+                                      <!--   <li>
+                                          <a id="reset-setting" href="javascript:void(0);" class="btn btn-inverse btn-block"><i class="fa fa-refresh fa-spin"></i> RESET SETTINGS</a>
+                                      </li> -->
                                         <!--/ End navigation - reset settings -->
 
                                     </ul>

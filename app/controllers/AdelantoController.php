@@ -42,6 +42,11 @@ class AdelantoController extends \BaseController {
 
     }
 
+    public function delete()
+    {
+        return $this->delete_detail();
+    }
+
     public function delete_detail()
     {
         $delete = DetalleAdelanto::destroy(Input::get('id'));
@@ -61,10 +66,9 @@ class AdelantoController extends \BaseController {
 
     function AdvancesDay_dt(){
 
-        $table = 'adelantos';
+        $table = 'detalle_adelantos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "adelantos.created_at as fecha",
             "detalle_adelantos.descripcion as detalle_descripcion",
@@ -74,7 +78,7 @@ class AdelantoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN detalle_adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
+        $Join = "JOIN adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
         JOIN users ON (users.id = adelantos.user_id)
         JOIN tiendas ON (tiendas.id = adelantos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";
@@ -110,10 +114,9 @@ class AdelantoController extends \BaseController {
         if ($where == null)
             $where = "DATE_FORMAT(adelantos.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
         
-        $table = 'adelantos';
+        $table = 'detalle_adelantos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "adelantos.created_at as fecha",
             "detalle_adelantos.descripcion as detalle_descripcion",
@@ -125,7 +128,7 @@ class AdelantoController extends \BaseController {
 
         $where .= ' AND adelantos.tienda_id = '.Auth::user()->tienda_id;
         
-        $Join = "JOIN detalle_adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
+        $Join = "JOIN adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
         JOIN users ON (users.id = adelantos.user_id)
         JOIN tiendas ON (tiendas.id = adelantos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";

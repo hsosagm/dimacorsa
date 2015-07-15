@@ -66,7 +66,7 @@
                         $total = $total +($dt->cantidad * $dt->precio); 
                          if ($dt->serials != null ) 
                          {
-                             $serials .= $dt->serials;
+                             $serials .= $dt->serials." , ";
                          }
                     ?>
                     @endforeach

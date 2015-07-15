@@ -80,6 +80,7 @@ module.exports = function(grunt) {
                     './app/assets/css/categorias.css',
                     './app/assets/css/consultas.css',
                     './app/assets/css/cierre.css',
+                    './app/assets/css/cierre-table.css',
                     './app/assets/css/datepicker-pickadate-custom.css',
                     
                 ],
@@ -143,7 +144,7 @@ module.exports = function(grunt) {
             dist: {
               src: [
                 './app/assets/components/bower/jquery/jquery.js',
-                './app/assets/js/plugins/jquery.cookie.js',
+                './app/assets/js/plugins/draggable.js',
                 './app/assets/components/bower/bootstrap/dist/js/bootstrap.js',
                 './app/assets/components/bower/jquery-nicescroll/jquery.nicescroll.js',
                 './app/assets/js/sparkline.min.js',

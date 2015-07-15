@@ -165,7 +165,6 @@ class DescargaController extends BaseController {
 
         $columns = array(
             "descargas.id as identificador",
-            "tiendas.nombre as tienda_nombre",
             "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') as fecha",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             'Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) as total',
@@ -252,7 +251,6 @@ class DescargaController extends BaseController {
 
         $columns = array(
             "descargas.id as identificador",
-            "tiendas.nombre as tienda_nombre",
             "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') as fecha",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             'Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) as total',

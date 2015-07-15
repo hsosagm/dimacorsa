@@ -92,12 +92,13 @@ tr:nth-child(odd) td {
 }
 
 .dt-container {
-  top: 5%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  position: absolute;  
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;  
+    z-index: 2;
 }
 
 .btn-group, .btn-group-vertical {
@@ -373,4 +374,44 @@ table {
   background-repeat: no-repeat;
   background-position: right; 
 
+}
+
+.width5{
+ width: 5%;
+}
+
+.width10{
+ width: 10%;
+}
+
+.width15{
+ width: 15%;
+}
+
+.width20{
+ width: 20%;
+}
+
+.width25{
+ width: 25%;
+}
+
+.width30{
+ width: 30%;
+}
+
+.width35{
+ width: 35%;
+}
+
+.width40{
+ width: 40%;
+}
+
+.width45{
+ width: 45%;
+}
+
+.width50{
+ width: 50%;
 }

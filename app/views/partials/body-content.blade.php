@@ -138,6 +138,7 @@
 		</div>
 	</div>
 
+
 	<div class="col-lg-3 col-md-4 col-sm-6">
 		<div class="modal modal-info fade bs-modal-categorias" data-backdrop="static" data-keyboard="false" tabindex="-2" role="dialog" aria-hidden="true">
 			<div class="Lightbox modal-dialog" style="">
@@ -151,6 +152,20 @@
 			</div>
 		</div>
 	</div>
-
-</div>
 <!--/ End body content -->
+
+<div class="col-lg-8 col-md-8 col-sm-8">
+    <div class="modal modal-info fade" id='bs-modal-cierre' data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="Lightbox modal-dialog cierre_modal_content" style="width:70%;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+            <h4 class="modal-title" id="modal-title-cierre"></h4>
+        </div>
+        <div class="modal-body" id="modal-body-cierre" ></div>
+    </div>
+</div>
+</div>
+</div>
+
+</div><!-- /.body-content -->

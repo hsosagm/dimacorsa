@@ -1,4 +1,4 @@
-
+ 
 <script>
 $(document).ready(function() {
 
@@ -15,13 +15,12 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Tienda",      "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Usuario",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthS",                  "sTitle": "Descripcion", "aTargets": [3]},
-            {"sClass": "mod_codigo hover right widthS",            "sTitle": "Monto", "aTargets": [4]},
-            {"sClass": "mod_codigo hover widthS",     "sTitle": "Metodo Pago",       "aTargets": [5]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [6],
+            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [0]},
+            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Fecha",       "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthL",                      "sTitle": "Descripcion", "aTargets": [2]},
+            {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Monto",       "aTargets": [3]},
+            {"sClass": "mod_codigo hover widthS",                      "sTitle": "M.P.",        "aTargets": [4]},
+            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [5],
                 "orderable": false,
                 "mRender": function() {
                     return ' <i class="fa fa-trash-o btn-link theme-c"   title="Eliminar"  onclick="_delete_dt(this)"></i> ';
@@ -34,6 +33,9 @@ $(document).ready(function() {
             $( ".DTTT" ).append( '<button consulta="dia"    onclick="AdelantosPorFecha(this)">Dia</button>'    );
             $( ".DTTT" ).append( '<button consulta="semana" onclick="AdelantosPorFecha(this)">Semana</button>' );
             $( ".DTTT" ).append( '<button consulta="mes"    onclick="AdelantosPorFecha(this)">Mes</button>'    );
+            $("td[class*='formato_precio']").each(function() {
+                $(this).html(formato_precio($(this).html()));
+            });
         },
 
         "bJQueryUI": false,

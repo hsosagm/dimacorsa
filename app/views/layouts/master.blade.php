@@ -84,6 +84,7 @@ $(document).ready(function(){
     /*configuracion del thema capturado de la base de datos*/ 
     $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
     $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');
+    $('#sidebar-left').addClass('{{@$tema->sidebarTypeSetting}}');
 
     if($('#sidebar-left').hasClass('sidebar-box')){
         $('#sidebar-left').attr('class','sidebar-box sidebar-{{@$tema->sidebarColor}}');
@@ -97,6 +98,20 @@ $(document).ready(function(){
     else if($('#sidebar-left').attr('class') == ''){
         $('#sidebar-left').attr('class','sidebar-{{@$tema->sidebarColor}}');
     } 
+
+    if($('#sidebar-left').hasClass('sidebar-default')){
+    $('#sidebar-type-default').attr('checked','checked');
+    }
+    if($('#sidebar-left').hasClass('sidebar-box')){
+        $('#sidebar-type-box').attr('checked','checked');
+    }
+    if($('#sidebar-left').hasClass('sidebar-rounded')){
+        $('#sidebar-type-rounded').attr('checked','checked');
+    }
+    if($('#sidebar-left').hasClass('sidebar-circle')) {
+        $('#sidebar-type-circle').attr('checked','checked');
+    }
+
 }); 
 </script>
 

@@ -12,7 +12,7 @@
     border-radius: 5px;
     transition: all 0.3s ease 0s;
     -moz-user-select: none;
-    z-index: 2;
+    z-index: 3;
 }
 
 #demo-settings.open #demo-settings-toggler {

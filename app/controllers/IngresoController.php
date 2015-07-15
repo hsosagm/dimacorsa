@@ -42,6 +42,11 @@ class IngresoController extends \BaseController {
 
     }
 
+    public function delete()
+    {
+        return $this->delete_detail();
+    }
+
     public function delete_detail()
     {
         $delete = DetalleIngreso::destroy(Input::get('id'));
@@ -61,10 +66,9 @@ class IngresoController extends \BaseController {
 
     function IncomeDay_dt(){
 
-        $table = 'ingresos';
+        $table = 'detalle_ingresos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "ingresos.created_at as fecha",
             "detalle_ingresos.descripcion as detalle_descripcion",
@@ -74,7 +78,7 @@ class IngresoController extends \BaseController {
 
         $Searchable = array("users.nombre","users.apellido");
 
-        $Join = "JOIN detalle_ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
+        $Join = "JOIN ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
         JOIN users ON (users.id = ingresos.user_id)
         JOIN tiendas ON (tiendas.id = ingresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";
@@ -110,10 +114,9 @@ class IngresoController extends \BaseController {
             $where = "DATE_FORMAT(ingresos.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
         
 
-        $table = 'ingresos';
+        $table = 'detalle_ingresos';
 
         $columns = array(
-            "tiendas.nombre as tienda_nombre",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "ingresos.created_at as fecha",
             "detalle_ingresos.descripcion as detalle_descripcion",
@@ -125,7 +128,7 @@ class IngresoController extends \BaseController {
 
         $where .= ' AND ingresos.tienda_id = '.Auth::user()->tienda_id;
         
-        $Join = "JOIN detalle_ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
+        $Join = "JOIN ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
         JOIN users ON (users.id = ingresos.user_id)
         JOIN tiendas ON (tiendas.id = ingresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";

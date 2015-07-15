@@ -1,3 +1,4 @@
+{{ HTML::style('css/table.css') }}
 <div class="panel dt-panel-cierre rounded shadow">
     <div class="panel-heading-cierre bg-theme">
         <div class="pull-left"><span>Movimientos del Dia</span></div>
