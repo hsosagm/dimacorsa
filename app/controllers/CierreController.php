@@ -481,7 +481,7 @@ class CierreController extends \BaseController {
         return View::make('cierre.GastosPorFecha');
     }
 
-    function GastosPorFecha_dt() {
+    public function GastosPorFecha_dt() {
         $fecha    = Input::get('fecha');
         $table = 'gastos';
 
@@ -511,7 +511,7 @@ class CierreController extends \BaseController {
         return View::make('cierre.SoportePorFecha');
     }
 
-    function SoportePorFecha_dt()
+    public function SoportePorFecha_dt()
     {
         $fecha    = Input::get('fecha');
         $table = 'soporte';
@@ -539,14 +539,45 @@ class CierreController extends \BaseController {
 
     public function DetalleDeVentasPorProducto()
     {
-        $detalle = DetalleVenta::with('venta','producto')->where('producto_id',Input::get('producto_id'))
-        ->join('ventas','ventas.id','=','venta_id')
-        ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('".Input::get('fecha')."', '%Y-%m')")
-        ->where('ventas.tienda_id',Auth::user()->tienda_id)->get();
-        
+        $table = 'detalle_ventas';
+
+        $columns = array(
+            "ventas.id as id_venta",
+            "ventas.created_at fecha",  
+            "detalle_ventas.cantidad  as cantidad",  
+            "productos.descripcion  as descripcion",  
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
+            "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+            "detalle_ventas.ganancias as ganancias",
+            "detalle_ventas.precio as precio"
+        );
+
+        $Search_columns = array("users.nombre","users.apellido","venta.created_at","productos.descripcion");
+
+        $Join  = "JOIN ventas ON (detalle_ventas.venta_id = ventas.id) ";
+        $Join .= "JOIN productos ON (productos.id = detalle_ventas.producto_id) ";
+        $Join .= "JOIN users ON (users.id = ventas.user_id) ";
+        $Join .= "JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
+        $where .= " AND DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('".Input::get('fecha')."', '%Y-%m') ";
+        $where .= " AND detalle_ventas.producto_id = ".Input::get('producto_id');
+
+        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
+
         return Response::json(array(
             'success' => true,
             'table'   => View::make('cierre.DetalleDeVentasPorProducto', compact('detalle'))->render()
+        ));
+    }
+
+    public function DetalleVentaCierre()
+    {
+        $venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('cierre.DetalleVentaCierre', compact('venta'))->render()
         ));
     }
     /*********************************************************************************************************************************    

@@ -52,6 +52,7 @@
     // LOADING
     // =========================================================================
     if($('#wrapper').length){
+        
         $('#wrapper').jpreLoader({
                 loaderVPos: '50%',
                 autoClose: true

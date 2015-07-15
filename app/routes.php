@@ -249,6 +249,7 @@ Route::group(array('prefix' => 'admin'), function()
          Route::get('GastosPorFecha'                      , 'CierreController@GastosPorFecha' );
          Route::get('GastosPorFecha_dt'                   , 'CierreController@GastosPorFecha_dt' );
          Route::get('DetalleDeVentasPorProducto'          , 'CierreController@DetalleDeVentasPorProducto' );
+         Route::get('DetalleVentaCierre'                  , 'CierreController@DetalleVentaCierre' );
     });
 
 

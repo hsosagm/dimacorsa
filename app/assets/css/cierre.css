@@ -32,7 +32,11 @@
  .theme-table-footer tr:nth-child(odd) td {
 	opacity: 0.6;
 	color: #000000;
-} 
+}
+
+.cierre-font  tbody tr td {
+	font-size: 13px !important;
+}
 
 .dt-container-cierre {
   top: 5%;

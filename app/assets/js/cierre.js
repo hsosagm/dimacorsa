@@ -149,6 +149,7 @@ function ExportarCierreDelDia(tipo,fecha) {
 
 var cierre_fecha_enviar = "current_date";
 var cierre_metodo_pago_id = 1;
+var cierre_producto_id = 1 ;
 
 function VentasPorMetodoDePago(page , sSearch) {
     $.ajax({
@@ -221,6 +222,8 @@ function GastosDelMesCierre(e,fecha) {
 
 function DetalleDeVentasPorProducto(e)
 {
+    cierre_fecha_enviar = $(e).attr('fecha');
+    cierre_producto_id = $(e).closest('tr').attr('id');
     if ($(e).hasClass("hide_detail"))  {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
@@ -230,19 +233,16 @@ function DetalleDeVentasPorProducto(e)
 
         if ( $( ".subtable" ).length ) {
             $('.subtable').fadeOut('slow', function(){
-                getDetalleDeVentasPorProducto(e);
+                getDetalleDeVentasPorProducto(e, 1 , null);
             })
         }
         else {
-            getDetalleDeVentasPorProducto(e);
+            getDetalleDeVentasPorProducto(e, 1 , null);
         }
     }
 }
 
-function getDetalleDeVentasPorProducto(e) {
-    $id = $(e).closest('tr').attr('id');
-    $fecha = $(e).attr('fecha');
-
+function getDetalleDeVentasPorProducto(e , page , sSearch) {
     $('.subtable').remove();
     var nTr = $(e).parents('tr')[0];
     $(e).addClass('hide_detail');
@@ -251,13 +251,53 @@ function getDetalleDeVentasPorProducto(e) {
 
     $.ajax({
         type: 'GET',
-        url: "admin/cierre/DetalleDeVentasPorProducto",
-        data: { producto_id: $id , fecha:$fecha},
+        url: "admin/cierre/DetalleDeVentasPorProducto?page=" + page,
+        data: { producto_id: cierre_producto_id , fecha:cierre_fecha_enviar , sSearch:sSearch},
         success: function (data) {
             if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+function getDetalleDeVentasPorProductoPaginacion(page , sSearch) {
+    $.ajax({
+        type: 'GET',
+        url: "admin/cierre/DetalleDeVentasPorProducto?page=" + page,
+        data: { producto_id: cierre_producto_id , fecha:cierre_fecha_enviar , sSearch:sSearch},
+        success: function (data) {
+            if (data.success == true) {
+                $('.grid_detalle_factura').html(data.table);
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+$(document).on('click', '.pagination_cierre_ventas a', function (e) {
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+    getDetalleDeVentasPorProductoPaginacion(page,null);
+});
+
+function DetalleVentaCierre(e, venta_id) {
+    $.ajax({
+        type: 'GET',
+        url: "admin/cierre/DetalleVentaCierre",
+        data: {venta_id:venta_id },
+        success: function (data) {
+            if (data.success == true) {
+                $('#modal-body-cierre').html(data.table);
+                $('#modal-title-cierre').text( 'Detalle de Venta' );
+                $('#bs-modal-cierre').modal('show');
             }
             else {
                 msg.warning(data, 'Advertencia!');
