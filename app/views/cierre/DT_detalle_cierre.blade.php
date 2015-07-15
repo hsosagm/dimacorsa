@@ -11,25 +11,25 @@
 			<td>Efectivo</td>
 			<td> Q {{ f_num::get($cierre->efectivo_esp) }} </td>
 			<td> Q {{ f_num::get($cierre->efectivo) }} </td>
-			<td> Q {{ f_num::get($cierre->efectivo_esp - $cierre->efectivo) }} </td>
+			<td> Q {{ f_num::get($cierre->efectivo - $cierre->efectivo_esp) }} </td>
 		</tr>
 		<tr>
 			<td>Cheque</td>
 			<td> Q {{ f_num::get($cierre->cheque_esp) }} </td>
 			<td> Q {{ f_num::get($cierre->cheque) }} </td>
-			<td> Q {{ f_num::get($cierre->cheque_esp - $cierre->cheque) }} </td>
+			<td> Q {{ f_num::get($cierre->cheque - $cierre->cheque_esp) }} </td>
 		</tr>
 		<tr>
 			<td>Tarjeta</td>
 			<td> Q {{ f_num::get($cierre->tarjeta_esp) }} </td>
 			<td> Q {{ f_num::get($cierre->tarjeta) }} </td>
-			<td> Q {{ f_num::get($cierre->tarjeta_esp - $cierre->tarjeta) }} </td>
+			<td> Q {{ f_num::get($cierre->tarjeta - $cierre->tarjeta_esp) }} </td>
 		</tr>
 		<tr>
 			<td>Deposito</td>
 			<td> Q {{ f_num::get($cierre->deposito_esp) }} </td>
 			<td> Q {{ f_num::get($cierre->deposito) }} </td>
-			<td> Q {{ f_num::get($cierre->deposito_esp - $cierre->deposito) }} </td>
+			<td> Q {{ f_num::get($cierre->deposito - $cierre->deposito_esp) }} </td>
 		</tr>
 
 	</tbody>
@@ -48,7 +48,7 @@
 		<tr>
 			<td></td>
 			<td>Diferencia</td>
-			<td>{{ f_num::get($suma_esperado - $suma_real) }}</td>
+			<td>{{ f_num::get($suma_real - $suma_esperado) }}</td>
 			<td></td>
 		</tr>
 		<tr>
