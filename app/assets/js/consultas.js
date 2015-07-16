@@ -1,7 +1,6 @@
 /* Consultas.js */
 $(function() 
 {
-    $(document).on('click', '#OpenTablePurchaseDay', 		function() { OpenTablePurchaseDay(this); 		}); 
     $(document).on('click', '#OpenTableSupportDay', 		function() { OpenTableSupportDay(this); 		}); 
     $(document).on('click', '#OpenTableExpensesDay', 		function() { OpenTableExpensesDay(this); 		}); 
     $(document).on('click', '#OpenTableExpendituresDay', 	function() { OpenTableExpendituresDay(this); 	}); 
@@ -9,12 +8,6 @@ $(function()
     $(document).on('click', '#OpenTableAdvancesDay',        function() { OpenTableAdvancesDay(this);        }); 
     $(document).on('click', '#OpenTableDownloadsDay',       function() { OpenTableDownloadsDay(this);        }); 
 });
-
-function OpenTablePurchaseDay() {
-	$.get( "admin/compras/OpenTablePurchaseDay", function( data ) {
-        makeTable(data, '', '');
-    });
-}
 
 function OpenTableSupportDay() {
 	$.get( "user/soporte/OpenTableSupportDay", function( data ) {
@@ -49,36 +42,6 @@ function OpenTableAdvancesDay() {
 function OpenTableDownloadsDay() {
     $.get( "admin/descargas/OpenTableDownloadsDay", function( data ) {
         makeTable(data, 'admin/descargas/', '');
-    });
-}
-
-function OpenTableSalesForDate(element) {
-    fecha = $(".datepicker .calendar .days .selected").attr('date');
-    consulta = $(element).attr('consulta');
-
-    $.ajax({
-        type: "GET",
-        url: 'user/ventas/OpenTableSalesForDate',
-        data: { fecha:fecha , consulta:consulta },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            makeTable(data, '', '');
-        }
-    });
-}
-
-function OpenTablePurchaseForDate(element) {
-    fecha = $(".datepicker .calendar .days .selected").attr('date');
-    consulta = $(element).attr('consulta');
-
-    $.ajax({
-        type: "GET",
-        url: 'admin/compras/OpenTablePurchaseForDate',
-        data: { fecha:fecha , consulta:consulta },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            makeTable(data, '', '');
-        }
     });
 }
 

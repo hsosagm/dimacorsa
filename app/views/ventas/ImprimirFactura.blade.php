@@ -7,7 +7,7 @@
 		@if($factura == 0)
 			@include('ventas.EncabezadoFactura')
 			<?php $factura = 1; ?>
-			<?php $total = 0; ?>
+			<?php $total = 0;   ?>
 		@endif
 
 		<tr height="1"  style="font-size:12px; ">
@@ -34,9 +34,9 @@
 		@endif
 
 		@if($lineas >= 16 )
-			<?php $factura_pie   = 0 ; ?>
-			<?php $factura       = 0 ; ?>
-			<?php $lineas = 0; ?>
+			<?php $factura_pie = 0 ; ?>
+			<?php $factura     = 0 ; ?>
+			<?php $lineas      = 0 ; ?>
 		@endif
 		
 		@if($factura_pie == 0)
@@ -49,7 +49,6 @@
 	@include('ventas.PieFactura')
 </body>
 <style>
-
 	td {
 		font-family: Lucida Sans Typewriter,Lucida Typewriter,monospace , bold;
 		font-size: 13px !important;

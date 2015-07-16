@@ -39,8 +39,8 @@
         return View::make('layouts.cliente_master');
     });
 
-    Route::group(array('prefix' => 'user'), function()
-    {   
+Route::group(array('prefix' => 'user'), function()
+{   
         Route::group(array('prefix' => 'tema'), function()
         {   
             Route::get('colorSchemes/{color}'         , 'TemaController@colorSchemes' );
@@ -187,19 +187,15 @@
             Route::post('RemoveSalePayment'                     , 'VentasController@RemoveSalePayment');
             Route::post('FinalizeSale'                          , 'VentasController@FinalizeSale');
             Route::get('OpenModalSalesPayments'                 , 'VentasController@OpenModalSalesPayments');
-            Route::get('OpenTableSalesOfDay'                    , 'VentasController@OpenTableSalesOfDay');
             Route::get('showSalesDetail'                        , 'VentasController@showSalesDetail');
             Route::get('openSale'                               , 'VentasController@openSale');
             Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
-            Route::get('SalesOfDay'                             , 'VentasController@SalesOfDay'  );
             Route::get('ImprimirVentaModal'                     , 'VentasController@ImprimirVentaModal'  );
             Route::get('ImprimirFacturaVenta/{id}'              , 'VentasController@ImprimirFacturaVenta'  );
             Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
             Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
             Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
             Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
-            Route::get('OpenTableSalesForDate'                  , 'VentasController@OpenTableSalesForDate');
-            Route::get('SalesForDate'                           , 'VentasController@SalesForDate');
             Route::get('VentasPorMetodoDePago'                  , 'VentasController@VentasPorMetodoDePago');
 
             Route::group(array('prefix' => 'payments'),function() 
@@ -230,9 +226,11 @@ Route::group(array('prefix' => 'admin'), function()
 {
     Route::group(array('prefix' => 'queries'),function() 
     {
-        Route::get('getMasterQueries', 'QueriesController@getMasterQueries');
-        Route::get('getVentasPorFecha', 'QueriesController@getVentasPorFecha');
-        Route::get('DtVentasPorFecha', 'QueriesController@DtVentasPorFecha');
+        Route::get('getMasterQueries'                   ,  'QueriesController@getMasterQueries');
+        Route::get('getVentasPorFecha/{consulta}'       , 'QueriesController@getVentasPorFecha');
+        Route::get('DtVentasPorFecha/{consulta}'        ,  'QueriesController@DtVentasPorFecha');
+        Route::get('getComprasPorFecha/{consulta}'      , 'QueriesController@getComprasPorFecha');
+        Route::get('DtComprasPorFecha/{consulta}'       ,  'QueriesController@DtComprasPorFecha');
     });
 
     Route::group(array('prefix' => 'cierre'),function() 
@@ -322,7 +320,6 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('DeletePurchaseDetailsItem'     , 'CompraController@DeletePurchaseDetailsItem' );
         Route::post('DeletePurchasePaymentItem'     , 'CompraController@DeletePurchasePaymentItem'   );
         Route::get('ConsultPurchase'                , 'CompraController@ConsultPurchase');
-        Route::get('OpenTablePurchaseDay'           , 'CompraController@OpenTablePurchaseDay');
         Route::get('ShowTableUnpaidShopping'        , 'CompraController@ShowTableUnpaidShopping');
         Route::get('ShowTableHistoryPayment'        , 'CompraController@ShowTableHistoryPayment');
         Route::get('ShowTableHistoryPaymentDetails' , 'CompraController@ShowTableHistoryPaymentDetails');
@@ -330,13 +327,10 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('showPaymentsDetail'             , 'CompraController@showPaymentsDetail');
         Route::get('Purchase_dt'                    , 'CompraController@Purchase_dt');
         Route::get('PurchaseUnpaid_dt'              , 'CompraController@PurchaseUnpaid_dt');
-        Route::get('PurchaseDay_dt'                 , 'CompraController@PurchaseDay_dt');
         Route::get('ComprasPendientesDePago'        , 'CompraController@ComprasPendientesDePago');
         Route::get('HistorialDePagos'               , 'CompraController@HistorialDePagos');
         Route::get('HistorialDeAbonos'              , 'CompraController@HistorialDeAbonos');
         Route::get('getCreditPurchase'              , 'CompraController@getCreditPurchase');
-        Route::get('OpenTablePurchaseForDate'       , 'CompraController@OpenTablePurchaseForDate');
-        Route::get('PurchaseForDate'                , 'CompraController@PurchaseForDate');
 
         Route::group(array('prefix' => 'payments'),function() 
         {

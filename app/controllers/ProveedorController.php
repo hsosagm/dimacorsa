@@ -169,11 +169,8 @@ class ProveedorController extends BaseController {
         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
-        $total = f_num::get($saldo_total->total);
-        $vencido = f_num::get($saldo_vencido->total);
-        $tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-        return "Saldo Total: {$total} {$tab} Saldo Vencido: {$vencido}";
-    }
+        return array('saldo_total' => $saldo_total->total , 'saldo_vencido' => $saldo_vencido->total );
+    } 
    
     public function AbonosDelDia()
     {
@@ -284,53 +281,20 @@ class ProveedorController extends BaseController {
 
     public function getInfoProveedor()
     {
-        $query = Compra::where('proveedor_id','=', Input::get('proveedor_id'))
-        ->where('saldo', '>', 0)
-        ->get();
-
+        $data =  $this->TotalCredito();
+        $saldo_vencido = f_num::get($data['saldo_vencido']);
+        $saldo_total = f_num::get($data['saldo_total']);
         $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        
+        $proveedor = Proveedor::find(Input::get('proveedor_id'));
 
-        if (!count($query) ) 
-        {
-            $proveedor = Proveedor::find(Input::get('proveedor_id'));
-
-            $proveedor = $proveedor->nombre . "&nbsp;";
-
-            $info = $proveedor . $tab . " Saldo total &nbsp; 0.00" . $tab ." Saldo vencido &nbsp; 0.00";
-
-            return Response::json(array(
-                'success'       => true,
-                'info'          => $info,
-                'saldo_total'   => 0,
-                'saldo_vencido' => 0
-            ));
-        }
-
-        $saldo_total = 0;
-        $saldo_vencido = 0;
-
-        foreach ($query as  $q)
-        {
-            $fecha_entrada = $q->created_at;
-            $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-            $fecha_vencida = date('Ymd',strtotime("-30 days"));
-
-            if ($fecha_entrada < $fecha_vencida)
-            {
-                $saldo_vencido = $saldo_vencido + $q->saldo;
-            }
-            $saldo_total = $saldo_total + $q->saldo;
-        }
-
-        $proveedor = $query[0]->proveedor->nombre;
-
-        $info = "Proveedor: &nbsp;". $proveedor . $tab . " Saldo total &nbsp;". f_num::get($saldo_total) . $tab ." Saldo vencido &nbsp;" .f_num::get($saldo_vencido);
+        $info = "Proveedor: &nbsp;{$proveedor->nombre}{$tab}Saldo total &nbsp;{$saldo_total}{$tab}Saldo vencido &nbsp;{$saldo_vencido}";
 
         return Response::json(array(
             'success'       => true, 
             'info'          => $info,
-            'saldo_total'   => $saldo_total,
-            'saldo_vencido' => $saldo_vencido
+            'saldo_total'   => $data['saldo_total'],
+            'saldo_vencido' => $data['saldo_vencido']
         ));
     }
 }

@@ -381,37 +381,6 @@ class CompraController extends \BaseController {
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
 
-	public function OpenTablePurchaseDay()
-	{
-		return View::make('compras.PurchaseDay');
-	}
-
-	function PurchaseDay_dt()
-	{
-
-		$table = 'compras';
-
-		$columns = array(
-			"compras.created_at as fecha",
-			"fecha_documento",
-			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-			"proveedores.nombre as proveedor_nombre",
-			"numero_documento",
-			"total",
-			"saldo",
-			"completed"
-		);
-
-		$Search_columns = array("users.nombre","users.apellido","numero_documento","proveedores.nombre");
-
-		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
-
-		$where = " DATE_FORMAT(compras.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
-		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
-
-		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
-	}
-
 	public function ShowTableUnpaidShopping()
 	{
 		$compras = DB::table('compras')
@@ -548,51 +517,5 @@ class CompraController extends \BaseController {
 		$where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;	
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
-	}
-
-	public function OpenTablePurchaseForDate()
-	{
-		return View::make('compras.PurchaseForDate');
-	}
-
-	public function PurchaseForDate()
-	{	
-		$fecha    = Input::get('fecha');
-		$consulta = Input::get('consulta');
-
-		$where = null;
-
-		if ($consulta == 'dia') 
-			$where = "DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
-
-		if ($consulta == 'semana') 
-			$where = " WEEK(compras.created_at) = WEEK('{$fecha}')  AND YEAR(compras.created_at) = YEAR('{$fecha}')  ";
-
-		if ($consulta == 'mes') 
-			$where = "DATE_FORMAT(compras.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
-
-		if ($where == null)
-			$where = "DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
-		
-		$table = 'compras';
-
-		$columns = array(
-			"compras.created_at as fecha",
-			"fecha_documento",
-			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-			"proveedores.nombre as proveedor_nombre",
-			"numero_documento",
-			"total",
-			"saldo",
-			"completed"
-		);
-
-		$Search_columns = array("users.nombre","users.apellido","numero_documento","proveedores.nombre");
-		
-		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
-
-		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
-
-		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
 }	

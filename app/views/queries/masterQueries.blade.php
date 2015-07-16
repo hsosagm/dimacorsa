@@ -3,16 +3,16 @@
     <tr>
         <td><p>Ventas</p><img src="images/consultas/ventas.png" height=80 width=80></img>
             <div class="row">
-                <div class="col-md-5 center"><span>Hoy</span></div>
+                <div class="col-md-5 center" v-on="click: getVentasDelDia(this)"><span>Hoy</span></div>
                 <div class="col-md-2 center"><span>|</span></div>
                 <div class="col-md-5 center" v-on="click: getVentasPorFecha(this)"><span>Fecha</span></div>
             </div>
         </td>
         <td><p>Compras</p><img src="images/consultas/compras.png" height=80 width=80></img>
             <div class="row">
-                <div class="col-md-5 center"><span>Hoy</span></div>
+                <div class="col-md-5 center" v-on="click: getComprasDelDia(this)"><span>Hoy</span></div>
                 <div class="col-md-2 center"><span>|</span></div>
-                <div class="col-md-5 center"><span>Fecha</span></div>
+                <div class="col-md-5 center" v-on="click: getComprasPorFecha(this)"><span>Fecha</span></div>
             </div>
         </td>
         <td><p>Descargas</p><img src="images/consultas/descargas.png" height=80 width=80></img>
@@ -90,17 +90,73 @@
         },
 
         methods: {
-
-            getVentasPorFecha: function()
+            /* inicio consultas de ventas*/
+            getVentasDelDia: function()
             {
                 $.ajax({
-                  url: "admin/queries/getVentasPorFecha",
+                  url: "admin/queries/getVentasPorFecha/dia",
                   type: "GET"
                 }).done(function(data) {
                     $('.dt-container').hide();
                     queries.proccesTable(data.view);
                 });
             },
+            getVentasPorFecha: function()
+            {
+                $.ajax({
+                  url: "admin/queries/getVentasPorFecha/mes",
+                  type: "GET"
+                }).done(function(data) {
+                    $('.dt-container').hide();
+                    queries.proccesTable(data.view);
+                });
+            },
+            getVentasPorFechas: function()
+            {
+                $.ajax({
+                  url: "admin/queries/getVentasPorFecha/fechas",
+                  type: "GET",
+                  data: { fecha_inicial: '2015-05-01', fecha_final:'2015-05-15' },
+                }).done(function(data) {
+                    $('.dt-container').hide();
+                    queries.proccesTable(data.view);
+                });
+            },
+            /* fin consultas de ventas*/
+
+            /* inicio consultas de compras*/
+            getComprasDelDia: function()
+            {
+                $.ajax({
+                  url: "admin/queries/getComprasPorFecha/dia",
+                  type: "GET"
+                }).done(function(data) {
+                    $('.dt-container').hide();
+                    queries.proccesTable(data.view);
+                });
+            },
+            getComprasPorFecha: function()
+            {
+                $.ajax({
+                  url: "admin/queries/getComprasPorFecha/mes",
+                  type: "GET"
+                }).done(function(data) {
+                    $('.dt-container').hide();
+                    queries.proccesTable(data.view);
+                });
+            },
+            getComprasPorFechas: function()
+            {
+                $.ajax({
+                  url: "admin/queries/getComprasPorFecha/fechas",
+                  type: "GET",
+                  data: { fecha_inicial: '2015-05-01', fecha_final:'2015-05-15' },
+                }).done(function(data) {
+                    $('.dt-container').hide();
+                    queries.proccesTable(data.view);
+                });
+            },
+            /* fin consultas de compras*/
 
             proccesTable: function(data)
             {

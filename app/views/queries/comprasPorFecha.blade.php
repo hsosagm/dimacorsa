@@ -34,23 +34,24 @@
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
             
-            "aoColumnDefs": [
-            {"sClass": "widthS",                         "sTitle": "Fecha",                        "aTargets": [0]},
-            {"sClass": "widthM",                         "sTitle": "Usuario",                      "aTargets": [1]},
-            {"sClass": "widthL",                         "sTitle": "Cliente",                      "aTargets": [2]},
-            {"sClass": "widthS right formato_precio",    "sTitle": "Total",                        "aTargets": [3]},
-            {"sClass": "widthS right formato_precio",    "sTitle": "Saldo",                        "aTargets": [4]},
-            {"sClass": "widthS",                         "sTitle": "Completed", "bVisible": false, "aTargets": [5]},
-            {"sClass": "widthS center font14", "sTitle": " ", "orderable": false, "aTargets": [6],
-            "mRender": function() {
-                $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
-                $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
-                $v += '<a href="javascript:void(0);" title="Imprimir Factura" onclick="ImprimirFacturaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px">';
-                $v += '<a href="javascript:void(0);" title="Imprimir Garantia" onclick="ImprimirGarantiaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-file-o font14" style="padding-left:10px">';
-                    
-                return $v;
-            }
-        }
+             "aoColumnDefs": [
+            {"sClass": "mod_codigo hover widthM",                             "sTitle": "Fecha",       "aTargets": [0]},
+            {"sClass": "mod_codigo hover widthS",                             "sTitle": "F. Doc.",     "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthM",                             "sTitle": "Usuario",     "aTargets": [2]},
+            {"sClass": "mod_codigo hover widthL",                             "sTitle": "Proveedor",   "aTargets": [3]},
+            {"sClass": "mod_codigo hover  widthS",                            "sTitle": "Factura",     "aTargets": [4]},
+            {"sClass": "mod_codigo hover right widthS formato_precio",        "sTitle": "Total",       "aTargets": [5]},
+            {"sClass": "mod_codigo hover right widthS formato_precio",        "sTitle": "Saldo",       "aTargets": [6]},
+            {"sClass": "widthS", "bVisible": false,                           "sTitle": "Completed",   "aTargets": [7]},
+            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [8],
+                "orderable": false,
+                "mRender": function() {
+                   $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i> ';
+                   $v += '<a href="javascript:void(0);" title="" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+
+                    return  $v;
+                }
+            }, 
         ],
 
         "fnDrawCallback": function( oSettings ) {
@@ -62,13 +63,13 @@
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/queries/DtVentasPorFecha/{{$consulta}}",
+        "sAjaxSource": "admin/queries/DtComprasPorFecha/{{$consulta}}",
         "fnServerParams": function (aoData) {
            aoData.push({ "name": "fecha_inicial", "value": "{{$fecha_inicial}}" });
            aoData.push({ "name": "fecha_final",  "value": "{{$fecha_final}}" });
        },
        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
-            if ( aData[5] == 0){
+            if ( aData[7] == 0){
                 jQuery(nRow).addClass('red');
             }               
         },

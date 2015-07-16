@@ -35,6 +35,7 @@ class PurchasePaymentsController extends \BaseController {
 		{
             $compras = Compra::where('proveedor_id', Input::get('proveedor_id'))
             ->where('saldo', '>', 0)
+            ->where('tienda_id', '=', Auth::user()->tienda_id)
             ->orderBy('created_at', 'ASC')
             ->get();
 
@@ -92,25 +93,10 @@ class PurchasePaymentsController extends \BaseController {
 
 		$proveedor_id = Input::get('proveedor_id');
 
-        $query = DB::table('compras')
-        ->select(DB::raw("id, created_at as fecha, saldo"))
-        ->where('saldo', '>', 0)
-        ->where('proveedor_id', $proveedor_id)
-        ->get();
-
-        $saldo_total = 0;
-        $saldo_vencido = 0;
-
-        foreach ($query as $q) {
-        	$saldo_total   = $saldo_total + $q->saldo;
-            $fecha_entrada = date('Ymd', strtotime($q->fecha));
-            $fecha_vencida = date('Ymd',strtotime("-30 days"));
-
-            if ($fecha_entrada < $fecha_vencida) {
-            	$saldo_vencido = $saldo_vencido + $q->saldo;
-            }
-        }
-
+        $data =  $this->TotalCredito();
+        $saldo_vencido = $data['saldo_vencido'];
+        $saldo_total = $data['saldo_total'];
+        
         return Response::json(array(
             'success' => true,
             'form' => View::make('compras.payments.formPayments', compact('saldo_total', 'saldo_vencido', 'proveedor_id'))->render()
@@ -177,7 +163,7 @@ class PurchasePaymentsController extends \BaseController {
       //funcion para pagar el saldo vencido
 	public function OverdueBalancePay()
 	{   
-		$total_vencido = number_format($this->OverdueBalance(),2,'.','');
+		$total_vencido = f_num::get($this->OverdueBalance());
 
 		if ($total_vencido <= 0) 
 		{
@@ -235,7 +221,7 @@ class PurchasePaymentsController extends \BaseController {
     //funcion para pagar todo el saldo
 	public function FullBalancePay()
 	{
-		$total_saldo = number_format($this->FullBalance(),2,'.','');
+		$total_saldo = f_num::get($this->FullBalance());
 
 		if ($total_saldo <= 0) 
 		{
@@ -292,7 +278,7 @@ class PurchasePaymentsController extends \BaseController {
 
 	function PartialBalancePay()
 	{
-		$total_saldo = number_format($this->FullBalance(),2,'.','');
+		$total_saldo = f_num::get($this->FullBalance());
 
 		$abono = new AbonosCompra;
 
@@ -303,7 +289,7 @@ class PurchasePaymentsController extends \BaseController {
 
 		$abono_id = $abono->get_id();
 
-		$monto = number_format(Input::get('total'),2,'.','');
+		$monto = f_num::get(Input::get('total'));
 
 		$compras = DB::table('compras')
 		->where('completed','=',1)
@@ -459,7 +445,22 @@ class PurchasePaymentsController extends \BaseController {
     	return Response::json(array(
 			'success' => true ,
 			'detalle' => View::make('compras.payments.paymentsDetailsBySelection',compact("detalle",'abonos_compra_id'))->render()
-			));
+		));
     }
+    public function TotalCredito()
+    {
+        $saldo_total = Compra::where('proveedor_id','=', Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
+
+        $saldo_vencido = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))
+        ->where('saldo','>',0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+
+        return array('saldo_total' => $saldo_total->total , 'saldo_vencido' => $saldo_vencido->total );
+    } 
  
 }

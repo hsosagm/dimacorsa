@@ -106,7 +106,6 @@
         serviceUrl: 'admin/proveedor/buscar',
         onSelect: function (q) {
             $('#ProviderFinder').val('');
-            console.log(q);
             vm.proveedor_id = q.id;
             vm.infoProveedor = q.value;
             vm.getInfoProveedor(q.id);

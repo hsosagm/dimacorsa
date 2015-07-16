@@ -138,28 +138,6 @@ function FinalizeSale(element, $id) {
     });
 }
 
-
-function OpenTableSalesOfDay(e)
-{
-    $(e).prop("disabled", true);
-
-    $.ajax({
-        type: 'GET',
-        url: "user/ventas/OpenTableSalesOfDay",
-        success: function (data) {
-            if (data.success == true)
-            {
-                makeTable(data.table, '', 'Ventas del Dia');
-            }
-            else
-            {
-                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-            }
-        }
-    }); 
-}
-
-
 function showSalesDetail(e) {
 
     if ($(e).hasClass("hide_detail")) 
@@ -268,15 +246,13 @@ function ImprimirVentaModal(e,id)
         url: "user/ventas/ImprimirVentaModal",
         data: { venta_id: id},
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 $('.modal-body').html(data.form);
                 $('.modal-title').text('Imprimir Venta');
                 $('.bs-modal').modal('show');
             }
 
-            else
-            {
+            else {
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             }
         }
