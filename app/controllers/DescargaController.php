@@ -153,36 +153,6 @@ class DescargaController extends BaseController {
             return 'Ingrese productos ala Descarga para poder inprimir';
     }
 
-    public function OpenTableDownloadsDay()
-    {
-        return View::make('descargas.DownloadsDay');
-    }
-
-    public function DownloadsDay_dt()
-    {
-
-       $table = 'descargas';
-
-        $columns = array(
-            "descargas.id as identificador",
-            "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-            'Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) as total',
-            );
-
-        $Searchable = array("users.nombre","users.apellido");
-
-        $Join = "
-        JOIN users ON (users.id = descargas.user_id)
-        JOIN tiendas ON (tiendas.id = descargas.tienda_id)";
-
-        $where = " DATE_FORMAT(descargas.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') AND 
-        Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) > 0.00";
-        $where .= ' AND descargas.tienda_id = '.Auth::user()->tienda_id;
-
-        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
-    }
-
     public function showgDownloadsDetail()
     {
         $detalle = $this->getDownloadsDetail();
@@ -220,51 +190,5 @@ class DescargaController extends BaseController {
             'success' => true,
             'detalle'   => View::make('descargas.edit', compact('descarga_id','detalle'))->render()
         ));
-    }
-
-
-    public function OpenTableDownloadsForDate()
-    {
-        return View::make('descargas.DownloadsForDate');
-    }
-
-    public function DownloadsForDate()
-    {
-        $fecha    = Input::get('fecha');
-        $consulta = Input::get('consulta');
-
-        $where = null;
-
-        if ($consulta == 'dia') 
-            $where = "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
-
-        if ($consulta == 'semana') 
-            $where = " YEARWEEK(DATE_FORMAT(descargas.created_at, '%Y-%m-%d')) = YEARWEEK(DATE_FORMAT('{$fecha}', '%Y-%m-%d')) ";
-
-        if ($consulta == 'mes') 
-            $where = "DATE_FORMAT(descargas.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
-
-        if ($where == null)
-            $where = "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date+1, '%Y-%m-%d')";
-
-        $table = 'descargas';
-
-        $columns = array(
-            "descargas.id as identificador",
-            "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-            'Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) as total',
-            );
-
-        $Searchable = array("users.nombre","users.apellido");
-
-        $where .= ' AND descargas.tienda_id = '.Auth::user()->tienda_id;
-        
-        $where .= " AND Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) > 0.00";
-        $Join = "
-        JOIN users ON (users.id = descargas.user_id)
-        JOIN tiendas ON (tiendas.id = descargas.tienda_id)";
-
-        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
     }
 } 

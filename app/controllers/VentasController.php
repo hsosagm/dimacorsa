@@ -62,9 +62,6 @@ class VentasController extends \BaseController {
 		return 'Token invalido';
 	}
 
-
-
-
 	public function getSalesDetail()
 	{
 		$detalle = DB::table('detalle_ventas')
@@ -81,7 +78,6 @@ class VentasController extends \BaseController {
 
         return $detalle;
 	}
-	
 
 	public function RemoveSale()
 	{

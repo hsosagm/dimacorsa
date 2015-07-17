@@ -35,25 +35,23 @@
             },
             
             "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",                             "sTitle": "Fecha",       "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthS",                             "sTitle": "F. Doc.",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",                             "sTitle": "Usuario",     "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthL",                             "sTitle": "Proveedor",   "aTargets": [3]},
-            {"sClass": "mod_codigo hover  widthS",                            "sTitle": "Factura",     "aTargets": [4]},
-            {"sClass": "mod_codigo hover right widthS formato_precio",        "sTitle": "Total",       "aTargets": [5]},
-            {"sClass": "mod_codigo hover right widthS formato_precio",        "sTitle": "Saldo",       "aTargets": [6]},
-            {"sClass": "widthS", "bVisible": false,                           "sTitle": "Completed",   "aTargets": [7]},
-            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [8],
+            {"sClass": "mod_codigo hover widthM",                       "sTitle": "Proveedor",    "aTargets": [0]},
+            {"sClass": "mod_codigo hover widthM",                       "sTitle": "Usuario",      "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthS",                       "sTitle": "Fecha",        "aTargets": [2]},
+            {"sClass": "mod_codigo hover  widthS",                      "sTitle": "M.P.",         "aTargets": [3]},
+            {"sClass": "mod_codigo hover right widthS formato_precio",  "sTitle": "Monto",        "aTargets": [4]},
+            {"sClass": "mod_codigo hover  widthL",                      "sTitle": "Observaciones","aTargets": [5]},
+            {"sClass": "widthS icons center",                           "sTitle": "",             "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                   $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i> ';
-                   $v += '<a href="javascript:void(0);" title="" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                    $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i>';
+                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoProveedor_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px"> </a>'
+                    $v += '<i class="fa fa-trash-o btn-link theme-c" style="padding-left:5px" onClick="_delete_dt(this)"></i>';
 
-                    return  $v;
+                    return $v;
                 }
-            }, 
+            },
         ],
-
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $("td[class*='formato_precio']").each(function() {
@@ -63,16 +61,11 @@
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "admin/queries/DtComprasPorFecha/{{$consulta}}",
+        "sAjaxSource": "admin/queries/DtAbonosProveedoresPorFecha/{{$consulta}}",
         "fnServerParams": function (aoData) {
            aoData.push({ "name": "fecha_inicial", "value": "{{$fecha_inicial}}" });
            aoData.push({ "name": "fecha_final",  "value": "{{$fecha_final}}" });
        },
-       "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
-            if ( aData[7] == 0){
-                jQuery(nRow).addClass('red');
-            }               
-        },
    });
 
 });

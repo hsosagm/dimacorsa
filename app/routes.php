@@ -5,19 +5,18 @@
         Route::when('user/*' , 'auth');
         Route::when('admin/*', 'auth');
         Route::when('owner/*', 'auth');
-    /*abonos del dia y por fecha
-    /*
-    /*
+    /*******************************************************************************
     funciones para hacer el guardado de logs    
-    /*******************************************************************************/
+    ********************************************************************************/
     Producto::observe(new \NEkman\ModelLogger\Observer\Logger);
     Compra::observe(new \NEkman\ModelLogger\Observer\Logger);
     Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
     DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
     Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
  
-    /******************************************************************************/
-    //rutas para evitar los errores de las imagenes no encontradas
+    /******************************************************************************
+    rutas para evitar los errores de las imagenes no encontradas
+    ******************************************************************************/
     Route::get('img/avatar/50/{img}.png', function(){ return "";});
     Route::get('images/{img}.png', function(){ return "";});
     Route::get('/{img}.ico', function(){ return "";});
@@ -58,8 +57,8 @@ Route::group(array('prefix' => 'user'), function()
             Route::get('VerTablaGastosDelDiaUsuario'   , 'UserController@VerTablaGastosDelDiaUsuario'   );
             Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
             Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
-            Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'       );
-            //datatables de consultas de los usuarios
+            Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'        );
+            //datatables de consultas de los usuarios//
             Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
             Route::get('SoporteDelDiaUsuario_dt'       , 'UserController@SoporteDelDiaUsuario'          );
             Route::get('IngresosDelDiaUsuario_dt'      , 'UserController@IngresosDelDiaUsuario'         );
@@ -92,10 +91,6 @@ Route::group(array('prefix' => 'user'), function()
             Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
             Route::get('DtHistorialPagos'      , 'ClienteController@DtHistorialPagos');
             Route::get('clientes'              , 'ClienteController@clientes'    );
-            Route::get('AbonosDelDia'          , 'ClienteController@AbonosDelDia'    );
-            Route::get('AbonosDelDia_dt'       , 'ClienteController@AbonosDelDia_dt'    );
-            Route::get('AbonosPorFecha'        , 'ClienteController@AbonosPorFecha'    );
-            Route::get('AbonosPorFecha_dt'     , 'ClienteController@AbonosPorFecha_dt'    );
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -104,11 +99,6 @@ Route::group(array('prefix' => 'user'), function()
             Route::post('delete'                , 'SoporteController@delete');
             Route::post('create'                , 'SoporteController@create');
             Route::post('delete_detail'         , 'SoporteController@delete_detail');
-            Route::get('OpenTableSupportDay'    , 'SoporteController@OpenTableSupportDay');
-            Route::get('SupportDay_dt'          , 'SoporteController@SupportDay_dt');
-            Route::get('SoportePorFecha'        , 'SoporteController@SoportePorFecha');
-            Route::get('SoportePorFecha_dt'     , 'SoporteController@SoportePorFecha_dt');
-
         });
 
         Route::group(array('prefix' => 'gastos'), function()
@@ -117,11 +107,6 @@ Route::group(array('prefix' => 'user'), function()
             Route::post('delete'                   , 'GastoController@delete');
             Route::post('create'                   , 'GastoController@create');
             Route::post('delete_detail'            , 'GastoController@delete_detail');
-            Route::get('OpenTableExpensesDay'      , 'GastoController@OpenTableExpensesDay');
-            Route::get('ExpensesDay_dt'            , 'GastoController@ExpensesDay_dt');
-            Route::get('GastosPorFecha'            , 'GastoController@GastosPorFecha');
-            Route::get('GastosPorFecha_dt'         , 'GastoController@GastosPorFecha_dt');
-
         });
 
         Route::group(array('prefix' => 'egresos'), function()
@@ -130,11 +115,6 @@ Route::group(array('prefix' => 'user'), function()
             Route::post('delete'                     , 'EgresoController@delete');
             Route::post('create'                     , 'EgresoController@create');
             Route::post('delete_detail'              , 'EgresoController@delete_detail');
-            Route::get('OpenTableExpendituresDay'    , 'EgresoController@OpenTableExpendituresDay');
-            Route::get('ExpendituresDay_dt'          , 'EgresoController@ExpendituresDay_dt');
-            Route::get('EgresosPorFecha'             , 'EgresoController@EgresosPorFecha');
-            Route::get('EgresosPorFecha_dt'          , 'EgresoController@EgresosPorFecha_dt');
-
         });
 
         Route::group(array('prefix' => 'ingresos'), function()
@@ -143,11 +123,6 @@ Route::group(array('prefix' => 'user'), function()
             Route::post('delete'               , 'IngresoController@delete');
             Route::post('create'               , 'IngresoController@create');
             Route::post('delete_detail'        , 'IngresoController@delete_detail');
-            Route::get('OpenTableIncomeDay'    , 'IngresoController@OpenTableIncomeDay');
-            Route::get('IncomeDay_dt'          , 'IngresoController@IncomeDay_dt');
-            Route::get('IngresosPorFecha'      , 'IngresoController@IngresosPorFecha');
-            Route::get('IngresosPorFecha_dt'   , 'IngresoController@IngresosPorFecha_dt');
-
         });
 
         Route::group(array('prefix' => 'adelantos'), function()
@@ -156,11 +131,6 @@ Route::group(array('prefix' => 'user'), function()
             Route::post('delete'                   , 'AdelantoController@delete');
             Route::post('create'                   , 'AdelantoController@create');
             Route::post('delete_detail'            , 'AdelantoController@delete_detail');
-            Route::get('OpenTableAdvancesDay'      , 'AdelantoController@OpenTableAdvancesDay');
-            Route::get('AdvancesDay_dt'            , 'AdelantoController@AdvancesDay_dt');
-            Route::get('AdelantosPorFecha'         , 'AdelantoController@AdelantosPorFecha');
-            Route::get('AdelantosPorFecha_dt'      , 'AdelantoController@AdelantosPorFecha_dt');
-
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -226,11 +196,27 @@ Route::group(array('prefix' => 'admin'), function()
 {
     Route::group(array('prefix' => 'queries'),function() 
     {
-        Route::get('getMasterQueries'                   ,  'QueriesController@getMasterQueries');
-        Route::get('getVentasPorFecha/{consulta}'       , 'QueriesController@getVentasPorFecha');
-        Route::get('DtVentasPorFecha/{consulta}'        ,  'QueriesController@DtVentasPorFecha');
-        Route::get('getComprasPorFecha/{consulta}'      , 'QueriesController@getComprasPorFecha');
-        Route::get('DtComprasPorFecha/{consulta}'       ,  'QueriesController@DtComprasPorFecha');
+        Route::get('getMasterQueries'                        , 'QueriesController@getMasterQueries'    );
+        Route::get('getVentasPorFecha/{consulta}'            , 'QueriesController@getVentasPorFecha'   );
+        Route::get('DtVentasPorFecha/{consulta}'             , 'QueriesController@DtVentasPorFecha'    );
+        Route::get('getComprasPorFecha/{consulta}'           , 'QueriesController@getComprasPorFecha'  );
+        Route::get('DtComprasPorFecha/{consulta}'            , 'QueriesController@DtComprasPorFecha'   );
+        Route::get('getDescargasPorFecha/{consulta}'         , 'QueriesController@getDescargasPorFecha');
+        Route::get('DtDescargasPorFecha/{consulta}'          , 'QueriesController@DtDescargasPorFecha' );
+        Route::get('getEgresosPorFecha/{consulta}'           , 'QueriesController@getEgresosPorFecha'  );
+        Route::get('DtEgresosPorFecha/{consulta}'            , 'QueriesController@DtEgresosPorFecha'   );
+        Route::get('getGastosPorFecha/{consulta}'            , 'QueriesController@getGastosPorFecha'   );
+        Route::get('DtGastosPorFecha/{consulta}'             , 'QueriesController@DtGastosPorFecha'    );
+        Route::get('getAbonosProveedoresPorFecha/{consulta}' , 'QueriesController@getAbonosProveedoresPorFecha');
+        Route::get('DtAbonosProveedoresPorFecha/{consulta}'  , 'QueriesController@DtAbonosProveedoresPorFecha' );
+        Route::get('getSoportePorFecha/{consulta}'           , 'QueriesController@getSoportePorFecha'  );
+        Route::get('DtSoportePorFecha/{consulta}'            , 'QueriesController@DtSoportePorFecha'   );
+        Route::get('getAbonosClientesPorFecha/{consulta}'    , 'QueriesController@getAbonosClientesPorFecha');
+        Route::get('DtAbonosClientesPorFecha/{consulta}'     , 'QueriesController@DtAbonosClientesPorFecha' );
+        Route::get('getAdelantosPorFecha/{consulta}'         , 'QueriesController@getAdelantosPorFecha' );
+        Route::get('DtAdelantosPorFecha/{consulta}'          , 'QueriesController@DtAdelantosPorFecha'  );
+        Route::get('getIngresosPorFecha/{consulta}'          , 'QueriesController@getIngresosPorFecha'  );
+        Route::get('DtIngresosPorFecha/{consulta}'           , 'QueriesController@DtIngresosPorFecha'   );
     });
 
     Route::group(array('prefix' => 'cierre'),function() 
@@ -292,10 +278,6 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('total_credito'              , 'ProveedorController@TotalCredito'   );
         Route::get('ShowModalPaySupplier'        , 'ProveedorController@ShowModalPaySupplier'  );
         Route::get('proveedores'                 , 'ProveedorController@proveedores' );
-        Route::get('AbonosDelDia'                , 'ProveedorController@AbonosDelDia' );
-        Route::get('AbonosDelDia_dt'             , 'ProveedorController@AbonosDelDia_dt' );
-        Route::get('AbonosPorFecha'              , 'ProveedorController@AbonosPorFecha' );
-        Route::get('AbonosPorFecha_dt'           , 'ProveedorController@AbonosPorFecha_dt' );
         Route::get('ImprimirAbono/dt/{code}/{id}', 'ProveedorController@ImprimirAbono_dt' );
         Route::get('ImprimirAbono/{id}'          , 'ProveedorController@ImprimirAbono' );
         Route::get('getInfoProveedor'            , 'ProveedorController@getInfoProveedor');
