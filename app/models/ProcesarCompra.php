@@ -227,6 +227,22 @@ class ProcesarCompra
 			$table->existencia = $existencia;
 			$table->save();
 
+			$tienda = Tienda::all();
+
+			foreach($tienda as $td)
+			{	
+				$verificar = Existencia::where('producto_id', $producto_id)->where('tienda_id',$td->id)->first();
+				
+				if($verificar == null)
+				{	
+					$table = new Existencia;
+					$table->producto_id = $producto_id;
+					$table->tienda_id = $td->id;
+					$table->existencia = 0;
+					$table->save();
+				}
+			}
+
 			return 'insertado';
 		}
 
