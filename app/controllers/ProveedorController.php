@@ -169,7 +169,8 @@ class ProveedorController extends BaseController {
         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
-        return array('saldo_total' => $saldo_total->total , 'saldo_vencido' => $saldo_vencido->total );
+        return array('saldo_total' => f_num::get($saldo_total->total) , 
+            'saldo_vencido' => f_num::get($saldo_vencido->total) );
     } 
 
     public function ImprimirAbono_dt($code,$id)

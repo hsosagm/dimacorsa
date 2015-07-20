@@ -89,16 +89,13 @@
 				data: {proveedor_id:$proveedor_id},
 				success: function (data) 
 				{
-					$(".proveedor-credito").html('<strong> '+data+'</strong>');
+					$(".proveedor-credito").html('Saldo Total: <strong> Q '+data.saldo_total+'</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Saldo Vencido: <strong> Q '+data.saldo_vencido+'</strong>');
 				},
 				error: function(errors)
 				{
 					msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
 				}
 			});
-
-			var position = $(this).index('input');
-			$("input, select").eq(position+1).select();
 		}
 	});
 

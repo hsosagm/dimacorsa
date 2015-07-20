@@ -9,10 +9,10 @@ class DisparadorTiendaNueva extends Migration {
  	{
 
         DB::unprepared('
-	       	CREATE TRIGGER `create_existencias_tienda` AFTER INSERT ON `tiendas`
-			 	FOR EACH ROW BEGIN
-			    	DECLARE  v_finished INTEGER DEFAULT 0;
-			    	DECLARE _producto_id INT; 
+	    CREATE TRIGGER create_existencias_tienda AFTER INSERT ON `tiendas` FOR EACH ROW
+        BEGIN
+   				DECLARE  v_finished INTEGER DEFAULT 0;
+			    DECLARE _producto_id INT; 
 			   	DECLARE loop_productos CURSOR FOR SELECT id  from productos;
 			   	DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_finished = 1;
 
@@ -28,8 +28,10 @@ class DisparadorTiendaNueva extends Migration {
 			                VALUES (NEW.id , _producto_id);			        
 			    	END LOOP loop_new;
 				CLOSE loop_productos;
-			END
+        END
         ');
+
+
  	}
 
 
