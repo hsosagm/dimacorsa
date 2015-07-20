@@ -80,7 +80,7 @@
 
     </table>
 
-    <div class="mqData"></div>
+    <div v-show="!showMaster" class="mqData"></div>
 
 </div>
 
@@ -150,6 +150,11 @@
                     });
                     queries_compile();
                 }, 100);
+            },
+
+            returnToMasterQueries: function()
+            {
+                queries.showMaster = true;
             }
        }
     });
