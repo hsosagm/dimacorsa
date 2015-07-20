@@ -85,16 +85,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -153,16 +155,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -218,16 +222,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -286,16 +292,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -354,16 +362,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -422,16 +432,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -490,16 +502,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -558,16 +572,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(
@@ -626,16 +642,18 @@ class QueriesController extends \BaseController {
 	{
 		$fecha_final ='now()';
 
-		if ($consulta == 'dia') 
-			$fecha_inicial ='now()'; 
-
-		else if ($consulta == 'mes') 
-			$fecha_inicial = Carbon::now()->startOfMonth(); 
-
-		else if ($consulta == 'fechas') 
-		{
+		if (Input::has('fecha_inicial')) {
 			$fecha_inicial = Input::get('fecha_inicial'); 
 			$fecha_final = Input::get('fecha_final');
+			$consulta = 'fechas';
+		}
+
+		else if ($consulta == 'dia') {
+			$fecha_inicial ='now()'; 
+		}
+
+		else {
+			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
 		return Response::json(array(

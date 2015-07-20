@@ -37,6 +37,7 @@ tr.row_selected td {
 
 #example_wrapper{
  background-color:#f7f7f7;
+ min-height: 215px;
 }
 
 #example_paginate {
