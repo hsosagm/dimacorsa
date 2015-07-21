@@ -285,34 +285,37 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'compras'), function()
     {
-        Route::get('create'                         , 'CompraController@create' );
-        Route::post('create'                        , 'CompraController@create' );
-        Route::get('detalle'                        , 'CompraController@detalle');
-        Route::post('detalle'                       , 'CompraController@detalle');
-        Route::post('verfactura'                    , 'CompraController@AbrirCompraNoCompletada');
-        Route::get('ModalPurchasePayment '          , 'CompraController@ModalPurchasePayment'  );
-        Route::post('ModalPurchasePayment'          , 'CompraController@ModalPurchasePayment'  );
-        Route::post('DeletePurchaseInitial'         , 'CompraController@DeletePurchaseInitial' );
-        Route::get('OpenModalPurchaseItemSerials'   , 'CompraController@OpenModalPurchaseItemSerials' );
-        Route::get('OpenModalPurchaseInfo'          , 'CompraController@OpenModalPurchaseInfo');
-        Route::post('OpenModalPurchaseInfo'         , 'CompraController@OpenModalPurchaseInfo');
-        Route::post('DeletePurchaseShipping'        , 'CompraController@DeletePurchaseShipping'   );
-        Route::post('FinishInitialPurchase'         , 'CompraController@FinishInitialPurchase');
-        Route::post('SaveEditPurchaseItemDetails'   , "CompraController@SaveEditPurchaseItemDetails" );
-        Route::post('DeletePurchaseDetailsItem'     , 'CompraController@DeletePurchaseDetailsItem' );
-        Route::post('DeletePurchasePaymentItem'     , 'CompraController@DeletePurchasePaymentItem'   );
-        Route::get('ConsultPurchase'                , 'CompraController@ConsultPurchase');
-        Route::get('ShowTableUnpaidShopping'        , 'CompraController@ShowTableUnpaidShopping');
-        Route::get('ShowTableHistoryPayment'        , 'CompraController@ShowTableHistoryPayment');
-        Route::get('ShowTableHistoryPaymentDetails' , 'CompraController@ShowTableHistoryPaymentDetails');
-        Route::get('showPurchaseDetail'             , 'CompraController@showPurchaseDetail');
-        Route::get('showPaymentsDetail'             , 'CompraController@showPaymentsDetail');
-        Route::get('Purchase_dt'                    , 'CompraController@Purchase_dt');
-        Route::get('PurchaseUnpaid_dt'              , 'CompraController@PurchaseUnpaid_dt');
-        Route::get('ComprasPendientesDePago'        , 'CompraController@ComprasPendientesDePago');
-        Route::get('HistorialDePagos'               , 'CompraController@HistorialDePagos');
-        Route::get('HistorialDeAbonos'              , 'CompraController@HistorialDeAbonos');
-        Route::get('getCreditPurchase'              , 'CompraController@getCreditPurchase');
+        Route::get('create'                             , 'CompraController@create' );
+        Route::post('create'                            , 'CompraController@create' );
+        Route::get('detalle'                            , 'CompraController@detalle');
+        Route::post('detalle'                           , 'CompraController@detalle');
+        Route::post('verfactura'                        , 'CompraController@AbrirCompraNoCompletada');
+        Route::get('ModalPurchasePayment '              , 'CompraController@ModalPurchasePayment'  );
+        Route::post('ModalPurchasePayment'              , 'CompraController@ModalPurchasePayment'  );
+        Route::post('DeletePurchaseInitial'             , 'CompraController@DeletePurchaseInitial' );
+        Route::get('OpenModalPurchaseItemSerials'       , 'CompraController@OpenModalPurchaseItemSerials' );
+        Route::get('OpenModalPurchaseInfo'              , 'CompraController@OpenModalPurchaseInfo');
+        Route::post('OpenModalPurchaseInfo'             , 'CompraController@OpenModalPurchaseInfo');
+        Route::post('DeletePurchaseShipping'            , 'CompraController@DeletePurchaseShipping'   );
+        Route::post('FinishInitialPurchase'             , 'CompraController@FinishInitialPurchase');
+        Route::post('SaveEditPurchaseItemDetails'       , "CompraController@SaveEditPurchaseItemDetails" );
+        Route::post('DeletePurchaseDetailsItem'         , 'CompraController@DeletePurchaseDetailsItem' );
+        Route::post('DeletePurchasePaymentItem'         , 'CompraController@DeletePurchasePaymentItem'   );
+        Route::get('ConsultPurchase'                    , 'CompraController@ConsultPurchase');
+        Route::get('ShowTableUnpaidShopping'            , 'CompraController@ShowTableUnpaidShopping');
+        Route::get('getComprasPedientesDePago'          , 'CompraController@getComprasPedientesDePago');
+        Route::get('ShowTableHistoryPayment'            , 'CompraController@ShowTableHistoryPayment');
+        Route::get('ShowTableHistoryPaymentDetails'     , 'CompraController@ShowTableHistoryPaymentDetails');
+        Route::get('showPurchaseDetail'                 , 'CompraController@showPurchaseDetail');
+        Route::get('showPaymentsDetail'                 , 'CompraController@showPaymentsDetail');
+        Route::get('Purchase_dt'                        , 'CompraController@Purchase_dt');
+        Route::get('PurchaseUnpaid_dt'                  , 'CompraController@PurchaseUnpaid_dt');
+        Route::get('ComprasPendientesDePago'            , 'CompraController@ComprasPendientesDePago');
+        Route::get('HistorialDePagos'                   , 'CompraController@HistorialDePagos');
+        Route::get('HistorialDeAbonos'                  , 'CompraController@HistorialDeAbonos');
+        Route::get('getCreditPurchase'                  , 'CompraController@getCreditPurchase');
+        Route::get('getComprasPendientesPorProveedor'   , 'CompraController@getComprasPendientesPorProveedor');
+        Route::get('getCompraConDetalle'                , 'CompraController@getCompraConDetalle');
 
         Route::group(array('prefix' => 'payments'),function() 
         {

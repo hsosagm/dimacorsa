@@ -390,6 +390,7 @@ class PurchasePaymentsController extends \BaseController {
 
     public function abonosComprasPorSeleccion()
     {
+
 		$ids_compra = explode(',', Input::get('array_ids_compras'));
 
     	if (empty(Input::get('array_ids_compras'))) 
@@ -399,7 +400,8 @@ class PurchasePaymentsController extends \BaseController {
 
     	$data = array('proveedor_id' => Input::get('proveedor_id'),
     				'metodo_pago_id' => Input::get('metodo_pago_id'),
-					'monto' => Input::get('monto') );
+					'monto' => Input::get('monto'),
+					'observaciones' => Input::get('observaciones')  );
 
     	$abono = new AbonosCompra;
 

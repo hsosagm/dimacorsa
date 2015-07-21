@@ -18,22 +18,15 @@ function GetPurchasesForPaymentsBySelection(page , sSearch )
     });
 }
 
-$(document).on('click', '.pagination a', function (e) {
-
+$(document).on('click', '.pagination_seleccion a', function (e) {
     e.preventDefault();
-
     var page = $(this).attr('href').split('page=')[1];
-
     GetPurchasesForPaymentsBySelection(page,null);
-
 });
 
-
 function SST_search() {
-
     $("#iSearch").val("");
     $("#iSearch").unbind();
-
     $('#iSearch').keyup(function() {
         GetPurchasesForPaymentsBySelection( 1, $(this).val() );
     });

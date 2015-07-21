@@ -60,6 +60,6 @@
 
     </table>
 
-    <div style="float:right" class="pagination"> {{ $compras->links() }} </div>
+    <div style="float:right" class="pagination_seleccion"> {{ $compras->links() }} </div>
 
 @endif

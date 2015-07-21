@@ -3,6 +3,7 @@ $(function() {
     $(document).on('click', '.master_opcion_abonar', function() { master_opcion_abonar(this);});
 });
 
+
 function AbonarCompraPendienteDePago(element)
 {
 	$(element).attr('disabled', 'disabled');
@@ -29,7 +30,7 @@ function AbonarCompraPendienteDePago(element)
             msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
-     $(element).removeAttr('disabled');
+    $(element).removeAttr('disabled');
     return false;
 }
 
@@ -92,26 +93,26 @@ function EliminarAbonoCompra(id)
 
 function showPaymentsDetail(e){
 
- if ($(e).hasClass("hide_detail")) 
-    {
-        $(e).removeClass('hide_detail');
-        $('.subtable').fadeOut('slow');
-    } 
-    else 
-    {
-        $('.hide_detail').removeClass('hide_detail');
+   if ($(e).hasClass("hide_detail")) 
+   {
+    $(e).removeClass('hide_detail');
+    $('.subtable').fadeOut('slow');
+} 
+else 
+{
+    $('.hide_detail').removeClass('hide_detail');
 
-        if ( $( ".subtable" ).length )
-        {
-            $('.subtable').fadeOut('slow', function(){
-                getPaymentsDetail(e);
-            })
-        }
-        else
-        {
+    if ( $( ".subtable" ).length )
+    {
+        $('.subtable').fadeOut('slow', function(){
             getPaymentsDetail(e);
-        }
+        })
     }
+    else
+    {
+        getPaymentsDetail(e);
+    }
+}
 }
 
 function getPaymentsDetail(e)
@@ -191,6 +192,115 @@ function getPurchaseDetail(e) {
             }
             else
             {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+function getComprasPedientesDePago()
+{
+   $.ajax({
+        type: 'GET',
+        url: "admin/compras/getComprasPedientesDePago",
+        success: function (data) {
+            if (data.success == true) {
+                setTimeout(function() {
+                    $('#example_length').prependTo("#table_length");
+                    $('.dt-container').show();
+                    $('#iSearch').keyup(function() {
+                        $('#example').dataTable().fnFilter( $(this).val() );
+                    })
+                }, 300);
+                return generate_dt_local(data.table);
+            }
+            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+        }
+    }); 
+}
+
+global_proveedor_id = 0;
+function ComprasPendientesPorProveedor(e, id)
+{
+    global_proveedor_id = id;
+    if ($(e).hasClass("hide_detail"))  {
+        $(e).removeClass('hide_detail');
+        $('.subtable').fadeOut('slow');
+    } 
+    else {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length ) {
+            $('.subtable').fadeOut('slow', function(){
+                getComprasPendientesPorProveedor(e, 1 , null);
+            })
+        }
+        else {
+            getComprasPendientesPorProveedor(e, 1 , null);
+        }
+    }
+}
+
+function getComprasPendientesPorProveedor(e , page , sSearch) {
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=6><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: 'GET',
+        url: "admin/compras/getComprasPendientesPorProveedor?page=" + page,
+        data: { proveedor_id: global_proveedor_id ,  sSearch:sSearch},
+        success: function (data) {
+            if (data.success == true) {
+                $('.grid_detalle_factura').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                $(e).addClass('hide_detail');
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+function getComprasPendientesPorProveedorPaginacion(page , sSearch) {
+    $.ajax({
+        type: 'GET',
+        url: "admin/compras/getComprasPendientesPorProveedor?page=" + page,
+        data: { proveedor_id: global_proveedor_id , sSearch:sSearch},
+        success: function (data) {
+            if (data.success == true) {
+                $('.grid_detalle_factura').html(data.table);
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+}
+
+$(document).on('click', '.pagination_compras_por_proveedor a', function (e) {
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+    getComprasPendientesPorProveedorPaginacion(page,null);
+    return false;
+});
+
+function getCompraConDetalle(e, compra_id)
+{
+    $.ajax({
+        type: 'GET',
+        url: "admin/compras/getCompraConDetalle",
+        data: {compra_id: compra_id },
+        success: function (data) {
+            if (data.success == true) {
+                $('#modal-body-detalle').html(data.table);
+                $('#modal-title-detalle').text( 'Detalle de Venta' );
+                $('#bs-modal-detalle').modal('show');
+            }
+            else {
                 msg.warning(data, 'Advertencia!');
             }
         }

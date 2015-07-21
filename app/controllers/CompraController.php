@@ -433,33 +433,75 @@ class CompraController extends \BaseController {
 		echo TableSearch::get($table, $columns, $Search_columns, $Join ,$where);
 	}
 
-	public function getCreditPurchase()
+	public function getComprasPedientesDePago()
 	{
-		$compras = DB::table('compras')
+		$compras = DB::table('proveedores')
         	->select(DB::raw("
-        	compras.created_at as fecha_ingreso,
-        	compras.fecha_documento as fecha, 
-            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            proveedores.nombre as proveedor,
-            numero_documento,
-            compras.id as id ,
-            saldo,
-            total"))
-	        ->join('users', 'compras.user_id', '=', 'users.id')
-	        ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
-	        ->where('saldo', '>', 0)
-	        ->where('completed', '=', 1)
+        		proveedores.id as id,
+        		proveedores.nombre as proveedor,
+        		proveedores.direccion as direccion,
+        		sum(compras.total) as total,
+        		sum(compras.saldo) as saldo_total,
+        		(select sum(saldo) from compras where 
+        			DATEDIFF(current_date,fecha_documento) >= 30 
+        			AND proveedor_id = proveedores.id) as saldo_vencido
+        		"))
+	        ->join('compras', 'compras.proveedor_id', '=', 'proveedores.id')
+	        ->where('compras.saldo', '>', 0)
+	        ->where('compras.completed', '=', 1)
 	        ->where('compras.tienda_id', '=', Auth::user()->tienda_id)
-	        ->orderBy('fecha', 'ASC')
+	        ->groupBy('proveedor_id')
 	        ->get();
 
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('compras.ComprasPendientesDePago', compact('compras'))->render()
+			'table' => View::make('compras.getComprasPedientesDePago', compact('compras'))->render()
+        ));
+
+	}
+
+	public function getComprasPendientesPorProveedor()
+	{	
+		$table = 'compras';
+
+        $columns = array(
+            "compras.id as id_compra",
+            "compras.numero_documento as factura",  
+            "compras.created_at as fecha_ingreso",  
+            "compras.fecha_documento as fecha_documento",  
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
+            "compras.total as total", 
+            "compras.saldo as saldo",
+            "DATEDIFF(current_date,fecha_documento) as dias"
+        );
+
+        $Search_columns = array("users.nombre","users.apellido","venta.created_at","compras.factura");
+
+        $Join = "JOIN users ON (users.id = compras.user_id) ";
+
+        $where  = " compras.tienda_id = ".Auth::user()->tienda_id;
+        $where  = " compras.saldo > 0 ";
+        $where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
+
+        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('compras.getComprasPendientesPorProveedor', compact('detalle'))->render()
         ));
 
 	}
 	
+	public function getCompraConDetalle()
+	{
+		$compra = Compra::with('detalle_compra','proveedor')->find(Input::get('compra_id'));
+
+		 return Response::json(array(
+            'success' => true,
+            'table' => View::make('compras.getCompraConDetalle', compact('compra'))->render()
+        ));
+	}
+
 	public function ShowTableHistoryPayment()
 	{
 		return View::make('compras.HistorialDePagos');
