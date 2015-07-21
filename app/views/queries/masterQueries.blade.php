@@ -122,15 +122,15 @@
                     type: "GET",
                     url: form.attr('action'),
                     data: form.serialize(),
-                    success: function (data) {
-                        if (data.success == true)
-                        {
-                            return queries.proccesTable(data.view);
-                        }
-                        msg.warning(data, 'Advertencia!');
-                        $('input[type=submit]', form).prop('disabled', false);
+                }).done(function(data) {
+                    if (data.success == true)
+                    {
+                        return queries.proccesTable(data.view);
                     }
+                    msg.warning(data, 'Advertencia!');
+                    $('input[type=submit]', form).prop('disabled', false);
                 });
+
             },
             /* fin consultas */
 

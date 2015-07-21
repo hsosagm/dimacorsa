@@ -75,7 +75,7 @@
                 @endif
                 
                 <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Graficas Ventas" data-toggle="tooltip"><i class="fa fa-bar-chart-o"></i></a>
+                    <a href="javascript:void(0)" onclick="chartVentasPorUsuario();" title="Graficas Ventas"><i class="fa fa-bar-chart-o"></i></a>
                 </li>
                 
                 @if($slide_bar_left == 2 || $slide_bar_left == 3)
