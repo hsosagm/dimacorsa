@@ -116,28 +116,28 @@ class ChartController extends \BaseController {
 
 	public function chartVentasPorUsuario()
 	{
-		$ventas = DB::table('ventas')
-        ->join('detalle_ventas', 'ventas.id', '=', 'detalle_ventas.venta_id')
-        ->where('tienda_id', 1)
-        ->where(DB::raw('MONTH(ventas.created_at)'), '=', date('M') )
-        ->where(DB::raw('YEAR(ventas.created_at)'), '=', date('Y') )
-        ->select(DB::raw('sum(cantidad * precio) as total, sum(cantidad * ganancias ) as ganancias'))
-        ->first();
+        $ventas = DB::table('ventas')
+        ->join('users', 'ventas.user_id', '=', 'users.id')
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('MONTH(ventas.created_at)'), date('m') )
+        ->where(DB::raw('YEAR(ventas.created_at)'), date("Y") )
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("user_id, CONCAT_WS(' ',users.nombre,users.apellido) as usuario, sum(total) as total"))
+        ->groupBy('user_id')
+        ->orderBy('total')
+        ->get();
 
-        $v = $ventas->total;
-
-		$data = [];
-
-        for ($i= 5; $i>=0; $i--)
-        {
-            $data[] = 4;
+        foreach ($ventas as $v) {
+            $totales[] = (float) $v->total;
+            $usuarios[] = $v->usuario;
         }
 
-        $data = json_encode($data);
+        $usuarios = json_encode($usuarios);
+        $totales = json_encode($totales);
 
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('chart.ventasPorUsuario', compact('data'))->render()
+			'view'    => View::make('chart.ventasPorUsuario', compact('totales', 'usuarios'))->render()
         ));
 	}
 }

@@ -9,22 +9,17 @@
 
 <script type="text/javascript">
 
-    var data =  {{$data}};
+    var totales  =  {{$totales}};
+    var usuarios =  {{$usuarios}};
 
     $(function () {
 
-        Highcharts.wrap(Highcharts.Chart.prototype, 'getContainer', function (proceed) {
-           proceed.call(this);
-           this.container.style.background = 'url(images/graph.png)';
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: '.',
+                thousandsSep: ','
+            }
         });
-
-        Highcharts.theme = {
-           chart: {
-              backgroundColor: null
-           },
-        };
-
-        Highcharts.setOptions(Highcharts.theme);
 
         $('#container').highcharts({
             chart: {
@@ -44,19 +39,37 @@
             plotOptions: {
                 column: {
                     depth: 100
+                },
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function() {
+                            return Highcharts.numberFormat(this.y, 2);
+                        },
+                    }
                 }
             },
+            tooltip: {
+                enabled: false
+            },
             xAxis: {
-                categories: Highcharts.getOptions().lang.shortMonths
+                categories: usuarios
             },
             yAxis: {
                 title: {
-                    text: null
+                    enabled: false,
+                    text: ''
+                },
+                labels: {
+                    formatter: function() {
+                       return Highcharts.numberFormat(this.value, 2);
+                    }
                 }
             },
             series: [{
                 name: 'Ventas por usuario',
-                data: data
+                data: totales
             }]
         });
     });

@@ -436,15 +436,6 @@ Route::get('test', function()
    ->where('ventas.tienda_id',Auth::user()->tienda_id)->get();
    
    return View::make('cierre.DetalleDeVentasPorProducto', compact('detalle'))->render();*/
-
-        $ventas = DB::table('ventas')
-        ->where('tienda_id', Auth::user()->tienda_id)
-        ->where(DB::raw('MONTH(ventas.created_at)'), date('m') )
-        ->where(DB::raw('YEAR(ventas.created_at)'), date("Y") )
-        ->select(DB::raw('sum(total) as total'))
-        ->get();
-
-        return json_encode($ventas);
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
