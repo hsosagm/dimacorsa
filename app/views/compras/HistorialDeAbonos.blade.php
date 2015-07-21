@@ -20,7 +20,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover  widthM",                     "sTitle": "M.P.",        "aTargets": [2]},
             {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Monto",       "aTargets": [3]},
             {"sClass": "mod_codigo hover  widthL",                     "sTitle": "Observaciones","aTargets": [4]},
-            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [5],
+            {"sClass": "widthS icons center",                          "sTitle": "",             "aTargets": [5],
                 "orderable": false,
                 "mRender": function() {
                     return '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i> <i style="padding-left:10px" class="fa fa-trash-o btn-link theme-c" onClick="_delete_dt(this)"></i>';

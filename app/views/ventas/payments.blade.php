@@ -24,7 +24,6 @@
         <div class="modal-footer" style="margin-top:20px">
             <button class="btn theme-button" type="submit">Enviar</button>
         </div>
-
     {{Form::close()}}
 
 </div>

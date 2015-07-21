@@ -54,7 +54,7 @@
 				data: {proveedor_id:$proveedor_id},
 				success: function (data) 
 				{
-					$(".proveedor-credito").html('<strong>Saldo   Q: '+data+'</strong>');
+					$(".proveedor-credito").html('Saldo Total: <strong> Q '+data.saldo_total+'</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Saldo Vencido: <strong> Q '+data.saldo_vencido+'</strong>');
 				},
 				error: function(errors)
 				{

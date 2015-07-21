@@ -22,12 +22,12 @@
             },
             
             "aoColumnDefs": [
-                {"sClass": "widthS",               "sTitle": "Usuario",                      "aTargets": [0]},
-                {"sClass": "widthM",               "sTitle": "Fecha",                        "aTargets": [1]},
-                {"sClass": "widthS right",         "sTitle": "Numero",                       "aTargets": [2]},
-                {"sClass": "widthS right",         "sTitle": "Total",                        "aTargets": [3]},
-                {"sClass": "widthS right",         "sTitle": "Saldo",                        "aTargets": [4]},
-                {"sClass": "widthS center font14", "sTitle": "Acciones", "orderable": false, "aTargets": [5],
+                {"sClass": "widthS",                        "sTitle": "Usuario",                      "aTargets": [0]},
+                {"sClass": "widthM",                        "sTitle": "Fecha",                        "aTargets": [1]},
+                {"sClass": "widthS right",                  "sTitle": "Numero",                       "aTargets": [2]},
+                {"sClass": "widthS right formato_precio",   "sTitle": "Total",                        "aTargets": [3]},
+                {"sClass": "widthS right formato_precio",   "sTitle": "Saldo",                        "aTargets": [4]},
+                {"sClass": "widthS center font14", "sTitle": "", "orderable": false,                  "aTargets": [5],
                     "mRender": function() {
                         return '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail">';
                     }
@@ -36,6 +36,9 @@
 
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
+                $("td[class*='formato_precio']").each(function() {
+                    $(this).html(formato_precio($(this).html()));
+                });
             },
 
             "bJQueryUI": false,

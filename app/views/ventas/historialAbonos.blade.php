@@ -16,7 +16,7 @@
             <td width="12%"> @{{ av.fecha }} </td>
             <td width="16%"> @{{ av.usuario }} </td>
             <td width="12%"> @{{ av.metodoPago }} </td>
-            <td width="10%" class="right"> @{{ av.monto | currency }} </td>
+            <td width="10%" class="right"> @{{ av.monto | currency ' ' }} </td>
             <td width="40%"> @{{ av.observaciones }} </td>
             <td class="widthS center font14"  width="10%"> 
                 <a href="javascript:void(0);" title="Ver detalle" v-on="click: toggleActive(this, av)" v-class="hide_detail: av.active" class="fa fa-plus-square"> 
