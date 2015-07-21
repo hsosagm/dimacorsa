@@ -113,4 +113,31 @@ class ChartController extends \BaseController {
 
         return View::make('chart.ventas', compact('dt', 'v', 'g'));
 	}
+
+	public function chartVentasPorUsuario()
+	{
+        $ventas = DB::table('ventas')
+        ->join('users', 'ventas.user_id', '=', 'users.id')
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('MONTH(ventas.created_at)'), date('m') )
+        ->where(DB::raw('YEAR(ventas.created_at)'), date("Y") )
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("user_id, CONCAT_WS(' ',users.nombre,users.apellido) as usuario, sum(total) as total"))
+        ->groupBy('user_id')
+        ->orderBy('total')
+        ->get();
+
+        foreach ($ventas as $v) {
+            $totales[] = (float) $v->total;
+            $usuarios[] = $v->usuario;
+        }
+
+        $usuarios = json_encode($usuarios);
+        $totales = json_encode($totales);
+
+		return Response::json(array(
+			'success' => true,
+			'view'    => View::make('chart.ventasPorUsuario', compact('totales', 'usuarios'))->render()
+        ));
+	}
 }

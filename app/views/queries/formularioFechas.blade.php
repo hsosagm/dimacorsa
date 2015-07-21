@@ -14,7 +14,7 @@
 			<td><button class="btn btn-theme" type="submit" > Actualizar !</button></td>
 		</tr>
 		<tr class="col-md-1">
-			<td><i v-on="click: returnToMasterQueries" class="fa fa-reply" style="padding-left:50px; font-size:20px;"></i></td>
+			<td><i title="Regresar" v-on="click: returnToMasterQueries" class="fa fa-reply" style="padding-left:50px; font-size:20px;"></i></td>
 		</tr>
 	</table>
 {{Form::close()}}

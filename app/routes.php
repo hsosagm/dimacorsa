@@ -410,6 +410,7 @@ Route::group(array('prefix' => 'owner'), function()
         Route::get('gastos' , 'ChartController@gastos' );
         Route::get('soporte', 'ChartController@soporte');
         Route::get('ventas' , 'ChartController@ventas' );
+        Route::get('chartVentasPorUsuario', 'ChartController@chartVentasPorUsuario');
     });
 
     Route::group(array('prefix' => 'soporte'), function()

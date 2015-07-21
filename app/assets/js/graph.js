@@ -33,3 +33,18 @@ function graph_s() {
         $('.table').html(data);
     }); 
 }
+
+function chartVentasPorUsuario() {
+    $.ajax({
+        type: "GET",
+        url: 'owner/chart/chartVentasPorUsuario',
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            clean_panel();
+            $('.dt-container').show();
+            return $('.table').html(data.view);
+        }
+        msg.warning(data, 'Advertencia!');
+    }); 
+}
