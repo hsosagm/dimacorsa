@@ -15,13 +15,16 @@
 				<tr>
 					<td width="20%" style="text-align: center;">
 						<i style="cursor:pointer; font-style: normal;" onclick="VentasDelMesCierre(this,'{{$fecha}}')">Ventas</i>
+						<i class="fa fa-search btn-link" onclick="VentasDelMesCierre(this,'{{$fecha}}')"></i>
 					</td>
 					<td width="20%" style="text-align: center;" >Utilidades</td>
 					<td width="20%" style="text-align: center;" >
 						<i style="cursor:pointer; font-style: normal;" onclick="SoporteDelMesCierre(this,'{{$fecha}}')">Soporte</i>
+						<i class="fa fa-search btn-link" onclick="SoporteDelMesCierre(this,'{{$fecha}}')"></i>
 					</td>
 					<td width="20%" style="text-align: center;" >
 						<i style="cursor:pointer; font-style: normal;" onclick="GastosDelMesCierre(this,'{{$fecha}}')">Gastos</i>
+						<i class="fa fa-search btn-link" onclick="GastosDelMesCierre(this,'{{$fecha}}')"></i>
 					</td>
 					<td width="20%" style="text-align: center;" >Utilidades Netas</td>
 				</tr>
@@ -33,7 +36,7 @@
 					<td style="text-align: right;"> {{ ($ganancias_netas )}} (%{{ f_num::get(($ganancias_netas*100)/$total_ventas) }})</td>
 				</tr>
 			</thead>
-			<tbody class="table-hover cierre_body cierre_detalle" style="display:none">
+			<tbody class="table-hover cierre_body cierre_detalle" style="">
 				<tr>
 					<td colspan="5" style="text-align: center;">
 						- Ventas por Usuario - 
@@ -49,13 +52,6 @@
 				@endforeach 
 			</tbody>
 			<tfoot>
-				<tr>
-					<td colspan="5" style="text-align: right;">
-						<a href="javascript:void(0)">
-							<i class="fa fa-angle-down" style="font-size:25px; margin-right:10px" onclick="ocultarMostrarDetalleCierre(this)"> </i>
-						</a>
-					</td>
-				</tr>
 				<tr>
 					<td colspan="5" class="cierre_totales">
 						<div class="row">

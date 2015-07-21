@@ -173,6 +173,23 @@ class ProveedorController extends BaseController {
             'saldo_vencido' => f_num::get($saldo_vencido->total) );
     } 
 
+    public function _TotalCredito()
+    {
+        $saldo_total = Compra::where('proveedor_id','=', Input::get('proveedor_id'))
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
+
+        $saldo_vencido = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))
+        ->where('saldo','>',0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+
+        return array('saldo_total' => $saldo_total->total, 
+            'saldo_vencido' => $saldo_vencido->total );
+    } 
+
     public function ImprimirAbono_dt($code,$id)
     {
         $detalle = DB::table('detalle_abonos_compra')
@@ -206,7 +223,7 @@ class ProveedorController extends BaseController {
 
     public function getInfoProveedor()
     {
-        $data =  $this->TotalCredito();
+        $data =  $this->_TotalCredito();
         $saldo_vencido = f_num::get($data['saldo_vencido']);
         $saldo_total = f_num::get($data['saldo_total']);
         $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

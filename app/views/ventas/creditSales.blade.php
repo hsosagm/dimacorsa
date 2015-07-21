@@ -12,7 +12,7 @@
             <th>Cliente</th>
             <th>Total</th>
             <th>Saldo</th>
-            <th>Operaciones</th>
+            <th>  </th>
         </tr>
     </thead>
 
