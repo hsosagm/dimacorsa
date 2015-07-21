@@ -189,7 +189,6 @@ Route::group(array('prefix' => 'user'), function()
         Route::get('buscar_categoria'          , 'CategoriaController@search');
         Route::get('view_existencias'          , 'ProductoController@view_existencias');
         Route::get('OpenModalSalesItemSerials' , 'CompraController@OpenModalPurchaseItemSerials' );
-
 });
 
 Route::group(array('prefix' => 'admin'), function()
@@ -241,7 +240,6 @@ Route::group(array('prefix' => 'admin'), function()
          Route::get('DetalleDeVentasPorProducto'          , 'CierreController@DetalleDeVentasPorProducto' );
          Route::get('DetalleVentaCierre'                  , 'CierreController@DetalleVentaCierre' );
     });
-
 
     Route::group(array('prefix' => 'barcode'),function() 
     {
