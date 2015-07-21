@@ -69,6 +69,7 @@
             },
             series: [{
                 name: 'Ventas por usuario',
+                colorByPoint: true,
                 data: totales
             }]
         });

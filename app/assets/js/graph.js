@@ -37,7 +37,7 @@ function graph_s() {
 function chartVentasPorUsuario() {
     $.ajax({
         type: "GET",
-        url: 'owner/chart/chartVentasPorUsuario',
+        url: 'user/chart/chartVentasPorUsuario',
     }).done(function(data) {
         if (data.success == true)
         {
