@@ -1,10 +1,9 @@
 <?php
-    // 
-    /*******************************************************************************/
-        Route::when('*', 'csrf', array('post', 'put', 'delete'));
-        Route::when('user/*' , 'auth');
-        Route::when('admin/*', 'auth');
-        Route::when('owner/*', 'auth');
+/*******************************************************************************/
+Route::when('*', 'csrf', array('post', 'put', 'delete'));
+Route::when('user/*' , 'auth');
+Route::when('admin/*', 'auth');
+Route::when('owner/*', 'auth');
     /*******************************************************************************
     funciones para hacer el guardado de logs    
     ********************************************************************************/
@@ -13,7 +12,7 @@
     Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
     DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
     Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
- 
+
     /******************************************************************************
     rutas para evitar los errores de las imagenes no encontradas
     ******************************************************************************/
@@ -40,155 +39,154 @@
 
 Route::group(array('prefix' => 'user'), function()
 {   
-        Route::group(array('prefix' => 'tema'), function()
-        {   
-            Route::get('colorSchemes/{color}'         , 'TemaController@colorSchemes' );
-            Route::get('navbarColor/{color}'          , 'TemaController@navbarColor'  );
-            Route::get('sidebarColor/{color}'         , 'TemaController@sidebarColor' );
-            Route::get('sidebarTypeSetting/{tipo}'    , 'TemaController@sidebarTypeSetting' );
-        }); 
+    Route::group(array('prefix' => 'tema'), function()
+    {   
+        Route::get('colorSchemes/{color}'         , 'TemaController@colorSchemes' );
+        Route::get('navbarColor/{color}'          , 'TemaController@navbarColor'  );
+        Route::get('sidebarColor/{color}'         , 'TemaController@sidebarColor' );
+        Route::get('sidebarTypeSetting/{tipo}'    , 'TemaController@sidebarTypeSetting' );
+    }); 
 
-        Route::group(array('prefix' => 'consulta'), function()
+    Route::group(array('prefix' => 'consulta'), function()
+    {
+        Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario'   );
+        Route::get('VerTablaSoporteDelDiaUsuario'  , 'UserController@VerTablaSoporteDelDiaUsuario'  );
+        Route::get('VerTablaIngresosDelDiaUsuario' , 'UserController@VerTablaIngresosDelDiaUsuario' );
+        Route::get('VerTablaEgresosDelDiaUsuario'  , 'UserController@VerTablaEgresosDelDiaUsuario'  );
+        Route::get('VerTablaGastosDelDiaUsuario'   , 'UserController@VerTablaGastosDelDiaUsuario'   );
+        Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
+        Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
+        Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'        );
+        Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
+        Route::get('SoporteDelDiaUsuario_dt'       , 'UserController@SoporteDelDiaUsuario'          );
+        Route::get('IngresosDelDiaUsuario_dt'      , 'UserController@IngresosDelDiaUsuario'         );
+        Route::get('EgresosDelDiaUsuario_dt'       , 'UserController@EgresosDelDiaUsuario'          );
+        Route::get('GastosDelDiaUsuario_dt'        , 'UserController@GastosDelDiaUsuario'           );
+        Route::get('AdelantosDelDiaUsuario_dt'     , 'UserController@AdelantosDelDiaUsuario'        );
+        Route::get('clientes_dt'                   , 'UserController@clientes'                      );
+    });
+
+    Route::group(array('prefix' => 'cliente'), function()
+    {
+        Route::get('search'                , 'ClienteController@search');
+        Route::get('getInfo'               , 'ClienteController@getInfo');
+        Route::post('delete'               , 'ClienteController@delete');
+        Route::get('index'                 , 'ClienteController@index');
+        Route::get('create'                , 'ClienteController@create');
+        Route::post('create'               , 'ClienteController@create');
+        Route::post('edit'                 , 'ClienteController@edit');
+        Route::get('info'                  , 'ClienteController@info'  );
+        Route::post('contacto_create'      , 'ClienteController@contacto_create');
+        Route::post('contacto_delete'      , 'ClienteController@contacto_delete');
+        Route::get('contacto_nuevo'        , 'ClienteController@contacto_nuevo' );
+        Route::post('contacto_update'      , 'ClienteController@contacto_update');
+        Route::post('contacto_info'        , 'ClienteController@contacto_info'  );
+        Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer');
+        Route::get('DT_salesByCustomer'    , 'ClienteController@DT_salesByCustomer');
+        Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
+        Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
+        Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
+        Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
+        Route::get('DtHistorialPagos'      , 'ClienteController@DtHistorialPagos');
+        Route::get('clientes'              , 'ClienteController@clientes'    );
+    });
+
+    Route::group(array('prefix' => 'soporte'), function()
+    {
+        Route::get('create'                 , 'SoporteController@create');
+        Route::post('delete'                , 'SoporteController@delete');
+        Route::post('create'                , 'SoporteController@create');
+        Route::post('delete_detail'         , 'SoporteController@delete_detail');
+    });
+
+    Route::group(array('prefix' => 'gastos'), function()
+    {
+        Route::get('create'                    , 'GastoController@create');
+        Route::post('delete'                   , 'GastoController@delete');
+        Route::post('create'                   , 'GastoController@create');
+        Route::post('delete_detail'            , 'GastoController@delete_detail');
+    });
+
+    Route::group(array('prefix' => 'egresos'), function()
+    {
+        Route::get('create'                      , 'EgresoController@create');
+        Route::post('delete'                     , 'EgresoController@delete');
+        Route::post('create'                     , 'EgresoController@create');
+        Route::post('delete_detail'              , 'EgresoController@delete_detail');
+    });
+
+    Route::group(array('prefix' => 'ingresos'), function()
+    {
+        Route::get('create'                , 'IngresoController@create');
+        Route::post('delete'               , 'IngresoController@delete');
+        Route::post('create'               , 'IngresoController@create');
+        Route::post('delete_detail'        , 'IngresoController@delete_detail');
+    });
+
+    Route::group(array('prefix' => 'adelantos'), function()
+    {
+        Route::get('create'                    , 'AdelantoController@create');
+        Route::post('delete'                   , 'AdelantoController@delete');
+        Route::post('create'                   , 'AdelantoController@create');
+        Route::post('delete_detail'            , 'AdelantoController@delete_detail');
+    });
+
+    Route::group(array('prefix' => 'productos'), function()
+    {
+        Route::get('/'                 , 'ProductoController@index');
+        Route::post('find'             , 'ProductoController@find');
+        Route::get('md_search'         , 'ProductoController@md_search');
+        Route::get('md_search_dt'      , 'ProductoController@md_search_dt');
+        Route::get('user_inventario_dt', 'ProductoController@user_inventario_dt');
+        Route::get('getInventario'     , 'ProductoController@getInventario');
+    });
+
+    Route::group(array('prefix' => 'ventas'), function()
+    {
+        Route::get('create'                                 , 'VentasController@create' );
+        Route::post('create'                                , 'VentasController@create' );
+        Route::post('detalle'                               , 'VentasController@detalle');
+        Route::post('UpdateDetalle'                         , 'VentasController@UpdateDetalle' );
+        Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
+        Route::post('RemoveSale'                            , 'VentasController@RemoveSale');
+        Route::post('RemoveSaleItem'                        , 'VentasController@RemoveSaleItem');
+        Route::get('ModalSalesPayments'                     , 'VentasController@ModalSalesPayments');
+        Route::post('ModalSalesPayments'                    , 'VentasController@ModalSalesPayments');
+        Route::post('RemoveSalePayment'                     , 'VentasController@RemoveSalePayment');
+        Route::post('FinalizeSale'                          , 'VentasController@FinalizeSale');
+        Route::get('OpenModalSalesPayments'                 , 'VentasController@OpenModalSalesPayments');
+        Route::get('showSalesDetail'                        , 'VentasController@showSalesDetail');
+        Route::get('openSale'                               , 'VentasController@openSale');
+        Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
+        Route::get('ImprimirVentaModal'                     , 'VentasController@ImprimirVentaModal'  );
+        Route::get('ImprimirFacturaVenta/{id}'              , 'VentasController@ImprimirFacturaVenta'  );
+        Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
+        Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
+        Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
+        Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
+        Route::get('VentasPorMetodoDePago'                  , 'VentasController@VentasPorMetodoDePago');
+
+        Route::group(array('prefix' => 'payments'),function() 
         {
-            Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario'   );
-            Route::get('VerTablaSoporteDelDiaUsuario'  , 'UserController@VerTablaSoporteDelDiaUsuario'  );
-            Route::get('VerTablaIngresosDelDiaUsuario' , 'UserController@VerTablaIngresosDelDiaUsuario' );
-            Route::get('VerTablaEgresosDelDiaUsuario'  , 'UserController@VerTablaEgresosDelDiaUsuario'  );
-            Route::get('VerTablaGastosDelDiaUsuario'   , 'UserController@VerTablaGastosDelDiaUsuario'   );
-            Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
-            Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
-            Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'        );
-            //datatables de consultas de los usuarios//
-            Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
-            Route::get('SoporteDelDiaUsuario_dt'       , 'UserController@SoporteDelDiaUsuario'          );
-            Route::get('IngresosDelDiaUsuario_dt'      , 'UserController@IngresosDelDiaUsuario'         );
-            Route::get('EgresosDelDiaUsuario_dt'       , 'UserController@EgresosDelDiaUsuario'          );
-            Route::get('GastosDelDiaUsuario_dt'        , 'UserController@GastosDelDiaUsuario'           );
-            Route::get('AdelantosDelDiaUsuario_dt'     , 'UserController@AdelantosDelDiaUsuario'        );
-            Route::get('clientes_dt'                   , 'UserController@clientes'                      );
-        });
- 
-        Route::group(array('prefix' => 'cliente'), function()
-        {
-            Route::get('search'                , 'ClienteController@search');
-            Route::get('getInfo'               , 'ClienteController@getInfo');
-            Route::post('delete'               , 'ClienteController@delete');
-            Route::get('index'                 , 'ClienteController@index');
-            Route::get('create'                , 'ClienteController@create');
-            Route::post('create'               , 'ClienteController@create');
-            Route::post('edit'                 , 'ClienteController@edit');
-            Route::get('info'                  , 'ClienteController@info'  );
-            Route::post('contacto_create'      , 'ClienteController@contacto_create');
-            Route::post('contacto_delete'      , 'ClienteController@contacto_delete');
-            Route::get('contacto_nuevo'        , 'ClienteController@contacto_nuevo' );
-            Route::post('contacto_update'      , 'ClienteController@contacto_update');
-            Route::post('contacto_info'        , 'ClienteController@contacto_info'  );
-            Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer');
-            Route::get('DT_salesByCustomer'    , 'ClienteController@DT_salesByCustomer');
-            Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
-            Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
-            Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
-            Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
-            Route::get('DtHistorialPagos'      , 'ClienteController@DtHistorialPagos');
-            Route::get('clientes'              , 'ClienteController@clientes'    );
-        });
-
-        Route::group(array('prefix' => 'soporte'), function()
-        {
-            Route::get('create'                 , 'SoporteController@create');
-            Route::post('delete'                , 'SoporteController@delete');
-            Route::post('create'                , 'SoporteController@create');
-            Route::post('delete_detail'         , 'SoporteController@delete_detail');
-        });
-
-        Route::group(array('prefix' => 'gastos'), function()
-        {
-            Route::get('create'                    , 'GastoController@create');
-            Route::post('delete'                   , 'GastoController@delete');
-            Route::post('create'                   , 'GastoController@create');
-            Route::post('delete_detail'            , 'GastoController@delete_detail');
-        });
-
-        Route::group(array('prefix' => 'egresos'), function()
-        {
-            Route::get('create'                      , 'EgresoController@create');
-            Route::post('delete'                     , 'EgresoController@delete');
-            Route::post('create'                     , 'EgresoController@create');
-            Route::post('delete_detail'              , 'EgresoController@delete_detail');
-        });
-
-        Route::group(array('prefix' => 'ingresos'), function()
-        {
-            Route::get('create'                , 'IngresoController@create');
-            Route::post('delete'               , 'IngresoController@delete');
-            Route::post('create'               , 'IngresoController@create');
-            Route::post('delete_detail'        , 'IngresoController@delete_detail');
-        });
-
-        Route::group(array('prefix' => 'adelantos'), function()
-        {
-            Route::get('create'                    , 'AdelantoController@create');
-            Route::post('delete'                   , 'AdelantoController@delete');
-            Route::post('create'                   , 'AdelantoController@create');
-            Route::post('delete_detail'            , 'AdelantoController@delete_detail');
-        });
-
-        Route::group(array('prefix' => 'productos'), function()
-        {
-            Route::get('/'                 , 'ProductoController@index');
-            Route::post('find'             , 'ProductoController@find');
-            Route::get('md_search'         , 'ProductoController@md_search');
-            Route::get('md_search_dt'      , 'ProductoController@md_search_dt');
-            Route::get('user_inventario_dt', 'ProductoController@user_inventario_dt');
-            Route::get('getInventario'     , 'ProductoController@getInventario');
-        });
-
-        Route::group(array('prefix' => 'ventas'), function()
-        {
-            Route::get('create'                                 , 'VentasController@create' );
-            Route::post('create'                                , 'VentasController@create' );
-            Route::post('detalle'                               , 'VentasController@detalle');
-            Route::post('UpdateDetalle'                         , 'VentasController@UpdateDetalle' );
-            Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
-            Route::post('RemoveSale'                            , 'VentasController@RemoveSale');
-            Route::post('RemoveSaleItem'                        , 'VentasController@RemoveSaleItem');
-            Route::get('ModalSalesPayments'                     , 'VentasController@ModalSalesPayments');
-            Route::post('ModalSalesPayments'                    , 'VentasController@ModalSalesPayments');
-            Route::post('RemoveSalePayment'                     , 'VentasController@RemoveSalePayment');
-            Route::post('FinalizeSale'                          , 'VentasController@FinalizeSale');
-            Route::get('OpenModalSalesPayments'                 , 'VentasController@OpenModalSalesPayments');
-            Route::get('showSalesDetail'                        , 'VentasController@showSalesDetail');
-            Route::get('openSale'                               , 'VentasController@openSale');
-            Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
-            Route::get('ImprimirVentaModal'                     , 'VentasController@ImprimirVentaModal'  );
-            Route::get('ImprimirFacturaVenta/{id}'              , 'VentasController@ImprimirFacturaVenta'  );
-            Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
-            Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
-            Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
-            Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
-            Route::get('VentasPorMetodoDePago'                  , 'VentasController@VentasPorMetodoDePago');
-
-            Route::group(array('prefix' => 'payments'),function() 
-            {
-                Route::get('formPayments'              , 'SalesPaymentsController@formPayments');
-                Route::post('formPayments'             , 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination'    , 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'       , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'         , 'SalesPaymentsController@SelectedPaySales'  );
-                Route::get('getDetalleAbono'           , 'SalesPaymentsController@getDetalleAbono'  );
-                Route::get('imprimirAbonoVenta/{id}'   , 'SalesPaymentsController@imprimirAbonoVenta'  );
-                Route::get('imprimirAbonoVenta/dt/{id}', 'SalesPaymentsController@imprimirAbonoVenta_dt'  );
-            });
-
+            Route::get('formPayments'              , 'SalesPaymentsController@formPayments');
+            Route::post('formPayments'             , 'SalesPaymentsController@formPayments');
+            Route::get('formPaymentsPagination'    , 'SalesPaymentsController@formPaymentsPagination');
+            Route::post('eliminarAbonoVenta'       , 'SalesPaymentsController@eliminarAbonoVenta'  );
+            Route::post('SelectedPaySales'         , 'SalesPaymentsController@SelectedPaySales'  );
+            Route::get('getDetalleAbono'           , 'SalesPaymentsController@getDetalleAbono'  );
+            Route::get('imprimirAbonoVenta/{id}'   , 'SalesPaymentsController@imprimirAbonoVenta'  );
+            Route::get('imprimirAbonoVenta/dt/{id}', 'SalesPaymentsController@imprimirAbonoVenta_dt'  );
         });
 
-        Route::get('profile'                   , 'UserController@edit_profile');
-        Route::post('new'                      , 'UserController@create_new'  );
-        Route::post('profile'                  , 'UserController@edit_profile');
-        Route::get('buscar_marca'              , 'MarcaController@search'   );
-        Route::get('buscar_categoria'          , 'CategoriaController@search');
-        Route::get('view_existencias'          , 'ProductoController@view_existencias');
-        Route::get('OpenModalSalesItemSerials' , 'CompraController@OpenModalPurchaseItemSerials' );
+    });
+
+    Route::get('profile'                   , 'UserController@edit_profile');
+    Route::post('new'                      , 'UserController@create_new'  );
+    Route::post('profile'                  , 'UserController@edit_profile');
+    Route::get('buscar_marca'              , 'MarcaController@search'   );
+    Route::get('buscar_categoria'          , 'CategoriaController@search');
+    Route::get('view_existencias'          , 'ProductoController@view_existencias');
+    Route::get('OpenModalSalesItemSerials' , 'CompraController@OpenModalPurchaseItemSerials' );
 
 });
 
@@ -221,33 +219,33 @@ Route::group(array('prefix' => 'admin'), function()
 
     Route::group(array('prefix' => 'cierre'),function() 
     {
-         Route::get('CierreDelDia'                        , 'CierreController@CierreDelDia' );
-         Route::get('cierre'                              , 'CierreController@cierre' );
-         Route::post('cierre'                             , 'CierreController@cierre' );
-         Route::get('CierreDelMes'                        , 'CierreController@CierreDelMes' );
-         Route::get('CierreDelDiaPorFecha'                , 'CierreController@CierreDelDiaPorFecha' );
-         Route::get('CierreDelMesPorFecha'                , 'CierreController@CierreDelMesPorFecha' );
-         Route::get('CierresDelMes'                       , 'CierreController@CierresDelMes' );
-         Route::get('CierresDelMes_dt'                    , 'CierreController@CierresDelMes_dt' );
-         Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
-         Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
-         Route::get('ExportarCierreDelDia/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelDia' );
-         Route::get('VentasDelMes'                        , 'CierreController@VentasDelMes' );
-         Route::get('VentasDelMes_dt'                     , 'CierreController@VentasDelMes_dt' );
-         Route::get('SoportePorFecha'                     , 'CierreController@SoportePorFecha' );
-         Route::get('SoportePorFecha_dt'                  , 'CierreController@SoportePorFecha_dt' );
-         Route::get('GastosPorFecha'                      , 'CierreController@GastosPorFecha' );
-         Route::get('GastosPorFecha_dt'                   , 'CierreController@GastosPorFecha_dt' );
-         Route::get('DetalleDeVentasPorProducto'          , 'CierreController@DetalleDeVentasPorProducto' );
-         Route::get('DetalleVentaCierre'                  , 'CierreController@DetalleVentaCierre' );
+        Route::get('CierreDelDia'                        , 'CierreController@CierreDelDia' );
+        Route::get('cierre'                              , 'CierreController@cierre' );
+        Route::post('cierre'                             , 'CierreController@cierre' );
+        Route::get('CierreDelMes'                        , 'CierreController@CierreDelMes' );
+        Route::get('CierreDelDiaPorFecha'                , 'CierreController@CierreDelDiaPorFecha' );
+        Route::get('CierreDelMesPorFecha'                , 'CierreController@CierreDelMesPorFecha' );
+        Route::get('CierresDelMes'                       , 'CierreController@CierresDelMes' );
+        Route::get('CierresDelMes_dt'                    , 'CierreController@CierresDelMes_dt' );
+        Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
+        Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
+        Route::get('ExportarCierreDelDia/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelDia' );
+        Route::get('VentasDelMes'                        , 'CierreController@VentasDelMes' );
+        Route::get('VentasDelMes_dt'                     , 'CierreController@VentasDelMes_dt' );
+        Route::get('SoportePorFecha'                     , 'CierreController@SoportePorFecha' );
+        Route::get('SoportePorFecha_dt'                  , 'CierreController@SoportePorFecha_dt' );
+        Route::get('GastosPorFecha'                      , 'CierreController@GastosPorFecha' );
+        Route::get('GastosPorFecha_dt'                   , 'CierreController@GastosPorFecha_dt' );
+        Route::get('DetalleDeVentasPorProducto'          , 'CierreController@DetalleDeVentasPorProducto' );
+        Route::get('DetalleVentaCierre'                  , 'CierreController@DetalleVentaCierre' );
     });
 
 
     Route::group(array('prefix' => 'barcode'),function() 
     {
-         Route::get('create'      , 'BarCodeController@create');
-         Route::post('create'     , 'BarCodeController@create');
-         Route::post('print_code' , 'BarCodeController@print_code');
+        Route::get('create'      , 'BarCodeController@create');
+        Route::post('create'     , 'BarCodeController@create');
+        Route::post('print_code' , 'BarCodeController@print_code');
     });
 
     Route::group(array('prefix' => 'productos'), function()
@@ -334,7 +332,7 @@ Route::group(array('prefix' => 'admin'), function()
         });
 
     });
-    
+
     Route::group(array('prefix' => 'descargas'), function()
     {
         Route::get('create'                             , 'DescargaController@create' );
