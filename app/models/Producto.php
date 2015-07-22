@@ -13,6 +13,11 @@ class Producto extends \BaseModel implements Logable {
         return $this->belongsTo('Marca', 'marca_id');
     }
 
+    public function categoria()
+    {
+        return $this->belongsTo('Categoria', 'categoria_id');
+    }
+
     public function getLogName()
     {
         return $this->id;

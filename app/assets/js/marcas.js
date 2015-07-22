@@ -10,7 +10,6 @@ function new_marca()
 		$('.modal-body-categorias').html(data);
 		$('.modal-title-categorias').text('Crear Marcas');
 		$('.bs-modal-categorias').modal('show');
-
 	});
 }
 

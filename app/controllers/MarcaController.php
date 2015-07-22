@@ -2,6 +2,11 @@
 
 class MarcaController extends BaseController {
 
+    public function buscar()
+    {
+        return AutocompleteCategoria::get('marcas', array('id', 'nombre'));
+    }
+
 	public function create()
     {
     	if (Input::has('_token'))

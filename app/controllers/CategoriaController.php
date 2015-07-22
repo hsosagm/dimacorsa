@@ -2,6 +2,11 @@
 
 class CategoriaController extends \BaseController {
 
+    public function buscar()
+    {
+        return AutocompleteCategoria::get('categorias', array('id', 'nombre'));
+    }
+
 	public function create()
     {
     	if (Input::has('_token'))

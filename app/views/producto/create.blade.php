@@ -1,95 +1,82 @@
-
-<br> 
-
-	{{Form::open(array('data-remote-product' ,'data-success' => 'Producto Creado'))}} 
-
-	<div class="form-producto">
-
-		<div class="form-group">
-			<label for="body" class="col-sm-2 control-label">Codigo</label>
-			<div class="col-sm-9">
-				<input class="form-control" autocomplete="off" name="codigo" type="text" autofocus>
+<h4>Nuevo Producto</h4>
+<div class="row">
+	<div class="col-md-6">
+		{{Form::open(array('data-remote-product' ,'data-success' => 'Producto Creado'))}} 
+		{{ Form::hidden('marca_id')}}
+		{{ Form::hidden('categoria_id')}}
+		{{ Form::hidden('sub_categoria_id')}}
+		<div class="row">
+			<div class="col-md-12">
+				<input class="form-control" name="codigo" type="text"  placeholder="Codigo" autofocus>
 			</div>
 		</div>
-
-		{{ Form::_text('descripcion') }}
-
-		{{ Form::_text('p_publico') }}
-		<div class="form-group">
-
-			{{ Form::label('body', 'Marca', array('class'=>'col-sm-2 control-label')) }} 
-
-			<div class="col-sm-9 select_marcas">
-
-				{{ Form::select('marca_id',Marca::lists('nombre', 'id'),'', array('class'=>'form-control'));}} 
-
+		<div class="row">
+			<div class="col-md-12">
+				<input class="form-control" name="descripcion" type="text" placeholder="Descripcion">
 			</div>
-
 		</div>
-
-		<div class="form-group">
-
-			{{ Form::label('body', 'Categoria', array('class'=>'col-sm-2 control-label')) }} 
-			
-			<div class="col-sm-9 select_categorias">
-
-				{{ Form::select('categoria_id',Categoria::lists('nombre', 'id'),'', array('class'=>'form-control'));}} 
-
+		<div class="row">
+			<div class="col-md-6">
+				<input class="form-control" name="p_publico" value="" placeholder="Precio publico" type="text">
 			</div>
-
-		</div>
-
-		<div class="form-group">
-
-			{{ Form::label('body', 'SubCategoria', array('class'=>'col-sm-2 control-label')) }} 
-			
-			<div class="col-sm-9 select_sub_categorias">
-
-				{{ Form::select('categoria_id', SubCategoria::where('categoria_id','=',1)->lists('nombre', 'id') , 1 , array('class' => 'form-control'));}}
-
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-10">
+						<input class="form-control" id="buscarMarca" placeholder="Marca" type="text">
+					</div>
+					<div class="col-md-2">
+						<i class="fa fa-plus-square btn-link theme-c" onclick="new_marca()"></i>
+					</div>
+				</div>
 			</div>
-
 		</div>
-
-		<div class="form-group">
-
-			{{ Form::label('body', 'Inactivo', array('class'=>'col-sm-2 control-label')) }} 
-
-			<div class="col-sm-9">
-
-				{{ Form::checkbox('inactivo', '', false, array('class'=>'form-control') ); }} 
-
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-10">
+						<input class="form-control" id="buscarCategoria" placeholder="Categoria" type="text">
+					</div>
+					<div class="col-md-2">
+						<i class="fa fa-plus-square btn-link theme-c" onclick="new_categoria()"></i>
+					</div>
+				</div>
 			</div>
-
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-10">
+						<input class="form-control" id="buscarSubCategoria" placeholder="Sub Categoria" type="text">
+					</div>
+					<div class="col-md-2">
+						<i class="fa fa-plus-square btn-link theme-c" onclick="new_sub_categoria()"></i>
+					</div>
+				</div>
+			</div>
 		</div>
-
+		<div class="row">
+			<div class="col-md-3">&nbsp;&nbsp;Inactivo</div>
+			<div class="col-md-3">
+				{{ Form::checkbox('Inactivo', '0', false); }} 
+			</div>
+			<div class="col-md-6" align="right">
+				{{ Form::submit('Crear!', array('class'=>'theme-button')) }}
+			</div>
+		</div>
+		{{ Form::close() }}
 	</div>
-
-	<div class="form-footer" align="right">
-		{{ Form::button('Cancelar', array('class' => 'return_compras btn btn-warning'))}}
-		{{ Form::submit('Crear!', array('class'=>'theme-button')) }}
-
+	<div class="col-md-6 contenedor_categorias">
+		
 	</div>
-
-	{{ Form::close() }}
-
-<style type="text/css">
-
-	.producto-container {
-		width: 450px !important;
-	}
-
-</style>
+</div>
 
 <script>
 	$(function(){
 
 		$("form[data-remote-product] input[name=codigo]").focusout(function(event) {
-				generar_codigo_producto();
+			generar_codigo_producto();
 		});
 
 		$("form[data-remote-product] input[name=descripcion]").focusin(function(event) {
-				generar_codigo_producto();
+			generar_codigo_producto();
 		});
 
 		function generar_codigo_producto()
@@ -106,20 +93,27 @@
 				$("form[data-remote-product] input[name=codigo]").val(codigo_generado);
 			}
 		}
+		
+		$("#buscarMarca").autocomplete({ 
+			serviceUrl: 'admin/marcas/buscar',
+			onSelect: function (q) {
+				$("input[name='marca_id']").val(q.id);
+			}
+		});
 
-		$("form[data-remote-product] select[name=categoria_id]").change(function(){
-			
-			$.ajax({
-				type: 'get',
-				url: 'admin/sub_categorias/filtro',
-				data: {categoria_id: $(this).val()},
-				success: function (data) {
-					$('.select_sub_categorias').html(data.select);
-				},
-				error: function(errors){
-					msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-				}
-			});
+		$("#buscarCategoria").autocomplete({ 
+			serviceUrl: 'admin/categorias/buscar',
+			onSelect: function (q) {
+				$("input[name='categoria_id']").val(q.id);
+
+				$("#buscarSubCategoria").autocomplete({ 
+					serviceUrl: 'admin/sub_categorias/buscar/'+q.id+'',
+					onSelect: function (q) {
+
+						$("input[name='sub_categoria_id']").val(q.id);
+					}
+				});
+			}
 		});
 	});
 </script>
