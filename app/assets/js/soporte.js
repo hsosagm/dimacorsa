@@ -15,7 +15,7 @@ function f_soporte() {
 
 function delete_soporte() {
     $id = $("input[name='soporte_id']").val();;
-    $url = "user/soporte/delete";
+    $url = "user/soporte/delete_master";
 
     $.confirm({
         confirm: function(){

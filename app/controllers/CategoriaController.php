@@ -16,14 +16,18 @@ class CategoriaController extends \BaseController {
             if ($categorias->_create())
             {
                 $id = $categorias->get_id();
-
             	$lista = View::make('categoria.list')->render();
+                $this->create_unasigned($id);
+                $categoria = Categoria::find($id);
 
-                $this->create_unasigned( $id );
-
-            	$select = Form::select('categoria_id',Categoria::lists('nombre', 'id'),$id, array('class'=>'form-control'));
-
-                return array('success' => true ,'lista' => $lista ,'model' => 'categorias' ,'select' => $select );
+            	return array(
+                    'success' => true ,
+                    'lista' => $lista ,
+                    'model' => 'Categoria' ,
+                    'nombre' => $categoria->nombre ,
+                    'input' => 'categoria_id' ,
+                    'id' => $id 
+                );
             }
             
             return $categorias->errors();
@@ -45,10 +49,16 @@ class CategoriaController extends \BaseController {
             }
 
             $lista = View::make('categoria.list')->render();
+            $categoria = Categoria::find(Input::get('id'));
 
-            $select = Form::select('categoria_id',Categoria::lists('nombre', 'id'),Input::get('id'), array('class'=>'form-control'));
-
-            return array('success' => true ,'lista' => $lista ,'model' => 'categorias' ,'select' => $select );
+            return array(
+                    'success' => true ,
+                    'lista' => $lista ,
+                    'model' => 'Categoria' ,
+                    'nombre' => $categoria->nombre ,
+                    'input' => 'categoria_id' ,
+                    'id' => Input::get('id')
+                );
         }
 
         $categoria = Categoria::find(Input::get('categoria_id'));

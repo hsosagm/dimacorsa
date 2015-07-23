@@ -68,4 +68,16 @@ class BaseController extends Controller {
 
     	return 'error';
     }
+
+    public function delete_master()
+    {
+        $delete = $this->getModel()->destroy(Input::get('id'));
+
+        if ($delete)
+        {
+            return 'success';
+        }
+
+        return 'error';
+    }
 }

@@ -150,16 +150,23 @@ function ExportarCierreDelDia(tipo,fecha) {
 var cierre_fecha_enviar = "current_date";
 var cierre_metodo_pago_id = 1;
 var cierre_producto_id = 1 ;
+var cierre_model = "" ;
 
-function VentasPorMetodoDePago(page , sSearch) {
+function asignarInfoEnviar($v_model ,$v_metodo){
+    cierre_model= $v_model;
+    cierre_metodo_pago_id = $v_metodo;
+    cierreConsultasPorMetodoDePago(1 , null); 
+}
+
+function cierreConsultasPorMetodoDePago(page , sSearch) {
     $.ajax({
         type: 'GET',
-        url: "user/ventas/VentasPorMetodoDePago?page=" + page,
+        url: "admin/cierre/consultas/ConsultasPorMetodoDePago/"+cierre_model+"?page=" + page,
         data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar },
         success: function (data) {
             if (data.success == true) {
                 $('#modal-body-cierre').html(data.table);
-                $('#modal-title-cierre').text( 'Ventas filtradas por metodo de pago' );
+                $('#modal-title-cierre').text( cierre_model+' filtradas por metodo de pago' );
                 $('#bs-modal-cierre').modal('show');
             }
             else {
@@ -172,7 +179,7 @@ function VentasPorMetodoDePago(page , sSearch) {
 $(document).on('click', '.pagination_cierre a', function (e) {
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
-    VentasPorMetodoDePago(page,null);
+    cierreConsultasPorMetodoDePago(page,null);
 });
 
 function ocultarMostrarDetalleCierre(e) {

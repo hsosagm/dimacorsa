@@ -1,4 +1,4 @@
-@if(!$ventas)
+@if(!$pagos)
 	<tr class="tr_no_data" width="100%">
 		<td> {{ 'No se encontro ningun dato' }} </td>
 	</tr>
@@ -15,22 +15,22 @@
 					<td class="center" widtd="12%">Acciones</td>
 				</tr>
 			</thead>
-			@foreach($ventas as $q)
+			@foreach($pagos as $q)
 				<tr id="{{ $q->id }}">
 					<td                width="17%"> {{ $q->fecha }} </td>
 					<td 			   width="13%"> {{ $q->usuario }} </td>
-					<td                width="40%"> {{ $q->cliente }} </td>
+					<td                width="40%"> {{ $q->nombre_extra }} </td>
 					<td class="right"  width="9%"> {{ f_num::get($q->total) }} </td>
 					<td class="right"  width="9%"> {{ f_num::get($q->pago) }}</td>
 					<td class="widthS center font14"  width="12%"> 
-						<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> </a>
+						<a href="javascript:void(0);" title="Ver detalle" onclick="{{$linkDetalle}}(this)" class="fa fa-plus-square show_detail"> </a>
 					</td>
 				</tr>
 			@endforeach
 			<tfoot>
 				<tr>
 					<td colspan="7">
-						<div style="float:right" class="pagination_cierre"> {{ @$ventas->links() }} </div>
+						<div style="float:right" class="pagination_cierre"> {{ @$pagos->links() }} </div>
 					</td>
 				</tr>
 			</tfoot>

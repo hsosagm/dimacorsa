@@ -5,6 +5,10 @@
 .cierre_body{
 	border: 1px solid #ddd;
 }
+.cierre_body .hover:hover {
+	background: #6FE98C;
+	cursor:pointer;
+}
 
 .cierre_body td {
 	border-left: 1px solid #ddd;

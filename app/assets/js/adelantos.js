@@ -13,7 +13,7 @@ function f_adelanto() {
 
 function delete_adelanto() {
     $id = $("input[name='adelanto_id']").val();;
-    $url = "user/adelantos/delete";
+    $url = "user/adelantos/delete_master";
     
     $.confirm({
         confirm: function() {

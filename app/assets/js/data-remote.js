@@ -141,8 +141,8 @@ $(document).on('submit', 'form[data-remote-cat]', function(e) {
             {
                 msg.success(form.data('success'), 'Listo!');
                 $('.categorias-detail').html(data.lista);
-                
-                $('.select_'+data.model).html(data.select);
+                $("input[name='"+data.input+"']").val(data.id);
+                $("#buscar"+data.model).val(data.nombre)
                 nombre.val('');
             }
             else

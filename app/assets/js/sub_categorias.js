@@ -6,11 +6,17 @@ $(function() {
 
 function new_sub_categoria()
 {
-	$.get( 'admin/sub_categorias/create' , function( data ) {
-		$('.modal-body-categorias').html(data);
-		$('.modal-title-categorias').text('Crear Sub Categorias');
-		$('.bs-modal-categorias').modal('show');
-	});
+	$categoria_id = $("input[name='categoria_id']").val();
+	if($categoria_id > 0) {
+		$.get( 'admin/sub_categorias/create?categoria_id='+$categoria_id , function( data ) {
+			$('.modal-body-categorias').html(data);
+			$('.modal-title-categorias').text('Crear Sub Categorias');
+			$('.bs-modal-categorias').modal('show');
+		});
+	}
+	else {
+		msg.warning('Seleccione una categoria..', 'Advertencia!');
+	}
 }
 
 function sub_categoria_edit(e , sub_categoria_id)
