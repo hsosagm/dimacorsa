@@ -50,12 +50,14 @@ class Ventas extends \BaseController
         $count = 0;
 
         foreach ($query as $q) {
+
             $carbon = Carbon::createFromFormat('Y-m-d', $q->dia);
             $object[$count]['name'] = strval($carbon->day);
             $object[$count]['y'] = intval($q->total);
             $object[$count]['fecha'] = $q->dia;
             $object[$count]['dia'] = $dt->Weekday($q->dia);
-            $object[$count]['tooltip'] = "<a href='javascript:void(0);' onclick='cierreDelDia( $q->dia  )'>Cierre del dia";
+            $dia = "'".$q->dia."'";
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia';
             $count++;
         }
 
