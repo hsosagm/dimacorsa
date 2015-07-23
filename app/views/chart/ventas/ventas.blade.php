@@ -89,7 +89,7 @@
                                     chart.addSeriesAsDrilldown(e.point, data = {name: data['name'], colorByPoint: true, data: data['data']});
                                     chart.tooltip.options.formatter = function()
                                     {
-                                        console.log(this.point.tooltip);
+                                        console.log(this.point.fecha);
                                         return this.point.tooltip;
                                     };
                                 },
@@ -216,8 +216,8 @@ function cierreDelMes(year, month){
     });
 }
 
-function test2(){
-    alert('si2');
+function cierreDelDia(dia){
+    alert(dia);
 }
 
 </script>

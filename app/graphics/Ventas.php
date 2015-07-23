@@ -55,12 +55,12 @@ class Ventas extends \BaseController
             $object[$count]['y'] = intval($q->total);
             $object[$count]['fecha'] = $q->dia;
             $object[$count]['dia'] = $dt->Weekday($q->dia);
+            $object[$count]['tooltip'] = "<a href='javascript:void(0);' onclick='cierreDelDia( $q->dia  )'>Cierre del dia";
             $count++;
         }
 
         $data['data'] = $object;
         $data['title'] = 'Ventas del mes de';
-        $data['tooltip'] = 'Ver cierre del dia';
 
         return json_encode($data);
     }
