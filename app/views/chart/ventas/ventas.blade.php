@@ -162,6 +162,7 @@
             },
 
             tooltip: {
+                useHTML: true,
                 formatter: function() {
                     return 'Total ventas de'+' '+this.point.year+'<br/>'+'<b>'+'Q'+' '+Highcharts.numberFormat(this.y, 2)+'</b>';
                 }
@@ -198,6 +199,15 @@
             }
         })
    });
+
+function cierreDelMes(year, month){
+    alert(year);
+    alert(month);
+}
+
+function test2(){
+    alert('si2');
+}
 
 </script>
 
