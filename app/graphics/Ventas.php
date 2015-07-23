@@ -11,7 +11,7 @@ class Ventas extends \BaseController
         ->where('ventas.tienda_id', Auth::user()->tienda_id)
         ->where(DB::raw('YEAR(ventas.created_at)'), Input::get('year') )
         ->where(DB::raw('total'), '>', 0 )
-        ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes,  YEAR(ventas.created_at) as year"))
+        ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes"))
         ->groupBy('mes')
         ->get();
 
@@ -22,8 +22,8 @@ class Ventas extends \BaseController
             $data[$i]['name'] = $dt->monthsNames($v->mes);
             $data[$i]['y'] = (float) $v->total;
             $data[$i]['url'] = 'owner/chart/ventas/ventasDiariasPorMes';
-            $data[$i]['variables'] = array( "year" => $v->year, "month" => $v->mes);
-            $data[$i]['tooltip'] = "<a href='javascript:void(0);' onclick='cierreDelMes( $v->year, $v->mes )'>Cierre del mes";
+            $data[$i]['variables'] = array( "year" => Input::get('year'), "month" => $v->mes);
+            $data[$i]['tooltip'] = '<a>test</a>';
             $data[$i]['drilldown'] = true;
             $i++;
         }

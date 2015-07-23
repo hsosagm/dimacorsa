@@ -201,8 +201,19 @@
    });
 
 function cierreDelMes(year, month){
-    alert(year);
-    alert(month);
+    fecha = year + '-' + month +'-01';
+
+    $.ajax({
+        type: "GET",
+        url: 'admin/cierre/CierreDelMesPorFecha',
+        data: { fecha:fecha , grafica:'show' },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) {
+            $('.dt-container-cierre').html(data);
+            $('.dt-container').hide();
+            $('.dt-container-cierre').show();
+        }
+    });
 }
 
 function test2(){

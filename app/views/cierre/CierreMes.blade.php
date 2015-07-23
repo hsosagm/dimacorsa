@@ -5,7 +5,8 @@
 			<i  class="fa fa-file-excel-o fa-2" onclick=""> </i>
 			<i class="fa fa-file-pdf-o fa-2" onclick=""> </i>
 			<i class="fa fa-print fa-2"  onclick=""> </i>
-			<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
+			<?php $dt_container = "$('.dt-container').show();"; ?>
+			<i onclick="$('.dt-container-cierre').hide(); {{(Input::has('grafica'))? $dt_container:''}}" class="fa fa-times"></i>
 		</div>
 		<div class="clearfix"></div>
 	</div>
