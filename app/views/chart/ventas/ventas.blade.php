@@ -85,11 +85,9 @@
                                     var title = data['title']+' '+e.point.name;
                                     chart.setTitle({ text: graphTitle[graphPosition] = title });
 
-
                                     chart.addSeriesAsDrilldown(e.point, data = {name: data['name'], colorByPoint: true, data: data['data']});
                                     chart.tooltip.options.formatter = function()
                                     {
-                                        console.log(this.point.fecha);
                                         return this.point.tooltip;
                                     };
                                 },
@@ -107,7 +105,7 @@
                         chart.setTitle({ text: graphTitle[graphPosition] });
                         chart.tooltip.options.formatter = function()
                         {
-                            return this.point.name+' '+'de'+' '+this.point.year+'<br/>'+'<b>'+'Q'+' '+Highcharts.numberFormat(this.y, 2)+'</b>';
+                            return this.point.tooltip;
                         }
                     }
                 }
