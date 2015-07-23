@@ -411,6 +411,12 @@ Route::group(array('prefix' => 'owner'), function()
         Route::get('gastos' , 'ChartController@gastos' );
         Route::get('soporte', 'ChartController@soporte');
         Route::get('ventas' , 'ChartController@ventas' );
+
+        Route::group(array('prefix' => 'ventas'), function()
+        {
+            Route::get('ventasMensualesPorAno' , 'App\graphics\Ventas@ventasMensualesPorAno');
+            Route::get('ventasDiariasPorMes' , 'App\graphics\Ventas@ventasDiariasPorMes');
+        });
     });
 
     Route::group(array('prefix' => 'soporte'), function()
@@ -432,13 +438,45 @@ Route::group(array('prefix' => 'owner'), function()
 });
 
 Route::get('test', function()
-{   
+{
    /*$detalle = DetalleVenta::with('venta','producto')->where('producto_id',1000038)
    ->join('ventas','ventas.id','=','venta_id')
    ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('2015-05-10', '%Y-%m')")
    ->where('ventas.tienda_id',Auth::user()->tienda_id)->get();
    
    return View::make('cierre.DetalleDeVentasPorProducto', compact('detalle'))->render();*/
+
+        $ventas = DB::table('ventas')
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('YEAR(ventas.created_at)'), date("Y") )
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes"))
+        ->groupBy('mes')
+        ->get();
+
+        $dt = App::make('Fecha');
+        $i = 0;
+        
+        foreach ($ventas as $v) {
+            $data[$i]['name'] = $dt->monthsNames($v->mes);
+            $data[$i]['y'] = (float) $v->total;
+            $data[$i]['drilldown'] = true;
+            $i++;
+        }
+
+        $data = json_encode($data);
+
+        // return $data;
+        $query = DB::table('ventas')
+        ->select(array(DB::Raw('DATE(ventas.created_at) as dia'), DB::Raw('sum(total) as total')))
+        ->where(DB::raw('YEAR(ventas.created_at)'), '=', 2015)
+        ->where(DB::raw('MONTH(ventas.created_at)'), '=', 6)
+        ->where('tienda_id', '=', 1)
+        ->groupBy('dia')
+        ->get();
+
+        return json_encode($query);
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
