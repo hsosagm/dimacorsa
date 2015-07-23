@@ -16,12 +16,17 @@ class MarcaController extends BaseController {
             if ($marcas->_create())
             {
             	$id = $marcas->get_id();
-
+                $marca = Marca::find($id);
             	$lista = View::make('marca.list')->render();
 
-            	$select = Form::select('marca_id',Marca::lists('nombre', 'id'), $id , array('class'=>'form-control'));
-
-                return array('success' => true ,'lista' => $lista ,'model' => 'marcas' ,'select' => $select );
+                return array(
+                    'success' => true ,
+                    'lista' => $lista ,
+                    'model' => 'Marca' ,
+                    'nombre' => $marca->nombre ,
+                    'input' => 'marca_id' ,
+                    'id' => $id 
+                );
             }
             
             return $marcas->errors();
@@ -43,10 +48,16 @@ class MarcaController extends BaseController {
             }
 
             $lista = View::make('marca.list')->render();
+            $marca = Marca::find(Input::get('id'));
 
-            $select = Form::select('marca_id',Marca::lists('nombre', 'id'),Input::get('id'), array('class'=>'form-control'));
-
-            return array('success' => true ,'lista' => $lista ,'model' => 'marcas' ,'select' => $select );
+            return array(
+                    'success' => true ,
+                    'lista' => $lista ,
+                    'model' => 'Marca' ,
+                    'nombre' => $marca->nombre ,
+                    'input' => 'marca_id' ,
+                    'id' => Input::get('id') 
+                );
         }
 
         $marca = Marca::find(Input::get('marca_id'));

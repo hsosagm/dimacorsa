@@ -164,7 +164,6 @@ Route::group(array('prefix' => 'user'), function()
         Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
         Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
         Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
-        Route::get('VentasPorMetodoDePago'                  , 'VentasController@VentasPorMetodoDePago');
 
         Route::group(array('prefix' => 'payments'),function() 
         {
@@ -238,6 +237,10 @@ Route::group(array('prefix' => 'admin'), function()
         Route::get('GastosPorFecha_dt'                   , 'CierreController@GastosPorFecha_dt' );
         Route::get('DetalleDeVentasPorProducto'          , 'CierreController@DetalleDeVentasPorProducto' );
         Route::get('DetalleVentaCierre'                  , 'CierreController@DetalleVentaCierre' );
+        Route::group(array('prefix' => 'consultas'),function() 
+        {
+            Route::get('ConsultasPorMetodoDePago/{model}' , 'ConsultasCierreController@ConsultasPorMetodoDePago');
+        });
     });
 
 
@@ -437,6 +440,7 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {   
+
    /*$detalle = DetalleVenta::with('venta','producto')->where('producto_id',1000038)
    ->join('ventas','ventas.id','=','venta_id')
    ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('2015-05-10', '%Y-%m')")

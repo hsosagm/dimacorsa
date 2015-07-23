@@ -1,9 +1,11 @@
 {{ Form::open(array('data-remote-cat','data-success' => 'Sub Categoria Ingresada', 'class' => 'form-horizontal all'))}}
 	<br>
+	<?php $categoria = Categoria::find(Input::get('categoria_id')); ?>
+	<input type="hidden" name="categoria_id" value="{{Input::get('categoria_id')}}">
 	<div class="form-group">
 		{{ Form::label('body', 'Categoria', array('class'=>'col-sm-2 control-label')) }} 
 		<div class="col-sm-9 select-categorias">
-			{{ Form::select('categoria_id',Categoria::lists('nombre', 'id'),'', array('class'=>'form-control'));}} 
+			<input type="text" class="form-control" value="{{$categoria->nombre}}" readonly>
 		</div>
 	</div>
 	{{ Form::_text('nombre') }}
@@ -13,8 +15,11 @@
 {{ Form::close() }}
 <div class="edit_categorias"> </div>
 <div class="categorias-detail lista-col1">
+	<?php $sub_categorias = SubCategoria::where('categoria_id','=',Input::get('categoria_id'))->get(); ?>
 	<ul>
-		<li>Unasigned</li>
+		@foreach($sub_categorias as $cat)
+			<li >{{$cat->nombre}} <i class="fa fa-pencil btn theme-c" onClick="sub_categoria_edit(this , {{$cat->id}})"></i></li>
+		@endforeach
 	</ul>
 </div>
 

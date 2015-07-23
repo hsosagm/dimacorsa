@@ -19,10 +19,16 @@ class SubCategoriaController extends \BaseController {
                 $id = $sub_categorias->get_id();
 
             	$lista = View::make('sub_categoria.list')->render();
+                $subCategoria = SubCategoria::find($id);
 
-            	$select = Form::select('sub_categoria_id', SubCategoria::where('categoria_id','=',Input::get('categoria_id'))->lists('nombre', 'id') , $id , array('class' => 'form-control'));
-
-                return array('success' => true ,'lista' => $lista ,'model' => 'sub_categorias' ,'select' => $select );
+            	return array(
+                    'success' => true ,
+                    'lista' => $lista ,
+                    'model' => 'SubCategoria' ,
+                    'nombre' => $subCategoria->nombre ,
+                    'input' => 'sub_categoria_id' ,
+                    'id' => $id
+                );
             }
             
             return $sub_categorias->errors();
@@ -44,10 +50,16 @@ class SubCategoriaController extends \BaseController {
             }
 
             $lista = View::make('sub_categoria.list')->render();
-
-            $select = Form::select('sub_categoria_id', SubCategoria::where('categoria_id','=',Input::get('categoria_id'))->lists('nombre', 'id') , Input::get('id') , array('class' => 'form-control'));
-
-            return array('success' => true ,'lista' => $lista ,'model' => 'marcas' ,'select' => $select );
+            $subCategoria = SubCategoria::find(Input::get('id'));
+            
+            return array(
+                    'success' => true ,
+                    'lista' => $lista ,
+                    'model' => 'SubCategoria' ,
+                    'nombre' => $subCategoria->nombre ,
+                    'input' => 'sub_categoria_id' ,
+                    'id' => Input::get('id')
+                );
         }
 
         $sub_categoria = SubCategoria::find(Input::get('sub_categoria_id'));
