@@ -29,7 +29,7 @@
             {"sClass": "widthS icons center",                           "sTitle": "",            "aTargets": [5],
                 "orderable": false,
                 "mRender": function() {
-                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar" onclick="_delete_dt(this)"></i> ';
+                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar" url="user/egresos/" onclick="_delete_dt(this)"></i> ';
                 }
             },
         ],

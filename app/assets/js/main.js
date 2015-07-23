@@ -279,7 +279,7 @@ function _delete() {
 
 function _delete_dt(e) {
     $id = $(e).closest('tr').attr('id');    
-    $url = $('.dataTable').attr('url') + 'delete';
+    $url = $(e).attr('url') + 'delete';
     
     $.confirm({
         confirm: function(){
@@ -291,7 +291,7 @@ function _delete_dt(e) {
                 success: function (data, text) {
                     if ($.trim(data) == 'success') {
                         msg.success('Dato eliminado', 'Listo!')
-                        oTable.fnDraw();
+                        $(e).closest('tr').hide();
                     } 
                     else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
