@@ -141,6 +141,7 @@ $(document).on('submit', 'form[data-remote-cat]', function(e) {
             {
                 msg.success(form.data('success'), 'Listo!');
                 $('.categorias-detail').html(data.lista);
+                
                 $('.select_'+data.model).html(data.select);
                 nombre.val('');
             }
@@ -297,11 +298,7 @@ $(document).on('submit', 'form[data-remote-product]', function(e) {
             if (data == 'success')
             {
                 msg.success(form.data('success'), 'Listo!');
-                $('.panel-title').text('Formulario Compras');
-                 $(".dt-container").hide();
-                 $(".producto-container").hide();
-                 $(".form-panel").show();
-
+                $(".contenedor_producto").slideUp('slow');
                 $("#search_producto").val(codigo);
                 search_producto_dt();
             }

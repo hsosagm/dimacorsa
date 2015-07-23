@@ -33,6 +33,34 @@ class ProveedorController extends BaseController {
         return View::make('proveedor.create');
     }
 
+    public function _create()
+    {
+        if (Input::has('_token'))
+        {
+            $proveedor = new Proveedor;
+
+            if (!$proveedor->_create())
+            { 
+                return $proveedor->errors();
+            }
+
+            $proveedor_id = $proveedor->get_id();
+            $proveedor = Proveedor::find($proveedor_id);
+            $data = $this->TotalCreditoCompras($proveedor_id);
+
+            return Response::json(array(
+                'success' => true,
+                'proveedor_id' => $proveedor_id,
+                'nombre' => $proveedor->nombre,
+                'direccion' => $proveedor->direccion,
+                'saldo_total' => f_num::get($data['saldo_total']),
+                'saldo_vencido' => f_num::get($data['saldo_vencido'])
+                ));
+        }
+
+        return View::make('proveedor.compras.create');
+    }
+
     public function help()
     {
     	$proveedor =  Proveedor::find(Input::get('id'));
@@ -149,6 +177,35 @@ class ProveedorController extends BaseController {
 
     }
 
+    public function _edit()
+    {
+         if (Input::has('_token'))
+        {
+            $proveedor = Proveedor::find(Input::get('id'));
+
+            if (!$proveedor->_update())
+            {
+                return $proveedor->errors();
+            }
+
+            $proveedor = Proveedor::find(Input::get('id'));
+            $data = $this->TotalCreditoCompras(Input::get('id'));
+
+            return Response::json(array(
+                'success' => true,
+                'proveedor_id' => Input::get('id'),
+                'nombre' => $proveedor->nombre,
+                'direccion' => $proveedor->direccion,
+                'saldo_total' => f_num::get($data['saldo_total']),
+                'saldo_vencido' => f_num::get($data['saldo_vencido'])
+                ));
+        }
+
+        $proveedor = Proveedor::find(Input::get('id'));
+
+        return View::make('proveedor.compras.edit',compact('proveedor'));
+    }
+
     public function contacto_info()
     {
         $contacto = ProveedorContacto::find(Input::get('id'));
@@ -185,6 +242,23 @@ class ProveedorController extends BaseController {
         ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+
+        return array('saldo_total' => $saldo_total->total, 
+            'saldo_vencido' => $saldo_vencido->total );
+    } 
+
+    public function TotalCreditoCompras($proveedor_id)
+    {
+        $saldo_total = Compra::where('proveedor_id','=', $proveedor_id)
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
+
+        $saldo_vencido = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))
+        ->where('saldo','>',0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('proveedor_id','=',$proveedor_id)->first();
 
         return array('saldo_total' => $saldo_total->total, 
             'saldo_vencido' => $saldo_vencido->total );

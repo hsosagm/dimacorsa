@@ -300,27 +300,17 @@ function _edit_producto() {
             data: {id: $id},
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
-                $('.producto-title').text('Formulario Producto');
-                $(".forms-producto").html(data);
-                $(".dt-panel").hide();
-                $(".form-panel").hide();
-                $(".dt-container-cierre").hide();
-                $(".producto-container").show();
-                $(".producto-panel").show();
+                $(".contenedor_producto").html(data);
+                $(".contenedor_producto").slideToggle('slow');
             }
         });
     };
 }; 
-
+ 
 function _add_producto() {
     $.get( "admin/productos/create", function( data ) {
-        $('.producto-title').text('Formulario Producto');
-        $(".forms-producto").html(data);
-        $(".dt-panel").hide();
-        $(".form-panel").hide();
-        $(".dt-container-cierre").hide();
-        $(".producto-container").show();
-        $(".producto-panel").show();
+        $(".contenedor_producto").html(data);
+        $(".contenedor_producto").slideToggle('slow');
     });
 }
 

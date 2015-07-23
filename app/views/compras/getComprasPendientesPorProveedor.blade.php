@@ -10,17 +10,17 @@
 	</tr>
 	<tbody >
 		@foreach($detalle as $key => $dt)
-		<tr class="{{($dt->dias >= 30)? 'red':''}}">
-			<td width="15%">{{$dt->factura }}  {{'-'.$dt->dias}}</td>
-			<td width="15%">{{$dt->fecha_ingreso}}</td>
-			<td width="15%">{{$dt->fecha_documento}}</td>
-			<td width="30%">{{$dt->usuario}}</td>
-			<td width="10%">{{$dt->total }}</td>
-			<td width="10%" class="right">{{$dt->saldo}}</td>
-			<td width="5%" class="right"> 
-				<i class="fa fa-plus-square btn-link theme-c" onclick="getCompraConDetalle(this, {{$dt->id}});"></i>
-			</td>
-		</tr>
+			<tr class="{{($dt->dias >= 30)? 'red':''}}">
+				<td width="15%">{{$dt->factura }}</td>
+				<td width="15%">{{$dt->fecha_ingreso}}</td>
+				<td width="15%">{{$dt->fecha_documento}}</td>
+				<td width="30%">{{$dt->usuario}}</td>
+				<td width="10%">{{$dt->total }}</td>
+				<td width="10%" class="right">{{$dt->saldo}}</td>
+				<td width="5%" class="right"> 
+					<i class="fa fa-plus-square btn-link theme-c" onclick="getCompraConDetalle(this, {{$dt->id}});"></i>
+				</td>
+			</tr>
 		@endforeach
 	</tbody>
 	<tfoot width="100%">

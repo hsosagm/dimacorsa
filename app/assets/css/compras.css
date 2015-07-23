@@ -193,7 +193,35 @@
         color: black;
     }
 
-   
+	.contenedor_edicion_compras
+	{
+	  padding: 10px;
+	  background-color: #EFEFEF;
+	  border: 1px solid #DBDBDB;
+	  overflow: hidden;
+	}
+	
+	.contenedor_edicion_compras input
+	{
+		height: 25px;  	
+		padding: 5px !important;
+		margin: 5px;
+	}
+	
+	.contenedor_producto 
+	{
+	  padding: 10px;
+	  background-color: #EFEFEF;
+	  border: 1px solid #DBDBDB;
+	  overflow: hidden;
+	}
+
+	.contenedor_producto input
+	{
+		height: 25px;  	
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
 
     #body-tipos
     {
@@ -210,3 +238,9 @@
     .SaveEditPurchaseItemDetails {
     	width: 80px;
     }
+
+    .contenedor_producto i
+	{
+		padding-top: 9px;
+  		font-size: 20px;
+	}

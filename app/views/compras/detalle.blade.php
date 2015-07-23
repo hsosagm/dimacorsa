@@ -45,7 +45,8 @@
 		</div>
 	</div>
 </div>
-<div>
+<div><br>
+	<div class="contenedor_producto" style="display:none"></div>
 	<div class="body-detail" >  
 		@include('compras.detalle_body')
 	</div>

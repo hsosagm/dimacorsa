@@ -2,6 +2,12 @@
 
 class SubCategoriaController extends \BaseController {
 
+    public function buscar($cat)
+    {
+        $fk = " categoria_id = {$cat} ";
+        return AutocompleteCategoria::get('sub_categorias', array('id', 'nombre'),$fk);
+    }
+
 	public function create()
     {
     	if (Input::has('_token'))
