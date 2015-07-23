@@ -217,7 +217,17 @@ function cierreDelMes(year, month){
 }
 
 function cierreDelDia(dia){
-    alert(dia);
+    $.ajax({
+        type: "GET",
+        url: 'admin/cierre/CierreDelDiaPorFecha',
+        data: { fecha:dia , grafica:'show' },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) {
+            $('.dt-container-cierre').html(data);
+            $('.dt-container').hide();
+            $('.dt-container-cierre').show();
+        }
+    });
 }
 
 </script>
