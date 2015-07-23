@@ -15,7 +15,7 @@ function f_ingreso() {
 
 function delete_ingreso() {
     $id = $("input[name='ingreso_id']").val();;
-    $url = "user/ingresos/delete";
+    $url = "user/ingresos/delete_master";
     
     $.confirm({
         confirm: function(){

@@ -103,6 +103,7 @@
             Route::post('delete'                , 'SoporteController@delete');
             Route::post('create'                , 'SoporteController@create');
             Route::post('delete_detail'         , 'SoporteController@delete_detail');
+            Route::post('delete_master'         , 'SoporteController@delete_master');
         });
 
         Route::group(array('prefix' => 'gastos'), function()
@@ -111,6 +112,7 @@
             Route::post('delete'                   , 'GastoController@delete');
             Route::post('create'                   , 'GastoController@create');
             Route::post('delete_detail'            , 'GastoController@delete_detail');
+            Route::post('delete_master'            , 'GastoController@delete_master');
         });
 
         Route::group(array('prefix' => 'egresos'), function()
@@ -119,6 +121,7 @@
             Route::post('delete'                     , 'EgresoController@delete');
             Route::post('create'                     , 'EgresoController@create');
             Route::post('delete_detail'              , 'EgresoController@delete_detail');
+            Route::post('delete_master'              , 'EgresoController@delete_master');
         });
 
         Route::group(array('prefix' => 'ingresos'), function()
@@ -127,6 +130,7 @@
             Route::post('delete'               , 'IngresoController@delete');
             Route::post('create'               , 'IngresoController@create');
             Route::post('delete_detail'        , 'IngresoController@delete_detail');
+            Route::post('delete_master'        , 'IngresoController@delete_master');
         });
 
         Route::group(array('prefix' => 'adelantos'), function()
@@ -135,6 +139,7 @@
             Route::post('delete'                   , 'AdelantoController@delete');
             Route::post('create'                   , 'AdelantoController@create');
             Route::post('delete_detail'            , 'AdelantoController@delete_detail');
+            Route::post('delete_master'            , 'AdelantoController@delete_master');
         });
 
         Route::group(array('prefix' => 'productos'), function()

@@ -14,7 +14,7 @@ function f_gastos() {
 
 function delete_gasto() {
     $id = $("input[name='gasto_id']").val();;
-    $url = "user/gastos/delete";
+    $url = "user/gastos/delete_master";
     
     $.confirm({
         confirm: function(){
@@ -24,7 +24,7 @@ function delete_gasto() {
                 data: { id: $id },
                 contentType: 'application/x-www-form-urlencoded',
                 success: function (data, text) {
-                    if (data == 'success') {
+                    if ($.trim(data) == 'success') {
                         msg.success('Gasto eliminado', 'Listo!')
                        $('.bs-modal').modal('hide');
                     } 

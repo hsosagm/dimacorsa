@@ -1,4 +1,4 @@
-@if(!$ventas)
+@if(!$pagos)
 	<tr class="tr_no_data" width="100%">
 		<td> {{ 'No se encontro ningun dato' }} </td>
 	</tr>
@@ -15,7 +15,7 @@
 					<td class="center" widtd="12%">Acciones</td>
 				</tr>
 			</thead>
-			@foreach($ventas as $q)
+			@foreach($pagos as $q)
 				<tr id="{{ $q->id }}">
 					<td                width="17%"> {{ $q->fecha }} </td>
 					<td 			   width="13%"> {{ $q->usuario }} </td>
@@ -30,7 +30,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="7">
-						<div style="float:right" class="pagination_cierre"> {{ @$ventas->links() }} </div>
+						<div style="float:right" class="pagination_cierre"> {{ @$pagos->links() }} </div>
 					</td>
 				</tr>
 			</tfoot>

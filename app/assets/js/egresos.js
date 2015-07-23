@@ -14,7 +14,7 @@ function f_egreso() {
 
 function delete_egreso() {
     $id = $("input[name='egreso_id']").val();;
-    $url = "user/egresos/delete";
+    $url = "user/egresos/delete_master";
     
     $.confirm({
         confirm: function(){

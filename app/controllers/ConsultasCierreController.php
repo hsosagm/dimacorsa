@@ -18,7 +18,7 @@ class ConsultasCierreController extends \BaseController {
 
 		else if ($model == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
 			return $this->OperacionesConsultas(strtolower(rtrim($model, 's')));
-		
+
 		else
 			return 'No se envio ninguna peticion';
 	}
@@ -63,13 +63,13 @@ class ConsultasCierreController extends \BaseController {
 		$where .= " AND DATE_FORMAT({$_table}s.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 
-		$ventas = SST::get($table, $columns, $Search_columns, $Join, $where );
+		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
 
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
         return Response::json(array(
 			'success' => true,
-			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('ventas','metodo_pago','linkDetalle'))->render()
+			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos','metodo_pago','linkDetalle'))->render()
         ));
 	}
 
