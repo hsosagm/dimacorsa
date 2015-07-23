@@ -445,10 +445,9 @@ Route::get('test', function()
    ->where('ventas.tienda_id',Auth::user()->tienda_id)->get();
    
    return View::make('cierre.DetalleDeVentasPorProducto', compact('detalle'))->render();*/
-
         $ventas = DB::table('ventas')
         ->where('ventas.tienda_id', Auth::user()->tienda_id)
-        ->where(DB::raw('YEAR(ventas.created_at)'), date("Y") )
+        ->where(DB::raw('YEAR(ventas.created_at)'), 2015 )
         ->where(DB::raw('total'), '>', 0 )
         ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes"))
         ->groupBy('mes')
@@ -460,22 +459,15 @@ Route::get('test', function()
         foreach ($ventas as $v) {
             $data[$i]['name'] = $dt->monthsNames($v->mes);
             $data[$i]['y'] = (float) $v->total;
+            $data[$i]['url'] = 'owner/chart/ventas/ventasDiariasPorMes';
+            $data[$i]['variables'] = array( "year" => 2015, "month" => $v->mes);
             $data[$i]['drilldown'] = true;
             $i++;
         }
 
-        $data = json_encode($data);
-
-        // return $data;
-        $query = DB::table('ventas')
-        ->select(array(DB::Raw('DATE(ventas.created_at) as dia'), DB::Raw('sum(total) as total')))
-        ->where(DB::raw('YEAR(ventas.created_at)'), '=', 2015)
-        ->where(DB::raw('MONTH(ventas.created_at)'), '=', 6)
-        ->where('tienda_id', '=', 1)
-        ->groupBy('dia')
-        ->get();
-
-        return json_encode($query);
+        $data['data'] = $data;
+        $data['title'] = 'Ventas de';
+        return json_encode($data);
 
 });
 

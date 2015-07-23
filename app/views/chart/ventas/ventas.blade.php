@@ -78,15 +78,19 @@
                                 success: function (data)
                                 {
                                     var data = JSON.parse(data);
+                                    var toltip = data.tooltip;
                                     graphPosition++;
                                     chart.hideLoading();
 
-                                    var title = data['title']+' '+e.point.year;
+                                    var title = data['title']+' '+e.point.name;
                                     chart.setTitle({ text: graphTitle[graphPosition] = title });
-                                    chart.addSeriesAsDrilldown(e.point, data = { data: data['data'] });
+
+
+                                    chart.addSeriesAsDrilldown(e.point, data = {name: data['name'], colorByPoint: true, data: data['data']});
                                     chart.tooltip.options.formatter = function()
                                     {
-                                        return this.point.dia;
+                                        console.log(this.point.tooltip);
+                                        return this.point.tooltip;
                                     };
                                 },
                                 error: function(errors)
@@ -159,12 +163,12 @@
 
             tooltip: {
                 formatter: function() {
-                    return 'Total de ventas de'+' '+this.point.year+'<br/>'+'<b>'+'Q'+' '+Highcharts.numberFormat(this.y, 2)+'</b>';
+                    return 'Total ventas de'+' '+this.point.year+'<br/>'+'<b>'+'Q'+' '+Highcharts.numberFormat(this.y, 2)+'</b>';
                 }
             },
 
             series: [{
-                name: 'Ventas',
+                name: 'ventas por año',
                 colorByPoint: true,
                 data: data
             }],
@@ -189,7 +193,6 @@
                             }
                         }
                     }
-
                 },
                 series: []
             }

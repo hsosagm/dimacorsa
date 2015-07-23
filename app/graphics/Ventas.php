@@ -23,12 +23,15 @@ class Ventas extends \BaseController
             $data[$i]['y'] = (float) $v->total;
             $data[$i]['url'] = 'owner/chart/ventas/ventasDiariasPorMes';
             $data[$i]['variables'] = array( "year" => Input::get('year'), "month" => $v->mes);
+            $data[$i]['tooltip'] = '<a>test</a>';
             $data[$i]['drilldown'] = true;
             $i++;
         }
 
         $data['data'] = $data;
         $data['title'] = 'Ventas de';
+        $data['name'] = 'ventas por mes';
+
         return json_encode($data);
     }
 
@@ -57,6 +60,7 @@ class Ventas extends \BaseController
 
         $data['data'] = $object;
         $data['title'] = 'Ventas del mes de';
+        $data['tooltip'] = 'Ver cierre del dia';
 
         return json_encode($data);
     }
