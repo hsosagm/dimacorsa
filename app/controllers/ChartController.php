@@ -79,39 +79,31 @@ class ChartController extends \BaseController {
 
 	public function ventas()
 	{
-        $dt = App::make('Fecha');
+        $ventas = DB::table('ventas')
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("sum(total) as total, YEAR(ventas.created_at) as year"))
+        ->groupBy('year')
+        ->get();
 
-        for ($i=0; $i<=12; $i++)
-        {
-			$soporte = DB::table('soporte')
-	        ->join('detalle_soporte', 'soporte.id', '=', 'detalle_soporte.soporte_id')
-	        ->where('tienda_id', 1)
-	        ->where(DB::raw('MONTH(soporte.created_at)'), '=', $dt->monthNum($i) )
-	        ->where(DB::raw('YEAR(soporte.created_at)'), '=', $dt->year($i) )
-	        ->select(DB::raw('sum(monto) as total'))
-	        ->first();
-
-			$gastos = DB::table('gastos')
-	        ->join('detalle_gastos', 'gastos.id', '=', 'detalle_gastos.gasto_id')
-	        ->where('tienda_id', 1)
-	        ->where(DB::raw('MONTH(gastos.created_at)'), '=', $dt->monthNum($i) )
-	        ->where(DB::raw('YEAR(gastos.created_at)'), '=', $dt->year($i) )
-	        ->select(DB::raw('sum(monto) as total'))
-	        ->first();
-
-			$ventas = DB::table('ventas')
-	        ->join('detalle_ventas', 'ventas.id', '=', 'detalle_ventas.venta_id')
-	        ->where('tienda_id', 1)
-	        ->where(DB::raw('MONTH(ventas.created_at)'), '=', $dt->monthNum($i) )
-	        ->where(DB::raw('YEAR(ventas.created_at)'), '=', $dt->year($i) )
-	        ->select(DB::raw('sum(cantidad * precio) as total, sum(cantidad * ganancias ) as ganancias'))
-	        ->first();
-
-	        $v = $ventas->total;
-	        $g = $ventas->ganancias + $soporte->total - $gastos->total;
+        $i = 0;
+        
+        foreach ($ventas as $v) {
+        	$data[$i]['name'] = $v->year;
+            $data[$i]['y'] = (float) $v->total;
+            $data[$i]['year'] = $v->year;
+            $data[$i]['url'] = 'owner/chart/ventas/ventasMensualesPorAno';
+            $data[$i]['variables'] = array( "year" => $v->year);
+            $data[$i]['drilldown'] = true;
+            $i++;
         }
 
-        return View::make('chart.ventas', compact('dt', 'v', 'g'));
+        $data = json_encode($data);
+
+		return Response::json(array(
+			'success' => true,
+			'view'    => View::make('chart.ventas.ventas', compact('data'))->render()
+        ));
 	}
 
 	public function chartVentasPorUsuario()

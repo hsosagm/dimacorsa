@@ -15,12 +15,18 @@ function graph_g() {
 }
 
 
-function graph_v() {
-    clean_panel();
-
-    $.get('owner/chart/ventas', function (data) {
-        $('.dt-container').show();
-        $('.table').html(data);
+function graph_v() {    
+    $.ajax({
+        type: "GET",
+        url: 'owner/chart/ventas',
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            clean_panel();
+            $('.dt-container').show();
+            return $('.table').html(data.view);
+        }
+        msg.warning(data, 'Advertencia!');
     }); 
 }
 
