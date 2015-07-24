@@ -103,3 +103,8 @@
 	padding-top: 6px !important;
 	padding-bottom: 6px !important;
 }
+
+.noFontBold th{
+	font-style: normal !important;
+	font-weight: normal !important;
+}

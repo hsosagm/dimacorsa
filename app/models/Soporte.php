@@ -11,4 +11,8 @@ class Soporte extends \BaseModel implements Logable{
     {
         return $this->id;
     }
+    public function user()
+    {
+        return $this->belongsTo('User');    
+    }
 }

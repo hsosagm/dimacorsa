@@ -193,9 +193,9 @@
 				</tr>
 			</tbody>
 			<tfoot class="cierre_footer">
-				<tr>
-					<td>Efectivo esperado en caja</td>
-					<td class="right" style="padding-right: 10px !important;"> 
+				<tr class="noFontBold">
+					<th style="text-align: left;">Efectivo esperado en caja</th>
+					<th class="right" style="padding-right: 10px !important;"> 
 						<?php 
 							$caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
 
@@ -205,33 +205,192 @@
 							$total_caja = f_num::get($caja); 
 							echo $total_caja;
 						?>
-					</td> 
-					<td></td> 
-					<td class="right" style="padding-right: 10px !important;">
+					</th> 
+					<th></th> 
+					<th class="right" style="padding-right: 10px !important;">
 						<?php 
 							$total_cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelantos']['cheque'];
 							echo f_num::get($total_cheque);
 						 ?>
-					</td> 
-					<td class="right" style="padding-right: 10px !important;">
+					</th> 
+					<th class="right" style="padding-right: 10px !important;">
 						<?php 
 							$total_tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelantos']['tarjeta'];
 							echo f_num::get($total_tarjeta);
 						 ?>
-					</td> 
-					<td class="right" style="padding-right: 10px !important;">
+					</th> 
+					<th class="right" style="padding-right: 10px !important;">
 						<?php 
 							$total_deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelantos']['deposito'];
 							echo f_num::get($total_deposito);
 						 ?>
-					</td> 
-					<td></td> 
+					</th> 
+					<th></th> 
 				</tr>
+				@if($fecha != 'current_date' && @$corte_realizado != null)
+					<tr class="noFontBold">
+						<th style="text-align: left;">Monto real</th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->efectivo)}}</th>
+						<th class="right" style="padding-right: 10px !important;"></th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->cheque)}}</th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->tarjeta)}}</th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->deposito)}}</th>
+						<th></th>
+					</tr>
+					<tr class="noFontBold">
+						<th style="text-align: left;">Diferencia</th>
+						<th class="right" style="padding-right: 10px !important;">
+							{{ f_num::get(@$corte_realizado->efectivo - $caja) }}
+						</th>
+						<th class="right" style="padding-right: 10px !important;">
+							
+						</th>
+						<th class="right" style="padding-right: 10px !important;">
+							{{ f_num::get(@$corte_realizado->cheque - $total_cheque) }}
+						</th>
+						<th class="right" style="padding-right: 10px !important;">
+							{{ f_num::get(@$corte_realizado->tarjeta - $total_tarjeta) }}
+						</th>
+						<th class="right" style="padding-right: 10px !important;">
+							{{ f_num::get(@$corte_realizado->deposito - $total_deposito) }}
+						</th>
+						<th></th>
+					</tr>
+					<tr style="border-top:solid 1px #000000">
+						<th style="text-align: left;">Monto a depositar</th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->efectivo)}}</th>
+						<th class="right" style="padding-right: 10px !important;"></th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->cheque)}}</th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->tarjeta)}}</th>
+						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->deposito)}}</th>
+						<th></th>
+					</tr>
+				@endif
 			</tfoot>  
 		</table>
     </div>
-    
+    <div class="detalle_cierre_footer"> 
+       <!--  inicio de ventas al credito -->
+        @if(count($dataDetalle['credito']['pagosVentas']))
+		<div style="border-bottom:solid 1px #000000">
+			<h5> <strong>&nbsp;&nbsp;&nbsp;Ventas al credito</strong> </h5>
+			<table width="100%" class=""> 
+				<thead>
+					<tr class="bg-theme" style="opacity: 0.6;">
+						<th width="30%">&nbsp;&nbsp;&nbsp;Usuario</th>
+						<th width="40%" style="text-align: center;">Cliente</th>
+						<th width="15%" style="text-align: center;">Total</th>
+						<th width="15%" style="text-align: center;">Saldo</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($dataDetalle['credito']['pagosVentas'] as $vc)
+						<tr>
+							<td> {{ $vc->user->nombre.' '.$vc->user->apellido }} </td>
+							<td> {{ $vc->cliente->nombre.' '.$vc->cliente->apellido }} </td>
+							<td class="right"> {{ f_num::get($vc->total) }} </td>
+							<td class="right"> {{ f_num::get($vc->saldo) }} </td>
+						</tr>
+					@endforeach					
+				</tbody>
+			</table>
+		</div>
+		@endif
+		<!-- fin de ventas al credito-->	
 
+		<!-- inicio de Depositos -->
+			@include('cierre.consultaDetalleOperaciones', array('metodoDePago'=>'deposito'))
+		<!-- fin de Depositos -->
+
+		<!-- inicio de Cheques -->
+			@include('cierre.consultaDetalleOperaciones', array('metodoDePago'=>'cheque'))
+		<!-- fin de Cheques -->
+
+		<!--  inicio de detalle de gastos-->
+		@if(count($dataDetalle['todos']['detalleGastos']))
+		<div style="border-bottom:solid 1px #000000">
+		<h5> <strong>&nbsp;&nbsp;&nbsp;Detalle de Gastos</strong> </h5>
+			<table width="100%" class=""> 
+				<thead>
+					<tr class="bg-theme" style="opacity: 0.6;">
+						<th width="30%">&nbsp;&nbsp;&nbsp;Usuario</th>
+						<th width="40%" style="text-align: center;">Descripcion</th>
+						<th width="15%"style="text-align: center;">Monto</th>
+						<th width="15%" style="text-align: center;">Metodo Pago</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($dataDetalle['todos']['detalleGastos']as $op)
+						<tr>
+							<td> {{ $op->gasto->user->nombre.' '.$op->gasto->user->apellido }} </td>
+							<td> {{ $op->descripcion }} </td>
+							<td class="right"> {{ f_num::get($op->monto) }} </td>
+							<td> {{ $op->metodoPago->descripcion }}  </td>
+						</tr>								
+					@endforeach	
+				</tbody>
+			</table>
+		</div>
+		@endif
+		<!--  fin de detalle de gastos-->
+
+		<!--  inicio de detalle de egresos-->
+		@if(count($dataDetalle['todos']['detalleEgresos']))
+		<div style="border-bottom:solid 1px #000000">
+		<h5> <strong>&nbsp;&nbsp;&nbsp;Detalle de Egresos</strong> </h5>
+			<table width="100%" class=""> 
+				<thead>
+					<tr class="bg-theme" style="opacity: 0.6;">
+						<th width="30%">&nbsp;&nbsp;&nbsp;Usuario</th>
+						<th width="40%" style="text-align: center;">Descripcion</th>
+						<th width="15%"style="text-align: center;">Monto</th>
+						<th width="15%" style="text-align: center;">Metodo Pago</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($dataDetalle['todos']['detalleEgresos']as $op)
+						<tr>
+							<td> {{ $op->egreso->user->nombre.' '.$op->egreso->user->apellido }} </td>
+							<td> {{ $op->descripcion }} </td>
+							<td class="right"> {{ f_num::get($op->monto) }} </td>
+							<td> {{ $op->metodoPago->descripcion }}  </td>
+						</tr>								
+					@endforeach	
+				</tbody>
+			</table>
+		</div>
+		@endif
+		<!--  fin de detalle de egresos-->
+
+		<!--  inicio de compras del dia -->
+		@if(count($dataDetalle['todos']['detalleCompras']))
+		<div style="border-bottom:solid 1px #000000">
+			<h5> <strong>&nbsp;&nbsp;&nbsp;Comrpas del Dia</strong> </h5>
+			<table width="100%" class=""> 
+				<thead>
+					<tr class="bg-theme" style="opacity: 0.6;">
+						<th width="30%">&nbsp;&nbsp;&nbsp;Usuario</th>
+						<th width="40%" style="text-align: center;">Proveedor</th>
+						<th width="15%" style="text-align: center;">Total</th>
+						<th width="15%" style="text-align: center;">Saldo</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($dataDetalle['todos']['detalleCompras'] as $dc)
+						<tr>
+							<td> {{ $dc->user->nombre.' '.$dc->user->apellido }} </td>
+							<td> {{ $dc->proveedor->nombre}} </td>
+							<td class="right"> {{ f_num::get($dc->total) }} </td>
+							<td class="right"> {{ f_num::get($dc->saldo) }} </td>
+						</tr>
+					@endforeach					
+				</tbody>
+			</table>
+		</div>
+		@endif
+		<!--  fin de compras del dia -->
+
+    </div>
 </div>
 
 <script>

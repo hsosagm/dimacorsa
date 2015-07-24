@@ -7,6 +7,11 @@ class DetalleIngreso extends \BaseModel implements Logable{
 
 	protected $guarded = array('id');
 
+    public function ingreso()
+    {
+        return $this->belongsTo('Ingreso', 'ingreso_id');    
+    }
+
 	public function metodoPago()
     {
         return $this->belongsTo('MetodoPago', 'metodo_pago_id');

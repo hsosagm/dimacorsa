@@ -12,6 +12,11 @@ class Compra extends \BaseModel implements Logable{
         return $this->hasMany('DetalleCompra');    
     }
 
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
+    
     public function getLogName()
     {
         return $this->id;
