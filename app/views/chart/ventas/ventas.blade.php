@@ -105,7 +105,11 @@
                         chart.setTitle({ text: graphTitle[graphPosition] });
                         chart.tooltip.options.formatter = function()
                         {
-                            return this.point.tooltip;
+                            if (this.series.name == 'ventas por año') {
+                                return 'Total ventas de'+' '+this.point.year+'<br/>'+'<b>'+'Q'+' '+Highcharts.numberFormat(this.y, 2)+'</b>';
+                            } else {
+                                return this.point.tooltip;
+                            }
                         }
                     }
                 }
@@ -144,9 +148,9 @@
                     dataLabels: {
                         enabled: true,
                         formatter: function() {
-                            if(this.series.name == 'Gastos') {
+                            if(this.series.name == 'Series 2') {
                                 var num = this.y / 1000;
-                                return Highcharts.numberFormat(num, 1);
+                                return Highcharts.numberFormat(num, 0);
                             } else {
                                 return Highcharts.numberFormat(this.y, 2);
                             }
