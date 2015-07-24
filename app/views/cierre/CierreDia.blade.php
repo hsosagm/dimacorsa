@@ -10,7 +10,7 @@
          </div>
         <div class="clearfix"></div>
     </div>
-    <div class="panel-body-cierre no-padding" id="table ">
+    <div class="panel-body-cierre no-padding" id="table " style="border-bottom: double;">
 		<table width="100%" id="table table-responsive">
 			<thead class="cierre_head">
 				<tr>
@@ -23,7 +23,7 @@
 					<th width="12%" style="text-align:center"> Totales</th>
 				</tr>
 			</thead>
-			<tbody class="table-hover cierre_body">
+			<tbody class="table-hover cierre_body" style="border-bottom: double;">
 				<tr class="">
 					<td>Ventas</td>
 					<td class="right hover" onclick="asignarInfoEnviar('Ventas',1);"> 
@@ -203,17 +203,35 @@
 
 							$caja =  $caja_positivos - $caja_negativos;
 							$total_caja = f_num::get($caja); 
-
 							echo $total_caja;
 						?>
 					</td> 
-					<td colspan="3"></td> 
-					<td colspan="2" align="right">
+					<td></td> 
+					<td class="right" style="padding-right: 10px !important;">
+						<?php 
+							$total_cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelantos']['cheque'];
+							echo f_num::get($total_cheque);
+						 ?>
 					</td> 
+					<td class="right" style="padding-right: 10px !important;">
+						<?php 
+							$total_tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelantos']['tarjeta'];
+							echo f_num::get($total_tarjeta);
+						 ?>
+					</td> 
+					<td class="right" style="padding-right: 10px !important;">
+						<?php 
+							$total_deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelantos']['deposito'];
+							echo f_num::get($total_deposito);
+						 ?>
+					</td> 
+					<td></td> 
 				</tr>
 			</tfoot>  
 		</table>
     </div>
+    
+
 </div>
 
 <script>

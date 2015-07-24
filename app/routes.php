@@ -450,35 +450,42 @@ Route::group(array('prefix' => 'owner'), function()
 
 Route::get('test', function()
 {   
-   /*$detalle = DetalleVenta::with('venta','producto')->where('producto_id',1000038)
-   ->join('ventas','ventas.id','=','venta_id')
-   ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('2015-05-10', '%Y-%m')")
-   ->where('ventas.tienda_id',Auth::user()->tienda_id)->get();
-   
-   return View::make('cierre.DetalleDeVentasPorProducto', compact('detalle'))->render();*/
-        $ventas = DB::table('ventas')
-        ->where('ventas.tienda_id', Auth::user()->tienda_id)
-        ->where(DB::raw('YEAR(ventas.created_at)'), 2015 )
-        ->where(DB::raw('total'), '>', 0 )
-        ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes"))
-        ->groupBy('mes')
+        $years =  DB::table('ventas')
+        ->select(DB::raw("sum(total) as total, 
+            DATE_FORMAT(ventas.created_at, '%Y') as year"))
+        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
+        ->groupBy("year")
         ->get();
 
-        $dt = App::make('Fecha');
-        $i = 0;
+        $meses = DB::table('ventas')
+        ->select(DB::raw("sum(total) as total, 
+            DATE_FORMAT(ventas.created_at, '%Y-%m') as mes , 
+            DATE_FORMAT(ventas.created_at, '%Y') as year"))
+        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
+        ->groupBy("mes")
+        ->get();
+/*
+        $dias = DB::table('ventas')
+        ->select(DB::raw("sum(total) as total, 
+            DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as dia , 
+            DATE_FORMAT(ventas.created_at, '%Y') as year"))
+        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
+        ->groupBy("dia")
+        ->get();*/
+
+        $dias = DB::table('pagos_ventas')->select(DB::raw("sum(monto) as total, 
+            DATE_FORMAT(pagos_ventas.created_at, '%Y-%m-%d') as dia , 
+            DATE_FORMAT(pagos_ventas.created_at, '%Y') as year"))
+        ->join('ventas','ventas.id','=','venta_id')
+        ->groupBy("dia")->get();
         
-        foreach ($ventas as $v) {
-            $data[$i]['name'] = $dt->monthsNames($v->mes);
-            $data[$i]['y'] = (float) $v->total;
-            $data[$i]['url'] = 'owner/chart/ventas/ventasDiariasPorMes';
-            $data[$i]['variables'] = array( "year" => 2015, "month" => $v->mes);
-            $data[$i]['drilldown'] = true;
-            $i++;
+        foreach ($dias as $mes) {
+            echo "Year: {$mes->year} || Mes: {$mes->dia} || Total: {$mes->total} <br>";
         }
 
-        $data['data'] = $data;
-        $data['title'] = 'Ventas de';
-        return json_encode($data);
+        /*foreach ($years as $year) {
+            echo "Year: {$year->year} || Mes: {$year->total} <br>";
+        }*/
 
 });
 

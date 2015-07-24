@@ -1,12 +1,16 @@
 <?php 
-
+ 
 class CierreController extends \BaseController {
 
     function CierreDelDia()
     {
         $data = $this->resumen_movimientos('current_date');
         $fecha = 'current_date';
-        return View::make('cierre.CierreDia',compact('data','fecha'));
+        $ventasCredito = Venta::with('cliente','user')
+        ->where('saldo','>',0)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d')= DATE_FORMAT(current_date, '%Y-%m-%d')")->get();
+
+        return View::make('cierre.CierreDia',compact('data','fecha','ventasCredito'));
     }
 
     public function ExportarCierreDelDia($tipo,$fecha)
@@ -87,7 +91,21 @@ class CierreController extends \BaseController {
     {
         $data = $this->resumen_movimientos(Input::get('fecha'));
         $fecha = Input::get('fecha');
-        return View::make('cierre.CierreDia',compact('data','fecha'));
+
+        $ventasCredito = Venta::with('cliente','user')
+        ->where('saldo','>',0)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d')= DATE_FORMAT('{$fecha}', '%Y-%m-%d')")->get();
+
+        $depositosPagosVentas = PagosVenta::with('venta')->where('metodo_pago_id',5)
+        ->whereRaw("DATE_FORMAT(pagos_ventas.created_at, '%Y-%m-%d')= DATE_FORMAT('{$fecha}', '%Y-%m-%d')")->get();
+
+        $depositoAbonosCompras = AbonosCompra::with('user')->where('metodo_pago_id',5)
+        ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')= DATE_FORMAT('{$fecha}', '%Y-%m-%d')")->get();
+
+        $depositosDetalle['pagosVentas'] = $depositosPagosVentas;
+        $depositosDetalle['abonosCompras'] = $depositoAbonosCompras;
+
+        return View::make('cierre.CierreDia',compact('data','fecha','ventasCredito','depositosDetalle'));
     }
 
     /*
@@ -303,7 +321,7 @@ class CierreController extends \BaseController {
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
-        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
         ->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
         ->groupBy('metodo_pago.id')->get();
 
@@ -322,7 +340,7 @@ class CierreController extends \BaseController {
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
-        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
         ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
         ->groupBy('metodo_pago.id')->get();
 

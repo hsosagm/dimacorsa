@@ -207,7 +207,8 @@ function cierreDelMes(year, month){
         data: { fecha:fecha , grafica:'show' },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
-            $('.dt-container-cierre').html(data);
+            $('.dt-container-cierre').html(data)
+            $(".graficas_auxiliar").html($('.table').html());
             $('.dt-container').hide();
             $('.dt-container-cierre').show();
         }
@@ -224,6 +225,7 @@ function cierreDelDia(dia){
             $('.dt-container-cierre').html(data);
             $('.dt-container').hide();
             $('.dt-container-cierre').show();
+
         }
     });
 }
