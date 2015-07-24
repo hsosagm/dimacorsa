@@ -1,12 +1,13 @@
 <?php 
-
+ 
 class CierreController extends \BaseController {
 
     function CierreDelDia()
     {
-        $data = $this->resumen_movimientos('current_date');
         $fecha = 'current_date';
-        return View::make('cierre.CierreDia',compact('data','fecha'));
+        $data = $this->resumen_movimientos($fecha);
+        $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle'));
     }
 
     public function ExportarCierreDelDia($tipo,$fecha)
@@ -85,10 +86,118 @@ class CierreController extends \BaseController {
 
     public function CierreDelDiaPorFecha()
     {
-        $data = $this->resumen_movimientos(Input::get('fecha'));
         $fecha = Input::get('fecha');
-        return View::make('cierre.CierreDia',compact('data','fecha'));
+        $data = $this->resumen_movimientos($fecha);
+        $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+        $corte_realizado = Cierre::with('user')
+        ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT('{$fecha}', '%Y-%m-%d')")->first();
+        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle','corte_realizado'));
     }
+
+    public function resumenMovimientosDetallado($fecha )
+    {
+        $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date') 
+            $fecha_enviar = 'current_date';
+
+        /*inicio consulta para ventas al credito*/
+        $pagosVentas = Venta::with('cliente','user')
+        ->join('pagos_ventas','ventas.id','=','venta_id')
+        ->where('metodo_pago_id',2)->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->get();
+        /*fin consulta para ventas al credito*/
+
+        /*inicio consulta para detalle de gastos */
+        $detalleGastos = DetalleGasto::with('gasto','metodoPago')
+        ->join('gastos','gastos.id','=','gasto_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->get();
+        /*fin consulta para detalle de gastos */
+
+        /*inicio consulta para detalle de egresos */
+        $detalleEgresos = DetalleEgreso::with('egreso','metodoPago')
+        ->join('egresos','egresos.id','=','egreso_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(egresos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->get();
+        /*fin consulta para detalle de egresos */
+
+        /*inicio consulta para detalle compras */
+        $detalleCompras = Compra::with('proveedor','user')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->get();
+        /*fin consulta para detalle compras */
+
+        $depositosDetalle = $this->consultaDetalleOperaciones($fecha_enviar , 5);
+        $chequesDetalle = $this->consultaDetalleOperaciones($fecha_enviar , 3);
+
+        $dataDetalle['credito']['pagosVentas'] = $pagosVentas;
+        $dataDetalle['deposito'] = $depositosDetalle;
+        $dataDetalle['cheque'] = $chequesDetalle;
+        $dataDetalle['todos']['detalleGastos'] = $detalleGastos;
+        $dataDetalle['todos']['detalleEgresos'] = $detalleEgresos;
+        $dataDetalle['todos']['detalleCompras'] = $detalleCompras;
+
+        return $dataDetalle;
+    }
+
+    /*inicio consulta para todo lo que se hiso con deposito o cheque en el dia*/
+    public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
+    {
+        $depositosPagosVentas = PagosVenta::with('venta')->where('metodo_pago_id',$metodo_pago_id)
+        ->join('ventas','ventas.id','=','venta_id')->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositosAbonosVentas = AbonosVenta::with('user')->where('metodo_pago_id',$metodo_pago_id)
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositosSoporte = DetalleSoporte::with('soporte')->where('metodo_pago_id',$metodo_pago_id)
+        ->join('soporte','soporte.id','=','soporte_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositosAdelanto = DetalleAdelanto::with('adelanto')->where('metodo_pago_id',$metodo_pago_id)
+        ->join('adelantos','adelantos.id','=','adelanto_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(adelantos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositosIngreso = DetalleIngreso::with('ingreso')->where('metodo_pago_id',$metodo_pago_id)
+        ->join('ingresos','ingresos.id','=','ingreso_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(ingresos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositosGasto = DetalleGasto::with('gasto')->where('metodo_pago_id',$metodo_pago_id)
+        ->join('gastos','gastos.id','=','gasto_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositosEgreso = DetalleEgreso::with('egreso')->where('metodo_pago_id',$metodo_pago_id)
+        ->join('egresos','egresos.id','=','egreso_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(egresos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+        
+        $depositosPagosCompras = PagosCompra::with('compra')->where('metodo_pago_id',$metodo_pago_id)
+        ->join('compras','compras.id','=','compra_id')->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositoAbonosCompras = AbonosCompra::with('user')->where('metodo_pago_id',$metodo_pago_id)
+        ->where('tienda_id',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
+
+        $depositosDetalle['pagosVentas'] = $depositosPagosVentas;
+        $depositosDetalle['abonosVentas'] = $depositosAbonosVentas;
+        $depositosDetalle['soporte'] = $depositosSoporte;
+        $depositosDetalle['adelantos'] = $depositosAdelanto;
+        $depositosDetalle['ingresos'] = $depositosIngreso;
+        $depositosDetalle['gastos'] = $depositosGasto;
+        $depositosDetalle['egresos'] = $depositosEgreso;
+        $depositosDetalle['pagosCompras'] = $depositosPagosCompras;
+        $depositosDetalle['abonosCompras'] = $depositoAbonosCompras;
+
+        return $depositosDetalle;
+    }
+    /*fin consulta para todo lo que se hiso con deposito o cheque en el dia*/
 
     /*
         funcion para ordenar el arreglo de los metodos de pago
@@ -303,7 +412,7 @@ class CierreController extends \BaseController {
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
-        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
         ->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
         ->groupBy('metodo_pago.id')->get();
 
@@ -322,7 +431,7 @@ class CierreController extends \BaseController {
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
-        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
         ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
         ->groupBy('metodo_pago.id')->get();
 

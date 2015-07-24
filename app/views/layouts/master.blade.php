@@ -83,6 +83,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
     <i class="fa fa-angle-up"></i>
 </div>
 <div id="print_barcode"></div>
+<div class="graficas_auxiliar" style="display:none"></div>
 
 <script src="js/vue.min.js"></script>
 <script src="js/main.js"></script>

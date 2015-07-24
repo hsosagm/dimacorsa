@@ -7,6 +7,11 @@ class DetalleSoporte extends \BaseModel implements Logable{
 
 	protected $guarded = array('id');
 
+    public function soporte()
+    {
+        return $this->belongsTo('Soporte', 'soporte_id');    
+    }
+
     public function metodoPago()
     {
         return $this->belongsTo('MetodoPago', 'metodo_pago_id');

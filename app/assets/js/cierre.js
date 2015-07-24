@@ -312,3 +312,10 @@ function DetalleVentaCierre(e, venta_id) {
         }
     });
 }
+
+function mostrar_view_graficas()
+{
+    clean_panel();
+    $('.dt-container').show();
+    $('.table').html($('.graficas_auxiliar').html());
+}
