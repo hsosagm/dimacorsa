@@ -227,7 +227,7 @@
 					</th> 
 					<th></th> 
 				</tr>
-				@if($fecha != 'current_date' && @$corte_realizado != null)
+				@if(@$corte_realizado != null)
 					<tr class="noFontBold">
 						<th style="text-align: left;">Monto real</th>
 						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->efectivo)}}</th>
@@ -263,13 +263,30 @@
 						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->cheque)}}</th>
 						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->tarjeta)}}</th>
 						<th class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->deposito)}}</th>
-						<th></th>
+						<th class="right" style="padding-right: 10px !important;"> 
+							
+						</th>
 					</tr>
 				@endif
 			</tfoot>  
 		</table>
     </div>
-    <div class="detalle_cierre_footer"> 
+    <div class="row">
+		<div class="col-md-11">
+			@if(@$corte_realizado != null)
+				<div align="center">
+					*** El corte fue realizado por {{ @$corte_realizado->user->nombre.' '.@$corte_realizado->user->apellido }} a las {{ @$corte_realizado->created_at }} horas ***
+				</div>
+			@endif
+		</div>
+		<div class="col-md-1" align="right" >
+			<i class="fa fa-chevron-down btn-link theme-c" onclick="$('.detalle_cierre_footer').slideToggle()"> </i> 
+			&nbsp;&nbsp;
+		</div>
+    </div>
+    
+	
+    <div class="detalle_cierre_footer" style="display:{{(Input::has('imprimir'))?'':'none';}}"> 
        <!--  inicio de ventas al credito -->
         @if(count($dataDetalle['credito']['pagosVentas']))
 		<div style="border-bottom:solid 1px #000000">

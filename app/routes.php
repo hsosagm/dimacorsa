@@ -448,45 +448,17 @@ Route::group(array('prefix' => 'owner'), function()
 
 });
 
+Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
+
 Route::get('test', function()
 {   
-        $years =  DB::table('ventas')
-        ->select(DB::raw("sum(total) as total, 
-            DATE_FORMAT(ventas.created_at, '%Y') as year"))
-        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
-        ->groupBy("year")
-        ->get();
+    $lista = array();
+   $cierre = DB::table('notificaciones')->select('correo')->where('notificacion','CierreDia')->get();
+   foreach ($cierre as $key => $value) {
+        $lista [] = $value->correo;
+   }
 
-        $meses = DB::table('ventas')
-        ->select(DB::raw("sum(total) as total, 
-            DATE_FORMAT(ventas.created_at, '%Y-%m') as mes , 
-            DATE_FORMAT(ventas.created_at, '%Y') as year"))
-        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
-        ->groupBy("mes")
-        ->get();
-/*
-        $dias = DB::table('ventas')
-        ->select(DB::raw("sum(total) as total, 
-            DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as dia , 
-            DATE_FORMAT(ventas.created_at, '%Y') as year"))
-        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
-        ->groupBy("dia")
-        ->get();*/
-
-        $dias = DB::table('pagos_ventas')->select(DB::raw("sum(monto) as total, 
-            DATE_FORMAT(pagos_ventas.created_at, '%Y-%m-%d') as dia , 
-            DATE_FORMAT(pagos_ventas.created_at, '%Y') as year"))
-        ->join('ventas','ventas.id','=','venta_id')
-        ->groupBy("dia")->get();
-        
-        foreach ($dias as $mes) {
-            echo "Year: {$mes->year} || Mes: {$mes->dia} || Total: {$mes->total} <br>";
-        }
-
-        /*foreach ($years as $year) {
-            echo "Year: {$year->year} || Mes: {$year->total} <br>";
-        }*/
-
+   return $lista;
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

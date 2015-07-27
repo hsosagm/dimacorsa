@@ -7,7 +7,34 @@ class CierreController extends \BaseController {
         $fecha = 'current_date';
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
-        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle'));
+        $corte_realizado = Cierre::with('user')
+        ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->first();
+
+        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle','corte_realizado'));
+    }
+
+    public function enviarCorreoPDF($cierre_id)
+    {   
+        $fecha = 'current_date';
+        $data = $this->resumen_movimientos($fecha);
+        $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+        $corte_realizado = Cierre::with('user')->find($cierre_id);
+
+        $emails = array();
+        $correos = DB::table('notificaciones')->select('correo')->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('notificacion','CierreDia')->get();
+        foreach ($correos as $val) {
+            $emails [] = $val->correo;
+        }
+
+        Mail::queue('emails.mensaje', array('asunto'=>'Cierre del Dia'), function($message)
+            use($fecha, $data, $dataDetalle, $corte_realizado, $emails)
+        {
+            $pdf = PDF::loadView('cierre.ExportarCierreDelDia', 
+                array('data' => $data, 'fecha' => $fecha, 'dataDetalle' => $dataDetalle , 'corte_realizado' => $corte_realizado));
+            $message->to($emails)->subject('Notificacion de Cierre del Dia');
+            $message->attachData($pdf->output(), Carbon::now().".pdf");
+        });
     }
 
     public function ExportarCierreDelDia($tipo,$fecha)
@@ -87,10 +114,16 @@ class CierreController extends \BaseController {
     public function CierreDelDiaPorFecha()
     {
         $fecha = Input::get('fecha');
+         $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date') 
+            $fecha_enviar = 'current_date';
+
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+
         $corte_realizado = Cierre::with('user')
-        ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT('{$fecha}', '%Y-%m-%d')")->first();
+        ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->first();
         return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle','corte_realizado'));
     }
 
@@ -315,7 +348,7 @@ class CierreController extends \BaseController {
             {
                 return $cierre->errors();
             }
-
+            $this->enviarCorreoPDF($cierre->get_id());
             return Response::json(array( 
                 'success' => true ,
                 'id' => $cierre->get_id()

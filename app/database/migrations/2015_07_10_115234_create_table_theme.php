@@ -19,6 +19,7 @@ class CreateTableTheme extends Migration {
 			$table->string('colorSchemes')->default('default');
 			$table->string('sidebarColor')->default('dark');
 			$table->string('navbarColor')->default('dark');
+			$table->string('sidebarTypeSetting')->default('sidebar-circle');
 			$table->timestamps();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
