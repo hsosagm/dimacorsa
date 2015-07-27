@@ -452,13 +452,13 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {   
-    $lista = array();
+    /*$lista = array();
    $cierre = DB::table('notificaciones')->select('correo')->where('notificacion','CierreDia')->get();
    foreach ($cierre as $key => $value) {
         $lista [] = $value->correo;
    }
 
-   return $lista;
+   return $lista*/;
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

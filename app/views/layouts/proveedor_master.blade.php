@@ -35,7 +35,7 @@
                 
                 <!-- Start page header -->
                 <div class="header-content">
-                        <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoProveedor"></span></h2>
+                        <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoProveedor" id="infoSaldosTotales"></span></h2>
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
 
