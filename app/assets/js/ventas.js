@@ -281,7 +281,7 @@ function OpenModalSalesItemSerials(e)
 function imprimirFactura(p)
 {
     if (isLoaded()) {
-        qz.findPrinter(p);
+        qz.findPrinter();
 
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();

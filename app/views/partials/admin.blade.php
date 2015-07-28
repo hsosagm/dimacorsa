@@ -32,6 +32,7 @@
         <li><a href="javascript:void(0);" id="f_ingreso">Ingresos</a></li>
         <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
         <li><a href="javascript:void(0);" onclick="imprimirFactura('EPSON-LQ-590')">imprimir Factura</a></li>
+        <li><a href="javascript:void(0);" onclick="findPrinters()">Listar de impresoras</a></li>
     </ul>
 </li>
 <!-- Fin menu operaciones -->
