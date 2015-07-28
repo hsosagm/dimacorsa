@@ -1,10 +1,15 @@
 <html>
 	<head>
 		<style type="text/css">
+
+			body
+			{
+				margin-top: 20px;
+			}
+
 			body, td
 			{
 				font-size: 9pt;
-				margin-top: 10px;
 				font-family: "monospace";
 			}
 
