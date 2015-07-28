@@ -4,15 +4,15 @@
 			body, td
 			{
 				font-size: 9pt;
-				margin: 0px;
 				font-family: "monospace";
+				margin-top: 30px;
 			}
 
 			#factura_detalle {
 				display: block;
 				height: 180px;
-				padding-top: 20px;
-				padding-bottom: 20px;
+				padding-top: 35px;
+				padding-bottom: 35px;
 			}
 		</style>
 	</head>
