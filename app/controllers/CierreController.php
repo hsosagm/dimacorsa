@@ -19,15 +19,16 @@ class CierreController extends \BaseController {
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
         $corte_realizado = Cierre::with('user')->find($cierre_id);
-
         $emails = array();
+        
         $correos = DB::table('notificaciones')->select('correo')->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('notificacion','CierreDia')->get();
+
         foreach ($correos as $val) {
             $emails [] = $val->correo;
         }
 
-        Mail::queue('emails.mensaje', array('asunto'=>'Cierre del Dia'), function($message)
+        Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message)
             use($fecha, $data, $dataDetalle, $corte_realizado, $emails)
         {
             $pdf = PDF::loadView('cierre.ExportarCierreDelDia', 
