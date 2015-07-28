@@ -85,6 +85,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 <script type="text/javascript" src="js/qz/html2canvas.js"></script>
 <script type="text/javascript" src="js/qz/jquery.plugin.html2canvas.js"></script>
 
+
 <script>
 $(document).ready(function(){
     /*configuracion del thema capturado de la base de datos*/ 
@@ -122,10 +123,6 @@ $(document).ready(function(){
 </script>
 
 <script>
-
-    // document.addEventListener("DOMContentLoaded", function(event) { 
-    //     detectPrinter('zebra');
-    // });
 
     $(document.body).delegate(":input", "keyup", function(e) {
         if(e.which == 13) {

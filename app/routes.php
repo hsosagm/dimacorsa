@@ -448,8 +448,10 @@ Route::group(array('prefix' => 'owner'), function()
 
 });
 
+Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
+
 Route::get('test', function()
-{   
+{
    /*$detalle = DetalleVenta::with('venta','producto')->where('producto_id',1000038)
    ->join('ventas','ventas.id','=','venta_id')
    ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('2015-05-10', '%Y-%m')")
@@ -487,6 +489,7 @@ Route::get('test', function()
         }
         else
             return 'Ingrese productos ala factura para poder inprimir';
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

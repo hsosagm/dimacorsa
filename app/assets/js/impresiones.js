@@ -60,3 +60,30 @@ function ImprimirCierreDelDia_dt(e,user) {
     var md5 = $.md5('encript'+user); 
     window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
+
+
+function imprimir_cierre() {
+    /*$.get( "admin/cierre/CierreDelDia", function( data ) {
+        $('#print_barcode').html(data);
+        $("#print_barcode").show();
+        $.print("#print_barcode");
+        $("#print_barcode").hide();
+    });*/
+    window.open("dmin/cierre/CierreDelDia",'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}
+
+function imprimir_cierre_por_fecha(fecha) {
+     window.open("admin/cierre/CierreDelDiaPorFecha?fecha="+fecha+'&imprimir=true','','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+    /*$.ajax({
+        type: "GET",
+        url: 'admin/cierre/CierreDelDiaPorFecha',
+        data: { fecha:fecha },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) {
+            $('#print_barcode').html(data);
+            $("#print_barcode").show();
+            $.print("#print_barcode");
+            $("#print_barcode").hide();
+        }
+    });*/
+}

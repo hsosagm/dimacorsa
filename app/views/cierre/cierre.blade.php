@@ -209,7 +209,7 @@
                     data: form.serialize(),
                     success: function (data) {
                         if (data.success == true)
-                            ImprimirCierreDelDia(data.id , {{Auth::user()->id}});
+                            imprimir_cierre_por_fecha('current_date');
                             msg.success('Cierre realizado correctamente', 'Listo!');
                             return $('.bs-modal').modal('hide');
                             

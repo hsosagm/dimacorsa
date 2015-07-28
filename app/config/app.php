@@ -126,6 +126,7 @@ return array(
 		'NEkman\ModelLogger\ModelLoggerServiceProvider',
 		'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
 		'Maatwebsite\Excel\ExcelServiceProvider',
+		'Barryvdh\DomPDF\ServiceProvider',
 	),
 
 	/*
@@ -197,6 +198,7 @@ return array(
         'DiffFormatter'     => 'Laravelrus\LocalizedCarbon\DiffFactoryFacade',
         'ValidatorAssistant'=> 'Fadion\ValidatorAssistant\ValidatorAssistant',
         'Excel' 			=> 'Maatwebsite\Excel\Facades\Excel',
+        'PDF' 				=> 'Barryvdh\DomPDF\Facade',
 
 	),
 

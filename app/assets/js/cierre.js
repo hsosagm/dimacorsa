@@ -18,30 +18,6 @@ function CierreDelMes() {
 	});
 }
 
-function imprimir_cierre() {
-	$.get( "admin/cierre/CierreDelDia", function( data ) {
-		$('#print_barcode').html(data);
-		$("#print_barcode").show();
-		$.print("#print_barcode");
-		$("#print_barcode").hide();
-	});
-}
-
-function imprimir_cierre_por_fecha(fecha) {
-    $.ajax({
-        type: "GET",
-        url: 'admin/cierre/CierreDelDiaPorFecha',
-        data: { fecha:fecha },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            $('#print_barcode').html(data);
-            $("#print_barcode").show();
-            $.print("#print_barcode");
-            $("#print_barcode").hide();
-        }
-    });
-}
-
 function cierre() {
 	$.get( "admin/cierre/cierre", function( data ) {
     	if ( data.success == true ) {

@@ -435,6 +435,20 @@ class CompraController extends \BaseController {
 
 	public function getComprasPedientesDePago()
 	{
+		$saldo_total = Compra::where('tienda_id','=',Auth::user()->tienda_id)
+		->where('compras.completed', '=', 1)
+        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
+
+        $saldo_vencido = DB::table('compras')
+        ->select(DB::raw('sum(saldo) as total'))->where('saldo','>',0)
+        ->where('compras.completed', '=', 1)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where('tienda_id','=',Auth::user()->tienda_id)->first();
+         $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+
+		$infoSaldosTotales = "Saldo total &nbsp;".f_num::get($saldo_total->total)."{$tab}Saldo vencido &nbsp;".f_num::get($saldo_vencido->total);
+		$tienda_id = Auth::user()->tienda_id;
+
 		$compras = DB::table('proveedores')
         	->select(DB::raw("
         		proveedores.id as id,
@@ -443,6 +457,7 @@ class CompraController extends \BaseController {
         		sum(compras.total) as total,
         		sum(compras.saldo) as saldo_total,
         		(select sum(saldo) from compras where 
+        			tienda_id = {$tienda_id} AND completed = 1 AND
         			DATEDIFF(current_date,fecha_documento) >= 30 
         			AND proveedor_id = proveedores.id) as saldo_vencido
         		"))
@@ -455,7 +470,8 @@ class CompraController extends \BaseController {
 
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('compras.getComprasPedientesDePago', compact('compras'))->render()
+			'table' => View::make('compras.getComprasPedientesDePago', compact('compras'))->render(),
+			'infoSaldosTotales' => $infoSaldosTotales
         ));
 
 	}

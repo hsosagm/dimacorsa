@@ -205,11 +205,13 @@ function getComprasPedientesDePago()
         url: "admin/compras/getComprasPedientesDePago",
         success: function (data) {
             if (data.success == true) {
+
+                $("#infoSaldosTotales").html(data.infoSaldosTotales);
                 setTimeout(function() {
                     $('#example_length').prependTo("#table_length");
                     $('.dt-container').show();
                     $('#iSearch').keyup(function() {
-                        $('#example').dataTable().fnFilter( $(this).val() );
+                    $('#example').dataTable().fnFilter( $(this).val() );
                     })
                 }, 300);
                 return generate_dt_local(data.table);
