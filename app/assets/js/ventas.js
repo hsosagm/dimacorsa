@@ -293,8 +293,6 @@ function imprimirFactura(p)
                     url: "user/ventas/ImprimirFacturaVenta/dt/1/26011",
                     data: { id: 1},
                     success: function (data) {
-                        qz.setPaperSize("210mm", "140mm"); 
-                        qz.setOrientation("landscape");
                         qz.setAutoSize(true);
                         qz.appendHTML(data);
                         qz.printHTML();
