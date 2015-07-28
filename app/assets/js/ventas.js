@@ -287,11 +287,10 @@ function imprimirFactura(p)
             var printer = qz.getPrinter();
             
             if (printer !== null) {
-                // alert('Printer found: "'+printer+'" ');
                 msg.success('Se ha enviado una impresion a "'+printer+'"', 'Success!');
                 $.ajax({
                     type: 'GET',
-                    url: "test",
+                    url: "user/ventas/ImprimirFacturaVenta/dt/1/26011",
                     data: { id: 1},
                     success: function (data) {
                         qz.setPaperSize("8.5in", "5.5in");
