@@ -295,9 +295,8 @@ function imprimirFactura(p)
                     success: function (data) {
                         qz.setPaperSize("8.5in", "5.5in");
                         qz.setOrientation("portrait");
-                        qz.appendHTML('<html>');
+                        qz.setAutoSize(true);
                         qz.appendHTML(data);
-                        qz.appendHTML('</html>');
                         qz.printHTML();
                     }
                 }); 
