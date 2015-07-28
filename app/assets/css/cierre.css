@@ -2,6 +2,10 @@
 	font-style: bold;
 }
 
+.cierre-titulos{
+	font-size:15px !important 
+}
+
 .cierre_body{
 	border: 1px solid #ddd;
 }

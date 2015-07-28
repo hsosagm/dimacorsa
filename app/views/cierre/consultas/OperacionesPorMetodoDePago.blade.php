@@ -1,5 +1,5 @@
 @if(!$operaciones)
-	<tr class="tr_no_data" width="100%">
+	<tr class="tr_no_data" width="100%" style="cursor: default;">
 		<td> {{ 'No se encontro ningun dato' }} </td>
 	</tr>
 @else
@@ -13,14 +13,16 @@
 					<td class="center" widtd="10%">{{$metodo_pago->descripcion}}</td>
 				</tr>
 			</thead>
-			@foreach($operaciones as $q)
-				<tr id="{{ $q->id }}">
-					<td                width="15%"> {{ $q->fecha }} </td>
-					<td 			   width="25%"> {{ $q->usuario }} </td>
-					<td                width="50%"> {{ $q->descripcion }} </td>
-					<td class="right"  width="10%"> {{ f_num::get($q->total) }} </td>
-				</tr>
-			@endforeach
+			<tbody style="cursor: default;">
+				@foreach($operaciones as $q)
+					<tr id="{{ $q->id }}">
+						<td                width="15%"> {{ $q->fecha }} </td>
+						<td 			   width="25%"> {{ $q->usuario }} </td>
+						<td                width="50%"> {{ $q->descripcion }} </td>
+						<td class="right"  width="10%"> {{ f_num::get($q->total) }} </td>
+					</tr>
+				@endforeach
+			</tbody>
 			<tfoot>
 				<tr>
 					<td colspan="7">

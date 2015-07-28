@@ -1,6 +1,10 @@
 <div class="panel dt-panel-cierre rounded shadow">
     <div class="panel-heading-cierre bg-theme">
-        <div class="pull-left"><span>Movimientos del Dia</span></div>
+        <div class="pull-left">
+        	<strong >{{ strtoupper(@$titulo['fecha']) }}</strong>
+        	<br>
+        	{{ @$titulo['tienda'] }}
+        </div>
         <div class="clearfix"></div>
     </div>
     <div class="panel-body-cierre no-padding" id="table " style="border-bottom: double;">

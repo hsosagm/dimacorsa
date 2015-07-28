@@ -1,6 +1,8 @@
 <div class="panel dt-panel-cierre rounded shadow">
     <div class="panel-heading-cierre bg-theme">
-        <div class="pull-left"><span>Movimientos del Dia</span></div>
+        <div class="pull-left cierre-titulos">
+			<strong >{{ strtoupper(@$titulo['fecha']) }}</strong>
+        </div>
         <div class="pull-right">
         		<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
         		<i class="fa fa-file-pdf-o fa-2" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
@@ -413,4 +415,18 @@
 <script>
 	cierre_fecha_enviar='{{$fecha}}'; 
 </script>
+
+@if(Input::has('imprimir'))
+	<style>
+		table {
+			font-size: 12px;
+		}
+		.right {
+			text-align: right;
+		}
+		table thead {
+			border-bottom: 1px solid black
+		}
+	</style>
+@endif
 

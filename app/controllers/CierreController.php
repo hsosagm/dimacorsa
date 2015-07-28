@@ -4,23 +4,39 @@ class CierreController extends \BaseController {
 
     function CierreDelDia()
     {
+        $dt = Carbon::now();
+        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
+        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+
+        $titulo ['fecha']  = $fecha_titulo;
+
         $fecha = 'current_date';
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
         $corte_realizado = Cierre::with('user')
         ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->first();
 
-        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle','corte_realizado'));
+        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle','corte_realizado','titulo'));
     }
 
     public function enviarCorreoPDF($cierre_id)
     {   
+        $dt = Carbon::now();
+        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
+        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+
+        $tienda = Tienda::find(Auth::user()->tienda_id);
+        $tienda_titulo = "{$tienda->nombre}, {$tienda->direccion}";
+
+        $titulo ['tienda'] = $tienda_titulo;
+        $titulo ['fecha']  = $fecha_titulo;
+
         $fecha = 'current_date';
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
         $corte_realizado = Cierre::with('user')->find($cierre_id);
         $emails = array();
-        
+
         $correos = DB::table('notificaciones')->select('correo')->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('notificacion','CierreDia')->get();
 
@@ -29,10 +45,11 @@ class CierreController extends \BaseController {
         }
 
         Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message)
-            use($fecha, $data, $dataDetalle, $corte_realizado, $emails)
+            use($fecha, $data, $dataDetalle, $corte_realizado, $emails, $titulo)
         {
             $pdf = PDF::loadView('cierre.ExportarCierreDelDia', 
-                array('data' => $data, 'fecha' => $fecha, 'dataDetalle' => $dataDetalle , 'corte_realizado' => $corte_realizado));
+                array('data' => $data, 'fecha' => $fecha, 'dataDetalle' => $dataDetalle , 'corte_realizado' => $corte_realizado, 'titulo' => $titulo ));
+
             $message->to($emails)->subject('Notificacion de Cierre del Dia');
             $message->attachData($pdf->output(), Carbon::now().".pdf");
         });
@@ -115,17 +132,29 @@ class CierreController extends \BaseController {
     public function CierreDelDiaPorFecha()
     {
         $fecha = Input::get('fecha');
-         $fecha_enviar = "'{$fecha}'";
+        $fecha_enviar = "'{$fecha}'";
 
         if ($fecha == 'current_date') 
+        {
             $fecha_enviar = 'current_date';
+            $dt = Carbon::now();
+        }
+        else
+        {
+            $dt = Carbon::createFromFormat('Y-m-d',$fecha);
+        }
+
+        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
+        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+
+        $titulo ['fecha']  = $fecha_titulo;
 
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
 
         $corte_realizado = Cierre::with('user')
         ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->first();
-        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle','corte_realizado'));
+        return View::make('cierre.CierreDia',compact('data','fecha','dataDetalle','corte_realizado', 'titulo'));
     }
 
     public function resumenMovimientosDetallado($fecha )
