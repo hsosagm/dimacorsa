@@ -63,7 +63,7 @@
 
 	<table>
 		<tr>
-			<td width="500">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+			<td width="520">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
 			<td width="70" align="right">90,909.99</td>
 		</tr>
 	</table>
