@@ -451,14 +451,45 @@ Route::group(array('prefix' => 'owner'), function()
 Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
-{   
-    /*$lista = array();
-   $cierre = DB::table('notificaciones')->select('correo')->where('notificacion','CierreDia')->get();
-   foreach ($cierre as $key => $value) {
-        $lista [] = $value->correo;
-   }
+{
+   /*$detalle = DetalleVenta::with('venta','producto')->where('producto_id',1000038)
+   ->join('ventas','ventas.id','=','venta_id')
+   ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('2015-05-10', '%Y-%m')")
+   ->where('ventas.tienda_id',Auth::user()->tienda_id)->get();
+   
+   return View::make('cierre.DetalleDeVentasPorProducto', compact('detalle'))->render();*/
+        // $ventas = DB::table('ventas')
+        // ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        // ->where(DB::raw('YEAR(ventas.created_at)'), 2015 )
+        // ->where(DB::raw('total'), '>', 0 )
+        // ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes"))
+        // ->groupBy('mes')
+        // ->get();
 
-   return $lista*/;
+        // $dt = App::make('Fecha');
+        // $i = 0;
+        
+        // foreach ($ventas as $v) {
+        //     $data[$i]['name'] = $dt->monthsNames($v->mes);
+        //     $data[$i]['y'] = (float) $v->total;
+        //     $data[$i]['url'] = 'owner/chart/ventas/ventasDiariasPorMes';
+        //     $data[$i]['variables'] = array( "year" => 2015, "month" => $v->mes);
+        //     $data[$i]['drilldown'] = true;
+        //     $i++;
+        // }
+
+        // $data['data'] = $data;
+        // $data['title'] = 'Ventas de';
+        // return json_encode($data);
+
+        $venta = Venta::with('cliente', 'detalle_venta')->find(26011);
+        if(count($venta->detalle_venta)>0)
+        {
+            return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+        }
+        else
+            return 'Ingrese productos ala factura para poder inprimir';
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

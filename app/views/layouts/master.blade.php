@@ -54,17 +54,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
             <span id="home"></span></h2>
         </div>
 
-<!-- <table border="1px" cellpadding="5px" cellspacing="0px">
-    <tr>
-        <td valign="top"><h2>All Printers</h2>
-            <input type="button" onClick="findPrinter()" value="Detect Printer"><br />
-            <input type="button" onClick="findPrinters()" value="List All Printers"><br />
-            <input type="button" onClick="useDefaultPrinter()" value="Use Default Printer"><br /><br />
-            <input type="button" onClick="listNetworkInfo()" value="List Network Info" /><br />
-            <input type="button" onClick="printHTML()" value="Print HTML" /><br />
-        </td>
-    </tr>
-</table> -->
+        <canvas id="hidden_screenshot" style="display:none;"></canvas>
 
        @include('partials.body-content')
 
@@ -91,6 +81,10 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>
 <script src="calendar/translations/es_ES.js"></script>
+<script type="text/javascript" src="js/qz/qz.js"></script>
+<script type="text/javascript" src="js/qz/html2canvas.js"></script>
+<script type="text/javascript" src="js/qz/jquery.plugin.html2canvas.js"></script>
+
 
 <script>
 $(document).ready(function(){
