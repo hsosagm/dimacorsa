@@ -1,7 +1,7 @@
 <?php $factura = 0 ?>
 <?php $factura_pie = 1 ?>
 <?php $lineas = 0; ?>
-<body>
+
 	@foreach($venta->detalle_venta as $key => $dt)
 
 		@if($factura == 0)

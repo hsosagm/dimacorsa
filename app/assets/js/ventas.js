@@ -277,3 +277,38 @@ function OpenModalSalesItemSerials(e)
         }
     });
 }
+
+function imprimirFactura(p)
+{
+    if (isLoaded()) {
+        qz.findPrinter(p);
+
+        window['qzDoneFinding'] = function() {
+            var printer = qz.getPrinter();
+            
+            if (printer !== null) {
+                // alert('Printer found: "'+printer+'" ');
+                msg.success('Se ha enviado una impresion a "'+printer+'"', 'Success!');
+                $.ajax({
+                    type: 'GET',
+                    url: "test",
+                    data: { id: 1},
+                    success: function (data) {
+                        qz.setPaperSize("8.5in", "5.5in");
+                        qz.setOrientation("portrait");
+                        qz.appendHTML('<html>');
+                        qz.appendHTML(data);
+                        qz.appendHTML('</html>');
+                        qz.printHTML();
+                    }
+                }); 
+            }
+            else {
+                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
+            }
+            
+            window['qzDoneFinding'] = null;
+        };
+
+    }
+}
