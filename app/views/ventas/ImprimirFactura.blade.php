@@ -4,7 +4,7 @@
 
 			body
 			{
-				margin-top: 30px;
+				margin-top: 35px;
 				margin-left: 10px;
 			}
 
@@ -46,7 +46,7 @@
 				@foreach($venta->detalle_venta as $key => $dt)
 				<tr>
 					<td width="50">  {{ $dt->cantidad }} </td>	
-					<td width="300"> {{ $dt->producto->descripcion}} </td>
+					<td width="350"> {{ $dt->producto->descripcion}} </td>
 					<td width="50" align="right">
 						{{ f_num::get($dt->precio) }}
 					</td>
@@ -63,7 +63,7 @@
 
 	<table>
 		<tr>
-			<td width="400">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+			<td width="450">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
 			<td width="50" align="right">90,909.99</td>
 		</tr>
 	</table>
