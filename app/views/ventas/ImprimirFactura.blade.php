@@ -4,7 +4,7 @@
 
 			body
 			{
-				margin-top: 40px;
+				margin-top: 30px;
 				margin-left: 10px;
 			}
 
@@ -16,9 +16,9 @@
 
 			#factura_detalle {
 				display: block;
-				height: 200px;
+				height: 190px;
 				padding-top: 10px;
-				padding-bottom: 30px;
+				padding-bottom: 25px;
 			}
 		</style>
 	</head>
@@ -46,11 +46,11 @@
 				@foreach($venta->detalle_venta as $key => $dt)
 				<tr>
 					<td width="50">  {{ $dt->cantidad }} </td>	
-					<td width="400"> {{ $dt->producto->descripcion}} </td>
-					<td width="100" align="right">
+					<td width="300"> {{ $dt->producto->descripcion}} </td>
+					<td width="50" align="right">
 						{{ f_num::get($dt->precio) }}
 					</td>
-					<td width="100" align="right">
+					<td width="50" align="right">
 						{{ f_num::get($dt->cantidad * $dt->precio)}}
 					</td>	
 				</tr>
@@ -63,8 +63,8 @@
 
 	<table>
 		<tr>
-			<td>Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
-			<td align="right">90,909.99</td>
+			<td width="400">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+			<td width="50" align="right">90,909.99</td>
 		</tr>
 	</table>
 
