@@ -10,7 +10,7 @@
 		<td align="center">P. Venta</td>
 		<td align="center"></td>
 	</tr>
-	<tbody >
+	<tbody style="cursor: default;">
 		@foreach($detalle as $key => $dt)
 		<tr>
 			<td width="5%">{{$dt->id_venta }}</td>
