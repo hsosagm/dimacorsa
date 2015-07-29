@@ -110,3 +110,21 @@
 .div_master {
 	margin-left: 4%;
 }
+
+.body-detail {
+    font-size: 10px;
+    line-height: 100%;
+    width: 100%!important;
+    margin-top: 10px;
+    padding-top: 5px;
+    border: 1px solid #C5C5C5;
+}
+
+.body-detail table tbody {
+    height: 160px!important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.body-detail table tbody, .body-detail table thead {
+    display: block;
+}

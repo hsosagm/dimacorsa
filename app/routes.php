@@ -177,8 +177,8 @@
             Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
             Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
             Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');
-            Route::get('getVentasPendientesPorProveedor'        , 'VentasController@getVentasPendientesPorProveedor');
-            Route::get('getVentaConDetalle'                     , 'VentaController@getVentaConDetalle');
+            Route::get('getVentasPendientesPorCliente'          , 'VentasController@getVentasPendientesPorCliente' );
+            Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
 
             Route::group(array('prefix' => 'payments'),function() 
             {

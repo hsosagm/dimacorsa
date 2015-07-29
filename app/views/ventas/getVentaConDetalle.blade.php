@@ -1,22 +1,22 @@
 <div class="row" style=" line-height: 140%;  font-size: 12px; padding:10px">
 	<div class="col-md-6">
 		<div class="row">
-			<div class="col-md-6">Proveedor:</div>
-			<div class="col-md-6">{{ $compra->proveedor->nombre }}</div>
+			<div class="col-md-6">Cliente:</div>
+			<div class="col-md-6">{{ $venta->cliente->nombre . ' ' . $venta->cliente->apellido }}</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6">Direccion:</div>
-			<div class="col-md-6">{{ $compra->proveedor->direccion }}</div>
+			<div class="col-md-6">{{ $venta->cliente->direccion }}</div>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6">Fecha:</div>
-			<div class="col-md-6">{{ $compra->created_at }}</div>
+			<div class="col-md-6">{{ $venta->created_at }}</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6">Nit:</div>
-			<div class="col-md-6">{{ $compra->proveedor->nit }}</div>
+			<div class="col-md-6">{{ $venta->cliente->nit }}</div>
 		</div>
 	</div>
 </div>
@@ -34,7 +34,7 @@
 				</thead>
 				<tbody style="  height: 275px!important;  line-height: 140%;  font-size: 12px;">
 					<?php $total = 0; ?>
-					@foreach( $compra->detalle_compra as $dt)
+					@foreach( $venta->detalle_venta as $dt)
 						<tr>
 							<td width="10%"> {{ $dt->cantidad }} </td>
 							<td width="90%"> {{ $dt->producto->descripcion }} </td>
