@@ -24,7 +24,7 @@
         <div id="loader"><div class="spinner flat"></div></div>
 
         <div class="header-content">
-            <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoCliente"></span></h2>
+            <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoCliente" id="infoSaldosTotales"></span></h2>
         </div>
 
 
