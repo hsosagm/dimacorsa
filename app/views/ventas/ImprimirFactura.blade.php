@@ -28,12 +28,12 @@
 	<table>
 		<tr height="25"> 
 			<td colspan="2">
-				Nit:*   {{$venta->cliente->nit}}  Fecha :  *{{ date('d-m-Y')}}
+				Nit: {{$venta->cliente->nit}}  Fecha : {{ date('d-m-Y')}}
 			</td>
 		</tr >
 		<tr height="25"> 
 			<td colspan="4"> 
-				{{ $venta->cliente->nombre .' '.$venta->cliente->apellido}}*      
+				{{ $venta->cliente->nombre .' '.$venta->cliente->apellido}}
 				{{ $venta->cliente->direccion}}
 			</td>
 		</tr>

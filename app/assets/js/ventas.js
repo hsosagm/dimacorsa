@@ -294,8 +294,7 @@ function imprimirFactura(p)
                     data: { id: 1},
                     success: function (data) {
                         qz.setAutoSize(true);
-                        var colA = fixHTML(data);
-                        qz.appendHTML(colA);
+                        qz.appendHTML(data);
                         qz.printHTML();
                     }
                 }); 
