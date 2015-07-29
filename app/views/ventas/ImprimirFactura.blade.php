@@ -18,7 +18,7 @@
 				display: block;
 				height: 190px;
 				padding-top: 10px;
-				padding-bottom: 50px;
+				padding-bottom: 70px;
 			}
 		</style>
 	</head>
@@ -46,7 +46,7 @@
 				@foreach($venta->detalle_venta as $key => $dt)
 				<tr style="line-height:10px;">
 					<td width="50">  {{ $dt->cantidad }} </td>	
-					<td width="380"> {{ $dt->producto->descripcion}} </td>
+					<td width="370"> {{ $dt->producto->descripcion}} </td>
 					<td width="65" align="right">
 						{{ f_num::get($dt->precio) }}
 					</td>
@@ -63,8 +63,8 @@
 
 	<table>
 		<tr>
-		    <td width="40"></td>	
-			<td width="455">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+		    <td width="60"></td>	
+			<td width="425">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
 			<td width="65" align="right">90,909.99</td>
 		</tr>
 	</table>
