@@ -4,10 +4,6 @@ function ImprimirFacturaVenta_dt(e,user) {
     window.open('user/ventas/ImprimirFacturaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
 
-function ImprimirGarantiaVenta(e,id) {
-   window.open('user/ventas/ImprimirGarantiaVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
 function ImprimirGarantiaVenta_dt(e,user) {
     id = $(e).closest('tr').attr('id');
     var md5 = $.md5('encript'+user); 
@@ -66,6 +62,10 @@ function imprimir_cierre_por_fecha(fecha) {
 }
 
 /*** impresiones de ventas y garantias ***/
+function ImprimirGarantiaVenta(e,id) {
+    imprimirVentaMaster("IP2700-series", id, "ImprimirGarantiaVenta");
+    $('.bs-modal').modal('hide');
+}
 
 function ImprimirFacturaVenta(e,id) {
     imprimirVentaMaster("EPSON-LQ-590", id, "ImprimirFacturaVenta");

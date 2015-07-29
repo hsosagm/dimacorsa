@@ -171,8 +171,8 @@
             Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
             Route::get('ImprimirVentaModal'                     , 'VentasController@ImprimirVentaModal'  );
             Route::get('imprimirFactura'                        , 'VentasController@imprimirFactura'  );
-            Route::get('ImprimirFacturaVenta'              , 'VentasController@ImprimirFacturaVenta'  );
-            Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
+            Route::get('ImprimirFacturaVenta'                   , 'VentasController@ImprimirFacturaVenta'  );
+            Route::get('ImprimirGarantiaVenta'                  , 'VentasController@ImprimirGarantiaVenta'  );
             Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
             Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
             Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
