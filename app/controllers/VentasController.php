@@ -377,9 +377,9 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
-	function ImprimirFacturaVenta($id)
+	function ImprimirFacturaVenta()
 	{
-		$venta_id = Crypt::decrypt($id);
+		$venta_id = Input::get('venta_id');
 
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
 
