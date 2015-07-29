@@ -170,11 +170,15 @@
             Route::get('openSale'                               , 'VentasController@openSale');
             Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
             Route::get('ImprimirVentaModal'                     , 'VentasController@ImprimirVentaModal'  );
+            Route::get('imprimirFactura'                        , 'VentasController@imprimirFactura'  );
             Route::get('ImprimirFacturaVenta/{id}'              , 'VentasController@ImprimirFacturaVenta'  );
             Route::get('ImprimirGarantiaVenta/{id}'             , 'VentasController@ImprimirGarantiaVenta'  );
             Route::get('ImprimirFacturaVenta/dt/{code}/{id}'    , 'VentasController@ImprimirFacturaVenta_dt'  );
             Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
             Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
+            Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');
+            Route::get('getVentasPendientesPorProveedor'        , 'VentasController@getVentasPendientesPorProveedor');
+            Route::get('getVentaConDetalle'                     , 'VentaController@getVentaConDetalle');
 
             Route::group(array('prefix' => 'payments'),function() 
             {

@@ -364,15 +364,28 @@ class VentasController extends \BaseController {
         ));
 	}
 
-	function ImprimirFacturaVenta($id)
+	function imprimirFactura()
 	{
-		$venta_id = Crypt::decrypt($id);
+		$venta_id = Input::get('venta_id');
 
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
     	if(count($venta->detalle_venta)>0)
     	{
         	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
     	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirFacturaVenta($id)
+	{
+		$venta_id = Crypt::decrypt($id);
+
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+
+    	if( count($venta->detalle_venta) > 0 )
+        	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
@@ -383,9 +396,8 @@ class VentasController extends \BaseController {
 
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
     	if(count($venta->detalle_venta)>0)
-    	{
         	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
-    	}
+
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
@@ -396,9 +408,8 @@ class VentasController extends \BaseController {
 
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
     	if(count($venta->detalle_venta)>0)
-    	{
         	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
-    	}
+
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
@@ -409,9 +420,8 @@ class VentasController extends \BaseController {
 
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
     	if(count($venta->detalle_venta)>0)
-    	{
         	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
-    	}
+
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
@@ -430,8 +440,6 @@ class VentasController extends \BaseController {
         ));
 	}
 
-	
-	
 	public function UpdateDetalle()
 	{
 		if ( Input::get('field') == 'precio' ) {
@@ -473,7 +481,7 @@ class VentasController extends \BaseController {
 		$detalle = $this->getSalesDetail();
 		$detalle = json_encode($detalle);
 
-		return Response::json(array(
+		return Response::json( array(
 			'success' => true,
 			'table'   => View::make('ventas.detalle_body', compact('detalle'))->render()
         ));

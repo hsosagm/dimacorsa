@@ -44,6 +44,17 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown navbar-message">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Clientes" data-toggle="tooltip">
+                        <i class="fa fa-list-alt" id="clientes_table"></i>
+                    </a>
+                </li>
+
+                <li class="dropdown navbar-message">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Ventas Pendientes" data-toggle="tooltip">
+                        <i class="fa fa-money" onclick="getVentasPedientesDePago();"></i>
+                    </a>
+                </li>
                 <!-- Start profile -->
                   <li class="dropdown navbar-profile" style="margin-right: 25px;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

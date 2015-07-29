@@ -290,8 +290,8 @@ function imprimirFactura(p)
                 msg.success('Se ha enviado una impresion a "'+printer+'"', 'Success!');
                 $.ajax({
                     type: 'GET',
-                    url: "user/ventas/ImprimirFacturaVenta/dt/1/26011",
-                    data: { id: 1},
+                    url: "user/ventas/imprimirFactura",
+                    data: { venta_id: 26011},
                     success: function (data) {
                         qz.setAutoSize(true);
                         qz.appendHTML(data);
