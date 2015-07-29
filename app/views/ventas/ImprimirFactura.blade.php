@@ -15,7 +15,7 @@
 	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
 
 		<tr height="25"> 
-			<td colspan="2"> Nits: {{$venta->cliente->nit}}  Fecha : {{ date('d-m-Y')}} </td>
+			<td colspan="2"> Nit: {{$venta->cliente->nit}}  Fecha : {{ date('d-m-Y')}} </td>
 		</tr >
 
 		<tr height="25"> 
