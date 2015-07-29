@@ -489,7 +489,7 @@ Route::get('test', function()
         $venta = Venta::with('cliente', 'detalle_venta')->find(26011);
         if(count($venta->detalle_venta)>0)
         {
-            return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+            return View::make('ventas.DemoFactura', compact('venta'))->render();
         }
         else
             return 'Ingrese productos ala factura para poder inprimir';
