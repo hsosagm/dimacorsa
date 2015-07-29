@@ -26,14 +26,14 @@
 		</tr>
 	</table>
 
-<div style="display: block; height: 200px; padding-top: 10px; padding-bottom: 60px; width:575px;">
+<div style="display: block; height: 200px; padding-top: 10px; padding-bottom: 50px; width:555px;">
 	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
 	    <?php $total = 0; ?>
 
 		@foreach($venta->detalle_venta as $key => $dt)
 		    <tr>
 		        <td valign="top" width="30"> {{ $dt->cantidad }} </td>
-		        <td valign="top" width="405"> {{ $dt->producto->descripcion }} </td>
+		        <td valign="top" width="385"> {{ $dt->producto->descripcion }} </td>
 				<td valign="top" width="70" align="right"> {{ f_num::get($dt->precio) }} </td>
 				<td valign="top" width="70" align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>
 		    </tr>
@@ -44,7 +44,7 @@
 	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
 		<tr>
 			<td width="65"></td>	
-			<td width="445">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+			<td width="425">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
 			<td width="65" align="right">90,909.99</td>
 		</tr>
 	</table>
