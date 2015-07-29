@@ -1,58 +1,53 @@
-<?php $factura = 0 ?>
-<?php $factura_pie = 1 ?>
-<?php $lineas = 0; ?>
-<body>
-	@foreach($venta->detalle_venta as $key => $dt)
+<html>
 
-		@if($factura == 0)
-			@include('ventas.EncabezadoFactura')
-			<?php $factura = 1; ?>
-			<?php $total = 0;   ?>
-		@endif
+<head>
+	<style type="text/css">
 
-		<tr height="1"  style="font-size:12px; ">
-			<td width="15%"> 
-				{{ $dt->cantidad }}
-			</td>	
-			<td width="55%"> 
-				{{ $dt->producto->descripcion}}
+		body
+		{
+			margin-top: 35px;
+			margin-left: 10px;
+		}
+
+	</style>
+</head>
+
+	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
+
+		<tr height="25"> 
+			<td colspan="2"> Nit: {{$venta->cliente->nit}}  Fecha : {{ date('d-m-Y')}} </td>
+		</tr >
+
+		<tr height="25"> 
+			<td colspan="4"> 
+				{{ $venta->cliente->nombre .' '.$venta->cliente->apellido}}
+				{{ $venta->cliente->direccion}}
 			</td>
-			<td width="15%" style="text-align:right; padding-right:15px">
-				{{ f_num::get($dt->precio) }}
-			</td>
-			<td width="15%" style="text-align:right; padding-right:15px">
-				{{ f_num::get($dt->cantidad * $dt->precio)}}
-			</td>	
 		</tr>
+	</table>
 
-		<?php $total = $total +($dt->cantidad * $dt->precio); ?>
+<div style="display: block; height: 195px; padding-top: 10px; padding-bottom: 35px; width:555px;">
+	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
+	    <?php $total = 0; ?>
 
-		@if(strlen ($dt->producto->descripcion) > 50)
-			<?php $lineas = $lineas + 2; ?>
-		@else
-			<?php $lineas++; ?>
-		@endif
+		@foreach($venta->detalle_venta as $key => $dt)
+		    <tr>
+		        <td valign="top" width="30"> {{ $dt->cantidad }} </td>
+		        <td valign="top" width="385"> {{ $dt->producto->descripcion }} </td>
+				<td valign="top" width="70" align="right"> {{ f_num::get($dt->precio) }} </td>
+				<td valign="top" width="70" align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>
+		    </tr>
+		    <?php $total = $total +($dt->cantidad * $dt->precio); ?>
+		@endforeach
+	</table>
+</div>
+<?php $convertir =new Convertidor; ?>
+	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
+		<tr>
+			<td width="65"></td>	
+			<td width="425">{{$convertir->ConvertirALetras($total)}}</td>
+			<td width="65" align="right">{{f_num::get($total)}}</td>
+		</tr>
+	</table>
 
-		@if($lineas >= 16 )
-			<?php $factura_pie = 0 ; ?>
-			<?php $factura     = 0 ; ?>
-			<?php $lineas      = 0 ; ?>
-		@endif
-		
-		@if($factura_pie == 0)
-			@include('ventas.PieFactura')
-			<?php $factura_pie = 1 ; ?>
-		@endif
-		
-	@endforeach
-	
-	@include('ventas.PieFactura')
-</body>
-<style>
-	td {
-		font-family: Lucida Sans Typewriter,Lucida Typewriter,monospace , bold;
-		font-size: 13px !important;
-		font-variant: normal;
-		font-weight: 500;
-	}
-</style>
+</html>
