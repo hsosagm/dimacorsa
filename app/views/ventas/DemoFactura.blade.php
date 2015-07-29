@@ -26,7 +26,7 @@
 		</tr>
 	</table>
 
-<div style="display: block; height: 200px; padding-top: 10px; padding-bottom: 35px; width:555px;">
+<div style="display: block; height: 190px; padding-top: 10px; padding-bottom: 35px; width:555px;">
 	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
 	    <?php $total = 0; ?>
 
