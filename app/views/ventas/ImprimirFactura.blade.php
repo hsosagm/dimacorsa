@@ -1,23 +1,28 @@
 <html>
-	<head>
-		<style type="text/css">
-			body, td
-			{
-				font-size: 9pt;
-				margin: 0px;
-				font-family: "monospace";
-			}
+<head>
+	<style type="text/css">
 
-			#factura_detalle {
-				display: block;
-				height: 180px;
-				padding-top: 20px;
-				padding-bottom: 20px;
-			}
-		</style>
-	</head>
+		body
+		{
+			margin-top: 35px;
+			margin-left: 10px;
+		}
+
+		body, td
+		{
+			font-size: 9pt;
+			font-family: "monospace";
+		}
+
+		#factura_detalle {
+			display: block;
+			height: 200px;
+			padding-top: 10px;
+			padding-bottom: 70px;
+		}
+	</style>
+</head>
 <body>
-
 
 	<table>
 		<tr height="25"> 
@@ -34,31 +39,37 @@
 	</table>
 
 	<div id="factura_detalle">
-		<table>
+		<table face="monospace" border="1px">
 			<tbody>
 				<?php $total = 0; ?>
 				@foreach($venta->detalle_venta as $key => $dt)
-				<tr>
-					<td>  {{ $dt->cantidad }} </td>	
-					<td> {{ $dt->producto->descripcion}} </td>
-					<td align="right">
+				<tr height="3cm">
+					<td valign="top" width="50">  {{ $dt->cantidad }} </td>
+
+
+				    <?php $descripcion = str_replace(" ", "&nbsp;", $dt->producto->descripcion); ?>
+				    <?php $descripcion = str_replace("’", "'", $descripcion); ?>
+				    <?php $descripcion = str_replace("-", "&#8209;", $descripcion); ?>
+
+					<td valign="top" width="375"> {{ $descripcion }} </td>
+					<td valign="top" width="65" align="right">
 						{{ f_num::get($dt->precio) }}
 					</td>
-					<td align="right">
+					<td valign="top" width="65" align="right">
 						{{ f_num::get($dt->cantidad * $dt->precio)}}
 					</td>	
 				</tr>
 				<?php $total = $total +($dt->cantidad * $dt->precio); ?>
 				@endforeach
 			</tbody>
-
 		</table>
 	</div>
 
 	<table>
 		<tr>
-			<td>Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
-			<td align="right">90909</td>
+			<td width="60"></td>	
+			<td width="430">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+			<td width="65" align="right">90,909.99</td>
 		</tr>
 	</table>
 
