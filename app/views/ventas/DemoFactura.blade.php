@@ -15,7 +15,7 @@
 	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
 
 		<tr height="25"> 
-			<td colspan="2"> Nit: {{$venta->cliente->nit}}  Fecha : {{ date('d-m-Y')}} </td>
+			<td colspan="2"> Nits: {{$venta->cliente->nit}}  Fecha : {{ date('d-m-Y')}} </td>
 		</tr >
 
 		<tr height="25"> 
@@ -26,7 +26,8 @@
 		</tr>
 	</table>
 
-	<table style="display: block; height: 400px; padding-top: 10px; padding-bottom: 70px; font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
+<div style="display: block; height: 200px; padding-top: 10px; padding-bottom: 70px;">
+	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
 	    <?php $total = 0; ?>
 
 		@foreach($venta->detalle_venta as $key => $dt)
@@ -38,11 +39,12 @@
 		    </tr>
 		@endforeach
 	</table>
+</div>
 
 	<table style="font-weight: 100 !important; font-size:9pt; font-face:\'Courier New\';">
 		<tr>
-			<td width="90"></td>	
-			<td width="420">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+			<td width="60"></td>	
+			<td width="450">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
 			<td width="65" align="right">90,909.99</td>
 		</tr>
 	</table>
