@@ -83,19 +83,20 @@ function getVentasPendientesPorClientePaginacion(page , sSearch) {
     });
 }
 
-$(document).on('click', '.pagination_Ventas_por_Cliente a', function (e) {
+$(document).on('click', '.pagination_ventas_por_cliente a', function (e) {
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
     getVentasPendientesPorClientePaginacion(page,null);
+    
     return false;
 });
 
-function getCompraConDetalle(e, compra_id)
+function getVentaConDetalle(e, venta_id)
 {
     $.ajax({
         type: 'GET',
         url: "user/ventas/getVentaConDetalle",
-        data: {compra_id: compra_id },
+        data: {venta_id: venta_id },
         success: function (data) {
             if (data.success == true) {
                 $('#modal-body-detalle').html(data.table);

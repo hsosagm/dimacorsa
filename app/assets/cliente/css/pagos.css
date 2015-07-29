@@ -1,4 +1,6 @@
-
+.display tr td a {
+  margin-left: 0px;
+}
 .panel-tab .panel-heading ul {
     width: 100% !important;
 }
