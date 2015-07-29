@@ -16,7 +16,7 @@
 
 			#factura_detalle {
 				display: block;
-				height: 190px;
+				height: 200px;
 				padding-top: 10px;
 				padding-bottom: 70px;
 			}
@@ -28,12 +28,12 @@
 	<table>
 		<tr height="25"> 
 			<td colspan="2">
-				Nit: {{$venta->cliente->nit}}  Fecha : {{ date('d-m-Y')}}
+				Nit:*   {{$venta->cliente->nit}}  Fecha :  *{{ date('d-m-Y')}}
 			</td>
 		</tr >
 		<tr height="25"> 
 			<td colspan="4"> 
-				{{ $venta->cliente->nombre .' '.$venta->cliente->apellido}}
+				{{ $venta->cliente->nombre .' '.$venta->cliente->apellido}}*      
 				{{ $venta->cliente->direccion}}
 			</td>
 		</tr>
@@ -46,7 +46,7 @@
 				@foreach($venta->detalle_venta as $key => $dt)
 				<tr style="line-height:10px;">
 					<td width="50">  {{ $dt->cantidad }} </td>	
-					<td width="370"> {{ $dt->producto->descripcion}} </td>
+					<td width="375"> {{ $dt->producto->descripcion}} </td>
 					<td width="65" align="right">
 						{{ f_num::get($dt->precio) }}
 					</td>
@@ -64,7 +64,7 @@
 	<table>
 		<tr>
 		    <td width="60"></td>	
-			<td width="425">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
+			<td width="430">Veintiseis mil seiscientos cincuenta y cinco quetzales con 15/100 centavos</td>
 			<td width="65" align="right">90,909.99</td>
 		</tr>
 	</table>
