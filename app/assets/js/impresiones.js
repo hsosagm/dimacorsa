@@ -68,9 +68,8 @@ function imprimir_cierre_por_fecha(fecha) {
 /*** impresiones de ventas y garantias ***/
 
 function ImprimirFacturaVenta(e,id) {
-    alert();
-
     imprimirVentaMaster("EPSON-LQ-590", id, "ImprimirFacturaVenta");
+    $('.bs-modal').modal('hide');
 }
 
 function imprimirVentaMaster(p , venta_id,  url)
