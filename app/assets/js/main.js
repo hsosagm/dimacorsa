@@ -328,6 +328,8 @@ function _print()
                             //     { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"] }
                             // );
 
+                            $("#barcode").show();
+
                             $("#barcode").JsBarcode(
                                 data["codigo"] , 
                                 {
@@ -336,7 +338,7 @@ function _print()
                                     backgroundColor:"#ffffff",
                                     format: "CODE128",
                                     displayValue: true,
-                                    fontSize: 20
+                                    fontSize: 16
                                 }
                             );
 
@@ -350,6 +352,7 @@ function _print()
                                     qz.appendImage(myImage);
                                     window['qzDoneAppending'] = function() {
                                         qz.printPS();
+                                        $("#barcode").hide();
                                         window['qzDoneAppending'] = null;
                                     };
                                 }

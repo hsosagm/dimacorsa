@@ -34,6 +34,7 @@ $(document).ready(function() {
             {"sClass": "right widthS formato_precio", "sTitle": "P costo", "bVisible": false, "aTargets": [3]},
             {"sClass": "right widthS formato_precio",  "sTitle": "P publico",    "aTargets": [4]},
             {"sClass": "right widthS",  "sTitle": "Existencias",    "aTargets": [5]},
+            {"sClass": "right widthS",  "sTitle": "Total",    "aTargets": [6]},
         ],
 
         "fnDrawCallback": function( oSettings ) {

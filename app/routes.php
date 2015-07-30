@@ -205,6 +205,11 @@
 
 Route::group(array('prefix' => 'admin'), function()
 {
+    Route::group(array('prefix' => 'configuracion'),function() 
+    {
+        Route::get('impresora' , 'ConfiguracionController@impresora'    );
+    });
+
     Route::group(array('prefix' => 'queries'),function() 
     {
         Route::get('getMasterQueries'                        , 'QueriesController@getMasterQueries'    );

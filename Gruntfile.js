@@ -199,6 +199,7 @@ module.exports = function(grunt) {
                 './app/assets/js/codigobarras.js',
                 './app/assets/js/usuario-consultas.js',
                 './app/assets/js/impresiones.js',
+                './app/assets/js/configuracion.js',
               ],
               dest: './public/js/custom.js'
             },

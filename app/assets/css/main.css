@@ -159,3 +159,8 @@ div.spinner.flat {
 	width: 90px !important;
 	line-height: 1.4em;
 }
+
+#barcode {
+	position: relative;
+	z-index: -1;
+}

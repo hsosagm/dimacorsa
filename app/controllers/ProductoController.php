@@ -124,7 +124,8 @@ class ProductoController extends Controller {
             "descripcion",
             "ROUND(p_costo/100,2) as p_costo",
             "p_publico",
-            "existencias.existencia as existencia");
+            "existencias.existencia as existencia",
+            "productos.existencia as existencia_total");
 
         $Searchable = array("codigo","nombre","descripcion");
         
