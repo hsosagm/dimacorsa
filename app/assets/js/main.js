@@ -312,7 +312,7 @@ function _print()
             var printer = qz.getPrinter();
             
             if (printer !== null) {
-                
+
                 $.ajax({
                     type: "POST",
                     url: "admin/barcode/print_code",
@@ -322,11 +322,23 @@ function _print()
                     {
                         if (data["success"] == true)
                         {
-                            $("#barcode").barcode(
-                                data["codigo"],
-                                data["tipo"],
-                                { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"] }
-                            );   
+                            // $("#barcode").barcode(
+                            //     data["codigo"],
+                            //     data["tipo"],
+                            //     { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"] }
+                            // );
+
+                            $("#barcode").JsBarcode(
+                                data["codigo"] , 
+                                {
+                                    width:  2,
+                                    height: 100,
+                                    backgroundColor:"#ffffff",
+                                    format: "CODE128",
+                                    displayValue: true,
+                                    fontSize: 20
+                                }
+                            );
 
                             html2canvas($("#barcode"), {
                                 onrendered: function(canvas) {
