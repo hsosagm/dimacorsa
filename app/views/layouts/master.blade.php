@@ -54,8 +54,6 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
             <span id="home"></span></h2>
         </div>
 
-        <canvas id="hidden_screenshot" style="display:none;"></canvas>
-
        @include('partials.body-content')
 
        <footer class="footer-content"> 
@@ -72,7 +70,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 <div id="back-top" class="animated pulse circle">
     <i class="fa fa-angle-up"></i>
 </div>
-<div id="print_barcode"></div>
+<div id="barcode"></div>
 <div class="graficas_auxiliar" style="display:none"></div>
 
 <script src="js/vue.min.js"></script>
@@ -158,5 +156,6 @@ $(document).ready(function(){
   }
 </style>
 </body>
+<canvas id="hidden_screenshot" style="display:none;"></canvas>
 
 </html>
