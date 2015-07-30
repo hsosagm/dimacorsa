@@ -224,6 +224,7 @@
     *    qz.findPrinter('\\{dummy_text\\}');
     *    window['qzDoneFinding'] = function() { alert(qz.getPrinters()); };
     ***************************************************************************/
+
     function findPrinters() {
         if (isLoaded()) {
             // Searches for a locally installed printer with a bogus name
@@ -240,6 +241,27 @@
                 // Remove reference to this function
                 window['qzDoneFinding'] = null;
             };
+        }
+    }
+    var listado_de_impresoras;
+    function buscarImpresoras() {
+        if (isLoaded()) {
+            // Searches for a locally installed printer with a bogus name
+            qz.findPrinter('\\{bogus_printer\\}');
+            var impresoras = "";
+            // Automatically gets called when "qz.findPrinter()" is finished.
+            window['qzDoneFinding'] = function() {
+                // Get the CSV listing of attached printers
+                var printers = qz.getPrinters().split(',');
+                for (i in printers) {
+                    impresoras = impresoras  + (printers[i] ? printers[i] : 'Unknown') + ",";      
+                }
+                listado_de_impresoras = impresoras;
+                // Remove reference to this function*/
+                window['qzDoneFinding'] = null;
+
+            };
+            
         }
     }
     

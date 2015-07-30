@@ -61,11 +61,15 @@ function imprimir_cierre_por_fecha(fecha) {
      window.open("admin/cierre/CierreDelDiaPorFecha?fecha="+fecha+'&imprimir=true','','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
 
-/*** impresiones de ventas y garantias ***/
 function ImprimirGarantiaVenta(e,id) {
+    window.open('user/ventas/ImprimirGarantiaVenta?venta_id='+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}
+
+/*** impresiones de ventas y garantias ***/
+/*function ImprimirGarantiaVenta(e,id) {
     imprimirVentaMaster("IP2700-series", id, "ImprimirGarantiaVenta");
     $('.bs-modal').modal('hide');
-}
+}*/
 
 function ImprimirFacturaVenta(e,id) {
     imprimirVentaMaster("EPSON-LQ-590", id, "ImprimirFacturaVenta");

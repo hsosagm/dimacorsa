@@ -13,7 +13,6 @@ $('.cierre_modal_content').draggable();
 $('.btnremove').on('click', function() {
     $('#home').empty();
 });
-   
 
 $(document).ajaxSend(function() {
     $('#home').empty();
@@ -25,7 +24,6 @@ $(document).ajaxSuccess(function() {
     $('#loader').hide();
     ajaxStatus = 0;
 });
-
 
 $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
 
@@ -50,14 +48,10 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     }
 
     else if (jqXHR.status == 404)
-    {
         msg.error(jqXHR.responseJSON, 'Error!');
-    }
 
     else if (jqXHR.status == 500)
-    {
         msg.error('Internal Server Error [500].', 'Error!');
-    }
 
     else
     {
@@ -92,7 +86,7 @@ function formato_precio(num) {
 }
 
 function formato_porcentaje(num) {
-    num = num.toString().replace(/\Q|\,/g, '');
+    num = num.toString().replace(/\|\,/g, '');
     if (isNaN(num))
     num = "0";
     sign = (num == (num = Math.abs(num)));
@@ -107,7 +101,6 @@ function formato_porcentaje(num) {
 }
 
 function proccess_table($v) {
-
     $("#iSearch").val("");
     $("#iSearch").unbind();
     clean_panel();
@@ -135,14 +128,11 @@ function proccess_table($v) {
 
 
 $(document).on("click", ".tableSelected tbody tr", function() {
-
     if ( $( this ).hasClass( "row_selected" ) ) 
     {
         $("tr").removeClass("row_selected");
         $('.btn_edit').prop("disabled", true);
-    }
-
-    else
+    } else
     {
         $("tr").removeClass("row_selected");
         $(this).addClass('row_selected');

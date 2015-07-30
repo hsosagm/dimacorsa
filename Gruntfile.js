@@ -34,7 +34,7 @@ module.exports = function(grunt) {
               }
             }
         },
-
+ 
         // less file compilation and compression
         less: {
             development: {
