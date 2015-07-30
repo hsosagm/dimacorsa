@@ -92,11 +92,13 @@
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-columns"></i></span>
-        <span class="text">Codigo de Barras</span>
+        <span class="text">Configuracion</span>
         <span class="plus"></span>
     </a>
     <ul>
-        <li id="settings_barcode"><a href="javascript:void(0);">Configuracion</a></li>
+        <li onclick="settings_barcode()"><a href="javascript:void(0);">Codigo de Barras</a></li>
+        <li onclick="configurar_impresoras()"><a href="javascript:void(0);">Impresoras</a></li>
+        <li><a href="javascript:void(0);">Notificaciones</a></li>
     </ul>
 </li>
 <!--/ End development - components -->

@@ -1,5 +1,4 @@
 $(function() {
-    $(document).on("click", "#settings_barcode",    function(){ settings_barcode(this);});
     $(document).on("change", "#barcode_live", function(e){ viewCode_barcode();});
     $(document).on("keyup", "#barcode_live", function(e){ viewCode_barcode();});
 });
