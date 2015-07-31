@@ -14,7 +14,7 @@ function f_ven_op() {
         $(".form-panel").show();
     });
 }
-
+ 
 function RemoveSale() {
     $.confirm({
         confirm: function() {

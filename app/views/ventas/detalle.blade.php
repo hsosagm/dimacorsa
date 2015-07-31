@@ -44,7 +44,6 @@
 </div>
 
 <div class="body-detail">
-
 	@include('ventas.detalle_body')
 </div>
 

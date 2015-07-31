@@ -75,9 +75,6 @@
                     return;
                 };
 
-                alert(id);
-                alert(e.target.value);
-
                 $.ajax({
                     type: 'POST',
                     url: 'admin/inventario/setExistencia',
