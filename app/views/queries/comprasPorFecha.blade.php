@@ -32,8 +32,8 @@
             {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [8],
                 "orderable": false,
                 "mRender": function() {
-                   $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i> ';
-                   $v += '<a href="javascript:void(0);" title="" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                   $v  = '<i class="fa fa-plus-square btn-link theme-c"  title="Ver detalle" onClick="showPurchasesDetail(this)"></i> ';
+                   $v += '<a href="javascript:void(0);" title="Abrir compra" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
 
                     return  $v;
                 }

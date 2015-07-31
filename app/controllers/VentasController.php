@@ -287,10 +287,12 @@ class VentasController extends \BaseController {
         }
         $total = DetalleVenta::where('venta_id','=',Input::get('venta_id'))->first(array(DB::raw('sum(cantidad * precio) as total')));
 
-		$venta = Venta::where('id', Input::get('venta_id'))
-		->update(array('completed' => 1, 'saldo' => $saldo,'total' => $total->total));
+		$venta = Venta::find(Input::get('venta_id'));
+		$venta->completed = 1;
+		$venta->saldo = $saldo;
+		$venta->total = $total->total;
 		
-		if ($venta) {
+		if ($venta->save()) {
 			return Response::json(array( 'success' => true ));
 		}
 
@@ -319,6 +321,10 @@ class VentasController extends \BaseController {
 
 		$venta->update(array('completed' => 0, 'saldo' => 0));
 
+		$kardex = Kardex::where('kardex_transaccion_id',2)->where('transaccion_id',Input::get('venta_id'));
+		$kardex->delete();
+
+		
 		$detalle = $this->getSalesDetail();
 
 		$detalle = json_encode($detalle);

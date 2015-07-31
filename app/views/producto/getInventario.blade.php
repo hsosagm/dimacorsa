@@ -45,6 +45,7 @@ $(document).ready(function() {
             $( ".DTTT" ).append( '<button id="_edit_dt" class="btn btngrey btn_edit" disabled>Editar</button>');
             $( ".DTTT" ).append( '<button id="_print"  class="btn btngrey btn_edit" disabled><i class="fa fa-barcode"></i> Imprimir</button>' );
             $( ".DTTT" ).append( '<button id="_view_existencias"  class="btn btngrey btn_edit" disabled><i class=""></i> Existencias</button>' );
+            $( ".DTTT" ).append( '<button onclick="kardexProducto()"  class="btn btngrey btn_edit" disabled><i class=""></i> Kardex</button>' );
 
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));

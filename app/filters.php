@@ -27,6 +27,54 @@ Route::filter('csrf', function()
 	}
 });
 
+Event::listen('eloquent.updated: Compra', function(Compra $model){
+    if ($model->completed == 1) 
+    {
+        $detalleCompra = DetalleCompra::with('producto')->where('compra_id',$model->id)->get();
+
+        foreach ($detalleCompra as $dt) 
+        {
+            $kardex = new Kardex;
+            $kardex->tienda_id = Auth::user()->tienda_id;
+            $kardex->user_id = Auth::user()->id;
+            $kardex->kardex_accion_id = 1;
+            $kardex->producto_id = $dt->producto_id;
+            $kardex->kardex_transaccion_id = 1;
+            $kardex->transaccion_id = $dt->compra_id;
+            $kardex->evento = 'ingreso';
+            $kardex->cantidad = $dt->cantidad;
+            $kardex->existencia = $dt->producto->existencia;
+            $kardex->costo = $dt->precio;
+            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->save();  
+        }
+    }
+});
+
+Event::listen('eloquent.updated: Venta', function(Venta $model){
+    if ($model->completed == 1) 
+    {
+        $detalleVenta = DetalleVenta::with('producto')->where('venta_id',$model->id)->get();
+
+        foreach ($detalleVenta as $dt) 
+        {
+            $kardex = new Kardex;
+            $kardex->tienda_id = Auth::user()->tienda_id;
+            $kardex->user_id = Auth::user()->id;
+            $kardex->kardex_accion_id = 1;
+            $kardex->producto_id = $dt->producto_id;
+            $kardex->kardex_transaccion_id = 2;
+            $kardex->transaccion_id = $dt->venta_id;
+            $kardex->evento = 'salida';
+            $kardex->cantidad = $dt->cantidad;
+            $kardex->existencia = $dt->producto->existencia;
+            $kardex->costo = ($dt->producto->p_costo/100);
+            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->save();  
+        }
+    }
+});
+
 
 /** Roles de Administrador , Propietario  y Usuario **/
 Entrust::routeNeedsRole( 'user/*'   ,  array('Owner','Admin','User') , Redirect::to('/'), false );

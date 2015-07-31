@@ -27,6 +27,26 @@
  width: 43%;
 }
 
+.kardex_detail tr:first-child th{
+  background-color: #FFFFFF !important;
+  color: #959595;
+  border:1px solid #C6C1C1 !important;
+}
+
+.kardex_detail tr:nth-child(2n+1) td{
+  background-color: #F9F9F9 !important;
+  border:1px solid #C6C1C1 !important;
+}
+
+.kardex_detail tr td{
+  border:1px solid #C6C1C1 !important;
+}
+
+.kardex_detail {
+  border:1px solid #C6C1C1 !important;
+  color: #808080;
+}
+
 tr.row_selected td {
   background: #CAEEC7 !important;
 }

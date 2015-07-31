@@ -14,6 +14,7 @@
     <ul>
         <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Queries</a></li>
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
+        <li onclick="getKardex()"><a href="javascript:void(0);">Kardex</a></li>
     </ul>
 </li>
 <!-- fin menu consultas-->

@@ -174,6 +174,7 @@ module.exports = function(grunt) {
             custom: {
               src: [
                 './app/assets/js/main.js',
+                './app/assets/js/kardex.js',
                 './app/assets/js/user.js',
                 './app/assets/js/graph.js',
                 './app/assets/js/v-ventas.js',
