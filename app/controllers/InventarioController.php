@@ -39,7 +39,7 @@ class InventarioController extends Controller {
 
 		if ( $existencia )
 		{
-            $existencia->ajuste = $existencia->existencia - Input::get('cantidad');
+            $existencia->ajuste =  Input::get('cantidad') - $existencia->existencia;
             $existencia->existencia_real = Input::get('cantidad');
             $existencia->existencia = Input::get('cantidad');
             $existencia->status = 1;
