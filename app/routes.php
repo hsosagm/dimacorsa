@@ -280,6 +280,13 @@ Route::group(array('prefix' => 'admin'), function()
         Route::post('compra'       , 'ProductoController@compra' );
     });
 
+    Route::group(array('prefix' => 'inventario'), function()
+    {
+        Route::get('/'               , 'InventarioController@getInventario' );
+        Route::get('dt_getInventario', 'InventarioController@dt_getInventario' );
+        Route::post('setExistencia'   , 'InventarioController@setExistencia' );
+    });
+
     Route::group(array('prefix' => 'proveedor'), function()
     {
         Route::get('buscar'                      , 'ProveedorController@search');

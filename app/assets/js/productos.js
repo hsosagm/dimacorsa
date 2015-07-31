@@ -49,3 +49,10 @@ function _view_existencias() {
         }
     });
 }
+
+function inventario() {
+    $.get( "admin/inventario/", function( data ) {
+        makeTable(data, 'admin/productos/', 'Producto');
+        $('#example').addClass('tableSelected');
+    });
+};
