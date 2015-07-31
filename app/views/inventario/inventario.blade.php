@@ -87,7 +87,8 @@
                             $('.current').removeClass('current');
                             $("#iSearch").focus();
                             $("#iSearch").select();
-
+                            $('#example').dataTable().fnFilter( $('#iSearch').val() );
+                            $('#iSearch').val('')
                             return msg.success('Producto actualizado', 'Listo!');
                         }
                         msg.warning(data.msg, 'Advertencia!');
