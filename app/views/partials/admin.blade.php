@@ -32,11 +32,8 @@
         <li><a href="javascript:void(0);" id="f_egreso">Egresos</a></li>
         <li><a href="javascript:void(0);" id="f_ingreso">Ingresos</a></li>
         <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
-        <li><a href="javascript:void(0);" onclick="imprimirFactura('EPSON-LQ-590')">imprimir Factura</a></li>
-        <input type="button" onClick="printImage(true)" value="Print Barcode" /><br />
-        <input type="button" onClick="printHTML5Page()" value="Print Barcode2" /><br />
-        <input type="button" onClick="useDefaultPrinter()" value="Set Printer" /><br />
-        <li><a href="javascript:void(0);" onclick="findPrinters()">Listar de impresoras</a></li>
+        <li><a href="javascript:void(0);" onclick="inventario()">Ajuste de inventario</a></li>
+        {{-- <li><a href="javascript:void(0);" onclick="imprimirFactura('EPSON-LQ-590')">imprimir Factura</a></li> --}}
     </ul>
 </li>
 <!-- Fin menu operaciones -->

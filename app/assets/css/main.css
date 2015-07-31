@@ -164,3 +164,10 @@ div.spinner.flat {
 	position: relative;
 	z-index: -1;
 }
+
+#editProd {
+	width:98%;
+	margin-bottom:0px;
+	height:20px;
+	font-size:12px;
+}
