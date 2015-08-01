@@ -47,6 +47,11 @@
 
                         compile_inv();
                     }
+                    else if(MyTable.fnSettings().fnRecordsDisplay() == 0)
+                    {
+                        $("#iSearch").focus();
+                        $("#iSearch").select();
+                    }
                 }
 
                 $("td[class*='Estado']").each(function() {
