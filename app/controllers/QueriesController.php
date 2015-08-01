@@ -60,7 +60,7 @@ class QueriesController extends \BaseController {
 			"completed"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","clientes.apellido");
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","clientes.apellido", "total", "saldo");
 		$where = "DATE_FORMAT(ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null) 
@@ -130,7 +130,7 @@ class QueriesController extends \BaseController {
 			"completed"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","numero_documento","proveedores.nombre");
+		$Search_columns = array("users.nombre","users.apellido","numero_documento","proveedores.nombre", "total", "saldo");
 		$where = "DATE_FORMAT(compras.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null) 
