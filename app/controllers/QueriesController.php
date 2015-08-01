@@ -684,7 +684,7 @@ class QueriesController extends \BaseController {
             'monto','observaciones'
         );
 
-		$Search_columns = array("users.nombre","users.apellido","metodo_pago.descripcion");
+		$Search_columns = array("users.nombre","users.apellido","metodo_pago.descripcion", "monto");
 		$where = "DATE_FORMAT(abonos_ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null) 
