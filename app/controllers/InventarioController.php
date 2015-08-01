@@ -25,7 +25,7 @@ class InventarioController extends Controller {
             "(select nombre from users where id = existencias.user_id) as usuario"
         );
 
-        $Searchable = array("producto_id", "codigo", "nombre","descripcion");
+        $Searchable = array("producto_id", "codigo", "nombre", "descripcion");
         $Join = 'JOIN productos ON existencias.producto_id = productos.id JOIN marcas ON productos.marca_id = marcas.id';
         $where = "existencias.existencia > 0 AND existencias.tienda_id = ".Auth::user()->tienda_id;
 
@@ -35,7 +35,9 @@ class InventarioController extends Controller {
 
     public function setExistencia()
     {
-    	$existencia = Existencia::where('producto_id', Input::get('id'))->first();
+    	$existencia = Existencia::where('producto_id', Input::get('id'))
+        ->where('tienda_id', Auth::user()->tienda_id)
+        ->first();
 
 		if ( $existencia )
 		{
