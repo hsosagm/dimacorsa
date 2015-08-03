@@ -27,6 +27,21 @@
  width: 43%;
 }
 
+.pagination_kardex_producto {
+padding: 0px
+}
+
+.picker__table .picker__weekday{
+    background-color: #FFFFFF !important;
+    border-color: #FFFFFF !important;
+    color: #B9B9B9  !important;
+    font-size: 12px;
+}
+
+.display tr td a {
+  margin-left: 0px !important;
+}
+
 .kardex_detail tr:first-child th{
   background-color: #FFFFFF !important;
   color: #959595;

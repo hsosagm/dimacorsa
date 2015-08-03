@@ -1,8 +1,19 @@
 
 var global_producto_id;
+var kardexFechaInicial;
+var kardexFechaFinal;
+
+function kardexProductoActualizar() {
+    e = $('.dataTable tbody .row_selected');
+    kardexFechaInicial  = $("#fecha_inicial_hidden").val();
+    kardexFechaFinal = $("#fecha_final_hidden").val();
+    getKardexProducto(e, 1 , null);
+}
 
 function kardexProducto()
 {
+    kardexFechaInicial  = null;
+    kardexFechaFinal = null;
     global_producto_id = $('.dataTable tbody .row_selected').attr('id');;
     e = $('.dataTable tbody .row_selected');
     if ($(e).hasClass("hide_detail"))  {
@@ -24,6 +35,7 @@ function kardexProducto()
 }
 
 function getKardexProducto(e , page , sSearch) {
+
     $('.subtable').remove();
     var nTr = e;
     $(e).addClass('hide_detail');
@@ -33,7 +45,7 @@ function getKardexProducto(e , page , sSearch) {
     $.ajax({
         type: 'GET',
         url: "admin/kardex/getKardex?page=" + page,
-        data: { producto_id : global_producto_id ,  sSearch:sSearch},
+        data: { producto_id : global_producto_id , fecha_inicial: kardexFechaInicial, fecha_final: kardexFechaFinal ,  sSearch:sSearch},
         success: function (data) {
             if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
@@ -48,10 +60,10 @@ function getKardexProducto(e , page , sSearch) {
 }
 
 function getKardexProductoPaginacion(page , sSearch) {
-   $.ajax({
+    $.ajax({
         type: 'GET',
         url: "admin/kardex/getKardex?page=" + page,
-        data: { producto_id : global_producto_id ,  sSearch:sSearch},
+        data: { producto_id : global_producto_id , fecha_inicial: kardexFechaInicial, fecha_final: kardexFechaFinal ,  sSearch:sSearch},
         success: function (data) {
             if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
