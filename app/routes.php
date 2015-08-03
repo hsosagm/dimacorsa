@@ -300,9 +300,12 @@
             Route::get('buscar'                      , 'ProveedorController@search');
             Route::get('index'                       , 'ProveedorController@index' );
             Route::get('create'                      , 'ProveedorController@create');
+            Route::get('_create'                     , 'ProveedorController@_create');
             Route::get('help'                        , 'ProveedorController@help'  );
             Route::post('edit'                       , 'ProveedorController@edit'  );
+            Route::post('_edit'                      , 'ProveedorController@_edit'  );
             Route::post('create'                     , 'ProveedorController@create');
+            Route::post('_create'                    , 'ProveedorController@_create');
             Route::post('delete'                     , 'ProveedorController@delete');
             Route::post('contacto_create'            , 'ProveedorController@contacto_create');
             Route::post('contacto_delete'            , 'ProveedorController@contacto_delete');
