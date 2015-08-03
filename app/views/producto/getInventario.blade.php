@@ -26,7 +26,6 @@ $(document).ready(function() {
             "infoEmpty": "No hay archivos disponibles",
             "infoFiltered": "- ( filtrado de _MAX_ archivos )"
         },
-        
         "aoColumnDefs": [
             {"sClass": "widthM",              "sTitle": "Codigo",       "aTargets": [0]},
             {"sClass": "widthM",              "sTitle": "Marca",        "aTargets": [1]},
@@ -45,7 +44,9 @@ $(document).ready(function() {
             $( ".DTTT" ).append( '<button id="_edit_dt" class="btn btngrey btn_edit" disabled>Editar</button>');
             $( ".DTTT" ).append( '<button id="_print"  class="btn btngrey btn_edit" disabled><i class="fa fa-barcode"></i> Imprimir</button>' );
             $( ".DTTT" ).append( '<button id="_view_existencias"  class="btn btngrey btn_edit" disabled><i class=""></i> Existencias</button>' );
-            $( ".DTTT" ).append( '<button onclick="kardexProducto()"  class="btn btngrey btn_edit" disabled><i class=""></i> Kardex</button>' );
+            if ( {{$access}} == true) {
+                $( ".DTTT" ).append( '<button onclick="kardexProducto()"  class="btn btngrey btn_edit" disabled><i class=""></i>Kardex</button>' );
+            }
 
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));

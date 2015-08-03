@@ -4,17 +4,17 @@
                 <br>
             </td>
         </tr>
-        <tr class="col-md-5">
+        <tr class="col-md-4">
             <td class="col-md-4">Fecha inicial:</td>
             <td class="col-md-6"><input type="text" name="fecha_inicial" value="{{Input::get('fecha_inicial')}}"></td>
             <td class="col-md-2"></td>
         </tr>
-        <tr class="col-md-5">
+        <tr class="col-md-4">
             <td class="col-md-4">Fecha final:</td>
             <td class="col-md-6"><input type="text" name="fecha_final" value="{{Input::get('fecha_final')}}"></td>
             <td class="col-md-2"></td>
         </tr>
-        <tr class="col-md-2">
+        <tr class="col-md-4">
             <td><button class="btn btn-theme" type="submit" onclick="kardexProductoActualizar()" > Actualizar !</button></td>
         </tr>
         <tr>
@@ -27,7 +27,6 @@
     <div align="center"> No se encontraron registros </div>
 @else
     <table id="example"  class="display kardex_detail" width="100%" cellspacing="0">
-
         <thead>
             <tr id="hhh" class="">
                 <th width="25%">Fecha</th>
@@ -40,9 +39,7 @@
                 <th width="8%">Costo P.</th>
             </tr>
         </thead>
-
         <tbody>
-
             @foreach($kardex as $dt)
                 <tr>
                     <td width="25%"> {{ $dt->fecha }} </td>
@@ -55,7 +52,6 @@
                     <td width="8%"> {{ $dt->costo_promedio }} </td>
                 </tr>
             @endforeach
-
         </tbody>
         <tfoot width="100%">
             <tr>

@@ -5,8 +5,8 @@ use ValidatorAssistant, Input;
 class ClienteValidator extends ValidatorAssistant
 {
     protected $rules = array(
-        'nombre'    =>  'required|alpha_spaces|min:3',
-        'apellido'  =>  'required|alpha_spaces|min:3|',
+        'nombre'    =>  'required|min:3',
+        'apellido'  =>  'required|min:3|',
         'direccion' =>  'required|min:5|',
         'telefono'  =>  'integer|min:8',
         'nit'       =>  'min:3',
