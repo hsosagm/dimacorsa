@@ -314,13 +314,11 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
             ->first(array(DB::raw('sum(total) as total')));
 
-            $ganancias =  DB::table('users')
-            ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
-            ->join('ventas','ventas.user_id','=','users.id')
-            ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
-            ->where('users.tienda_id','=',Auth::user()->tienda_id)->where('users.status','=',1)
-            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
-            ->orderBy('total', 'DESC')->first();
+            $ganancias =  DB::table('detalle_ventas')
+            ->select(DB::raw('sum(cantidad * ganancias) as total'))
+            ->join('ventas','ventas.id','=','venta_id')
+            ->where('tienda_id','=',Auth::user()->tienda_id)
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")->first();
 
             $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
             ->where('tienda_id','=',Auth::user()->tienda_id)

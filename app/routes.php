@@ -476,24 +476,7 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
-    $detalleCompra = DetalleCompra::with('producto')->where('compra_id',2872)->get();
-     foreach ($detalleCompra as $dt) 
-        {
-            $kardex = new Kardex;
-            $kardex->tienda_id = Auth::user()->tienda_id;
-            $kardex->user_id = Auth::user()->id;
-            $kardex->kardex_accion_id = 1;
-            $kardex->producto_id = $dt->producto_id;
-            $kardex->kardex_transaccion_id = 1;
-            $kardex->transaccion_id = $dt->compra_id;
-            $kardex->evento = 'ingreso';
-            $kardex->cantidad = $dt->cantidad;
-            $kardex->existencia = $dt->producto->existencia;
-            $kardex->costo = $dt->precio;
-            $kardex->costo_promedio = $dt->producto->p_costo;
-            $kardex->save(); 
-        }
-    return json_encode($detalleCompra);
+    
    /*$detalle = DetalleVenta::with('venta','producto')->where('producto_id',1000038)
    ->join('ventas','ventas.id','=','venta_id')
    ->whereRaw("DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('2015-05-10', '%Y-%m')")

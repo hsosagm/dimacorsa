@@ -14,47 +14,12 @@ class CreateKardex extends Migration {
 			$table->timestamps();
 		});
 
-		$kardexAccion = new KardexAccion;
-		$kardexAccion->id = 1 ; 
-		$kardexAccion->nombre = "insert";
-		$kardexAccion->save();
-
-		$kardexAccion = new KardexAccion;
-		$kardexAccion->id = 2 ; 
-		$kardexAccion->nombre = "update";
-		$kardexAccion->save();
-
-		$kardexAccion = new KardexAccion;
-		$kardexAccion->id = 3 ; 
-		$kardexAccion->nombre = "delete";
-		$kardexAccion->save();
-
 		Schema::create('kardex_transaccion', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('nombre');
 			$table->timestamps();
 		});
-
-		$kardexTransaccion = new KardexTransaccion;
-		$kardexTransaccion->id = 1 ; 
-		$kardexTransaccion->nombre = "compras";
-		$kardexTransaccion->save();
-
-		$kardexTransaccion = new KardexTransaccion;
-		$kardexTransaccion->id = 2 ; 
-		$kardexTransaccion->nombre = "ventas";
-		$kardexTransaccion->save();
-
-		$kardexTransaccion = new KardexTransaccion;
-		$kardexTransaccion->id = 3 ; 
-		$kardexTransaccion->nombre = "descargas";
-		$kardexTransaccion->save();
-
-		$kardexTransaccion = new KardexTransaccion;
-		$kardexTransaccion->id = 4 ; 
-		$kardexTransaccion->nombre = "traslados";
-		$kardexTransaccion->save();
 
 		Schema::create('kardex', function(Blueprint $table)
 		{

@@ -124,8 +124,8 @@ class ChartController extends \BaseController {
             $usuarios[] = $v->usuario;
         }
 
-        $usuarios = json_encode($usuarios);
-        $totales = json_encode($totales);
+        $usuarios = json_encode(@$usuarios);
+        $totales = json_encode(@$totales);
 
 		return Response::json(array(
 			'success' => true,

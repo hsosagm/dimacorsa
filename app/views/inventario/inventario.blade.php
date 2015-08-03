@@ -33,10 +33,11 @@
                     if(MyTable.fnSettings().fnRecordsDisplay() == 1)
                     {
                         x = $('#example tbody tr:first td:nth-child(6)');
+                        x2 = $('#example tbody tr:first td:nth-child(5)');
                         $(x).removeClass('mod_producto');
                         var id = $(x).closest('tr').children('td:first').text();
                         prod_old_value = $(x).text();
-                        $(x).html('<input type="text" v-on="keyup:submit($event, '+id+') | key 13, keyup:cansel | key 27" id="editProd">');  
+                        $(x).html('<input type="text" value="'+$(x2).text()+'" v-on="keyup:submit($event, '+id+') | key 13, keyup:cansel | key 27" id="editProd">');  
                         
                         $('#editProd').focus();
                         $('#editProd').select();
@@ -45,6 +46,11 @@
                         $('#editProd').css('text-align','right');
 
                         compile_inv();
+                    }
+                    else if(MyTable.fnSettings().fnRecordsDisplay() == 0)
+                    {
+                        $("#iSearch").focus();
+                        $("#iSearch").select();
                     }
                 }
 
@@ -87,7 +93,8 @@
                             $('.current').removeClass('current');
                             $("#iSearch").focus();
                             $("#iSearch").select();
-
+                            $('#example').dataTable().fnFilter( $('#iSearch').val() );
+                            $('#iSearch').val('')
                             return msg.success('Producto actualizado', 'Listo!');
                         }
                         msg.warning(data.msg, 'Advertencia!');
@@ -99,6 +106,8 @@
                 $('td.current').html(prod_old_value);
                 $('td.current').removeClass('current');
                 $(x).addClass('mod_producto');
+                $("#iSearch").focus();
+                $("#iSearch").select();
             }
         }
     });
