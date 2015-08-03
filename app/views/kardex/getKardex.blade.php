@@ -6,16 +6,16 @@
         </tr>
         <tr class="col-md-5">
             <td class="col-md-4">Fecha inicial:</td>
-            <td class="col-md-6"><input type="text"  name="fecha_inicial"></td>
+            <td class="col-md-6"><input type="text" name="fecha_inicial" value="{{Input::get('fecha_inicial')}}"></td>
             <td class="col-md-2"></td>
         </tr>
         <tr class="col-md-5">
             <td class="col-md-4">Fecha final:</td>
-            <td class="col-md-6"><input type="text"  name="fecha_final"></td>
+            <td class="col-md-6"><input type="text" name="fecha_final" value="{{Input::get('fecha_final')}}"></td>
             <td class="col-md-2"></td>
         </tr>
         <tr class="col-md-2">
-            <td><button class="btn btn-theme" type="submit" > Actualizar !</button></td>
+            <td><button class="btn btn-theme" type="submit" onclick="kardexProductoActualizar()" > Actualizar !</button></td>
         </tr>
         <tr>
             <td colspan="3">
