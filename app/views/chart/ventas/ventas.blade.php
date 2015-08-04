@@ -140,7 +140,7 @@
                     dataLabels: {
                         enabled: true,
                         formatter: function() {
-                            if(this.series.name == 'Series 2') {
+                            if(this.series.name == 'Ventas por dia') {
                                 var num = this.y / 1000;
                                 return Highcharts.numberFormat(num, 0);
                             } else {
@@ -194,32 +194,35 @@
         })
    });
 
-function cierreDelMes(year, month){
-    var fecha = year + '-' + month +'-01';
+    function cierreDelMes(year, month){
+        var fecha = year + '-' + month +'-01';
 
-    $.ajax({
-        type: "GET",
-        url: 'admin/cierre/CierreDelMesPorFecha',
-        data: { fecha: fecha },
-        success: function (data) {
-            graph_container.x = 2;
-            $('#cierres').html(data);
-        }
-    });
-}
+        $.ajax({
+            type: "GET",
+            url: 'admin/cierre/CierreDelMesPorFecha',
+            data: { fecha: fecha },
+            success: function (data) {
+                graph_container.x = 2;
+                $('#cierres').html(data);
+            }
+        });
+    }
 
-function cierreDelDia(dia){
-    $.ajax({
-        type: "GET",
-        url: 'admin/cierre/CierreDelDiaPorFecha',
-        data: { fecha:dia },
-        success: function (data) {
-            graph_container.x = 2;
-            $('#cierres').html(data);
-        }
-    });
-}
+    function cierreDelDia(dia){
+        $.ajax({
+            type: "GET",
+            url: 'admin/cierre/CierreDelDiaPorFecha',
+            data: { fecha:dia },
+            success: function (data) {
+                graph_container.x = 2;
+                $('#cierres').html(data);
+            }
+        });
+    }
 
+    function getVentasPorHoraPorUsuario(fecha){
+        alert(fecha);
+    }
 
     var graph_container = new Vue({
 

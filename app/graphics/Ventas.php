@@ -86,10 +86,7 @@ class Ventas extends \BaseController
         foreach ($query as $q) {
             $object[$count]['name'] = strval($q->hora);
             $object[$count]['y'] = intval($q->total);
-            $object[$count]['hora'] = $q->hora;
-            $object[$count]['dia'] = $dt->Weekday($q->dia);
-            $hora = "'".$q->hora."'";
-            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="ventasPorHoraPorUsuario('.$hora.')">Ventas por usuario';
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="getVentasPorHoraPorUsuario('."'".Input::get('fecha')."'".')">Ventas por usuario';
             $count++;
         }
 
