@@ -5,10 +5,9 @@ var kardexFechaFinal;
 var kardexElement;
 
 function kardexProductoActualizar() {
-    e = $('.dataTable tbody .row_selected');
     kardexFechaInicial  = $("#fecha_inicial_hidden").val();
     kardexFechaFinal = $("#fecha_final_hidden").val();
-    getKardexProducto(e, 1 , null);
+    getKardexProducto(kardexElement, 1 , null);
 }
 
 function kardexProducto()
@@ -17,6 +16,7 @@ function kardexProducto()
     kardexFechaFinal = null;
     global_producto_id = $('.dataTable tbody .row_selected').attr('id');;
     e = $('.dataTable tbody .row_selected');
+    kardexElement = e;
     if ($(e).hasClass("hide_detail"))  {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
