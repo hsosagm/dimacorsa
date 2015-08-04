@@ -1,11 +1,3 @@
-<style type="text/css">
-    #container {
-        min-width: 310px;
-        margin: 0 auto;
-        height: 400px; 
-    }
-</style>
-
 <script type="text/javascript">
 
     var data  =  {{$data}};
@@ -56,7 +48,7 @@
         $('#container').highcharts({
             chart: {
                 type: 'column',
-                marginLeft: 75,
+                marginLeft: 100,
                 marginRight: 25,
                 options3d: {
                     enabled: true,
@@ -69,7 +61,7 @@
                     drilldown: function (e) {
                         if (!e.seriesOptions) {
                             var chart = this;
-                            chart.showLoading('Loading data ...');
+                            chart.showLoading('Cargando datos...');
 
                             $.ajax({
                                 type: 'GET',
@@ -78,7 +70,6 @@
                                 success: function (data)
                                 {
                                     var data = JSON.parse(data);
-                                    var toltip = data.tooltip;
                                     graphPosition++;
                                     chart.hideLoading();
 
@@ -86,6 +77,7 @@
                                     chart.setTitle({ text: graphTitle[graphPosition] = title });
 
                                     chart.addSeriesAsDrilldown(e.point, data = {name: data['name'], colorByPoint: true, data: data['data']});
+
                                     chart.tooltip.options.formatter = function()
                                     {
                                         return this.point.tooltip;
@@ -203,18 +195,15 @@
    });
 
 function cierreDelMes(year, month){
-    fecha = year + '-' + month +'-01';
+    var fecha = year + '-' + month +'-01';
 
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelMesPorFecha',
-        data: { fecha:fecha , grafica:'show' },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            $('.dt-container-cierre').html(data)
-            $(".graficas_auxiliar").html($('.table').html());
-            $('.dt-container').hide();
-            $('.dt-container-cierre').show();
+        data: { fecha: fecha },
+        success: function (data) {
+            graph_container.show = 0;
+            $('#data_container').html(data);
         }
     });
 }
@@ -223,17 +212,45 @@ function cierreDelDia(dia){
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelDiaPorFecha',
-        data: { fecha:dia , grafica:'show' },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            $('.dt-container-cierre').html(data);
-            $('.dt-container').hide();
-            $('.dt-container-cierre').show();
-
+        data: { fecha:dia },
+        success: function (data) {
+            graph_container.show = 0;
+            $('#data_container').html(data);
         }
     });
 }
 
+
+    var graph_container = new Vue({
+
+        el: '#master_graph_container',
+
+        data: {
+            show: 1,
+        },
+
+        methods: {
+
+            reset: function() {
+                graph_container.show = 1;
+            },
+
+            test: function() {
+                alert('si');
+            }
+       }
+
+    });
+
+    function graph_container_compile() {
+        graph_container.$nextTick(function() {
+            graph_container.$compile(graph_container.$el);
+        });
+    }
+
 </script>
 
-<div id="container"></div>
+<div id="master_graph_container">
+    <div v-show="show" id="container"></div>
+    <div v-show="!show" id="data_container"></div>
+</div>

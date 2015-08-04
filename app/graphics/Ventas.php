@@ -6,7 +6,6 @@ class Ventas extends \BaseController
 {
     public function ventasMensualesPorAno()
     {
-    	// return json_encode(Input::get('year'));
         $ventas = DB::table('ventas')
         ->where('ventas.tienda_id', Auth::user()->tienda_id)
         ->where(DB::raw('YEAR(ventas.created_at)'), Input::get('year') )
