@@ -57,6 +57,44 @@ class Ventas extends \BaseController
             $object[$count]['dia'] = $dt->Weekday($q->dia);
             $dia = "'".$q->dia."'";
             $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia';
+            $object[$count]['variables'] = array( "fecha" => $q->dia);
+            $object[$count]['url'] = 'owner/chart/ventas/ventasDelDiaPorHora';
+            $object[$count]['drilldown'] = true;
+            $count++;
+        }
+
+        $data['data'] = $object;
+        $data['title'] = 'Ventas del mes de';
+
+        return json_encode($data);
+    }
+
+    public function ventasDelDiaPorHora()
+    {
+        $query = DB::table('ventas')
+        ->select(array(DB::Raw('DATE(ventas.created_at) as dia'), DB::Raw('sum(total) as total')))
+        ->where(DB::raw('YEAR(ventas.created_at)'), '=', Input::get('year'))
+        ->where(DB::raw('MONTH(ventas.created_at)'), '=', Input::get('month'))
+        ->where('tienda_id', '=', Auth::user()->tienda_id )
+        ->groupBy('dia')
+        ->get();
+
+        $dt = App::make('Fecha');
+
+        $count = 0;
+
+        foreach ($query as $q) {
+
+            $carbon = Carbon::createFromFormat('Y-m-d', $q->dia);
+            $object[$count]['name'] = strval($carbon->day);
+            $object[$count]['y'] = intval($q->total);
+            $object[$count]['fecha'] = $q->dia;
+            $object[$count]['dia'] = $dt->Weekday($q->dia);
+            $dia = "'".$q->dia."'";
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia';
+            $object[$count]['variables'] = array( "fecha" => $q->dia);
+            $object[$count]['url'] = 'owner/chart/ventas/ventasDelDiaPorHora';
+            $object[$count]['drilldown'] = true;
             $count++;
         }
 

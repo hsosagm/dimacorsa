@@ -454,6 +454,7 @@
             {
                 Route::get('ventasMensualesPorAno' , 'App\graphics\Ventas@ventasMensualesPorAno');
                 Route::get('ventasDiariasPorMes' , 'App\graphics\Ventas@ventasDiariasPorMes');
+                Route::get('ventasDelDiaPorHora' , 'App\graphics\Ventas@ventasDelDiaPorHora');
             });
         });
 
@@ -479,32 +480,38 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
-    
-  $salario = Input::get('salario') ;
-    $datos[2000]['comision'] = 1 ; 
-    $datos[2000]['isr'] = 2 ;
-    $datos[2000]['ornato'] = 15;
+        $query = DB::table('ventas')
+        ->select(array(DB::Raw('DATE(ventas.created_at) as dia'), DB::Raw('sum(total) as total')))
+        ->where(DB::raw('DATE(ventas.created_at)'), '=', '2013-05-15')
+        ->where('tienda_id', '=', 1 )
+        ->groupBy(DB::raw('HOUR(ventas.created_at)'))
+        ->get();
 
-    $datos[6000]['comision'] = 3 ; 
-    $datos[6000]['isr'] = 4 ;
-    $datos[6000]['ornato'] = 50;
+        return json_encode($query);
 
-    if ($salario <= 2000) {
-        echo ($datos[2000]['comision']/100)*$salario;
-        echo "<br>";
-        echo ($datos[2000]['isr']/100)*$salario;
-        echo "<br>";
-        echo $datos[2000]['ornato'];
-    }
-    elseif ($salario <=6000) {
-     echo ($datos[6000]['comision']/100)*$salario;
-        echo "<br>";
-        echo ($datos[6000]['isr']/100)*$salario;
-        echo "<br>";
-        echo $datos[6000]['ornato'];
-    }else{
-        echo 'nada';
-    }
+        $dt = App::make('Fecha');
+
+        $count = 0;
+
+        foreach ($query as $q) {
+
+            $carbon = Carbon::createFromFormat('Y-m-d', $q->dia);
+            $object[$count]['name'] = strval($carbon->day);
+            $object[$count]['y'] = intval($q->total);
+            $object[$count]['fecha'] = $q->dia;
+            $object[$count]['dia'] = $dt->Weekday($q->dia);
+            $dia = "'".$q->dia."'";
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia';
+            $object[$count]['variables'] = array( "fecha" => $q->dia);
+            $object[$count]['url'] = 'owner/chart/ventas/ventasDelDiaPorHora';
+            $object[$count]['drilldown'] = true;
+            $count++;
+        }
+
+        $data['data'] = $object;
+        $data['title'] = 'Ventas del mes de';
+
+        return json_encode($data);
 
 });
 
