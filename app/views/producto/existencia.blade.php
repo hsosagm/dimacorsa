@@ -33,7 +33,7 @@
 <style type="text/css">
     
     .bs-modal .Lightbox{
-        width: 400px !important;
+        width: 650px !important;
     }
 
     .panel-title-existencia p{
