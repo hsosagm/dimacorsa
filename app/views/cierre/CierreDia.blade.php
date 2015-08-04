@@ -7,8 +7,7 @@
         		<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
         		<i class="fa fa-file-pdf-o fa-2" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
         		<i class="fa fa-print fa-2"  onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
-        		<?php $dt_container = "$('.dt-container').show();"; ?>
-        		<i onclick="$('.dt-container-cierre').hide();  {{(Input::has('grafica'))? $dt_container:''}}" class="fa fa-times"></i>
+                <i class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></i>
          </div>
         <div class="clearfix"></div>
     </div>
@@ -430,3 +429,6 @@
 	</style>
 @endif
 
+<script type="text/javascript">
+	graph_container_compile();
+</script>

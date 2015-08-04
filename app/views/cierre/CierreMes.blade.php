@@ -5,8 +5,7 @@
 			<i  class="fa fa-file-excel-o fa-2" onclick=""> </i>
 			<i class="fa fa-file-pdf-o fa-2" onclick=""> </i>
 			<i class="fa fa-print fa-2"  onclick=""> </i>
-			<?php $dt_container = "mostrar_view_graficas();"; ?>
-			<i onclick="$('.dt-container-cierre').hide(); {{(Input::has('grafica'))? $dt_container:''}}" class="fa fa-times"></i>
+			<i class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></i>
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -85,3 +84,7 @@
 	.bs-modal .Lightbox{width: 850px;} 
 	.modal-body { padding: 0px 0px 0px; }
 </style>
+
+<script type="text/javascript">
+	graph_container_compile();
+</script>
