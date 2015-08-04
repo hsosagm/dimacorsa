@@ -202,7 +202,7 @@ function cierreDelMes(year, month){
         url: 'admin/cierre/CierreDelMesPorFecha',
         data: { fecha: fecha },
         success: function (data) {
-            graph_container.show = 2;
+            graph_container.x = 2;
             $('#data_container').html(data);
         }
     });
@@ -214,7 +214,7 @@ function cierreDelDia(dia){
         url: 'admin/cierre/CierreDelDiaPorFecha',
         data: { fecha:dia },
         success: function (data) {
-            graph_container.show = 2;
+            graph_container.x = 2;
             $('#data_container').html(data);
         }
     });
@@ -226,13 +226,13 @@ function cierreDelDia(dia){
         el: '#master_graph_container',
 
         data: {
-            show: 1,
+            x: 1,
         },
 
         methods: {
 
             reset: function() {
-                graph_container.show = 1;
+                graph_container.x = 1;
             }
        }
 
@@ -247,6 +247,6 @@ function cierreDelDia(dia){
 </script>
 
 <div id="master_graph_container">
-    <div v-show="show == 1" id="container"></div>
-    <div v-show="show == 2" id="data_container"></div>
+    <div v-show="x == 1" id="container"></div>
+    <div v-show="x == 2" id="data_container"></div>
 </div>
