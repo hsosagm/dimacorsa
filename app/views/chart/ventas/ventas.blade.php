@@ -63,8 +63,6 @@
                             var chart = this;
                             chart.showLoading('Cargando datos...');
 
-                            console.log(e.point.variables);
-
                             $.ajax({
                                 type: 'GET',
                                 url: e.point.url,

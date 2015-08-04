@@ -481,28 +481,24 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 Route::get('test', function()
 {
         $query = DB::table('ventas')
-        ->select(array(DB::Raw('DATE(ventas.created_at) as dia'), DB::Raw('sum(total) as total')))
-        ->where(DB::raw('DATE(ventas.created_at)'), '=', '2013-05-15')
+        ->select(array(DB::Raw('HOUR(ventas.created_at) as hora, DATE(ventas.created_at) as dia, sum(total) as total')))
+        ->where(DB::raw('DATE(ventas.created_at)'), '=', '2014-05-16')
         ->where('tienda_id', '=', 1 )
         ->groupBy(DB::raw('HOUR(ventas.created_at)'))
         ->get();
-
-        return json_encode($query);
 
         $dt = App::make('Fecha');
 
         $count = 0;
 
         foreach ($query as $q) {
-
-            $carbon = Carbon::createFromFormat('Y-m-d', $q->dia);
-            $object[$count]['name'] = strval($carbon->day);
+            $object[$count]['name'] = strval($q->hora);
             $object[$count]['y'] = intval($q->total);
-            $object[$count]['fecha'] = $q->dia;
+            $object[$count]['hora'] = $q->hora;
             $object[$count]['dia'] = $dt->Weekday($q->dia);
-            $dia = "'".$q->dia."'";
-            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia';
-            $object[$count]['variables'] = array( "fecha" => $q->dia);
+            $hora = "'".$q->hora."'";
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$hora.')">Cierre del dia';
+            $object[$count]['variables'] = array( "hora" => $q->hora);
             $object[$count]['url'] = 'owner/chart/ventas/ventasDelDiaPorHora';
             $object[$count]['drilldown'] = true;
             $count++;
