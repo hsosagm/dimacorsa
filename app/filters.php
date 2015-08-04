@@ -28,8 +28,12 @@ Route::filter('csrf', function()
 });
 
 Event::listen('eloquent.updated: Compra', function(Compra $model){
-    if ($model->completed == 1) 
+    if ($model->completed == 1 && $model->kardex == 0) 
     {
+        $compra = Compra::find($model->id);
+        $compra->kardex = 1 ;
+        $compra->save();
+
         $detalleCompra = DetalleCompra::with('producto')->where('compra_id',$model->id)->get();
 
         foreach ($detalleCompra as $dt) 
@@ -52,8 +56,12 @@ Event::listen('eloquent.updated: Compra', function(Compra $model){
 });
 
 Event::listen('eloquent.updated: Venta', function(Venta $model){
-    if ($model->completed == 1) 
+    if ($model->completed == 1 && $model->kardex == 0) 
     {
+        $venta = Venta::find($model->id);
+        $venta->kardex = 1 ;
+        $venta->save();
+
         $detalleVenta = DetalleVenta::with('producto')->where('venta_id',$model->id)->get();
 
         foreach ($detalleVenta as $dt) 
