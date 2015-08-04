@@ -1,15 +1,15 @@
     <table class="master-table">
-        <tr>
+        <tr class="subTableChild">
             <td colspan="3">
                 <br>
             </td>
         </tr>
-        <tr class="col-md-4">
+        <tr class="col-md-4 subTableChild">
             <td class="col-md-4">Fecha inicial:</td>
             <td class="col-md-6"><input type="text" name="fecha_inicial" value="{{Input::get('fecha_inicial')}}"></td>
             <td class="col-md-2"></td>
         </tr>
-        <tr class="col-md-4">
+        <tr class="col-md-4 subTableChild">
             <td class="col-md-4">Fecha final:</td>
             <td class="col-md-6"><input type="text" name="fecha_final" value="{{Input::get('fecha_final')}}"></td>
             <td class="col-md-2"></td>
@@ -17,7 +17,7 @@
         <tr class="col-md-4">
             <td><button class="btn btn-theme" type="submit" onclick="kardexProductoActualizar()" > Actualizar !</button></td>
         </tr>
-        <tr>
+        <tr class="subTableChild">
             <td colspan="3">
                 <br>
             </td>
@@ -28,7 +28,7 @@
 @else
     <table id="example"  class="display kardex_detail" width="100%" cellspacing="0">
         <thead>
-            <tr id="hhh" class="">
+            <tr id="hhh" class="subTableChild">
                 <th width="25%">Fecha</th>
                 <th width="25%">Usuario</th>
                 <th width="8%">Transaccion</th>
@@ -41,7 +41,7 @@
         </thead>
         <tbody>
             @foreach($kardex as $dt)
-                <tr>
+                <tr class="subTableChild">
                     <td width="25%"> {{ $dt->fecha }} </td>
                     <td width="25%"> {{ $dt->usuario }}  </td>
                     <td width="8%"> {{ $dt->nombre }} </td>
@@ -54,7 +54,7 @@
             @endforeach
         </tbody>
         <tfoot width="100%">
-            <tr>
+            <tr class="subTableChild">
                 <td colspan="8">
                     <div style="float:right" class="pagination_kardex_producto"> {{ @$kardex->links() }} </div>
                 </td>

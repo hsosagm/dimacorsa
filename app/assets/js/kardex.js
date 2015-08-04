@@ -2,12 +2,12 @@
 var global_producto_id;
 var kardexFechaInicial;
 var kardexFechaFinal;
+var kardexElement;
 
 function kardexProductoActualizar() {
-    e = $('.dataTable tbody .row_selected');
     kardexFechaInicial  = $("#fecha_inicial_hidden").val();
     kardexFechaFinal = $("#fecha_final_hidden").val();
-    getKardexProducto(e, 1 , null);
+    getKardexProducto(kardexElement, 1 , null);
 }
 
 function kardexProducto()
@@ -16,6 +16,7 @@ function kardexProducto()
     kardexFechaFinal = null;
     global_producto_id = $('.dataTable tbody .row_selected').attr('id');;
     e = $('.dataTable tbody .row_selected');
+    kardexElement = e;
     if ($(e).hasClass("hide_detail"))  {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
@@ -67,7 +68,6 @@ function getKardexProductoPaginacion(page , sSearch) {
         success: function (data) {
             if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
-                $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
             else {
