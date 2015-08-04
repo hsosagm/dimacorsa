@@ -2,6 +2,7 @@
 var global_producto_id;
 var kardexFechaInicial;
 var kardexFechaFinal;
+var kardexElement;
 
 function kardexProductoActualizar() {
     e = $('.dataTable tbody .row_selected');
@@ -67,7 +68,6 @@ function getKardexProductoPaginacion(page , sSearch) {
         success: function (data) {
             if (data.success == true) {
                 $('.grid_detalle_factura').html(data.table);
-                $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
             else {

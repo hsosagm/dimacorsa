@@ -74,9 +74,11 @@
                 </li>
                 @endif
                 
-                <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" onclick="chartVentasPorUsuario();" title="Graficas Ventas"><i class="fa fa-bar-chart-o"></i></a>
-                </li>
+                @if($slide_bar_left == 2 || $slide_bar_left == 3)
+                    <li class="dropdown navbar-message">
+                        <a href="javascript:void(0)" onclick="chartVentasPorUsuario();" title="Graficas Ventas"><i class="fa fa-bar-chart-o"></i></a>
+                    </li>
+                @endif
                 
                 @if($slide_bar_left == 2 || $slide_bar_left == 3)
                 <li class="dropdown navbar-message">
