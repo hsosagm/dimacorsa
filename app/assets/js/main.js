@@ -372,7 +372,7 @@ function makeTable($data, $url, $title) {
     $('.dataTable').attr('title', $title);
 }
 
-
+ 
 function clean_panel() {
     $('.table').html("");
     $("#table_length").html("");

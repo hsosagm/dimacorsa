@@ -179,6 +179,7 @@
             Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');
             Route::get('getVentasPendientesPorCliente'          , 'VentasController@getVentasPendientesPorCliente' );
             Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
+            Route::get('getVentasPorHoraPorUsuario'             , 'VentasController@getVentasPorHoraPorUsuario');
 
             Route::group(array('prefix' => 'payments'),function() 
             {

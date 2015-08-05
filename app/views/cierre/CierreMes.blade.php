@@ -24,12 +24,12 @@
 					</td>
 					<td width="20%" style="text-align: center;" >Utilidades</td>
 					<td width="20%" style="text-align: center;" >
-						<i style="cursor:pointer; font-style: normal;" onclick="SoporteDelMesCierre(this,'{{$fecha}}')">Soporte</i>
-						<i class="fa fa-search btn-link" onclick="SoporteDelMesCierre(this,'{{$fecha}}')"></i>
+						<i style="cursor:pointer; font-style: normal;" v-on="click: getSoporteDelMes(this,'{{$fecha}}')">Soporte</i>
+						<i class="fa fa-search btn-link" v-on="click: getSoporteDelMes(this,'{{$fecha}}')"></i>
 					</td>
 					<td width="20%" style="text-align: center;" >
-						<i style="cursor:pointer; font-style: normal;" onclick="GastosDelMesCierre(this,'{{$fecha}}')">Gastos</i>
-						<i class="fa fa-search btn-link" onclick="GastosDelMesCierre(this,'{{$fecha}}')"></i>
+						<i style="cursor:pointer; font-style: normal;" v-on="click: getGastosDelMes(this,'{{$fecha}}')">Gastos</i>
+						<i class="fa fa-search btn-link" v-on="click: getGastosDelMes(this,'{{$fecha}}')"></i>
 					</td>
 					<td width="20%" style="text-align: center;" >Utilidades Netas</td>
 				</tr>

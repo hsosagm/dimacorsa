@@ -223,7 +223,20 @@
 
 
     function getVentasPorHoraPorUsuario(fecha){
-        alert(fecha);
+        $.ajax({
+        type: 'GET',
+        data: { fecha:fecha , grafica: true},
+        url: "user/ventas/getVentasPorHoraPorUsuario",
+        success: function (data) {
+            if (data.success == true) {
+                graph_container.x = 2;
+                $('#cierres').html(data.table);
+                $( ".DTTT" ).html('<i v-show="x > 1" class="fa fa-reply" v-on="click: reset" title="Regresar"></i>');
+                return 0;
+            }
+            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }); 
     }
 
     var graph_container = new Vue({
@@ -244,8 +257,30 @@
                 $.ajax({
                     type: "GET",
                     url: 'admin/cierre/VentasDelMes',
-                    data: { fecha: fecha },
+                    data: { fecha: fecha , grafica: true},
                     success: function (data) {
+                        $('#cierres_dt').html(data);
+                    }
+                });
+            },
+
+            getSoporteDelMes: function (e,fecha) {
+                $.ajax({
+                    type: "GET",
+                    url: 'admin/cierre/SoportePorFecha',
+                    data: { fecha:fecha, grafica: true  },
+                    success: function (data, text) {
+                        $('#cierres_dt').html(data);
+                    }
+                });
+            },
+
+            getGastosDelMes: function (e,fecha) {
+                 $.ajax({
+                    type: "GET",
+                    url: 'admin/cierre/GastosPorFecha',
+                    data: { fecha:fecha, grafica: true },
+                    success: function (data, text) {
                         $('#cierres_dt').html(data);
                     }
                 });

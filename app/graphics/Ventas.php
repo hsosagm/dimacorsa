@@ -72,6 +72,11 @@ class Ventas extends \BaseController
 
     public function ventasDelDiaPorHora()
     {
+        
+        // $dt = Carbon::now();
+        // $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
+        // $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+        
         $query = DB::table('ventas')
         ->select(array(DB::Raw('HOUR(ventas.created_at) as hora, DATE(ventas.created_at) as dia, sum(total) as total')))
         ->where(DB::raw('DATE(ventas.created_at)'), Input::get('fecha'))
@@ -86,7 +91,7 @@ class Ventas extends \BaseController
         foreach ($query as $q) {
             $object[$count]['name'] = strval($q->hora);
             $object[$count]['y'] = intval($q->total);
-            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="getVentasPorHoraPorUsuario('."'".Input::get('fecha')."'".')">Ventas por usuario';
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="getVentasPorHoraPorUsuario('."'".Input::get('fecha')." {$q->hora}'".')">Ventas por usuario';
             $count++;
         }
 
