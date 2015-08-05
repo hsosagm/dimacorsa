@@ -9,8 +9,7 @@ function f_ven_op() {
     }).done(function(data) {
         $('.panel-title').text('Formulario Ventas');
         $(".forms").html(data);
-        $(".dt-container").hide();
-        $(".dt-container-cierre").hide();
+        ocultar_capas();
         $(".form-panel").show();
     });
 }

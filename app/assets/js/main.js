@@ -378,7 +378,13 @@ function clean_panel() {
     $("#table_length").html("");
     $( ".DTTT" ).html("");
     $('.dt-panel').show();
+    ocultar_capas();
+}
+
+function ocultar_capas() {
     $('.dt-container').hide();
+    $('#graph_container').hide();
+    $(".dt-container-cierre").hide();
 }
 
 // codigo para limpiar las capas y generar datatables cuando se usa local
@@ -389,7 +395,7 @@ function generate_dt_local(data) {
     $("#table_length").html("");
     $( ".DTTT" ).html("");
     $('.dt-panel').show();
-    $('.dt-container').hide();
+    ocultar_capas();
     $('.table').html(data);
     $('#example').DataTable();
     $("#iSearch").focus();
@@ -415,11 +421,3 @@ jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
         return a + b;
     }, 0 );
 } );
-
-function limpiar_home()
-{
-    $( "#home" ).html("");
-    $(".dt-panel").hide();
-    $(".form-panel").hide();
-    $(".producto-panel").hide();
-}
