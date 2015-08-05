@@ -33,7 +33,7 @@
 
 	<div class="col-md-6">
 		<div class="row master-precios">
-			<div class="col-md-4 precio-publico" style="text-align:center;"> </div>
+			<div class="col-md-4 precio-publico" style="text-align:left;"> </div>
 			<div class="col-md-3 existencia" style="text-align:right;"> </div>
 		</div>
 		<div class="row master-descripcion">
