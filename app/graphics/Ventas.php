@@ -57,11 +57,42 @@ class Ventas extends \BaseController
             $object[$count]['dia'] = $dt->Weekday($q->dia);
             $dia = "'".$q->dia."'";
             $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia';
+            $object[$count]['variables'] = array( "fecha" => $q->dia);
+            $object[$count]['url'] = 'owner/chart/ventas/ventasDelDiaPorHora';
+            $object[$count]['drilldown'] = true;
             $count++;
         }
 
         $data['data'] = $object;
         $data['title'] = 'Ventas del mes de';
+        $data['name'] = 'Ventas por dia';
+
+        return json_encode($data);
+    }
+
+    public function ventasDelDiaPorHora()
+    {
+        $query = DB::table('ventas')
+        ->select(array(DB::Raw('HOUR(ventas.created_at) as hora, DATE(ventas.created_at) as dia, sum(total) as total')))
+        ->where(DB::raw('DATE(ventas.created_at)'), Input::get('fecha'))
+        ->where('tienda_id', '=', Auth::user()->tienda_id )
+        ->groupBy(DB::raw('HOUR(ventas.created_at)'))
+        ->get();
+
+        $dt = App::make('Fecha');
+
+        $count = 0;
+
+        foreach ($query as $q) {
+            $object[$count]['name'] = strval($q->hora);
+            $object[$count]['y'] = intval($q->total);
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="getVentasPorHoraPorUsuario('."'".Input::get('fecha')."'".')">Ventas por usuario';
+            $count++;
+        }
+
+        $data['data'] = $object;
+        $data['title'] = 'Ventas por hora';
+        $data['name'] = 'Ventas por hora';
 
         return json_encode($data);
     }

@@ -1,7 +1,7 @@
 <?php $fecha = Input::get('fecha'); ?>
 <script>
-$(document).ready(function() {
 
+$(document).ready(function() {
     proccess_table('Ventas del mes');
 
     $('#example').dataTable({
@@ -47,4 +47,6 @@ $(document).ready(function() {
     });
 
 });
+
+graph_container_compile();
 </script>

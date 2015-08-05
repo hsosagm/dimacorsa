@@ -140,7 +140,7 @@
                     dataLabels: {
                         enabled: true,
                         formatter: function() {
-                            if(this.series.name == 'Series 2') {
+                            if(this.series.name == 'Ventas por dia') {
                                 var num = this.y / 1000;
                                 return Highcharts.numberFormat(num, 0);
                             } else {
@@ -194,58 +194,35 @@
         })
    });
 
-function cierreDelMes(year, month){
-    var fecha = year + '-' + month +'-01';
+    function cierreDelMes(year, month){
+        var fecha = year + '-' + month +'-01';
+        $.ajax({
+            type: "GET",
+            url: 'admin/cierre/CierreDelMesPorFecha',
+            data: { fecha: fecha , grafica: true },
+            success: function (data) {
+                graph_container.x = 2;
+                $('#cierres').html(data);
+            }
+        });
+    }
 
-    $.ajax({
-        type: "GET",
-        url: 'admin/cierre/CierreDelMesPorFecha',
-        data: { fecha: fecha , grafica: true },
-        success: function (data) {
-            graph_container.x = 2;
-            $('#cierres').html(data);
-        }
-    });
-}
-
-function cierreDelDia(dia){
-    $.ajax({
-        type: "GET",
-        url: 'admin/cierre/CierreDelDiaPorFecha',
-        data: { fecha:dia , grafica: true},
-        success: function (data) {
-            graph_container.x = 2;
-            $('#cierres').html(data);
-        }
-    });
-}
-
+    function cierreDelDia(dia){
+        $.ajax({
+            type: "GET",
+            url: 'admin/cierre/CierreDelDiaPorFecha',
+            data: { fecha:dia , grafica: true},
+            success: function (data) {
+                graph_container.x = 2;
+                $('#cierres').html(data);
+            }
+        });
+    }
 
 
-function getSoporteDelMes(e,fecha) {
-     $.ajax({
-        type: "GET",
-        url: 'admin/cierre/SoportePorFecha',
-        data: { fecha:fecha  },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            makeTable(data, '', '');
-        }
-    });
-}
-
-function getGastosDelMes(e,fecha) {
-    $.ajax({
-        type: "GET",
-        url: 'admin/cierre/GastosPorFecha',
-        data: { fecha:fecha },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            makeTable(data, '', '');
-        }
-    });
-}
-
+    function getVentasPorHoraPorUsuario(fecha){
+        alert(fecha);
+    }
 
     var graph_container = new Vue({
 
@@ -286,6 +263,15 @@ function getGastosDelMes(e,fecha) {
 
 <div id="master_graph_container">
     <div v-show="x == 1" id="container"></div>
-    <div v-show="x == 2" id="cierres"></div>
-    <div v-show="x == 3" id="cierres_dt"></div>
+    <div v-show="x == 2" id="cierres"> </div>
+    <div v-show="x == 3" id="">
+         <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                <span class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></span>
+            </div>
+        </div>
+        <div id="cierres_dt"></div>
+    </div>
+    
 </div>

@@ -455,6 +455,7 @@
             {
                 Route::get('ventasMensualesPorAno' , 'App\graphics\Ventas@ventasMensualesPorAno');
                 Route::get('ventasDiariasPorMes' , 'App\graphics\Ventas@ventasDiariasPorMes');
+                Route::get('ventasDelDiaPorHora' , 'App\graphics\Ventas@ventasDelDiaPorHora');
             });
         });
 
@@ -480,32 +481,34 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
-    
-  $salario = Input::get('salario') ;
-    $datos[2000]['comision'] = 1 ; 
-    $datos[2000]['isr'] = 2 ;
-    $datos[2000]['ornato'] = 15;
+        $query = DB::table('ventas')
+        ->select(array(DB::Raw('HOUR(ventas.created_at) as hora, DATE(ventas.created_at) as dia, sum(total) as total')))
+        ->where(DB::raw('DATE(ventas.created_at)'), '=', '2014-05-16')
+        ->where('tienda_id', '=', 1 )
+        ->groupBy(DB::raw('HOUR(ventas.created_at)'))
+        ->get();
 
-    $datos[6000]['comision'] = 3 ; 
-    $datos[6000]['isr'] = 4 ;
-    $datos[6000]['ornato'] = 50;
+        $dt = App::make('Fecha');
 
-    if ($salario <= 2000) {
-        echo ($datos[2000]['comision']/100)*$salario;
-        echo "<br>";
-        echo ($datos[2000]['isr']/100)*$salario;
-        echo "<br>";
-        echo $datos[2000]['ornato'];
-    }
-    elseif ($salario <=6000) {
-     echo ($datos[6000]['comision']/100)*$salario;
-        echo "<br>";
-        echo ($datos[6000]['isr']/100)*$salario;
-        echo "<br>";
-        echo $datos[6000]['ornato'];
-    }else{
-        echo 'nada';
-    }
+        $count = 0;
+
+        foreach ($query as $q) {
+            $object[$count]['name'] = strval($q->hora);
+            $object[$count]['y'] = intval($q->total);
+            $object[$count]['hora'] = $q->hora;
+            $object[$count]['dia'] = $dt->Weekday($q->dia);
+            $hora = "'".$q->hora."'";
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$hora.')">Cierre del dia';
+            $object[$count]['variables'] = array( "hora" => $q->hora);
+            $object[$count]['url'] = 'owner/chart/ventas/ventasDelDiaPorHora';
+            $object[$count]['drilldown'] = true;
+            $count++;
+        }
+
+        $data['data'] = $object;
+        $data['title'] = 'Ventas del mes de';
+
+        return json_encode($data);
 
 });
 
