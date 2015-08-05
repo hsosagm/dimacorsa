@@ -59,7 +59,7 @@
 	</div>
 
 	<!-- TABLES --> 
-	<div id="master_graph_container" class="dt-container col-md-11">
+	<div class="dt-container col-md-11">
 		<div class="panel dt-panel rounded shadow">
 			<div class="panel-heading">
 				<div id="table_length" class="pull-left"><h3 class="table-title"></h3></div>
@@ -73,6 +73,8 @@
 			<div class="panel-body no-padding table"></div>
 		</div>
 	</div>
+
+	<div id="master_graph_container" class="col-md-11"></div>
 
 	<!-- dt-container para cierres -->
 	<div class="dt-container-cierre col-md-11"></div>

@@ -23,8 +23,8 @@ function graph_v() {
         if (data.success == true)
         {
             clean_panel();
-            $('.dt-container').show();
-            return $('.table').html(data.view);
+            $('#master_graph_container').html(data.view);
+            return $('#master_graph_container').show();
         }
         msg.warning(data, 'Advertencia!');
     }); 
