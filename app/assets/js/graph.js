@@ -22,6 +22,7 @@ function graph_v() {
     }).done(function(data) {
         if (data.success == true)
         {
+            clean_panel();
             $('#graph_container').show();
             return $('#graph_container').html(data.view);
         }
