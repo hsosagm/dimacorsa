@@ -7,10 +7,8 @@
         		<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
         		<i class="fa fa-file-pdf-o fa-2" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
         		<i class="fa fa-print fa-2"  onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
-        		@if(Input::has('grafica'))
-                	<i class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></i>
-                @else
-                	<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
+        		@if(!Input::has('grafica'))
+        			<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
                 @endif
          </div>
         <div class="clearfix"></div>
@@ -432,14 +430,4 @@
 		}
 	</style>
 @endif
-        		
-@if(Input::has('grafica'))
-	<script type="text/javascript">
-		graph_container_compile();
-	</script>
-	<style>
-		.panel-heading-cierre .pull-right {
-			width: 12%;
-		}
-	</style>
-@endif
+        

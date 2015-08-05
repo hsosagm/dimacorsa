@@ -5,11 +5,9 @@
 			<i  class="fa fa-file-excel-o fa-2" onclick=""> </i>
 			<i class="fa fa-file-pdf-o fa-2" onclick=""> </i>
 			<i class="fa fa-print fa-2"  onclick=""> </i>
-			@if(Input::has('grafica'))
-				<i class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></i>
-			@else
-				<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
-			@endif
+			@if(!Input::has('grafica'))
+        		<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
+            @endif
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -108,13 +106,3 @@
 	.bs-modal .Lightbox{width: 850px;} 
 	.modal-body { padding: 0px 0px 0px; }
 </style>
-@if(Input::has('grafica'))
-<script type="text/javascript">
-	graph_container_compile();
-</script>
-<style>
-	.panel-heading-cierre .pull-right {
-		width: 12%;
-	}
-</style>
-@endif
