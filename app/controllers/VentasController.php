@@ -315,9 +315,9 @@ class VentasController extends \BaseController {
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
 
-		if ($venta->completed != 0) {
+		/*if ($venta->completed != 0) {
 			return json_encode('La venta no se puede abrir porque ya fue finalizada');
-		}
+		}*/
 
 		$venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
 
