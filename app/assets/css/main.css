@@ -196,3 +196,7 @@ div.spinner.flat {
     padding: 4px 15px;
     height: 38px;
 }
+
+#graph_container {
+	display: none;
+}

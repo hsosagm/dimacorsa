@@ -22,9 +22,8 @@ function graph_v() {
     }).done(function(data) {
         if (data.success == true)
         {
-            clean_panel();
-            $('#master_graph_container').html(data.view);
-            return $('#master_graph_container').show();
+            $('#graph_container').html(data.view);
+            return $('#graph_container').show();
         }
         msg.warning(data, 'Advertencia!');
     }); 

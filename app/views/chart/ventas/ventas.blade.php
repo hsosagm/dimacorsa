@@ -1,7 +1,5 @@
 <script type="text/javascript">
 
-    $( ".DTTT" ).html('<i v-show="x > 1" class="fa fa-reply" v-on="click: reset" title="Regresar"></i>');
-
     var data  =  {{$data}};
 
     var graphTitle = [];
@@ -231,7 +229,6 @@
             if (data.success == true) {
                 graph_container.x = 2;
                 $('#cierres').html(data.table);
-                $( ".DTTT" ).html('<i v-show="x > 1" class="fa fa-reply" v-on="click: reset" title="Regresar"></i>');
                 return 0;
             }
             msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
@@ -241,7 +238,7 @@
 
     var graph_container = new Vue({
 
-        el: '#master_graph_container',
+        el: '#graph_container',
 
         data: {
             x: 1,
@@ -296,6 +293,12 @@
 
 </script>
 
+<div class="panel_heading">
+    <div class="pull-right">
+        <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
+        <button class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
+    </div>
+</div>
 <div v-show="x == 1" id="container"></div>
 <div v-show="x == 2" id="cierres"> </div>
 <div v-show="x == 3" id="cierres_dt"></div>

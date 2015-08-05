@@ -74,7 +74,7 @@
 		</div>
 	</div>
 
-	<div id="master_graph_container" class="col-md-11"></div>
+	<div id="graph_container" class="col-md-11"></div>
 
 	<!-- dt-container para cierres -->
 	<div class="dt-container-cierre col-md-11"></div>
