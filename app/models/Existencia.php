@@ -7,8 +7,6 @@ class Existencia extends Eloquent implements Logable {
 
 	protected $guarded = array('id');
 
-	public $timestamps = false;
-
 	public function getLogName()
     {
         return $this->id;
