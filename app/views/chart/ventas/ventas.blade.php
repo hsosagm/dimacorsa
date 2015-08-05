@@ -203,6 +203,7 @@
             success: function (data) {
                 graph_container.x = 2;
                 $('#cierres').html(data);
+                graph_container_compile();
             }
         });
     }
