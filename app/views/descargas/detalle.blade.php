@@ -40,7 +40,7 @@
 		    $deuda2 = $deuda;
 		    $deuda = number_format($deuda,2,'.',',');
         ?>
-		<tr style="border: solid 1px black">
+		<tr style="border: solid 1px #C5C5C5;">
 		    <td>
 				<div class="row">
 					<div class="col-md-8" >  Total a cancelar </div>
