@@ -1,5 +1,7 @@
 <script type="text/javascript">
 
+    $( ".DTTT" ).html('<i v-show="x > 1" class="fa fa-reply" v-on="click: reset" title="Regresar"></i>');
+
     var data  =  {{$data}};
 
     var graphTitle = [];
@@ -237,20 +239,18 @@
             reset: function() {
                 graph_container.x = graph_container.x - 1;
             },
+
             getVentasDelMes: function (e,fecha) {
                 $.ajax({
                     type: "GET",
                     url: 'admin/cierre/VentasDelMes',
-                    data: { fecha:fecha },
-                    contentType: 'application/x-www-form-urlencoded',
-                    success: function (data, text) {
-                        graph_container.x = 3;
+                    data: { fecha: fecha },
+                    success: function (data) {
                         $('#cierres_dt').html(data);
                     }
                 });
             }
-       }
-
+        }
     });
 
     function graph_container_compile() {
@@ -261,17 +261,6 @@
 
 </script>
 
-<div id="master_graph_container">
-    <div v-show="x == 1" id="container"></div>
-    <div v-show="x == 2" id="cierres"> </div>
-    <div v-show="x == 3" id="">
-         <div class="row">
-            <div class="col-md-10"></div>
-            <div class="col-md-2">
-                <span class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></span>
-            </div>
-        </div>
-        <div id="cierres_dt"></div>
-    </div>
-    
-</div>
+<div v-show="x == 1" id="container"></div>
+<div v-show="x == 2" id="cierres"> </div>
+<div v-show="x == 3" id="cierres_dt"></div>
