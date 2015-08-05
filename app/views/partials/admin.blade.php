@@ -61,7 +61,7 @@
     <ul>
         <li><a href="javascript:void(0);" id="CierreDelDia">Movimientos del dia</a></li>
         <li><a href="javascript:void(0);" onClick="cierre();">Realizar Corte</a></li>
-        <li><a href="javascript:void(0);" onClick="imprimir_cierre();">Imprimir Corte del dia</a></li>
+        <li><a href="javascript:void(0);" onClick="imprimir_cierre_por_fecha('current_date')">Imprimir Corte del dia</a></li>
         @if($slide_bar_left == 3)
             <li><a href="javascript:void(0);" onClick="CierreDelMes();">Balance General</a></li>
         @endif

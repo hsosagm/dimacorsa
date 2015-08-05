@@ -1,6 +1,35 @@
+<?php $grafica = Input::get('grafica'); ?>
+@if(Input::has('grafica'))
+    <table class="dt-table table-striped table-theme" id="example">
+        <tbody style="background: #ffffff;">
+            <tr>
+                <td style="font-size: 14px; color:#1b7be2;" colspan="7" class="dataTables_empty">Cargando datos del servidor...</td>
+            </tr>
+        </tbody>
+    </table>
+@endif
+
 <script>
 $(document).ready(function() {
-    proccess_table('Gastos del dia');
+    
+     if ( "{{$grafica}}" != "true") {
+            proccess_table('Gastos del mes');
+            $( ".DTTT" ).html("");
+    }else{
+        $("#iSearch").val("");
+        $("#iSearch").unbind();
+        $("#table_length").html("");
+
+        setTimeout(function() {
+            $('#example_length').prependTo("#table_length");
+            graph_container.x = 3;
+            
+            $('#iSearch').keyup(function(){
+                $('#example').dataTable().fnFilter( $(this).val() );
+            })
+        }, 300);
+    }
+
     $('#example').dataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ archivos por pagina",
@@ -17,7 +46,6 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover widthS",                       "sTitle": "M.P.",        "aTargets": [4]},
         ],
         "fnDrawCallback": function( oSettings ) {
-            $( ".DTTT" ).html("");
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));
             });

@@ -29,33 +29,35 @@
     <table id="example"  class="display kardex_detail" width="100%" cellspacing="0">
         <thead>
             <tr id="hhh" class="subTableChild">
-                <th width="25%">Fecha</th>
-                <th width="25%">Usuario</th>
-                <th width="8%">Transaccion</th>
+                <th width="18%">Fecha</th>
+                <th width="18%">Usuario</th>
+                <th width="9%">Transaccion</th>
                 <th width="10%">Evento</th>
-                <th width="8%">Cantidad</th>
-                <th width="8%">Existencia</th>
-                <th width="8%">Costo</th>
-                <th width="8%">Costo P.</th>
+                <th width="9%">Cantidad</th>
+                <th width="9%">Exist.</th>
+                <th width="9%">Costo</th>
+                <th width="9%">Costo P.</th>
+                <th width="9%">Total</th>
             </tr>
         </thead>
         <tbody>
             @foreach($kardex as $dt)
                 <tr class="subTableChild">
-                    <td width="25%"> {{ $dt->fecha }} </td>
-                    <td width="25%"> {{ $dt->usuario }}  </td>
-                    <td width="8%"> {{ $dt->nombre }} </td>
+                    <td width="18%"> {{ $dt->fecha }} </td>
+                    <td width="18%"> {{ $dt->usuario }}  </td>
+                    <td width="9%"> {{ $dt->nombre }} </td>
                     <td width="10%"> {{ $dt->evento }} </td>
-                    <td width="8%"> {{ $dt->cantidad }} </td>
-                    <td width="8%"> {{ $dt->existencia }} </td>
-                    <td width="8%"> {{ $dt->costo }} </td>
-                    <td width="8%"> {{ $dt->costo_promedio }} </td>
+                    <td width="9%"> {{ $dt->cantidad }} </td>
+                    <td width="9%"> {{ $dt->existencia }} </td>
+                    <td width="9%" class="right"> {{ $dt->costo }} </td>
+                    <td width="9%" class="right"> {{ $dt->costo_promedio }} </td>
+                    <td width="9%" class="right"> {{ f_num::get($dt->costo_promedio * $dt->existencia) }} </td>
                 </tr>
             @endforeach
         </tbody>
         <tfoot width="100%">
             <tr class="subTableChild">
-                <td colspan="8">
+                <td colspan="9">
                     <div style="float:right" class="pagination_kardex_producto"> {{ @$kardex->links() }} </div>
                 </td>
             </tr>
