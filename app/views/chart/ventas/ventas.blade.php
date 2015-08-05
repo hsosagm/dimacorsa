@@ -250,6 +250,10 @@
                 graph_container.x = graph_container.x - 1;
             },
 
+            close: function() {
+                $('#graph_container').hide();
+            },
+
             getVentasDelMes: function (e,fecha) {
                 $.ajax({
                     type: "GET",
@@ -296,7 +300,7 @@
 <div class="panel_heading">
     <div class="pull-right">
         <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
-        <button class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
+        <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
     </div>
 </div>
 <div v-show="x == 1" id="container"></div>
