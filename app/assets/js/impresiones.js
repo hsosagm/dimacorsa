@@ -71,8 +71,8 @@ function ImprimirGarantiaVenta(e,id) {
     $('.bs-modal').modal('hide');
 }*/
 
-function ImprimirFacturaVenta(e,id) {
-    imprimirVentaMaster("EPSON-LQ-590", id, "ImprimirFacturaVenta");
+function ImprimirFacturaVenta(e, id, impresora) {
+    imprimirVentaMaster(impresora, id, "ImprimirFacturaVenta");
     $('.bs-modal').modal('hide');
 }
 

@@ -5,13 +5,35 @@
 			<i  class="fa fa-file-excel-o fa-2" onclick=""> </i>
 			<i class="fa fa-file-pdf-o fa-2" onclick=""> </i>
 			<i class="fa fa-print fa-2"  onclick=""> </i>
-			<i class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></i>
+			@if(Input::has('grafica'))
+				<i class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></i>
+			@else
+				<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
+			@endif
 		</div>
 		<div class="clearfix"></div>
 	</div>
 	<div class="panel-body-cierre no-padding" id="table">
 		<table width="100%" id="table table-responsive">
 			<thead class="cierre_head"> 
+			@if(Input::has('grafica'))
+				<tr>
+					<td width="20%" style="text-align: center;">
+						<i style="cursor:pointer; font-style: normal;" v-on="click: getVentasDelMes(this,'{{$fecha}}')" >Ventas</i>
+						<i class="fa fa-search btn-link" v-on="click: getVentasDelMes(this,'{{$fecha}}')"></i>
+					</td>
+					<td width="20%" style="text-align: center;" >Utilidades</td>
+					<td width="20%" style="text-align: center;" >
+						<i style="cursor:pointer; font-style: normal;" onclick="SoporteDelMesCierre(this,'{{$fecha}}')">Soporte</i>
+						<i class="fa fa-search btn-link" onclick="SoporteDelMesCierre(this,'{{$fecha}}')"></i>
+					</td>
+					<td width="20%" style="text-align: center;" >
+						<i style="cursor:pointer; font-style: normal;" onclick="GastosDelMesCierre(this,'{{$fecha}}')">Gastos</i>
+						<i class="fa fa-search btn-link" onclick="GastosDelMesCierre(this,'{{$fecha}}')"></i>
+					</td>
+					<td width="20%" style="text-align: center;" >Utilidades Netas</td>
+				</tr>
+			@else
 				<tr>
 					<td width="20%" style="text-align: center;">
 						<i style="cursor:pointer; font-style: normal;" onclick="VentasDelMesCierre(this,'{{$fecha}}')">Ventas</i>
@@ -28,6 +50,8 @@
 					</td>
 					<td width="20%" style="text-align: center;" >Utilidades Netas</td>
 				</tr>
+			@endif
+				
 				<tr>
 					<td style="text-align: right;"> {{ ($total_ventas	 )}} </td>
 					<td style="text-align: right;"> {{ ($total_ganancias )}} (%{{ f_num::get(($total_ganancias*100)/$total_ventas) }})</td>
@@ -63,8 +87,8 @@
 							</div>
 							<div class="col-md-4">
 								<div class="row">
-									<div class="col-md-6">Cuentas por Cobrar :</div>
-									<div class="col-md-6" style="text-align: right;"> {{ $ventas_credito }} </div>
+									<div class="col-md-7">Cuentas por Cobrar :</div>
+									<div class="col-md-5" style="text-align: right;"> {{ $ventas_credito }} </div>
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -84,7 +108,13 @@
 	.bs-modal .Lightbox{width: 850px;} 
 	.modal-body { padding: 0px 0px 0px; }
 </style>
-
+@if(Input::has('grafica'))
 <script type="text/javascript">
 	graph_container_compile();
 </script>
+<style>
+	.panel-heading-cierre .pull-right {
+		width: 12%;
+	}
+</style>
+@endif

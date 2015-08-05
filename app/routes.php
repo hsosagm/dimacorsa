@@ -212,6 +212,7 @@
         Route::group(array('prefix' => 'configuracion'),function() 
         {
             Route::get('impresora'          , 'ConfiguracionController@impresora');
+            Route::post('impresora'          , 'ConfiguracionController@saveImpresora');
             Route::get('getImpresoras/{im}' , 'ConfiguracionController@getImpresoras');
 
         });

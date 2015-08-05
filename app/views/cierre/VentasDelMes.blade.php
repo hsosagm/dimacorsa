@@ -31,7 +31,7 @@ $(document).ready(function() {
         ],
         "order": [[ 0, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
-            $( ".DTTT" ).html("");
+            $( ".DTTT" ).html('<i class="fa fa-reply" v-on="click: reset" style="padding-left:10px; font-size:20px;" title="Regresar"></i>');
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));
             });

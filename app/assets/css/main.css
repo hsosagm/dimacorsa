@@ -175,3 +175,10 @@ div.spinner.flat {
 .highcharts-yaxis-labels {
 
 }
+
+.nav-pills{
+	width: 100% !important;
+}
+.nav-pills li{
+	width: 20% !important;
+}

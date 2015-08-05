@@ -200,7 +200,7 @@ function cierreDelMes(year, month){
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelMesPorFecha',
-        data: { fecha: fecha },
+        data: { fecha: fecha , grafica: true },
         success: function (data) {
             graph_container.x = 2;
             $('#cierres').html(data);
@@ -212,10 +212,36 @@ function cierreDelDia(dia){
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelDiaPorFecha',
-        data: { fecha:dia },
+        data: { fecha:dia , grafica: true},
         success: function (data) {
             graph_container.x = 2;
             $('#cierres').html(data);
+        }
+    });
+}
+
+
+
+function getSoporteDelMes(e,fecha) {
+     $.ajax({
+        type: "GET",
+        url: 'admin/cierre/SoportePorFecha',
+        data: { fecha:fecha  },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) {
+            makeTable(data, '', '');
+        }
+    });
+}
+
+function getGastosDelMes(e,fecha) {
+    $.ajax({
+        type: "GET",
+        url: 'admin/cierre/GastosPorFecha',
+        data: { fecha:fecha },
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data, text) {
+            makeTable(data, '', '');
         }
     });
 }
@@ -233,6 +259,18 @@ function cierreDelDia(dia){
 
             reset: function() {
                 graph_container.x = graph_container.x - 1;
+            },
+            getVentasDelMes: function (e,fecha) {
+                $.ajax({
+                    type: "GET",
+                    url: 'admin/cierre/VentasDelMes',
+                    data: { fecha:fecha },
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (data, text) {
+                        graph_container.x = 3;
+                        $('#cierres_dt').html(data);
+                    }
+                });
             }
        }
 
