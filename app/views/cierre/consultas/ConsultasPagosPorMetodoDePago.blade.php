@@ -3,7 +3,7 @@
 		<td> {{ 'No se encontro ningun dato' }} </td>
 	</tr>
 @else
-	<div style="border:1px solid #D5CBCB">
+	<div style="border:1px solid #D5CBCB; background: #FFFFFF;">
 		<table class="" id="example" cellspacing='0'>
 			<thead class="theme-table-footer">
 				<tr>
@@ -32,7 +32,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="7">
-						<div style="float:right" class="pagination_cierre"> {{ @$pagos->links() }} </div>
+						<div style="float:right" class="pagination_cierre{{Input::get('grafica')}}"> {{ @$pagos->links() }} </div>
 					</td>
 				</tr>
 			</tfoot>

@@ -211,11 +211,12 @@
     function cierreDelDia(dia){
         $.ajax({
             type: "GET",
-            url: 'admin/cierre/CierreDelDiaPorFecha',
+            url: 'admin/cierre/getCierreDelDia',
             data: { fecha:dia , grafica: true},
             success: function (data) {
                 graph_container.x = 2;
                 $('#cierres').html(data);
+                graph_container_compile();
             }
         });
     }
@@ -286,6 +287,29 @@
                         $('#cierres_dt').html(data);
                     }
                 });
+            },
+
+            getAsignarInfoEnviar: function($v_model ,$v_metodo){
+                cierre_model= $v_model;
+                cierre_metodo_pago_id = $v_metodo;
+                graph_container.getCierreConsultasPorMetodoDePago(1 , null); 
+            },
+
+            getCierreConsultasPorMetodoDePago: function(page , sSearch) {
+                $.ajax({
+                    type: 'GET',
+                    url: "admin/cierre/consultas/ConsultasPorMetodoDePago/"+cierre_model+"?page=" + page,
+                    data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar, grafica:"_graficas" },
+                    success: function (data) {
+                        if (data.success == true) {
+                            graph_container.x = 3;
+                            $('#cierres_dt').html(data.table);
+                        }
+                        else {
+                            msg.warning(data, 'Advertencia!');
+                        }
+                    }
+                });
             }
         }
     });
@@ -296,6 +320,11 @@
         });
     }
 
+    $(document).on('click', '.pagination_cierre_graficas a', function (e) {
+        e.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        graph_container.getCierreConsultasPorMetodoDePago(page , null); 
+    });
 </script>
 
 <div class="panel_heading">
@@ -305,5 +334,5 @@
     </div>
 </div>
 <div v-show="x == 1" id="container"></div>
-<div v-show="x == 2" id="cierres"> </div>
+<div v-show="x == 2" id="cierres"></div>
 <div v-show="x == 3" id="cierres_dt"></div>

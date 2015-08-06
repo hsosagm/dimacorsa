@@ -246,6 +246,7 @@
         Route::group(array('prefix' => 'cierre'),function() 
         {
             Route::get('CierreDelDia'                        , 'CierreController@CierreDelDia' );
+            Route::get('getCierreDelDia'                     , 'CierreController@getCierreDelDia' );
             Route::get('cierre'                              , 'CierreController@cierre' );
             Route::post('cierre'                             , 'CierreController@cierre' );
             Route::get('CierreDelMes'                        , 'CierreController@CierreDelMes' );

@@ -26,7 +26,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="7">
-						<div style="float:right" class="pagination_cierre"> {{ @$operaciones->links() }} </div>
+						<div style="float:right" class="pagination_cierre{{Input::get('grafica')}}"> {{ @$operaciones->links() }} </div>
 					</td>
 				</tr>
 			</tfoot>

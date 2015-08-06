@@ -22,6 +22,7 @@ class CreateVentasTable extends Migration {
             $table->decimal('total')->default(0.00);
             $table->boolean('completed')->default(0);
             $table->boolean('canceled')->default(0);
+            $table->boolean('kardex')->default(0);
 			$table->timestamps();
 
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');

@@ -2,6 +2,34 @@
 
 class CierreController extends \BaseController {
 
+    function getCierreDelDia()
+    {
+        $fecha = Input::get('fecha');
+        $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date') 
+        {
+            $fecha_enviar = 'current_date';
+            $dt = Carbon::now();
+        }
+        else
+        {
+            $dt = Carbon::createFromFormat('Y-m-d',$fecha);
+        }
+
+        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
+        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+
+        $titulo ['fecha']  = $fecha_titulo;
+
+        $data = $this->resumen_movimientos($fecha);
+        $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+
+        $corte_realizado = Cierre::with('user')
+        ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->first();
+        return View::make('cierre.getCierreDia',compact('data','fecha','dataDetalle','corte_realizado', 'titulo'));
+    }
+
     function CierreDelDia()
     {
         $dt = Carbon::now();
