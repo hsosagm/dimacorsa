@@ -101,7 +101,7 @@ class ProductoController extends Controller {
                 'success'           => true,
                 'descripcion'       =>  "[ ".$marca->nombre." ] ".$query->descripcion,
                 'p_costo'           => 'Precio Costo: '.f_num::get($precio_c,2),
-                'p_costo_descarga'  =>  f_num::get($precio_c),
+                'p_costo_descarga'  =>  f_num::get($precio_c,2),
                 'p_publico'         => 'Precio Publico: '.$query->p_publico,
                 'existencia_total'  => 'Existencia: '.$query->existencia,
                 'existencia'        => 'Existencia: '.$Existencia,
