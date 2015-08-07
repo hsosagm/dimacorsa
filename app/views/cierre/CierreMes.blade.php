@@ -52,10 +52,22 @@
 				
 				<tr>
 					<td style="text-align: right;"> {{ ($total_ventas	 )}} </td>
-					<td style="text-align: right;"> {{ ($total_ganancias )}} (%{{ f_num::get(($total_ganancias*100)/$total_ventas) }})</td>
+					<td style="text-align: right;"> {{ ($total_ganancias )}} 
+						@if($total_ventas > 0)
+						(%{{ f_num::get(($total_ganancias*100)/$total_ventas) }})
+						@endif
+					 </td>
 					<td style="text-align: right;"> {{ ($total_soporte   )}} </td>
-					<td style="text-align: right;"> {{ ($total_gastos    )}} (%{{ f_num::get(($total_gastos*100)/$total_ventas) }})</td>
-					<td style="text-align: right;"> {{ ($ganancias_netas )}} (%{{ f_num::get(($ganancias_netas*100)/$total_ventas) }})</td>
+					<td style="text-align: right;"> {{ ($total_gastos    )}} 
+						@if($total_ventas > 0)
+							(%{{ f_num::get(($total_gastos*100)/$total_ventas) }})
+						@endif
+					</td>
+					<td style="text-align: right;"> {{ ($ganancias_netas )}} 
+						@if($total_ventas > 0)
+							(%{{ f_num::get(($ganancias_netas*100)/$total_ventas) }})
+						@endif
+					</td>
 				</tr>
 			</thead>
 			<tbody class="table-hover cierre_body cierre_detalle" style="">
