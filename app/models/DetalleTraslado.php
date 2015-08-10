@@ -1,6 +1,6 @@
 <?php
 
-class DetalleCompra extends \BaseModel{
+class DetalleTraslado extends \BaseModel{
 
 	protected $table = 'detalle_traslados';
 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class TrasladoController extends \BaseController {
 
@@ -84,10 +84,10 @@ class TrasladoController extends \BaseController {
 
     public function consulta_detalle_traslado () 
     {
-        $query = DB::table('detalle_traslado')
-        ->select(array('detalle_traslado.id as id','descarga_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, (cantidad * precio) AS total') ))
-        ->where('descarga_id', Input::get("traslado_id"))
-        ->join('productos', 'detalle_traslado.producto_id', '=', 'productos.id')
+        $query = DB::table('detalle_traslados')
+        ->select(array('detalle_traslados.id as id','descarga_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, (cantidad * precio) AS total') ))
+        ->where('traslado_id', Input::get("traslado_id"))
+        ->join('productos', 'detalle_traslados.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 

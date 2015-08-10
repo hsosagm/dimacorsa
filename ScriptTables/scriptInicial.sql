@@ -9,7 +9,7 @@ INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES (1, 'Owner
 
 INSERT INTO `permission_role` (`id`, `permission_id`, `role_id`) VALUES (1, 1, 1),(2, 2, 1),(3, 1, 2);
 
-INSERT INTO `users` (`id`, `tienda_id`, `username`, `nombre`, `apellido`, `email`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES (1, 1, 'admin', 'Administrador', 'Sistema', 'admin@empresa.com', '', 1, NULL, '2015-02-16 17:23:13', '2015-02-16 17:23:13')
+INSERT INTO `users` (`id`, `tienda_id`, `username`, `nombre`, `apellido`, `email`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES (1, 1, 'admin', 'Administrador', 'Sistema', 'admin@empresa.com', '', 1, NULL, '2015-02-16 17:23:13', '2015-02-16 17:23:13');
 
 INSERT INTO `assigned_roles` (`id`, `user_id`, `role_id`) VALUES (1, 1, 1);
 

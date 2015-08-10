@@ -15,11 +15,11 @@ $(document).ready(function() {
         },
         
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthS",              "sTitle": "Tienda",      "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Usuario",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",              "sTitle": "Nota",        "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthS",              "sTitle": "Fecha",       "aTargets": [3]},
-            {"sClass": "widthS icons",   "sTitle": "Acciones",   "aTargets": [4],
+            {"sClass": "mod_codigo hover width15",              "sTitle": "Tienda",      "aTargets": [0]},
+            {"sClass": "mod_codigo hover width20",              "sTitle": "Usuario",     "aTargets": [1]},
+            {"sClass": "mod_codigo hover width40",              "sTitle": "Nota",        "aTargets": [2]},
+            {"sClass": "mod_codigo hover width20",              "sTitle": "Fecha",       "aTargets": [3]},
+            {"sClass": "width5 icons",   "sTitle": "",   "aTargets": [4],
                 "orderable": false,
                 "mRender": function() {
                     return '<i class="fa fa-plus-square btn-link theme-c" onClick="VerDetalleDelCierreDelDia(this)"></i><a href="javascript:void(0);" title="Imprimir Cierre" onclick="ImprimirCierreDelDia_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px">';
