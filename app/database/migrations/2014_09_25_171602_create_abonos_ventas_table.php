@@ -28,6 +28,19 @@ class CreateAbonosVentasTable extends Migration {
             $table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');
 		});
+
+		Schema::create('detalle_abonos_ventas', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->integer('abonos_ventas_id')->unsigned();
+			$table->integer('venta_id')->unsigned();
+			$table->decimal('monto', 8, 2);
+			$table->timestamps();
+
+			$table->foreign('venta_id')->references('id')->on('ventas')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('abonos_ventas_id')->references('id')->on('abonos_ventas')->onDelete('cascade')->onUpdate('cascade');
+			
+		});
 	}
 
 
@@ -38,6 +51,7 @@ class CreateAbonosVentasTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::drop('detalle_abonos_ventas');
 		Schema::drop('abonos_ventas');
 	}
 

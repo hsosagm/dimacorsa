@@ -1,42 +1,33 @@
- <?php
+<?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateComprasTable extends Migration {
+class CreateTableTraslado extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
-		Schema::create('compras', function(Blueprint $table)
+		Schema::create('traslados', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('proveedor_id')->unsigned();
             $table->integer('tienda_id')->unsigned()->default(1);
             $table->integer('user_id')->unsigned();
-            $table->string('numero_documento', 100);
-            $table->date('fecha_documento');
-            $table->decimal('saldo')->default(0.00);
+            $table->integer('tienda_id_destino');
             $table->decimal('total')->default(0.00);
-            $table->boolean('completed')->default(0);
-            $table->boolean('canceled')->default(0);
+            $table->boolean('recibido')->default(0);
+            $table->boolean('status')->default(0);
             $table->boolean('kardex')->default(0);
             $table->text('nota');
 			$table->timestamps();
 
-			$table->foreign('proveedor_id')->references('id')->on('proveedores')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
 
-		Schema::create('detalle_compras', function(Blueprint $table)
+		Schema::create('detalle_traslados', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('compra_id')->unsigned();
+			$table->integer('traslado_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
 			$table->integer('cantidad');
 			$table->decimal('precio', 8, 2);
@@ -44,21 +35,15 @@ class CreateComprasTable extends Migration {
 			
 			$table->timestamps();
 
-			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('traslado_id')->references('id')->on('traslados')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('producto_id')->references('id')->on('productos')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
-		Schema::drop('detalle_compras');
-		Schema::drop('compras');
+		chema::drop('detalle_traslados');
+		Schema::drop('traslados');
 	}
 
 }

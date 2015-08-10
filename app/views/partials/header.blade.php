@@ -85,7 +85,11 @@
                     <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_descarga();" title="Descargas" data-toggle="tooltip"><i class="fa fa-download"></i></a>
                 </li>
                 @endif
-
+                @if($slide_bar_left == 2 || $slide_bar_left == 3)
+                    <li class="dropdown navbar-message">
+                        <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_traslado();" title="Descargas" data-toggle="tooltip"><i class="fa fa-exchange"></i></a>
+                    </li>
+                @endif
                 <li class="dropdown navbar-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">

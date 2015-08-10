@@ -205,6 +205,16 @@
  
     Route::group(array('prefix' => 'admin'), function()
     {
+        Route::group(array('prefix' => 'traslados'),function() 
+        {
+            Route::get('buscarTienda' , 'TrasladoController@buscarTienda');
+            Route::get('create'       , 'TrasladoController@create' );
+            Route::post('create'      , 'TrasladoController@create');
+            Route::post('edit'        , 'TrasladoController@edit');
+            Route::get('edit'         , 'TrasladoController@edit');
+            Route::post('detalle'     , 'TrasladoController@detalle');
+        });
+
         Route::group(array('prefix' => 'kardex'),function() 
         {
             Route::get('getKardex' , 'KardexController@getKardex');
@@ -483,7 +493,19 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
+    //return json_encode(Tienda::select('id','nombre','direccion')->get());
+    /*$tiendas = array();
 
+    $tienda = Tienda::select('id','nombre','direccion')->get();
+
+    foreach ($tienda as $td) {
+        $tiendas["{$td->id}"] = $td->nombre .' '. $td->direccion; 
+    }
+
+    return json_encode($tiendas);*/
+
+    return Tienda::where('id','!=', Auth::user()->tienda_id )
+                     ->lists('nombre', 'id');
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
