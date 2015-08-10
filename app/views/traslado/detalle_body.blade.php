@@ -28,7 +28,7 @@
 	            <td field="precio" style="text-align:right;   padding-right: 20px !important;" cod="{{ $q->id }}" class="edit" width="10%"> {{ $precio }} </td>
 	            <td width="10%" style="text-align:right;   padding-right: 20px !important; "> {{ $total }} </td>
 	            <td width="5%" >
-	            	<i id="{{ $q->id }}" href="admin/traslado/eliminar_detalle" class="fa fa-trash-o pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i>
+	            	<i id="{{ $q->id }}" href="admin/traslados/eliminar_detalle" class="fa fa-trash-o pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i>
 	            </td>
 	        </tr>
 		@endforeach

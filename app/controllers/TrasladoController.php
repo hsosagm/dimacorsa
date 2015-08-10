@@ -49,7 +49,7 @@ class TrasladoController extends \BaseController {
             ->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
             if ($existencia->existencia < Input::get('cantidad')) 
-                return 'No puede descargar mas de la Existencia';
+                return 'No puede trasladar mas de la Existencia';
 
             $producto = Producto::find(Input::get('producto_id'));
 
@@ -78,14 +78,54 @@ class TrasladoController extends \BaseController {
                 ));
             }
 
-            return $detalle_descarga->errors();
+            return $detalle_traslado->errors();
         }
+    }
+
+    public function eliminar_detalle()
+    {
+        $detalle = DetalleTraslado::find(Input::get('id'));
+
+        $existencia = Existencia::where('producto_id' , '=' , $detalle->producto_id)
+        ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
+
+        $existencia->existencia = $existencia->existencia + $detalle->cantidad ;
+
+        $existencia->save();
+
+        if ($detalle->delete())
+            return 'success';
+
+        return 'Huvo un error al tratar de eliminar';
+    }
+
+    public function eliminarTraslado()
+    {   
+        $detalle = DetalleTraslado::where('traslado_id' , '=' , Input::get('traslado_id'))->get();
+
+        foreach ($detalle as $dt) 
+        {
+            $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
+            ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
+
+            $existencia->existencia = $existencia->existencia + $dt->cantidad ;
+
+            $existencia->save();  
+        }
+
+        Descarga::destroy(Input::get('traslado_id'));
+        return 'success';
+    }
+
+    public function finalizarTraslado()
+    {
+        $traslado = Traslado::find(Input::get('traslado_id'));   
     }
 
     public function consulta_detalle_traslado () 
     {
         $query = DB::table('detalle_traslados')
-        ->select(array('detalle_traslados.id as id','descarga_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, (cantidad * precio) AS total') ))
+        ->select(array('detalle_traslados.id as id','traslado_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, (cantidad * precio) AS total') ))
         ->where('traslado_id', Input::get("traslado_id"))
         ->join('productos', 'detalle_traslados.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')

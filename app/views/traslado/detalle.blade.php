@@ -49,8 +49,8 @@
         </div>
         <div class="col-md-6" align="right">
 
-        {{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'EliminarTraslado(this,'.$id.');']);}}
-        {{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'FinalizarTraslado(this,'.$id.')']) }}
+        {{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'eliminarTraslado(this,'.$id.');']);}}
+        {{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'finalizarTraslado(this,'.$id.')']) }}
         </div>
     </div>
 </div>

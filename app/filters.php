@@ -38,6 +38,8 @@ Event::listen('eloquent.updated: Compra', function(Compra $model){
 
         foreach ($detalleCompra as $dt) 
         {
+            $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
+
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
             $kardex->user_id = Auth::user()->id;
@@ -47,7 +49,7 @@ Event::listen('eloquent.updated: Compra', function(Compra $model){
             $kardex->transaccion_id = $dt->compra_id;
             $kardex->evento = 'ingreso';
             $kardex->cantidad = $dt->cantidad;
-            $kardex->existencia = $dt->producto->existencia;
+            $kardex->existencia = $existencia->existencia;
             $kardex->costo = $dt->precio;
             $kardex->costo_promedio = ($dt->producto->p_costo/100);
             $kardex->save();  
@@ -66,6 +68,8 @@ Event::listen('eloquent.updated: Venta', function(Venta $model){
 
         foreach ($detalleVenta as $dt) 
         {
+            $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
+            
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
             $kardex->user_id = Auth::user()->id;
@@ -75,7 +79,7 @@ Event::listen('eloquent.updated: Venta', function(Venta $model){
             $kardex->transaccion_id = $dt->venta_id;
             $kardex->evento = 'salida';
             $kardex->cantidad = $dt->cantidad;
-            $kardex->existencia = $dt->producto->existencia;
+            $kardex->existencia = $existencia->existencia;
             $kardex->costo = ($dt->producto->p_costo/100);
             $kardex->costo_promedio = ($dt->producto->p_costo/100);
             $kardex->save();  
