@@ -14,7 +14,6 @@ $(document).ready(function() {
     
      if ( "{{$grafica}}" != "true") {
             proccess_table('Gastos del mes');
-            $( ".DTTT" ).html("");
     }else{
         $("#iSearch").val("");
         $("#iSearch").unbind();

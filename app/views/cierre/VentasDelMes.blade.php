@@ -16,7 +16,6 @@
         
         if ( "{{$grafica}}" != "true") {
             proccess_table('Ventas del mes');
-            $( ".DTTT" ).html("");
         }else{
             $("#iSearch").val("");
             $("#iSearch").unbind();

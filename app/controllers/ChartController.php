@@ -87,7 +87,6 @@ class ChartController extends \BaseController {
         ->get();
 
         $i = 0;
-        
         foreach ($ventas as $v) {
         	$data[$i]['name'] = $v->year;
             $data[$i]['y'] = (float) $v->total;
@@ -100,9 +99,24 @@ class ChartController extends \BaseController {
 
         $data = json_encode($data);
 
+        $d_ventas = DB::table('detalle_ventas')
+        ->select(DB::raw("sum(cantidad * ganancias) as ganancias, YEAR(detalle_ventas.created_at) as year"))
+        ->where('ventas.tienda_id', 1)
+        ->join('ventas', 'detalle_ventas.venta_id', '=', 'ventas.id')
+        ->groupBy('year')
+        ->get();
+
+        $i = 0;
+        foreach ($d_ventas as $dv) {
+            $ganancias[$i]['y'] = (float) $dv->ganancias;
+            $i++;
+        }
+
+        $ganancias = json_encode($ganancias);
+
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('chart.ventas.ventas', compact('data'))->render()
+			'view'    => View::make('chart.ventas.ventas', compact('data', 'ganancias'))->render()
         ));
 	}
 

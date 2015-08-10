@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
     var data  =  {{$data}};
+    var ganancias  =  {{$ganancias}};
 
     var graphTitle = [];
     var graphPosition = 0;
@@ -76,7 +77,9 @@
                                     var title = data['title']+' '+e.point.name;
                                     chart.setTitle({ text: graphTitle[graphPosition] = title });
 
-                                    chart.addSeriesAsDrilldown(e.point, data = {name: data['name'], colorByPoint: true, data: data['data']});
+                                    chart.addSeriesAsDrilldown( e.point, { name: data['name'], colorByPoint: true, data: data['data'] });
+
+                                    $('.highcharts-legend-item rect').remove();
 
                                     chart.tooltip.options.formatter = function()
                                     {
@@ -103,7 +106,15 @@
                                 return this.point.tooltip;
                             }
                         }
+                        setTimeout(function() {
+                            $('.highcharts-legend-item rect').remove();
+                        }, 0);
+                    },
+
+                    load: function(event) {
+                        $('.highcharts-legend-item rect').remove();
                     }
+
                 }
             },
 
@@ -116,7 +127,8 @@
             },
 
             legend: {
-                enabled: false
+                enabled: true,
+                itemStyle: { "color": "#23516F" }
             },
 
             yAxis: {
@@ -139,6 +151,9 @@
                     borderWidth: 0,
                     dataLabels: {
                         enabled: true,
+                        style: {
+                            "fontWeight": 'normal'
+                        },
                         formatter: function() {
                             if(this.series.name == 'Ventas por dia') {
                                 var num = this.y / 1000;
@@ -163,9 +178,13 @@
             },
 
             series: [{
-                name: 'ventas por año',
+                name: 'ventas',
                 colorByPoint: true,
                 data: data
+                }, {
+                name: 'ganancias',
+                colorByPoint: true,
+                data: ganancias
             }],
 
             drilldown: {
@@ -333,6 +352,6 @@
         <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
     </div>
 </div>
-<div v-show="x == 1" id="container"></div>
+<div v-show="x == 1" id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <div v-show="x == 2" id="cierres"></div>
 <div v-show="x == 3" id="cierres_dt"></div>

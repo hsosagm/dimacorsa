@@ -15,7 +15,6 @@ $(document).ready(function() {
     
      if ( "{{$grafica}}" != "true") {
             proccess_table('Soportes del mes');
-            $( ".DTTT" ).html("");
         }else{
             $("#iSearch").val("");
             $("#iSearch").unbind();

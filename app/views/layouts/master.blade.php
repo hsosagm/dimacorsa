@@ -50,7 +50,7 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
         <div id="loader"><div class="spinner flat"></div></div>
 
         <div class="header-content">
-            <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a></span>  
+            <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="ocultar_capas();"></a></span>  
             <span id="home"></span></h2>
         </div>
 
