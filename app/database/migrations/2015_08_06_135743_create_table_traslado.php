@@ -10,9 +10,9 @@ class CreateTableTraslado extends Migration {
 		Schema::create('traslados', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->integer('tienda_id')->unsigned()->default(1);
+            $table->integer('tienda_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('tienda_id_destino');
+            $table->integer('tienda_id_destino')->unsigned();
             $table->decimal('total')->default(0.00);
             $table->boolean('recibido')->default(0);
             $table->boolean('status')->default(0);
@@ -21,6 +21,7 @@ class CreateTableTraslado extends Migration {
 			$table->timestamps();
 
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('tienda_id_destino')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
 

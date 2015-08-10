@@ -119,7 +119,11 @@ class TrasladoController extends \BaseController {
 
     public function finalizarTraslado()
     {
-        $traslado = Traslado::find(Input::get('traslado_id'));   
+        $traslado = Traslado::find(Input::get('traslado_id'));
+        $traslado->status = 1;
+        $traslado->save();
+
+        return 'success';
     }
 
     public function consulta_detalle_traslado () 
@@ -133,4 +137,41 @@ class TrasladoController extends \BaseController {
 
         return $query;      
     }
+
+    public function getTrasladosEnviados()
+    {
+        return View::make('traslado.getTrasladosEnviados')->render();
+    }
+
+    public function getTrasladosRecibidos()
+    {
+        return View::make('traslado.getTrasladosRecibidos')->render();
+    }
+
+    public function getTrasladosEnviados_dt()
+    {
+        $table = 'traslados';
+
+        $columns = array(
+            "traslados.created_at as fecha",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda",
+            "nota",
+            "traslados.status as estado");
+
+        $Searchable = array("traslados.created_at","users.nombre","users.apellido","tiendas.nombre","nota","traslados.status");
+
+        $Join  = " JOIN tiendas ON (tiendas.id = tienda_id_destino )";
+        $Join .= " JOIN users ON (users.id = traslados.user_id )";
+        
+        $Where = " traslados.tienda_id = ".Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
+    }
+
+    public function getTrasladosRecibidos_dt()
+    {
+        
+    }
+
 }

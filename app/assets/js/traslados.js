@@ -29,6 +29,8 @@ function eliminarTraslado(e , traslado_id) {
 function finalizarTraslado(e , traslado_id) {
 	$(e).prop('disabled', true);
 	$.confirm({
+		text: "esta seguro que desea finalizar el Traslado?",
+    	title: "Confirmacion",
 		confirm: function(){
 			$.ajax({
 				type: "POST",
@@ -36,10 +38,24 @@ function finalizarTraslado(e , traslado_id) {
 				data: { traslado_id: traslado_id },
 				contentType: 'application/x-www-form-urlencoded',
 				success: function (data) {
-					if ($.trim(data) == 'success')
+					if ($.trim(data) == 'success'){
 						msg.success('Traslado Finalizado', 'Listo!')
+						$(".form-panel").slideUp('slow');
+					}
 				}
 			});
 		}
 	});
+}
+
+function getTrasladosEnviados(e){
+	$.get( "admin/traslados/getTrasladosEnviados", function( data ) {
+        makeTable(data, ' ', 'Traslados Enviados');
+    });
+}
+
+function getTrasladosRecibidos(e){
+	$.get( "admin/traslados/getTrasladosRecibidos", function( data ) {
+        makeTable(data, ' ', 'Traslados Recibidos');
+    });
 }

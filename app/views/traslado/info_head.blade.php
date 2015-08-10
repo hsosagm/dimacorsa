@@ -1,4 +1,4 @@
-    <div class="col-md-6 master-detail-info">
+    <div class="col-md-8 master-detail-info">
         <div class="row">
             <div class="col-md-4">
                 Tienda Origen: 
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
