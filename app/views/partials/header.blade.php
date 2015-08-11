@@ -87,7 +87,7 @@
                 @endif
                 @if($slide_bar_left == 2 || $slide_bar_left == 3)
                     <li class="dropdown navbar-message">
-                        <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_traslado();" title="Descargas" data-toggle="tooltip"><i class="fa fa-exchange"></i></a>
+                        <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_traslado();" title="Traslados" data-toggle="tooltip"><i class="fa fa-exchange"></i></a>
                     </li>
                 @endif
                 <li class="dropdown navbar-profile">

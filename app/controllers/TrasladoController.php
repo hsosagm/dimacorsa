@@ -119,8 +119,11 @@ class TrasladoController extends \BaseController {
 
     public function finalizarTraslado()
     {
+        $detalle = DetalleTraslado::select(DB::raw('sum(cantidad*precio) as total'))
+        ->where('traslado_id', '=', Input::get('traslado_id'))->first();
         $traslado = Traslado::find(Input::get('traslado_id'));
         $traslado->status = 1;
+        $traslado->total = $detalle->total;
         $traslado->save();
 
         return 'success';
@@ -157,6 +160,7 @@ class TrasladoController extends \BaseController {
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda",
             "nota",
+            "total",
             "traslados.status as estado");
 
         $Searchable = array("traslados.created_at","users.nombre","users.apellido","tiendas.nombre","nota","traslados.status");
@@ -171,7 +175,24 @@ class TrasladoController extends \BaseController {
 
     public function getTrasladosRecibidos_dt()
     {
+        $table = 'traslados';
+
+        $columns = array(
+            "traslados.created_at as fecha",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda",
+            "nota",
+            "total",
+            "traslados.recibido as estado");
+
+        $Searchable = array("traslados.created_at","users.nombre","users.apellido","tiendas.nombre","nota","traslados.status");
+
+        $Join  = " JOIN tiendas ON (tiendas.id = tienda_id )";
+        $Join .= " JOIN users ON (users.id = traslados.user_id )";
         
+        $Where = " traslados.tienda_id_destino = ".Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
     }
 
 }
