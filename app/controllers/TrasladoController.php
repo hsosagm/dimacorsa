@@ -13,24 +13,24 @@ class TrasladoController extends \BaseController {
         {
             $traslado = new Traslado;
 
-           if (!$traslado->create_master())
-			{
-				return $traslado->errors(); 
-			}
+            if (!$traslado->create_master())
+            {
+                return $traslado->errors(); 
+            }
 
-			$id = $traslado->get_id();
-			
-			$traslado = Traslado::find($id);
+            $id = $traslado->get_id();
 
-			$destino = Tienda::find($traslado->tienda_id_destino);
-			
-			return Response::json(array(
-				'success' => true, 
-				'detalle' => View::make('traslado.detalle',compact("id"))->render(),
-				'info_head' => View::make('traslado.info_head', compact("traslado","destino"))->render()
-			));
+            $traslado = Traslado::find($id);
+
+            $destino = Tienda::find($traslado->tienda_id_destino);
+
+            return Response::json(array(
+                'success' => true, 
+                'detalle' => View::make('traslado.detalle',compact("id"))->render(),
+                'info_head' => View::make('traslado.info_head', compact("traslado","destino"))->render()
+                ));
             
-    	}
+        }
 
         return View::make('traslado.create');
     }
@@ -75,12 +75,29 @@ class TrasladoController extends \BaseController {
 
                 return Response::json(array('success' => true, 
                     'table' => View::make('traslado.detalle_body',compact('detalle'))->render() 
-                ));
+                    ));
             }
 
             return $detalle_traslado->errors();
         }
     }
+
+    public function abrirTraslado()
+    {
+        $id = Input::get('traslado_id');
+
+        $traslado = Traslado::find($id);
+
+        $destino = Tienda::find($traslado->tienda_id_destino);
+
+        $detalle = $this->consulta_detalle_traslado();
+
+        return Response::json(array(
+            'success' => true, 
+            'form' => View::make('traslado.abrirTraslado',compact("id", "traslado", "destino", "detalle"))->render(),
+            ));
+    }
+
 
     public function eliminar_detalle()
     {

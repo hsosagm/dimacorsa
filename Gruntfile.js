@@ -208,6 +208,7 @@ module.exports = function(grunt) {
             proveedor: {
                 src: [
                     './app/assets/js/main.js',
+                    './app/assets/js/data-remote.js',
                     './app/assets/js/impresiones.js',
                     './app/assets/proveedor/js/*',
                   ],
@@ -216,6 +217,7 @@ module.exports = function(grunt) {
             cliente: {
                 src: [
                     './app/assets/js/main.js',
+                    './app/assets/js/data-remote.js',
                     './app/assets/js/impresiones.js',
                     './app/assets/js/ventas.js',
                     './app/assets/js/cliente.js',

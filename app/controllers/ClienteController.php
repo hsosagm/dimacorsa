@@ -70,10 +70,7 @@ class ClienteController extends \BaseController {
                 return $cliente->errors();
             }
 
-            return Response::json(array(
-                'success' => true,
-                'info'    =>  $this->getInfo( $cliente->get_id() ),
-            ));
+            return 'success';
         }
 
         return View::make('cliente.create');

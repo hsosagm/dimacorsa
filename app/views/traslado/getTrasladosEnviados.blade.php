@@ -23,6 +23,7 @@
                 "orderable": false,
                 "mRender": function() {
                     $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick=""></i>';
+                    $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="abrirTraslado(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
                     $v += '<a href="javascript:void(0);" title="Imprimir Traslado" onclick="" class="fa fa-print font14" style="padding-left:10px">';
                     return $v;
                 }

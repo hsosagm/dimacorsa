@@ -1,6 +1,7 @@
 
  <div class="cliente-body-info">
-    {{ Form::open(array('data-remote-cliente','method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
+    
+{{ Form::_open('Cliente creado') }}
 
     <div class="form-group">
         <div class="col-sm-12">
