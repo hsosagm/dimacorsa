@@ -42,6 +42,8 @@
         Route::group(array('prefix' => 'chart'), function()
         {
             Route::get('chartVentasPorUsuario', 'ChartController@chartVentasPorUsuario');
+            Route::get('chartVentasPorCliente', 'ChartController@chartVentasPorCliente');
+            Route::get('ventasMensualesPorAnoPorCliente', 'App\graphics\Ventas@ventasMensualesPorAnoPorCliente');
         });
 
         Route::group(array('prefix' => 'tema'), function()
@@ -452,6 +454,8 @@
             Route::get('gastos' , 'ChartController@gastos' );
             Route::get('soporte', 'ChartController@soporte');
             Route::get('ventas' , 'ChartController@ventas' );
+            Route::get('comparativaMensual' , 'ChartController@comparativaMensual' );
+            Route::get('getComparativaMensualPorMes' , 'ChartController@getComparativaMensualPorMes' );
 
             Route::group(array('prefix' => 'ventas'), function()
             {
@@ -483,6 +487,35 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
+        // $d_ventas = DB::table('detalle_ventas')
+        // ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(created_at) as mes, YEAR(created_at) as year"))
+        // ->where( DB::raw('MONTH(created_at)'), '=', date('n') )
+        // ->groupBy('year')
+        // ->get();
+
+
+        // return json_encode($d_ventas);
+
+        $ventas = DB::table('ventas')
+        ->where('cliente_id', 664)
+        ->where(DB::raw('YEAR(ventas.created_at)'), 2015 )
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes"))
+        ->groupBy('mes')
+        ->get();
+
+        $dt = App::make('Fecha');
+        
+        for ($i=0; $i < 12; $i++) { 
+            $data[$i]['name'] = $dt->monthsNames($i+1);
+            $data[$i]['y'] = (float) @$ventas[$i]->total;
+        }
+
+        // $data['data'] = $data;
+        // $data['title'] = 'Ventas de';
+        // $data['name'] = 'ventas por mes';
+
+        return json_encode($data);
 
 });
 

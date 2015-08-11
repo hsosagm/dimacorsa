@@ -216,19 +216,20 @@ function cliente_help() {
     }
 };
 
-function creditSalesByCustomer() {
-    $.ajax({
-        type: 'GET',
-        url: "user/cliente/creditSalesByCustomer",
-        data: { cliente_id: vm.cliente_id },
-        success: function (data) {
-            if (data.success == true) {
-                return generate_dt(data.table);
-            }
-            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-        }
-    }); 
-}
+
+// function creditSalesByCustomer() {
+//     $.ajax({
+//         type: 'GET',
+//         url: "user/cliente/creditSalesByCustomer",
+//         data: { cliente_id: vm.cliente_id },
+//         success: function (data) {
+//             if (data.success == true) {
+//                 return generate_dt(data.table);
+//             }
+//             msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+//         }
+//     }); 
+// }
 
 function generate_dt(data) {
     vm.clearPanelBody();

@@ -24,11 +24,24 @@ var vm = new Vue({
     	},
 
     	clearPanelBody: function() {
-    		this.PanelBody = false;
-    		this.tableDetail = '';
-    		$('.table').html('');
-    		$('.dt-container').hide();
+    		
     	},
+
+		generate_dt: function(data) {
+			$('#main_container').hide();
+		    $('#main_container').html(data);
+		    $("#iSearch").unbind().val("").focus();
+		    $("#table_length").html("");
+
+		    setTimeout(function() {
+		        $('#example').dataTable();
+		        $('#example_length').prependTo("#table_length");
+		        $('#main_container').show();
+		        $('#iSearch').keyup(function() {
+		            $('#example').dataTable().fnFilter( $(this).val() );
+		        });
+		    }, 0);
+		},
 
     	setMonto: function() {
     		this.monto = $('.montoAbono').autoNumeric('get');
@@ -101,11 +114,9 @@ var vm = new Vue({
 		        success: function (data) {
 		            if (data.success == true)
 		            {
-		                $("#table_length").html("");
-		                $(".PanelBody").html(data.form);
-		                vm.PanelBody = true;
-		                SST_search();
-		                return compile();
+			            $('#main_container').show();
+			            $('#main_container').html(data.form);
+			            return compile();
 		            }
 		            msg.warning(data, 'Advertencia!');
 		        } 
@@ -216,20 +227,33 @@ var vm = new Vue({
             $.get( "/user/cliente/salesByCustomer", function( data ) {
 	            if (data.success == true)
 	            {
-	               return generate_dt(data.table);
+	               vm.generate_dt(data.table);
+	               return compile();
 	            }
 	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             });
         },
+
+		creditSalesByCustomer: function() {
+		    $.ajax({
+		        type: 'GET',
+		        url: "user/cliente/creditSalesByCustomer",
+		        data: { cliente_id: vm.cliente_id },
+		        success: function (data) {
+		            if (data.success == true) {
+		                vm.generate_dt(data.table);
+		                return compile();
+		            }
+		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+		        }
+		    }); 
+		},
 
         imprimirAbonoVenta: function(e,id) {
         	 window.open('user/ventas/payments/imprimirAbonoVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
         },
         
         getHistorialAbonos: function() {
-        	this.PanelBody = false;
-        	$('.dt-container').hide();
-
 		    $.ajax({
 		        type: 'GET',
 		        url: "user/cliente/getHistorialAbonos",
@@ -237,12 +261,57 @@ var vm = new Vue({
 		        success: function (data) {
 		            if (data.success == true)
 		            {
-		            	return $('.table').html(data.table);
+		            	vm.historialAbonos = data.data;
+		            	$('#main_container').hide();
+		                $('#main_container').html(data.table);
+		            	vm.$compile(vm.$el);
+
+					    setTimeout(function() {
+					        $('#example').dataTable();
+					        $('#example_length').prependTo("#table_length");
+					        $('#main_container').show();
+					        $('#iSearch').keyup(function() {
+					            $('#example').dataTable().fnFilter( $(this).val() );
+					        });
+					    }, 0);
+		            	return;
 		            }
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
         },
+
+        togleDetalleAbonos: function(e, av) {
+	        var that = av.active;
+			$('.subtable').remove();
+
+			this.historialAbonos.forEach(function(av){
+				av.$set('active', false);
+			});
+
+			if (that != true) {
+				av.$set('active', true);
+			    $(e.$el).after("<tr class='subtable'> <td colspan=7><div class='grid_detalle_factura'></div></td></tr>");
+
+			    $.ajax({
+			        type: 'GET',
+			        url: "user/ventas/payments/getDetalleAbono",
+			        data: { abono_id: av.id },
+			        success: function (data) {
+			            if (data.success == true)
+			            {
+			                $('.grid_detalle_factura').html(data.table);
+			                return $(e.$el).next('.subtable').fadeIn('slow');
+			            }
+			            msg.warning(data, 'Advertencia!');
+			        }
+			    });
+			}
+        },
+
+        imprimirAbonoVenta: function(e ,av) {
+			window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+av.id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+    	},
 
         getHistorialPagos: function() {
         	this.PanelBody = false;
@@ -255,12 +324,46 @@ var vm = new Vue({
 		        success: function (data) {
 		            if (data.success == true)
 		            {
-		            	return $('.table').html(data.table);
+		            	vm.historialPagos = data.data;
+		            	$('#main_container').hide();
+		                $('#main_container').html(data.table);
+		            	vm.$compile(vm.$el);
+
+					    setTimeout(function() {
+					        $('#example').dataTable();
+					        $('#example_length').prependTo("#table_length");
+					        $('#main_container').show();
+					        $('#iSearch').keyup(function() {
+					            $('#example').dataTable().fnFilter( $(this).val() );
+					        });
+					    }, 0);
+		            	return;
 		            }
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
+        },
+
+        chartVentasPorCliente: function() {
+		    $.ajax({
+		        type: "GET",
+		        url: 'user/chart/chartVentasPorCliente',
+		        data: { cliente_id: vm.cliente_id },
+		    }).done(function(data) {
+		        if (data.success == true)
+		        {
+		            $('#main_container').show();
+		            $('#main_container').html(data.view);
+		            return compile();
+		        }
+		        msg.warning(data, 'Advertencia!');
+		    }); 
+        },
+
+        closeMainContainer: function() {
+        	$('#main_container').hide();
         }
+
     }
 });
 

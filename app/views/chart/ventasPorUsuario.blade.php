@@ -50,6 +50,11 @@
                     }
                 }
             },
+            
+            credits: {
+                text: ""
+            },
+
             tooltip: {
                 enabled: false
             },

@@ -334,47 +334,35 @@ class ClienteController extends \BaseController {
             ->orderBy('fecha', 'ASC')
             ->get();
 
-            $abonosVentas = json_encode($abonosVentas);
-
         return Response::json(array(
             'success' => true,
-            'table' => View::make('ventas.historialAbonos', compact('abonosVentas'))->render()
+            'data'    => $abonosVentas,
+            'table'   => View::make('ventas.historialAbonos')->render()
         ));
     }
 
     public function getHistorialPagos()
     {
+        $pagosVentas = DB::table('pagos_ventas')
+            ->select(DB::raw("monto,
+                CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
+                CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda,
+                pagos_ventas.created_at as fecha,
+                ventas.id as factura,
+                metodo_pago.descripcion as metodoPago"))
+            ->join('metodo_pago', 'pagos_ventas.metodo_pago_id', '=', 'metodo_pago.id')
+            ->join('ventas', 'pagos_ventas.venta_id', '=', 'ventas.id')
+            ->join('users', 'ventas.user_id', '=', 'users.id')
+            ->join('tiendas', 'ventas.tienda_id', '=', 'tiendas.id')
+            ->where('cliente_id', Input::get('cliente_id'))
+            ->orderBy('fecha', 'ASC')
+            ->get();
+
         return Response::json(array(
             'success' => true,
-            'table' => View::make('ventas.historialPagos', compact('pagosVentas'))->render()
+            'data'    => $pagosVentas,
+            'table'   => View::make('ventas.historialPagos')->render()
         ));
-    }
-
-    public function DtHistorialPagos()
-    {
-        $table = 'pagos_ventas';
-
-        $columns = array(
-            "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda_nombre",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-            "pagos_ventas.created_at as fecha",
-            "ventas.id as factura",
-            "metodo_pago.descripcion as metodo_descripcion",
-            'monto'
-        );
-
-        $Searchable = array("users.nombre","users.apellido","ventas.id");
-
-        $Join="
-            JOIN ventas ON (ventas.id = pagos_ventas.venta_id) 
-            JOIN users ON (users.id = ventas.user_id)
-            JOIN tiendas ON (tiendas.id = ventas.tienda_id)
-            JOIN metodo_pago ON (metodo_pago.id = pagos_ventas.metodo_pago_id)";
-
-        $where = "cliente_id = ".Input::get('cliente_id');
-        $where .= ' AND ventas.tienda_id = '.Auth::user()->tienda_id;
-
-        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );   
     }
 
 }
