@@ -201,6 +201,7 @@ module.exports = function(grunt) {
                 './app/assets/js/usuario-consultas.js',
                 './app/assets/js/impresiones.js',
                 './app/assets/js/configuracion.js',
+                './app/assets/js/traslados.js',
               ],
               dest: './public/js/custom.js'
             },

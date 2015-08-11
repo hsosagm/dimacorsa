@@ -32,6 +32,21 @@ class CreateComprasTable extends Migration {
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
+
+		Schema::create('detalle_compras', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->integer('compra_id')->unsigned();
+			$table->integer('producto_id')->unsigned();
+			$table->integer('cantidad');
+			$table->decimal('precio', 8, 2);
+			$table->text('serials');
+			
+			$table->timestamps();
+
+			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('producto_id')->references('id')->on('productos')->onDelete('restrict')->onUpdate('cascade');
+		});
 	}
 
 
@@ -42,6 +57,7 @@ class CreateComprasTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::drop('detalle_compras');
 		Schema::drop('compras');
 	}
 

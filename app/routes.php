@@ -95,7 +95,6 @@
             Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
             Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
             Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
-            Route::get('DtHistorialPagos'      , 'ClienteController@DtHistorialPagos');
             Route::get('clientes'              , 'ClienteController@clientes'    );
         });
 
@@ -207,6 +206,23 @@
  
     Route::group(array('prefix' => 'admin'), function()
     {
+        Route::group(array('prefix' => 'traslados'),function() 
+        {
+            Route::get('buscarTienda'             , 'TrasladoController@buscarTienda');
+            Route::get('create'                   , 'TrasladoController@create' );
+            Route::post('create'                  , 'TrasladoController@create');
+            Route::post('edit'                    , 'TrasladoController@edit');
+            Route::get('edit'                     , 'TrasladoController@edit');
+            Route::post('detalle'                 , 'TrasladoController@detalle');
+            Route::post('eliminar_detalle'        , 'TrasladoController@eliminar_detalle');
+            Route::post('eliminarTraslado'        , 'TrasladoController@eliminarTraslado');
+            Route::post('finalizarTraslado'       , 'TrasladoController@finalizarTraslado');
+            Route::get('getTrasladosEnviados'     , 'TrasladoController@getTrasladosEnviados');
+            Route::get('getTrasladosRecibidos'    , 'TrasladoController@getTrasladosRecibidos');
+            Route::get('getTrasladosEnviados_dt'  , 'TrasladoController@getTrasladosEnviados_dt');
+            Route::get('getTrasladosRecibidos_dt' , 'TrasladoController@getTrasladosRecibidos_dt');
+        });
+
         Route::group(array('prefix' => 'kardex'),function() 
         {
             Route::get('getKardex' , 'KardexController@getKardex');
@@ -217,7 +233,6 @@
             Route::get('impresora'          , 'ConfiguracionController@impresora');
             Route::post('impresora'          , 'ConfiguracionController@saveImpresora');
             Route::get('getImpresoras/{im}' , 'ConfiguracionController@getImpresoras');
-
         });
 
         Route::group(array('prefix' => 'queries'),function() 
@@ -487,35 +502,6 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
-        // $d_ventas = DB::table('detalle_ventas')
-        // ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(created_at) as mes, YEAR(created_at) as year"))
-        // ->where( DB::raw('MONTH(created_at)'), '=', date('n') )
-        // ->groupBy('year')
-        // ->get();
-
-
-        // return json_encode($d_ventas);
-
-        $ventas = DB::table('ventas')
-        ->where('cliente_id', 664)
-        ->where(DB::raw('YEAR(ventas.created_at)'), 2015 )
-        ->where(DB::raw('total'), '>', 0 )
-        ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes"))
-        ->groupBy('mes')
-        ->get();
-
-        $dt = App::make('Fecha');
-        
-        for ($i=0; $i < 12; $i++) { 
-            $data[$i]['name'] = $dt->monthsNames($i+1);
-            $data[$i]['y'] = (float) @$ventas[$i]->total;
-        }
-
-        // $data['data'] = $data;
-        // $data['title'] = 'Ventas de';
-        // $data['name'] = 'ventas por mes';
-
-        return json_encode($data);
 
 });
 
