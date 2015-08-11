@@ -6,7 +6,7 @@ function fopen_traslado() {
 		$(".dt-container").hide();
 		$(".form-panel").show();
 	});
-}
+} 
 
 function eliminarTraslado(e , traslado_id) {
 	$(e).prop('disabled', true);
@@ -54,17 +54,18 @@ function abrirTraslado(e){
 		url: 'admin/traslados/abrirTraslado',
 		data: { traslado_id: $id },
 		success: function (data) {
-			if ($.trim(data) == 'success'){
+			if (data.success == true){
 				$('.panel-title').text('Formulario Traslados');
-				$(".forms").html(data);
+				$(".forms").html(data.form);
 				$(".dt-container").hide();
-				$(".form-panel").show();
+				return $(".form-panel").show();
 			}
+
+			return msg.warning(data,'Advertencia.!');
 		}
 	});
 }
 
-}
 
 function getTrasladosEnviados(e){
 	$.get( "admin/traslados/getTrasladosEnviados", function( data ) {

@@ -88,6 +88,14 @@ class TrasladoController extends \BaseController {
 
         $traslado = Traslado::find($id);
 
+        if ($traslado->status == 1 && $traslado->recibido == 1) 
+            return  "El traslado no se puede abrir porque ya fue recibido";
+
+        $traslado->update(array('status' => 0 , 'kardex' => 0));
+
+        $kardex = Kardex::where('kardex_transaccion_id',4)->where('transaccion_id',Input::get('traslado_id'));
+        $kardex->delete();
+
         $destino = Tienda::find($traslado->tienda_id_destino);
 
         $detalle = $this->consulta_detalle_traslado();

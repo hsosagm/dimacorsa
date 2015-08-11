@@ -40,7 +40,7 @@
 		    $deuda2 = $deuda;
 		    $deuda = f_num::get($deuda);
         ?>
-		<tr style="border: solid 1px #C5C5C5;">
+		<tr>
 		    <td>
 				<div class="row">
 					<div class="col-md-8" >  Total Traslado </div>
