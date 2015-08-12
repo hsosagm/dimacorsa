@@ -7,20 +7,15 @@ function GetSalesForPaymentsBySelection(page, sSearch)
         url: "user/ventas/payments/formPaymentsPagination?page=" + page,
         data: { cliente_id: $cliente_id, sSearch: sSearch },
         success: function (data) {
-
             if (data.success == true)
-            {
                 $('#tab4').html(data.table);
-            }
             else
-            {
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
 };
 
-$(document).on('click', '.pagination a', function (e) {
+$(document).on('click', '.pagination_sales_by_selection a', function (e) {
 
     e.preventDefault();
 
@@ -84,7 +79,6 @@ function SelectedPaySales(element)
         type: "POST",
         url:  "user/ventas/payments/SelectedPaySales",
         data: formData,
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             if (data.success == true) 
             {
