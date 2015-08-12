@@ -1,7 +1,5 @@
 $(function() {
-    $(document).on('click', '#f_soporte', function(){ f_soporte(this); });
     $(document).on('click', '#delete_soporte', function(){ delete_soporte(this); });
-
 });
 
 

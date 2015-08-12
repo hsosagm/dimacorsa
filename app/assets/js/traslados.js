@@ -1,12 +1,20 @@
 
 function fopen_traslado() {
-	$.get( "admin/traslados/create", function( data ) {
-		$('.panel-title').text('Formulario Traslados');
-		$(".forms").html(data);
-		$(".dt-container").hide();
-		$(".form-panel").show();
+	$.ajax({
+		type: "GET",
+		url: 'admin/traslados/create',
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			$('.panel-title').text('Formulario Traslados');
+			$(".forms").html(data.view);
+			$(".dt-container").hide();
+			return $(".form-panel").show();
+		}
+		msg.warning(data, 'Advertencia!');
 	});
 } 
+
 
 function eliminarTraslado(e , traslado_id) {
 	$.confirm({
@@ -14,11 +22,14 @@ function eliminarTraslado(e , traslado_id) {
 			$.ajax({
 				type: "POST",
 				url: 'admin/traslados/eliminarTraslado',
-				data: { traslado_id: traslado_id },
-				success: function (data) {
+				data: {traslado_id: traslado_id},
+			}).done(function(data) {
+				if (data.success == true)
+				{
 					msg.success('Traslado eliminado', 'Listo!')
-					$(".form-panel").slideUp('slow');
+					return $(".form-panel").slideUp('slow');
 				}
+				msg.warning(data, 'Advertencia!');
 			});
 		}
 	});
@@ -32,13 +43,14 @@ function finalizarTraslado(e , traslado_id) {
 			$.ajax({
 				type: "POST",
 				url: 'admin/traslados/finalizarTraslado',
-				data: { traslado_id: traslado_id },
-				success: function (data) {
-					if ($.trim(data) == 'success'){
-						msg.success('Traslado Finalizado', 'Listo!')
-						$(".form-panel").slideUp('slow');
-					}
+				data: {traslado_id: traslado_id},
+			}).done(function(data) {
+				if (data.success == true)
+				{
+					msg.success('Traslado Finalizado', 'Listo!')
+					return $(".form-panel").slideUp('slow');
 				}
+				msg.warning(data, 'Advertencia!');
 			});
 		}
 	});
@@ -52,13 +64,14 @@ function recibirTraslado(e , traslado_id) {
 			$.ajax({
 				type: "POST",
 				url: 'admin/traslados/recibirTraslado',
-				data: { traslado_id: traslado_id },
-				success: function (data) {
-					if ($.trim(data) == 'success'){
-						msg.success('Traslado Recibido', 'Listo!')
-						$(".form-panel").slideUp('slow');
-					}
+				data: {traslado_id: traslado_id},
+			}).done(function(data) {
+				if (data.success == true)
+				{
+					msg.success('Traslado Recibido', 'Listo!')
+					return $(".form-panel").slideUp('slow');
 				}
+				msg.warning(data, 'Advertencia!');
 			});
 		}
 	});
@@ -66,23 +79,23 @@ function recibirTraslado(e , traslado_id) {
 
 function abrirTraslado(e){
 	$id = $(e).closest('tr').attr('id');
-	
+
 	$.ajax({
 		type: "POST",
 		url: 'admin/traslados/abrirTraslado',
-		data: { traslado_id: $id },
-		success: function (data) {
-			if (data.success == true){
-				$('.panel-title').text('Formulario Traslados');
-				$(".forms").html(data.form);
-				$(".dt-container").hide();
-				return $(".form-panel").show();
-			}
-
-			return msg.warning(data,'Advertencia.!');
+		data: {traslado_id: $id},
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			$('.panel-title').text('Formulario Traslados');
+			$(".forms").html(data.form);
+			$(".dt-container").hide();
+			return $(".form-panel").show();
 		}
+		msg.warning(data, 'Advertencia!');
 	});
 }
+
 
 function abrirTrasladoDeRecibido(e){
 	$id = $(e).closest('tr').attr('id');
@@ -90,62 +103,59 @@ function abrirTrasladoDeRecibido(e){
 	$.ajax({
 		type: "POST",
 		url: 'admin/traslados/abrirTrasladoDeRecibido',
-		data: { traslado_id: $id },
-		success: function (data) {
-			if (data.success == true){
-				$('.panel-title').text('Formulario Traslados');
-				$(".forms").html(data.form);
-				$(".dt-container").hide();
-				return $(".form-panel").show();
-			}
-
-			return msg.warning(data,'Advertencia.!');
+		data: {traslado_id: $id},
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			$('.panel-title').text('Recibir Traslados');
+			$(".forms").html(data.form);
+			$(".dt-container").hide();
+			return $(".form-panel").show();
 		}
+		msg.warning(data, 'Advertencia!');
 	});
 }
 
-function verDetalleTraslado(e) {
-    if ($(e).hasClass("hide_detail")) {
-        $(e).removeClass('hide_detail');
-        $('.subtable').hide();
-    } 
-    else {
-        $('.hide_detail').removeClass('hide_detail');
+function verDetalleTraslado(e, opcion) {
+	if ($(e).hasClass("hide_detail")) {
+		$(e).removeClass('hide_detail');
+		$('.subtable').hide();
+	} 
+	else {
+		$('.hide_detail').removeClass('hide_detail');
 
-        if ( $( ".subtable" ).length ) {
-            $('.subtable').fadeOut('slow', function(){
-                getDetalleTraslado(e);
-            })
-        }
-        else {
-            getDetalleTraslado(e);
-        }
-    }
+		if ( $( ".subtable" ).length ) {
+			$('.subtable').fadeOut('slow', function(){
+				getDetalleTraslado(e, opcion);
+			})
+		}
+		else {
+			getDetalleTraslado(e, opcion);
+		}
+	}
 }
 
-function getDetalleTraslado(e) {
-    $id = $(e).closest('tr').attr('id');
-    $('.subtable').remove();
-    var nTr = $(e).parents('tr')[0];
-    $(e).addClass('hide_detail');
-    $(nTr).after("<tr class='subtable'> <td colspan=6 ><div class='grid_detalle_factura'></div></td></tr>");
-    $('.subtable').addClass('hide_detail');
+function getDetalleTraslado(e, opcion) {
+	$id = $(e).closest('tr').attr('id');
+	$('.subtable').remove();
+	var nTr = $(e).parents('tr')[0];
+	$(e).addClass('hide_detail');
+	$(nTr).after("<tr class='subtable'> <td colspan=6 ><div class='grid_detalle_factura'></div></td></tr>");
+	$('.subtable').addClass('hide_detail');
 
-    $.ajax({
-        type: 'GET',
-        url: "admin/traslados/getDetalleTraslado",
-        data: { traslado_id: $id},
-        success: function (data) {
-            if (data.success == true) {
-                $('.grid_detalle_factura').html(data.table);
-                $(nTr).next('.subtable').fadeIn('slow');
-                $(e).addClass('hide_detail');
-            }
-            else {
-                msg.warning(data, 'Advertencia!');
-            }
-        }
-    });
+	$.ajax({
+		type: "GET",
+		url: 'admin/traslados/getDetalleTraslado',
+		data: {traslado_id: $id, opcion: opcion},
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			$('.grid_detalle_factura').html(data.table);
+			$(nTr).next('.subtable').fadeIn('slow');
+			return $(e).addClass('hide_detail');
+		}
+		msg.warning(data, 'Advertencia!');
+	});
 }
 
 
