@@ -216,6 +216,7 @@
             Route::post('detalle'                 , 'TrasladoController@detalle');
             Route::post('eliminar_detalle'        , 'TrasladoController@eliminar_detalle');
             Route::post('eliminarTraslado'        , 'TrasladoController@eliminarTraslado');
+            Route::post('abrirTraslado'           , 'TrasladoController@abrirTraslado');
             Route::post('finalizarTraslado'       , 'TrasladoController@finalizarTraslado');
             Route::get('getTrasladosEnviados'     , 'TrasladoController@getTrasladosEnviados');
             Route::get('getTrasladosRecibidos'    , 'TrasladoController@getTrasladosRecibidos');

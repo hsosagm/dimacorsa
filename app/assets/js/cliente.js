@@ -1,15 +1,14 @@
 $(function() {
     $(document).on('click', '#clientes_table',              function() { clientes_table();                 });
-    $(document).on('click', '#cliente_create',              function() { cliente_create();                 });
     $(document).on('click', '#cliente_contacto_view_info',  function() { cliente_contacto_view_info(this); });
     $(document).on('click', '#cliente_contacto_view',       function() { cliente_contacto_view(this);      });
     $(document).on('click', '#cliente_contacto_nuevo',      function() { cliente_contacto_nuevo();         });
     $(document).on('click', '#cliente_help',                function() { cliente_help();                   });
-    $(document).on('submit','form[data-remote-cliente]',    function(e){ cliente_new(e,this);              });
     $(document).on('submit','form[data-remote-contact-cn]', function(e){ cliente_contacto_create(e,this);  });
     $(document).on('submit','form[data-remote-contact-ce]', function(e){ cliente_contacto_update(e,this);  });
     $(document).on('submit','form[data-remote-cliente-e]',  function(e){ cliente_update(e,this);           });
 });
+
 
 function clientes_table() {
     $.get( "user/cliente/index", function( data ) {
@@ -18,14 +17,6 @@ function clientes_table() {
     });
 
 }; 
-
-function cliente_create() {
-    $.get( "user/cliente/create", function( data ) {
-        $('.modal-body').html(data);
-        $('.modal-title').text('Crear cliente');
-        $('.bs-modal').modal('show');
-    });
-};
 
 function cliente_contacto_view_info(element) {
     $id = $(element).attr('contacto_id');
@@ -42,30 +33,6 @@ function cliente_contacto_view_info(element) {
     });
 }
 
-function cliente_new(e,element) {
-    form = $(element);
-    $('input[type=submit]', form).attr('disabled', 'disabled');
-
-    $.ajax({
-        type: "POST",
-        url:  "user/cliente/create",
-        data: form.serialize(),
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data) {
-            if (data.success == true)  {
-                $('.bs-modal').slideUp('slow' , function () {
-                    msg.success('Cliente Creado..!', 'Listo!');
-                    $('.bs-modal').modal('hide');
-                });
-            }
-            else {
-                msg.warning(data, 'Advertencia!');
-            }
-        }
-    });
-    e.preventDefault();
-    $('input[type=submit]', form).removeAttr('disabled');
-}
 
 function cliente_contacto_nuevo() {
  $.get( "user/cliente/contacto_nuevo", function( data ) {

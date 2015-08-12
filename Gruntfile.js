@@ -66,7 +66,7 @@ module.exports = function(grunt) {
                     './app/assets/css/theme/theme.color.css',
                     './app/assets/css/theme/datepicker.custom.css',
                     './app/assets/components/bower/datatables/media/css/jquery.dataTables.css',
-                    './app/assets/components/bower/toastr/toastr.css',
+                    './app/assets/css/toastr.css',
                     './app/assets/css/bootstrap-custom.css',
                     './app/assets/css/form.css',
                     './app/assets/css/table.css',
@@ -158,7 +158,7 @@ module.exports = function(grunt) {
                 './app/assets/components/bower/highcharts/highcharts.js',
                 './app/assets/components/bower/highcharts/highcharts-3d.js',
                 './app/assets/components/bower/highcharts/modules/exporting.js',
-                './app/assets/components/bower/toastr/toastr.js',
+                './app/assets/js/plugins/toastr.js',
                 './app/assets/js/plugins/autoNumeric.js',
                 './app/assets/js/plugins/jquery_confirm.js',
                 './app/assets/js/plugins/accounting.js',
@@ -208,6 +208,7 @@ module.exports = function(grunt) {
             proveedor: {
                 src: [
                     './app/assets/js/main.js',
+                    './app/assets/js/data-remote.js',
                     './app/assets/js/impresiones.js',
                     './app/assets/proveedor/js/*',
                   ],
@@ -216,6 +217,7 @@ module.exports = function(grunt) {
             cliente: {
                 src: [
                     './app/assets/js/main.js',
+                    './app/assets/js/data-remote.js',
                     './app/assets/js/impresiones.js',
                     './app/assets/js/ventas.js',
                     './app/assets/js/cliente.js',

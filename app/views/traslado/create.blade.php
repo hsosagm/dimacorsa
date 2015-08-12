@@ -40,20 +40,7 @@
 </div>
 
 {{ Form::close() }}
-<div class="contenedor_edicion_compras" style="display:none"></div>
 <div class="master-detail"> 
     <div class="master-detail-body"></div>
-</div>
-
-<!-- <script>
-    $("#tienda_id").autocomplete({
-        serviceUrl: 'admin/traslados/buscarTienda',
-        onSelect: function (q) {
-            $("input[name='tienda_id']").val(q.id);
-            $(".search-tienda-info").html('<strong>Direccion:  '+q.value+'</strong><br>');
-        }
-    });
-</script> -->
-
-                
+</div>         
             

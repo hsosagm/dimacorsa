@@ -38,14 +38,12 @@
 </div>
 
 <div class="body-detail">
-    
+    @include('traslado.detalle_body')
 </div>
 
 <div class="form-footer" >
     <div class="row">
         <div class="col-md-6">
-             <?php //$id_traslado = "'".Crypt::encrypt($id)."'";?>
-            {{-- {{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirTraslado(this,'.$id_traslado.');']);}} --}}
         </div>
         <div class="col-md-6" align="right">
 
