@@ -2,11 +2,6 @@
 
 class TrasladoController extends \BaseController {
 
-	public function buscarTienda()
-	{
-		return Autocomplete::get('tiendas', array('id', 'nombre','direccion','direccion'),'direccion');
-	}
-
 	public function create()
     {
     	if (Input::has('_token'))
@@ -32,7 +27,11 @@ class TrasladoController extends \BaseController {
             
         }
 
-        return View::make('traslado.create');
+        return Response::json(array(
+                'success' => true, 
+                'view' => View::make('traslado.create')->render(),
+                ));
+
     }
 
     public function detalle() 
@@ -73,7 +72,8 @@ class TrasladoController extends \BaseController {
 
                 $detalle = $this->consulta_detalle_traslado();
 
-                return Response::json(array('success' => true, 
+                return Response::json(array(
+                    'success' => true, 
                     'table' => View::make('traslado.detalle_body',compact('detalle'))->render() 
                     ));
             }
@@ -142,7 +142,7 @@ class TrasladoController extends \BaseController {
         $traslado = Traslado::find(Input::get('traslado_id'));
         $traslado->update(array('recibido' => 1, 'user_id_recibido' => Auth::user()->id));
 
-        return 'success';
+        return Response::json(array('success' => true));
     }
 
     public function eliminar_detalle()
@@ -177,7 +177,8 @@ class TrasladoController extends \BaseController {
         }
 
         Descarga::destroy(Input::get('traslado_id'));
-        return 'success';
+
+        return Response::json(array('success' => true));
     }
 
     public function finalizarTraslado()
@@ -189,7 +190,7 @@ class TrasladoController extends \BaseController {
         $traslado->total = $detalle->total;
         $traslado->save();
 
-        return 'success';
+        return Response::json(array('success' => true));
     }
 
     public function consulta_detalle_traslado () 
@@ -210,13 +211,16 @@ class TrasladoController extends \BaseController {
 
         $traslado = Traslado::find(Input::get('traslado_id'));
 
-        $user = User::find($traslado->user_id_recibido);
+        if (Input::get('opcion') == 1) 
+            $user = User::find($traslado->user_id_recibido);
+        else
+            $user = User::find($traslado->user_id);
 
-        $usuario_recibio = @$user->nombre . ' ' . @$user->apellido;
+        $usuario = @$user->nombre . ' ' . @$user->apellido;
 
         return Response::json(array(
             'success' => true,
-            'table'   => View::make('traslado.DT_detalle_traslado', compact('detalle','usuario_recibio'))->render()
+            'table'   => View::make('traslado.DT_detalle_traslado', compact('detalle','usuario'))->render()
         ));
     }
 

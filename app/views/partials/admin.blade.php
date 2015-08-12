@@ -28,30 +28,16 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li><a href="javascript:void(0);" id="f_soporte">Soporte</a></li>
-        <li><a href="javascript:void(0);" id="f_gastos">Gastos</a></li>
-        <li><a href="javascript:void(0);" id="f_egreso">Egresos</a></li>
-        <li><a href="javascript:void(0);" id="f_ingreso">Ingresos</a></li>
-        <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_soporte()">Soporte</a></li>
+        <li><a href="javascript:void(0);" onclick="f_gastos()">Gastos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_egreso()">Egresos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
         <li><a href="javascript:void(0);" onclick="inventario()">Ajuste de inventario</a></li>
         {{-- <li><a href="javascript:void(0);" onclick="imprimirFactura('EPSON-LQ-590')">imprimir Factura</a></li> --}}
     </ul>
 </li>
 <!-- Fin menu operaciones -->
-
-<!-- inicio menu Informacion -->
-{{-- <li class="submenu">
-    <a href="javascript:void(0);">
-        <span class="icon"><i class="fa fa-cube"></i></span>
-        <span class="text">Informacion</span>
-        <span class="plus"></span>
-    </a>
-    <ul>
-        <li id="proveedores"><a href="javascript:void(0);">Proveedores</a></li>
-        <li id="clientes_table"><a href="javascript:void(0);">Clientes</a></li>
-    </ul>
-</li> --}}
-<!-- Fin menu Informacion -->
 
 <!-- inicio menu Cierre -->
 <li class="submenu">

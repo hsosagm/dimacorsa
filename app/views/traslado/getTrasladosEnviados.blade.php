@@ -22,7 +22,7 @@
             {"sClass": "width10 icons center",                            "sTitle": "",           "aTargets": [6],
                 "orderable": false,
                 "mRender": function() {
-                    $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleTraslado(this)"></i>';
+                    $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleTraslado(this, 1)"></i>';
                     $v += '<a href="javascript:void(0);" title="Abrir traslado" onclick="abrirTraslado(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
                     $v += '<a href="javascript:void(0);" title="Imprimir Traslado" onclick="" class="fa fa-print font14" style="padding-left:5px">';
                     return $v;

@@ -11,14 +11,13 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li><a href="javascript:void(0);" id="VerTablaVentasDelDiaUsuario">Ventas del Dia</a></li>
-        <li><a href="javascript:void(0);" id="VerTablaSoporteDelDiaUsuario">Soporte del Dia</a></li>
-        <li><a href="javascript:void(0);" id="VerTablaEgresosDelDiaUsuario">Egresos del Dia</a></li>
-        <li><a href="javascript:void(0);" id="VerTablaIngresosDelDiaUsuario">Ingresos del Dia</a></li>
-        <li><a href="javascript:void(0);" id="VerTablaGastosDelDiaUsuario">Gastos del Dia</a></li>
-        <li><a href="javascript:void(0);" id="VerTablaAdelantosDelDiaUsuario">Adelantos del Dia</a></li>
+        <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this)">Ventas del Dia</a></li>
+        <li><a href="javascript:void(0);" onclick="VerTablaSoporteDelDiaUsuario(this)">Soporte del Dia</a></li>
+        <li><a href="javascript:void(0);" onclick="VerTablaEgresosDelDiaUsuario(this)">Egresos del Dia</a></li>
+        <li><a href="javascript:void(0);" onclick="VerTablaIngresosDelDiaUsuario(this)">Ingresos del Dia</a></li>
+        <li><a href="javascript:void(0);" onclick="VerTablaGastosDelDiaUsuario(this)">Gastos del Dia</a></li>
+        <li><a href="javascript:void(0);" onclick="VerTablaAdelantosDelDiaUsuario(this)">Adelantos del Dia</a></li>
         <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
-        <li><a href="javascript:void(0);" id="VerTablaClientesUsuario">Clientes </a></li>
     </ul>
 </li>
 <!--/ End navigation - clientes -->
@@ -31,11 +30,11 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li><a href="javascript:void(0);" id="f_soporte">Soporte</a></li>
-        <li><a href="javascript:void(0);" id="f_gastos">Gastos</a></li>
-        <li><a href="javascript:void(0);" id="f_egreso">Egresos</a></li>
-        <li><a href="javascript:void(0);" id="f_ingreso">Ingresos</a></li>
-        <li><a href="javascript:void(0);" id="f_adelanto">Adelantos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_soporte(this)">Soporte</a></li>
+        <li><a href="javascript:void(0);" onclick="f_gastos(this)">Gastos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
+        <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelantos</a></li>
     </ul>
 </li>
 <!-- end nativation operaciones -->

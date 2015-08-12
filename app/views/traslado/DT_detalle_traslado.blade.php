@@ -1,6 +1,6 @@
 <table class="DT_table_div" width="100%">
 	<tr>
-		<th colspan="4">Usuario que recibio: {{ (@$usuario_recibio == ' ')? "Indefinido":@$usuario_recibio; }}</th>
+		<th colspan="4">Usuario que {{(Input::get('opcion') == 1)? 'recibio:':'envio:';}} {{ (@$usuario == ' ')? "Indefinido":@$usuario; }}</th>
 	</tr>
     <tr>
         <td class="center" width="10%">Cantidad</td>

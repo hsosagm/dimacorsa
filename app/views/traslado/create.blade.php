@@ -5,7 +5,7 @@
         $tiendas["{$td->id}"] = $td->nombre .' '. $td->direccion; 
     }
  ?>
-{{ Form::open(array('data-remote-md', 'data-success' => 'Compra Generada' ,"onsubmit"=>" return false")) }}
+{{ Form::open(array('data-remote-md', 'data-success' => 'Traslado Generado' ,"onsubmit"=>" return false")) }}
 <div class="row info_head">
     <div class="col-md-6 master-detail-info">
         <table class="master-table">
