@@ -23,29 +23,11 @@ var vm = new Vue({
     		$('.montoAbono').val(0);
     	},
 
-    	clearPanelBody: function() {
-    		
-    	},
-
-		generate_dt: function(data) {
-			$('#main_container').hide();
-		    $('#main_container').html(data);
-		    $("#iSearch").unbind().val("").focus();
-		    $("#table_length").html("");
-
-		    setTimeout(function() {
-		        $('#example').dataTable();
-		        $('#example_length').prependTo("#table_length");
-		        $('#main_container').show();
-		        $('#iSearch').keyup(function() {
-		            $('#example').dataTable().fnFilter( $(this).val() );
-		        });
-		    }, 0);
-		},
 
     	setMonto: function() {
     		this.monto = $('.montoAbono').autoNumeric('get');
     	},
+
 
     	getInfoCliente: function(id) {
 	        $.ajax({
@@ -66,6 +48,7 @@ var vm = new Vue({
 	        });
     	},
 
+
     	updateMonto: function() {
 			vm.$nextTick(function() {
 				if (vm.PanelBody) {
@@ -79,12 +62,14 @@ var vm = new Vue({
 		    });
     	},
 
+
     	montoFocus: function() {
     		setTimeout(function() {
     			vm.monto = parseFloat(0);
     			$('.montoAbono').focus();
     		}, 100);
     	},
+
 
     	updateInfoCliente: function() {
 	        $.ajax({
@@ -104,9 +89,8 @@ var vm = new Vue({
 	        });
     	},
 
-        getFormAbonosVentas: function() {
-        	vm.clearPanelBody();
 
+        getFormAbonosVentas: function() {
 		    $.ajax({
 		        type: 'GET',
 		        url: "user/ventas/payments/formPayments",
@@ -122,6 +106,7 @@ var vm = new Vue({
 		        } 
 		    });
         },
+
 
         onSubmitForm: function(e) {
 
@@ -148,6 +133,7 @@ var vm = new Vue({
             });
         },
 
+
         eliminarAbono: function(e, abonos_ventas_id) {
         	$('input[type=button]', e.target).prop('disabled', true);
 
@@ -168,6 +154,7 @@ var vm = new Vue({
 		        }
 		    });
         },
+
 
         eliminarAbonoPorSeleccion: function(e, abonos_ventas_id) {
         	$('input[type=button]', e.target).prop('disabled', true);
@@ -190,6 +177,7 @@ var vm = new Vue({
 		    });
         },
 
+
         GetSalesForPaymentsBySelection: function() {
 		    $.ajax({
 		        type: 'GET',
@@ -206,6 +194,7 @@ var vm = new Vue({
 		    });
         },
 
+
         editCustomer: function() {
 	        $.ajax({
 	            type: "POST",
@@ -220,16 +209,17 @@ var vm = new Vue({
 	        });
         },
 
+
         salesByCustomer: function() {
             $.get( "/user/cliente/salesByCustomer", function( data ) {
 	            if (data.success == true)
 	            {
-	               vm.generate_dt(data.table);
-	               return compile();
+	            	return vm.proccesDataTable(data.table);
 	            }
 	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             });
         },
+
 
 		creditSalesByCustomer: function() {
 		    $.ajax({
@@ -238,18 +228,19 @@ var vm = new Vue({
 		        data: { cliente_id: vm.cliente_id },
 		        success: function (data) {
 		            if (data.success == true) {
-		                vm.generate_dt(data.table);
-		                return compile();
+		            	return vm.proccesDataTable(data.table);
 		            }
 		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
 		        }
 		    }); 
 		},
 
+
         imprimirAbonoVenta: function(e,id) {
         	 window.open('user/ventas/payments/imprimirAbonoVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
         },
         
+
         getHistorialAbonos: function() {
 		    $.ajax({
 		        type: 'GET',
@@ -258,25 +249,14 @@ var vm = new Vue({
 		        success: function (data) {
 		            if (data.success == true)
 		            {
-		            	vm.historialAbonos = data.data;
-		            	$('#main_container').hide();
-		                $('#main_container').html(data.table);
-		            	vm.$compile(vm.$el);
-
-					    setTimeout(function() {
-					        $('#example').dataTable();
-					        $('#example_length').prependTo("#table_length");
-					        $('#main_container').show();
-					        $('#iSearch').keyup(function() {
-					            $('#example').dataTable().fnFilter( $(this).val() );
-					        });
-					    }, 0);
-		            	return;
+		            	vm.historialPagos = data.data;
+		            	return vm.proccesDataTable(data.table);
 		            }
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
         },
+
 
         togleDetalleAbonos: function(e, av) {
 	        var that = av.active;
@@ -306,9 +286,11 @@ var vm = new Vue({
 			}
         },
 
+
         imprimirAbonoVenta: function(e ,av) {
 			window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+av.id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
     	},
+
 
         getHistorialPagos: function() {
         	this.PanelBody = false;
@@ -322,24 +304,13 @@ var vm = new Vue({
 		            if (data.success == true)
 		            {
 		            	vm.historialPagos = data.data;
-		            	$('#main_container').hide();
-		                $('#main_container').html(data.table);
-		            	vm.$compile(vm.$el);
-
-					    setTimeout(function() {
-					        $('#example').dataTable();
-					        $('#example_length').prependTo("#table_length");
-					        $('#main_container').show();
-					        $('#iSearch').keyup(function() {
-					            $('#example').dataTable().fnFilter( $(this).val() );
-					        });
-					    }, 0);
-		            	return;
+		            	return vm.proccesDataTable(data.table);
 		            }
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
         },
+
 
         chartVentasPorCliente: function() {
 		    $.ajax({
@@ -357,46 +328,59 @@ var vm = new Vue({
 		    }); 
         },
 
+
         closeMainContainer: function() {
         	$('#main_container').hide();
         },
+
 
 		clientes_table: function() {
 		    $.get( "user/cliente/index", function( data ) {
 	            if (data.success == true)
 	            {
-	               vm.generate_dt(data.table);
-	               $('#example').addClass('tableSelected');
-	               return compile();
+	                vm.proccesDataTable(data.table);
+	                return $('#example').addClass('tableSelected');
 	            }
 	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
 		    });
 		},
+
 
 		getVentasPedientesDePago: function() {
 		   $.ajax({
 		        type: 'GET',
 		        url: "user/ventas/getVentasPedientesDePago",
 		        success: function (data) {
-		            if (data.success == true) {
-
-		                $("#infoSaldosTotales").html(data.infoSaldosTotales);
-		                setTimeout(function() {
-		                    $('#example_length').prependTo("#table_length");
-		                    $('.dt-container').show();
-		                    $('#iSearch').keyup(function() {
-		                    $('#example').dataTable().fnFilter( $(this).val() );
-		                    })
-		                }, 300);
-		                return generate_dt_local(data.table);
+		            if (data.success == true)
+		            {
+		            	vm.historialPagos = data.data;
+		            	return vm.proccesDataTable(data.table);
 		            }
-		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+		            msg.warning(data, 'Advertencia!');
 		        }
 		    }); 
+		},
+
+
+		proccesDataTable: function(data) {
+	    	$('#main_container').hide();
+	        $('#main_container').html(data);
+	        $("#iSearch").unbind().val("").focus();
+	    	vm.$compile(vm.$el);
+
+		    setTimeout(function() {
+		        $('#example').dataTable();
+		        $('#example_length').prependTo("#table_length");
+		        $('#main_container').show();
+		        $('#iSearch').keyup(function() {
+		            $('#example').dataTable().fnFilter( $(this).val() );
+		        });
+		    }, 0);
 		}
 
     }
 });
+
 
 function compile() {
     vm.$nextTick(function() {
