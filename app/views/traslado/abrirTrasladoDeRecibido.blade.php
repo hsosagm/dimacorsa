@@ -4,37 +4,6 @@
 
 <div class="master-detail"> 
 	<div class="master-detail-body">
-		<div class="row">
-
-			<div class="col-md-6">
-				<table class="master-table">
-					<tr>
-						<td>
-							Codigo:  
-							<i class="fa fa-search btn-link theme-c" id="md-search"></i>
-						</td>
-						<td>Cantidad:</td>
-					</tr>
-					<tr>
-						<td>
-							<input type="text" id="search_producto"> 
-						</td>
-						<td>
-							<input class="input input_numeric" type="text" name="cantidad"> 
-						</td>
-					</tr>
-				</table>
-			</div>
-			<div class="col-md-6">
-				<div class="row master-precios">
-					<div class="col-md-4 precio-costo" style="text-align:left;"> </div>
-					<div class="col-md-3 existencia" style="text-align:right;"> </div>
-				</div>
-				<div class="row master-descripcion">
-					<div class="col-md-11 descripcion"> </div>
-				</div>
-			</div>
-		</div>
 		<div class="body-detail">
 			@if (count(@$detalle) > 0)
 

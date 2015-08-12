@@ -106,6 +106,44 @@ class TrasladoController extends \BaseController {
             ));
     }
 
+    public function abrirTrasladoDeRecibido()
+    {
+        $id = Input::get('traslado_id');
+
+        $traslado = Traslado::find($id);
+
+        if ($traslado->status == 1 && $traslado->recibido == 1) 
+            return  "El traslado no se puede abrir porque ya fue recibido";
+
+        $destino = Tienda::find($traslado->tienda_id_destino);
+
+        $detalle = $this->consulta_detalle_traslado();
+
+        return Response::json(array(
+            'success' => true, 
+            'form' => View::make('traslado.abrirTrasladoDeRecibido',compact("id", "traslado", "destino", "detalle"))->render(),
+            ));
+    }
+
+    public function recibirTraslado()
+    {
+        $detalle = DetalleTraslado::where('traslado_id', '=', Input::get('traslado_id'))->get();
+
+        foreach ($detalle as $dt) 
+        {
+             $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
+            ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
+
+            $existencia->existencia = $existencia->existencia + $dt->cantidad ;
+
+            $existencia->save();
+        }
+
+        $traslado = Traslado::find(Input::get('traslado_id'));
+        $traslado->update(array('recibido' => 1, 'user_id_recibido' => Auth::user()->id));
+
+        return 'success';
+    }
 
     public function eliminar_detalle()
     {
@@ -166,6 +204,22 @@ class TrasladoController extends \BaseController {
         return $query;      
     }
 
+    public function getDetalleTraslado()
+    {
+        $detalle = $this->consulta_detalle_traslado();
+
+        $traslado = Traslado::find(Input::get('traslado_id'));
+
+        $user = User::find($traslado->user_id_recibido);
+
+        $usuario_recibio = @$user->nombre . ' ' . @$user->apellido;
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('traslado.DT_detalle_traslado', compact('detalle','usuario_recibio'))->render()
+        ));
+    }
+
     public function getTrasladosEnviados()
     {
         return View::make('traslado.getTrasladosEnviados')->render();
@@ -204,7 +258,7 @@ class TrasladoController extends \BaseController {
 
         $columns = array(
             "traslados.created_at as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "IFNULL((select CONCAT_WS(' ', nombre, apellido) as usuario from users where id = user_id_recibido),'Indefinido') as usuario",
             "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda",
             "nota",
             "total",
@@ -213,9 +267,9 @@ class TrasladoController extends \BaseController {
         $Searchable = array("traslados.created_at","users.nombre","users.apellido","tiendas.nombre","nota","traslados.status");
 
         $Join  = " JOIN tiendas ON (tiendas.id = tienda_id )";
-        $Join .= " JOIN users ON (users.id = traslados.user_id )";
         
-        $Where = " traslados.tienda_id_destino = ".Auth::user()->tienda_id;
+        $Where  = " traslados.tienda_id_destino = ".Auth::user()->tienda_id;
+        $Where .= " AND traslados.status = 1";
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
     }

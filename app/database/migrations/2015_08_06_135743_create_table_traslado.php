@@ -13,6 +13,7 @@ class CreateTableTraslado extends Migration {
             $table->integer('tienda_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('tienda_id_destino')->unsigned();
+            $table->integer('user_id_recibido')->nullable();
             $table->decimal('total')->default(0.00);
             $table->boolean('recibido')->default(0);
             $table->boolean('status')->default(0);
