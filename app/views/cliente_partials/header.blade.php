@@ -30,14 +30,14 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown navbar-message">
+                <li v-on="click: clientes_table" class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Clientes" data-toggle="tooltip">
-                        <i class="fa fa-list-alt" id="clientes_table"></i>
+                        <i class="fa fa-list-alt"></i>
                     </a>
                 </li>
-                <li class="dropdown navbar-message">
+                <li v-on="click: getVentasPedientesDePago" class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Ventas Pendientes" data-toggle="tooltip">
-                        <i class="fa fa-money" onclick="getVentasPedientesDePago();"></i>
+                        <i class="fa fa-money"></i>
                     </a>
                 </li>
                   <li class="dropdown navbar-profile" style="margin-right: 25px;">

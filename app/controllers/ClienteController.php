@@ -4,7 +4,10 @@ class ClienteController extends \BaseController {
 
     public function index()
     { 
-        return View::make('cliente.index');
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('cliente.index')->render()
+        ));
     }
 
     public function search()
@@ -70,7 +73,10 @@ class ClienteController extends \BaseController {
                 return $cliente->errors();
             }
 
-            return 'success';
+            return Response::json(array(
+                'success' => true,
+                'info'    =>  $this->getInfo( $cliente->get_id() ),
+            ));
         }
 
         return View::make('cliente.create');
