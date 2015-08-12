@@ -43,6 +43,8 @@
         {
             Route::get('chartVentasPorUsuario', 'ChartController@chartVentasPorUsuario');
             Route::get('chartVentasPorCliente', 'ChartController@chartVentasPorCliente');
+            Route::get('chartComparativaPorMesPorCliente', 'ChartController@chartComparativaPorMesPorCliente');
+            Route::get('comparativaPorMesPorClientePrevOrNext', 'ChartController@comparativaPorMesPorClientePrevOrNext');
             Route::get('ventasMensualesPorAnoPorCliente', 'App\graphics\Ventas@ventasMensualesPorAnoPorCliente');
         });
 

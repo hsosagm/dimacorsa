@@ -10,7 +10,7 @@ class ChartController extends \BaseController {
         {
 			$gastos = DB::table('gastos')
 	        ->join('detalle_gastos', 'gastos.id', '=', 'detalle_gastos.gasto_id')
-	        ->where('tienda_id', 1)
+	        ->where('tienda_id', Auth::user()->tienda_id)
 	        ->where(DB::raw('MONTH(gastos.created_at)'), '=', $dt->monthNum($i) )
 	        ->where(DB::raw('YEAR(gastos.created_at)'), '=', $dt->year($i) )
 	        ->select(DB::raw('sum(monto) as total'))
@@ -33,7 +33,7 @@ class ChartController extends \BaseController {
         {
 			$soporte = DB::table('soporte')
 	        ->join('detalle_soporte', 'soporte.id', '=', 'detalle_soporte.soporte_id')
-	        ->where('tienda_id', 1)
+	        ->where('tienda_id', Auth::user()->tienda_id)
 	        ->where(DB::raw('MONTH(soporte.created_at)'), '=', $dt->monthNum($i) )
 	        ->where(DB::raw('YEAR(soporte.created_at)'), '=', $dt->year($i) )
 	        ->select(DB::raw('sum(monto) as total'))
@@ -60,7 +60,7 @@ class ChartController extends \BaseController {
         {
 			$soporte = DB::table('soporte')
 	        ->join('detalle_soporte', 'soporte.id', '=', 'detalle_soporte.soporte_id')
-	        ->where('tienda_id', 1)
+	        ->where('tienda_id', Auth::user()->tienda_id)
 	        ->where(DB::raw('MONTH(soporte.created_at)'), '=', $dt->monthNum($i) )
 	        ->where(DB::raw('YEAR(soporte.created_at)'), '=', $dt->year($i) )
 	        ->select(DB::raw('sum(monto) as total'))
@@ -150,7 +150,7 @@ class ChartController extends \BaseController {
 
     public function comparativaMensual()
     {
-        $data      = json_encode( $this->comparativeMensualVentas(date('n')) );
+        $data      = json_encode( $this->comparativaMensualVentas(date('n')) );
         $ganancias = json_encode( $this->comparativaMensualGanancias(date('n')) );
 
         return Response::json(array(
@@ -159,7 +159,7 @@ class ChartController extends \BaseController {
         ));
     }
 
-
+    // Regresa el resultado comparativo del mes anterior o siguiente
     function getComparativaMensualPorMes()
     {
         if ( Input::get('method') == 'next') {
@@ -180,17 +180,17 @@ class ChartController extends \BaseController {
 
         return Response::json(array(
             'success'   => true,
-            'ventas'    => $this->comparativeMensualVentas($mes),
+            'ventas'    => $this->comparativaMensualVentas($mes),
             'ganancias' => $this->comparativaMensualGanancias($mes)
         ));
     }
 
 
-    function comparativeMensualVentas($mes)
+    function comparativaMensualVentas($mes)
     {
         $ventas = DB::table('ventas')
         ->select(DB::raw("sum(total) as total, MONTH(created_at) as mes, YEAR(ventas.created_at) as year"))
-        ->where('ventas.tienda_id', 1)
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
         ->where(DB::raw('total'), '>', 0 )
         ->where( DB::raw('MONTH(created_at)'), '=', $mes )
         ->groupBy('year')
@@ -209,6 +209,10 @@ class ChartController extends \BaseController {
             $i++;
         }
 
+        if (!$ventas) {
+            $data = 0;
+        }
+
         return $data;
     }
 
@@ -225,6 +229,10 @@ class ChartController extends \BaseController {
         foreach ($d_ventas as $dv) {
             $ganancias[$i]['y'] = (float) $dv->ganancias;
             $i++;
+        }
+
+        if (!$d_ventas) {
+            $ganancias = 0;
         }
 
         return $ganancias;
@@ -251,11 +259,93 @@ class ChartController extends \BaseController {
             $i++;
         }
 
+        if (!$ventas) {
+            $data = 0;
+        }
+
         $data = json_encode($data);
 
         return Response::json(array(
             'success' => true,
             'view'    => View::make('chart.ventas.ventasPorCliente', compact('data'))->render()
+        ));
+    }
+
+    public function chartComparativaPorMesPorCliente()
+    {
+        $ventas = DB::table('ventas')
+        ->select(DB::raw("sum(total) as total, MONTH(created_at) as mes, YEAR(ventas.created_at) as year"))
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('total'), '>', 0 )
+        ->where( DB::raw('MONTH(created_at)'), '=', date('n') )
+        ->where( 'cliente_id', Input::get('cliente_id'))
+        ->groupBy('year')
+        ->get();
+
+        $dt = App::make('Fecha');
+        $i = 0;
+        foreach ($ventas as $v) {
+            $data[$i]['name'] = $dt->monthsNames($v->mes)." "."de"." ".$v->year;
+            $data[$i]['y'] = (float) $v->total;
+            $i++;
+        }
+
+        if (!$ventas) {
+            $data = 0;
+        }
+
+        $data = json_encode($data);
+
+        return Response::json(array(
+            'success' => true,
+            'view'    => View::make('chart.ventas.chartComparativaPorMesPorCliente', compact('data'))->render()
+        ));
+    }
+
+
+    // Regresa el resultado comparativo del mes anterior o siguiente
+    function comparativaPorMesPorClientePrevOrNext()
+    {
+        if ( Input::get('method') == 'next') {
+            if (Input::get('mes') == 12) {
+                $mes = 1;
+            } else {
+                $mes = Input::get('mes') + 1;
+            }
+        }
+
+        elseif ( Input::get('method') == 'prev') {
+            if (Input::get('mes') == 1) {
+                $mes = 12;
+            } else {
+                $mes = Input::get('mes') - 1;
+            }
+        }
+
+        $ventas = DB::table('ventas')
+        ->select(DB::raw("sum(total) as total, MONTH(created_at) as mes, YEAR(ventas.created_at) as year"))
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('total'), '>', 0 )
+        ->where( DB::raw('MONTH(created_at)'), '=', $mes )
+        ->where( 'cliente_id', Input::get('cliente_id'))
+        ->groupBy('year')
+        ->get();
+
+        $dt = App::make('Fecha');
+        $i = 0;
+        foreach ($ventas as $v) {
+            $data[$i]['name'] = $dt->monthsNames($v->mes)." "."de"." ".$v->year;
+            $data[$i]['y'] = (float) $v->total;
+            $i++;
+        }
+
+        if (!$ventas) {
+            $data = 0;
+        }
+
+        return Response::json(array(
+            'success'   => true,
+            'ventas'    => $data
         ));
     }
 

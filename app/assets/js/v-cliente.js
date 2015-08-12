@@ -334,7 +334,6 @@ var vm = new Vue({
 			$('#main_container').hide();
 		},
 
-
 		clientes_table: function() {
 			$.get( "user/cliente/index", function( data ) {
 				if (data.success == true)
