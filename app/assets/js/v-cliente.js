@@ -329,6 +329,23 @@ var vm = new Vue({
         },
 
 
+        chartComparativaPorMesPorCliente: function() {
+		    $.ajax({
+		        type: "GET",
+		        url: 'user/chart/chartComparativaPorMesPorCliente',
+		        data: { cliente_id: vm.cliente_id },
+		    }).done(function(data) {
+		        if (data.success == true)
+		        {
+		            $('#main_container').show();
+		            $('#main_container').html(data.view);
+		            return compile();
+		        }
+		        msg.warning(data, 'Advertencia!');
+		    }); 
+        },
+
+
         closeMainContainer: function() {
         	$('#main_container').hide();
         },

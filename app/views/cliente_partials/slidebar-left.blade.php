@@ -55,7 +55,15 @@
                 <span class="icon"><i class="fa fa-file-o"></i></span>
                 <span class="text">Grafico de ventas</span>
             </a>
-        </li>   
+        </li>
+
+        <li v-show="cliente_id" class="submenu">
+            <a v-on="click: chartComparativaPorMesPorCliente" href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Comparativa por mes</span>
+            </a>
+        </li>
+
     </ul>
 
     <div class="sidebar-footer hidden-xs hidden-sm hidden-md">
