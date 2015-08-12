@@ -21,8 +21,8 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function()
-    {
+    $(document).ready(function() {
+
         $('#example').dataTable({
             "aoColumnDefs": [
                 {"sClass": "widthM",              "sTitle": "Nombre",       "aTargets": [0]},
@@ -43,6 +43,7 @@
             "bServerSide": true,
             "sAjaxSource": "user/cliente/clientes"
         });
+
     });
 
 </script>
