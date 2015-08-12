@@ -187,7 +187,6 @@ class ClienteController extends \BaseController {
         $contactos = ClienteContacto::where('cliente_id','=',Input::get('id'))->get();
 
         return View::make('cliente.edit',compact('cliente' , 'contactos'));
-
     }
 
     public function contacto_info()

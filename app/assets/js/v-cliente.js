@@ -210,15 +210,11 @@ var vm = new Vue({
 	        $.ajax({
 	            type: "POST",
 	            url: "user/cliente/edit",
-	            data: {id: vm.cliente_id },
-	            contentType: 'application/x-www-form-urlencoded',
+	            data: { id: vm.cliente_id },
 	            success: function (data) {
-	                $('.modal-body').html(data);
-	                $('.modal-title').text('Editar cliente');
-	                $('.bs-modal').modal('show');
-	            },
-	            error: function (request, status, error) {
-	                alert(request.responseText);
+	                $('#main_container').hide();
+	                $('#main_container').html(data);
+	                $('#main_container').show();
 	            }
 	        });
         },
