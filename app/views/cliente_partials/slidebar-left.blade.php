@@ -32,7 +32,7 @@
             </a>
             <ul>
                 <li><a href="javascript:void(0);" v-on="click: salesByCustomer">Historial de Ventas</a></li>
-                <li><a href="javascript:void(0);" onclick="creditSalesByCustomer(this);">Pendientes de pago</a></li>
+                <li><a href="javascript:void(0);" v-on="click: creditSalesByCustomer">Pendientes de pago</a></li>
                 <li><a href="javascript:void(0);" v-on="click: getHistorialPagos">Historial de pagos</a></li>
                 <li><a href="javascript:void(0);" v-on="click: getHistorialAbonos">Historial de abonos</a></li>
             </ul>
@@ -51,15 +51,10 @@
         </li>
 
         <li v-show="cliente_id" class="submenu">
-            <a href="javascript:void(0);">
+            <a v-on="click: chartVentasPorCliente" href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Graficos</span>
-                <span class="arrow"></span>
+                <span class="text">Grafico de ventas</span>
             </a>
-            <ul>
-                <li><a href="javascript:void(0);"> Ventas anuales</a></li>
-                <li><a href="javascript:void(0);"> Ventas Mensuales</a></li>
-            </ul>
         </li>   
     </ul>
 

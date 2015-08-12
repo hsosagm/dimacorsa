@@ -101,7 +101,7 @@ class ChartController extends \BaseController {
 
         $d_ventas = DB::table('detalle_ventas')
         ->select(DB::raw("sum(cantidad * ganancias) as ganancias, YEAR(detalle_ventas.created_at) as year"))
-        ->where('ventas.tienda_id', 1)
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
         ->join('ventas', 'detalle_ventas.venta_id', '=', 'ventas.id')
         ->groupBy('year')
         ->get();
@@ -146,4 +146,117 @@ class ChartController extends \BaseController {
 			'view'    => View::make('chart.ventasPorUsuario', compact('totales', 'usuarios'))->render()
         ));
 	}
+
+
+    public function comparativaMensual()
+    {
+        $data      = json_encode( $this->comparativeMensualVentas(date('n')) );
+        $ganancias = json_encode( $this->comparativaMensualGanancias(date('n')) );
+
+        return Response::json(array(
+            'success' => true,
+            'view'    => View::make('chart.ventas.comparativaMensual', compact('data', 'ganancias'))->render()
+        ));
+    }
+
+
+    function getComparativaMensualPorMes()
+    {
+        if ( Input::get('method') == 'next') {
+            if (Input::get('mes') == 12) {
+                $mes = 1;
+            } else {
+                $mes = Input::get('mes') + 1;
+            }
+        }
+
+        elseif ( Input::get('method') == 'prev') {
+            if (Input::get('mes') == 1) {
+                $mes = 12;
+            } else {
+                $mes = Input::get('mes') - 1;
+            }
+        }
+
+        return Response::json(array(
+            'success'   => true,
+            'ventas'    => $this->comparativeMensualVentas($mes),
+            'ganancias' => $this->comparativaMensualGanancias($mes)
+        ));
+    }
+
+
+    function comparativeMensualVentas($mes)
+    {
+        $ventas = DB::table('ventas')
+        ->select(DB::raw("sum(total) as total, MONTH(created_at) as mes, YEAR(ventas.created_at) as year"))
+        ->where('ventas.tienda_id', 1)
+        ->where(DB::raw('total'), '>', 0 )
+        ->where( DB::raw('MONTH(created_at)'), '=', $mes )
+        ->groupBy('year')
+        ->get();
+
+        $dt = App::make('Fecha');
+        $i = 0;
+        foreach ($ventas as $v) {
+            $data[$i]['name'] = $dt->monthsNames($v->mes)." "."de"." ".$v->year;
+            $data[$i]['y'] = (float) $v->total;
+            $data[$i]['url'] = 'owner/chart/ventas/ventasDiariasPorMes';
+            $data[$i]['variables'] = array( "year" => $v->year, "month" => $v->mes);
+            $data[$i]['tooltip'] =
+            "<div class='toltip'><a href='javascript:void(0);' style='color:#1C6667' onclick='cierreDelMes( $v->year, $v->mes )'>Ver cierre del mes</a></div>";
+            $data[$i]['drilldown'] = true;
+            $i++;
+        }
+
+        return $data;
+    }
+
+
+    function comparativaMensualGanancias($mes)
+    {
+        $d_ventas = DB::table('detalle_ventas')
+        ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(created_at) as mes, YEAR(created_at) as year"))
+        ->where( DB::raw('MONTH(created_at)'), '=', $mes )
+        ->groupBy('year')
+        ->get();
+
+        $i = 0;
+        foreach ($d_ventas as $dv) {
+            $ganancias[$i]['y'] = (float) $dv->ganancias;
+            $i++;
+        }
+
+        return $ganancias;
+    }
+
+
+    function chartVentasPorCliente()
+    {
+        $ventas = DB::table('ventas')
+        ->where('cliente_id', Input::get('cliente_id'))
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("sum(total) as total, YEAR(ventas.created_at) as year"))
+        ->groupBy('year')
+        ->get();
+
+        $i = 0;
+        foreach ($ventas as $v) {
+            $data[$i]['name'] = $v->year;
+            $data[$i]['y'] = (float) $v->total;
+            $data[$i]['year'] = $v->year;
+            $data[$i]['url'] = 'user/chart/ventasMensualesPorAnoPorCliente';
+            $data[$i]['variables'] = array( "year" => $v->year, 'cliente_id' => Input::get('cliente_id'));
+            $data[$i]['drilldown'] = true;
+            $i++;
+        }
+
+        $data = json_encode($data);
+
+        return Response::json(array(
+            'success' => true,
+            'view'    => View::make('chart.ventas.ventasPorCliente', compact('data'))->render()
+        ));
+    }
+
 }

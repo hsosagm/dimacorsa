@@ -42,6 +42,8 @@
         Route::group(array('prefix' => 'chart'), function()
         {
             Route::get('chartVentasPorUsuario', 'ChartController@chartVentasPorUsuario');
+            Route::get('chartVentasPorCliente', 'ChartController@chartVentasPorCliente');
+            Route::get('ventasMensualesPorAnoPorCliente', 'App\graphics\Ventas@ventasMensualesPorAnoPorCliente');
         });
 
         Route::group(array('prefix' => 'tema'), function()
@@ -93,7 +95,6 @@
             Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
             Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
             Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
-            Route::get('DtHistorialPagos'      , 'ClienteController@DtHistorialPagos');
             Route::get('clientes'              , 'ClienteController@clientes'    );
         });
 
@@ -472,6 +473,8 @@
             Route::get('gastos' , 'ChartController@gastos' );
             Route::get('soporte', 'ChartController@soporte');
             Route::get('ventas' , 'ChartController@ventas' );
+            Route::get('comparativaMensual' , 'ChartController@comparativaMensual' );
+            Route::get('getComparativaMensualPorMes' , 'ChartController@getComparativaMensualPorMes' );
 
             Route::group(array('prefix' => 'ventas'), function()
             {
@@ -503,19 +506,7 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
-    //return json_encode(Tienda::select('id','nombre','direccion')->get());
-    /*$tiendas = array();
 
-    $tienda = Tienda::select('id','nombre','direccion')->get();
-
-    foreach ($tienda as $td) {
-        $tiendas["{$td->id}"] = $td->nombre .' '. $td->direccion; 
-    }
-
-    return json_encode($tiendas);*/
-
-    return Tienda::where('id','!=', Auth::user()->tienda_id )
-                     ->lists('nombre', 'id');
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

@@ -1,40 +1,38 @@
+<div class="rounded shadow">
+    <div class="panel_heading">
+                <div id="table_length" class="pull-left"></div>
+                <div class="DTTT btn-group"></div>
+        <div class="pull-right">
+            <button v-on="click: closeMainContainer" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
 
-<script>
-$(document).ready(function() {
+    <div class="no-padding table">
+        <table id="example" class="display" width="100%" cellspacing="0">
+            
+            <thead>
+                <tr>
+                    <th>Tienda</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>M Pago</th>
+                    <th>Venta No.</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
 
-    proccess_table('');
+            <tbody>
+                <tr v-repeat="av: historialPagos" id="@{{av.id}}">
+                    <td width="15%"> @{{ av.tienda }} </td>
+                    <td width="25%"> @{{ av.usuario }} </td>
+                    <td width="15%"> @{{ av.fecha }} </td>
+                    <td width="15%"> @{{ av.metodoPago }} </td>
+                    <td width="15%" class="right"> @{{ av.factura }} </td>
+                    <td width="15%" class="right"> @{{ av.monto | currency ' ' }} </td>
+                </tr>
+            </tbody>
 
-    $('#example').dataTable({
-
-        "language": {
-            "lengthMenu": "Mostrar _MENU_ archivos por pagina",
-            "zeroRecords": "No se encontro ningun archivo",
-            "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay archivos disponibles",
-            "infoFiltered": "- ( filtrado de _MAX_ archivos )"
-        },
-        
-        "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",                       "sTitle": "Tienda",      "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthM",                       "sTitle": "Usuario",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",                       "sTitle": "Fecha",       "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthM",                       "sTitle": "Factura",     "aTargets": [3]},
-            {"sClass": "mod_codigo hover widthS",                       "sTitle": "Metodo Pago", "aTargets": [4]},
-            {"sClass": "mod_codigo hover right widthS formato_precio",  "sTitle": "Monto",       "aTargets": [5]},
-        ],
-
-        "fnDrawCallback": function( oSettings ) {
-            $( ".DTTT" ).html("");
-            $("td[class*='formato_precio']").each(function() {
-                $(this).html(formato_precio($(this).html()));
-            });
-        },
-
-        "bJQueryUI": false,
-        "bProcessing": true,
-        "bServerSide": true,
-        "sAjaxSource": "user/cliente/DtHistorialPagos?cliente_id={{Input::get('cliente_id')}}"
-    });
-
-});
-</script>
+        </table>
+    </div>
+</div>

@@ -6,6 +6,20 @@ class Ventas extends \BaseController
 {
     public function ventasMensualesPorAno()
     {
+        $d_ventas = DB::table('detalle_ventas')
+        ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(detalle_ventas.created_at) as mes"))
+        ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('YEAR(ventas.created_at)'), Input::get('year') )
+        ->join('ventas', 'detalle_ventas.venta_id', '=', 'ventas.id')
+        ->groupBy('mes')
+        ->get();
+
+        $i = 0;
+        foreach ($d_ventas as $dv) {
+            $ganancias[$i]['y'] = (float) $dv->ganancias;
+            $i++;
+        }
+
         $ventas = DB::table('ventas')
         ->where('ventas.tienda_id', Auth::user()->tienda_id)
         ->where(DB::raw('YEAR(ventas.created_at)'), Input::get('year') )
@@ -18,11 +32,13 @@ class Ventas extends \BaseController
         $i = 0;
         
         foreach ($ventas as $v) {
-            $data[$i]['name'] = $dt->monthsNames($v->mes);
+            $g = \f_num::get($ganancias[$i]['y']);
+            $data[$i]['name'] = $dt->monthsNames($v->mes)." "."de"." ".$v->year;
             $data[$i]['y'] = (float) $v->total;
             $data[$i]['url'] = 'owner/chart/ventas/ventasDiariasPorMes';
             $data[$i]['variables'] = array( "year" => $v->year, "month" => $v->mes);
-            $data[$i]['tooltip'] = "<a href='javascript:void(0);' onclick='cierreDelMes( $v->year, $v->mes )'>Cierre del mes";
+            $data[$i]['tooltip'] =
+            "<div class='toltip'><a href='javascript:void(0);' style='color:#1C6667' onclick='cierreDelMes( $v->year, $v->mes )'>Ver cierre del mes</a></div><div class='toltip'></div><i>Ganancias $g</i>";
             $data[$i]['drilldown'] = true;
             $i++;
         }
@@ -56,7 +72,7 @@ class Ventas extends \BaseController
             $object[$count]['fecha'] = $q->dia;
             $object[$count]['dia'] = $dt->Weekday($q->dia);
             $dia = "'".$q->dia."'";
-            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia';
+            $object[$count]['tooltip'] = '<a href="javascript:void(0);" onclick="cierreDelDia('.$dia.')">Cierre del dia</a>';
             $object[$count]['variables'] = array( "fecha" => $q->dia);
             $object[$count]['url'] = 'owner/chart/ventas/ventasDelDiaPorHora';
             $object[$count]['drilldown'] = true;
@@ -72,11 +88,6 @@ class Ventas extends \BaseController
 
     public function ventasDelDiaPorHora()
     {
-        
-        // $dt = Carbon::now();
-        // $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
-        // $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
-        
         $query = DB::table('ventas')
         ->select(array(DB::Raw('HOUR(ventas.created_at) as hora, DATE(ventas.created_at) as dia, sum(total) as total')))
         ->where(DB::raw('DATE(ventas.created_at)'), Input::get('fecha'))
@@ -98,6 +109,30 @@ class Ventas extends \BaseController
         $data['data'] = $object;
         $data['title'] = 'Ventas por hora';
         $data['name'] = 'Ventas por hora';
+
+        return json_encode($data);
+    }
+
+    public function ventasMensualesPorAnoPorCliente()
+    {
+        $ventas = DB::table('ventas')
+        ->where('cliente_id', Input::get('cliente_id'))
+        ->where(DB::raw('YEAR(ventas.created_at)'), Input::get('year') )
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes,  YEAR(ventas.created_at) as year"))
+        ->groupBy('mes')
+        ->get();
+
+        $dt = App::make('Fecha');
+        
+        for ($i=0; $i < 12; $i++) { 
+            $data[$i]['name'] = $dt->monthsNames($i+1);
+            $data[$i]['y'] = (float) @$ventas[$i]->total;
+        }
+
+        $data['data'] = $data;
+        $data['title'] = 'Ventas de';
+        $data['name'] = 'ventas por mes';
 
         return json_encode($data);
     }
