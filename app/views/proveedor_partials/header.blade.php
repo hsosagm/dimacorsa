@@ -1,22 +1,18 @@
 <header id="header">
-
     <div class="header-left">
         <div class="navbar-minimize-mobile left">
             <i class="fa fa-bars"></i>
         </div>
-        
         <div class="navbar-header">
             <a class="navbar-brand" href="/">
                 <img class="logo" src="img/logo/logo_empresa.png" alt="brand logo"/>
             </a>
         </div>
-
         <div class="navbar-minimize-mobile right">
             <i class="fa fa-cog"></i>
         </div>
         <div class="clearfix"></div>
     </div>
-
     <div class="header-right">
         <div class="navbar navbar-toolbar navbar-dark">
             <ul class="nav navbar-nav navbar-left">
@@ -25,7 +21,6 @@
                         <i class="fa fa-bars"></i>
                     </a>
                 </li>
-
                 <li class="navbar-search">
                     <a href="javascript:void(0)" class="trigger-search"><i class="fa fa-search"></i></a>
                     <form class="navbar-form" onsubmit=" return false">
@@ -35,20 +30,17 @@
                     </form>
                 </li>
             </ul> 
-          
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Proveedores" data-toggle="tooltip">
                         <i class="fa fa-list-alt" id="proveedores"></i>
                     </a>
                 </li>
-
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compras Pendientes" data-toggle="tooltip">
                         <i class="fa fa-money" onclick="getComprasPedientesDePago();"></i>
                     </a>
                 </li>
-
                  <li class="dropdown navbar-profile" style="margin-right: 25px;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
@@ -69,12 +61,7 @@
                         <li><a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>
                 </li>
-
-                <!-- <li class="navbar-setting pull-right">
-                    <a href="javascript:void(0);"><i class="fa fa-cog"></i></a>
-                </li> -->
             </ul>
         </div>
     </div>
-
 </header>
