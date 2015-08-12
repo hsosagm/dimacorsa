@@ -169,6 +169,8 @@ var app = new Vue({
                 data: form.serialize(),
                 success: function (data) {
 
+                    console.log(data);
+
                     if (data.success == true) {
                         app.cliente = data.info;
                         app.showNewCustomerForm = false;

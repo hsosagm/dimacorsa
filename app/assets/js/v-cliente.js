@@ -215,6 +215,7 @@ var vm = new Vue({
 	                $('#main_container').hide();
 	                $('#main_container').html(data);
 	                $('#main_container').show();
+	                return compile();
 	            }
 	        });
         },
@@ -358,7 +359,41 @@ var vm = new Vue({
 
         closeMainContainer: function() {
         	$('#main_container').hide();
-        }
+        },
+
+		clientes_table: function() {
+		    $.get( "user/cliente/index", function( data ) {
+	            if (data.success == true)
+	            {
+	               vm.generate_dt(data.table);
+	               $('#example').addClass('tableSelected');
+	               return compile();
+	            }
+	            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+		    });
+		},
+
+		getVentasPedientesDePago: function() {
+		   $.ajax({
+		        type: 'GET',
+		        url: "user/ventas/getVentasPedientesDePago",
+		        success: function (data) {
+		            if (data.success == true) {
+
+		                $("#infoSaldosTotales").html(data.infoSaldosTotales);
+		                setTimeout(function() {
+		                    $('#example_length').prependTo("#table_length");
+		                    $('.dt-container').show();
+		                    $('#iSearch').keyup(function() {
+		                    $('#example').dataTable().fnFilter( $(this).val() );
+		                    })
+		                }, 300);
+		                return generate_dt_local(data.table);
+		            }
+		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+		        }
+		    }); 
+		}
 
     }
 });

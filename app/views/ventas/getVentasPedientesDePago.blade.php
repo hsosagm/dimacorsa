@@ -1,6 +1,5 @@
 
 <table id="example" class="display" width="100%" cellspacing="0">
-
     <thead>
         <tr id="hhh">
             <th>Cliente</th>
@@ -13,9 +12,7 @@
     </thead>
 
     <tbody>
-
         @foreach($ventas as $q)
-       
             <tr class="" id="{{$q->id}}">
                 <td class="" width="20%"> {{ $q->cliente }} </td>
                 <td class="" width="30%"> {{ $q->direccion }} </td>
@@ -26,9 +23,7 @@
                     <i id="{{$q->id}}" class="fa fa-plus-square btn-link theme-c" onClick="VentasPendientesPorCliente(this,{{$q->id}})" ></i>
                 </td>
             </tr>
-
         @endforeach
-
     </tbody>
 
 </table>

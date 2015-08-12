@@ -1,5 +1,4 @@
 $(function() {
-    $(document).on('click', '#clientes_table',              function() { clientes_table();                 });
     $(document).on('click', '#cliente_contacto_view_info',  function() { cliente_contacto_view_info(this); });
     $(document).on('click', '#cliente_contacto_view',       function() { cliente_contacto_view(this);      });
     $(document).on('click', '#cliente_contacto_nuevo',      function() { cliente_contacto_nuevo();         });
@@ -9,14 +8,6 @@ $(function() {
     $(document).on('submit','form[data-remote-cliente-e]',  function(e){ cliente_update(e,this);           });
 });
 
-
-function clientes_table() {
-    $.get( "user/cliente/index", function( data ) {
-        makeTable(data, 'user/cliente/', 'Clientes');
-        $('#example').addClass('tableSelected');
-    });
-
-}; 
 
 function cliente_contacto_view_info(element) {
     $id = $(element).attr('contacto_id');

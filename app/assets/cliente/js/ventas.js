@@ -1,25 +1,3 @@
-function getVentasPedientesDePago()
-{
-   $.ajax({
-        type: 'GET',
-        url: "user/ventas/getVentasPedientesDePago",
-        success: function (data) {
-            if (data.success == true) {
-
-                $("#infoSaldosTotales").html(data.infoSaldosTotales);
-                setTimeout(function() {
-                    $('#example_length').prependTo("#table_length");
-                    $('.dt-container').show();
-                    $('#iSearch').keyup(function() {
-                    $('#example').dataTable().fnFilter( $(this).val() );
-                    })
-                }, 300);
-                return generate_dt_local(data.table);
-            }
-            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-        }
-    }); 
-}
 
 global_cliente_id = 0;
 function VentasPendientesPorCliente(e, id)
