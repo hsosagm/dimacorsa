@@ -23,7 +23,7 @@
 					<input type="text" id="search_producto"> 
 				</td>
 				<td><input type="text" name="cantidad" class="input input_numeric" > </td>
-				<td><input type="text" id="precio-costo" name="precio" class="input_numeric master-serials"> </td>
+				<td><input type="text" name="precio" class="input_numeric master-serials"> </td>
 				<td>
 					<button type="button" class="btn btn-default btn-lg" id="OpenModalPurchaseItemSerials">
 						<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
