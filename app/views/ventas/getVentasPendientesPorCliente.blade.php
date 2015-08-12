@@ -14,7 +14,7 @@
 				<td width="10%">{{$dt->total }}</td>
 				<td width="10%" class="right">{{$dt->saldo}}</td>
 				<td width="5%" class="right"> 
-					<i class="fa fa-plus-square btn-link theme-c" onclick="getVentaConDetalle(this, {{$dt->id}});"></i>
+					<i class="fa fa-plus-square btn-link theme-c" v-on="click: getVentaConDetalle($event, {{$dt->id}});"></i>
 				</td>
 			</tr>
 		@endforeach
@@ -29,3 +29,4 @@
 	</tfoot>
 </table>
 
+ 
