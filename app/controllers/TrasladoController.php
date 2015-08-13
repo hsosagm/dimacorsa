@@ -23,15 +23,13 @@ class TrasladoController extends \BaseController {
                 'success' => true, 
                 'detalle' => View::make('traslado.detalle',compact("id"))->render(),
                 'info_head' => View::make('traslado.info_head', compact("traslado","destino"))->render()
-                ));
-            
+            ));
         }
 
         return Response::json(array(
-                'success' => true, 
-                'view' => View::make('traslado.create')->render(),
-                ));
-
+            'success' => true, 
+            'view' => View::make('traslado.create')->render(),
+            ));
     }
 
     public function detalle() 
@@ -131,22 +129,22 @@ class TrasladoController extends \BaseController {
 
         foreach ($detalle as $dt) 
         {
-             $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
-            ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
+           $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
+           ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
 
-            $existencia->existencia = $existencia->existencia + $dt->cantidad ;
+           $existencia->existencia = $existencia->existencia + $dt->cantidad ;
 
-            $existencia->save();
-        }
+           $existencia->save();
+       }
 
-        $traslado = Traslado::find(Input::get('traslado_id'));
-        $traslado->update(array('recibido' => 1, 'user_id_recibido' => Auth::user()->id));
+       $traslado = Traslado::find(Input::get('traslado_id'));
+       $traslado->update(array('recibido' => 1, 'user_id_recibido' => Auth::user()->id));
 
-        return Response::json(array('success' => true));
-    }
+       return Response::json(array('success' => true));
+   }
 
-    public function eliminar_detalle()
-    {
+   public function eliminar_detalle()
+   {
         $detalle = DetalleTraslado::find(Input::get('id'));
 
         $existencia = Existencia::where('producto_id' , '=' , $detalle->producto_id)
@@ -185,6 +183,10 @@ class TrasladoController extends \BaseController {
     {
         $detalle = DetalleTraslado::select(DB::raw('sum(cantidad*precio) as total'))
         ->where('traslado_id', '=', Input::get('traslado_id'))->first();
+
+        if ($detalle->total == null) 
+            return 'El traslado no se puede finalizar porque no tiene productos...';
+
         $traslado = Traslado::find(Input::get('traslado_id'));
         $traslado->status = 1;
         $traslado->total = $detalle->total;
@@ -221,7 +223,7 @@ class TrasladoController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'table'   => View::make('traslado.DT_detalle_traslado', compact('detalle','usuario'))->render()
-        ));
+            ));
     }
 
     public function getTrasladosEnviados()
@@ -250,7 +252,7 @@ class TrasladoController extends \BaseController {
 
         $Join  = " JOIN tiendas ON (tiendas.id = tienda_id_destino )";
         $Join .= " JOIN users ON (users.id = traslados.user_id )";
-        
+
         $Where = " traslados.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
@@ -271,7 +273,7 @@ class TrasladoController extends \BaseController {
         $Searchable = array("traslados.created_at","users.nombre","users.apellido","tiendas.nombre","nota","traslados.status");
 
         $Join  = " JOIN tiendas ON (tiendas.id = tienda_id )";
-        
+
         $Where  = " traslados.tienda_id_destino = ".Auth::user()->tienda_id;
         $Where .= " AND traslados.status = 1";
 
