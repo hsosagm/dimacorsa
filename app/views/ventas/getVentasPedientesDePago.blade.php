@@ -30,7 +30,7 @@
                         <td class="right" width="15%"> {{ f_num::get($q->saldo_total) }} </td>
                         <td class="right" width="15%"> {{ f_num::get($q->saldo_vencido) }} </td>
                         <td class="center" width="5%">
-                            <i id="{{$q->id}}" class="fa fa-plus-square btn-link theme-c" onClick="VentasPendientesPorCliente(this,{{$q->id}})" ></i>
+                            <i id="{{$q->id}}" class="fa fa-plus-square btn-link theme-c" v-on="click: VentasPendientesPorCliente($event, {{$q->id}})" ></i>
                         </td>
                     </tr>
                 @endforeach
@@ -39,3 +39,4 @@
         </table>
     </div>
 </div>
+ 

@@ -31,7 +31,7 @@
 				<div class="form-horizontal forms"></div>
 			</div>
 			<div>
-			    <div class="panel-heading footer-heading"></div>
+			    <div class="footer-heading"></div>
 			</div>
         </div>
     </div>

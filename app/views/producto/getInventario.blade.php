@@ -11,7 +11,7 @@
 @else
     <?php $access = 0;  ?>
 @endif
-
+ 
 <script>
 $(document).ready(function() {
 
@@ -27,15 +27,15 @@ $(document).ready(function() {
             "infoFiltered": "- ( filtrado de _MAX_ archivos )"
         },
         "aoColumnDefs": [
-            {"sClass": "widthM",              "sTitle": "Codigo",       "aTargets": [0]},
-            {"sClass": "widthM",              "sTitle": "Marca",        "aTargets": [1]},
-            {"sClass": "widthXL",              "sTitle": "Descripcion",  "aTargets": [2]},
-            {"sClass": "right widthS formato_precio", "sTitle": "P costo", "bVisible": false, "aTargets": [3]},
-            {"sClass": "right widthS formato_precio",  "sTitle": "P publico",    "aTargets": [4]},
-            {"sClass": "right widthS",  "sTitle": "Existencias",    "aTargets": [5]},
-            {"sClass": "right widthS",  "sTitle": "Total",    "aTargets": [6]},
+            {"sClass": "widthM",                                       "sTitle": "Codigo",       "aTargets": [0]},
+            {"sClass": "widthM",                                       "sTitle": "Marca",        "aTargets": [1]},
+            {"sClass": "widthXL",                                      "sTitle": "Descripcion",  "aTargets": [2]},
+            {"sClass": "right widthS formato_precio","bVisible": false,"sTitle": "P costo",      "aTargets": [3]},
+            {"sClass": "right widthS formato_precio",                  "sTitle": "P publico",    "aTargets": [4]},
+            {"sClass": "right widthS",                                 "sTitle": "Existencias",  "aTargets": [5]},
+            {"sClass": "right widthS",                                 "sTitle": "Total",        "aTargets": [6]},
         ],
-
+        "order": [[ 6, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             if ( {{$access}} == true) {

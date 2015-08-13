@@ -1,6 +1,5 @@
 
 $(function() {
-    $(document).on('click', '#f_egreso', function(){ f_egreso(this); });
     $(document).on('click', '#delete_egreso', function(){ delete_egreso(this); });
 });
 

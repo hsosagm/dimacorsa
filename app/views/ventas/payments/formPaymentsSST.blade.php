@@ -61,6 +61,6 @@
 
     </table>
 
-    <div style="float:right" class="pagination"> {{ $ventas->links() }} </div>
+    <div style="float:right" class="pagination_sales_by_selection"> {{ $ventas->links() }} </div>
 
 @endif

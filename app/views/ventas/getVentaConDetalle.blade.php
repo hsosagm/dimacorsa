@@ -32,7 +32,7 @@
 						<th width="25%" style="margin-right:5px">Totales</th>
 					</tr>
 				</thead>
-				<tbody style="  height: 275px!important;  line-height: 140%;  font-size: 12px;">
+				<tbody style="  height: 200px!important;  line-height: 140%;  font-size: 12px;">
 					<?php $total = 0; ?>
 					@foreach( $venta->detalle_venta as $dt)
 						<tr>
@@ -45,7 +45,7 @@
 					@endforeach
 				</tbody>
 				<tfoot width="100%">
-					<tr style="border: solid 1px black">
+					<tr>
 						<td colspan="4">
 							<div class="row">
 								<div class="col-md-8" style="line-height: 140%;  font-size: 12px;" >  Total a cancelar </div>
@@ -60,3 +60,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.modal-dialog {
+		width: 60%;
+	}
+</style>

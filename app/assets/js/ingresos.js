@@ -1,6 +1,5 @@
 
 $(function() {
-    $(document).on('click', '#f_ingreso', function(){ f_ingreso(this); });
     $(document).on('click', '#delete_ingreso', function(){ delete_ingreso(this); });
 });
 

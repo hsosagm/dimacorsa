@@ -45,7 +45,7 @@
 					@endforeach
 				</tbody>
 				<tfoot width="100%">
-					<tr style="border: solid 1px black">
+					<tr>
 						<td colspan="4">
 							<div class="row">
 								<div class="col-md-8" style="line-height: 140%;  font-size: 12px;" >  Total a cancelar </div>

@@ -1,5 +1,4 @@
 $(function() {
-    $(document).on('click', '#f_gastos', function(){ f_gastos(this); });
     $(document).on('click', '#delete_gasto', function(){ delete_gasto(this); });
 });
 

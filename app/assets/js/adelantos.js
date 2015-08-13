@@ -1,5 +1,4 @@
 $(function() {
-    $(document).on('click', '#f_adelanto', function(){ f_adelanto(this); });
     $(document).on('click', '#delete_adelanto', function(){ delete_adelanto(this); });
 });
 

@@ -2,11 +2,6 @@
 
 class TrasladoController extends \BaseController {
 
-	public function buscarTienda()
-	{
-		return Autocomplete::get('tiendas', array('id', 'nombre','direccion','direccion'),'direccion');
-	}
-
 	public function create()
     {
     	if (Input::has('_token'))
@@ -28,11 +23,13 @@ class TrasladoController extends \BaseController {
                 'success' => true, 
                 'detalle' => View::make('traslado.detalle',compact("id"))->render(),
                 'info_head' => View::make('traslado.info_head', compact("traslado","destino"))->render()
-                ));
-            
+            ));
         }
 
-        return View::make('traslado.create');
+        return Response::json(array(
+            'success' => true, 
+            'view' => View::make('traslado.create')->render(),
+            ));
     }
 
     public function detalle() 
@@ -73,7 +70,8 @@ class TrasladoController extends \BaseController {
 
                 $detalle = $this->consulta_detalle_traslado();
 
-                return Response::json(array('success' => true, 
+                return Response::json(array(
+                    'success' => true, 
                     'table' => View::make('traslado.detalle_body',compact('detalle'))->render() 
                     ));
             }
@@ -106,9 +104,47 @@ class TrasladoController extends \BaseController {
             ));
     }
 
-
-    public function eliminar_detalle()
+    public function abrirTrasladoDeRecibido()
     {
+        $id = Input::get('traslado_id');
+
+        $traslado = Traslado::find($id);
+
+        if ($traslado->status == 1 && $traslado->recibido == 1) 
+            return  "El traslado no se puede abrir porque ya fue recibido";
+
+        $destino = Tienda::find($traslado->tienda_id_destino);
+
+        $detalle = $this->consulta_detalle_traslado();
+
+        return Response::json(array(
+            'success' => true, 
+            'form' => View::make('traslado.abrirTrasladoDeRecibido',compact("id", "traslado", "destino", "detalle"))->render(),
+            ));
+    }
+
+    public function recibirTraslado()
+    {
+        $detalle = DetalleTraslado::where('traslado_id', '=', Input::get('traslado_id'))->get();
+
+        foreach ($detalle as $dt) 
+        {
+           $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
+           ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
+
+           $existencia->existencia = $existencia->existencia + $dt->cantidad ;
+
+           $existencia->save();
+       }
+
+       $traslado = Traslado::find(Input::get('traslado_id'));
+       $traslado->update(array('recibido' => 1, 'user_id_recibido' => Auth::user()->id));
+
+       return Response::json(array('success' => true));
+   }
+
+   public function eliminar_detalle()
+   {
         $detalle = DetalleTraslado::find(Input::get('id'));
 
         $existencia = Existencia::where('producto_id' , '=' , $detalle->producto_id)
@@ -139,19 +175,24 @@ class TrasladoController extends \BaseController {
         }
 
         Descarga::destroy(Input::get('traslado_id'));
-        return 'success';
+
+        return Response::json(array('success' => true));
     }
 
     public function finalizarTraslado()
     {
         $detalle = DetalleTraslado::select(DB::raw('sum(cantidad*precio) as total'))
         ->where('traslado_id', '=', Input::get('traslado_id'))->first();
+
+        if ($detalle->total == null) 
+            return 'El traslado no se puede finalizar porque no tiene productos...';
+
         $traslado = Traslado::find(Input::get('traslado_id'));
         $traslado->status = 1;
         $traslado->total = $detalle->total;
         $traslado->save();
 
-        return 'success';
+        return Response::json(array('success' => true));
     }
 
     public function consulta_detalle_traslado () 
@@ -164,6 +205,25 @@ class TrasladoController extends \BaseController {
         ->get();
 
         return $query;      
+    }
+
+    public function getDetalleTraslado()
+    {
+        $detalle = $this->consulta_detalle_traslado();
+
+        $traslado = Traslado::find(Input::get('traslado_id'));
+
+        if (Input::get('opcion') == 1) 
+            $user = User::find($traslado->user_id_recibido);
+        else
+            $user = User::find($traslado->user_id);
+
+        $usuario = @$user->nombre . ' ' . @$user->apellido;
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('traslado.DT_detalle_traslado', compact('detalle','usuario'))->render()
+            ));
     }
 
     public function getTrasladosEnviados()
@@ -192,7 +252,7 @@ class TrasladoController extends \BaseController {
 
         $Join  = " JOIN tiendas ON (tiendas.id = tienda_id_destino )";
         $Join .= " JOIN users ON (users.id = traslados.user_id )";
-        
+
         $Where = " traslados.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
@@ -204,7 +264,7 @@ class TrasladoController extends \BaseController {
 
         $columns = array(
             "traslados.created_at as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "IFNULL((select CONCAT_WS(' ', nombre, apellido) as usuario from users where id = user_id_recibido),'Indefinido') as usuario",
             "CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda",
             "nota",
             "total",
@@ -213,9 +273,9 @@ class TrasladoController extends \BaseController {
         $Searchable = array("traslados.created_at","users.nombre","users.apellido","tiendas.nombre","nota","traslados.status");
 
         $Join  = " JOIN tiendas ON (tiendas.id = tienda_id )";
-        $Join .= " JOIN users ON (users.id = traslados.user_id )";
-        
-        $Where = " traslados.tienda_id_destino = ".Auth::user()->tienda_id;
+
+        $Where  = " traslados.tienda_id_destino = ".Auth::user()->tienda_id;
+        $Where .= " AND traslados.status = 1";
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
     }
