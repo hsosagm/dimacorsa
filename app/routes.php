@@ -46,6 +46,7 @@
             Route::get('chartComparativaPorMesPorCliente', 'ChartController@chartComparativaPorMesPorCliente');
             Route::get('comparativaPorMesPorClientePrevOrNext', 'ChartController@comparativaPorMesPorClientePrevOrNext');
             Route::get('ventasMensualesPorAnoPorCliente', 'App\graphics\Ventas@ventasMensualesPorAnoPorCliente');
+            Route::get('ventasDiariasPorMesCliente', 'App\graphics\Ventas@ventasDiariasPorMesCliente');
         });
 
         Route::group(array('prefix' => 'tema'), function()

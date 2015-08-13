@@ -303,7 +303,7 @@ class ChartController extends \BaseController {
     }
 
 
-    // Regresa el resultado comparativo del mes anterior o siguiente
+    // Regresa el resultado comparativo del mes anterior o siguiente en la parte de clientes
     function comparativaPorMesPorClientePrevOrNext()
     {
         if ( Input::get('method') == 'next') {
