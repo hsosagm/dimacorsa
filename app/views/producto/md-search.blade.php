@@ -21,7 +21,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover right widthS",        "sTitle": "P publico",    "aTargets": [3]},
             {"sClass": "mod_codigo hover right widthS",        "sTitle": "Existencia",   "aTargets": [4]},
         ],
-
+        "order": [[ 4, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $( ".DTTT" ).append( '<button id="_add_producto_md" class="btn btngrey btn_edit" disabled>ADD</button>' );
