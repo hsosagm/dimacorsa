@@ -84,7 +84,7 @@
     <ul>
         <li onclick="settings_barcode()"><a href="javascript:void(0);">Codigo de Barras</a></li>
         <li onclick="configurar_impresoras()"><a href="javascript:void(0);">Impresoras</a></li>
-        <li><a href="javascript:void(0);">Notificaciones</a></li>
+        <li onclick="configurar_notificaciones()"><a href="javascript:void(0);">Notificaciones</a></li>
     </ul>
 </li>
 <!--/ End development - components -->

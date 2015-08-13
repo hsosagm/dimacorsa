@@ -236,9 +236,12 @@
 
         Route::group(array('prefix' => 'configuracion'),function() 
         {
-            Route::get('impresora'          , 'ConfiguracionController@impresora');
-            Route::post('impresora'          , 'ConfiguracionController@saveImpresora');
-            Route::get('getImpresoras/{im}' , 'ConfiguracionController@getImpresoras');
+            Route::get('impresora'              , 'ConfiguracionController@impresora');
+            Route::get('notificacion'           , 'ConfiguracionController@notificacion');
+            Route::post('notificacion'          , 'ConfiguracionController@notificacion');
+            Route::post('eliminarNotificacion'  , 'ConfiguracionController@eliminarNotificacion');
+            Route::post('impresora'             , 'ConfiguracionController@saveImpresora');
+            Route::get('getImpresoras/{im}'     , 'ConfiguracionController@getImpresoras');
         });
 
         Route::group(array('prefix' => 'queries'),function() 

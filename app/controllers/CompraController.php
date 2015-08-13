@@ -276,6 +276,7 @@ class CompraController extends \BaseController {
     {
         $total = Compra::select(DB::Raw('sum(saldo) as total'))
         ->where('proveedor_id','=', $proveedor_id)
+        ->where('tienda_id','=', Auth::user()->tienda_id)
         ->where('saldo','>', 0 )->first();
 
         return $total->total;
