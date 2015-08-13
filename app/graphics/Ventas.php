@@ -126,8 +126,16 @@ class Ventas extends \BaseController
         $dt = App::make('Fecha');
         
         for ($i=0; $i < 12; $i++) { 
-            $data[$i]['name'] = $dt->monthsNames($i+1);
+            $data[$i]['name'] = $dt->monthsNames($i+1)." "."de"." ".@$ventas[$i]->year;
             $data[$i]['y'] = (float) @$ventas[$i]->total;
+            if ($data[$i]['y'] == 0) {
+                $data[$i]['drilldown'] = false;
+            } else {
+                 $data[$i]['drilldown'] = true;
+            }
+            $data[$i]['url'] = 'user/chart/ventasDiariasPorMesCliente';
+            $data[$i]['variables'] = array( "year" => @$ventas[$i]->year, "month" => @$ventas[$i]->mes, "cliente_id" => Input::get('cliente_id'));
+            $data[$i]['tooltip'] = '';
         }
 
         $data['data'] = $data;
@@ -136,4 +144,33 @@ class Ventas extends \BaseController
 
         return json_encode($data);
     }
+
+    public function ventasDiariasPorMesCliente()
+    {
+        $query = DB::table('ventas')
+        ->select(array(DB::Raw('DATE(ventas.created_at) as dia'), DB::Raw('sum(total) as total')))
+        ->where('cliente_id', Input::get('cliente_id'))
+        ->where(DB::raw('YEAR(ventas.created_at)'), '=', Input::get('year'))
+        ->where(DB::raw('MONTH(ventas.created_at)'), '=', Input::get('month'))
+        ->where('tienda_id', '=', Auth::user()->tienda_id )
+        ->groupBy('dia')
+        ->get();
+
+        $i = 0;
+
+        foreach ($query as $q) {
+
+            $carbon = Carbon::createFromFormat('Y-m-d', $q->dia);
+            $object[$i]['name'] = strval($carbon->day);
+            $object[$i]['y'] = intval($q->total);
+            $i++;
+        }
+
+        $data['data'] = $object;
+        $data['title'] = 'Ventas del mes de';
+        $data['name'] = 'Ventas por dia';
+
+        return json_encode($data);
+    }
+
 }
