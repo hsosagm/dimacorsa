@@ -4,7 +4,7 @@
     foreach ($tienda as $td) {
         $tiendas["{$td->id}"] = $td->nombre .' '. $td->direccion; 
     }
- ?>
+?>
 {{ Form::open(array('data-remote-md', 'data-success' => 'Traslado Generado' ,"onsubmit"=>" return false")) }}
 <div class="row info_head">
     <div class="col-md-6 master-detail-info">
@@ -26,19 +26,11 @@
             <div class="col-md-2"></div>
         </div>
     </div>
-
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-12 search-tienda-info"> </div>
-        </div>
-    </div>
+    <div class="col-md-6"> </div>
 </div>
-
-
 <div class="form-footer" align="right">
     {{ Form::submit('Ok!', array('class'=>'theme-button')) }}
 </div>
-
 {{ Form::close() }}
 <div class="master-detail"> 
     <div class="master-detail-body"></div>
