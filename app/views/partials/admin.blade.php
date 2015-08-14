@@ -34,6 +34,7 @@
         <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
         <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
         <li><a href="javascript:void(0);" onclick="inventario()">Ajuste de inventario</a></li>
+        <li><a href="javascript:void(0);" onclick="imprimirFactura()">imprimir Factura</a></li>
         {{-- <li><a href="javascript:void(0);" onclick="imprimirFactura('EPSON-LQ-590')">imprimir Factura</a></li> --}}
     </ul>
 </li>

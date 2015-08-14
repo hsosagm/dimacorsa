@@ -19,6 +19,13 @@
 </li>
 
 <li>
+    <a href="javascript:void(0);" onclick="proyeccionMensual();">
+        <span class="icon"><i class="fa fa-desktop"></i></span>
+        <span class="text">Proyecciones</span>
+    </a>
+</li>
+
+<li>
     <a id="graph_g" href="javascript:void(0);">
         <span class="icon"><i class="fa fa-group"></i></span>
         <span class="text">Gastos</span>

@@ -160,7 +160,7 @@ class ChartController extends \BaseController {
     }
 
     // Regresa el resultado comparativo del mes anterior o siguiente
-    function getComparativaMensualPorMes()
+    public function getComparativaMensualPorMes()
     {
         if ( Input::get('method') == 'next') {
             if (Input::get('mes') == 12) {
@@ -186,7 +186,7 @@ class ChartController extends \BaseController {
     }
 
 
-    function comparativaMensualVentas($mes)
+    public function comparativaMensualVentas($mes)
     {
         $ventas = DB::table('ventas')
         ->select(DB::raw("sum(total) as total, MONTH(created_at) as mes, YEAR(ventas.created_at) as year"))
@@ -217,7 +217,7 @@ class ChartController extends \BaseController {
     }
 
 
-    function comparativaMensualGanancias($mes)
+    public function comparativaMensualGanancias($mes)
     {
         $d_ventas = DB::table('detalle_ventas')
         ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(created_at) as mes, YEAR(created_at) as year"))
@@ -239,7 +239,7 @@ class ChartController extends \BaseController {
     }
 
 
-    function chartVentasPorCliente()
+    public function chartVentasPorCliente()
     {
         $ventas = DB::table('ventas')
         ->where('cliente_id', Input::get('cliente_id'))
@@ -304,7 +304,7 @@ class ChartController extends \BaseController {
 
 
     // Regresa el resultado comparativo del mes anterior o siguiente en la parte de clientes
-    function comparativaPorMesPorClientePrevOrNext()
+    public function comparativaPorMesPorClientePrevOrNext()
     {
         if ( Input::get('method') == 'next') {
             if (Input::get('mes') == 12) {
@@ -346,6 +346,15 @@ class ChartController extends \BaseController {
         return Response::json(array(
             'success'   => true,
             'ventas'    => $data
+        ));
+    }
+
+
+    public function proyeccionMensual()
+    {
+        return Response::json(array(
+            'success' => true,
+            'view'    => View::make('chart.ventas.proyeccionMensual')->render()
         ));
     }
 

@@ -292,9 +292,40 @@ function imprimirFactura(p)
                     url: "user/ventas/imprimirFactura",
                     data: { venta_id: 26011},
                     success: function (data) {
-                        qz.setAutoSize(true);
-                        qz.appendHTML(data);
-                        qz.printHTML();
+                        $("#print_test").html(data);
+
+                        html2canvas($("#print_test"), {
+                            onrendered: function(canvas) {
+                                var myImage = canvas.toDataURL("image/png");
+
+                                qz.setPaperSize("8.5in", "5.5in");
+                                qz.setOrientation("portrait");
+                                qz.setAutoSize(true);
+
+                                qz.appendImage(myImage);
+                                window['qzDoneAppending'] = function() {
+                                    qz.printPS();
+                                    window.open(myImage);
+                                    window['qzDoneAppending'] = null;
+                                };
+                            }
+                        });
+
+                        // html2canvas($("#print_test"), {
+                        //     onrendered: function(canvas) {
+                        //         var myImage = canvas.toDataURL("image/png");
+                        //         if (notReady()) { return; }
+                        //         // qz.setPaperSize("62mm", "18mm");  
+                        //         // qz.setOrientation("portrait");
+                        //         // qz.setAutoSize(true);
+                        //         qz.appendImage(myImage);
+                        //         window['qzDoneAppending'] = function() {
+                        //             qz.printPS();
+                        //             window['qzDoneAppending'] = null;
+                        //         };
+                        //     }
+                        // });
+
                     }
                 }); 
             }
@@ -304,6 +335,5 @@ function imprimirFactura(p)
             
             window['qzDoneFinding'] = null;
         };
-
     }
 }

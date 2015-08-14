@@ -14,6 +14,11 @@
 	</div>
 	<!-- End caledar container -->
 
+
+<div id="print_test"></div>
+
+
+
 	<!-- FORMS -->
 	<div id="forms" class="form-container col-md-10">
 		<div class="panel form-h form-panel shadow">

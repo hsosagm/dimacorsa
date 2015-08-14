@@ -477,6 +477,7 @@
             Route::get('soporte', 'ChartController@soporte');
             Route::get('ventas' , 'ChartController@ventas' );
             Route::get('comparativaMensual' , 'ChartController@comparativaMensual' );
+            Route::get('proyeccionMensual' , 'ChartController@proyeccionMensual' );
             Route::get('getComparativaMensualPorMes' , 'ChartController@getComparativaMensualPorMes' );
 
             Route::group(array('prefix' => 'ventas'), function()

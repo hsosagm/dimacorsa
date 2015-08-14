@@ -229,3 +229,24 @@ div.spinner.flat {
 .highcharts-button image:hover {
     cursor: pointer !important;
 }
+
+#print_test {
+    background-color: #FFF;
+    font-size: 20px;
+}
+
+#print_test #encabezado_factura {
+    padding-top: 100px;
+    padding-right: 80px;
+    padding-left: 25px;
+}
+
+#print_test tr td {
+    background-color: #FFF;
+    color: #000000 !important;
+}
+
+#print_test #cuerpo_factura {
+    margin-top: 35px;
+    height: 520px;
+}
