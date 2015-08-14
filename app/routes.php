@@ -84,7 +84,6 @@
             Route::post('delete'               , 'ClienteController@delete');
             Route::get('index'                 , 'ClienteController@index');
             Route::get('create'                , 'ClienteController@create');
-            Route::get('create_dt'             , 'ClienteController@create_dt');
             Route::post('create'               , 'ClienteController@create');
             Route::post('edit'                 , 'ClienteController@edit');
             Route::get('info'                  , 'ClienteController@info'  );
