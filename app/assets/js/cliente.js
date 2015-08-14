@@ -6,6 +6,7 @@ $(function() {
     $(document).on('submit','form[data-remote-contact-cn]', function(e){ cliente_contacto_create(e,this);  });
     $(document).on('submit','form[data-remote-contact-ce]', function(e){ cliente_contacto_update(e,this);  });
     $(document).on('submit','form[data-remote-cliente-e]',  function(e){ cliente_update(e,this);           });
+    $(document).on('submit','form[data-remote-cliente-en]',  function(e){ cliente_update_modal(e,this);    });
 });
 
 
@@ -50,6 +51,28 @@ function cliente_update(e,element) {
             if (data.success == true)  {
                 msg.success('Cliente Actualizado..!', 'Listo!');
                 ventas.cliente = data.info;
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+    e.preventDefault();
+    $('input[type=submit]', form).removeAttr('disabled');
+}
+
+function cliente_update_modal(e,element) {
+    form = $(element);
+    $('input[type=submit]', form).attr('disabled', 'disabled');
+
+    $.ajax({
+        type: "POST",
+        url:  "user/cliente/edit",
+        data: form.serialize(),
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            if (data.success == true)  {
+                msg.success('Cliente Actualizado..!', 'Listo!');
             }
             else {
                 msg.warning(data, 'Advertencia!');

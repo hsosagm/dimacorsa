@@ -1,11 +1,4 @@
 <div class="panel rounded shadow">
-    <div class="panel-heading">
-        <div class="DTTT btn-group"></div>
-        <div class="pull-right">
-            <button v-on="click: closeMainContainer" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
-        </div>
-        <div class="clearfix"></div>
-    </div>
     <div class="PanelBody panel-body no-padding">
         <div class="panel panel-tab rounded shadow">
 
@@ -28,7 +21,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade inner-all active in" id="tab1">
                     <div class="cliente-body-info">
-                    {{ Form::open(array('data-remote-cliente-e','method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
+                    {{ Form::open(array('data-remote-cliente-en','method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
 
                     {{ Form::hidden('id', @$cliente->id) }}
 
@@ -74,7 +67,6 @@
                         </div>
                     </div>
                         
-
                     {{ Form::close() }}
                     </div>
                 </div>
@@ -101,13 +93,10 @@
                                     </div>
                                 </a>
                                 @endforeach
-
                             </div>
                         </div>
                         <div class="col-md-7">
-                            <div class="body-contactos">
-                               
-                            </div>
+                            <div class="body-contactos"> </div>
                         </div>
                     </div>
                 </div>

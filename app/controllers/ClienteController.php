@@ -82,6 +82,42 @@ class ClienteController extends \BaseController {
         return View::make('cliente.create');
     }
 
+    public function create_dt()
+    {
+        if (Session::token() == Input::get('_token'))
+        {
+            $cliente = new Cliente;
+
+            $data = Input::all();
+
+            if (Input::get('nit') == "") 
+                $data['nit'] = 'C/F';
+            else
+                $data['nit'] = $this->limpiaNit(Input::get('nit'));
+
+            if (!$cliente->_create($data))
+            {
+                return $cliente->errors();
+            }
+
+            return 'success';
+        }
+
+        return View::make('cliente.create');
+    }
+
+    public function dt_delete()
+    {
+        $delete = Cliente::destroy(Input::get('id_dt'));
+
+        if ($delete)
+        {
+            return 'success';
+        }
+
+        return 'error';
+    }
+
     public function info()
     {
         $cliente =  Cliente::find(Input::get('id'));
@@ -190,6 +226,15 @@ class ClienteController extends \BaseController {
         $contactos = ClienteContacto::where('cliente_id','=',Input::get('id'))->get();
 
         return View::make('cliente.edit',compact('cliente' , 'contactos'));
+    }
+
+    public function edit_dt()
+    {
+        $cliente = Cliente::find(Input::get('id'));
+
+        $contactos = ClienteContacto::where('cliente_id','=',Input::get('id'))->get();
+
+        return View::make('cliente.edit_dt',compact('cliente' , 'contactos'));
     }
 
     public function contacto_info()

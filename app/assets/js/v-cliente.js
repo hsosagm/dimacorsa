@@ -354,8 +354,9 @@ var vm = new Vue({
 		clientes_table: function() {
 			$.get( "user/cliente/index", function( data ) {
 				if (data.success == true)
-				{
+				{ 
 					vm.proccesDataTable(data.table);
+					$('.dataTable').attr('url', 'user/cliente/');
 					return $('#example').addClass('tableSelected');
 				}
 				msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');

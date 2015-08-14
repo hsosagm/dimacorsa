@@ -33,9 +33,9 @@
 
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
-                $( ".DTTT" ).append( '<button id="_create" class="btn btngrey">New</button>' );
-                $( ".DTTT" ).append( '<button id="_edit" class="btn btngrey btn_edit" disabled>Edit</button>' );
-                $( ".DTTT" ).append( '<button id="_delete" class="btn btngrey btn_edit" disabled>Delete</button>' );
+                $( ".DTTT" ).append( '<button id="_create_dt" class="btn btngrey">New</button>' );
+                $( ".DTTT" ).append( '<button id="_edit_dt" class="btn btngrey btn_edit" disabled>Edit</button>' );
+                $( ".DTTT" ).append( '<button id="_delete_dt" url="user/cliente/dt_" class="btn btngrey btn_edit" disabled>Delete</button>' );
             },
 
             "bJQueryUI": false,

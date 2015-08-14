@@ -174,9 +174,10 @@ class TrasladoController extends \BaseController {
             $existencia->save();  
         }
 
-        Descarga::destroy(Input::get('traslado_id'));
+        if (Traslado::destroy(Input::get('traslado_id'))) 
+            return Response::json(array('success' => true));
 
-        return Response::json(array('success' => true));
+        return 'error';   
     }
 
     public function finalizarTraslado()
