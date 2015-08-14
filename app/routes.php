@@ -82,14 +82,11 @@
             Route::get('search'                , 'ClienteController@search');
             Route::get('getInfo'               , 'ClienteController@getInfo');
             Route::post('delete'               , 'ClienteController@delete');
-            Route::post('dt_delete'            , 'ClienteController@dt_delete');
             Route::get('index'                 , 'ClienteController@index');
             Route::get('create'                , 'ClienteController@create');
             Route::get('create_dt'             , 'ClienteController@create_dt');
-            Route::post('create_dt'            , 'ClienteController@create_dt');
             Route::post('create'               , 'ClienteController@create');
             Route::post('edit'                 , 'ClienteController@edit');
-            Route::get('edit_dt'               , 'ClienteController@edit_dt');
             Route::get('info'                  , 'ClienteController@info'  );
             Route::post('contacto_create'      , 'ClienteController@contacto_create');
             Route::post('contacto_delete'      , 'ClienteController@contacto_delete');
@@ -102,7 +99,10 @@
             Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
             Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
             Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
-            Route::get('clientes'              , 'ClienteController@clientes'    );
+            Route::get('clientes'              , 'ClienteController@clientes');
+            Route::post('crearCliente'         , 'ClienteController@crearCliente');
+            Route::post('actualizarCliente'    , 'ClienteController@actualizarCliente');
+            Route::post('eliminarCliente'      , 'ClienteController@eliminarCliente');
         });
 
         Route::group(array('prefix' => 'soporte'), function()

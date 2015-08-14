@@ -232,7 +232,6 @@ function _edit_dt() {
         type: "GET",
         url: $url,
         data: {id: $id},
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             $('.modal-body').html(data);
             $('.modal-title').text( 'Editar ' + $('.dataTable').attr('title') );
@@ -258,7 +257,6 @@ function _delete() {
                 type: "POST",
                 url: $url,
                 data: { id: $id },
-                contentType: 'application/x-www-form-urlencoded',
                 success: function (data, text) {
                     if (data == 'success') {
 
@@ -284,8 +282,6 @@ function _delete() {
 function _delete_dt(e) {
     $id = $(e).closest('tr').attr('id');    
 
-    $id_dt = $('.dataTable tbody .row_selected').attr('id');
-
     $url = $(e).attr('url') + 'delete';
     
     $.confirm({
@@ -293,8 +289,7 @@ function _delete_dt(e) {
             $.ajax({
                 type: "POST",
                 url: $url,
-                data: { id: $id , id_dt :$id_dt},
-                contentType: 'application/x-www-form-urlencoded',
+                data: { id: $id },
                 success: function (data) {
                     if ($.trim(data) == 'success') {
                         msg.success('Dato eliminado', 'Listo!')

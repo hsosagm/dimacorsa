@@ -288,8 +288,8 @@ var vm = new Vue({
 		},
 
 
-		imprimirAbonoVenta: function(e ,av) {
-			window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+av.id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+		imprimirAbonoVenta: function(e ,id) {
+			window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 		},
 
 
@@ -330,23 +330,23 @@ var vm = new Vue({
 		},
 
 
-        chartComparativaPorMesPorCliente: function() {
-		    $.ajax({
-		        type: "GET",
-		        url: 'user/chart/chartComparativaPorMesPorCliente',
-		        data: { cliente_id: vm.cliente_id },
-		    }).done(function(data) {
-		        if (data.success == true)
-		        {
-		            $('#main_container').show();
-		            $('#main_container').html(data.view);
-		            return compile();
-		        }
-		        msg.warning(data, 'Advertencia!');
-		    }); 
-        },
+		chartComparativaPorMesPorCliente: function() {
+			$.ajax({
+				type: "GET",
+				url: 'user/chart/chartComparativaPorMesPorCliente',
+				data: { cliente_id: vm.cliente_id },
+			}).done(function(data) {
+				if (data.success == true)
+				{
+					$('#main_container').show();
+					$('#main_container').html(data.view);
+					return compile();
+				}
+				msg.warning(data, 'Advertencia!');
+			}); 
+		},
 
-        
+
 		closeMainContainer: function() {
 			$('#main_container').hide();
 		},
@@ -356,7 +356,6 @@ var vm = new Vue({
 				if (data.success == true)
 				{ 
 					vm.proccesDataTable(data.table);
-					$('.dataTable').attr('url', 'user/cliente/');
 					return $('#example').addClass('tableSelected');
 				}
 				msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
@@ -454,6 +453,57 @@ var vm = new Vue({
 				}
 				msg.warning(data, 'Advertencia!');
 			});
+		},
+
+
+		crearCliente: function() {
+			$.ajax({
+				type: "POST",
+				url: 'user/cliente/crearCliente',
+			}).done(function(data) {
+				if (data.success == true) {
+					$('.modal-body').html(data.view);
+					$('.modal-title').text( 'Crear Cliente');
+					return $('.bs-modal').modal('show');
+				}
+				msg.warning(data, 'Advertencia!');
+			});
+		},
+
+
+		actualizarCliente: function() {
+			$.ajax({
+				type: "POST",
+				url: 'user/cliente/actualizarCliente',
+				data: {cliente_id: $('.dataTable tbody .row_selected').attr('id')},
+			}).done(function(data) {
+				if (data.success == true) {
+					$('.modal-body').html(data.view);
+					$('.modal-title').text( 'Editar Cliente');
+					return $('.bs-modal').modal('show');
+				}
+				msg.warning(data, 'Advertencia!');
+			});
+		},
+
+
+		eliminarCliente: function() {
+			$.confirm({
+				confirm: function(){
+					$.ajax({
+						type: "POST",
+						url: 'user/cliente/eliminarCliente',
+						data: {cliente_id: $('.dataTable tbody .row_selected').attr('id')},
+					}).done(function(data) {
+						if (data.success == true) {
+							msg.success('Cliente eliminado', 'Listo!')
+							return $('.dataTable tbody .row_selected').hide();
+						}
+						msg.warning(data, 'Advertencia!');
+					});
+				}
+			});
+			$('.modal-title').text( 'Eliminar Cliente');
 		},
 
 

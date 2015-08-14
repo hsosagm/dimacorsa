@@ -1,7 +1,11 @@
 <div class="rounded shadow">
     <div class="panel_heading">
         <div id="table_length" class="pull-left"></div>
-        <div class="DTTT btn-group"></div>
+        <div class="DTTT btn-group">
+            <button  v-on="click: crearCliente()" class="btn btngrey">New</button>
+            <button  v-on="click: actualizarCliente()" class="btn btngrey btn_edit" disabled>Edit</button>
+            <button  v-on="click: eliminarCliente()" class="btn btngrey btn_edit" disabled>Delete</button>
+        </div>
         <div class="pull-right">
             <button v-on="click: closeMainContainer" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
@@ -20,9 +24,7 @@
 </div>
 
 <script type="text/javascript">
-
     $(document).ready(function() {
-
         $('#example').dataTable({
             "aoColumnDefs": [
                 {"sClass": "widthM",              "sTitle": "Nombre",       "aTargets": [0]},
@@ -30,20 +32,10 @@
                 {"sClass": "align_right widthS",  "sTitle": "Telefono",     "aTargets": [2]},
                 {"sClass": "widthM",              "sTitle": "nit",          "aTargets": [3]},
             ],
-
-            "fnDrawCallback": function( oSettings ) {
-                $( ".DTTT" ).html("");
-                $( ".DTTT" ).append( '<button id="_create_dt" class="btn btngrey">New</button>' );
-                $( ".DTTT" ).append( '<button id="_edit_dt" class="btn btngrey btn_edit" disabled>Edit</button>' );
-                $( ".DTTT" ).append( '<button id="_delete_dt" url="user/cliente/dt_" class="btn btngrey btn_edit" disabled>Delete</button>' );
-            },
-
             "bJQueryUI": false,
             "bProcessing": true,
             "bServerSide": true,
             "sAjaxSource": "user/cliente/clientes"
         });
-
     });
-
 </script>

@@ -82,7 +82,7 @@ class ClienteController extends \BaseController {
         return View::make('cliente.create');
     }
 
-    public function create_dt()
+    public function crearCliente()
     {
         if (Session::token() == Input::get('_token'))
         {
@@ -103,19 +103,34 @@ class ClienteController extends \BaseController {
             return 'success';
         }
 
-        return View::make('cliente.create');
+        return Response::json(array(
+            'success' => true, 
+            'view' =>  View::make('cliente.create')->render()
+            ));
     }
 
-    public function dt_delete()
+    public function actualizarCliente()
     {
-        $delete = Cliente::destroy(Input::get('id_dt'));
+        $cliente = Cliente::find(Input::get('cliente_id'));
+
+        $contactos = ClienteContacto::where('cliente_id','=',Input::get('cliente_id'))->get();
+
+        return Response::json(array(
+            'success' => true, 
+            'view' =>  View::make('cliente.actualizarCliente',compact('cliente' , 'contactos'))->render()
+            ));
+    }
+
+    public function eliminarCliente()
+    {
+        $delete = Cliente::destroy(Input::get('cliente_id'));
 
         if ($delete)
         {
-            return 'success';
+            return Response::json(array( 'success' => true ));
         }
 
-        return 'error';
+        return 'Error al eliminar el cliente...';
     }
 
     public function info()
@@ -226,15 +241,6 @@ class ClienteController extends \BaseController {
         $contactos = ClienteContacto::where('cliente_id','=',Input::get('id'))->get();
 
         return View::make('cliente.edit',compact('cliente' , 'contactos'));
-    }
-
-    public function edit_dt()
-    {
-        $cliente = Cliente::find(Input::get('id'));
-
-        $contactos = ClienteContacto::where('cliente_id','=',Input::get('id'))->get();
-
-        return View::make('cliente.edit_dt',compact('cliente' , 'contactos'));
     }
 
     public function contacto_info()

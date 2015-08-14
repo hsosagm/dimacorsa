@@ -10,18 +10,17 @@
 	</thead>
 	<tbody>
 		@foreach($detalle as $key => $dt)
-		<tr>
-			<td>{{$dt->venta_id}}</td>
-			<td>{{$dt->total}}</td>
-			<td>{{$dt->saldo_anterior}}</td>
-			<td>{{$dt->monto}}</td>
-			<td>{{$dt->saldo}}</td>
-		</tr>
+			<tr>
+				<td>{{$dt->venta_id}}</td>
+				<td>{{$dt->total}}</td>
+				<td>{{$dt->saldo_anterior}}</td>
+				<td>{{$dt->monto}}</td>
+				<td>{{$dt->saldo}}</td>
+			</tr>
 		@endforeach
 	</tbody>
 </table> 
-<?php $id = "'".Crypt::encrypt($abonos_ventas_id)."'";?>
 <div class="form-footer" align="right">
 	<input class="btn btn-danger" v-on="click: eliminarAbono( this, {{$abonos_ventas_id}} )" type="button" value="Eliminar">
-	<input class="btn theme-button" v-on="click: imprimirAbonoVenta( this, {{$id}} )" type="button" value="Imprimir">
+	<input class="btn theme-button" v-on="click: imprimirAbonoVenta( this, {{$abonos_ventas_id}} )" type="button" value="Imprimir">
 </div>
