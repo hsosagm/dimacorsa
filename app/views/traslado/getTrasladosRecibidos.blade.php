@@ -26,6 +26,7 @@
                     }
                 },
             ],
+            "order": [[ 5, "asc" ],[ 0, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
             },

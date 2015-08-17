@@ -3,7 +3,6 @@
 	<div class="col-md-6">
 		{{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Venta Generada', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}
-		{{ Form::hidden('serials','') }}
 		{{ Form::hidden('venta_id', $venta_id) }}
 		{{ Form::hidden('ganancias', 0) }}
 		<table class="master-table">
@@ -22,9 +21,7 @@
 				<td><input class="input input_numeric" type="text" name="cantidad"></td>
 				<td><input class="input_numeric master-serials" type="text" name="precio"></td>
 				<td>
-					<button type="button" class="btn btn-default btn-lg master-serials" onclick="OpenModalSalesItemSerials(this);">
-						<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
-					</button>
+					
 				</td>
 			</tr>
 		</table>

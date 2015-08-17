@@ -4,7 +4,6 @@
 		{{ Form::open(array('url' => '/admin/compras/detalle', 'data-remote-md-d', 'data-success' => 'Producto Ingresado', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}
 		{{ Form::hidden('compra_id',@$id) }}
-		{{ Form::hidden('serials','') }}
 		<table class="master-table" id="compra_save_producto">
 			<tr>
 				<td>
@@ -24,11 +23,7 @@
 				</td>
 				<td><input type="text" name="cantidad" class="input input_numeric" > </td>
 				<td><input type="text" name="precio" class="input_numeric master-serials"> </td>
-				<td>
-					<button type="button" class="btn btn-default btn-lg" id="OpenModalPurchaseItemSerials">
-						<span class="glyphicon glyphicon-barcode" aria-hidden="true" ></span>
-					</button>
-				</td>
+				<td> </td>
 			</tr>
 		</table>
 		{{ Form::close() }}

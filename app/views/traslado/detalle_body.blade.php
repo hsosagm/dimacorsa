@@ -23,6 +23,9 @@
 		            <td width="5%" >
 		            	<i id="{{ $q->id }}" href="admin/traslados/eliminar_detalle" class="fa fa-trash-o pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i>
 		            </td>
+		            <td>
+		            	<i onclick="ingresarSeriesDetalleTraslado(this, {{ $q->id }})" class="fa fa-barcode fg-theme"></i>
+		            </td>
 		        </tr>
 			@endforeach
 		</tbody>
