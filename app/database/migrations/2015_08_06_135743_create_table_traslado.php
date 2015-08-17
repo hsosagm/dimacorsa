@@ -34,7 +34,6 @@ class CreateTableTraslado extends Migration {
 			$table->integer('cantidad');
 			$table->decimal('precio', 8, 2);
 			$table->text('serials');
-			
 			$table->timestamps();
 
 			$table->foreign('traslado_id')->references('id')->on('traslados')->onDelete('cascade')->onUpdate('cascade');
