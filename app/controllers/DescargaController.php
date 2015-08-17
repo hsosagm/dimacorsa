@@ -191,4 +191,26 @@ class DescargaController extends BaseController {
             'detalle'   => View::make('descargas.edit', compact('descarga_id','detalle'))->render()
         ));
     }
+
+    public function ingresarSeriesDetalleDescarga()
+    {
+        if (Input::get('guardar') == true) {
+            $detalle_descarga = DetalleDescarga::find(Input::get('detalle_descarga_id'));
+            $detalle_descarga->serials = Input::get('serials');
+            $detalle_descarga->save();
+
+            return Response::json(array('success' => true));
+        }
+
+        $detalle_descarga = DetalleDescarga::find(Input::get('detalle_descarga_id'));
+        $serials = explode(',', $detalle_descarga->serials ); 
+
+        if (trim($detalle_descarga->serials) == null ) 
+            $serials = [];
+        
+        return Response::json(array(
+            'success' => true,
+            'view'   => View::make('descargas.ingresarSeriesDetalleDescarga', compact('serials'))->render()
+        ));
+    }
 } 

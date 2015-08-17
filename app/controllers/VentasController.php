@@ -50,6 +50,7 @@ class VentasController extends \BaseController {
 			->where('tienda_id',Auth::user()->tienda_id)
 			->update(array('existencia' => $nueva_existencia));
 
+
 			$detalle = $this->getSalesDetail();
 			$detalle = json_encode($detalle);
 
@@ -492,6 +493,28 @@ class VentasController extends \BaseController {
 		return Response::json( array(
 			'success' => true,
 			'table'   => View::make('ventas.detalle_body', compact('detalle'))->render()
+        ));
+	}
+
+	public function ingresarSeriesDetalleVenta()
+	{
+		if (Input::get('guardar') == true) {
+			$detalle_venta = DetalleVenta::find(Input::get('detalle_venta_id'));
+			$detalle_venta->serials = Input::get('serials');
+			$detalle_venta->save();
+
+			return Response::json(array('success' => true));
+		}
+
+		$detalle_venta = DetalleVenta::find(Input::get('detalle_venta_id'));
+		$serials = explode(',', $detalle_venta->serials );
+
+		if (trim($detalle_venta->serials) == null ) 
+			$serials = [];
+
+		return Response::json(array(
+			'success' => true,
+			'view'   => View::make('ventas.ingresarSeriesDetalleVenta', compact('serials'))->render()
         ));
 	}
 

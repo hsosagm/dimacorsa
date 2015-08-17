@@ -346,6 +346,27 @@ class CompraController extends \BaseController {
         ));
 	}
 
+	public function ingresarSeriesDetalleCompra()
+	{
+		if (Input::get('guardar') == true) {
+			$detalle_compra = DetalleCompra::find(Input::get('detalle_compra_id'));
+			$detalle_compra->serials = Input::get('serials');
+			$detalle_compra->save();
+
+			return Response::json(array('success' => true));
+		}
+
+		$detalle_compra = DetalleCompra::find(Input::get('detalle_compra_id'));
+		$serials = explode(',', $detalle_compra->serials ); 
+
+		if (trim($detalle_compra->serials) == null ) 
+			$serials = [];
+		
+		return Response::json(array(
+			'success' => true,
+			'view'   => View::make('compras.ingresarSeriesDetalleCompra', compact('serials'))->render()
+        ));
+	}
 
 	/*
 	************************************************************************************************

@@ -227,6 +227,28 @@ class TrasladoController extends \BaseController {
             ));
     }
 
+    public function ingresarSeriesDetalleTraslado()
+    {
+        if (Input::get('guardar') == true) {
+            $detalle_traslado = DetalleTraslado::find(Input::get('detalle_traslado_id'));
+            $detalle_traslado->serials = Input::get('serials');
+            $detalle_traslado->save();
+
+            return Response::json(array('success' => true));
+        }
+
+        $detalle_traslado = DetalleTraslado::find(Input::get('detalle_traslado_id'));
+        $serials = explode(',', $detalle_traslado->serials ); 
+
+        if (trim($detalle_traslado->serials) == null ) 
+            $serials = [];
+        
+        return Response::json(array(
+            'success' => true,
+            'view'   => View::make('traslado.ingresarSeriesDetalleTraslado', compact('serials'))->render()
+        ));
+    }
+
     public function getTrasladosEnviados()
     {
         return View::make('traslado.getTrasladosEnviados')->render();
@@ -254,7 +276,7 @@ class TrasladoController extends \BaseController {
         $Join  = " JOIN tiendas ON (tiendas.id = tienda_id_destino )";
         $Join .= " JOIN users ON (users.id = traslados.user_id )";
 
-        $Where = " traslados.tienda_id = ".Auth::user()->tienda_id;
+        $Where  = " traslados.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
     }
