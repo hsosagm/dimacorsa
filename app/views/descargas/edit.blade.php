@@ -53,7 +53,7 @@
 		<div class="col-md-6" align="right">
 
 		{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'EliminarDescarga(this,'.$descarga_id.');']);}}
-		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'FinalizarDescarga()']) }}
+		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'FinalizarDescarga(this,'.$descarga_id.')']) }}
 		</div>
 	</div>
 </div>

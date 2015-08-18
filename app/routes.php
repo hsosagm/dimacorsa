@@ -205,28 +205,6 @@
  
     Route::group(array('prefix' => 'admin'), function()
     {
-        Route::group(array('prefix' => 'traslados'),function() 
-        {
-            Route::get('buscarTienda'                   , 'TrasladoController@buscarTienda');
-            Route::get('create'                         , 'TrasladoController@create' );
-            Route::post('create'                        , 'TrasladoController@create');
-            Route::post('edit'                          , 'TrasladoController@edit');
-            Route::get('edit'                           , 'TrasladoController@edit');
-            Route::post('detalle'                       , 'TrasladoController@detalle');
-            Route::post('eliminar_detalle'              , 'TrasladoController@eliminar_detalle');
-            Route::post('eliminarTraslado'              , 'TrasladoController@eliminarTraslado');
-            Route::post('abrirTraslado'                 , 'TrasladoController@abrirTraslado');
-            Route::post('finalizarTraslado'             , 'TrasladoController@finalizarTraslado');
-            Route::post('recibirTraslado'               , 'TrasladoController@recibirTraslado');
-            Route::get('getDetalleTraslado'             , 'TrasladoController@getDetalleTraslado');
-            Route::post('abrirTrasladoDeRecibido'       , 'TrasladoController@abrirTrasladoDeRecibido');
-            Route::post('ingresarSeriesDetalleTraslado' , 'TrasladoController@ingresarSeriesDetalleTraslado');
-            Route::get('getTrasladosEnviados'           , 'TrasladoController@getTrasladosEnviados');
-            Route::get('getTrasladosRecibidos'          , 'TrasladoController@getTrasladosRecibidos');
-            Route::get('getTrasladosEnviados_dt'        , 'TrasladoController@getTrasladosEnviados_dt');
-            Route::get('getTrasladosRecibidos_dt'       , 'TrasladoController@getTrasladosRecibidos_dt');
-        });
-
         Route::group(array('prefix' => 'kardex'),function() 
         {
             Route::get('getKardex' , 'KardexController@getKardex');
@@ -416,6 +394,29 @@
             Route::get('descripcion'                        , 'DescargaController@descripcion' );
             Route::post('descripcion'                       , 'DescargaController@descripcion' );
             Route::post('ingresarSeriesDetalleDescarga'     , 'DescargaController@ingresarSeriesDetalleDescarga');
+            Route::post('finalizarDescarga'                 , 'DescargaController@finalizarDescarga');
+        });
+    
+        Route::group(array('prefix' => 'traslados'),function() 
+        {
+            Route::get('buscarTienda'                   , 'TrasladoController@buscarTienda');
+            Route::get('create'                         , 'TrasladoController@create' );
+            Route::post('create'                        , 'TrasladoController@create');
+            Route::post('edit'                          , 'TrasladoController@edit');
+            Route::get('edit'                           , 'TrasladoController@edit');
+            Route::post('detalle'                       , 'TrasladoController@detalle');
+            Route::post('eliminar_detalle'              , 'TrasladoController@eliminar_detalle');
+            Route::post('eliminarTraslado'              , 'TrasladoController@eliminarTraslado');
+            Route::post('abrirTraslado'                 , 'TrasladoController@abrirTraslado');
+            Route::post('finalizarTraslado'             , 'TrasladoController@finalizarTraslado');
+            Route::post('recibirTraslado'               , 'TrasladoController@recibirTraslado');
+            Route::get('getDetalleTraslado'             , 'TrasladoController@getDetalleTraslado');
+            Route::post('abrirTrasladoDeRecibido'       , 'TrasladoController@abrirTrasladoDeRecibido');
+            Route::post('ingresarSeriesDetalleTraslado' , 'TrasladoController@ingresarSeriesDetalleTraslado');
+            Route::get('getTrasladosEnviados'           , 'TrasladoController@getTrasladosEnviados');
+            Route::get('getTrasladosRecibidos'          , 'TrasladoController@getTrasladosRecibidos');
+            Route::get('getTrasladosEnviados_dt'        , 'TrasladoController@getTrasladosEnviados_dt');
+            Route::get('getTrasladosRecibidos_dt'       , 'TrasladoController@getTrasladosRecibidos_dt');
         });
 
         Route::group(array('prefix' => 'categorias'), function()

@@ -95,9 +95,9 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
         $venta->kardex = 1 ;
         $venta->save();
 
-        $detalleVenta = DetalleTraslado::with('producto')->where('traslado_id',$model->id)->get();
+        $detalleTraslado = DetalleTraslado::with('producto')->where('traslado_id',$model->id)->get();
 
-        foreach ($detalleVenta as $dt) 
+        foreach ($detalleTraslado as $dt) 
         {
             $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
             
@@ -108,6 +108,37 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
             $kardex->producto_id = $dt->producto_id;
             $kardex->kardex_transaccion_id = 4;
             $kardex->transaccion_id = $dt->traslado_id;
+            $kardex->evento = 'salida';
+            $kardex->cantidad = $dt->cantidad;
+            $kardex->existencia = $existencia->existencia;
+            $kardex->costo = ($dt->producto->p_costo/100);
+            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->save();  
+        }
+    }
+});
+
+Event::listen('eloquent.updated: Descarga', function(Descarga $model){
+
+    if ($model->status == 1 && $model->kardex == 0) 
+    {
+        $venta = Descarga::find($model->id);
+        $venta->kardex = 1 ;
+        $venta->save();
+
+        $detalleDescarga = DetalleDescarga::with('producto')->where('descarga_id',$model->id)->get();
+
+        foreach ($detalleDescarga as $dt) 
+        {
+            $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
+            
+            $kardex = new Kardex;
+            $kardex->tienda_id = Auth::user()->tienda_id;
+            $kardex->user_id = Auth::user()->id;
+            $kardex->kardex_accion_id = 2;
+            $kardex->producto_id = $dt->producto_id;
+            $kardex->kardex_transaccion_id = 3;
+            $kardex->transaccion_id = $dt->descarga_id;
             $kardex->evento = 'salida';
             $kardex->cantidad = $dt->cantidad;
             $kardex->existencia = $existencia->existencia;

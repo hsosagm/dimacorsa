@@ -60,6 +60,22 @@ class DescargaController extends BaseController {
 
     }
 
+    public function finalizarDescarga()
+    {
+        $detalle = DetalleDescarga::select(DB::raw('sum(cantidad*precio) as total'))
+        ->where('descarga_id', '=', Input::get('descarga_id'))->first();
+
+        if ($detalle->total == null) 
+            return 'La descarga no se puede finalizar porque no tiene productos...';
+
+        $descarga = Descarga::find(Input::get('descarga_id'));
+        $descarga->status = 1;
+        $descarga->save();
+
+        return Response::json(array('success' => true));
+    }
+
+
     public function descripcion()
     { 
         if (Input::has('_token'))
@@ -185,6 +201,14 @@ class DescargaController extends BaseController {
         $descarga_id = Input::get('descarga_id');
 
         $detalle = $detalle = $this->consulta_detalle_descargas();
+
+        $descarga = Descarga::find(Input::get('descarga_id'));
+
+        $descarga->update(array('status' => 0 , 'kardex' => 0));
+
+        $kardex = Kardex::where('kardex_transaccion_id',3)->where('transaccion_id',Input::get('descarga_id'));
+        $kardex->delete();
+
 
         return Response::json(array(
             'success' => true,

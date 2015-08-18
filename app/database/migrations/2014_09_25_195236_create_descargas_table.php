@@ -12,6 +12,8 @@ class CreateDescargasTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
+			$table->boolean('status')->default(0);
+            $table->boolean('kardex')->default(0);
 			$table->string('descripcion')->nullable();
 			$table->timestamps();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

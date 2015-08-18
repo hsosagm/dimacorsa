@@ -96,8 +96,25 @@ function OpenDownload(e)
     });
 }
 
-function FinalizarDescarga() {
-	$(".form-panel").slideUp('slow');	
+function FinalizarDescarga(e, descarga_id) {
+	$.confirm({
+        text: "esta seguro que desea finalizar la Descarga?",
+        title: "Confirmacion",
+        confirm: function(){
+            $.ajax({
+                type: "POST",
+                url: 'admin/descargas/finalizarDescarga',
+                data: {descarga_id: descarga_id},
+            }).done(function(data) {
+                if (data.success == true)
+                {
+                    msg.success('Descarga Finalizada', 'Listo!')
+                    return $(".form-panel").slideUp('slow');
+                }
+                msg.warning(data, 'Advertencia!');
+            });
+        }
+    });	
 }
 
 function IngresarDescripcionDescarga( e , descarga_id) {
