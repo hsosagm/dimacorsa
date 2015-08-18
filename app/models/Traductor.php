@@ -24,13 +24,13 @@ class Traductor
     public static function getDia($dia) 
     {
         $dias = array(
-            'sunday'    => 'Lunes',
-            'monday'    => 'Martes',
-            'tuesday'   => 'Miercoles',
-            'wednesday' => 'Jueves',
-            'thursday'  => 'Viernes',
-            'friday'    => 'Sabado',
-            'saturday'  => 'Domingo'
+            'monday'    => 'Lunes',
+            'tuesday'   => 'Martes',
+            'wednesday' => 'Miercoles',
+            'thursday'  => 'Jueves',
+            'friday'    => 'Viernes',
+            'saturday'  => 'Sabado',
+            'sunday'    => 'Domingo'
             );
         return $dias[strtolower($dia)];
     }
