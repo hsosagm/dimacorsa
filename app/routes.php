@@ -4,14 +4,6 @@
     Route::when('user/*' , 'auth');
     Route::when('admin/*', 'auth');
     Route::when('owner/*', 'auth');
-    /*******************************************************************************
-    funciones para hacer el guardado de logs    
-    ********************************************************************************/
-    Producto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Compra::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
-    DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
 
     /******************************************************************************
     rutas para evitar los errores de las imagenes no encontradas
