@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'pruebas',
+			'database'  => 'laravel',
 			'username'  => 'clickdb',
 			'password'  => 'RjAzsMSBzLzPcxWM',
 			'charset'   => 'utf8',
