@@ -5,11 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTableTheme extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('tema', function(Blueprint $table)
@@ -21,7 +16,6 @@ class CreateTableTheme extends Migration {
 			$table->string('navbarColor')->default('dark');
 			$table->string('sidebarTypeSetting')->default('sidebar-circle');
 			$table->timestamps();
-
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 		}); 
 	}

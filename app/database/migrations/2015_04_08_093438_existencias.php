@@ -5,11 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class Existencias extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('existencias', function(Blueprint $table)
@@ -22,22 +17,14 @@ class Existencias extends Migration {
             $table->integer('ajuste')->nullable();
 			$table->tinyInteger('status')->default(0);
             $table->integer('user_id')->nullable();
-
 			$table->timestamps();
-
 			$table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('existencias');
 	}
-
 }

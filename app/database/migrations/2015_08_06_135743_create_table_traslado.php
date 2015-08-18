@@ -20,7 +20,6 @@ class CreateTableTraslado extends Migration {
             $table->boolean('kardex')->default(0);
             $table->text('nota');
 			$table->timestamps();
-
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id_destino')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -35,7 +34,6 @@ class CreateTableTraslado extends Migration {
 			$table->decimal('precio', 8, 2);
 			$table->text('serials');
 			$table->timestamps();
-
 			$table->foreign('traslado_id')->references('id')->on('traslados')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('producto_id')->references('id')->on('productos')->onDelete('restrict')->onUpdate('cascade');
 		});

@@ -14,7 +14,6 @@ class CreateTableNotificacion extends Migration {
 			$table->string('correo');
 			$table->string('notificacion');
 			$table->timestamps();
-
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 		}); 
 	}
@@ -23,5 +22,4 @@ class CreateTableNotificacion extends Migration {
 	{
 		Schema::drop('notificaciones');
 	}
-
 }

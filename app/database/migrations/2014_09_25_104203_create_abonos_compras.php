@@ -5,11 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAbonosCompras extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('abonos_compras', function(Blueprint $table)
@@ -22,7 +17,6 @@ class CreateAbonosCompras extends Migration {
 			$table->decimal('monto', 8, 2);
 			$table->string('observaciones')->nullable();
 			$table->timestamps();
-
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');
@@ -36,21 +30,14 @@ class CreateAbonosCompras extends Migration {
 			$table->integer('compra_id')->unsigned();
 			$table->decimal('monto', 8, 2);
 			$table->timestamps();
-
 			$table->foreign('abonos_compra_id')->references('id')->on('abonos_compras')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
 		});
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('abonos_compras');
 		Schema::drop('detalle_abonos_compra');
 	}
-
 }

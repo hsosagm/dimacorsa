@@ -36,7 +36,6 @@ class CreateKardex extends Migration {
 			$table->decimal('costo', 8, 2);
 			$table->decimal('costo_promedio', 8, 2);
 			$table->timestamps();
-
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('kardex_accion_id')->references('id')->on('kardex_accion')->onDelete('restrict')->onUpdate('cascade');

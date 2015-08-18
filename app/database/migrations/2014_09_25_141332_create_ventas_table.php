@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateVentasTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('ventas', function(Blueprint $table)
@@ -24,7 +19,6 @@ class CreateVentasTable extends Migration {
             $table->boolean('canceled')->default(0);
             $table->boolean('kardex')->default(0);
 			$table->timestamps();
-
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -40,18 +34,11 @@ class CreateVentasTable extends Migration {
 			$table->decimal('ganancias', 8, 2)->default(0.00);
 			$table->text('serials')->nullable();
 			$table->timestamps();
-
 			$table->foreign('venta_id')->references('id')->on('ventas')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('producto_id')->references('id')->on('productos')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('detalle_ventas');

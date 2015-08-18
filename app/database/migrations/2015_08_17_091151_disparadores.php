@@ -49,12 +49,10 @@ class Disparadores extends Migration {
      	");
 	}
 
-	
 	public function down()
 	{
 		DB::unprepared('DROP TRIGGER `calculated_total_exist`');
 		DB::unprepared('DROP TRIGGER `calculated_total_exist_update`');
 		DB::unprepared('DROP TRIGGER `create_existencias_tienda`');
 	}
-
 }

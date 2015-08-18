@@ -15,8 +15,6 @@ class TablePrinterConfiguration extends Migration {
 			$table->string('nombre');
 			$table->string('margenes');
 			$table->timestamps();
-
-
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 		}); 
 	}
@@ -25,5 +23,4 @@ class TablePrinterConfiguration extends Migration {
 	{
 		Schema::drop('printer');
 	}
-
 }
