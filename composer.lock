@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f1718f4413d3def650d6b7f29af2bb30",
+    "hash": "88f544c6a57bd50170ae2866c15c920e",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -648,12 +648,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fadion/ValidatorAssistant.git",
-                "reference": "33be874957a59ed8a0da500c661990480e63d436"
+                "reference": "cea6f845d5a4bc6e47d655d872031dd89b73fa02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fadion/ValidatorAssistant/zipball/33be874957a59ed8a0da500c661990480e63d436",
-                "reference": "33be874957a59ed8a0da500c661990480e63d436",
+                "url": "https://api.github.com/repos/fadion/ValidatorAssistant/zipball/cea6f845d5a4bc6e47d655d872031dd89b73fa02",
+                "reference": "cea6f845d5a4bc6e47d655d872031dd89b73fa02",
                 "shasum": ""
             },
             "require": {
@@ -663,7 +663,8 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "mockery/mockery": "dev-master"
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "4.7.*"
             },
             "type": "library",
             "autoload": {
@@ -687,7 +688,7 @@
                 "laravel",
                 "validation"
             ],
-            "time": "2015-01-28 13:59:26"
+            "time": "2015-07-29 09:31:23"
         },
         {
             "name": "filp/whoops",
@@ -1219,16 +1220,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.15.0",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "dc5150cc608f2334c72c3b6a553ec9668a4156b0"
+                "reference": "c0c0b4bee3aabce7182876b0d912ef2595563db7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/dc5150cc608f2334c72c3b6a553ec9668a4156b0",
-                "reference": "dc5150cc608f2334c72c3b6a553ec9668a4156b0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c0c0b4bee3aabce7182876b0d912ef2595563db7",
+                "reference": "c0c0b4bee3aabce7182876b0d912ef2595563db7",
                 "shasum": ""
             },
             "require": {
@@ -1265,7 +1266,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15.x-dev"
+                    "dev-master": "1.16.x-dev"
                 }
             },
             "autoload": {
@@ -1291,42 +1292,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2015-07-12 13:54:09"
-        },
-        {
-            "name": "nekman/laravel-model-logger",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ekman/Laravel-Model-Logger.git",
-                "reference": "07b2135911df7636cb545015b76bc11432fab8b5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ekman/Laravel-Model-Logger/zipball/07b2135911df7636cb545015b76bc11432fab8b5",
-                "reference": "07b2135911df7636cb545015b76bc11432fab8b5",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "4.2.*",
-                "illuminate/support": "4.2.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "NEkman\\ModelLogger\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Create a log entry every time a model has been inserted, updated or deleted",
-            "keywords": [
-                "laravel",
-                "logging"
-            ],
-            "time": "2014-08-31 22:10:14"
+            "time": "2015-08-09 17:44:44"
         },
         {
             "name": "nesbot/carbon",
@@ -2317,7 +2283,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
@@ -2375,7 +2341,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
