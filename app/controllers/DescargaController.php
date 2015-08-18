@@ -5,7 +5,7 @@ class DescargaController extends BaseController {
     public function create()
     { 
         if (Input::has('_token'))
-        {   
+        {    
             $consultar = DetalleDescarga::where('descarga_id','=',Input::get('descarga_id'))
             ->where('producto_id','=',Input::get('producto_id'))->get();
 

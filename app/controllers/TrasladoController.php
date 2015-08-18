@@ -12,7 +12,7 @@ class TrasladoController extends \BaseController {
             {
                 return $traslado->errors(); 
             }
-
+ 
             $id = $traslado->get_id();
 
             $traslado = Traslado::find($id);
