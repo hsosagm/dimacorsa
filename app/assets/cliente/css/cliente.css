@@ -128,3 +128,9 @@
 .body-detail table tbody, .body-detail table thead {
     display: block;
 }
+
+
+#main_container {
+	margin-bottom: 50px;
+}
+

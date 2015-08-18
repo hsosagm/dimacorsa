@@ -99,7 +99,6 @@ function abrirTraslado(e){
 	});
 }
 
-
 function abrirTrasladoDeRecibido(e){
 	$id = $(e).closest('tr').attr('id');
 	
@@ -160,6 +159,7 @@ function getDetalleTraslado(e, opcion) {
 		msg.warning(data, 'Advertencia!');
 	});
 }
+
 var serialsDetalleTraslado = [];
 
 function ingresarSeriesDetalleTraslado(e, detalle_traslado_id) {

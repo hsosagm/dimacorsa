@@ -136,7 +136,7 @@ function ingresarSeriesDetalleDescarga(e, detalle_descarga_id) {
         msg.warning(data, 'Advertencia!');
     });
 }
-
+ 
 function guardarSerieDetalleDescarga () {
     if($.trim($("#serialsDetalleDescarga").val()) != ''){
         var ingreso = true;
