@@ -1,14 +1,8 @@
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 
-class Proveedor extends \BaseModel implements Logable{
+class Proveedor extends \BaseModel {
 
 	protected $table = 'proveedores';
 
 	protected $guarded = array('id');
-
-	public function getLogName()
-    {
-        return $this->id;
-    }
 }

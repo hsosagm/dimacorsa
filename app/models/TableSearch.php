@@ -1,6 +1,5 @@
 <?php
 
-
 class TableSearch {
 
     public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null ) {

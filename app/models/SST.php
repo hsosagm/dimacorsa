@@ -1,6 +1,5 @@
 <?php
 
-
 class SST {
 
     public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null, $limit = 10) {
@@ -22,7 +21,6 @@ class SST {
                 $clean_columns[] = $q;
             }
         }
-
 
         $sSearch = str_replace("'"," ", $_GET['sSearch']);
         $sSearch = ltrim($sSearch);
@@ -57,7 +55,6 @@ class SST {
             $sWhere = substr_replace( $sWhere, "", -4 );
             $sWhere .= ')'.$sAnd;
         }
-
 
         $table = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
                     $table.id as id  FROM $table $sJoin $sWhere $sLimit");

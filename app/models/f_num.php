@@ -1,6 +1,5 @@
 <?php
 
-
 class f_num {
 
     public static function get($num) {

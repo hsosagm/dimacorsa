@@ -1,14 +1,8 @@
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 
-class Existencia extends Eloquent implements Logable {
+class Existencia extends Eloquent {
 
 	protected $table = 'existencias';
 
 	protected $guarded = array('id');
-
-	public function getLogName()
-    {
-        return $this->id;
-    }
 }

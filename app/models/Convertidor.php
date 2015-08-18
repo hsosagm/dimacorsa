@@ -112,14 +112,12 @@ class Convertidor
     function NumerosALetras($Numero)
     {
         $Decimales = 0;
-//$Numero = intval($Numero);
+        //$Numero = intval($Numero);
         $letras = "";
 
         while ($Numero != 0)
         {
-
-// '*---> Validación si se pasa de 100 millones
-
+            // '*---> Validación si se pasa de 100 millones
             If ($Numero >= 1000000000) 
             {
                 $letras = "Error en Conversión a Letras";
@@ -127,7 +125,7 @@ class Convertidor
                 $Decimales = 0;
             }
 
-// '*---> $this->Centenas de Millón
+            // '*---> $this->Centenas de Millón
             If (($Numero < 1000000000) And ($Numero >= 100000000))
             {
                 If ((Intval($Numero / 100000000) == 1) And (($Numero - (Intval($Numero / 100000000) * 100000000)) < 1000000))

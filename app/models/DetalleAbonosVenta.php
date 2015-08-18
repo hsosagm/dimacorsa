@@ -1,15 +1,8 @@
 <?php
 
-use \NEkman\ModelLogger\Contract\Logable;
-
-class DetalleAbonosVenta extends \BaseModel  implements Logable{
+class DetalleAbonosVenta extends \BaseModel {
 	
 	protected $table = 'detalle_abonos_ventas';
 
 	protected $guarded = array('id');
-    
-	public function getLogName()
-    {
-        return $this->id;
-    }
 }

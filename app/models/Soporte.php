@@ -1,16 +1,11 @@
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 
-class Soporte extends \BaseModel implements Logable{
+class Soporte extends \BaseModel {
 
 	protected $table = 'soporte';
 
 	protected $guarded = array('id');
 
-	public function getLogName()
-    {
-        return $this->id;
-    }
     public function user()
     {
         return $this->belongsTo('User');    

@@ -27,14 +27,10 @@ class ProcesarCompra
 	public static function EditarDetalleCompra($detalle_id , $tipo , $dato)
 	{
 		if ($tipo == "precio") 
-		{
 			return ProcesarCompra::EditarPrecioDetalle($detalle_id , $dato);
-		}
 
 		else if ($tipo == "cantidad") 
-		{
 			return ProcesarCompra::EditarCantidadDetalle($detalle_id, $dato);
-		}
 	}
 
 	public static function EditarPrecioDetalle($detalle_id , $precio)
@@ -53,52 +49,6 @@ class ProcesarCompra
 		$detalle->save();
 
 		return true;
-	}
-
-	public static function RecalculatedProductoPrecio($detalle_id , $precio_n)
-	{
-		$detalle = DetalleCompra::find($detalle_id);
-
-		// funciones para setear el producto
-		$producto = Producto::find($detalle->producto_id);
-		$precio = ProcesarCompra::resetPrecio(($detalle->precio*100),$detalle->cantidad,$producto->p_costo,$producto->existencia);
-		ProcesarCompra::setProducto($detalle->producto_id , $precio);
-
-		//funcion para actualizar el producto
-		$producto = Producto::find($detalle->producto_id);
-		$precio = ProcesarCompra::getPrecio(($precio_n*100),$detalle->cantidad,$producto->p_costo,$producto->existencia);
-		ProcesarCompra::setProducto($detalle->producto_id , $precio);
-
-		//funcion para actualizar el precio en el detalle
-		$detalle->precio = $precio_n;
-		$detalle->save();
-		
-		return 'success';
-	}
-
-	public static function RecalculatedProductoCantidad($detalle_id , $cantidad_n)
-	{
-		$detalle = DetalleCompra::find($detalle_id);
-
-		// funciones para setear el producto
-		$producto = Producto::find($detalle->producto_id);
-		$precio = ProcesarCompra::resetPrecio(($detalle->precio*100),$detalle->cantidad,$producto->p_costo,$producto->existencia);
-		ProcesarCompra::setProducto($detalle->producto_id , $precio );
-		$existencia = ProcesarCompra::resetCantidad($detalle->producto_id , $detalle->cantidad);
-		ProcesarCompra::setExistencia($detalle->producto_id , $existencia);
-
-		//funcion para actualizar el producto
-		$producto = Producto::find($detalle->producto_id);
-		$precio = ProcesarCompra::getPrecio(($detalle->precio*100),$cantidad_n,$producto->p_costo,$producto->existencia);
-		ProcesarCompra::setProducto($detalle->producto_id , $precio);
-		$existencia = ProcesarCompra::getCantidad($detalle->producto_id,$cantidad_n);
-		ProcesarCompra::setExistencia($detalle->producto_id , $existencia);
-
-		//funcion para actualizar la cantidad en el detalle
-		$detalle->cantidad = $cantidad_n;
-		$detalle->save();
-
-		return 'success';
 	}
 
 	public static function UpdateProducto($compra_id)
@@ -175,9 +125,7 @@ class ProcesarCompra
 		->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
 		if($cantidad == null)
-		{
 			return $_cantidad;
-		}
 
 		$existencia = $cantidad->existencia + $_cantidad ;
 
@@ -190,13 +138,11 @@ class ProcesarCompra
 		->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
 		if($cantidad == null)
-		{
 			return $_cantidad;
-		}
 
 		$existencia = $cantidad->existencia - $_cantidad ;
 
-		return   $existencia;
+		return  $existencia;
 	}
 
 	public static function getPrecioProducto($producto_id)
