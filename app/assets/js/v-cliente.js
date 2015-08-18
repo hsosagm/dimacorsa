@@ -250,7 +250,7 @@ var vm = new Vue({
 				success: function (data) {
 					if (data.success == true)
 					{
-						vm.historialPagos = data.data;
+						vm.historialAbonos = data.data;
 						return vm.proccesDataTable(data.table);
 					}
 					msg.warning(data, 'Advertencia!');
@@ -289,7 +289,13 @@ var vm = new Vue({
 
 
 		imprimirAbonoVenta: function(e ,id) {
-			window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+			$.ajax({
+				type: "GET",
+				url: 'user/ventas/payments/imprimirAbonoVenta/dt/'+id,
+			}).done(function(data) {
+				myWindow = window.open("", "MsgWindow", "width=800, height=500,toolbar=no,location=no,statusbar=no");
+				myWindow.document.write(data);
+			});
 		},
 
 
