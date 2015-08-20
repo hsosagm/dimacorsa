@@ -27,6 +27,7 @@ class ProductoController extends Controller {
     {
     	if (Input::has('_token'))
         {
+            Input::merge(array('p_publico' => str_replace(',', '', Input::get('p_publico'))));
 	    	$producto = Producto::find(Input::get('id'));
 
 			if ( $producto->_update() )
