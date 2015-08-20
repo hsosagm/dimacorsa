@@ -239,11 +239,11 @@ function CreditSales(e)
     }); 
 }
 
-function ImprimirVentaModal(e,id)
+function getModalImprimirVenta(e,id)
 {
     $.ajax({
         type: 'GET',
-        url: "user/ventas/ImprimirVentaModal",
+        url: "user/ventas/getModalImprimirVenta",
         data: { venta_id: id},
         success: function (data) {
             if (data.success == true) {

@@ -168,7 +168,7 @@
             Route::get('showSalesDetail'                        , 'VentasController@showSalesDetail');
             Route::get('openSale'                               , 'VentasController@openSale');
             Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
-            Route::get('ImprimirVentaModal'                     , 'VentasController@ImprimirVentaModal'  );
+            Route::get('getModalImprimirVenta'                  , 'VentasController@getModalImprimirVenta'  );
             Route::get('imprimirFactura'                        , 'VentasController@imprimirFactura'  );
             Route::get('ImprimirFacturaVenta'                   , 'VentasController@ImprimirFacturaVenta'  );
             Route::get('ImprimirGarantiaVenta'                  , 'VentasController@ImprimirGarantiaVenta'  );
