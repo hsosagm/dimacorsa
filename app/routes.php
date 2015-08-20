@@ -512,7 +512,6 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
-    
 
 });
 

@@ -27,6 +27,10 @@
 	margin-top: 8px;
 }
 
+.master-detail-body .form-footer{
+	padding-top: 0px !important
+}
+
 .master-detail-body textarea {
 	margin-top: 10px;
 }
