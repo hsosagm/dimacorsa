@@ -3,7 +3,7 @@
 <div class="row">
 	<div class="col-md-1"></div>
 	<div class="col-md-10">
-		<input type="text" name="serials" class="form-control" id="serialsDetalleTraslado" >
+		<input type="text" name="serials" class="form-control" id="serialsDetalleTraslado" autofocus>
 	</div>
 	<div class="col-md-1"> 
 		<i onclick="guardarSerieDetalleTraslado()" class="fa fa-plus fg-theme"></i>

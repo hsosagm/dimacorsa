@@ -1,26 +1,24 @@
 @if (count(@$detalle) > 0)
 	<table width="100%">
-	    <thead >
-	        <tr>
+		<tbody>
+			<tr>
 	            <th width="10%">Cantidad</th>
-	            <th width="70%">Descripcion</th>
+	            <th width="60%">Descripcion</th>
 	            <th width="10%">Precio</th>
 	            <th width="10%">Totales</th>
-	            <th width="5%"></th>
+	            <th width="10%" colspan="2"></th>
 	        </tr>
-	    </thead>
-		<tbody>
 	        <?php $deuda = 0; ?>
 			@foreach($detalle as $q)
 			    <?php  $deuda = $deuda + $q->total; ?>
 		        <tr>
-		            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          
-		            <td width="70%"> {{ $q->descripcion }} </td>
-		            <td field="precio" style="text-align:right;   padding-right: 20px !important;" cod="{{ $q->id }}" class="edit" width="10%"> 
+		            <td field="cantidad" cod="{{ $q->id }}" class="edit"> {{ $q->cantidad }} </td>          
+		            <td> {{ $q->descripcion }} </td>
+		            <td field="precio" style="text-align:right;   padding-right: 20px !important;" cod="{{ $q->id }}" class="edit"> 
 		            	{{ f_num::get($q->precio) }} 
 		            </td>
-		            <td width="10%" style="text-align:right;   padding-right: 20px !important; "> {{ f_num::get($q->total); }} </td>
-		            <td width="5%" >
+		            <td style="text-align:right;   padding-right: 20px !important; "> {{ f_num::get($q->total); }} </td>
+		            <td>
 		            	<i id="{{ $q->id }}" href="admin/traslados/eliminar_detalle" class="fa fa-trash-o pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i>
 		            </td>
 		            <td>
@@ -29,16 +27,9 @@
 		        </tr>
 			@endforeach
 		</tbody>
-		<tfoot width="100%">
+		<tfoot >
 			<tr>
-			    <td>
-					<div class="row">
-						<div class="col-md-8" >  Total Traslado </div>
-						<div class="col-md-4" class="td_total_text" style="text-align:right; padding-right:50px;" >
-							{{ f_num::get($deuda); }} 
-						</div>
-					</div>
-			    </td>
+			    <td>Total Traslado:</td>
 		    </tr>
 		</tfoot>
 	</table>
