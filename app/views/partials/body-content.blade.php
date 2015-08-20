@@ -30,9 +30,6 @@
 			<div class="panel-body no-padding">
 				<div class="form-horizontal forms"></div>
 			</div>
-			<div>
-			    <div class="footer-heading"></div>
-			</div>
         </div>
     </div>
 

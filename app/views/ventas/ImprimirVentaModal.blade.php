@@ -2,7 +2,7 @@
  ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','factura')->first(); ?>
 
 <?php $garantia = DB::table('printer')->select('impresora')
-->where('tienda_id',Auth::user()->tienda_id)->where('nombre','factura')->first(); ?>
+->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first(); ?>
 
 <div class="row">
 	<dir class="col-md-6 imprimir_factura">

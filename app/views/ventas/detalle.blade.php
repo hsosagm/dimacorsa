@@ -71,9 +71,9 @@
 				else{
 					$(this).val("");
 					$(this).attr('status',1);
+					event.preventDefault();
+					event.stopPropagation()
 				}
-				event.preventDefault();
-				event.stopPropagation()
 			}
 		});
 	});

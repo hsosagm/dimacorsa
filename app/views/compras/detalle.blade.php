@@ -23,7 +23,9 @@
 				</td>
 				<td><input type="text" name="cantidad" class="input input_numeric" > </td>
 				<td><input type="text" name="precio" class="input_numeric master-serials"> </td>
-				<td> </td>
+				<td>
+					<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
+				</td>
 			</tr>
 		</table>
 		{{ Form::close() }}
@@ -47,7 +49,13 @@
 	</div>
 </div>
 
-<div class="form-footer" align="right">
-	{{Form::button('Eliminar!', ['class'=>'btn btn-warning','compra_id'=> @$id,'onClick'=>'DeletePurchaseInitial(this);']);}}
-	{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button','id'=> @$id,'onClick'=>'ModalPurchasePayment(this);']) }}
+<div class="form-footer" >
+	<div class="row">
+		<div class="col-md-6"> </div>
+		<div class="col-md-6" align="right">
+			<i class="fa fa-trash fa-lg icon-delete" compra_id="{{@$id}}" onclick="DeletePurchaseInitial();"></i>
+			<i class="fa fa-check fa-lg icon-success" id="{{@$id}}" onclick="ModalPurchasePayment();"></i>
+		</div>
+	</div>
+</div>
 </div>

@@ -1,62 +1,55 @@
-<div class="row">
-
-	<div class="col-md-6">
-	  Descarga  Id: {{ $id }}  {{-- Para mostrar el Id de la descarga  --}}
-		
-		{{ Form::open(array('url' => '/admin/descargas/create', 'data-remote-md-d', 'data-success' => 'Descarga Generada', 'status' => '0')) }}
-		{{ Form::hidden('producto_id') }}
-		{{ Form::hidden('descarga_id', $id) }}
-
-		<table class="master-table">
-			<tr>
-				<td>
-					Codigo:  
-					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
-				</td>
-				<td>Cantidad:</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="text" id="search_producto"> 
-				</td>
-				<td><input class="input input_numeric" type="text" name="cantidad"> </td>
-				<td>
-					<a class="form-control bg-theme" style=" cursor: pointer;" onclick="IngresarDescripcionDescarga(this,{{$id}});">
-						Nota
-					</a>
-				</td>
-			</tr>
-		</table>
-		{{ Form::close() }}
-	</div>
-
-	<div class="col-md-6">
-		<div class="row master-precios">
-			<div class="col-md-4 precio-costo" style="text-align:left;"> </div>
-			<div class="col-md-3 existencia" style="text-align:right;"> </div>
-		</div>
-		<div class="row master-descripcion">
-			<div class="col-md-11 descripcion"> </div>
-		</div>
-	</div>
-
-</div>
-
-<div class="body-detail">
-	
-</div>
-
-<div class="form-footer" >
+<div class="master-detail-body">
 	<div class="row">
 		<div class="col-md-6">
-			 <?php $id_descarga = "'".Crypt::encrypt($id)."'";?>
-			{{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirDescarga(this,'.$id_descarga.');']);}}
+		  	Descarga  Id: {{ $id }}  {{-- Para mostrar el Id de la descarga  --}}
+			{{ Form::open(array('url' => '/admin/descargas/create', 'data-remote-md-d2', 'data-success' => 'Descarga Generada', 'status' => '0')) }}
+			{{ Form::hidden('producto_id') }}
+			{{ Form::hidden('descarga_id', $id) }}
+			<table class="master-table">
+				<tr>
+					<td>
+						Codigo:  
+						<i class="fa fa-search btn-link theme-c" id="md-search"></i>
+					</td>
+					<td>Cantidad:</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="search_producto"> 
+					</td>
+					<td>
+						<input class="input input_numeric" type="text" name="cantidad"> 
+						<i onclick="ingresarProductoAlDetalle2(this)" class="fa fa-check fg-theme"></i>
+					</td>
+					<td>
+						<i class="fa fa-th-list fa-lg fg-theme" title="Ingresar Descripcion" onclick="IngresarDescripcionDescarga(this,{{$id}});"></i>
+					</td>
+						
+				</tr>
+			</table>
+			{{ Form::close() }}
 		</div>
-		<div class="col-md-6" align="right">
-
-		{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'EliminarDescarga(this,'.$id.');']);}}
-		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'FinalizarDescarga(this,'.$id.')']) }}
+		<div class="col-md-6">
+			<div class="row master-precios">
+				<div class="col-md-4 precio-costo" style="text-align:left;"> </div>
+				<div class="col-md-3 existencia" style="text-align:right;"> </div>
+			</div>
+			<div class="row master-descripcion">
+				<div class="col-md-11 descripcion"> </div>
+			</div>
 		</div>
 	</div>
 </div>
+<div class="body-detail"> </div>
+<div class="form-footer" >
+	<?php $id_descarga = "'".Crypt::encrypt($id)."'";?>
+    <div class="row">
+        <div class="col-md-6">
+            <i class="fa fa-print fa-lg icon-print" onclick="ImprimirDescarga(this, {{$id_descarga}})"></i>
+        </div>
+        <div class="col-md-6" align="right">
+            <i class="fa fa-trash fa-lg icon-delete" onclick="EliminarDescarga(this,{{$id}});"></i>
+            <i class="fa fa-check fa-lg icon-success" onclick="FinalizarDescarga(this,{{$id}})"></i>
+        </div>
+    </div>
 </div>

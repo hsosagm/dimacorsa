@@ -1,15 +1,13 @@
 @if (count(@$detalle) > 0)
 	<table width="100%">
-	    <thead >
-	        <tr>
+		<tbody>
+			<tr>
 	            <th width="10%">Cantidad</th>
 	            <th width="70%">Descripcion</th>
 	            <th width="10%">Precio</th>
 	            <th width="10%">Totales</th>
-	            <th width="5%"></th>
+	            <th width="10%" colspan="2"></th>
 	        </tr>
-	    </thead>
-		<tbody>
 	        <?php $deuda = 0; ?>
 			@foreach($detalle as $q)
 			    <?php  $deuda = $deuda + $q->total;  ?>
