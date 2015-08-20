@@ -103,6 +103,7 @@ class ProductoController extends Controller {
                 'p_costo'           => 'Precio Costo: '.f_num::get($precio_c,2),
                 'p_costo_descarga'  =>  f_num::get($precio_c,2),
                 'p_publico'         => 'Precio Publico: '.$query->p_publico,
+                'p_publico_venta'   =>  $query->p_publico,
                 'existencia_total'  => 'Existencia: '.$query->existencia,
                 'existencia'        => 'Existencia: '.$Existencia,
                 'id'                =>  $query->id

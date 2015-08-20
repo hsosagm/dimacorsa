@@ -12,7 +12,7 @@ class ClienteController extends \BaseController {
 
     public function search()
     {
-        return Autocomplete::get('clientes', array('id', 'nombre', 'apellido', 'nit'));
+        return Autocomplete::get('clientes', array('id', 'nombre', 'direccion', 'nit'));
     }
 
     public function getInfo($id = null)
@@ -291,7 +291,7 @@ class ClienteController extends \BaseController {
         {
             $cliente = Cliente::find(Input::get('cliente_id'));
 
-            $cliente = $cliente->nombre . "&nbsp;" . $cliente->apellido;
+            $cliente = $cliente->nombre;
 
             $info = $cliente . $tab . " Saldo total &nbsp; 0.00" . $tab ." Saldo vencido &nbsp; 0.00";
 
@@ -319,7 +319,7 @@ class ClienteController extends \BaseController {
             $saldo_total = $saldo_total + $q->saldo;
         }
 
-        $cliente = $query[0]->cliente->nombre . "&nbsp;" . $query[0]->cliente->apellido;
+        $cliente = $query[0]->cliente->nombre;
 
         $info = $cliente . $tab . " Saldo total &nbsp;". f_num::get($saldo_total) . $tab ." Saldo vencido &nbsp;" .f_num::get($saldo_vencido);
 
@@ -339,7 +339,7 @@ class ClienteController extends \BaseController {
             ventas.total,
             ventas.created_at as fecha, 
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
+            clientes.nombre as cliente,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
@@ -359,7 +359,7 @@ class ClienteController extends \BaseController {
         $table = 'clientes';
 
         $columns = array(
-            "CONCAT_WS(' ',nombre,apellido) as cliente",
+            "clientes.nombre as cliente",
             "direccion","telefono","nit");
 
         $Searchable = array("nombre","direccion","telefono");
