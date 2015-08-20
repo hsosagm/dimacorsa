@@ -198,7 +198,8 @@ class QueriesController extends \BaseController {
 			"descargas.id as identificador",
             "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') as fecha",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-            'Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) as total'
+            'Round((select sum(cantidad*precio) from detalle_descargas where descarga_id = descargas.id),2) as total',
+            "descargas.status as estado"
 		);
 
 		$Search_columns = array("users.nombre","users.apellido","descargas.id",'descargas.created_at');

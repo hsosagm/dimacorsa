@@ -5,11 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTablePrecioVenta extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('precio_venta', function(Blueprint $table)
@@ -20,14 +15,8 @@ class CreateTablePrecioVenta extends Migration {
 		});
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('precio_venta');
 	}
-
 }

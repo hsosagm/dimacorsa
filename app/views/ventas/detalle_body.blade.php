@@ -27,7 +27,12 @@
                 </td>
 
                 <td width="10%" style="text-align:right; padding-right: 20px !important;"> @{{ dt.total | currency '' }} </td>
-                <td width="5%" ><i  v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"> </i></td>
+                <td width="5%" >
+                	<i  v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"> </i>
+                </td>
+                <td width="5%" >
+                	<i class="fa fa-barcode fg-theme"  onclick="ingresarSeriesDetalleVenta(this, {{Input::get('venta_id')}}) " ></i>
+                </td>
             </tr>
 		</tbody>
 

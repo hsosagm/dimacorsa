@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateSoporteTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{ 
 		Schema::create('soporte_estados', function(Blueprint $table)
@@ -27,7 +22,6 @@ class CreateSoporteTable extends Migration {
 			$table->integer('soporte_estado_id')->unsigned()->default(1);
 			$table->date('fecha_entrega')->nullable();
 			$table->timestamps();
-
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('soporte_estado_id')->references('id')->on('soporte_estados')->onDelete('restrict')->onUpdate('cascade');
@@ -39,7 +33,6 @@ class CreateSoporteTable extends Migration {
 			$table->integer('soporte_id')->unsigned();
 			$table->string('descripcion');
 			$table->timestamps();
-
 			$table->foreign('soporte_id')->references('id')->on('soporte')->onDelete('cascade')->onUpdate('cascade');
 		});
 
@@ -51,18 +44,11 @@ class CreateSoporteTable extends Migration {
 			$table->integer('soporte_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
-
 			$table->foreign('soporte_id')->references('id')->on('soporte')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('detalle_soporte');

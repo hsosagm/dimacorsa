@@ -4,14 +4,6 @@
     Route::when('user/*' , 'auth');
     Route::when('admin/*', 'auth');
     Route::when('owner/*', 'auth');
-    /*******************************************************************************
-    funciones para hacer el guardado de logs    
-    ********************************************************************************/
-    Producto::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Compra::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Venta::observe(new \NEkman\ModelLogger\Observer\Logger);
-    DetalleVenta::observe(new \NEkman\ModelLogger\Observer\Logger);
-    Existencia::observe(new \NEkman\ModelLogger\Observer\Logger);
 
     /******************************************************************************
     rutas para evitar los errores de las imagenes no encontradas
@@ -92,13 +84,16 @@
             Route::get('contacto_nuevo'        , 'ClienteController@contacto_nuevo' );
             Route::post('contacto_update'      , 'ClienteController@contacto_update');
             Route::post('contacto_info'        , 'ClienteController@contacto_info'  );
-            Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer');
+            Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer'); 
             Route::get('DT_salesByCustomer'    , 'ClienteController@DT_salesByCustomer');
             Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
             Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
             Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
             Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
-            Route::get('clientes'              , 'ClienteController@clientes'    );
+            Route::get('clientes'              , 'ClienteController@clientes');
+            Route::post('crearCliente'         , 'ClienteController@crearCliente');
+            Route::post('actualizarCliente'    , 'ClienteController@actualizarCliente');
+            Route::post('eliminarCliente'      , 'ClienteController@eliminarCliente');
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -184,6 +179,7 @@
             Route::get('getVentasPendientesPorCliente'          , 'VentasController@getVentasPendientesPorCliente' );
             Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
             Route::get('getVentasPorHoraPorUsuario'             , 'VentasController@getVentasPorHoraPorUsuario');
+            Route::post('ingresarSeriesDetalleVenta'            , 'VentasController@ingresarSeriesDetalleVenta');
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -209,27 +205,6 @@
  
     Route::group(array('prefix' => 'admin'), function()
     {
-        Route::group(array('prefix' => 'traslados'),function() 
-        {
-            Route::get('buscarTienda'             , 'TrasladoController@buscarTienda');
-            Route::get('create'                   , 'TrasladoController@create' );
-            Route::post('create'                  , 'TrasladoController@create');
-            Route::post('edit'                    , 'TrasladoController@edit');
-            Route::get('edit'                     , 'TrasladoController@edit');
-            Route::post('detalle'                 , 'TrasladoController@detalle');
-            Route::post('eliminar_detalle'        , 'TrasladoController@eliminar_detalle');
-            Route::post('eliminarTraslado'        , 'TrasladoController@eliminarTraslado');
-            Route::post('abrirTraslado'           , 'TrasladoController@abrirTraslado');
-            Route::post('finalizarTraslado'       , 'TrasladoController@finalizarTraslado');
-            Route::post('recibirTraslado'         , 'TrasladoController@recibirTraslado');
-            Route::get('getDetalleTraslado'       , 'TrasladoController@getDetalleTraslado');
-            Route::post('abrirTrasladoDeRecibido' , 'TrasladoController@abrirTrasladoDeRecibido');
-            Route::get('getTrasladosEnviados'     , 'TrasladoController@getTrasladosEnviados');
-            Route::get('getTrasladosRecibidos'    , 'TrasladoController@getTrasladosRecibidos');
-            Route::get('getTrasladosEnviados_dt'  , 'TrasladoController@getTrasladosEnviados_dt');
-            Route::get('getTrasladosRecibidos_dt' , 'TrasladoController@getTrasladosRecibidos_dt');
-        });
-
         Route::group(array('prefix' => 'kardex'),function() 
         {
             Route::get('getKardex' , 'KardexController@getKardex');
@@ -237,9 +212,12 @@
 
         Route::group(array('prefix' => 'configuracion'),function() 
         {
-            Route::get('impresora'          , 'ConfiguracionController@impresora');
-            Route::post('impresora'          , 'ConfiguracionController@saveImpresora');
-            Route::get('getImpresoras/{im}' , 'ConfiguracionController@getImpresoras');
+            Route::get('impresora'              , 'ConfiguracionController@impresora');
+            Route::get('notificacion'           , 'ConfiguracionController@notificacion');
+            Route::post('notificacion'          , 'ConfiguracionController@notificacion');
+            Route::post('eliminarNotificacion'  , 'ConfiguracionController@eliminarNotificacion');
+            Route::post('impresora'             , 'ConfiguracionController@saveImpresora');
+            Route::get('getImpresoras/{im}'     , 'ConfiguracionController@getImpresoras');
         });
 
         Route::group(array('prefix' => 'queries'),function() 
@@ -380,6 +358,7 @@
             Route::get('getComprasPedientesDePago'          , 'CompraController@getComprasPedientesDePago');
             Route::get('getComprasPendientesPorProveedor'   , 'CompraController@getComprasPendientesPorProveedor');
             Route::get('getCompraConDetalle'                , 'CompraController@getCompraConDetalle');
+            Route::post('ingresarSeriesDetalleCompra'       , 'CompraController@ingresarSeriesDetalleCompra');
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -414,6 +393,30 @@
             Route::get('DownloadsForDate'                   , 'DescargaController@DownloadsForDate' );
             Route::get('descripcion'                        , 'DescargaController@descripcion' );
             Route::post('descripcion'                       , 'DescargaController@descripcion' );
+            Route::post('ingresarSeriesDetalleDescarga'     , 'DescargaController@ingresarSeriesDetalleDescarga');
+            Route::post('finalizarDescarga'                 , 'DescargaController@finalizarDescarga');
+        });
+    
+        Route::group(array('prefix' => 'traslados'),function() 
+        {
+            Route::get('buscarTienda'                   , 'TrasladoController@buscarTienda');
+            Route::get('create'                         , 'TrasladoController@create' );
+            Route::post('create'                        , 'TrasladoController@create');
+            Route::post('edit'                          , 'TrasladoController@edit');
+            Route::get('edit'                           , 'TrasladoController@edit');
+            Route::post('detalle'                       , 'TrasladoController@detalle');
+            Route::post('eliminar_detalle'              , 'TrasladoController@eliminar_detalle');
+            Route::post('eliminarTraslado'              , 'TrasladoController@eliminarTraslado');
+            Route::post('abrirTraslado'                 , 'TrasladoController@abrirTraslado');
+            Route::post('finalizarTraslado'             , 'TrasladoController@finalizarTraslado');
+            Route::post('recibirTraslado'               , 'TrasladoController@recibirTraslado');
+            Route::get('getDetalleTraslado'             , 'TrasladoController@getDetalleTraslado');
+            Route::post('abrirTrasladoDeRecibido'       , 'TrasladoController@abrirTrasladoDeRecibido');
+            Route::post('ingresarSeriesDetalleTraslado' , 'TrasladoController@ingresarSeriesDetalleTraslado');
+            Route::get('getTrasladosEnviados'           , 'TrasladoController@getTrasladosEnviados');
+            Route::get('getTrasladosRecibidos'          , 'TrasladoController@getTrasladosRecibidos');
+            Route::get('getTrasladosEnviados_dt'        , 'TrasladoController@getTrasladosEnviados_dt');
+            Route::get('getTrasladosRecibidos_dt'       , 'TrasladoController@getTrasladosRecibidos_dt');
         });
 
         Route::group(array('prefix' => 'categorias'), function()
@@ -510,7 +513,8 @@ Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
 
 Route::get('test', function()
 {
-    return View::make('layouts.test');
+    
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

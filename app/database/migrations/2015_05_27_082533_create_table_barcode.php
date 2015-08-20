@@ -5,11 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTableBarcode extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('barcode', function($table)
@@ -33,15 +28,9 @@ class CreateTableBarcode extends Migration {
         $barcode->save();
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('barcode');
 	}
-
 }
 

@@ -1,3 +1,6 @@
+$(function() {
+    $(document).on("enter", "#serialsDetalleTraslado", function(){ guardarSerieDetalleTraslado(); });
+});
 
 function fopen_traslado() {
 	$.ajax({
@@ -96,7 +99,6 @@ function abrirTraslado(e){
 	});
 }
 
-
 function abrirTrasladoDeRecibido(e){
 	$id = $(e).closest('tr').attr('id');
 	
@@ -158,6 +160,76 @@ function getDetalleTraslado(e, opcion) {
 	});
 }
 
+var serialsDetalleTraslado = [];
+
+function ingresarSeriesDetalleTraslado(e, detalle_traslado_id) {
+    $.ajax({
+        type: "POST",
+        url: 'admin/traslados/ingresarSeriesDetalleTraslado',
+        data: {detalle_traslado_id: detalle_traslado_id },
+    }).done(function(data) {
+        if (data.success == true) {
+            $('.modal-body').html(data.view);
+            $('.modal-title').text( 'Ingresar Series');
+            return $('.bs-modal').modal('show');
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+}
+
+function guardarSerieDetalleTraslado () {
+    if($.trim($("#serialsDetalleTraslado").val()) != ''){
+        var ingreso = true;
+        $("#listaSeriesDetalleTraslado").html("");
+
+        for (var i = 0; i < serialsDetalleTraslado.length; i++) {
+            $value ="'"+serialsDetalleTraslado[i]+"'";
+            $tr = '<tr><td>'+serialsDetalleTraslado[i]+'</td>';
+            $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleTraslado(this,'+$value+');"></i></td></tr>';
+            $("#listaSeriesDetalleTraslado").append($tr);
+            if(serialsDetalleTraslado[i] == $("#serialsDetalleTraslado").val())
+                ingreso = false
+        };
+
+        if(ingreso == true) {
+            serialsDetalleTraslado.push($("#serialsDetalleTraslado").val());
+            $value ="'"+$("#serialsDetalleTraslado").val()+"'";
+            $tr  = '<tr><td>'+$("#serialsDetalleTraslado").val()+'</td>';
+            $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleTraslado(this,'+$value+');"></i></td></tr>';
+            $("#listaSeriesDetalleTraslado").append($tr);
+            msg.success('Serie ingresada..!', 'Listo!');
+        }
+        else
+            msg.warning('La serie ya fue ingresada..!', 'Advertencia!');
+
+        $("#serialsDetalleTraslado").val("");
+        $("#serialsDetalleTraslado").focus();
+    }
+    else
+        msg.warning('El campo se encuentra vacio..!', 'Advertencia!');
+}
+
+function eliminarSerialsDetalleTraslado(e, serie) {
+    serialsDetalleTraslado.splice(serialsDetalleTraslado.indexOf(serie), 1);
+    $(e).closest('tr').hide();
+    $("#serialsDetalleTraslado").focus();
+}
+
+function guardarSeriesDetalleTraslado(e, detalle_traslado_id) {
+    $(e).prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: 'admin/traslados/ingresarSeriesDetalleTraslado',
+        data: {detalle_traslado_id: detalle_traslado_id, guardar:true, serials: serialsDetalleTraslado.join(',') },
+    }).done(function(data) {
+        if (data.success == true) {
+            msg.success('Series Guardadas..!', 'Listo!');
+            return $('.bs-modal').modal('hide');
+        }
+        $(e).prop("disabled", true);
+        msg.warning(data, 'Advertencia!');
+    });
+}
 
 function getTrasladosEnviados(e){
 	$.get( "admin/traslados/getTrasladosEnviados", function( data ) {

@@ -250,7 +250,7 @@ var vm = new Vue({
 				success: function (data) {
 					if (data.success == true)
 					{
-						vm.historialPagos = data.data;
+						vm.historialAbonos = data.data;
 						return vm.proccesDataTable(data.table);
 					}
 					msg.warning(data, 'Advertencia!');
@@ -288,8 +288,14 @@ var vm = new Vue({
 		},
 
 
-		imprimirAbonoVenta: function(e ,av) {
-			window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+av.id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+		imprimirAbonoVenta: function(e ,id) {
+			$.ajax({
+				type: "GET",
+				url: 'user/ventas/payments/imprimirAbonoVenta/dt/'+id,
+			}).done(function(data) {
+				myWindow = window.open("", "MsgWindow", "width=800, height=500,toolbar=no,location=no,statusbar=no");
+				myWindow.document.write(data);
+			});
 		},
 
 
@@ -330,23 +336,23 @@ var vm = new Vue({
 		},
 
 
-        chartComparativaPorMesPorCliente: function() {
-		    $.ajax({
-		        type: "GET",
-		        url: 'user/chart/chartComparativaPorMesPorCliente',
-		        data: { cliente_id: vm.cliente_id },
-		    }).done(function(data) {
-		        if (data.success == true)
-		        {
-		            $('#main_container').show();
-		            $('#main_container').html(data.view);
-		            return compile();
-		        }
-		        msg.warning(data, 'Advertencia!');
-		    }); 
-        },
+		chartComparativaPorMesPorCliente: function() {
+			$.ajax({
+				type: "GET",
+				url: 'user/chart/chartComparativaPorMesPorCliente',
+				data: { cliente_id: vm.cliente_id },
+			}).done(function(data) {
+				if (data.success == true)
+				{
+					$('#main_container').show();
+					$('#main_container').html(data.view);
+					return compile();
+				}
+				msg.warning(data, 'Advertencia!');
+			}); 
+		},
 
-        
+
 		closeMainContainer: function() {
 			$('#main_container').hide();
 		},
@@ -354,7 +360,7 @@ var vm = new Vue({
 		clientes_table: function() {
 			$.get( "user/cliente/index", function( data ) {
 				if (data.success == true)
-				{
+				{ 
 					vm.proccesDataTable(data.table);
 					return $('#example').addClass('tableSelected');
 				}
@@ -453,6 +459,57 @@ var vm = new Vue({
 				}
 				msg.warning(data, 'Advertencia!');
 			});
+		},
+
+
+		crearCliente: function() {
+			$.ajax({
+				type: "POST",
+				url: 'user/cliente/crearCliente',
+			}).done(function(data) {
+				if (data.success == true) {
+					$('.modal-body').html(data.view);
+					$('.modal-title').text( 'Crear Cliente');
+					return $('.bs-modal').modal('show');
+				}
+				msg.warning(data, 'Advertencia!');
+			});
+		},
+
+
+		actualizarCliente: function() {
+			$.ajax({
+				type: "POST",
+				url: 'user/cliente/actualizarCliente',
+				data: {cliente_id: $('.dataTable tbody .row_selected').attr('id')},
+			}).done(function(data) {
+				if (data.success == true) {
+					$('.modal-body').html(data.view);
+					$('.modal-title').text( 'Editar Cliente');
+					return $('.bs-modal').modal('show');
+				}
+				msg.warning(data, 'Advertencia!');
+			});
+		},
+
+
+		eliminarCliente: function() {
+			$.confirm({
+				confirm: function(){
+					$.ajax({
+						type: "POST",
+						url: 'user/cliente/eliminarCliente',
+						data: {cliente_id: $('.dataTable tbody .row_selected').attr('id')},
+					}).done(function(data) {
+						if (data.success == true) {
+							msg.success('Cliente eliminado', 'Listo!')
+							return $('.dataTable tbody .row_selected').hide();
+						}
+						msg.warning(data, 'Advertencia!');
+					});
+				}
+			});
+			$('.modal-title').text( 'Eliminar Cliente');
 		},
 
 

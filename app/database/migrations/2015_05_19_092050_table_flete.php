@@ -14,7 +14,6 @@ class TableFlete extends Migration {
 			$table->decimal('monto', 8, 2);
 			$table->string('nota')->nullable();
 			$table->timestamps();
-
 			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');
 		});
 	} 
@@ -23,5 +22,4 @@ class TableFlete extends Migration {
 	{
 		Schema::drop('fletes');
 	}
-
 }

@@ -13,13 +13,13 @@
                 <ul class="nav nav-tabs nav-pills">
                     <li class="active" id="saldo_vencido">
                         <a aria-expanded="true" href="#tab1" data-toggle="tab">
-                            <i class="fa fa-paypal"></i> <span>Informacion Cliente</span>
+                            <i class="fa fa-user"></i> <span>Informacion Cliente</span>
                         </a>
                     </li>
 
                     <li>
                         <a aria-expanded="false" href="#tab2" data-toggle="tab">
-                            <i class="fa fa-paypal"></i> <span>Contactos</span>
+                            <i class="fa fa-user"></i> <span>Contactos</span>
                         </a>
                     </li>
                 </ul>

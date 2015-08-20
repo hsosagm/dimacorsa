@@ -5,9 +5,8 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Zizaco\Entrust\HasRole;
-use \NEkman\ModelLogger\Contract\Logable;
 
-class User extends \BaseModel implements UserInterface, RemindableInterface, Logable {
+class User extends \BaseModel implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait, HasRole;
     protected $table = 'users';
@@ -17,11 +16,6 @@ class User extends \BaseModel implements UserInterface, RemindableInterface, Log
     public function setPasswordAttribute($pass) 
     {
         $this->attributes['password'] = Hash::make($pass);
-    }
-
-    public function getLogName()
-    {
-        return $this->id;
     }
 
     public function tienda()

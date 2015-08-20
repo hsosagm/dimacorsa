@@ -1,7 +1,6 @@
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 
-class Egreso extends \BaseModel implements Logable{
+class Egreso extends \BaseModel {
 
     protected $table = 'egresos';
     
@@ -25,10 +24,5 @@ class Egreso extends \BaseModel implements Logable{
     public function detalle_egresos()
     {
         return $this->hasMany('DetalleEgreso');
-    }
-
-    public function getLogName()
-    {
-        return $this->id;
     }
 }

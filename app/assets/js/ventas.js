@@ -1,5 +1,6 @@
 $(function() {
     $(document).on('click', '.f_ven_op', function(){ f_ven_op(this); });
+    $(document).on("enter", "#serialsDetalleVenta", function(){ guardarSerieDetalleVenta(); });
 });
 
 function f_ven_op() {
@@ -334,4 +335,75 @@ function imprimirFactura(p)
             window['qzDoneFinding'] = null;
         };
     }
+}
+
+var serialsDetalleVenta = [];
+
+function ingresarSeriesDetalleVenta(e, detalle_venta_id) {
+    $.ajax({
+        type: "POST",
+        url: 'user/ventas/ingresarSeriesDetalleVenta',
+        data: {detalle_venta_id: detalle_venta_id },
+    }).done(function(data) {
+        if (data.success == true) {
+            $('.modal-body').html(data.view);
+            $('.modal-title').text( 'Ingresar Series');
+            return $('.bs-modal').modal('show');
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+}
+
+function guardarSerieDetalleVenta () {
+    if($.trim($("#serialsDetalleVenta").val()) != ''){
+        var ingreso = true;
+        $("#listaSeriesDetalleVenta").html("");
+
+        for (var i = 0; i < serialsDetalleVenta.length; i++) {
+            $value ="'"+serialsDetalleVenta[i]+"'";
+            $tr = '<tr><td>'+serialsDetalleVenta[i]+'</td>';
+            $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleVenta(this,'+$value+');"></i></td></tr>';
+            $("#listaSeriesDetalleVenta").append($tr);
+            if(serialsDetalleVenta[i] == $("#serialsDetalleVenta").val())
+                ingreso = false
+        };
+
+        if(ingreso == true) {
+            serialsDetalleVenta.push($("#serialsDetalleVenta").val());
+            $value ="'"+$("#serialsDetalleVenta").val()+"'";
+            $tr  = '<tr><td>'+$("#serialsDetalleVenta").val()+'</td>';
+            $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleVenta(this,'+$value+');"></i></td></tr>';
+            $("#listaSeriesDetalleVenta").append($tr);
+            msg.success('Serie ingresada..!', 'Listo!');
+        }
+        else
+            msg.warning('La serie ya fue ingresada..!', 'Advertencia!');
+
+        $("#serialsDetalleVenta").val("");
+        $("#serialsDetalleVenta").focus();
+    }
+    else
+        msg.warning('El campo se encuentra vacio..!', 'Advertencia!');
+}
+
+function eliminarSerialsDetalleVenta(e, serie) {
+    serialsDetalleVenta.splice(serialsDetalleVenta.indexOf(serie), 1);
+    $(e).closest('tr').hide();
+    $("#serialsDetalleVenta").focus();
+}
+
+function guardarSeriesDetalleVenta(e, detalle_venta_id) {
+    $(e).prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: 'user/ventas/ingresarSeriesDetalleVenta',
+        data: {detalle_venta_id: detalle_venta_id, guardar:true, serials: serialsDetalleVenta.join(',') },
+    }).done(function(data) {
+        if (data.success == true) {
+            msg.success('Series Guardadas..!', 'Listo!');
+            return $('.bs-modal').modal('hide');
+        }
+        $(e).prop("disabled", true);
+        msg.warning(data, 'Advertencia!');
+    });
 }

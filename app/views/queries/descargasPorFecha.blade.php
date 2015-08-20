@@ -21,11 +21,12 @@
             },
             
             "aoColumnDefs": [
-            {"sClass": "widthS",                      "sTitle": "ID",                           "aTargets": [0]},
-            {"sClass": "widthM",                      "sTitle": "Fecha",                        "aTargets": [1]},
-            {"sClass": "widthL",                      "sTitle": "Usuario",                      "aTargets": [2]},
-            {"sClass": "widthS right formato_precio", "sTitle": "Total",                        "aTargets": [3]},
-            {"sClass": "widthS center", "sTitle": "", "orderable": false,"aTargets": [4],
+            {"sClass": "widthS",                          "sTitle": "ID",           "aTargets": [0]},
+            {"sClass": "widthM",                          "sTitle": "Fecha",        "aTargets": [1]},
+            {"sClass": "widthL",                          "sTitle": "Usuario",      "aTargets": [2]},
+            {"sClass": "widthS right formato_precio",     "sTitle": "Total",        "aTargets": [3]},
+            {"sClass": "widthS",        "bVisible": false,"sTitle": "status",       "aTargets": [4]},
+            {"sClass": "widthS center","orderable": false,"sTitle": "",             "aTargets": [5],
                 "mRender": function() {
                     $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showDownloadsDetail(this)" class="fa fa-plus-square show_detail font14">';
                     $v += '<a href="javascript:void(0);" title="Abrir Descarga" onclick="OpenDownload(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
@@ -41,6 +42,11 @@
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));
             });
+        },
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+          if ( aData[4] == 0){
+            jQuery(nRow).addClass('red');
+          }               
         },
         "bJQueryUI": false,
         "bProcessing": true,

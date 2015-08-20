@@ -9,7 +9,7 @@
 
 			<li>
 				<a aria-expanded="false" href="#tab4" data-toggle="tab" onclick="GetPurchasesForPaymentsBySelection(1, null);">
-					<i class="fa fa-paypal"></i> <span>Seleccionar ventas</span>
+					<i class="fa fa-paypal"></i> <span>Seleccionar Compras</span>
 				</a>
 			</li>
 		</ul>

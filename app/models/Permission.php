@@ -1,12 +1,6 @@
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 use Zizaco\Entrust\EntrustPermission;
 
-class Permission extends EntrustPermission implements Logable
-{
+class Permission extends EntrustPermission {
 
-public function getLogName()
-    {
-        return $this->id;
-    }
 }

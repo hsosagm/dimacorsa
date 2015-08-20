@@ -16,7 +16,7 @@
                 {"sClass": "mod_codigo hover width25",                       "sTitle": "Nota",       "aTargets": [3]},
                 {"sClass": "mod_codigo hover width10 right",                 "sTitle": "Total",      "aTargets": [4]},
                 {"bVisible": false,                                                                  "aTargets": [5]},
-                {"sClass": "width10 icons center",                            "sTitle": "",           "aTargets": [6],
+                {"sClass": "width10 icons center",                            "sTitle": "",          "aTargets": [6],
                     "orderable": false,
                     "mRender": function() {
                         $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleTraslado(this, 1)"></i>';
@@ -25,7 +25,8 @@
                         return $v;
                     }
                 },
-            ],
+            ], 
+            "order": [[ 5, "asc" ],[ 0, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
             },

@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateProveedoresTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('proveedores', function(Blueprint $table)
@@ -37,22 +32,13 @@ class CreateProveedoresTable extends Migration {
 			$table->string('numero');
 			$table->integer('preferido');
 			$table->timestamps();
-
-			
 			$table->foreign('proveedor_id')->references('id')->on('proveedores')->onDelete('restrict')->onUpdate('cascade');
 		}); 
 	}
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('proveedor_contacto');
 		Schema::drop('proveedores');
 	}
-
 }

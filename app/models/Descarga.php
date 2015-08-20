@@ -1,8 +1,7 @@
 
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 
-class Descarga extends \BaseModel implements Logable{
+class Descarga extends \BaseModel {
 
 	protected $guarded = array('id');
 
@@ -11,10 +10,5 @@ class Descarga extends \BaseModel implements Logable{
     public function detalle_descarga()
     {
         return $this->hasMany('DetalleDescarga');
-    }
-
-	public function getLogName()
-    {
-        return $this->id;
     }
 }

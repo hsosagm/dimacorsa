@@ -7,6 +7,43 @@ class ConfiguracionController extends \BaseController {
 		return View::make('configuracion.impresora')->render();
 	}
 
+	public function notificacion()
+	{
+		if (Input::has('_token'))
+		{
+			$notificacion = Notificacion::where('tienda_id', '=', Auth::user()->tienda_id)
+			->where('notificacion', '=',Input::get('notificacion'))
+			->where('correo', '=', Input::get('correo'))->first();
+
+			if($notificacion != null)
+				return 'El correo ya esta ingresado para esa Notificacion..';
+
+			$nuevaNotificacion = new Notificacion;
+			$nuevaNotificacion->correo = Input::get('correo');
+			$nuevaNotificacion->notificacion = Input::get('notificacion');
+			$nuevaNotificacion->tienda_id = Auth::user()->tienda_id;
+			$nuevaNotificacion->save();
+
+			$correos = Notificacion::where('tienda_id', '=', Auth::user()->tienda_id)->get();
+
+			return Response::json(array(
+				'success' => true, 
+				'table' => View::make('configuracion.listCorreos',compact('correos'))->render() 
+				));
+		}
+
+		$correos = Notificacion::where('tienda_id', '=', Auth::user()->tienda_id)->get();
+		return View::make('configuracion.notificacion', compact('correos'))->render();
+	}
+
+	public function eliminarNotificacion()
+	{
+		$notificacion = Notificacion::find(Input::get('id'));
+		
+		if ($notificacion->delete())
+            return 'success';
+	}
+
 	public function getImpresoras($im)
 	{
 		$impresoras = explode(",",substr($im, 0, -1));

@@ -1,5 +1,6 @@
 $(function() {
     $(document).on("click", "#_create", function(){ _create(this); });
+    $(document).on("click", "#_create_dt", function(){ _create_dt(this); });
     $(document).on("click", "#_edit", function(){ _edit(this); });
     $(document).on("click", "#_edit_dt", function(){ _edit_dt(this); });
     $(document).on("click", "#_delete", function(){ _delete(this); });
@@ -190,6 +191,16 @@ function _create() {
     });
 }
 
+function _create_dt() {
+
+    var url = $('.dataTable').attr('url') + 'create_dt';
+
+    $.get( url, function( data ) {
+        $('.modal-body').html(data);
+        $('.modal-title').text( 'Crear ' + $('.dataTable').attr('title') );
+        $('.bs-modal').modal('show');
+    });
+}
 
 function _edit() {
 
@@ -221,7 +232,6 @@ function _edit_dt() {
         type: "GET",
         url: $url,
         data: {id: $id},
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             $('.modal-body').html(data);
             $('.modal-title').text( 'Editar ' + $('.dataTable').attr('title') );
@@ -247,7 +257,6 @@ function _delete() {
                 type: "POST",
                 url: $url,
                 data: { id: $id },
-                contentType: 'application/x-www-form-urlencoded',
                 success: function (data, text) {
                     if (data == 'success') {
 
@@ -272,6 +281,7 @@ function _delete() {
 
 function _delete_dt(e) {
     $id = $(e).closest('tr').attr('id');    
+
     $url = $(e).attr('url') + 'delete';
     
     $.confirm({
@@ -280,8 +290,7 @@ function _delete_dt(e) {
                 type: "POST",
                 url: $url,
                 data: { id: $id },
-                contentType: 'application/x-www-form-urlencoded',
-                success: function (data, text) {
+                success: function (data) {
                     if ($.trim(data) == 'success') {
                         msg.success('Dato eliminado', 'Listo!')
                         $(e).closest('tr').hide();

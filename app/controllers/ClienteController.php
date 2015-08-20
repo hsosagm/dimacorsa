@@ -82,6 +82,57 @@ class ClienteController extends \BaseController {
         return View::make('cliente.create');
     }
 
+    public function crearCliente()
+    {
+        if (Session::token() == Input::get('_token'))
+        {
+            $cliente = new Cliente;
+
+            $data = Input::all();
+
+            if (Input::get('nit') == "") 
+                $data['nit'] = 'C/F';
+            else
+                $data['nit'] = $this->limpiaNit(Input::get('nit'));
+
+            if (!$cliente->_create($data))
+            {
+                return $cliente->errors();
+            }
+
+            return 'success';
+        }
+
+        return Response::json(array(
+            'success' => true, 
+            'view' =>  View::make('cliente.create')->render()
+            ));
+    }
+
+    public function actualizarCliente()
+    {
+        $cliente = Cliente::find(Input::get('cliente_id'));
+
+        $contactos = ClienteContacto::where('cliente_id','=',Input::get('cliente_id'))->get();
+
+        return Response::json(array(
+            'success' => true, 
+            'view' =>  View::make('cliente.actualizarCliente',compact('cliente' , 'contactos'))->render()
+            ));
+    }
+
+    public function eliminarCliente()
+    {
+        $delete = Cliente::destroy(Input::get('cliente_id'));
+
+        if ($delete)
+        {
+            return Response::json(array( 'success' => true ));
+        }
+
+        return 'Error al eliminar el cliente...';
+    }
+
     public function info()
     {
         $cliente =  Cliente::find(Input::get('id'));

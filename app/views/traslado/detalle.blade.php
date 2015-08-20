@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        {{ Form::open(array('url' => '/admin/traslados/detalle', 'data-remote-md-d', 'data-success' => 'Descarga Generada', 'status' => '0')) }}
+        {{ Form::open(array('url' => '/admin/traslados/detalle', 'data-remote-md-d', 'data-success' => 'Traslado Ingresado', 'status' => '0')) }}
         {{ Form::hidden('producto_id') }}
         {{ Form::hidden('traslado_id', $id) }}
         <table class="master-table">

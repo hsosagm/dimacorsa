@@ -5,7 +5,7 @@ class DescargaController extends BaseController {
     public function create()
     { 
         if (Input::has('_token'))
-        {   
+        {    
             $consultar = DetalleDescarga::where('descarga_id','=',Input::get('descarga_id'))
             ->where('producto_id','=',Input::get('producto_id'))->get();
 
@@ -59,6 +59,22 @@ class DescargaController extends BaseController {
         return View::make('descargas.create', compact('id'));
 
     }
+
+    public function finalizarDescarga()
+    {
+        $detalle = DetalleDescarga::select(DB::raw('sum(cantidad*precio) as total'))
+        ->where('descarga_id', '=', Input::get('descarga_id'))->first();
+
+        if ($detalle->total == null) 
+            return 'La descarga no se puede finalizar porque no tiene productos...';
+
+        $descarga = Descarga::find(Input::get('descarga_id'));
+        $descarga->status = 1;
+        $descarga->save();
+
+        return Response::json(array('success' => true));
+    }
+
 
     public function descripcion()
     { 
@@ -186,9 +202,39 @@ class DescargaController extends BaseController {
 
         $detalle = $detalle = $this->consulta_detalle_descargas();
 
+        $descarga = Descarga::find(Input::get('descarga_id'));
+
+        $descarga->update(array('status' => 0 , 'kardex' => 0));
+
+        $kardex = Kardex::where('kardex_transaccion_id',3)->where('transaccion_id',Input::get('descarga_id'));
+        $kardex->delete();
+
+
         return Response::json(array(
             'success' => true,
             'detalle'   => View::make('descargas.edit', compact('descarga_id','detalle'))->render()
+        ));
+    }
+
+    public function ingresarSeriesDetalleDescarga()
+    {
+        if (Input::get('guardar') == true) {
+            $detalle_descarga = DetalleDescarga::find(Input::get('detalle_descarga_id'));
+            $detalle_descarga->serials = Input::get('serials');
+            $detalle_descarga->save();
+
+            return Response::json(array('success' => true));
+        }
+
+        $detalle_descarga = DetalleDescarga::find(Input::get('detalle_descarga_id'));
+        $serials = explode(',', $detalle_descarga->serials ); 
+
+        if (trim($detalle_descarga->serials) == null ) 
+            $serials = [];
+        
+        return Response::json(array(
+            'success' => true,
+            'view'   => View::make('descargas.ingresarSeriesDetalleDescarga', compact('serials'))->render()
         ));
     }
 } 

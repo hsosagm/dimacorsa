@@ -6,7 +6,7 @@
 
 <div class="row">
 	<dir class="col-md-6 imprimir_factura">
-		<button type="button" class="btn btn-primary .btn-block" onclick="ImprimirFacturaVenta(this,{{$venta_id}},'{{$factura->impresora}}')">Imprimir Factura</button>
+		<button type="button" class="btn btn-primary .btn-block" onclick="ImprimirFacturaVenta(this,{{$venta_id}},'{{@$factura->impresora}}')">Imprimir Factura</button>
 	</dir>
 	<dir class="col-md-6 imprimir_factura">
 		<button type="button" class="btn btn-default .btn-block"  onclick="ImprimirGarantiaVenta(this,{{$venta_id}})">Imprimir Garantia</button>

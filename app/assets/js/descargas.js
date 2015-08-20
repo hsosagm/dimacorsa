@@ -1,3 +1,6 @@
+$(function() {
+    $(document).on("enter", "#serialsDetalleDescarga", function(){ guardarSerieDetalleDescarga(); });
+});
 
 function fopen_descarga() {
 	$.get( "admin/descargas/create", function( data ) {
@@ -93,8 +96,25 @@ function OpenDownload(e)
     });
 }
 
-function FinalizarDescarga() {
-	$(".form-panel").slideUp('slow');	
+function FinalizarDescarga(e, descarga_id) {
+	$.confirm({
+        text: "esta seguro que desea finalizar la Descarga?",
+        title: "Confirmacion",
+        confirm: function(){
+            $.ajax({
+                type: "POST",
+                url: 'admin/descargas/finalizarDescarga',
+                data: {descarga_id: descarga_id},
+            }).done(function(data) {
+                if (data.success == true)
+                {
+                    msg.success('Descarga Finalizada', 'Listo!')
+                    return $(".form-panel").slideUp('slow');
+                }
+                msg.warning(data, 'Advertencia!');
+            });
+        }
+    });	
 }
 
 function IngresarDescripcionDescarga( e , descarga_id) {
@@ -115,4 +135,75 @@ function IngresarDescripcionDescarga( e , descarga_id) {
     });
 
     return false;
+}
+
+var serialsDetalleDescarga = [];
+
+function ingresarSeriesDetalleDescarga(e, detalle_descarga_id) {
+    $.ajax({
+        type: "POST",
+        url: 'admin/descargas/ingresarSeriesDetalleDescarga',
+        data: {detalle_descarga_id: detalle_descarga_id },
+    }).done(function(data) {
+        if (data.success == true) {
+            $('.modal-body').html(data.view);
+            $('.modal-title').text( 'Ingresar Series');
+            return $('.bs-modal').modal('show');
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+}
+ 
+function guardarSerieDetalleDescarga () {
+    if($.trim($("#serialsDetalleDescarga").val()) != ''){
+        var ingreso = true;
+        $("#listaSeriesDetalleDescarga").html("");
+
+        for (var i = 0; i < serialsDetalleDescarga.length; i++) {
+            $value ="'"+serialsDetalleDescarga[i]+"'";
+            $tr = '<tr><td>'+serialsDetalleDescarga[i]+'</td>';
+            $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleDescarga(this,'+$value+');"></i></td></tr>';
+            $("#listaSeriesDetalleDescarga").append($tr);
+            if(serialsDetalleDescarga[i] == $("#serialsDetalleDescarga").val())
+                ingreso = false
+        };
+
+        if(ingreso == true) {
+            serialsDetalleDescarga.push($("#serialsDetalleDescarga").val());
+            $value ="'"+$("#serialsDetalleDescarga").val()+"'";
+            $tr  = '<tr><td>'+$("#serialsDetalleDescarga").val()+'</td>';
+            $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleDescarga(this,'+$value+');"></i></td></tr>';
+            $("#listaSeriesDetalleDescarga").append($tr);
+            msg.success('Serie ingresada..!', 'Listo!');
+        }
+        else
+            msg.warning('La serie ya fue ingresada..!', 'Advertencia!');
+
+        $("#serialsDetalleDescarga").val("");
+        $("#serialsDetalleDescarga").focus();
+    }
+    else
+        msg.warning('El campo se encuentra vacio..!', 'Advertencia!');
+}
+
+function eliminarSerialsDetalleDescarga(e, serie) {
+    serialsDetalleDescarga.splice(serialsDetalleDescarga.indexOf(serie), 1);
+    $(e).closest('tr').hide();
+    $("#serialsDetalleDescarga").focus();
+}
+
+function guardarSeriesDetalleDescarga(e, detalle_descarga_id) {
+    $(e).prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: 'admin/descargas/ingresarSeriesDetalleDescarga',
+        data: {detalle_descarga_id: detalle_descarga_id, guardar:true, serials: serialsDetalleDescarga.join(',') },
+    }).done(function(data) {
+        if (data.success == true) {
+            msg.success('Series Guardadas..!', 'Listo!');
+            return $('.bs-modal').modal('hide');
+        }
+        $(e).prop("disabled", true);
+        msg.warning(data, 'Advertencia!');
+    });
 }

@@ -1,7 +1,6 @@
 <?php
-use \NEkman\ModelLogger\Contract\Logable;
 
-class Gasto extends \BaseModel implements Logable{
+class Gasto extends \BaseModel {
 
     protected $table = 'gastos';
     
@@ -25,10 +24,5 @@ class Gasto extends \BaseModel implements Logable{
     public function detallegastos()
     {
         return $this->hasMany('DetalleGasto');
-    }
-
-    public function getLogName()
-    {
-        return $this->id;
     }
 }

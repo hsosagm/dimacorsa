@@ -1,8 +1,6 @@
 <?php
 
-use \NEkman\ModelLogger\Contract\Logable;
-
-class Producto extends \BaseModel implements Logable {
+class Producto extends \BaseModel {
 
 	protected $table = 'productos';
 
@@ -16,10 +14,5 @@ class Producto extends \BaseModel implements Logable {
     public function categoria()
     {
         return $this->belongsTo('Categoria', 'categoria_id');
-    }
-
-    public function getLogName()
-    {
-        return $this->id;
     }
 }

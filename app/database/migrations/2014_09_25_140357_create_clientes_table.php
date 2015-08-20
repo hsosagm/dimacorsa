@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateClientesTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::create('clientes', function(Blueprint $table)
@@ -23,7 +18,6 @@ class CreateClientesTable extends Migration {
 			$table->string('nit', 100);
 			$table->string('email', 100);
 			$table->timestamps();
-
 			$table->foreign('tipo_cliente_id')->references('id')->on('tipo_cliente')->onDelete('restrict')->onUpdate('cascade');
 		});
 
@@ -41,21 +35,13 @@ class CreateClientesTable extends Migration {
 			$table->string('numero');
 			$table->integer('preferido');
 			$table->timestamps();
-
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade')->onUpdate('cascade');
 		});
 	}
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('cliente_contacto');
 		Schema::drop('clientes');
 	}
-
 }

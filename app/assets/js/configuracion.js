@@ -8,3 +8,12 @@ function configurar_impresoras()
         $('.dt-container-cierre').show();
     });  
 } 
+
+function configurar_notificaciones()
+{
+	$.get( "admin/configuracion/notificacion", function( data ) {
+        $('.dt-container-cierre').html(data);
+        $('.dt-container').hide();
+        $('.dt-container-cierre').show();
+    }); 
+}

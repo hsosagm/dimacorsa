@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class EntrustSetupTables extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return  void
-     */
     public function up()
     {
         // Creates the roles table
@@ -47,11 +42,6 @@ class EntrustSetupTables extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return  void
-     */
     public function down()
     {
         Schema::table('assigned_roles', function (Blueprint $table) {
@@ -69,5 +59,4 @@ class EntrustSetupTables extends Migration
         Schema::drop('roles');
         Schema::drop('permissions');
     }
-
 }

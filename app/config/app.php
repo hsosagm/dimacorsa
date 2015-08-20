@@ -78,7 +78,7 @@ return array(
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'cipPpt4A40Bhy3R9t8mDP4z9DLZPjDb8',
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -123,7 +123,6 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Laravelrus\LocalizedCarbon\LocalizedCarbonServiceProvider',
-		'NEkman\ModelLogger\ModelLoggerServiceProvider',
 		'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
 		'Maatwebsite\Excel\ExcelServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
@@ -199,7 +198,6 @@ return array(
         'ValidatorAssistant'=> 'Fadion\ValidatorAssistant\ValidatorAssistant',
         'Excel' 			=> 'Maatwebsite\Excel\Facades\Excel',
         'PDF' 				=> 'Barryvdh\DomPDF\Facade',
-
 	),
 
 );
