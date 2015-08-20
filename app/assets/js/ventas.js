@@ -286,45 +286,43 @@ function imprimirFactura(p)
             var printer = qz.getPrinter();
             
             if (printer !== null) {
-                msg.success('Se ha enviado una impresion a "'+printer+'"', 'Success!');
                 $.ajax({
                     type: 'GET',
                     url: "user/ventas/imprimirFactura",
                     data: { venta_id: 26011},
                     success: function (data) {
-                        $("#print_test").html(data);
 
-                        html2canvas($("#print_test"), {
-                            onrendered: function(canvas) {
-                                var myImage = canvas.toDataURL("image/png");
+          qz.append("\x1B\x40"); // reset printer
+          qz.append("\x1B\x33\x20"); // set line spacing MUST BE x35
+          qz.append("\x1B\x6C\x04"); // left margin max x49
+          qz.append("\x1B\x6B\x01"); // select typeface - 00 serif - 01 sans serif
+          qz.append("\x1B\x74\x01"); // select character table (0-italic, 1-normal)
+          qz.append(chr(27) + chr(69) + "\r");
+          qz.setEncoding("UTF-8");
+          qz.setEncoding("850");
+          qz.append('\n\n\n');
+          qz.append(data.nit+'\r\n');
+          qz.append(data.nombre+'\r\n');
+          qz.append(data.direccion+'\r\n');
+          qz.append('\n\n');
 
-                                qz.setPaperSize("8.5in", "5.5in");
-                                qz.setOrientation("portrait");
-                                qz.setAutoSize(true);
+            var counter = 0;
+            $.each(data.detalle, function(i, v) {
+                qz.append(v.descripcion+"\n");
+                counter++;
+            });
 
-                                qz.appendImage(myImage);
-                                window['qzDoneAppending'] = function() {
-                                    qz.printPS();
-                                    window.open(myImage);
-                                    window['qzDoneAppending'] = null;
-                                };
-                            }
-                        });
+            counter = 18 - counter;
 
-                        // html2canvas($("#print_test"), {
-                        //     onrendered: function(canvas) {
-                        //         var myImage = canvas.toDataURL("image/png");
-                        //         if (notReady()) { return; }
-                        //         // qz.setPaperSize("62mm", "18mm");  
-                        //         // qz.setOrientation("portrait");
-                        //         // qz.setAutoSize(true);
-                        //         qz.appendImage(myImage);
-                        //         window['qzDoneAppending'] = function() {
-                        //             qz.printPS();
-                        //             window['qzDoneAppending'] = null;
-                        //         };
-                        //     }
-                        // });
+            for ( $i = 0; $i < counter; $i++) {
+                qz.append('\n');
+            };
+
+          qz.append(data.total_letras+"\r");
+          qz.append(data.total_num+"\r\n");
+          qz.append('\n\n\n\n');
+          qz.append("\x1B\x40"); // reset printer
+          qz.print();
 
                     }
                 }); 

@@ -372,14 +372,75 @@ class VentasController extends \BaseController {
         ));
 	}
 
+
+	function clear($string )
+	{
+	    $string = trim($string);
+	    $string = str_replace( array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $string );
+	    $string = str_replace( array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $string );
+	    $string = str_replace( array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $string );
+	    $string = str_replace( array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'), array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $string );
+	    $string = str_replace( array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $string );
+	    $string = str_replace( array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C',), $string );
+
+	   return $string; 
+	}
+
+
 	function imprimirFactura()
 	{
-		$venta_id = Input::get('venta_id');
 
-		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+
+		if (!count($venta)) {
+			return Response::json( array(
+				'success' => false,
+				'msg' => "No se encontro ninguna venta",
+	        ));
+		}
+
     	if(count($venta->detalle_venta)>0)
     	{
-        	return View::make('ventas.DemoFactura', compact('venta'))->render();
+        	$i = 0;
+        	foreach ($venta->detalle_venta as $dt) {
+        		$len1 = strlen($dt->cantidad);
+        		$len2 = strlen($this->clear($dt->producto->descripcion));
+
+        		$precio = f_num::get($dt->precio);
+        		$totales = f_num::get($dt->cantidad * $dt->precio);
+
+        		$len3 = strlen($precio);
+        		$len4 = strlen($totales);
+        		$e1 = "    ";
+        		$e1 = substr($e1, 0, -$len1);
+            	$e2 = "                                                                                                             ";
+        		$e2 = substr($e2, 0, -$len2);
+        		$e2 = substr($e2, 0, -$len3);
+            	$e3 = "                 ";
+        		$e3 = substr($e3, 0, -$len4);
+
+        		$detalle[$i]['descripcion'] =  $e1 . $dt->cantidad . "   " . $dt->producto->descripcion . $e2 . $precio . $e3 . $totales;
+        		$i++;
+        	}
+
+        	$convertir = new Convertidor;
+
+        	$totalEnLetras = $convertir->ConvertirALetras($venta->total);
+
+        	$e4 = "                                                                                                                                     ";
+        	$total_venta = f_num::get($venta->total);
+        	$len5 = strlen($total_venta);
+        	$e4 = substr($e4, 0, -$len5);
+
+			return Response::json( array(
+				'success' => true,
+				'nit' => "Nit: ".$venta->cliente->nit . "    Fecha: ". date('d-m-Y'),
+				'nombre' => "Nombre: ".$venta->cliente->nombre . " " .$venta->cliente->apellido,
+				'direccion' => "Direccion: ". $venta->cliente->direccion,
+				'detalle' => $detalle,
+				'total_letras' => "                 ".$totalEnLetras,
+				'total_num' => $e4 . $total_venta,
+	        ));
     	}
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
