@@ -20,11 +20,14 @@ function search_producto(e, element) {
             if (data.success == true) {
                 $("input[name='producto_id']").val(data.id);
                 $("input[name='cantidad']").focus();
+                $("input[name='cantidad']").val("");
+                $("input[name='precio']").val("");
                 $('.descripcion').html(data.descripcion);
                 $('.precio-publico').html(data.p_publico);
                 $('.precio-costo').html(data.p_costo);
                 $('.existencia').html(data.existencia);
                 $('#precio-costo').val(data.p_costo_descarga);
+                $('#precio-publico').attr('placeholder',data.p_publico_venta);
             }
             else {
                 msg.warning(data);
@@ -42,6 +45,8 @@ function search_producto_dt() {
         data: {codigo:$(element).val()},
         success: function (data) {
             if (data.success == true) {
+                $("input[name='cantidad']").val("");
+                $("input[name='precio']").val("");
                 $("input[name='producto_id']").val(data.id);
                 $("input[name='cantidad']").focus();
                 $('.descripcion').html(data.descripcion);
@@ -49,6 +54,7 @@ function search_producto_dt() {
                 $('.precio-costo').html(data.p_costo);
                 $('.existencia').html(data.existencia);
                 $('#precio-costo').val(data.p_costo_descarga);
+                $('#precio-publico').attr('placeholder',data.p_publico_venta);
             }
             else {
                 msg.warning('El codigo que ingreso no se encuentra en la base de datos', 'Advertencia!');

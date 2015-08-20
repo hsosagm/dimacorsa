@@ -122,7 +122,7 @@ var app = new Vue({
 
         generarVenta: function(e) {
 
-            var form = $(e.target).closest("form");
+            var form = $(".form-generarVenta");
             $('button[type=submit]', form).prop('disabled', true);
 
             $.ajax({  
@@ -154,7 +154,7 @@ var app = new Vue({
                 }
             });
 
-            e.preventDefault();
+           // e.preventDefault();
         },
 
 

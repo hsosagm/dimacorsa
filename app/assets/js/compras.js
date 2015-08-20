@@ -494,7 +494,8 @@ function ingresarSeriesDetalleCompra(e, detalle_compra_id) {
         if (data.success == true) {
             $('.modal-body').html(data.view);
             $('.modal-title').text( 'Ingresar Series');
-            return $('.bs-modal').modal('show');
+            $('.bs-modal').modal('show');
+            return $("input[name='serials']").focus();
         }
         msg.warning(data, 'Advertencia!');
     });
