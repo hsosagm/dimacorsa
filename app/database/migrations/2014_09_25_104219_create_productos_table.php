@@ -15,7 +15,7 @@ class CreateProductosTable extends Migration {
 			$table->integer('marca_id')->unsigned();
 			$table->integer('precio_venta_id')->default(1)->unsigned();
 			$table->string('codigo', 50);
-			$table->string('descripcion');
+			$table->string('descripcion',100);
 			$table->integer('existencia')->default(0);
 			$table->integer('p_costo');
 			$table->decimal('p_publico', 8, 2);

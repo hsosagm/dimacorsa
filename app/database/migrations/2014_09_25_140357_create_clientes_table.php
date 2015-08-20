@@ -11,8 +11,7 @@ class CreateClientesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('tipo_cliente_id')->default(1)->unsigned();
-			$table->string('nombre', 100);
-			$table->string('apellido', 100);
+			$table->string('nombre', 200);
 			$table->string('direccion');
 			$table->string('telefono', 100);
 			$table->string('nit', 100);

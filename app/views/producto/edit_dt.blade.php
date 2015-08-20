@@ -16,7 +16,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Descripcion: </div>
 		<div class="col-md-7">
-			<input type="text" name="descripcion" value="{{$producto->descripcion}}" class="form-control">
+			<input type="text" name="descripcion" maxlength="90" value="{{$producto->descripcion}}" class="form-control">
 		</div>
 		<div class="col-md-1"></div>
 	</div>

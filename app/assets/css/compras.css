@@ -107,49 +107,6 @@
 	margin-bottom: 15px !important;
 }
 
-.master-detail-info
-{
-	margin-bottom: 25px;
-
-}
-
-
-.master-detail-info tr td, th {
-	padding: 2px !important;
-}
-
-.master-detail-info tbody tr td {
-	background: #FFFFFF!important;
-	padding-top:0px !important;
-	padding-button:0px !important;
-	font: bold !important;
-	font-size: 10px;
-	height: 0px;
-} 
-
-.master-detail-info tr td input {
-	height: 20px;
-	font-size: 10px !important;
-	padding-left: 5px;
-	margin-right: 5px;
-	margin-left: 5px;
-	background: white;
-	width: 250px;
-}
-
-.master-detail-info tr td {
-	padding: 0px !important;
-	margin:  0px !important;
-}
-.master-detail-info tr td i {
-	font-size: 12px !important;
-	padding-right: 3px;
-}
-
-.master-detail-info tr td button {
-	font-size: 25px !important;
-	padding:0px 0px 0px 0px!important;
-}
 
  .totales-pagos {
         color: black;

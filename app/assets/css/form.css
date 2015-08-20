@@ -108,3 +108,18 @@ transform: translate(13%, 22%) !important;
 .sm_input {
     padding: 2px 6px 2px 6px;
 }
+
+.icon-delete {
+    color: #FF0000;
+    margin-right: 5px;
+}
+
+.icon-success {
+    color: #08FF00;
+    margin-right: 5px;
+}
+
+.icon-print {
+    color: #00C9BE;
+    margin-right: 5px;
+}

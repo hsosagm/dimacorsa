@@ -1,16 +1,10 @@
 $(document).on('submit', 'form[data-remote]', function(e) {
-
     $('input[type=submit]', this).attr('disabled', 'disabled');
 
-
     if( $('input[type=checkbox]', this).is(':checked') ) 
-    {
         $('input[type=checkbox]', this).val('1');
-    }
     else
-    {
         $('input[type=checkbox]', this).val('0');
-    }
 
     var form = $(this);
 
@@ -19,34 +13,21 @@ $(document).on('submit', 'form[data-remote]', function(e) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            console.log($.trim(data));
-            if ($.trim(data) == 'success')
-            {
+            if ($.trim(data) == 'success')  {
                 msg.success(form.data('success'), 'Listo!');
                 $('.bs-modal').modal('hide');
-                $('input[type=submit]', form).removeAttr('disabled');
+                return $('input[type=submit]', form).removeAttr('disabled');
             }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-                $('input[type=submit]', form).removeAttr('disabled');
-            }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+            msg.warning(data, 'Advertencia!');
             $('input[type=submit]', form).removeAttr('disabled');
         }
     });
-
     e.preventDefault();
-
 });
 
 
 $(document).on('submit', 'form[data-remote-md]', function(e) {
-
     $('button[type=submit]', this).attr('disabled', 'disabled');
-
     var form = $(this);
 
     $.ajax({  
@@ -54,121 +35,77 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 msg.success(form.data('success'), 'Listo!');
-
                 $('.master-detail-body').slideUp('slow',function() {
-
                     $(".info_head").html(data.info_head);
-
                     $('.master-detail-body').html(data.detalle);
-
                     $('.master-detail-body').slideDown('slow', function() {
                         $('#search_producto').focus();
                     });
                 });
-
-                $('form .form-footer').hide();
-
-                // $('#desabilitar_input').attr('disabled', 'disabled'); // ???
+                return $('form .form-footer').hide();
             }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-        },
-        error: function(errors) {
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+            msg.warning(data, 'Advertencia!');
         }
     });
-
-$('button[type=submit]', this).removeAttr('disabled');
-
-e.preventDefault();
+    $('button[type=submit]', this).removeAttr('disabled');
+    e.preventDefault();
 });
 
 
 $(document).on('submit', 'form[data-remote-md-2]', function(e) {
-
     $('input[type=submit]', this).attr('disabled', 'disabled');
-
     var form = $(this);
-
+   
     $.ajax({  
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 msg.success(form.data('success'), 'Listo!');
-
                 $('.master-detail-body2').html(data.detalle);
-
                 form.trigger('reset');
-                $('input[type=submit]', form).removeAttr('disabled');
+                return $('input[type=submit]', form).removeAttr('disabled');
             }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-                $('input[type=submit]', form).removeAttr('disabled');
-            }
-        },
-        error: function(errors) {
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+            msg.warning(data, 'Advertencia!');
             $('input[type=submit]', form).removeAttr('disabled');
         }
     });
-
     e.preventDefault();
 });
 
 
 $(document).on('submit', 'form[data-remote-cat]', function(e) {
-
     $('input[type=submit]', this).attr('disabled', 'disabled');
     var nombre = $('input[name=nombre]' , this);
     var form = $(this);
-
+   
     $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-
-            if (data.success == true)
-            {
+            if (data.success == true) {
                 msg.success(form.data('success'), 'Listo!');
                 $('.categorias-detail').html(data.lista);
                 $("input[name='"+data.input+"']").val(data.id);
                 $("#buscar"+data.model).val(data.nombre)
                 nombre.val('');
             }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
+            return msg.warning(data, 'Advertencia!');
         }
     });
-
     $('input[type=submit]', this).removeAttr('disabled');
-
     e.preventDefault();
-
 });
 
 
 $(document).on('submit', 'form[data-chart]', function(e) {
-
     $('input[type=submit]', this).attr('disabled', 'disabled');
-
     $start = $('form[data-chart] input[name="start"]').val();
     $end = $('form[data-chart] input[name="end"]').val();
-
     var form = $(this);
 
     $.ajax({
@@ -177,145 +114,130 @@ $(document).on('submit', 'form[data-chart]', function(e) {
         data: {start: "'" + $start + "'", end: "'" + $end + "'"},
         success: function (data) {
             $('.table').html(data);
-        },
-        error: function(errors){
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
         }
     });
-
     $('input[type=submit]', this).removeAttr('disabled');
-
     e.preventDefault();
 });
 
-$(document.body).delegate(".md", "keydown", function(e) {
 
+$(document).on('enter', 'form[data-remote-md-d]', function(e) {
+    if ($.trim($("input[name=cantidad]").val()) == "")
+        return $("input[name=cantidad]").focus();
+    else if ($.trim($("input[name=precio]").val()) == "")
+        return $("input[name=precio]").focus();
+
+    e.preventDefault();
+    var form = $(this);
+    
+    if (form.attr('status') == 0) {
+        form.attr('status', '1');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success == true) {
+                    msg.success(form.data('success'), 'Listo!');
+                    $('.body-detail').html(data.table);
+                    form.trigger('reset');
+                    $('#precio-publico').attr('placeholder',"");
+                    $('input[name=serials]', form).val('');
+                    form.attr('status', '0');
+                    $("#search_producto").focus();
+                    return $('.precio-costo').html(data.p_costo);
+                }
+                msg.warning(data, 'Advertencia!');
+                form.attr('status', '0');
+            }
+        });
+    }
 });
 
-$(document).on('keydown', 'form[data-remote-md-d]', function(e) {
-    if (e.keyCode == 121)
-    {
-        e.preventDefault();
-        var form = $(this);
-        
-        if (form.attr('status') == 0) {
-            form.attr('status', '1');
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (data) {
-                    if (data.success == true)
-                    {
-                        msg.success(form.data('success'), 'Listo!');
-                        $('.body-detail').html(data.table);
-                        form.trigger('reset');
-                        $('input[name=serials]', form).val('');
-                        form.attr('status', '0');
-                        $("#search_producto").focus();
-                        $('.precio-costo').html(data.p_costo);
-                        return;
-                    }
-                    msg.warning(data, 'Advertencia!');
+//funcion que se utiliza para traslados y descargas debido a que solo se envia la cantidad
+$(document).on('enter', 'form[data-remote-md-d2]', function(e) {
+    if ($.trim($("input[name=cantidad]").val()) == "")
+        return $("input[name=cantidad]").focus();
+
+    e.preventDefault();
+    var form = $(this);
+    
+    if (form.attr('status') == 0) {
+        form.attr('status', '1');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success == true) {
+                    msg.success(form.data('success'), 'Listo!');
+                    $('.body-detail').html(data.table);
+                    form.trigger('reset');
+                     $('#precio-publico').attr('placeholder',"");
+                    $('input[name=serials]', form).val('');
                     form.attr('status', '0');
-                },
-                error: function(errors) {
-                    form.attr('status', '0');
+                    $("#search_producto").focus();
+                    return $('.precio-costo').html(data.p_costo);
                 }
-            });
-        }
+                msg.warning(data, 'Advertencia!');
+                form.attr('status', '0');
+            }
+        });
     }
 });
 
 $(document).on('submit', 'form[data-remote-md-info]', function(e) {
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+    var form = $(this);
 
-  $('input[type=submit]', this).attr('disabled', 'disabled');
+    if ( form.attr('status') == 0 ) {
+        form.attr('status', '1');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                form.attr('status', '0');
+                if (data.success == true) {
+                    msg.success(form.data('success'), 'Listo!');
+                    $(".info_head").html(data.info_head);;
+                    form.trigger('reset');
+                    return $('.bs-modal').modal('hide');
+                }
+                msg.warning(data, 'Advertencia!');
+            }
+        });
+    }
+    $('input[type=submit]', this).removeAttr('disabled');
+    e.preventDefault();
+});
 
-  var form = $(this);
+$(document).on('submit', 'form[data-remote-product]', function(e) {
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+    var form = $(this);
+    codigo = $('input[name=codigo]', form).val();
 
-  if ( form.attr('status') == 0 ) {
-
-    form.attr('status', '1');
+    if( $('input[type=checkbox]', this).is(':checked') ) 
+        $('input[type=checkbox]', this).val('1');
+    else
+        $('input[type=checkbox]', this).val('0');
 
     $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            if (data.success == true)
-            {
+            if (data == 'success') {
                 msg.success(form.data('success'), 'Listo!');
-
-                $(".info_head").html(data.info_head);;
-
-                form.trigger('reset');
-
-                $('.bs-modal').modal('hide');
-
+                $(".contenedor_producto").slideUp('slow');
+                $("#search_producto").val(codigo);
+                return search_producto_dt();
             }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
-            form.attr('status', '0');
-        },
-        error: function(errors) {
-            msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-            form.attr('status', '0');
-        }
-
-    });
-}
-
-$('input[type=submit]', this).removeAttr('disabled');
-
-e.preventDefault();
-});
-
-$(document).on('submit', 'form[data-remote-product]', function(e) {
-
-  $('input[type=submit]', this).attr('disabled', 'disabled');
-
-  var form = $(this);
-
-  codigo = $('input[name=codigo]', form).val();
-
-  if( $('input[type=checkbox]', this).is(':checked') ) 
-  {
-    $('input[type=checkbox]', this).val('1');
-}
-else
-{
-    $('input[type=checkbox]', this).val('0');
-}
-
-$.ajax({
-    type: form.attr('method'),
-    url: form.attr('action'),
-    data: form.serialize(),
-    success: function (data) {
-
-        if (data == 'success')
-        {
-            msg.success(form.data('success'), 'Listo!');
-            $(".contenedor_producto").slideUp('slow');
-            $("#search_producto").val(codigo);
-            search_producto_dt();
-        }
-        
-        else
-        {
             msg.warning(data, 'Advertencia!');
         }
-    },
-    error: function(errors){
-        msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-    }
-});
-
-$('input[type=submit]', this).removeAttr('disabled');
-
-e.preventDefault();
+    });
+    $('input[type=submit]', this).removeAttr('disabled');
+    e.preventDefault();
 });
 
 $(document).on('submit', 'form[data-remote-md-d]', function(e) {
@@ -329,23 +251,80 @@ $(document).on('submit', 'form[data-remote-md-d]', function(e) {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (data) {
-                if (data.success == true)
-                {
+                if (data.success == true) {
                     msg.success(form.data('success'), 'Listo!');
                     $('.body-detail').html(data.table);
                     form.trigger('reset');
                     $('input[name=serials]', form).val('');
                     form.attr('status', '0');
                     $("#search_producto").focus();
-                    $('.precio-costo').html(data.p_costo);
-                    return;
+                    return $('.precio-costo').html(data.p_costo);
                 }
                 msg.warning(data, 'Advertencia!');
-                form.attr('status', '0');
-            },
-            error: function(errors) {
                 form.attr('status', '0');
             }
         });
     }
 });
+
+//funcion para ingresar productos al detalle utilizada en compras y ventas
+function ingresarProductoAlDetalle(e) {
+    $(e).attr('disabled','disabled');
+    var form = $("form[data-remote-md-d]");
+    
+    if (form.attr('status') == 0) {
+        form.attr('status', '1');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success == true) {
+                    msg.success(form.data('success'), 'Listo!');
+                    $('.body-detail').html(data.table);
+                    form.trigger('reset');
+                     $('#precio-publico').attr('placeholder',"");
+                    $('input[name=serials]', form).val('');
+                    form.attr('status', '0');
+                    $("#search_producto").focus();
+                    $('.precio-costo').html(data.p_costo);
+                    return $(e).removeAttr('disabled');
+                }
+                msg.warning(data, 'Advertencia!');
+                $(e).removeAttr('disabled');
+                form.attr('status', '0');
+            }
+        });
+    }
+}
+
+//funcion para ingresar productos al detalle utilizada en traslados y descargas
+function ingresarProductoAlDetalle2(e) {
+    $(e).attr('disabled','disabled');
+    var form = $("form[data-remote-md-d2]");
+    
+    if (form.attr('status') == 0) {
+        form.attr('status', '1');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success == true) {
+                    msg.success(form.data('success'), 'Listo!');
+                    $('.body-detail').html(data.table);
+                    form.trigger('reset');
+                     $('#precio-publico').attr('placeholder',"");
+                    $('input[name=serials]', form).val('');
+                    form.attr('status', '0');
+                    $("#search_producto").focus();
+                    $('.precio-costo').html(data.p_costo);
+                    return $(e).removeAttr('disabled');
+                }
+                msg.warning(data, 'Advertencia!');
+                $(e).removeAttr('disabled');
+                form.attr('status', '0');
+            }
+        });
+    }
+}

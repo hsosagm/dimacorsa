@@ -1,8 +1,8 @@
 <div>
 
-{{ Form::open(array('v-on="submit: generarVenta"')) }}
+{{ Form::open(array('v-on="submit: generarVenta"','class' => "form-generarVenta")) }}
     
-    <input type="hidden" name="cliente_id" v-model="cliente.id">
+    <input type="hidden" name="cliente_id" v-model="cliente.id" value="1">
 
     <div class="row">
         <div class="col-md-6 master-detail-info">
@@ -17,9 +17,9 @@
                     </td>
                 </tr>
                 <tr v-if="cliente.tipocliente">
-                    <td>Tipo Cliente:</td>
-                    <td>
-                        <input type="text" v-model="cliente.tipocliente.nombre" style="margin-top:6px; background: #EEF8F1; width:260px" disabled>
+                    <td colspan="2" v-show="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
+                        <label class="col-md-6" style="padding-left: 0px !important;">@{{ cliente.nombre }}</label>
+                        <label class="col-md-6" >Tipo Cliente: : @{{ cliente.tipocliente.nombre }}</label>
                     </td>
                 </tr>
             </table>
@@ -29,9 +29,9 @@
             <label class="col-md-3 btn-success" v-show="cliente.id">@{{ cliente.saldo_total | currency ' '}}</label>
             <label class="col-md-3 btn-danger" v-show="cliente.id">Saldo Vencido:</label>
             <label class="col-md-3 btn-danger" v-show="cliente.id">@{{ cliente.saldo_vencido | currency ' '}}</label>
-            <label class="col-md-12" v-show="cliente.id">@{{ FullName }}</label>
-            <label class="col-md-1" v-show="cliente.id">NIt:</label>
-            <label class="col-md-3" v-show="cliente.id">@{{ cliente.nit }}</label>
+            <label class="col-md-6" v-show="cliente.id">@{{ cliente.direccion }}</label>
+            <label class="col-md-3" v-show="cliente.id">NIT: @{{ cliente.nit }}</label>
+            <label class="col-md-3" v-show="cliente.id">Tel: @{{ cliente.telefono }}</label>
         </div>
     </div>
 
@@ -51,30 +51,26 @@
         </div>
 
         <div class="form-group">
-            <div class="col-sm-3">
-                <input type="text" name="nombre" class="input sm_input" placeholder="Nombre">
+            <div class="col-sm-6">
+                <input type="text" name="nombre" style="width: 100% !important;" class="input sm_input" placeholder="Nombre">
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="apellido" class="input sm_input" placeholder="Apellido">
-            </div>
-
-            <div class="col-sm-3">
-                <input type="text" name="direccion" class="input sm_input" placeholder="Direccion">
+                <input type="text" name="direccion" style="width: 100% !important;" class="input sm_input" placeholder="Direccion">
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-3">
-                <input type="text" name="nit" class="input sm_input" placeholder="Nit">
+                <input type="text" name="nit" style="width: 100% !important;" class="input sm_input" placeholder="Nit">
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="telefono" class="input sm_input" placeholder="Telefono">
+                <input type="text" name="telefono" style="width: 100% !important;" class="input sm_input" placeholder="Telefono">
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="email" class="sm_input" placeholder="Email">
+                <input type="text" name="email" style="width: 100% !important;" class="sm_input" placeholder="Email">
             </div>
         </div>
 
@@ -101,30 +97,26 @@
         </div>
 
         <div class="form-group">
-            <div class="col-sm-3">
-                <input type="text" name="nombre" class="input sm_input" value="@{{ cliente.nombre }}">
+            <div class="col-sm-6">
+                <input type="text" name="nombre" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.nombre }}" placeholder="Nombre">
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="apellido" class="input sm_input" value="@{{ cliente.apellido }}">
-            </div>
-
-            <div class="col-sm-3">
-                <input type="text" name="direccion" class="input sm_input" value="@{{ cliente.direccion }}">
+                <input type="text" name="direccion" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.direccion }}" placeholder="Direccion">
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-3">
-                <input type="text" name="nit" class="input sm_input" value="@{{ cliente.nit }}">
+                <input type="text" name="nit" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.nit }}" placeholder="Nit">
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="telefono" class="input sm_input" value="@{{ cliente.telefono }}">
+                <input type="text" name="telefono" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.telefono }}" placeholder="Telefono">
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="email" class="input sm_input" value="@{{ cliente.email }}">
+                <input type="text" name="email" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.email }}" placeholder="Correo">
             </div>
         </div>
 
@@ -145,7 +137,6 @@
 </div>
 
 <script type="text/javascript">
-
     $('#cliente').autocomplete({
         serviceUrl: '/user/cliente/search',
         onSelect: function (data) {
@@ -158,5 +149,4 @@
         app.$compile(app.$el);
         app.reset();
     });
-
 </script>

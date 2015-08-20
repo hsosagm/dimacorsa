@@ -7,21 +7,19 @@
 		{{ Form::hidden('ganancias', 0) }}
 		<table class="master-table">
 			<tr>
-				<td>
-					Codigo: 
-					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
-				</td>
+				<td>Codigo:</td>
 				<td>Cantidad:</td>
 				<td>Precio:</td>
 			</tr>
 			<tr>
 				<td>
 					<input type="text" id="search_producto"> 
+					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
 				</td>
 				<td><input class="input input_numeric" type="text" name="cantidad"></td>
-				<td><input class="input_numeric master-serials" type="text" name="precio"></td>
+				<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
 				<td>
-					
+					<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
 				</td>
 			</tr>
 		</table>
@@ -47,12 +45,11 @@
 <div class="form-footer" >
 	<div class="row">
 		<div class="col-md-6">
-			{{ Form::button('Imprimir!', ['class'=>'btn btn-info','onClick'=>'ImprimirVentaModal(this,'.$venta_id.');']);}}
+			<i class="fa fa-print fa-lg icon-print" onclick="ImprimirVentaModal(this, {{$venta_id}} );"></i>
 		</div>
 		<div class="col-md-6" align="right">
-
-		{{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'RemoveSale();']);}}
-		{{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'OpenModalSalesPayments('.$venta_id.');']) }}
+			<i class="fa fa-trash fa-lg icon-delete" onclick="RemoveSale();"></i>
+			<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$venta_id}} );"></i>
 		</div>
 	</div>
 </div>
@@ -62,4 +59,23 @@
 <script>
 	app.venta_id = {{ $venta_id }};
 	$('.numeric').autoNumeric({ aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', lZero: 'deny', mNum:10});
+
+	$(function() {
+		$(document).on("enter","#precio-publico",function(event) {
+			if($.trim($(this).val()) == ""){
+				if($(this).attr('status') == "1") {
+					$(this).val($(this).attr('placeholder'));
+					$(this).select();  
+					$(this).attr('status',0);  
+				}
+				else{
+					$(this).val("");
+					$(this).attr('status',1);
+				}
+				event.preventDefault();
+				event.stopPropagation()
+			}
+		});
+	});
+
 </script>

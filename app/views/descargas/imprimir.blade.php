@@ -1,7 +1,6 @@
 <div align="center">
     <h1> Constancia de Descarga : {{ $descarga->id }} </h1>
     <table width="100%" class="table">
-
         <tr>
             <th width="15%">Cantidad</th>
             <th width="55%">Descripcion</th>
@@ -57,7 +56,7 @@
         Nota:
         <table width="100%" class="table nota">
             <tr>
-                <td width="100%">-</td>
+                <td width="100%">{{ $descarga->descripcion }}</td>
             </tr>
             <tr>
                 <td width="100%">-</td>

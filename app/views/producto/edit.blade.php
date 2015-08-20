@@ -13,7 +13,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<input class="form-control" name="descripcion" value="{{$producto->descripcion}}"  type="text" placeholder="Descripcion">
+				<input class="form-control" name="descripcion" maxlength="90" value="{{$producto->descripcion}}"  type="text" placeholder="Descripcion">
 			</div>
 		</div>
 

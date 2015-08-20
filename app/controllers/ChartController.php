@@ -109,6 +109,7 @@ class ChartController extends \BaseController {
         $i = 0;
         foreach ($d_ventas as $dv) {
             $ganancias[$i]['y'] = (float) $dv->ganancias;
+            $ganancias[$i]['year'] = $dv->year;
             $i++;
         }
 

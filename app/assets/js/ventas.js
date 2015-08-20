@@ -11,6 +11,9 @@ function f_ven_op() {
         $('.panel-title').text('Formulario Ventas');
         $(".forms").html(data);
         ocultar_capas();
+        app.cliente.id = 1;
+        app.getInfoCliente(1);
+        app.generarVenta(this);
         $(".form-panel").show();
     });
 }
@@ -195,25 +198,25 @@ function getSalesDetail(e) {
 
 function openSale(e)
 {
-    $id = $(e).closest('tr').attr('id');
-
-    $.ajax({
-        type: 'GET',
-        url: "user/ventas/openSale",
-        data: { venta_id: $id},
-        success: function (data) {
-            if (data.success == true)
-            {
-                $('.panel-title').text('Formulario Ventas');
-                $(".forms").html(data.table);
-                $(".dt-container").hide();
-                $(".dt-container-cierre").hide();
-                $(".form-panel").show();
-            }
-            else
-            {
+    $.confirm({
+        text: "esta seguro que desea abrir la venta?",
+        title: "Confirmacion",
+        confirm: function(){
+            $.ajax({
+                type: "GET",
+                url: "user/ventas/openSale",
+                data: { venta_id: $(e).closest('tr').attr('id') },
+            }).done(function(data) {
+                if (data.success == true)
+                {
+                    $('.panel-title').text('Formulario Ventas');
+                    $(".forms").html(data.table);
+                    $(".dt-container").hide();
+                    $(".dt-container-cierre").hide();
+                    return $(".form-panel").show();
+                }
                 msg.warning(data, 'Advertencia!');
-            }
+            });
         }
     });
 }
@@ -348,7 +351,8 @@ function ingresarSeriesDetalleVenta(e, detalle_venta_id) {
         if (data.success == true) {
             $('.modal-body').html(data.view);
             $('.modal-title').text( 'Ingresar Series');
-            return $('.bs-modal').modal('show');
+            $('.bs-modal').modal('show');
+            return $("input[name='serials']").focus();
         }
         msg.warning(data, 'Advertencia!');
     });

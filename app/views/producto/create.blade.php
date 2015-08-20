@@ -12,7 +12,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<input class="form-control" name="descripcion" type="text" placeholder="Descripcion">
+				<input class="form-control" name="descripcion" maxlength="90"type="text" placeholder="Descripcion">
 			</div>
 		</div>
 		<div class="row">

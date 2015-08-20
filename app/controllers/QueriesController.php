@@ -54,13 +54,13 @@ class QueriesController extends \BaseController {
 		$columns = array(
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"clientes.nombre as cliente",
 			"total",
 			"saldo",
 			"completed"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","clientes.apellido","ventas.total",'ventas.created_at');
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","ventas.total",'ventas.created_at');
 		$where = "DATE_FORMAT(ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null) 
@@ -699,7 +699,7 @@ class QueriesController extends \BaseController {
 		$table = 'abonos_ventas';
 
         $columns = array(
-            "CONCAT_WS(' ',clientes.nombre ,clientes.apellido) as cliente",
+            "clientes.nombre as cliente",
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d')",
             "metodo_pago.descripcion as metodo_descripcion",
@@ -707,7 +707,7 @@ class QueriesController extends \BaseController {
         );
 
 		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion", 'clientes.nombre','clientes.apellido',
+			"metodo_pago.descripcion", 'clientes.nombre',
 			 'abonos_ventas.created_at','abonos_ventas.monto');
 		
 		$where = "DATE_FORMAT(abonos_ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";

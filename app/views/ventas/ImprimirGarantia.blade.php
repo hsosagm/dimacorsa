@@ -53,7 +53,7 @@
                             {{ $dt->cantidad }}
                         </td>   
                         <td width="55%"> 
-                            {{ $dt->producto->descripcion}}
+                            {{ $dt->producto->descripcion }} , {{ $dt->producto->marca->nombre }}
                         </td>
                         <td width="15%" style="text-align:right; padding-right:15px">
                             {{ f_num::get($dt->precio) }}
