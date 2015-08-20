@@ -170,7 +170,7 @@ function ingresarSeriesDetalleTraslado(e, detalle_traslado_id) {
     }).done(function(data) {
         if (data.success == true) {
             $('.modal-body').html(data.view);
-            $('.modal-title').text( 'Ingresar Series');
+            $('.modal-title').text( 'Ingresar Series Traslado');
             $('.bs-modal').modal('show');
             return $("input[name='serials']").focus();
         }
@@ -187,7 +187,7 @@ function guardarSerieDetalleTraslado () {
             $value ="'"+serialsDetalleTraslado[i]+"'";
             $tr = '<tr><td>'+serialsDetalleTraslado[i]+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleTraslado(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleTraslado").append($tr);
+            $("#listaSeriesDetalleTraslado").prepend($tr);
             if(serialsDetalleTraslado[i] == $("#serialsDetalleTraslado").val())
                 ingreso = false
         };
@@ -197,7 +197,7 @@ function guardarSerieDetalleTraslado () {
             $value ="'"+$("#serialsDetalleTraslado").val()+"'";
             $tr  = '<tr><td>'+$("#serialsDetalleTraslado").val()+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleTraslado(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleTraslado").append($tr);
+            $("#listaSeriesDetalleTraslado").prepend($tr);
             msg.success('Serie ingresada..!', 'Listo!');
         }
         else

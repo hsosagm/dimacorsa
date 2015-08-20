@@ -339,7 +339,7 @@ function guardarSerieDetalleVenta () {
             $value ="'"+serialsDetalleVenta[i]+"'";
             $tr = '<tr><td>'+serialsDetalleVenta[i]+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleVenta(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleVenta").append($tr);
+            $("#listaSeriesDetalleVenta").prepend($tr);
             if(serialsDetalleVenta[i] == $("#serialsDetalleVenta").val())
                 ingreso = false
         };
@@ -349,7 +349,7 @@ function guardarSerieDetalleVenta () {
             $value ="'"+$("#serialsDetalleVenta").val()+"'";
             $tr  = '<tr><td>'+$("#serialsDetalleVenta").val()+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleVenta(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleVenta").append($tr);
+            $("#listaSeriesDetalleVenta").prepend($tr);
             msg.success('Serie ingresada..!', 'Listo!');
         }
         else
