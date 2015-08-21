@@ -536,6 +536,7 @@ class VentasController extends \BaseController {
 
 		$ventas = DB::table('clientes')
         	->select(DB::raw("
+        		MIN(ventas.created_at) as fecha,
         		clientes.id as id,
         		clientes.nombre  as cliente,
         		clientes.direccion as direccion,
@@ -550,6 +551,7 @@ class VentasController extends \BaseController {
 	        ->where('ventas.saldo', '>', 0)
 	        ->where('ventas.completed', '=', 1)
 	        ->where('ventas.tienda_id', '=', Auth::user()->tienda_id)
+	        ->orderBy('ventas.created_at','asc')
 	        ->groupBy('cliente_id')
 	        ->get();
 
