@@ -32,7 +32,7 @@
                 	<i  v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"> </i>
                 </td>
                 <td width="5%" >
-                	<i class="fa fa-barcode fg-theme"  onclick="ingresarSeriesDetalleVenta(this, {{Input::get('venta_id')}}) " ></i>
+                	<i class="fa fa-barcode fg-theme"  v-on="click: ingresarSeriesDetalleVenta(this, dt.id) " ></i>
                 </td>
             </tr>
 		</tbody>

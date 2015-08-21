@@ -12,6 +12,7 @@
         <table id="example" class="display" width="100%" cellspacing="0">
             <thead>
                 <tr id="hhh">
+                    <th style="display:none">Fecha</th>
                     <th>Cliente</th>
                     <th>Direccion</th>
                     <th>Total Ventas</th>
@@ -23,9 +24,10 @@
 
             <tbody>
                 @foreach($ventas as $q)
-                    <tr class="" id="{{$q->id}}">
+                    <tr id="{{$q->id}}" class="{{($q->saldo_vencido > 0)? 'red':''}}">
+                        <td style="display:none" width="10%"> {{ $q->fecha }} </td>
                         <td class="" width="20%"> {{ $q->cliente }} </td>
-                        <td class="" width="30%"> {{ $q->direccion }} </td>
+                        <td class="" width="20%"> {{ $q->direccion }} </td>
                         <td class="right" width="15%"> {{ f_num::get($q->total) }} </td>
                         <td class="right" width="15%"> {{ f_num::get($q->saldo_total) }} </td>
                         <td class="right" width="15%"> {{ f_num::get($q->saldo_vencido) }} </td>

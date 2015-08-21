@@ -1,3 +1,4 @@
+
 var vm = new Vue({
 
 	el: 'body',
@@ -539,3 +540,8 @@ function compile() {
 	});
 }
 
+/* funcion para mostrar las ventas pendientes de pago al nomas cargar el modulo de clientes */
+
+vm.getVentasPedientesDePago();
+
+/**********************************************************************************************/

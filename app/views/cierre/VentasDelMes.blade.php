@@ -43,13 +43,13 @@
             
             "aoColumnDefs": [
             {"sClass": "mod_codigo hover width5",                          "sTitle": "Cantidad",              "aTargets": [0]},
-            {"sClass": "mod_codigo hover width30",                           "sTitle": "Descripcion",         "aTargets": [1]},
-            {"sClass": "mod_codigo hover width10 formato_precio right",      "sTitle": "P. Costo",            "aTargets": [2]},
-            {"sClass": "mod_codigo hover width10 formato_precio right",      "sTitle": "P. Lista",            "aTargets": [3]},
-            {"sClass": "mod_codigo hover width10 formato_precio right",      "sTitle": "P. Promedio",         "aTargets": [4]},
-            {"sClass": "mod_codigo hover width10 formato_porcentaje right",  "sTitle": "Utilidad / Porcentaje","aTargets": [5]},
-            {"sClass": "mod_codigo hover width10 formato_precio right",      "sTitle": "Utilidad / Total",    "aTargets": [6]},
-            {"sClass": "widthM icons center",   "sTitle": "",   "aTargets": [7],
+            {"sClass": "mod_codigo hover widthL",                           "sTitle": "Descripcion",         "aTargets": [1]},
+            {"sClass": "mod_codigo hover widthS formato_precio right",      "sTitle": "P. Costo",            "aTargets": [2]},
+            {"sClass": "mod_codigo hover widthS formato_precio right",      "sTitle": "P. Lista",            "aTargets": [3]},
+            {"sClass": "mod_codigo hover widthS formato_precio right",      "sTitle": "P. Promedio",         "aTargets": [4]},
+            {"sClass": "mod_codigo hover widthS formato_porcentaje right",  "sTitle": "Utilidad / Porcentaje","aTargets": [5]},
+            {"sClass": "mod_codigo hover widthS formato_precio right",      "sTitle": "Utilidad / Total",    "aTargets": [6]},
+            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [7],
             "orderable": false,
             "mRender": function() {
                 return '<i class="fa fa-plus-square btn-link theme-c" fecha="{{$fecha}}" onClick="DetalleDeVentasPorProducto(this)"></i>';

@@ -13,7 +13,7 @@ var app = new Vue({
         totalVenta: 0,
         editedTodo: null,
     },
-
+ 
     computed: {
 
         FullName: function () {
@@ -219,6 +219,23 @@ var app = new Vue({
         },
 
 
+        ingresarSeriesDetalleVenta: function(e, detalle_venta_id) {
+            $.ajax({
+                type: "POST",
+                url: 'user/ventas/ingresarSeriesDetalleVenta',
+                data: {detalle_venta_id: detalle_venta_id },
+            }).done(function(data) {
+                if (data.success == true) {
+                    $('.modal-body').html(data.view);
+                    $('.modal-title').text( 'Ingresar Series');
+                    $('.bs-modal').modal('show');
+                    return $("input[name='serials']").focus();
+                }
+                msg.warning(data, 'Advertencia!');
+            });
+        },
+
+
         updateClienteId: function(id) {
 
             if (app.venta_id > 0) {
@@ -239,7 +256,6 @@ var app = new Vue({
    }
 
 });
-
 
 function ventas_compile() {
     app.$nextTick(function() {
