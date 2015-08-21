@@ -52,7 +52,7 @@
             <i class="fa fa-print fa-lg icon-print" onclick="ImprimirDescarga(this, {{$id_descarga}})"></i>
         </div>
         <div class="col-md-6" align="right">
-            <i class="fa fa-trash fa-lg icon-delete" onclick="EliminarDescarga(this,{{$descarga_id}});"></i>
+            <i class="fa fa-trash-o fa-lg icon-delete" onclick="EliminarDescarga(this,{{$descarga_id}});"></i>
             <i class="fa fa-check fa-lg icon-success" onclick="FinalizarDescarga(this,{{$descarga_id}})"></i>
         </div>
     </div>

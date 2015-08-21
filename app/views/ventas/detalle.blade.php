@@ -48,7 +48,7 @@
 			<i class="fa fa-print fa-lg icon-print" onclick="ImprimirVentaModal(this, {{$venta_id}} );"></i>
 		</div>
 		<div class="col-md-6" align="right">
-			<i class="fa fa-trash fa-lg icon-delete" onclick="RemoveSale();"></i>
+			<i class="fa fa-trash-o fa-lg icon-delete" onclick="RemoveSale();"></i>
 			<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$venta_id}} );"></i>
 		</div>
 	</div>
