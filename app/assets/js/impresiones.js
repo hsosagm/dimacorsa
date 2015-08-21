@@ -1,9 +1,3 @@
-function ImprimirFacturaVenta_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('user/ventas/ImprimirFacturaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
 function ImprimirGarantiaVenta_dt(e,user) {
     id = $(e).closest('tr').attr('id');
     var md5 = $.md5('encript'+user); 
@@ -77,10 +71,6 @@ function ImprimirGarantiaVenta(e,id) {
     $('.bs-modal').modal('hide');
 }*/
 
-function ImprimirFacturaVenta(e, id, impresora) {
-    imprimirVentaMaster(impresora, id, "ImprimirFacturaVenta");
-    $('.bs-modal').modal('hide');
-}
 
 function imprimirVentaMaster(p , venta_id,  url)
 {
@@ -113,59 +103,69 @@ function imprimirVentaMaster(p , venta_id,  url)
 }
 
 
-function printInvoice(venta_id, impresora,  url)
+function printInvoice(e, venta_id, impresora)
 {
-    if (isLoaded()) {
+    if (isLoaded())
+    {
         qz.findPrinter(impresora);
 
-        window['qzDoneFinding'] = function() {
+        window['qzDoneFinding'] = function()
+        {
             var printer = qz.getPrinter();
             
-            if (printer !== null) {
+            if (printer !== null)
+            {
                 $.ajax({
                     type: 'GET',
-                    url: url,
+                    url: "user/ventas/imprimirFactura",
                     data: { venta_id: venta_id },
-                    success: function (data) {
+                    success: function (data)
+                    {
+                        if (data.success == false) {
+                            return msg.warning(data.msg, 'Advertencia!')
+                        };
 
-          qz.append("\x1B\x40"); // reset printer
-          qz.append("\x1B\x33\x20"); // set line spacing MUST BE x35
-          qz.append("\x1B\x6C\x04"); // left margin max x49
-          qz.append("\x1B\x6B\x01"); // select typeface - 00 serif - 01 sans serif
-          qz.append("\x1B\x74\x01"); // select character table (0-italic, 1-normal)
-          qz.append(chr(27) + chr(69) + "\r");
-          qz.setEncoding("UTF-8");
-          qz.setEncoding("850");
-          qz.append('\n\n\n');
-          qz.append(data.nit+'\r\n');
-          qz.append(data.direccion+'\r\n');
-          qz.append('\n\n');
+                        $('.bs-modal').modal('hide');
 
-            var counter = 0;
-            $.each(data.detalle, function(i, v) {
-                qz.append(v.descripcion+"\n");
-                counter++;
-            });
+                        qz.append("\x1B\x40"); // reset printer
+                        qz.append("\x1B\x33\x20"); // set line spacing MUST BE x35
+                        qz.append("\x1B\x6C\x04"); // left margin max x49
+                        qz.append("\x1B\x6B\x01"); // select typeface - 00 serif - 01 sans serif
+                        qz.append("\x1B\x74\x01"); // select character table (0-italic, 1-normal)
+                        qz.append(chr(27) + chr(69) + "\r");
+                        qz.setEncoding("UTF-8");
+                        qz.setEncoding("850");
+                        qz.append('\n\n\n');
+                        qz.append(data.nit+'\r\n');
+                        qz.append(data.nombre+'\r\n');
+                        qz.append(data.direccion+'\r\n');
+                        qz.append('\n\n');
 
-            counter = 18 - counter;
+                        var counter = 0;
+                        $.each(data.detalle, function(i, v) {
+                            qz.append(v.descripcion+"\n");
+                            counter++;
+                        });
 
-            for ( $i = 0; $i < counter; $i++) {
-                qz.append('\n');
-            };
+                        counter = 18 - counter;
+                        for ( $i = 0; $i < counter; $i++) {
+                            qz.append('\n');
+                        };
 
-          qz.append(data.total_letras+"\r");
-          qz.append(data.total_num+"\r\n");
-          qz.append('\n\n\n\n');
-          qz.append("\x1B\x40"); // reset printer
-          qz.print();
+                        qz.append(data.total_letras+"\r");
+                        qz.append(data.total_num+"\r\n");
+                        qz.append('\n\n\n\n');
+                        qz.append("\x1B\x40"); // reset printer
+                        qz.print();
 
                     }
                 }); 
             }
-            else {
+            else
+            {
                 msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
             }
-            
+
             window['qzDoneFinding'] = null;
         };
     }

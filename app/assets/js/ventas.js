@@ -281,6 +281,7 @@ function OpenModalSalesItemSerials(e)
     });
 }
 
+// for test
 function imprimirFactura(p)
 {
     if (isLoaded()) {

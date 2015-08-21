@@ -6,6 +6,8 @@
 
 <table class="dt-table table-striped table-theme" id="example"></table>
 
+<?php $impresora = "epson" ?>
+
 <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -27,11 +29,13 @@
 				{"sClass": "widthS right formato_precio",    "sTitle": "Total",                        "aTargets": [3]},
 				{"sClass": "widthS right formato_precio",    "sTitle": "Saldo",                        "aTargets": [4]},
 				{"sClass": "widthS",                         "sTitle": "Completed", "bVisible": false, "aTargets": [5]},
-				{"sClass": "widthS center font14", "sTitle": " ", "orderable": false, "aTargets": [6],
-					"mRender": function() {
+				{"sClass": "widthS center font14", "orderable": false, "aTargets": [6],
+
+
+					"mRender": function( data, type, full ) {
 						$v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
 						$v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
-						$v += '<a href="javascript:void(0);" title="Imprimir Factura" onclick="ImprimirFacturaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px">';
+						$v += '<a href="javascript:void(0);" onclick="printInvoice(this, '+full.DT_RowId+', '+"'"+'{{$factura->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px">';
 						$v += '<a href="javascript:void(0);" title="Imprimir Garantia" onclick="ImprimirGarantiaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-file-o font14" style="padding-left:10px">';
 
 						return $v;

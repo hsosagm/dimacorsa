@@ -348,7 +348,7 @@ class VentasController extends \BaseController {
         	ventas.total,
         	DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as fecha,  
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            clientes.nombre as cliente,
+            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
@@ -363,13 +363,19 @@ class VentasController extends \BaseController {
         ));
 	}
 
-	function ImprimirVentaModal()
+	function getModalImprimirVenta()
 	{
 		$venta_id = Input::get('venta_id');
 
+		$factura = DB::table('printer')->select('impresora')
+		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
+
+		$garantia = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
+
 		return Response::json(array(
 			'success' => true,
-			'form' => View::make('ventas.ImprimirVentaModal',compact('venta_id'))->render()
+			'form'    => View::make('ventas.ModalImprimirVenta', compact('venta_id', 'factura', 'garantia'))->render()
         ));
 	}
 
@@ -402,8 +408,10 @@ class VentasController extends \BaseController {
 
     	if(count($venta->detalle_venta)>0)
     	{
-        	$i = 0;
+        	$i     = 0;
+        	$total = 0;
         	foreach ($venta->detalle_venta as $dt) {
+        		$total = $total +($dt->cantidad * $dt->precio);
         		$len1 = strlen($dt->cantidad);
         		$len2 = strlen($this->clear($dt->producto->descripcion));
 
@@ -426,10 +434,10 @@ class VentasController extends \BaseController {
 
         	$convertir = new Convertidor;
 
-        	$totalEnLetras = $convertir->ConvertirALetras($venta->total);
+        	$totalEnLetras = $convertir->ConvertirALetras($total);
 
         	$e4 = "                                                                                                                                     ";
-        	$total_venta = f_num::get($venta->total);
+        	$total_venta = f_num::get($total);
         	$len5 = strlen($total_venta);
         	$e4 = substr($e4, 0, -$len5);
 
@@ -443,8 +451,12 @@ class VentasController extends \BaseController {
 				'total_num' => $e4 . $total_venta,
 	        ));
     	}
-    	else
-        	return 'Ingrese productos ala factura para poder inprimir';
+    	else {
+			return Response::json( array(
+				'success' => false,
+				'msg' => "Ingrese productos ala factura para poder inprimir"
+	        ));
+    	}
 	}
 
 	function ImprimirFacturaVenta()
@@ -459,18 +471,7 @@ class VentasController extends \BaseController {
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
-
-	function ImprimirFacturaVenta_dt($code,$id)
-	{
-		$venta_id = $id;
-
-		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
-    	if(count($venta->detalle_venta)>0)
-        	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
-
-    	else
-        	return 'Ingrese productos ala factura para poder inprimir';
-	}
+	
 
 	function ImprimirGarantiaVenta_dt($code,$id)
 	{
@@ -598,7 +599,7 @@ class VentasController extends \BaseController {
 		$ventas = DB::table('clientes')
         	->select(DB::raw("
         		clientes.id as id,
-        		clientes.nombre  as cliente,
+        		CONCAT_WS(' ',clientes.nombre,clientes.apellido)  as cliente,
         		clientes.direccion as direccion,
         		sum(ventas.total) as total,
         		sum(ventas.saldo) as saldo_total,

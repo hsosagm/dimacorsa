@@ -30,10 +30,13 @@ class QueriesController extends \BaseController {
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
+		$factura = DB::table('printer')->select('impresora')
+		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
+
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('queries.ventasPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
+			'view'    => View::make('queries.ventasPorFecha', compact('consulta','fecha_inicial','fecha_final', 'factura'))->render()
         ));
 	}
 

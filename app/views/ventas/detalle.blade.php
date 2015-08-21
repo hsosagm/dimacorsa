@@ -45,7 +45,7 @@
 <div class="form-footer" >
 	<div class="row">
 		<div class="col-md-6">
-			<i class="fa fa-print fa-lg icon-print" onclick="ImprimirVentaModal(this, {{$venta_id}} );"></i>
+			<i class="fa fa-print fa-lg icon-print" onclick="getModalImprimirVenta(this, {{$venta_id}} );"></i>
 		</div>
 		<div class="col-md-6" align="right">
 			<i class="fa fa-trash fa-lg icon-delete" onclick="RemoveSale();"></i>
