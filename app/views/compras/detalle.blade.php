@@ -53,8 +53,8 @@
 	<div class="row">
 		<div class="col-md-6"> </div>
 		<div class="col-md-6" align="right">
-			<i class="fa fa-trash fa-lg icon-delete" compra_id="{{@$id}}" onclick="DeletePurchaseInitial();"></i>
-			<i class="fa fa-check fa-lg icon-success" id="{{@$id}}" onclick="ModalPurchasePayment();"></i>
+			<i class="fa fa-trash fa-lg icon-delete" compra_id="{{@$id}}" onclick="DeletePurchaseInitial(this);"></i>
+			<i class="fa fa-check fa-lg icon-success" id="{{@$id}}" onclick="ModalPurchasePayment(this);"></i>
 		</div>
 	</div>
 </div>
