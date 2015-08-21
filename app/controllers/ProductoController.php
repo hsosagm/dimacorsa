@@ -113,7 +113,10 @@ class ProductoController extends Controller {
 
     public function getInventario()
     {
-        return View::make('producto.getInventario');
+        return Response::json(array(
+            'success'=> true,
+            'view' => View::make('producto.getInventario')->render()
+            )); 
     }
 
     public function index()

@@ -207,7 +207,8 @@
     {
         Route::group(array('prefix' => 'kardex'),function() 
         {
-            Route::get('getKardex' , 'KardexController@getKardex');
+            Route::get('getKardexPorFecha/{consulta}'          , 'KardexController@getKardexPorFecha'  );
+            Route::get('DtKardexPorFecha/{consulta}'           , 'KardexController@DtKardexPorFecha'   );
         });
 
         Route::group(array('prefix' => 'configuracion'),function() 

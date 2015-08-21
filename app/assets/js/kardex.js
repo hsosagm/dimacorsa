@@ -1,4 +1,4 @@
-
+/*
 var global_producto_id;
 var kardexFechaInicial;
 var kardexFechaFinal;
@@ -82,4 +82,4 @@ $(document).on('click', '.pagination_kardex_producto a', function (e) {
     var page = $(this).attr('href').split('page=')[1];
     getKardexProductoPaginacion(page,null);
     return false;
-});
+});*/

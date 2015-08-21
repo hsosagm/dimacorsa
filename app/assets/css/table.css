@@ -451,3 +451,23 @@ table {
 .width50{
  width: 50%;
 }
+
+#dataTableKardex tr td{
+  font-size: 12px !important;
+  line-height: 140%;
+}
+
+#dataTableKardex tr th{
+  font-size: 12px !important;
+}
+
+#dataTableKardex  .HeadQueriesContainer {
+  background: #FFFFFF !important;
+}
+
+#kardexContainer {
+  background: #FFFFFF !important;
+}
+#dataTableKardex  .HeadQueriesContainer  .col-md-2 {
+  background: #FFFFFF !important;
+}
