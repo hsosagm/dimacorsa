@@ -15,6 +15,7 @@
         <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Queries</a></li>
         <li onclick="getTrasladosEnviados(this)"><a href="javascript:void(0);">Traslados Enviados</a></li>
         <li onclick="getTrasladosRecibidos(this)"><a href="javascript:void(0);">Traslados Recibidos</a></li>
+        <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li>
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
     </ul>
 </li>

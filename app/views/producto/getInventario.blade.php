@@ -115,6 +115,11 @@ $('.dataTable').attr('url', 'admin/productos/');
                         return graph_container_compile();
                 });
 
+            },
+
+            exportarKardexExcel: function(e, producto_id, fecha_inicial, fecha_final)
+            {
+                window.open('admin/kardex/exportarKardex/xls?producto_id='+producto_id+'&fecha_inicial='+fecha_inicial+'&fecha_final='+fecha_final ,'_blank');
             }
         }
     });

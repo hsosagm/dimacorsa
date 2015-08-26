@@ -36,7 +36,12 @@
                     </a>
                 </li>
                 <li v-on="click: getVentasPedientesDePago" class="dropdown navbar-message">
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Ventas Pendientes" data-toggle="tooltip">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Pendientes Por Cliente" data-toggle="tooltip">
+                        <i class="fa fa-money"></i>
+                    </a>
+                </li>
+                <li v-on="click: getVentasPedientesPorUsuario" class="dropdown navbar-message">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Pendientes Por Usuario" data-toggle="tooltip">
                         <i class="fa fa-money"></i>
                     </a>
                 </li>

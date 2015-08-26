@@ -1,15 +1,79 @@
-<div class="panel dt-panel-cierre rounded shadow">
+
+
+<script>
+   var graph_container = new Vue({
+
+    el: '#graph_container',
+
+    data: {
+        x: 1,
+    },
+
+    methods: {
+
+        reset: function() {
+            graph_container.x = graph_container.x - 1;
+        },
+
+        close: function() {
+            $('#graph_container').hide();
+        }, 
+
+    	getAsignarInfoEnviar: function($v_model ,$v_metodo){
+            cierre_model= $v_model;
+            cierre_metodo_pago_id = $v_metodo;
+            graph_container.getCierreConsultasPorMetodoDePago(1 , null); 
+        },
+
+        getCierreConsultasPorMetodoDePago: function(page , sSearch) {
+            $.ajax({
+                type: 'GET',
+                url: "admin/cierre/consultas/ConsultasPorMetodoDePago/"+cierre_model+"?page=" + page,
+                data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar, grafica:"_graficas" },
+                success: function (data) {
+                    if (data.success == true) {
+                        graph_container.x = 2;
+                        $('#cierres').html(data.table);
+                    }
+                    else {
+                        msg.warning(data, 'Advertencia!');
+                    }
+                }
+            });
+        }
+    }
+});
+
+        		
+   function graph_container_compile() {
+    graph_container.$nextTick(function() {
+        graph_container.$compile(graph_container.$el);
+    });
+}
+
+$(document).on('click', '.pagination_cierre_graficas a', function (e) {
+        e.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        graph_container.getCierreConsultasPorMetodoDePago(page , null); 
+    });
+</script>
+
+<div class="panel_heading">
+    <div class="pull-right">
+        <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
+        <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
+    </div>
+</div>
+<div v-show="x == 1" id="container">
+	<div class="panel dt-panel-cierre rounded shadow">
     <div class="panel-heading-cierre bg-theme">
         <div class="pull-left cierre-titulos">
 			<strong >{{ strtoupper(@$titulo['fecha']) }}</strong>
         </div>
         <div class="pull-right">
         		<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
-        		<i class="fa fa-file-pdf-o fa-2" onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
-        		<i class="fa fa-print fa-2"  onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
-        		@if(!Input::has('grafica'))
-        			<i onclick="$('.dt-container-cierre').hide();" class="fa fa-times"></i>
-                @endif
+        		<i class="fa fa-file-pdf-o fa-2"onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
+        		<i class="fa fa-print fa-2" onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
          </div>
         <div class="clearfix"></div>
     </div>
@@ -29,167 +93,167 @@
 			<tbody class="table-hover cierre_body" style="border-bottom: double;">
 				<tr class="">
 					<td>Ventas</td>
-					<td class="right hover" onclick="asignarInfoEnviar('Ventas',1);"> 
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',1);"> 
 						{{ f_num::get($data['pagos_ventas']['efectivo']) }} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Ventas',2);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',2);">
 						{{ f_num::get($data['pagos_ventas']['credito']) }} </td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Ventas',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',3);">
 					 	{{ f_num::get($data['pagos_ventas']['cheque']) }} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Ventas',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',4);">
 					 	{{ f_num::get($data['pagos_ventas']['tarjeta']) }} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Ventas',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',5);">
 					 	{{ f_num::get($data['pagos_ventas']['deposito'])}} </td> 
 					<td class="right      "> {{ f_num::get($data['pagos_ventas']['total']) }} </td> 
 				</tr>
 				<tr>
 					<td>Abonos</td>
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosVentas',1);"> 
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosVentas',1);"> 
 						{{ f_num::get($data['abonos_ventas']['efectivo'])}} 
 					</td> 
 					<td class="right"> 		 {{ f_num::get($data['abonos_ventas']['credito'])}} </td> 
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosVentas',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosVentas',3);">
 						{{ f_num::get($data['abonos_ventas']['cheque'])}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosVentas',4);" > 
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosVentas',4);" > 
 						{{ f_num::get($data['abonos_ventas']['tarjeta'])}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosVentas',5);"> 
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosVentas',5);"> 
 						{{ f_num::get($data['abonos_ventas']['deposito'])}} 
 					</td> 
 					<td class="right"> 		 {{ f_num::get($data['abonos_ventas']['total'])  }} </td> 
 				</tr>
 				<tr>
 					<td>Soporte</td>
-					<td class="right hover" onclick="asignarInfoEnviar('Soporte',1);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Soporte',1);">
 					    {{ f_num::get($data['soporte']['efectivo'])}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Soporte',2);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Soporte',2);">
 					    {{ f_num::get($data['soporte']['credito'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Soporte',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Soporte',3);">
 					    {{ f_num::get($data['soporte']['cheque']  )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Soporte',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Soporte',4);">
 					    {{ f_num::get($data['soporte']['tarjeta'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Soporte',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Soporte',5);">
 					    {{ f_num::get($data['soporte']['deposito'])}} 
 					</td> 
 					<td class="right"> 		 {{ f_num::get($data['soporte']['total'])  }} </td> 
 				</tr>
 				<tr>
 					<td>Adelantos</td>
-					<td class="right hover" onclick="asignarInfoEnviar('Adelantos',1);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos',1);">
 					   {{ f_num::get($data['adelantos']['efectivo'])}} 
 					</td> 
 					<td class="right      "> 
 						{{ f_num::get($data['adelantos']['credito'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Adelantos',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos',3);">
 					   {{ f_num::get($data['adelantos']['cheque']  )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Adelantos',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos',4);">
 					   {{ f_num::get($data['adelantos']['tarjeta'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Adelantos',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos',5);">
 					   {{ f_num::get($data['adelantos']['deposito'])}} 
 					</td> 
 					<td class="right      "> {{ f_num::get($data['adelantos']['total'])   }} </td> 
 				</tr>
 				<tr>
 					<td>Ingresos</td>
-					<td class="right hover" onclick="asignarInfoEnviar('Ingresos',1);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos',1);">
 					   {{ f_num::get($data['ingresos']['efectivo'])}} 
 					</td> 
 					<td class="right      "> 
 						{{ f_num::get($data['ingresos']['credito'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Ingresos',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos',3);">
 					   {{ f_num::get($data['ingresos']['cheque']  )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Ingresos',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos',4);">
 					   {{ f_num::get($data['ingresos']['tarjeta'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Ingresos',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos',5);">
 					   {{ f_num::get($data['ingresos']['deposito'])}} 
 					</td> 
 					<td class="right      "> {{ f_num::get($data['ingresos']['total'])   }} </td> 
 				</tr>
 				<tr>
 					<td>Gastos</td>
-					<td class="right hover" onclick="asignarInfoEnviar('Gastos',1);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Gastos',1);">
 						({{  f_num::get(($data['gastos']['efectivo'] == 0) ?  '0.00':$data['gastos']['efectivo'])}})
 					</td> 
 					<td class="right      "> 
 						{{  f_num::get($data['gastos']['credito'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Gastos',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Gastos',3);">
 						 {{  f_num::get($data['gastos']['cheque']  )}} 
 					 </td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Gastos',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Gastos',4);">
 						 {{  f_num::get($data['gastos']['tarjeta'] )}} 
 					 </td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Gastos',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Gastos',5);">
 						 {{  f_num::get($data['gastos']['deposito'])}} 
 					 </td> 
 					<td class="right      "> {{  f_num::get($data['gastos']['total'])  }} </td> 
 				</tr>
 				<tr>
 					<td>Egresos</td>
-					<td class="right hover" onclick="asignarInfoEnviar('Egresos',1);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Egresos',1);">
 						({{  f_num::get(($data['egresos']['efectivo'] == 0) ?  '0.00':$data['egresos']['efectivo'])}})
 					</td> 
 					<td class="right      "> 
 						{{  f_num::get($data['egresos']['credito'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Egresos',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Egresos',3);">
 						{{  f_num::get($data['egresos']['cheque']  )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Egresos',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Egresos',4);">
 						{{  f_num::get($data['egresos']['tarjeta'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('Egresos',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('Egresos',5);">
 						{{  f_num::get($data['egresos']['deposito'])}} 
 					</td> 
 					<td class="right      "> {{ f_num::get($data['egresos']['total'])   }} </td> 
 				</tr>
 				<tr>
 					<td>Pagos Compras</td>
-					<td class="right hover" onclick="asignarInfoEnviar('PagosCompras',1);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('PagosCompras',1);">
 					   ({{  f_num::get(($data['pagos_compras']['efectivo'] == 0) ?  '0.00':$data['pagos_compras']['efectivo'])}}) 
 					 </td>
-					<td class="right hover" onclick="asignarInfoEnviar('PagosCompras',2);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('PagosCompras',2);">
 					   {{  f_num::get($data['pagos_compras']['credito'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('PagosCompras',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('PagosCompras',3);">
 					   {{  f_num::get($data['pagos_compras']['cheque']  )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('PagosCompras',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('PagosCompras',4);">
 					   {{  f_num::get($data['pagos_compras']['tarjeta'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('PagosCompras',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('PagosCompras',5);">
 					   {{  f_num::get($data['pagos_compras']['deposito'])}} 
 					</td> 
 					<td class="right      "> {{ f_num::get($data['pagos_compras']['total'])   }} </td> 
 				</tr>
 				<tr>
 					<td>Abonos Compras</td>
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosCompras',1);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosCompras',1);">
 						({{  f_num::get(($data['abonos_compras']['efectivo'] == 0) ?  '0.00':$data['abonos_compras']['efectivo'])}}) 
 					</td> 
 					<td class="right      "> 
 						{{  f_num::get($data['abonos_compras']['credito'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosCompras',3);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosCompras',3);">
 						{{  f_num::get($data['abonos_compras']['cheque']  )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosCompras',4);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosCompras',4);">
 						{{  f_num::get($data['abonos_compras']['tarjeta'] )}} 
 					</td> 
-					<td class="right hover" onclick="asignarInfoEnviar('AbonosCompras',5);">
+					<td class="right hover" v-on="click: getAsignarInfoEnviar('AbonosCompras',5);">
 						{{  f_num::get($data['abonos_compras']['deposito'])}} 
 					</td> 
 					<td class="right      "> {{ f_num::get($data['abonos_compras']['total'])  }} </td> 
@@ -283,7 +347,7 @@
 			@endif
 		</div>
 		<div class="col-md-1" align="right" >
-			<i class="fa fa-chevron-down btn-link theme-c" onclick="$('.detalle_cierre_footer').slideToggle()"> </i> 
+			<i class="fa fa-chevron-down btn-link theme-c"  onclick="$('.detalle_cierre_footer').slideToggle()"> </i> 
 			&nbsp;&nbsp;
 		</div>
     </div>
@@ -411,23 +475,7 @@
 		<!--  fin de compras del dia -->
 
     </div>
+	</div>
 </div>
-
-<script>
-	cierre_fecha_enviar='{{$fecha}}'; 
-</script>
-
-@if(Input::has('imprimir'))
-	<style>
-		table {
-			font-size: 12px;
-		}
-		.right {
-			text-align: right;
-		}
-		table thead {
-			border-bottom: 1px solid black
-		}
-	</style>
-@endif
-        
+<div v-show="x == 2" id="cierres"></div>
+<div v-show="x == 3" id="cierres_dt"></div>

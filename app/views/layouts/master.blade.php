@@ -33,7 +33,7 @@
             @include('partials.body-content')
 
             <footer class="footer-content"> 
-                2015 &copy; {{$tienda->nombre}}. Created by <a href="javascript:void(0)">CLICK SOFTWARE.</a>
+                2015 &copy; {{$tienda->nombre}}. Created by <a href="javascript:void(0)">SOFTWARE.</a>
             </footer>
 
         </section>

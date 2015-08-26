@@ -16,7 +16,7 @@
                         <i class="fa fa-plus-square btn-link theme-c" v-on="click: showNewCustomer"></i>
                     </td>
                 </tr>
-                <tr v-if="cliente.tipocliente">
+                <tr>
                     <td colspan="2" v-show="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
                         <label class="col-md-6" style="padding-left: 0px !important;">@{{ cliente.nombre }}</label>
                         <label class="col-md-6" >Tipo Cliente: : @{{ cliente.tipocliente.nombre }}</label>
@@ -142,6 +142,7 @@
         onSelect: function (data) {
             app.getInfoCliente(data.id);
             $('#cliente').val("");
+            app.verCliente = true;
         }
     });
 

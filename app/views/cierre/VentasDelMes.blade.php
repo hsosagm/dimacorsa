@@ -57,7 +57,6 @@
         },
         ],
         "order": [[ 0, "desc" ]],
-
         "fnDrawCallback": function( oSettings ) {
 
             $("td[class*='formato_precio']").each(function() {

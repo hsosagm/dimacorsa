@@ -1,7 +1,7 @@
 <table class="DT_table_div" width="100%">
 	<tr class="DT_table_div_detail">
 		<td align="center">Fecha</td>
-		<td align="center">Usuario</td>
+		<td align="center">{{ ($id_pagination == 'pagination_ventas_por_usuario')? 'Cliente':'Usuario';}}</td>
 		<td align="center">Total</td>
 		<td align="center">Saldo</td>
 		<td align="center"></td>
@@ -22,7 +22,7 @@
 	<tfoot width="100%">
 		<tr>
 			<td colspan="9">
-				<div style="float:right" class="pagination_ventas_por_cliente"> {{ @$detalle->links() }} </div>
+				<div style="float:right" class="{{$id_pagination}}"> {{ @$detalle->links() }} </div>
 				
 			</td>
 		</tr>

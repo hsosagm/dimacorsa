@@ -45,6 +45,7 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover right widthS formato_precio",  "sTitle": "Monto",       "aTargets": [3]},
             {"sClass": "mod_codigo hover widthS",                       "sTitle": "Metodo Pago","aTargets": [4]},
         ],
+        "order": [[ 1, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));
