@@ -350,4 +350,12 @@ class ChartController extends \BaseController {
         ));
     }
 
+    public function getConsultaPorCriterio()
+    {
+        return Response::json(array(
+            'success'   => true,
+            'view'    => View::make('chart.ventas.consultaPorCriterio')->render()
+        ));
+    }
+
 }

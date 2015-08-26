@@ -41,11 +41,49 @@ class KardexController extends \BaseController {
             'table'   => View::make('kardex.getKardex', compact('kardex'))->render()
         ));
 	}
+    /*******************************************************************
+    Inicio Exportar Kardex
+    *******************************************************************/
+    public function exportarKardex($tipo)
+    {
+        $kardex = DB::table('kardex')
+        ->select("kardex.created_at as fecha",
+            DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"), 
+            DB::raw("kardex_transaccion.nombre as transaccion"), 
+            "evento","cantidad", "existencia", "costo", "costo_promedio",
+            DB::raw("(costo * cantidad) as total_movimiento"),
+            DB::raw("(costo_promedio * existencia) as total_acumulado"))
+        ->join('users','users.id','=','kardex.user_id')
+        ->join('kardex_transaccion','kardex_transaccion.id','=','kardex.kardex_transaccion_id')
+        ->where('kardex.tienda_id','=',Auth::user()->tienda_id)
+        ->where('producto_id','=',Input::get('producto_id'))
+        ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') >= DATE_FORMAT('".Input::get('fecha_inicial')."', '%Y-%m-%d')")
+        ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('".Input::get('fecha_final')."', '%Y-%m-%d')")
+        ->get();
 
+        Excel::create('Kardex', function($excel) use($kardex) 
+        {
+            $excel->setTitle('Kardex');
+            $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
+            ->setCompany('Click Chiquimula');
+            $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
+            $excel->setSubject('Click');
+
+            $excel->sheet('datos', function($hoja) use($kardex) 
+            {
+                $hoja->setOrientation('landscape');
+                $hoja->loadView('kardex.exportarKardex', array('kardex' => $kardex ));
+            });
+
+        })->export("xls");
+    }
+    /*******************************************************************
+    Fin  Exportar Kardex
+    *******************************************************************/
 
 
     /*******************************************************************
-    Inicio Consultas de Ventas
+    Inicio Consultas de Kardex
     *******************************************************************/
     public function getKardexPorFecha($consulta)
     {
@@ -108,6 +146,6 @@ class KardexController extends \BaseController {
         return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
     /*******************************************************************
-    Fin Consultas de Ventas
+    Fin Consultas de Kardex
     *******************************************************************/
 }

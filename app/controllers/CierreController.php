@@ -21,7 +21,7 @@ class CierreController extends \BaseController {
         $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
 
         $titulo ['fecha']  = $fecha_titulo;
-
+ 
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
 

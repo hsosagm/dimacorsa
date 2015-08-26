@@ -180,6 +180,8 @@
             Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
             Route::get('getVentasPorHoraPorUsuario'             , 'VentasController@getVentasPorHoraPorUsuario');
             Route::post('ingresarSeriesDetalleVenta'            , 'VentasController@ingresarSeriesDetalleVenta');
+            Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');
+            Route::get('getDetalleVentasPendientesPorUsuario'   , 'VentasController@getDetalleVentasPendientesPorUsuario');
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -207,8 +209,9 @@
     {
         Route::group(array('prefix' => 'kardex'),function() 
         {
-            Route::get('getKardexPorFecha/{consulta}'          , 'KardexController@getKardexPorFecha'  );
-            Route::get('DtKardexPorFecha/{consulta}'           , 'KardexController@DtKardexPorFecha'   );
+            Route::get('getKardexPorFecha/{consulta}'          , 'KardexController@getKardexPorFecha');
+            Route::get('DtKardexPorFecha/{consulta}'           , 'KardexController@DtKardexPorFecha');
+            Route::get('exportarKardex/{tipo}'                       , 'KardexController@exportarKardex');
         });
 
         Route::group(array('prefix' => 'configuracion'),function() 
@@ -482,6 +485,7 @@
             Route::get('ventas' , 'ChartController@ventas' );
             Route::get('comparativaMensual' , 'ChartController@comparativaMensual' );
             Route::get('getComparativaMensualPorMes' , 'ChartController@getComparativaMensualPorMes' );
+            Route::get('getConsultaPorCriterio' , 'ChartController@getConsultaPorCriterio' );
 
             Route::group(array('prefix' => 'ventas'), function()
             {
@@ -509,10 +513,11 @@
 
     });
 
-Route::get('enviar'       , 'CierreController@enviarCorreoPDF'  );
+Route::get('exportar/{tipo}' , 'KardexController@exportarKardex');
 
 Route::get('test', function()
 {
+    
 
 });
 
