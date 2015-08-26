@@ -11,9 +11,6 @@ function f_ven_op() {
         $('.panel-title').text('Formulario Ventas');
         $(".forms").html(data);
         ocultar_capas();
-        app.cliente.id = 1;
-        app.getInfoCliente(1);
-        app.generarVenta(this);
         $(".form-panel").show();
     });
 }

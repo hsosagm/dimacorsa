@@ -154,7 +154,7 @@ var app = new Vue({
                 }
             });
 
-           // e.preventDefault();
+            e.preventDefault();
         },
 
 

@@ -69,3 +69,19 @@ function comparativaMensual() {
         msg.warning(data, 'Advertencia!');
     });  
 }
+
+
+function getConsultaPorCriterio(e) {
+    $.ajax({
+        type: "GET",
+        url: 'owner/chart/getConsultaPorCriterio',
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            clean_panel();
+            $('#graph_container').show();
+            return $('#graph_container').html(data.view);
+        }
+        msg.warning(data, 'Advertencia!');
+    });  
+}

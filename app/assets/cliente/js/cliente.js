@@ -11,3 +11,13 @@ $(document).on('click', '.pagination_ventas_por_cliente a', function (e) {
     
     return false;
 });
+
+
+$(document).on('click', '.pagination_ventas_por_usuario a', function (e) {
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+    vm.getDetalleVentasPendientesPorUsuarioPaginacion(page,null);
+    
+    return false;
+});
+

@@ -15,6 +15,7 @@ var vm = new Vue({
 		saldoParcial: '',
 		monto: '',
 		cliente_id_creditos: '',
+		user_id_creditos: '',
 	},
 
 	methods: {
@@ -377,6 +378,8 @@ var vm = new Vue({
 				success: function (data) {
 					if (data.success == true)
 					{
+						vm.cliente_id = '';
+						$("#infoSaldosTotales").html("");
 						vm.historialPagos = data.data;
 						return vm.proccesDataTable(data.table);
 					}
@@ -384,6 +387,68 @@ var vm = new Vue({
 				}
 			}); 
 		},
+
+
+		getVentasPedientesPorUsuario: function() {
+			$.ajax({
+				type: 'GET',
+				url: "user/ventas/getVentasPedientesPorUsuario",
+				success: function (data) {
+					if (data.success == true)
+					{
+						$("#infoSaldosTotales").html("");
+						vm.historialPagos = data.data;
+						return vm.proccesDataTable(data.table);
+					}
+					msg.warning(data, 'Advertencia!');
+				}
+			}); 
+		},
+
+
+		DetalleVentasPendientesPorUsuario: function(e, id) {
+			vm.user_id_creditos = id;
+
+			e = e.target;
+
+			if ($(e).hasClass("hide_detail"))  {
+				$(e).removeClass('hide_detail');
+				$('.subtable').fadeOut('slow');
+			} 
+			else {
+				$('.hide_detail').removeClass('hide_detail');
+				if ( $( ".subtable" ).length ) {
+					$('.subtable').fadeOut('slow', function(){
+						vm.getDetalleVentasPendientesPorUsuario(e, 1 , null);
+					})
+				}
+				else 
+					vm.getDetalleVentasPendientesPorUsuario(e, 1 , null);
+			}
+		},
+
+		getDetalleVentasPendientesPorUsuario: function(e , page, sSearch) {
+			$('.subtable').remove();
+			var nTr = $(e).parents('tr')[0];
+			$(e).addClass('hide_detail');
+			$(nTr).after("<tr class='subtable'> <td colspan=6><div class='grid_detalle_factura'></div></td></tr>");
+			$('.subtable').addClass('hide_detail');
+
+			$.ajax({
+				type: "GET",
+				url: "user/ventas/getDetalleVentasPendientesPorUsuario?page=" + page,
+				data: {user_id: vm.user_id_creditos , sSearch:sSearch},
+			}).done(function(data) {
+				if (data.success == true) {
+					$('.grid_detalle_factura').html(data.table);
+					$(nTr).next('.subtable').fadeIn('slow');
+					compile();
+					return $(e).addClass('hide_detail');
+				}
+				msg.warning(data, 'Advertencia!');
+			});
+		},
+
 
 
 		VentasPendientesPorCliente: function(e, id) {
@@ -426,6 +491,20 @@ var vm = new Vue({
 					compile();
 					return $(e).addClass('hide_detail');
 				}
+				msg.warning(data, 'Advertencia!');
+			});
+		},
+
+
+		getDetalleVentasPendientesPorUsuarioPaginacion: function(page , sSearch) {
+			$.ajax({
+				type: "GET",
+				url: "user/ventas/getDetalleVentasPendientesPorUsuario?page=" + page,
+				data: {user_id: vm.user_id_creditos , sSearch:sSearch},
+			}).done(function(data) {
+				if (data.success == true)
+					return  $('.grid_detalle_factura').html(data.table);
+
 				msg.warning(data, 'Advertencia!');
 			});
 		},

@@ -4,9 +4,9 @@ $(function() {
 
 function CierreDelDia() {
 	$.get( "admin/cierre/CierreDelDia", function( data ) {
-		$('.dt-container-cierre').html(data);
-        $('.dt-container').hide();
-        $('.dt-container-cierre').show();
+		clean_panel();
+        $('#graph_container').show();
+        $('#graph_container').html(data);
 	}); 
 }
 

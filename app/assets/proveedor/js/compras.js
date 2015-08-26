@@ -212,7 +212,7 @@ function getComprasPedientesDePago()
         url: "admin/compras/getComprasPedientesDePago",
         success: function (data) {
             if (data.success == true) {
-
+                vm.proveedor_id = '';
                 $("#infoSaldosTotales").html(data.infoSaldosTotales);
                 setTimeout(function() {
                     $('#example_length').prependTo("#table_length");
