@@ -1,7 +1,6 @@
 <?php $fecha = Input::get('fecha'); ?>
 <?php $grafica = Input::get('grafica'); ?>
 
-@if(Input::has('grafica'))
     <table class="dt-table table-striped table-theme" id="example">
         <tbody style="background: #ffffff;">
             <tr>
@@ -9,27 +8,30 @@
             </tr>
         </tbody>
     </table>
-@endif
+
 
 <script type="text/javascript">
     $(document).ready(function() {
         
-        if ( "{{$grafica}}" != "true") {
-            proccess_table('Ventas del mes');
-        }else{
+        
             $("#iSearch").val("");
             $("#iSearch").unbind();
             $("#table_length").html("");
 
             setTimeout(function() {
                 $('#example_length').prependTo("#table_length");
-                graph_container.x = 3;
-                
+                if ( "{{$grafica}}" != "true") {
+                    graph_container.x = 2;
+                }
+                else{
+                     graph_container.x = 3;
+                }
+               
                 $('#iSearch').keyup(function(){
                     $('#example').dataTable().fnFilter( $(this).val() );
                 })
             }, 300);
-        }
+        
 
         $('#example').dataTable({
 
@@ -49,7 +51,8 @@
             {"sClass": "mod_codigo hover widthS formato_precio right",      "sTitle": "P. Promedio",         "aTargets": [4]},
             {"sClass": "mod_codigo hover widthS formato_porcentaje right",  "sTitle": "Utilidad / Porcentaje","aTargets": [5]},
             {"sClass": "mod_codigo hover widthS formato_precio right",      "sTitle": "Utilidad / Total",    "aTargets": [6]},
-            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [7],
+            {"sClass": "mod_codigo hover widthS formato_precio right",      "sTitle": "Monto / Total",       "aTargets": [7]},
+            {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [8],
             "orderable": false,
             "mRender": function() {
                 return '<i class="fa fa-plus-square btn-link theme-c" fecha="{{$fecha}}" onClick="DetalleDeVentasPorProducto(this)"></i>';

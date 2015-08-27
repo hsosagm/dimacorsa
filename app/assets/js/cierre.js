@@ -12,9 +12,9 @@ function CierreDelDia() {
 
 function CierreDelMes() {
 	$.get( "admin/cierre/CierreDelMes", function( data ) {
-		$('.dt-container-cierre').html(data);
-        $('.dt-container').hide();
-        $('.dt-container-cierre').show();
+		clean_panel();
+        $('#graph_container').show();
+        $('#graph_container').html(data);
 	});
 }
 
@@ -29,18 +29,18 @@ function cierre() {
 	});	
 }
 
-function CierreDelDiaPorFecha() {
-	fecha = $(".datepicker .calendar .days .selected").attr('date');
-
+function CierreDelDiaPorFecha(e) {
+	$fecha_completa = $(e).closest('tr').find("td").eq(3).html();
+    $fecha = $fecha_completa.substring(0, 10); 
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelDiaPorFecha',
-        data: { fecha:fecha },
+        data: { fecha:$fecha },
         contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
-            $('.dt-container-cierre').html(data);
-            $('.dt-container').hide();
-            $('.dt-container-cierre').show();
+            clean_panel();
+            $('#graph_container').show();
+            $('#graph_container').html(data);
         }
     });
 }

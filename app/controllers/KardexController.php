@@ -127,7 +127,8 @@ class KardexController extends \BaseController {
             "(costo_promedio * existencia) as total_acumulado"
         );
 
-        $Search_columns = array("evento" , "cantidad" , 'existencia' ,'costo');
+        $Search_columns = array("evento" , "cantidad" , 'existencia' ,'costo' , 'users.nombre',
+         'users.apellido', 'kardex.created_at','kardex_transaccion.nombre');
 
         $where = "DATE_FORMAT(kardex.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 

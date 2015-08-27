@@ -1,5 +1,5 @@
 <?php $grafica = Input::get('grafica'); ?>
-@if(Input::has('grafica'))
+
     <table class="dt-table table-striped table-theme" id="example">
         <tbody style="background: #ffffff;">
             <tr>
@@ -7,27 +7,28 @@
             </tr>
         </tbody>
     </table>
-@endif
 
 <script>
+
 $(document).ready(function() {
     
-     if ( "{{$grafica}}" != "true") {
-            proccess_table('Gastos del mes');
-    }else{
-        $("#iSearch").val("");
-        $("#iSearch").unbind();
-        $("#table_length").html("");
+     $("#iSearch").val("");
+    $("#iSearch").unbind();
+    $("#table_length").html("");
 
-        setTimeout(function() {
-            $('#example_length').prependTo("#table_length");
-            graph_container.x = 3;
-            
-            $('#iSearch').keyup(function(){
-                $('#example').dataTable().fnFilter( $(this).val() );
-            })
-        }, 300);
-    }
+    setTimeout(function() {
+        $('#example_length').prependTo("#table_length");
+        if ( "{{$grafica}}" != "true") {
+            graph_container.x = 2;
+        }
+        else{
+             graph_container.x = 3;
+        }
+        
+        $('#iSearch').keyup(function(){
+            $('#example').dataTable().fnFilter( $(this).val() );
+        })
+    }, 300);
 
     $('#example').dataTable({
         "language": {

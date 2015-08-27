@@ -78,6 +78,14 @@ $('.dataTable').attr('url', 'admin/productos/');
 
             reset: function() {
                 graph_container.x = graph_container.x - 1;
+                if(graph_container.x == 1){
+                    setTimeout(function() {
+                        $('#example_length').prependTo("#table_length");
+                        $('#iSearch').keyup(function(){
+                            $('#example').dataTable().fnFilter( $(this).val() );
+                        })
+                    }, 300);
+                }
             },
 
             close: function() {

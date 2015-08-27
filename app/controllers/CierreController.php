@@ -395,7 +395,7 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             $mes = Traductor::getMes($date->formatLocalized('%B')).' '.$date->formatLocalized('%Y'); 
             $fecha = $date;
 
-            return View::make('cierre.CierreMes',compact('total_ventas','total_ganancias','total_soporte','total_gastos','ganancias_netas','ventas_usuarios','compras_credito','ventas_credito','inversion_actual','mes','fecha'));
+            return View::make('cierre.balanceGeneral',compact('total_ventas','total_ganancias','total_soporte','total_gastos','ganancias_netas','ventas_usuarios','compras_credito','ventas_credito','inversion_actual','mes','fecha'));
         }
 
 
@@ -665,7 +665,8 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             "productos.p_publico as precio_publico",
             "(sum(detalle_ventas.precio * detalle_ventas.cantidad )/sum(detalle_ventas.cantidad)) as precio_promedio",
             "(((sum(detalle_ventas.ganancias * detalle_ventas.cantidad)/sum(detalle_ventas.cantidad))*100)/(sum(detalle_ventas.precio * detalle_ventas.cantidad )/sum(detalle_ventas.cantidad))) as porcentaje",
-            "sum(detalle_ventas.ganancias * detalle_ventas.cantidad) as ganancia_total"
+            "sum(detalle_ventas.ganancias * detalle_ventas.cantidad) as ganancia_total",
+            "sum(detalle_ventas.precio * detalle_ventas.cantidad ) as monto_total"
             );
 
         $Searchable = array("productos.descripcion");

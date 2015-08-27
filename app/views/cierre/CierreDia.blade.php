@@ -342,7 +342,8 @@ $(document).on('click', '.pagination_cierre_graficas a', function (e) {
 		<div class="col-md-11">
 			@if(@$corte_realizado != null)
 				<div align="center">
-					*** El corte fue realizado por {{ @$corte_realizado->user->nombre.' '.@$corte_realizado->user->apellido }} a las {{ @$corte_realizado->created_at }} horas ***
+					*** El corte fue realizado por {{ @$corte_realizado->user->nombre.' '.@$corte_realizado->user->apellido }} a las {{ @$corte_realizado->created_at }} horas *** <br>
+					{{@$corte_realizado->nota}}
 				</div>
 			@endif
 		</div>
@@ -473,9 +474,12 @@ $(document).on('click', '.pagination_cierre_graficas a', function (e) {
 		</div>
 		@endif
 		<!--  fin de compras del dia -->
-
     </div>
 	</div>
 </div>
 <div v-show="x == 2" id="cierres"></div>
 <div v-show="x == 3" id="cierres_dt"></div>
+
+<script>
+	cierre_fecha_enviar='{{$fecha}}'; 
+</script>

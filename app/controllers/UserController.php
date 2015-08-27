@@ -212,7 +212,7 @@ class UserController extends Controller {
 		$columns = array(
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-			"CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+			"cliente.nombre as cliente",
 			"total",
 			"saldo",
 			"completed"
@@ -390,7 +390,7 @@ class UserController extends Controller {
         	ventas.total,
         	ventas.created_at as fecha, 
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
+            cliente.nombre as cliente,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
