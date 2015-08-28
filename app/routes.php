@@ -324,8 +324,7 @@
             Route::post('total_credito'              , 'ProveedorController@TotalCredito'   );
             Route::get('ShowModalPaySupplier'        , 'ProveedorController@ShowModalPaySupplier'  );
             Route::get('proveedores'                 , 'ProveedorController@proveedores' );
-            Route::get('ImprimirAbono/dt/{code}/{id}', 'ProveedorController@ImprimirAbono_dt' );
-            Route::get('ImprimirAbono/{id}'          , 'ProveedorController@ImprimirAbono' );
+            Route::get('ImprimirAbono'               , 'ProveedorController@ImprimirAbono' );
             Route::get('getInfoProveedor'            , 'ProveedorController@getInfoProveedor');
         });
 
@@ -387,8 +386,7 @@
             Route::get('edit'                               , 'DescargaController@edit'   );
             Route::post('eliminar_detalle'                  , 'DescargaController@eliminar_detalle'   );
             Route::post('delete'                            , 'DescargaController@delete'   );
-            Route::get('ImprimirDescarga/{id}'              , 'DescargaController@ImprimirDescarga'   );
-            Route::get('ImprimirDescarga/dt/{code}/{id}'    , 'DescargaController@ImprimirDescarga_dt'  );
+            Route::get('ImprimirDescarga'                   , 'DescargaController@ImprimirDescarga'   );
             Route::get('OpenTableDownloadsDay'              , 'DescargaController@OpenTableDownloadsDay' );
             Route::get('DownloadsDay_dt'                    , 'DescargaController@DownloadsDay_dt'  );
             Route::get('showgDownloadsDetail'               , 'DescargaController@showgDownloadsDetail'  );

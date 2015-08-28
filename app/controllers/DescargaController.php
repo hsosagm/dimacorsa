@@ -56,7 +56,10 @@ class DescargaController extends BaseController {
 
         $id = $descarga->get_id();
 
-        return View::make('descargas.create', compact('id'));
+        $comprobante = DB::table('printer')->select('impresora')
+        ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
+        return View::make('descargas.create', compact('id', 'comprobante'));
 
     }
 
@@ -143,24 +146,10 @@ class DescargaController extends BaseController {
         return $query;      
     }
 
-    public function ImprimirDescarga($id)
+    public function ImprimirDescarga()
     {
-        $descarga_id = Crypt::decrypt($id);
+        $descarga = Descarga::with('detalle_descarga')->find(Input::get('id'));
 
-        $descarga = Descarga::with('detalle_descarga')->find($descarga_id);
-        if(count($descarga->detalle_descarga)>0)
-        {
-            return View::make('descargas.imprimir', compact('descarga'))->render();
-        }
-        else
-            return 'Ingrese productos ala Descarga para poder inprimir';
-    }
-
-    public function ImprimirDescarga_dt($cod , $id)
-    {
-        $descarga_id = ($id);
-
-        $descarga = Descarga::with('detalle_descarga')->find($descarga_id);
         if(count($descarga->detalle_descarga)>0)
         {
             return View::make('descargas.imprimir', compact('descarga'))->render();

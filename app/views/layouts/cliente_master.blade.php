@@ -10,16 +10,16 @@
 
     <section id="wrapper">
 
-       <!--/ START HEADER -->
-       @include('cliente_partials.header')
-       <!--/ END HEADER -->
+     <!--/ START HEADER -->
+     @include('cliente_partials.header')
+     <!--/ END HEADER -->
 
-       <!-- /#sidebar-left -->
-       @include('cliente_partials.slidebar-left')
-       <!--/ END SIDEBAR LEFT -->
+     <!-- /#sidebar-left -->
+     @include('cliente_partials.slidebar-left')
+     <!--/ END SIDEBAR LEFT -->
 
-       <!-- START @PAGE CONTENT -->
-       <section id="page-content">
+     <!-- START @PAGE CONTENT -->
+     <section id="page-content">
 
         <div id="loader"><div class="spinner flat"></div></div>
 
@@ -46,12 +46,19 @@
     <i class="fa fa-angle-up"></i>
 </div>
 
+<div class="graficas_auxiliar" style="display:none"></div>
+
 <script src="js/vue.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/cliente.js"></script>
 <script src="calendar/picker.js"></script>
 <script src="calendar/picker.date.js"></script>
 <script src="calendar/translations/es_ES.js"></script>
+<script type="text/javascript" src="js/qz/deployJava.js"></script>
+<script type="text/javascript" src="js/qz/PluginDetect.js"></script>
+<script type="text/javascript" src="js/qz/qz.js"></script>
+<script type="text/javascript" src="js/qz/html2canvas.js"></script>
+<script type="text/javascript" src="js/qz/jquery.plugin.html2canvas.js"></script>
 
 <script>
     $(document).ready(function(){
@@ -119,7 +126,8 @@
     $('#date-input').datepicker();
 
 </script> 
-
+<canvas id="hidden_screenshot" style="display:none;"></canvas>
+<canvas id="barcode" style="display:none;"></canvas>
 </body>
 
 </html>

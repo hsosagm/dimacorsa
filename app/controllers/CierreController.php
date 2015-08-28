@@ -601,6 +601,10 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             $data['fecha'] = $date;
             $data['fecha_input'] = $date->formatLocalized('%Y-%m-%d');
 
+            if (Input::get('grafica') == true ) {
+                 return View::make('cierre.CierreMes',compact('ventas_usuarios','data'));
+            }
+
             return View::make('cierre.balanceGeneral',compact('ventas_usuarios','data'));
         }
 

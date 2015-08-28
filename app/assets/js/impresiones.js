@@ -1,21 +1,13 @@
-function ImprimirDescarga(e , id) {
-	window.open('admin/descargas/ImprimirDescarga/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ImprimirDescarga(e, id, impresora) {
+    $(e).attr('disabled','disabled');
+    var url = "admin/descargas/ImprimirDescarga";
+    printDocument(impresora, url, id);
 }
 
-function ImprimirDescarga_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('admin/descargas/ImprimirDescarga/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function ImprimirAbonoProveedor_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('admin/proveedor/ImprimirAbono/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function ImprimirAbonoProveedor(e , id) {
-	window.open('admin/proveedor/ImprimirAbono/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ImprimirAbonoProveedor(e , id, impresora) {
+    $(e).attr('disabled','disabled');
+    var url = "admin/proveedor/ImprimirAbono";
+    printDocument(impresora, url, id);
 }
 
 function ImprimirAbonoCliente(e,user) {
@@ -85,16 +77,16 @@ function imprimirVentaMaster(p , venta_id,  url)
     }
 }
 
-function ImprimirGarantiaVenta_dt(e,user) {
+/*function ImprimirGarantiaVenta_dt(e,user) {
     id = $(e).closest('tr').attr('id');
     var md5 = $.md5('encript'+user); 
     window.open('user/ventas/ImprimirGarantiaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
+}*/
 
 function ImprimirGarantia(e, id, impresora) {
-   $(e).attr('disabled','disabled');
-   var url = "user/ventas/ImprimirGarantia";
-   printDocument(impresora, url, id);
+    $(e).attr('disabled','disabled');
+    var url = "user/ventas/ImprimirGarantia";
+    printDocument(impresora, url, id);
 }
 
 
@@ -131,7 +123,7 @@ function printDocument(impresora, url, id)
                 }); 
             }
             else {
-                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
+                msg.error('La impresora "'+impresora+'" no se encuentra', 'Error!');
             }
             window['qzDoneFinding'] = null;
         };
