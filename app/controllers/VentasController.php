@@ -420,7 +420,7 @@ class VentasController extends \BaseController {
 
 	function ImprimirGarantia()
 	{
-		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
 
     	if(count($venta->detalle_venta)>0)
         	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();

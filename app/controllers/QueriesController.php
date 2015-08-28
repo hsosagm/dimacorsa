@@ -34,9 +34,12 @@ class QueriesController extends \BaseController {
 		$factura = DB::table('printer')->select('impresora')
 		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
 
+		$garantia = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
+
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('queries.ventasPorFecha', compact('consulta','fecha_inicial','fecha_final', 'factura'))->render()
+			'view'    => View::make('queries.ventasPorFecha', compact('consulta','fecha_inicial','fecha_final', 'factura', 'garantia'))->render()
         ));
 	}
 

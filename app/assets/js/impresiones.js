@@ -55,13 +55,6 @@ function imprimir_cierre_por_fecha_dt(e) {
     window.open("admin/cierre/CierreDelDiaPorFecha?fecha="+$fecha+'&imprimir=true','','toolbar=no,scrollbars=yes,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
 
-/*** impresiones de ventas y garantias ***/
-/*function ImprimirGarantiaVenta(e,id) {
-    imprimirVentaMaster("IP2700-series", id, "ImprimirGarantiaVenta");
-    $('.bs-modal').modal('hide');
-}*/
-
-
 function imprimirVentaMaster(p , venta_id,  url)
 {
     if (isLoaded()) {
@@ -98,15 +91,17 @@ function ImprimirGarantiaVenta_dt(e,user) {
     window.open('user/ventas/ImprimirGarantiaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
 
-function ImprimirGarantiaVenta(e,id) {
-    window.open('user/ventas/ImprimirGarantia?venta_id='+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ImprimirGarantia(e, id, impresora) {
+   $(e).attr('disabled','disabled');
+   var url = "user/ventas/ImprimirGarantia";
+   printDocument(impresora, url, id);
 }
 
 
-function printDocument()
+function printDocument(impresora, url, id)
 {
     if (isLoaded()) {
-        qz.findPrinter();
+        qz.findPrinter(impresora);
 
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
@@ -114,8 +109,8 @@ function printDocument()
             if (printer !== null) {
                 $.ajax({
                     type: 'GET',
-                    url: "user/ventas/ImprimirGarantia", // test para ver si funciona y despues pasarlo a garantia
-                    data: { venta_id: 4209},
+                    url: url,
+                    data: { id: id},
                     success: function (data) {
                         $("#garantiaContainer").html(data).show();
                         $("#garantiaContainer").html2canvas({ 
