@@ -493,7 +493,7 @@ function ingresarSeriesDetalleCompra(e, detalle_compra_id) {
     }).done(function(data) {
         if (data.success == true) {
             $('.modal-body').html(data.view);
-            $('.modal-title').text( 'Ingresar Series');
+            $('.modal-title').text( 'Ingresar Series Compra');
             $('.bs-modal').modal('show');
             return $("input[name='serials']").focus();
         }
@@ -510,7 +510,7 @@ function guardarSerieDetalleCompra () {
             $value ="'"+serialsDetalleCompra[i]+"'";
             $tr = '<tr><td>'+serialsDetalleCompra[i]+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleCompra(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleCompra").append($tr);
+            $("#listaSeriesDetalleCompra").prepend($tr);
             if(serialsDetalleCompra[i] == $("#serialsDetalleCompra").val())
                 ingreso = false
         };
@@ -520,7 +520,7 @@ function guardarSerieDetalleCompra () {
             $value ="'"+$("#serialsDetalleCompra").val()+"'";
             $tr  = '<tr><td>'+$("#serialsDetalleCompra").val()+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleCompra(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleCompra").append($tr);
+            $("#listaSeriesDetalleCompra").prepend($tr);
             msg.success('Serie ingresada..!', 'Listo!');
         }
         else

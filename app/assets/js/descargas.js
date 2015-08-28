@@ -147,7 +147,7 @@ function ingresarSeriesDetalleDescarga(e, detalle_descarga_id) {
     }).done(function(data) {
         if (data.success == true) {
             $('.modal-body').html(data.view);
-            $('.modal-title').text( 'Ingresar Series');
+            $('.modal-title').text( 'Ingresar Serie Descarga');
             $('.bs-modal').modal('show');
             return $("input[name='serials']").focus();
         }
@@ -164,7 +164,7 @@ function guardarSerieDetalleDescarga () {
             $value ="'"+serialsDetalleDescarga[i]+"'";
             $tr = '<tr><td>'+serialsDetalleDescarga[i]+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleDescarga(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleDescarga").append($tr);
+            $("#listaSeriesDetalleDescarga").prepend($tr);
             if(serialsDetalleDescarga[i] == $("#serialsDetalleDescarga").val())
                 ingreso = false
         };
@@ -174,7 +174,7 @@ function guardarSerieDetalleDescarga () {
             $value ="'"+$("#serialsDetalleDescarga").val()+"'";
             $tr  = '<tr><td>'+$("#serialsDetalleDescarga").val()+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleDescarga(this,'+$value+');"></i></td></tr>';
-            $("#listaSeriesDetalleDescarga").append($tr);
+            $("#listaSeriesDetalleDescarga").prepend($tr);
             msg.success('Serie ingresada..!', 'Listo!');
         }
         else

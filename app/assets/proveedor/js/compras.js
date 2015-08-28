@@ -198,6 +198,13 @@ function getPurchaseDetail(e) {
     });
 }
 
+/*
+    usada de esta manera para mostrar la tabla al nomas cargar el modulo de proveedores
+*/
+getComprasPedientesDePago();
+
+/***************************/
+
 function getComprasPedientesDePago()
 {
    $.ajax({
@@ -205,16 +212,28 @@ function getComprasPedientesDePago()
         url: "admin/compras/getComprasPedientesDePago",
         success: function (data) {
             if (data.success == true) {
-
+                vm.proveedor_id = '';
                 $("#infoSaldosTotales").html(data.infoSaldosTotales);
                 setTimeout(function() {
                     $('#example_length').prependTo("#table_length");
                     $('.dt-container').show();
                     $('#iSearch').keyup(function() {
-                    $('#example').dataTable().fnFilter( $(this).val() );
+                        $('#example').dataTable().fnFilter( $(this).val() );
                     })
                 }, 300);
-                return generate_dt_local(data.table);
+                
+                $("#iSearch").val("");
+                $("#iSearch").unbind();
+                $('.table').html("");
+                $("#table_length").html("");
+                $( ".DTTT" ).html("");
+                $('.dt-panel').show();
+                ocultar_capas();
+                $('.table').html(data.table);
+                $('#example').DataTable( {
+                    "order": [[ 3, "desc" ]]
+                } );
+                return $("#iSearch").focus();
             }
             msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
         }

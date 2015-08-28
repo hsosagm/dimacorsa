@@ -2,8 +2,8 @@
     <span>Usuario</span>
     <span class="pull-right"><i class="fa fa-magic"></i></span>
 </li>
-<!--/ End category Usuario-->
 
+<!--/ End category Usuario-->
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-file-o"></i></span>

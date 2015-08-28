@@ -610,6 +610,7 @@ class VentasController extends \BaseController {
 
 		$ventas = DB::table('clientes')
         	->select(DB::raw("
+        		MIN(ventas.created_at) as fecha,
         		clientes.id as id,
         		CONCAT_WS(' ',clientes.nombre,clientes.apellido)  as cliente,
         		clientes.direccion as direccion,
@@ -624,6 +625,7 @@ class VentasController extends \BaseController {
 	        ->where('ventas.saldo', '>', 0)
 	        ->where('ventas.completed', '=', 1)
 	        ->where('ventas.tienda_id', '=', Auth::user()->tienda_id)
+	        ->orderBy('ventas.created_at','asc')
 	        ->groupBy('cliente_id')
 	        ->get();
 
@@ -634,6 +636,70 @@ class VentasController extends \BaseController {
         ));
 
 	}
+
+	public function getVentasPedientesPorUsuario()
+	{
+		$tienda_id = Auth::user()->tienda_id;
+
+		$ventas = DB::table('users')
+        	->select(DB::raw("
+        		MIN(ventas.created_at) as fecha,
+        		users.id as id,
+        		CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
+        		tiendas.direccion as tienda,
+        		sum(ventas.total) as total,
+        		sum(ventas.saldo) as saldo_total,
+        		(select sum(saldo) from ventas where 
+        			tienda_id = {$tienda_id} AND completed = 1 AND
+        			DATEDIFF(current_date, created_at) >= 30 
+        			AND user_id = users.id) as saldo_vencido
+        		"))
+	        ->join('ventas', 'ventas.user_id', '=', 'users.id')
+	        ->join('tiendas', 'tiendas.id', '=', 'users.tienda_id')
+	        ->where('ventas.saldo', '>', 0)
+	        ->where('ventas.completed', '=', 1)
+	        ->orderBy('ventas.created_at','asc')
+	        ->groupBy('user_id')
+	        ->get();
+
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('ventas.VentasPedientesPorUsuario', compact('ventas'))->render()
+        ));
+	}
+
+	public function getDetalleVentasPendientesPorUsuario()
+	{	
+		$table = 'ventas';
+
+        $columns = array(
+            "ventas.id as id_compra",
+            "ventas.created_at as fecha_ingreso",  
+            "clientes.nombre as usuario", 
+            "ventas.total as total", 
+            "ventas.saldo as saldo",
+            "DATEDIFF(current_date,ventas.created_at) as dias"
+        );
+
+        $Search_columns = array("users.nombre","users.apellido","venta.created_at","ventas.total" ,"ventas.saldo");
+
+        $Join = "JOIN clientes ON (clientes.id = ventas.cliente_id) ";
+
+        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
+        $where  = " ventas.saldo > 0 ";
+        $where .= " AND ventas.user_id = ".Input::get('user_id');
+
+        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
+
+        $id_pagination = 'pagination_ventas_por_usuario';
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('ventas.getVentasPendientesPorCliente', compact('detalle', 'id_pagination'))->render()
+        ));
+
+	}
+
 	public function getVentasPendientesPorCliente()
 	{	
 		$table = 'ventas';
@@ -657,9 +723,11 @@ class VentasController extends \BaseController {
 
         $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
 
+        $id_pagination = 'pagination_ventas_por_cliente';
+
         return Response::json(array(
             'success' => true,
-            'table'   => View::make('ventas.getVentasPendientesPorCliente', compact('detalle'))->render()
+            'table'   => View::make('ventas.getVentasPendientesPorCliente', compact('detalle', 'id_pagination'))->render()
         ));
 
 	}

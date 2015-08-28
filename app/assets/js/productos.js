@@ -7,10 +7,19 @@ $(function() {
 });
 
 function getInventario() {
-    $.get( "user/productos/getInventario", function( data ) {
-        makeTable(data, 'admin/productos/', 'Producto');
-        $('#example').addClass('tableSelected');
-    });
+    $.ajax({
+        type: "GET",
+        url: 'user/productos/getInventario',
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            clean_panel();
+            $('#graph_container').show();
+            $('#graph_container').html(data.view);
+            return $('#example').addClass('tableSelected');
+        }
+        msg.warning(data, 'Advertencia!');
+    }); 
 };
 
 function logs_productos() {

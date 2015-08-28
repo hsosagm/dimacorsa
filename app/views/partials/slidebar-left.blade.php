@@ -26,17 +26,17 @@
             </a>
         </li>
 
-        
-
-        @if($slide_bar_left == 1)
-            @include('partials.user')
-        @elseif($slide_bar_left == 2)
-            @include('partials.admin')
-        @elseif($slide_bar_left == 3)
+        @if(Auth::user()->hasRole("Admin") && Auth::user()->hasRole("Owner"))
             @include('partials.admin')
             @include('partials.owner')
+        @elseif(Auth::user()->hasRole("Admin"))
+            @include('partials.admin')
+        @elseif(Auth::user()->hasRole("Owner"))
+            @include('partials.admin')
+            @include('partials.owner')
+        @elseif(Auth::user()->hasRole("User"))
+            @include('partials.user')
         @endif
-
 
     </ul><!-- /.sidebar-menu -->
     <!--/ End left navigation - menu -->

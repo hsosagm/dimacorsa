@@ -7,7 +7,7 @@
 ?>
 {{ Form::open(array('data-remote-md', 'data-success' => 'Traslado Generado' ,"onsubmit"=>" return false")) }}
 <div class="row info_head">
-    <div class="col-md-6 master-detail-info">
+    <div class="col-md-6 master-detail-info" style="font-size: 12px; line-height: 110%;">
         <table class="master-table">
             <tr>
                 <td>Tienda Destino:</td>

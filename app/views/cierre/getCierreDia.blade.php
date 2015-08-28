@@ -278,7 +278,8 @@
 		<div class="col-md-11">
 			@if(@$corte_realizado != null)
 				<div align="center">
-					*** El corte fue realizado por {{ @$corte_realizado->user->nombre.' '.@$corte_realizado->user->apellido }} a las {{ @$corte_realizado->created_at }} horas ***
+					*** El corte fue realizado por {{ @$corte_realizado->user->nombre.' '.@$corte_realizado->user->apellido }} a las {{ @$corte_realizado->created_at }} horas ***<br>
+					{{@$corte_realizado->nota}}
 				</div>
 			@endif
 		</div>

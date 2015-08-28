@@ -15,10 +15,9 @@
                 </td>
                 <td>
                     <input class="input input_numeric" type="text" name="cantidad"> 
-                </td>
-                <td>
                     <i onclick="ingresarProductoAlDetalle2(this)" class="fa fa-check fg-theme"></i>
                 </td>
+
             </tr>
         </table>
         {{ Form::close() }}
@@ -38,11 +37,12 @@
 </div>
 <div class="form-footer" >
     <div class="row">
-        <div class="col-md-6"> </div>
+        <div class="col-md-6">
+            <i class="fa fa-print fa-lg icon-print" onclick=""></i>
+        </div>
         <div class="col-md-6" align="right">
-            {{ Form::button('Eliminar!', ['class'=>'btn btn-warning','onClick'=>'eliminarTraslado(this,'.$id.');']);}}
-            {{ Form::button('Finalizar!', ['class'=>'btn btn-info theme-button', 'onClick'=>'finalizarTraslado(this,'.$id.')']) }}
+            <i class="fa fa-trash-o fa-lg icon-delete" onclick="eliminarTraslado(this,{{$id}});"></i>
+            <i class="fa fa-check fa-lg icon-success" onclick="finalizarTraslado(this,{{$id}})"></i>
         </div>
     </div>
-</div>
 </div>

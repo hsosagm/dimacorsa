@@ -1,7 +1,7 @@
 <!-- Start body content -->
 <div class="body-content animated fadeIn">
 
-	<h1 class="tienda_nombre">clickgt.com</h1>
+	<h1 class="tienda_nombre"></h1>
 
 	<!-- Start calendar container -->
 	<div id="demo-settings">
@@ -16,7 +16,7 @@
 
 
 <div id="print_test"></div>
-<div id="garantiaContainer"></div>
+<div id="garantiaContainer" style="display:none; z-index:-1;"></div>
 
 	<!-- FORMS -->
 	<div id="forms" class="form-container col-md-10">
@@ -33,9 +33,6 @@
 			</div>
 			<div class="panel-body no-padding">
 				<div class="form-horizontal forms"></div>
-			</div>
-			<div>
-			    <div class="footer-heading"></div>
 			</div>
         </div>
     </div>

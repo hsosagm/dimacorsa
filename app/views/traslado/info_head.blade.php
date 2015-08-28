@@ -1,4 +1,4 @@
-<div class="col-md-8 master-detail-info">
+<div class="col-md-8 master-detail-info" style="font-size: 12px; line-height: 110%;">
     <div class="row">
         <div class="col-md-4" style="color:#FF0000;">No. {{ $traslado->id }}</div>
         <div class="col-md-8"> {{ $traslado->created_at }} </div>

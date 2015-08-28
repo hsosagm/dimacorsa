@@ -67,8 +67,7 @@
 
         @foreach ($assigned as $roles)
 
-        @if($roles->role_id == 1)
-
+        @if($roles->role_id == 1 && !Auth::user()->hasRole("Owner"))
             <div class="input-group form-roles" style="margin-bottom: 5px">
                 <span class="input-group-addon form-button button-del-group" name="1">
                     <span class="glyphicon glyphicon-minus-sign"></span>

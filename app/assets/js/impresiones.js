@@ -117,11 +117,11 @@ function printDocument()
                     url: "user/ventas/ImprimirGarantia", // test para ver si funciona y despues pasarlo a garantia
                     data: { venta_id: 4209},
                     success: function (data) {
-                        $("#garantiaContainer").html(data);
-
+                        $("#garantiaContainer").html(data).show();
                         $("#garantiaContainer").html2canvas({ 
                             canvas: hidden_screenshot,
                             onrendered: function() {
+                                $("#garantiaContainer").hide();
                                 if (notReady()) { return; }
                                 qz.setPaperSize("8.5in", "11.0in");
                                 qz.setAutoSize(true);

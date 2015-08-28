@@ -18,12 +18,13 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover width15",              "sTitle": "Tienda",      "aTargets": [0]},
             {"sClass": "mod_codigo hover width20",              "sTitle": "Usuario",     "aTargets": [1]},
             {"sClass": "mod_codigo hover width40",              "sTitle": "Nota",        "aTargets": [2]},
-            {"sClass": "mod_codigo hover width20",              "sTitle": "Fecha",       "aTargets": [3]},
-            {"sClass": "width5 icons",                          "sTitle": "",            "aTargets": [4],
+            {"sClass": "mod_codigo hover width15",              "sTitle": "Fecha",       "aTargets": [3]},
+            {"sClass": "width10 icons center",                          "sTitle": "",            "aTargets": [4],
                 "orderable": false,
                 "mRender": function() {
-                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="VerDetalleDelCierreDelDia(this)"></i><a href="javascript:void(0);" title="Imprimir Cierre" onclick="imprimir_cierre_por_fecha_dt(this)" class="fa fa-print font14" style="padding-left:10px">';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="VerDetalleDelCierreDelDia(this)"></i><a href="javascript:void(0);" title="Imprimir Cierre" onclick="imprimir_cierre_por_fecha_dt(this)" class="fa fa-print font14" style="padding-left:15px"><a href="javascript:void(0);" title="Ver Cierre" onclick="CierreDelDiaPorFecha(this)" class="fa fa-eye font14" style="padding-left:10px">';
                 }
+
             },
         ],
         "order": [[ 3, "desc" ]],
