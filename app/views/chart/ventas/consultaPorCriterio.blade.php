@@ -90,7 +90,7 @@ $('input[name="fecha_final"]').pickadate({
                             @foreach($user as $usr)
                             <li>
                                 <a href="javascript:void(0)">
-                                    <input type="checkbox" name="usuarios" value="{{$usr->id}}">
+                                    <input type="checkbox" name="usuarios" value="{{$usr->id}}" checked="">
                                     <i>{{ $usr->nombre}}</i>
                                 </a>
                             </li>
@@ -115,7 +115,7 @@ $('input[name="fecha_final"]').pickadate({
                             @foreach($categoria as $cat)
                             <li>
                                 <a href="javascript:void(0)">
-                                    <input type="checkbox"  name="categorias" value="{{$cat->id}}">
+                                    <input type="checkbox"  name="categorias" value="{{$cat->id}}" checked="">
                                     <i>{{ $cat->nombre}}</i>
                                 </a>
                             </li>
@@ -140,7 +140,7 @@ $('input[name="fecha_final"]').pickadate({
                             @foreach($marca as $mr)
                             <li>
                                 <a href="javascript:void(0)">
-                                    <input type="checkbox"  name="marcas" value="{{$mr->id}}">
+                                    <input type="checkbox"  name="marcas" value="{{$mr->id}}" checked="">
                                     <i>{{ $mr->nombre}}</i>
                                 </a>
                             </li>

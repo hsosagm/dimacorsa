@@ -382,20 +382,22 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             ->groupBy('users.id','users.nombre','users.apellido')
             ->get();
 
-            $total_ventas     = f_num::get($ventas->total   );
-            $total_ganancias  = f_num::get($ganancias->total);
-            $total_soporte    = f_num::get($soporte->total  );
-            $total_gastos     = f_num::get($gastos->total   );
-            $compras_credito  = f_num::get($compras->total  );
-            $ventas_credito   = f_num::get($ventas_c->total );
-            $inversion_actual = f_num::get($inversion->total);
-            $ganancias_netas  = f_num::get(($ganancias->total+$soporte->total)-$gastos->total);
-
             $date = Carbon::now();
-            $mes = Traductor::getMes($date->formatLocalized('%B')).' '.$date->formatLocalized('%Y'); 
-            $fecha = $date;
 
-            return View::make('cierre.balanceGeneral',compact('total_ventas','total_ganancias','total_soporte','total_gastos','ganancias_netas','ventas_usuarios','compras_credito','ventas_credito','inversion_actual','mes','fecha'));
+            $data['dia_inicio'] = Carbon::createFromFormat('Y-m-d H:i:s', Venta::first()->created_at);
+            $data['total_ventas'] = f_num::get($ventas->total   );
+            $data['total_ganancias'] = f_num::get($ganancias->total);
+            $data['total_soporte'] = f_num::get($soporte->total  );
+            $data['total_gastos'] = f_num::get($gastos->total   );
+            $data['compras_credito'] = f_num::get($compras->total  );
+            $data['ventas_credito'] = f_num::get($ventas_c->total );
+            $data['inversion_actual'] = f_num::get($inversion->total);
+            $data['ganancias_netas'] = f_num::get(($ganancias->total+$soporte->total)-$gastos->total);
+            $data['mes'] = Traductor::getMes($date->formatLocalized('%B')).' '.$date->formatLocalized('%Y');
+            $data['fecha'] = $date;
+            
+
+            return View::make('cierre.balanceGeneral',compact('ventas_usuarios','data'));
         }
 
 
