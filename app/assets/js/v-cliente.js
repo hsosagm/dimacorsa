@@ -239,8 +239,9 @@ var vm = new Vue({
 		},
 
 
-		imprimirAbonoVenta: function(e,id) {
-			window.open('user/ventas/payments/imprimirAbonoVenta/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+		imprimirAbonoVenta: function(e, id, impresora) {
+		    var url = "user/ventas/payments/imprimirAbonoVenta";
+		    printDocument(impresora, url, id);
 		},
 
 
@@ -290,14 +291,9 @@ var vm = new Vue({
 		},
 
 
-		imprimirAbonoVenta: function(e ,id) {
-			$.ajax({
-				type: "GET",
-				url: 'user/ventas/payments/imprimirAbonoVenta/dt/'+id,
-			}).done(function(data) {
-				myWindow = window.open("", "MsgWindow", "width=800, height=500,toolbar=no,location=no,statusbar=no");
-				myWindow.document.write(data);
-			});
+		imprimirAbonoVenta: function(e ,id, impresora) {
+			var url = "user/ventas/payments/imprimirAbonoVenta";
+		    printDocument(impresora, url, id);
 		},
 
 

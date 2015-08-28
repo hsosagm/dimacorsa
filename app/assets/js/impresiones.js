@@ -10,9 +10,10 @@ function ImprimirAbonoProveedor(e , id, impresora) {
     printDocument(impresora, url, id);
 }
 
-function ImprimirAbonoCliente(e,user) {
-    id = $(e).closest('tr').attr('id');
-    window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ImprimirAbonoCliente(e , id, impresora) {
+    $(e).attr('disabled','disabled');
+    var url = "user/ventas/payments/imprimirAbonoVenta";
+    printDocument(impresora, url, id);
 }
 
 function ImprimirCierreDelDia_dt(e,user) {

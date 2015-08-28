@@ -387,10 +387,13 @@ class ClienteController extends \BaseController {
             ->orderBy('fecha', 'ASC')
             ->get();
 
+        $comprobante = DB::table('printer')->select('impresora')
+        ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
         return Response::json(array(
             'success' => true,
             'data'    => $abonosVentas,
-            'table'   => View::make('ventas.historialAbonos')->render()
+            'table'   => View::make('ventas.historialAbonos', compact('comprobante'))->render()
         ));
     }
 
