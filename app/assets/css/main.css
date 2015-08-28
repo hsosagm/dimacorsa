@@ -230,9 +230,10 @@ div.spinner.flat {
     cursor: pointer !important;
 }
 
-/*#print_test {
+#print_test, #garantiaContainer {
     background-color: #FFF;
     font-size: 20px;
+    color: #000000 !important;
 }
 
 #print_test #encabezado_factura {
@@ -241,7 +242,7 @@ div.spinner.flat {
     padding-left: 25px;
 }
 
-#print_test tr td {
+#print_test tr td, #garantiaContainer tr td {
     background-color: #FFF;
     color: #000000 !important;
 }
@@ -249,25 +250,29 @@ div.spinner.flat {
 #print_test #cuerpo_factura {
     margin-top: 35px;
     height: 520px;
-}*/
-
-#print_test {
-    background-color: #FFF;
-    font-size: 12px;
 }
 
-#print_test #encabezado_factura {
-/*    padding-top: 100px;
-    padding-right: 80px;
-    padding-left: 25px;*/
+#garantiaContainer {
+    position: absolute;
+    margin-left: -200px;
+    margin-right: 50px;
+    margin-top: -110px;
+    font-family: "sans-serif";
+    font-weight: 400;
+    font-size: 24px;
 }
 
-#print_test tr td {
-    background-color: #FFF;
-    color: #000000 !important;
+.Garantia table tr {
+    line-height: 5px;
 }
 
-#print_test #cuerpo_factura {
-/*    margin-top: 35px;*/
-    height: 520px;
+#GarantiaBody {
+    height: 700px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#garantiaCondiciones {
+    margin-bottom: 100px;
+    font-size: 20px;
 }

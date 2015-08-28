@@ -396,6 +396,42 @@ class VentasController extends \BaseController {
 
 	function imprimirFactura()
 	{
+		$venta_id = Input::get('venta_id');
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+    	if(count($venta->detalle_venta)>0)
+    	{
+        	return View::make('ventas.DemoFactura', compact('venta'))->render();
+    	}
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirGarantiaVenta_dt($code,$id)
+	{
+		$venta_id = $id;
+
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+    	if(count($venta->detalle_venta)>0)
+        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
+
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function ImprimirGarantia()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+
+    	if(count($venta->detalle_venta)>0)
+        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
+
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	
+	function printInvoice()
+	{
 
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
 
@@ -459,43 +495,19 @@ class VentasController extends \BaseController {
     	}
 	}
 
-	function ImprimirFacturaVenta()
-	{
-		$venta_id = Input::get('venta_id');
+	// function ImprimirFacturaVenta()
+	// {
+	// 	$venta_id = Input::get('venta_id');
 
-		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+	// 	$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
 
-    	if( count($venta->detalle_venta) > 0 )
-        	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
+ //    	if( count($venta->detalle_venta) > 0 )
+ //        	return View::make('ventas.ImprimirFactura', compact('venta'))->render();
 
-    	else
-        	return 'Ingrese productos ala factura para poder inprimir';
-	}
+ //    	else
+ //        	return 'Ingrese productos ala factura para poder inprimir';
+	// }
 	
-
-	function ImprimirGarantiaVenta_dt($code,$id)
-	{
-		$venta_id = $id;
-
-		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
-    	if(count($venta->detalle_venta)>0)
-        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
-
-    	else
-        	return 'Ingrese productos ala factura para poder inprimir';
-	}
-
-	function ImprimirGarantiaVenta()
-	{
-		$venta_id = Input::get('venta_id');
-		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
-
-    	if(count($venta->detalle_venta)>0)
-        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
-
-    	else
-        	return 'Ingrese productos ala factura para poder inprimir';
-	}
 
 	function updateClienteId()
 	{

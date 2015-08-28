@@ -1,9 +1,3 @@
-function ImprimirGarantiaVenta_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('user/ventas/ImprimirGarantiaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
 function ImprimirDescarga(e , id) {
 	window.open('admin/descargas/ImprimirDescarga/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
@@ -61,10 +55,6 @@ function imprimir_cierre_por_fecha_dt(e) {
     window.open("admin/cierre/CierreDelDiaPorFecha?fecha="+$fecha+'&imprimir=true','','toolbar=no,scrollbars=yes,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
 
-function ImprimirGarantiaVenta(e,id) {
-    window.open('user/ventas/ImprimirGarantiaVenta?venta_id='+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
 /*** impresiones de ventas y garantias ***/
 /*function ImprimirGarantiaVenta(e,id) {
     imprimirVentaMaster("IP2700-series", id, "ImprimirGarantiaVenta");
@@ -102,70 +92,52 @@ function imprimirVentaMaster(p , venta_id,  url)
     }
 }
 
+function ImprimirGarantiaVenta_dt(e,user) {
+    id = $(e).closest('tr').attr('id');
+    var md5 = $.md5('encript'+user); 
+    window.open('user/ventas/ImprimirGarantiaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}
 
-function printInvoice(e, venta_id, impresora)
+function ImprimirGarantiaVenta(e,id) {
+    window.open('user/ventas/ImprimirGarantia?venta_id='+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}
+
+
+function printDocument()
 {
-    if (isLoaded())
-    {
-        qz.findPrinter(impresora);
+    if (isLoaded()) {
+        qz.findPrinter();
 
-        window['qzDoneFinding'] = function()
-        {
+        window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
             
-            if (printer !== null)
-            {
+            if (printer !== null) {
                 $.ajax({
                     type: 'GET',
-                    url: "user/ventas/imprimirFactura",
-                    data: { venta_id: venta_id },
-                    success: function (data)
-                    {
-                        if (data.success == false) {
-                            return msg.warning(data.msg, 'Advertencia!')
-                        };
+                    url: "user/ventas/ImprimirGarantia", // test para ver si funciona y despues pasarlo a garantia
+                    data: { venta_id: 4209},
+                    success: function (data) {
+                        $("#garantiaContainer").html(data);
 
-                        $('.bs-modal').modal('hide');
-
-                        qz.append("\x1B\x40"); // reset printer
-                        qz.append("\x1B\x33\x20"); // set line spacing MUST BE x35
-                        qz.append("\x1B\x6C\x04"); // left margin max x49
-                        qz.append("\x1B\x6B\x01"); // select typeface - 00 serif - 01 sans serif
-                        qz.append("\x1B\x74\x01"); // select character table (0-italic, 1-normal)
-                        qz.append(chr(27) + chr(69) + "\r");
-                        qz.setEncoding("UTF-8");
-                        qz.setEncoding("850");
-                        qz.append('\n\n\n');
-                        qz.append(data.nit+'\r\n');
-                        qz.append(data.nombre+'\r\n');
-                        qz.append(data.direccion+'\r\n');
-                        qz.append('\n\n');
-
-                        var counter = 0;
-                        $.each(data.detalle, function(i, v) {
-                            qz.append(v.descripcion+"\n");
-                            counter++;
+                        $("#garantiaContainer").html2canvas({ 
+                            canvas: hidden_screenshot,
+                            onrendered: function() {
+                                if (notReady()) { return; }
+                                qz.setPaperSize("8.5in", "11.0in");
+                                qz.setAutoSize(true);
+                                qz.appendImage($("canvas")[0].toDataURL('image/png'));
+                                window['qzDoneAppending'] = function() {
+                                    qz.printPS();
+                                    window['qzDoneAppending'] = null;
+                                };
+                            }
                         });
-
-                        counter = 18 - counter;
-                        for ( $i = 0; $i < counter; $i++) {
-                            qz.append('\n');
-                        };
-
-                        qz.append(data.total_letras+"\r");
-                        qz.append(data.total_num+"\r\n");
-                        qz.append('\n\n\n\n');
-                        qz.append("\x1B\x40"); // reset printer
-                        qz.print();
-
                     }
                 }); 
             }
-            else
-            {
+            else {
                 msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
             }
-
             window['qzDoneFinding'] = null;
         };
     }

@@ -169,9 +169,10 @@
             Route::get('openSale'                               , 'VentasController@openSale');
             Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
             Route::get('getModalImprimirVenta'                  , 'VentasController@getModalImprimirVenta'  );
-            Route::get('imprimirFactura'                        , 'VentasController@imprimirFactura'  );
-            Route::get('ImprimirFacturaVenta'                   , 'VentasController@ImprimirFacturaVenta'  );
-            Route::get('ImprimirGarantiaVenta'                  , 'VentasController@ImprimirGarantiaVenta'  );
+            Route::get('printInvoice'                           , 'VentasController@printInvoice'  );
+            // Route::get('ImprimirFacturaVenta'                   , 'VentasController@ImprimirFacturaVenta'  );
+            Route::get('imprimirFactura'                   , 'VentasController@imprimirFactura'  ); // for test
+            Route::get('ImprimirGarantia'                       , 'VentasController@ImprimirGarantia'  );
             Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
             Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
             Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');

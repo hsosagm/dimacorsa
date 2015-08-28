@@ -33,10 +33,10 @@
 
 
 					"mRender": function( data, type, full ) {
-						$v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
-						$v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
-						$v += '<a href="javascript:void(0);" onclick="printInvoice(this, '+full.DT_RowId+', '+"'"+'{{$factura->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px">';
-						$v += '<a href="javascript:void(0);" title="Imprimir Garantia" onclick="ImprimirGarantiaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-file-o font14" style="padding-left:10px">';
+						$v  = '<i title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail fg-theme"></i>';
+						$v += '<i title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o fg-theme" style="padding-left:10px"></i>';
+						$v += '<i onclick="printInvoice(this, '+full.DT_RowId+', '+"'"+'{{$factura->impresora}}'+"'"+')" class="fa fa-print fg-theme" style="padding-left:10px"></i>';
+						$v += '<i title="Imprimir Garantia" onclick="ImprimirGarantiaVenta_dt(this,{{Auth::user()->id}})" class="fa fa-file-o fg-theme" style="padding-left:10px"></i>';
 
 						return $v;
 					}

@@ -73,7 +73,6 @@ $assigned = Assigned_roles::where('user_id', Auth::user()->id)
 
 <div class="graficas_auxiliar" style="display:none"></div>
 
-
 <script src="js/vue.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/custom.js"></script>
@@ -156,7 +155,7 @@ $(document).ready(function(){
     height: 100% !important;
   }
 </style>
+    <canvas id="hidden_screenshot" style="display:none;"></canvas>
+    <canvas id="barcode" style="display:none;"></canvas>
 </body>
-<canvas id="hidden_screenshot" style="display:none;"></canvas>
-<canvas id="barcode" style="display:none;"></canvas>
 </html>

@@ -736,7 +736,7 @@
     *    qz.appendImage($("canvas")[0].toDataURL('image/png'));
     ***************************************************************************/ 
     function printHTML5Page() {
-        $("#content").html2canvas({ 
+        $("#garantiaContainer").html2canvas({ 
             canvas: hidden_screenshot,
             onrendered: function() {
                 if (notReady()) { return; }

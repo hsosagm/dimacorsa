@@ -16,8 +16,7 @@
 
 
 <div id="print_test"></div>
-
-
+<div id="garantiaContainer"></div>
 
 	<!-- FORMS -->
 	<div id="forms" class="form-container col-md-10">
