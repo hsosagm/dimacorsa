@@ -1,7 +1,6 @@
-
 <div class="body-content">
-	<div id="main_container" class="col-md-11"></div>
 
+	<div id="main_container" class="col-md-11"></div>
 
 	<div class="col-lg-3 col-md-4 col-sm-6">
 		<div class="modal modal-info fade bs-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
@@ -16,8 +15,5 @@
 			</div>
 		</div>
 	</div>
+
 </div>
-
-
-
-

@@ -97,6 +97,12 @@
             vm.infoCliente = q.value;
             vm.getInfoCliente(q.id);
             $('#customer_search').val('');
+            $('.montoAbono').val(0);
+            vm.monto = 0;
+            vm.tableDetail = '';
+            if ( vm.formPayments == false ) {
+                vm.closeMainContainer();
+            };
         }
     });
     

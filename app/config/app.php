@@ -126,6 +126,7 @@ return array(
 		'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
 		'Maatwebsite\Excel\ExcelServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
+		'Barryvdh\HttpCache\ServiceProvider',
 	),
 
 	/*

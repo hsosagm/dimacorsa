@@ -16,7 +16,8 @@
 		"dompdf/dompdf": "~0.6.1",
 		"barryvdh/laravel-dompdf": "0.4.*",
 		"guzzle/guzzle": "~3.9",
-		"sendgrid/sendgrid": "~3.2"
+		"sendgrid/sendgrid": "~3.2",
+		"barryvdh/laravel-httpcache": "*"
 	},
 	"autoload": {
 		"classmap": [

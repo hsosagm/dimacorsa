@@ -21,7 +21,7 @@
                         <i class="fa fa-bars"></i>
                     </a>
                 </li>
-                <li class="navbar-search">
+                <li v-show="showFilter" class="navbar-search">
                     <form class="navbar-form" onsubmit=" return false">
                         <div class="form-group has-feedback">
                             <input id="iSearch" type="text" class="form-control typeahead rounded" placeholder="Filtrar resultados">

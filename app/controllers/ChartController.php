@@ -368,4 +368,114 @@ class ChartController extends \BaseController {
         ));
     }
 
+
+    public function ComprasPorProveedor()
+    {
+        $compras = DB::table('compras')
+        ->where('proveedor_id', Input::get('proveedor_id'))
+        ->where(DB::raw('total'), '>', 0 )
+        ->select(DB::raw("sum(total) as total, YEAR(compras.created_at) as year"))
+        ->groupBy('year')
+        ->get();
+
+        $i = 0;
+        foreach ($compras as $c) {
+            $data[$i]['name'] = $c->year;
+            $data[$i]['y'] = (float) $c->total;
+            $data[$i]['year'] = $c->year;
+            $data[$i]['url'] = 'admin/chart/comprasMensualesPorAnoPorProveedor';
+            $data[$i]['variables'] = array( "year" => $c->year, 'proveedor_id' => Input::get('proveedor_id'));
+            $data[$i]['drilldown'] = true;
+            $i++;
+        }
+
+        if (!$compras) {
+            $data = 0;
+        }
+
+        $data = json_encode($data);
+
+        return Response::json(array(
+            'success' => true,
+            'view'    => View::make('chart.compras.comprasPorProveedor', compact('data'))->render()
+        ));
+    }
+
+    public function ComparativaPorMesPorProveedor()
+    {
+        $compras = DB::table('compras')
+        ->select(DB::raw("sum(total) as total, MONTH(created_at) as mes, YEAR(compras.created_at) as year"))
+        ->where('compras.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('total'), '>', 0 )
+        ->where( DB::raw('MONTH(created_at)'), '=', date('n') )
+        ->where( 'proveedor_id', Input::get('proveedor_id'))
+        ->groupBy('year')
+        ->get();
+
+        $dt = App::make('Fecha');
+        $i = 0;
+        foreach ($compras as $v) {
+            $data[$i]['name'] = $dt->monthsNames($v->mes)." "."de"." ".$v->year;
+            $data[$i]['y'] = (float) $v->total;
+            $i++;
+        }
+
+        if (!$compras) {
+            $data = 0;
+        }
+
+        $data = json_encode($data);
+
+        return Response::json(array(
+            'success' => true,
+            'view'    => View::make('chart.compras.comparativaPorMesPorProveedor', compact('data'))->render()
+        ));
+    }
+
+    // Regresa el resultado comparativo del mes anterior o siguiente en la parte de proveedor
+    public function comparativaPorMesPorProveedorPrevOrNext()
+    {
+        if ( Input::get('method') == 'next') {
+            if (Input::get('mes') == 12) {
+                $mes = 1;
+            } else {
+                $mes = Input::get('mes') + 1;
+            }
+        }
+
+        elseif ( Input::get('method') == 'prev') {
+            if (Input::get('mes') == 1) {
+                $mes = 12;
+            } else {
+                $mes = Input::get('mes') - 1;
+            }
+        }
+
+        $compras = DB::table('compras')
+        ->select(DB::raw("sum(total) as total, MONTH(created_at) as mes, YEAR(compras.created_at) as year"))
+        ->where('compras.tienda_id', Auth::user()->tienda_id)
+        ->where(DB::raw('total'), '>', 0 )
+        ->where( DB::raw('MONTH(created_at)'), '=', $mes )
+        ->where( 'proveedor_id', Input::get('proveedor_id'))
+        ->groupBy('year')
+        ->get();
+
+        $dt = App::make('Fecha');
+        $i = 0;
+        foreach ($compras as $q) {
+            $data[$i]['name'] = $dt->monthsNames($q->mes)." "."de"." ".$q->year;
+            $data[$i]['y'] = (float) $q->total;
+            $i++;
+        }
+
+        if (!$compras) {
+            $data = 0;
+        }
+
+        return Response::json(array(
+            'success'   => true,
+            'compras'    => $data
+        ));
+    }
+
 }

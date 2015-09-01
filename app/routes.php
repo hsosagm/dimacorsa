@@ -450,6 +450,16 @@
             Route::get('edit'   , 'SubCategoriaController@edit');
             Route::get('buscar/{cat}' , 'SubCategoriaController@buscar');
         });
+
+        Route::group(array('prefix' => 'chart'), function()
+        {
+            Route::get('ComprasPorProveedor', 'ChartController@ComprasPorProveedor');
+            Route::get('ComparativaPorMesPorProveedor', 'ChartController@ComparativaPorMesPorProveedor');
+            Route::get('comprasMensualesPorAnoPorProveedor', 'App\graphics\Compras@comprasMensualesPorAnoPorProveedor');
+            Route::get('comprasDiariasPorMesProveedor', 'App\graphics\Compras@comprasDiariasPorMesProveedor');
+            Route::get('comparativaPorMesPorProveedorPrevOrNext', 'ChartController@comparativaPorMesPorProveedorPrevOrNext');
+        });
+
     });
 
     Route::group(array('prefix' => 'owner'), function()
@@ -524,6 +534,24 @@ Route::get('test', function()
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
+Route::get('clearcached',  function(){
+    $url = 'http://localhost:4000/cached';
+    App::make('http_cache.store')->purge($url);
+
+    return 1;
+
+});
+
+Route::get('cached', array('after' => 'cache:30', function() {
+    $query =  DetalleVenta::where('id', '>=', 1)->take(25000)->get();
+
+    $total = 0;
+    foreach ($query as $q) {
+        $total = $total + ($q->cantidad * $q->precio);
+    }
+
+    return $total;
+}));
 
 /*Route::get('timetest', function() 
 {

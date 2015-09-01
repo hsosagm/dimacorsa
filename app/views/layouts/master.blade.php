@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en"> 
 
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
 <?php $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>

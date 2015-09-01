@@ -61,6 +61,20 @@
         </li>
 
         <li v-show="proveedor_id" class="submenu">
+            <a v-on="click: chartComprasPorProveedor" href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Grafico de compras</span>
+            </a>
+        </li>
+
+        <li v-show="proveedor_id" class="submenu">
+            <a v-on="click: chartComparativaPorMesPorProveedor" href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Comparativa por mes</span>
+            </a>
+        </li>
+
+        <li v-show="proveedor_id" class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
                 <span class="text">Graficos</span>

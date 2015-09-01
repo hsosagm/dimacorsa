@@ -7,7 +7,7 @@ var vm = new Vue({
 		customer_search: '',
 		PanelBody: false,
 		tableDetail: '',
-		cliente_id: '',
+		cliente_id: 0,
 		divAbonosPorSeleccion: '',
 		infoCliente: '',
 		saldo_total: '',
@@ -16,6 +16,8 @@ var vm = new Vue({
 		monto: '',
 		cliente_id_creditos: '',
 		user_id_creditos: '',
+		showFilter: false,
+		formPayments: false, // si enta en true no oculta el div al canviar a otro cliente para poder seguir haciendo abonos.
 	},
 
 	methods: {
@@ -103,6 +105,7 @@ var vm = new Vue({
 					{
 						$('#main_container').show();
 						$('#main_container').html(data.form);
+						vm.formPayments = true;
 						return compile();
 					}
 					msg.warning(data, 'Advertencia!');
@@ -110,9 +113,17 @@ var vm = new Vue({
 			});
 		},
 
+		payFromTable: function( e, cliente_id ) {
+			vm.cliente_id = cliente_id;
+            vm.getInfoCliente(cliente_id);
+            $('#customer_search').val('');
+            $('.montoAbono').val(0);
+            vm.monto = 0;
+            vm.tableDetail = '';
+            vm.getFormAbonosVentas();
+		},
 
-		onSubmitForm: function(e) {
-
+		submitFormPayments: function(e) {
 			e.preventDefault();
 			var form = $(e.target).closest("form");
 			$('input[type=submit]', form).prop('disabled', true);
@@ -357,6 +368,8 @@ var vm = new Vue({
 
 		closeMainContainer: function() {
 			$('#main_container').hide();
+			vm.showFilter = false;
+			vm.formPayments = false;
 		},
 
 		clientes_table: function() {
@@ -378,8 +391,10 @@ var vm = new Vue({
 				success: function (data) {
 					if (data.success == true)
 					{
-						vm.cliente_id = '';
-						$("#infoSaldosTotales").html("");
+						vm.cliente_id = 0;
+						vm.infoCliente   = '';
+						vm.saldo_total   = '';
+						vm.saldo_vencido = '';
 						vm.historialPagos = data.data;
 						return vm.proccesDataTable(data.table);
 					}
@@ -603,6 +618,7 @@ var vm = new Vue({
 				$('#example').dataTable();
 				$('#example_length').prependTo("#table_length");
 				$('#main_container').show();
+				vm.showFilter = true;
 				$('#iSearch').keyup(function() {
 					$('#example').dataTable().fnFilter( $(this).val() );
 				});
@@ -618,9 +634,3 @@ function compile() {
 		vm.$compile(vm.$el);
 	});
 }
-
-/* funcion para mostrar las ventas pendientes de pago al nomas cargar el modulo de clientes */
-
-vm.getVentasPedientesDePago();
-
-/**********************************************************************************************/

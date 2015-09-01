@@ -150,7 +150,7 @@ module.exports = function(grunt) {
                 './app/assets/js/plugins/draggable.js',
                 './app/assets/components/bower/bootstrap/dist/js/bootstrap.js',
                 './app/assets/components/bower/jquery-nicescroll/jquery.nicescroll.js',
-                './app/assets/js/sparkline.min.js',
+                // './app/assets/js/sparkline.min.js',
                 './app/assets/js/jpreloader-v2/js/jpreloader.js',
                 './app/assets/components/bower/jquery.easing/js/jquery.easing.js',
                 './app/assets/js/plugins/apps.js',

@@ -301,7 +301,46 @@ var vm = new Vue({
 	                makeTable(data, '', 'Pagos');
 	            }
 	        });
-        }
+        },
+
+		chartComprasPorProveedor: function() {
+			$.ajax({
+				type: "GET",
+				url: 'admin/chart/ComprasPorProveedor',
+				data: { proveedor_id: vm.proveedor_id },
+			}).done(function(data) {
+				if (data.success == true)
+				{
+					$('#main_container').show();
+					$('#main_container').html(data.view);
+					return compile();
+				}
+				msg.warning(data, 'Advertencia!');
+			}); 
+		},
+
+
+		chartComparativaPorMesPorProveedor: function() {
+			$.ajax({
+				type: "GET",
+				url: 'admin/chart/ComparativaPorMesPorProveedor',
+				data: { proveedor_id: vm.proveedor_id },
+			}).done(function(data) {
+				if (data.success == true)
+				{
+					$('#main_container').show();
+					$('#main_container').html(data.view);
+					return compile();
+				}
+				msg.warning(data, 'Advertencia!');
+			}); 
+		},
+
+		closeMainContainer: function() {
+			$('#main_container').hide();
+			vm.showFilter = false;
+			vm.formPayments = false;
+		}
 
     }
 });

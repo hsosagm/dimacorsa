@@ -19,9 +19,7 @@ $('.navbar-color .theme').on('click',function() {
 
 $('.sidebar-color .theme').on('click',function() {
     var classname = $(this).find('.hide').text();
-    if($('.page-sound').length){
-        ion.sound.play("camera_flashing_2");
-    }
+    
     if($('#sidebar-left').hasClass('sidebar-box')) {
         $('#sidebar-left').attr('class','sidebar-box sidebar-'+classname);
     }

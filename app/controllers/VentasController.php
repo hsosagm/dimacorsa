@@ -611,7 +611,7 @@ class VentasController extends \BaseController {
 		$ventas = DB::table('clientes')
         	->select(DB::raw("
         		MIN(ventas.created_at) as fecha,
-        		clientes.id as id,
+        		clientes.id as cliente_id,
         		CONCAT_WS(' ',clientes.nombre,clientes.apellido)  as cliente,
         		clientes.direccion as direccion,
         		sum(ventas.total) as total,

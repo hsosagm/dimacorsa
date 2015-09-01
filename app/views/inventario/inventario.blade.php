@@ -14,15 +14,15 @@
             },
 
             "aoColumnDefs": [
-            {"sClass": "widthM",              "sTitle": "ID",       "aTargets": [0]},
-            {"sClass": "widthM",              "sTitle": "Codigo",       "aTargets": [1]},
-            {"sClass": "widthM",              "sTitle": "Marca",        "aTargets": [2]},
+            {"sClass": "widthS",              "sTitle": "ID",       "aTargets": [0]},
+            {"sClass": "widthS",              "sTitle": "Codigo",       "aTargets": [1]},
+            {"sClass": "widthS",              "sTitle": "Marca",        "aTargets": [2]},
             {"sClass": "widthL",              "sTitle": "Descripcion",  "aTargets": [3]},
             {"sClass": "right widthS", "sTitle": "Existencia", "aTargets": [4]},
             {"sClass": "right widthS mod_producto",  "sTitle": "Real",    "aTargets": [5]},
             {"sClass": "right widthS",  "sTitle": "Ajuste",    "aTargets": [6]},
             {"sClass": "right widthS Estado",  "sTitle": "Estado",    "aTargets": [7]},
-            {"sClass": "right widthS",  "sTitle": "Usuario",    "aTargets": [8]},
+            {"sClass": "right widthM",  "sTitle": "Usuario",    "aTargets": [8]},
             ],
 
             "fnDrawCallback": function( oSettings ) {

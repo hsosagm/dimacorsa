@@ -1,6 +1,8 @@
 
  <!-- Start body content -->
- <div class="body-content animated fadeIn">
+ <div class="body-content">
+
+    <div id="main_container" class="col-md-11"></div>
 
   <!-- PAYMENTS -->
   <div class="col-md-11 div_master">

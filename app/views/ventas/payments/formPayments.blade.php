@@ -2,7 +2,8 @@
  			<div class="panel-heading">
  				<div class="DTTT btn-group"></div>
  				<div class="pull-right">
-                    <button v-on="click: closeMainContainer" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
+                    <button v-on="click: getVentasPedientesDePago" class="btn" title="regresar"><i class="fa fa-reply"></i></button>
+                    <button v-on="click: closeMainContainer" class="btn" title="Cerrar"><i class="fa fa-times"></i></button>
  				</div>
  				<div class="clearfix"></div>
  			</div>
@@ -27,7 +28,7 @@
 
  					<div class="tab-content divFormPayments">
  						<div class="tab-pane fade inner-all active in" id="tab1">
- 							{{ Form::open(array('v-show="!tableDetail" v-on="submit: onSubmitForm"')) }}
+ 							{{ Form::open(array('v-show="!tableDetail" v-on="submit: submitFormPayments"')) }}
  							<input type="hidden" name="cliente_id" v-model="cliente_id">
  							<div class="form-group">
  								<div class="col-md-7">
