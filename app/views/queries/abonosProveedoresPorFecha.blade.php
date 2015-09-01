@@ -31,7 +31,7 @@
                 "orderable": false,
                 "mRender": function(data, type, full) {
                     $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i>';
-                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoProveedor(this, '+full.DT_RowId+', '+"'"+'{{$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px"> </a>'
+                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoProveedor(this, '+full.DT_RowId+', '+"'"+'{{@$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px"> </a>'
                     $v += '<i class="fa fa-trash-o btn-link theme-c" style="padding-left:5px" onClick="_delete_dt(this)"></i>';
 
                     return $v;

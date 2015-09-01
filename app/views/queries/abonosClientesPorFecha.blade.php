@@ -31,7 +31,7 @@
                 "orderable": false,
                 "mRender": function() {
                     $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleAbonosClietes(this)"></i>';
-                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoCliente(this, '+full.DT_RowId+', '+"'"+'{{$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px">';
+                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoCliente(this, '+full.DT_RowId+', '+"'"+'{{@$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px">';
                     
                     return $v;
                 }
