@@ -212,7 +212,7 @@ class UserController extends Controller {
 		$columns = array(
 			"ventas.created_at as fecha", 
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-			"cliente.nombre as cliente",
+			"clientes.nombre as cliente",
 			"total",
 			"saldo",
 			"completed"
