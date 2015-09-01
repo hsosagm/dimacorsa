@@ -76,18 +76,20 @@ class PurchasePaymentsController extends \BaseController {
 					$compra->save();
 
 			        $detalle = $this->BalanceDetails($abonos_compra_id);
-
+			        $comprobante = DB::table('printer')->select('impresora')
+					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 			        return Response::json(array(
 			            'success' => true,
-			            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id'))->render()
+			            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id', 'comprobante'))->render()
 			        ));
 				}
 			}
 			    $detalle = $this->BalanceDetails($abonos_compra_id);
-			    
+			     $comprobante = DB::table('printer')->select('impresora')
+					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 		        return Response::json(array(
 		            'success' => true,
-		            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id'))->render()
+		            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id', 'comprobante'))->render()
 		        ));
 		}
 
@@ -212,9 +214,12 @@ class PurchasePaymentsController extends \BaseController {
 
 		$detalle = $this->BalanceDetails($abono_id);
 
+		 $comprobante = DB::table('printer')->select('impresora')
+					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
 		return Response::json(array(
 			'success' => true ,
-			'detalle' => View::make('compras.payments.paymentsDetails',compact("detalle",'abono_id'))->render()
+			'detalle' => View::make('compras.payments.paymentsDetails',compact("detalle",'abono_id', 'comprobante'))->render()
 			));
 	}
 
@@ -268,10 +273,12 @@ class PurchasePaymentsController extends \BaseController {
 		->update(array('saldo'=>0));
 
 		$detalle = $this->BalanceDetails($abono_id);
+		 $comprobante = DB::table('printer')->select('impresora')
+					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
 		return Response::json(array(
 			'success' => true ,
-			'detalle' => View::make('compras.payments.paymentsDetails',compact("detalle",'abono_id'))->render()
+			'detalle' => View::make('compras.payments.paymentsDetails',compact("detalle",'abono_id','comprobante'))->render()
 			));
 
 	}
@@ -341,10 +348,11 @@ class PurchasePaymentsController extends \BaseController {
 		}
 
 		$detalle = $this->BalanceDetails($abono_id);
-
+		 $comprobante = DB::table('printer')->select('impresora')
+					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 		return Response::json(array(
 			'success' => true ,
-			'detalle' => View::make('compras.payments.paymentsDetails',compact("detalle",'abono_id'))->render()
+			'detalle' => View::make('compras.payments.paymentsDetails',compact("detalle",'abono_id','comprobante'))->render()
 			));
 	}
 
@@ -443,10 +451,12 @@ class PurchasePaymentsController extends \BaseController {
     	$abono->save();
 
     	$detalle = $this->BalanceDetails($abonos_compra_id);
+    	 $comprobante = DB::table('printer')->select('impresora')
+					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
     	return Response::json(array(
 			'success' => true ,
-			'detalle' => View::make('compras.payments.paymentsDetailsBySelection',compact("detalle",'abonos_compra_id'))->render()
+			'detalle' => View::make('compras.payments.paymentsDetailsBySelection',compact("detalle",'abonos_compra_id','comprobante'))->render()
 		));
     }
     public function TotalCredito()

@@ -1,26 +1,19 @@
-function ImprimirDescarga(e , id) {
-	window.open('admin/descargas/ImprimirDescarga/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ImprimirDescarga(e, id, impresora) {
+    $(e).attr('disabled','disabled');
+    var url = "admin/descargas/ImprimirDescarga";
+    printDocument(impresora, url, id);
 }
 
-function ImprimirDescarga_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('admin/descargas/ImprimirDescarga/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ImprimirAbonoProveedor(e , id, impresora) {
+    $(e).attr('disabled','disabled');
+    var url = "admin/proveedor/ImprimirAbono";
+    printDocument(impresora, url, id);
 }
 
-function ImprimirAbonoProveedor_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('admin/proveedor/ImprimirAbono/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function ImprimirAbonoProveedor(e , id) {
-	window.open('admin/proveedor/ImprimirAbono/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function ImprimirAbonoCliente(e,user) {
-    id = $(e).closest('tr').attr('id');
-    window.open('user/ventas/payments/imprimirAbonoVenta/dt/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+function ImprimirAbonoCliente(e , id, impresora) {
+    $(e).attr('disabled','disabled');
+    var url = "user/ventas/payments/imprimirAbonoVenta";
+    printDocument(impresora, url, id);
 }
 
 function ImprimirCierreDelDia_dt(e,user) {
@@ -55,13 +48,6 @@ function imprimir_cierre_por_fecha_dt(e) {
     window.open("admin/cierre/CierreDelDiaPorFecha?fecha="+$fecha+'&imprimir=true','','toolbar=no,scrollbars=yes,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
 }
 
-/*** impresiones de ventas y garantias ***/
-/*function ImprimirGarantiaVenta(e,id) {
-    imprimirVentaMaster("IP2700-series", id, "ImprimirGarantiaVenta");
-    $('.bs-modal').modal('hide');
-}*/
-
-
 function imprimirVentaMaster(p , venta_id,  url)
 {
     if (isLoaded()) {
@@ -92,21 +78,23 @@ function imprimirVentaMaster(p , venta_id,  url)
     }
 }
 
-function ImprimirGarantiaVenta_dt(e,user) {
+/*function ImprimirGarantiaVenta_dt(e,user) {
     id = $(e).closest('tr').attr('id');
     var md5 = $.md5('encript'+user); 
     window.open('user/ventas/ImprimirGarantiaVenta/dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+}*/
+
+function ImprimirGarantia(e, id, impresora) {
+    $(e).attr('disabled','disabled');
+    var url = "user/ventas/ImprimirGarantia";
+    printDocument(impresora, url, id);
 }
 
-function ImprimirGarantiaVenta(e,id) {
-    window.open('user/ventas/ImprimirGarantia?venta_id='+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
 
-
-function printDocument()
+function printDocument(impresora, url, id)
 {
     if (isLoaded()) {
-        qz.findPrinter();
+        qz.findPrinter(impresora);
 
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
@@ -114,8 +102,8 @@ function printDocument()
             if (printer !== null) {
                 $.ajax({
                     type: 'GET',
-                    url: "user/ventas/ImprimirGarantia", // test para ver si funciona y despues pasarlo a garantia
-                    data: { venta_id: 4209},
+                    url: url,
+                    data: { id: id},
                     success: function (data) {
                         $("#garantiaContainer").html(data).show();
                         $("#garantiaContainer").html2canvas({ 
@@ -136,7 +124,7 @@ function printDocument()
                 }); 
             }
             else {
-                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
+                msg.error('La impresora "'+impresora+'" no se encuentra', 'Error!');
             }
             window['qzDoneFinding'] = null;
         };

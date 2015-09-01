@@ -22,8 +22,7 @@
 		@endforeach
 	</tbody>
 </table> 
- <?php $id = "'".Crypt::encrypt($abonos_compra_id)."'";?>
 <div class="form-footer" align="right">
-	<input class="btn btn-info" onClick="ImprimirAbonoProveedor(this,{{ $id }})" type="button" value="Imprimir">
+	<input class="btn btn-info" onClick="ImprimirAbonoProveedor(this,{{ $abonos_compra_id }},' {{$comprobante->impresora}}' )" type="button" value="Imprimir">
 	<input class="btn btn-danger" v-on="click: eliminarAbonoPorSeleccion( this, {{$abonos_compra_id}} )" type="button" value="Eliminar">
 </div>

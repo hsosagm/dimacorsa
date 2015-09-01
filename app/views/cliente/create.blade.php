@@ -8,12 +8,6 @@
             <input class="form-control" name="nombre" value="" placeholder="Nombre" type="text">
         </div>
     </div>
- 
-    <div class="form-group">
-        <div class="col-sm-12">
-            <input class="form-control" name="apellido" value="" placeholder="Apellido" type="text">
-        </div>
-    </div>
 
     <div class="form-group">
         <div class="col-sm-12">

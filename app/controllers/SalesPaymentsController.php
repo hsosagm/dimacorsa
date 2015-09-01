@@ -48,18 +48,23 @@ class SalesPaymentsController extends \BaseController {
 					$venta->save();
 
 			        $detalle = $this->BalanceDetails($abonos_ventas_id);
+                    $comprobante = DB::table('printer')->select('impresora')
+                    ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
 			        return Response::json(array(
 			            'success' => true,
-			            'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id'))->render()
+			            'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id', 'comprobante'))->render()
 			        ));
 				}
 			}
 			    $detalle = $this->BalanceDetails($abonos_ventas_id);
 			    
+                $comprobante = DB::table('printer')->select('impresora')
+                ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
 		        return Response::json(array(
 		            'success' => true,
-		            'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id'))->render()
+		            'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id', 'comprobante'))->render()
 		        ));
 		}
 
@@ -175,10 +180,12 @@ class SalesPaymentsController extends \BaseController {
         $m_pago = $abono->metodo_pago->descripcion;
 
         $detalle = $this->BalanceDetails($abonos_ventas_id);
+        $comprobante = DB::table('printer')->select('impresora')
+        ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
         return Response::json(array(
             'success' => true,
-            'detalle' => View::make('ventas.payments.paymentsDetailsBySelection', compact("detalle", 'abonos_ventas_id', 'm_pago'))->render()
+            'detalle' => View::make('ventas.payments.paymentsDetailsBySelection', compact("detalle", 'abonos_ventas_id', 'm_pago', 'comprobante'))->render()
         ));
     }
 
@@ -209,26 +216,11 @@ class SalesPaymentsController extends \BaseController {
         return 'success';
     }
 
-    function imprimirAbonoVenta($id)
+    function imprimirAbonoVenta()
     {
-        $abonos_ventas_id = Crypt::decrypt($id);
+        $detalle = $this->BalanceDetails(Input::get('id'));
 
-        $detalle = $this->BalanceDetails($abonos_ventas_id);
-
-        $abonos_venta = AbonosVenta::with('cliente','user','metodoPago')->find($abonos_ventas_id);
-
-        $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
-
-        return View::make('ventas.payments.ImprimirAbonoVenta', compact("detalle", 'abonos_venta','saldo'));
-    }
-
-    function imprimirAbonoVenta_dt($id)
-    {
-        $abonos_ventas_id = $id;
-
-        $detalle = $this->BalanceDetails($abonos_ventas_id);
-
-        $abonos_venta = AbonosVenta::with('cliente','user','metodoPago')->find($abonos_ventas_id);
+        $abonos_venta = AbonosVenta::with('cliente','user','metodoPago')->find(Input::get('id'));
 
         $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
 

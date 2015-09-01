@@ -27,10 +27,10 @@
             {"sClass": "widthS right formato_precio",     "sTitle": "Total",        "aTargets": [3]},
             {"sClass": "widthS",        "bVisible": false,"sTitle": "status",       "aTargets": [4]},
             {"sClass": "widthS center","orderable": false,"sTitle": "",             "aTargets": [5],
-                "mRender": function() {
+                "mRender": function(data, type, full ) {
                     $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showDownloadsDetail(this)" class="fa fa-plus-square show_detail font14">';
                     $v += '<a href="javascript:void(0);" title="Abrir Descarga" onclick="OpenDownload(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
-                    $v += '<a href="javascript:void(0);" title="Imprimir Descarga" onclick="ImprimirDescarga_dt(this,{{Auth::user()->id}})" class="fa fa-print font14" style="padding-left:10px">';
+                    $v += '<a href="javascript:void(0);" title="Imprimir Descarga" onclick="ImprimirDescarga(this, '+full.DT_RowId+', '+"'"+'{{$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px">';
 
                     return $v;
                 }

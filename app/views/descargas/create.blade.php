@@ -42,10 +42,9 @@
 </div>
 <div class="body-detail"> </div>
 <div class="form-footer" >
-	<?php $id_descarga = "'".Crypt::encrypt($id)."'";?>
     <div class="row">
         <div class="col-md-6">
-            <i class="fa fa-print fa-lg icon-print" onclick="ImprimirDescarga(this, {{$id_descarga}})"></i>
+            <i class="fa fa-print fa-lg icon-print" onclick="ImprimirDescarga(this, {{$id}}, '{{$comprobante->impresora}}')"></i>
         </div>
         <div class="col-md-6" align="right">
             <i class="fa fa-trash-o fa-lg icon-delete" onclick="EliminarDescarga(this,{{$id}});"></i>

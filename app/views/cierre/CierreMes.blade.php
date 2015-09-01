@@ -1,7 +1,7 @@
 <?php $fecha = $data['fecha']; ?>
 <div class="panel dt-panel-cierre rounded shadow">
 	<div class="panel-heading-cierre bg-theme">
-		<div class="pull-left"><span>Balance General - {{$data['mes']}}</span> <input type="text" name="start"> </div>
+		<div class="pull-left"><span>Balance General - {{$data['mes']}}  </span> </div>
 		<div class="pull-right">
 			<i  class="fa fa-file-excel-o fa-2" onclick=""> </i>
 			<i class="fa fa-file-pdf-o fa-2" onclick=""> </i>
@@ -96,24 +96,3 @@
 	.bs-modal .Lightbox{width: 850px;} 
 	.modal-body { padding: 0px 0px 0px; }
 </style>
-
-<script>
-
-    var $start = $('input[name="start"]').pickadate(
-    {
-        selectYears: true,
-        selectMonths: true,
-        min: [<?php echo $data['dia_inicio']->year ?>, <?php echo $data['dia_inicio']->month - 1 ?>, <?php echo $data['dia_inicio']->day ?>],
-        max: true,
-        formatSubmit: 'yyyy/m',
-        hiddenName: true,
-        onSet: function() {
-            $('.short_calendar .picker__table').css('display', 'none'); 
-            picker_start.set('select', picker_start.get('highlight'));
-        }
-    });
-
-    var picker_start = $start.pickadate('picker');
-
-    $('.short_calendar .picker__table').css('display', 'none');
-</script>

@@ -34,9 +34,12 @@ class QueriesController extends \BaseController {
 		$factura = DB::table('printer')->select('impresora')
 		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
 
+		$garantia = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
+
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('queries.ventasPorFecha', compact('consulta','fecha_inicial','fecha_final', 'factura'))->render()
+			'view'    => View::make('queries.ventasPorFecha', compact('consulta','fecha_inicial','fecha_final', 'factura', 'garantia'))->render()
         ));
 	}
 
@@ -177,9 +180,12 @@ class QueriesController extends \BaseController {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
+		$comprobante = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('queries.descargasPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
+			'view'    => View::make('queries.descargasPorFecha',compact('consulta','fecha_inicial','fecha_final','comprobante'))->render()
         ));
 	}
 
@@ -608,9 +614,12 @@ class QueriesController extends \BaseController {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
+		$comprobante = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('queries.abonosProveedoresPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
+			'view'    => View::make('queries.abonosProveedoresPorFecha',compact('consulta','fecha_inicial','fecha_final', 'comprobante'))->render()
         ));
 	}
 
@@ -681,9 +690,12 @@ class QueriesController extends \BaseController {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 		
+		$comprobante = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('queries.abonosClientesPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
+			'view'    => View::make('queries.abonosClientesPorFecha',compact('consulta','fecha_inicial','fecha_final', 'comprobante'))->render()
         ));
 	}
 
