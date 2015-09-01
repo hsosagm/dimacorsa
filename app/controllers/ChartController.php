@@ -362,9 +362,18 @@ class ChartController extends \BaseController {
 
     public function getConsultaPorCriterio()
     {
+        $user = User::whereRaw("(select count(*) from ventas where user_id = users.id and DATE_FORMAT(ventas.created_at,'%Y-%m') = DATE_FORMAT(current_date ,'%Y-%m')) > 0 ")->where('tienda_id',Auth::user()->tienda_id)->get(); 
+
+        $categoria = Categoria::all();
+        $marca = Marca::all(); 
+
+        $data['user'] = $user;
+        $data['categoria'] = $categoria;
+        $data['marca'] = $marca;
+
         return Response::json(array(
             'success'   => true,
-            'view'    => View::make('chart.ventas.consultaPorCriterio')->render()
+            'view'    => View::make('chart.ventas.consultaPorCriterio',compact('data'))->render()
         ));
     }
 
