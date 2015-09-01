@@ -83,11 +83,8 @@ $('input[name="fecha_final"]').pickadate({
                                 </span>
                             </span>
                         </a> 
-                        <?php 
-                        $user = User::whereRaw("(select count(*) from ventas where user_id = users.id and DATE_FORMAT(ventas.created_at,'%Y-%m') = DATE_FORMAT(current_date ,'%Y-%m')) > 0 ")->where('tienda_id',Auth::user()->tienda_id)->get(); 
-                        ?>
                         <ul class="dropdown-menu animated flipInX filtroPorCriterio">
-                            @foreach($user as $usr)
+                            @foreach($data['user'] as $usr)
                             <li>
                                 <a href="javascript:void(0)">
                                     <input type="checkbox" name="usuarios" value="{{$usr->id}}" checked="">
@@ -107,12 +104,9 @@ $('input[name="fecha_final"]').pickadate({
                                     <i class="glyphicon glyphicon-filter"></i>
                                 </span>
                             </span>
-                        </a> 
-                        <?php 
-                        $categoria = Categoria::all(); 
-                        ?>
+                        </a>  
                         <ul class="dropdown-menu animated flipInX filtroPorCriterio">
-                            @foreach($categoria as $cat)
+                            @foreach($data['categoria'] as $cat)
                             <li>
                                 <a href="javascript:void(0)">
                                     <input type="checkbox"  name="categorias" value="{{$cat->id}}" checked="">
@@ -133,11 +127,8 @@ $('input[name="fecha_final"]').pickadate({
                                 </span>
                             </span>
                         </a> 
-                        <?php 
-                        $marca = Marca::all(); 
-                        ?>
                         <ul class="dropdown-menu animated flipInX filtroPorCriterio">
-                            @foreach($marca as $mr)
+                            @foreach($data['marca'] as $mr)
                             <li>
                                 <a href="javascript:void(0)">
                                     <input type="checkbox"  name="marcas" value="{{$mr->id}}" checked="">
@@ -152,5 +143,3 @@ $('input[name="fecha_final"]').pickadate({
         </div>
     </div>
 </div>
-
-
