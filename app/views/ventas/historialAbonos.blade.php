@@ -31,7 +31,7 @@
 		            <td width="40%"> @{{ av.observaciones }} </td>
 		            <td class="widthS center font14"  width="10%"> 
 		                <a href="javascript:void(0);" title="Ver detalle" v-on="click: togleDetalleAbonos(this, av)" v-class="hide_detail: av.active" class="fa fa-plus-square"> 
-		                <a href="javascript:void(0);" title="Imprimir abono" v-on="click: imprimirAbonoVenta($event, av.id, '{{$comprobante->impresora}}')" class="fa fa-print font14"> 
+		                <a href="javascript:void(0);" title="Imprimir abono" v-on="click: imprimirAbonoVenta($event, av.id, '{{@$comprobante->impresora}}')" class="fa fa-print font14"> 
 		            </td>
 		        </tr>
 			</tbody>

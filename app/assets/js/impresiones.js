@@ -121,7 +121,7 @@ function printDocument(impresora, url, id)
                             }
                         });
                     }
-                }); 
+                });  
             }
             else {
                 msg.error('La impresora "'+impresora+'" no se encuentra', 'Error!');
