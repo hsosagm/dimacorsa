@@ -458,7 +458,7 @@ class VentasController extends \BaseController {
         		$len4 = strlen($totales);
         		$e1 = "    ";
         		$e1 = substr($e1, 0, -$len1);
-            	$e2 = "                                                                                                             ";
+            	$e2 = "                                                                                                                                      "; // le corri 25 esp + de la configuracion anterior
         		$e2 = substr($e2, 0, -$len2);
         		$e2 = substr($e2, 0, -$len3);
             	$e3 = "                 ";
@@ -472,7 +472,7 @@ class VentasController extends \BaseController {
 
         	$totalEnLetras = $convertir->ConvertirALetras($total);
 
-        	$e4 = "                                                                                                                                     ";
+        	$e4 = "                                                                                                                                                              ";
         	$total_venta = f_num::get($total);
         	$len5 = strlen($total_venta);
         	$e4 = substr($e4, 0, -$len5);
@@ -483,7 +483,7 @@ class VentasController extends \BaseController {
 				'nombre' => "Nombre: ".$venta->cliente->nombre . " " .$venta->cliente->apellido,
 				'direccion' => "Direccion: ". $venta->cliente->direccion,
 				'detalle' => $detalle,
-				'total_letras' => "                 ".$totalEnLetras,
+				'total_letras' => "                      ".$totalEnLetras,
 				'total_num' => $e4 . $total_venta,
 	        ));
     	}
