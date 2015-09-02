@@ -236,7 +236,7 @@ div.spinner.flat {
 }
 
 #print_test, #garantiaContainer {
-    background-color: #FFF;
+    background-color: #FFFFFF;
     font-size: 20px;
     color: #000000 !important;
 }
@@ -248,7 +248,7 @@ div.spinner.flat {
 }
 
 #print_test tr td, #garantiaContainer tr td {
-    background-color: #FFF;
+    background-color: #FFFFFF;
     color: #000000 !important;
 }
 
@@ -271,6 +271,10 @@ div.spinner.flat {
     line-height: 5px;
 }
 
+.Impresiones table tr {
+    line-height: 5px;
+}
+
 #GarantiaBody {
     height: 700px;
     margin-top: 50px;
@@ -280,4 +284,20 @@ div.spinner.flat {
 #garantiaCondiciones {
     margin-bottom: 100px;
     font-size: 20px;
+}
+
+#ImpresionesContainer {
+    position: absolute;
+    margin-left: -200px;
+    margin-right: 50px;
+    margin-top: -110px;
+    font-family: "sans-serif";
+    font-weight: 400;
+    font-size: 24px;
+}
+
+#ImpresionesBody {
+    height: 700px;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
