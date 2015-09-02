@@ -1,6 +1,6 @@
 <div width="Impresiones">
 	<div width="ImpresionesBody">
-		<table width="100%" class="table table-bordered">
+		<table class="table table-bordered">
 			<tr>
 				<td> Nombre :</td>
 				<td> {{ $abono->proveedor->nombre }} </td>
@@ -15,7 +15,7 @@
 			</tr>
 		</table>
 		<br>
-		<table width="100%" class="table table-bordered">
+		<table class="table table-bordered">
 			<tr>
 				<td> Metodo Pago :</td>
 				<td> {{ $abono->metodoPago->descripcion }} </td>
@@ -31,7 +31,7 @@
 				<td colspan="3"> {{ $abono->observaciones }} </td>
 			</tr>
 		</table>
-		<table width="100%" class="table table-bordered">
+		<table class="table table-bordered">
 			<tr>
 				<td> Saldo ala fecha:</td>
 				<td> Q {{ f_num::get($saldo->total) }} </td>
@@ -39,7 +39,7 @@
 				<td> Q {{ f_num::get($abono->monto) }} </td>
 			</tr>
 		</table>
-		<table class="table table-condensed" width="100%">
+		<table class="table table-condensed">
 			<thead>
 				<tr class="">
 					<th>No. Compra</th>

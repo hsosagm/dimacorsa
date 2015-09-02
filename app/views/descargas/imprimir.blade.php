@@ -1,7 +1,7 @@
 <div width="Impresiones">
     <div width="ImpresionesBody">
         <h1> Constancia de Descarga : {{ $descarga->id }} </h1>
-        <table width="100%" class="table table-condensed">
+        <table class="table table-condensed">
             <tr>
                 <th width="15%">Cantidad</th>
                 <th width="55%">Descripcion</th>
@@ -26,7 +26,7 @@
             </tfoot>
         </table>
         <br><br>
-        <table width="100%" class="table table-bordered">
+        <table class="table table-bordered">
             <tr>
                 <td width="33%" align="center"> Usuario :  </td>
                 <td width="33%" align="center"> Fecha de  creacion : </td>
@@ -40,7 +40,7 @@
         </table>
         <br>
         Nota:
-        <table width="100%" class="table table-bordered">
+        <table class="table table-bordered">
             <tr> <td width="100%">{{ $descarga->descripcion }}</td>  </tr>
             <tr> <td width="100%">-</td> </tr>
             <tr> <td width="100%">-</td> </tr>
