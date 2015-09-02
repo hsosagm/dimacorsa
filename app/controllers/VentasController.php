@@ -348,7 +348,7 @@ class VentasController extends \BaseController {
         	ventas.total,
         	DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as fecha,  
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente,
+            clientes.nombre as cliente,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
@@ -612,7 +612,7 @@ class VentasController extends \BaseController {
         	->select(DB::raw("
         		MIN(ventas.created_at) as fecha,
         		clientes.id as cliente_id,
-        		CONCAT_WS(' ',clientes.nombre,clientes.apellido)  as cliente,
+        		clientes.nombre as cliente,
         		clientes.direccion as direccion,
         		sum(ventas.total) as total,
         		sum(ventas.saldo) as saldo_total,
