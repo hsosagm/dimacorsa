@@ -47,7 +47,6 @@
 			<th>Nuevo Saldo</th>
 		</tr>
 	</thead>
-
 	<tbody>
 		@foreach($detalle as $key => $dt)
 			<tr>
@@ -60,4 +59,3 @@
 		@endforeach
 	</tbody>
 </table>
-

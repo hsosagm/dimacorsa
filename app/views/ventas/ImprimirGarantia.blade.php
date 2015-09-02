@@ -1,5 +1,4 @@
 <div class="Garantia">
-
     <table>
         <tr>
             <td> {{ HTML::image('images/logo.jpg', '', array( 'width' => 200, 'height' => 156 )) }} </td>

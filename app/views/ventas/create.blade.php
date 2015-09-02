@@ -124,7 +124,7 @@
         <div class="col-sm-3"></div>
         <div class="col-sm-3"></div>
         <div class="col-sm-3">
-            <input class="btn theme-button" value="Guardar!" type="submit" style="margin-left:110px;">
+            <input class="btn theme-button inputGuardar" value="Guardar!" type="submit" style="margin-left:110px;">
         </div>
     </div>
     {{ Form::close() }}
@@ -143,6 +143,8 @@
             app.getInfoCliente(data.id);
             $('#cliente').val("");
             app.verCliente = true;
+            $(".inputGuardar").focus();
+
         }
     });
 
