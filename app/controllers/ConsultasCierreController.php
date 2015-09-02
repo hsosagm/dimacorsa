@@ -36,7 +36,7 @@ class ConsultasCierreController extends \BaseController {
 		if($_table == "compra")
 			$columna = 'proveedores.nombre';
 		else
-			$columna = "CONCAT_WS(' ',clientes.nombre, clientes.apellido)";
+			$columna = "clientes.nombre ";
 
 		$columns = array(
 			"{$_table}s.id",
@@ -86,7 +86,7 @@ class ConsultasCierreController extends \BaseController {
 		if($_table == "compras")
 			$columna = 'proveedores.nombre';
 		else
-			$columna = "CONCAT_WS(' ',clientes.nombre, clientes.apellido)";
+			$columna = "clientes.nombre ";
 
 		$columns = array(
 			"abonos_{$_table}.id",
