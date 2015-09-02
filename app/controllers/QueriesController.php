@@ -31,6 +31,7 @@ class QueriesController extends \BaseController {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 
+		
 		$factura = DB::table('printer')->select('impresora')
 		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
 
