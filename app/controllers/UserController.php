@@ -167,7 +167,10 @@ class UserController extends Controller {
 
 	public function VerTablaVentasDelDiaUsuario()
 	{
-		return View::make('user_consulta.VentasDelDia');
+		$factura = DB::table('printer')->select('impresora')
+		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
+
+		return View::make('user_consulta.VentasDelDia',compact('factura'));
 	}
 
 	public function VerTablaSoporteDelDiaUsuario()
@@ -217,7 +220,7 @@ class UserController extends Controller {
 			"saldo",
 			"completed"
 			);
-
+ 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","clientes.apellido");
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";

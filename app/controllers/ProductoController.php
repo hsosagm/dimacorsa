@@ -154,7 +154,8 @@ class ProductoController extends Controller {
             "nombre",
             "descripcion",
             "p_publico",
-            "existencias.existencia as existencia");
+            "existencias.existencia as existencia",
+            "productos.existencia as existencia_total");
 
         $Searchable = array("codigo","nombre","descripcion");
         
