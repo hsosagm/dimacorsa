@@ -37,6 +37,11 @@ class UserController extends Controller {
 				$tema = new Tema;
 				$tema->user_id = $this->user->get_id();
 				$tema->save();
+
+				$role = EntrustRole::find(3);
+				$user = $this->user->find($this->user->get_id());
+				$user->attachRole( $role );
+
 				return 'success';
 			}
 			else
