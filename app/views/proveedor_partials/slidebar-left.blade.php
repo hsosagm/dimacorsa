@@ -18,11 +18,7 @@
     <!-- Start left navigation - menu -->
     <ul class="sidebar-menu">
         <li class="navbar-search">           
-            <form class="navbar-form" onsubmit=" return false">
-                <div class="form-group has-feedback">
                     <input id="ProviderFinder" type="text" class="form-control typeahead rounded" placeholder="Buscar Proveedor">
-                </div>
-            </form>
         </li>
 
         <!-- Start category Usuario-->
