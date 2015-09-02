@@ -1,6 +1,9 @@
 #ProviderFinder{ 
 	background: transparent none repeat scroll 0px 0px;
-	border: 1px solid #CABCBC !important;
 	color: #965B5B !important;
 	padding-right: 25px !important;
+}
+
+.navbar-search {
+	margin-right: 2px;
 }
