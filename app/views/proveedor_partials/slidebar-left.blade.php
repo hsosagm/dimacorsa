@@ -60,31 +60,17 @@
             </ul>
         </li>
 
-        <li v-show="proveedor_id" class="submenu">
-            <a v-on="click: chartComprasPorProveedor" href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Grafico de compras</span>
-            </a>
-        </li>
-
-        <li v-show="proveedor_id" class="submenu">
-            <a v-on="click: chartComparativaPorMesPorProveedor" href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Comparativa por mes</span>
-            </a>
-        </li>
-
-        <li v-show="proveedor_id" class="submenu">
+{{--         <li v-show="proveedor_id" class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
                 <span class="text">Graficos</span>
                 <span class="arrow"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);"> Compras anuales</a></li>
-                <li><a href="javascript:void(0);"> Compras Mensuales</a></li>
+                <li><a v-on="click: chartComprasPorProveedor" href="javascript:void(0);">Grafico de compras</a></li>
+                <li><a v-on="click: chartComparativaPorMesPorProveedor" href="javascript:void(0);">Comparativa por mes</a></li>
             </ul>
-        </li>
+        </li> --}}
          <!--/ End navigation - clientes -->
 
     </ul><!-- /.sidebar-menu -->
