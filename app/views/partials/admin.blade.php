@@ -12,10 +12,10 @@
         <span class="plus"></span>
     </a>
     <ul>
-        <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Queries</a></li>
+        <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Consultas Generales</a></li>
         <li onclick="getTrasladosEnviados(this)"><a href="javascript:void(0);">Traslados Enviados</a></li>
         <li onclick="getTrasladosRecibidos(this)"><a href="javascript:void(0);">Traslados Recibidos</a></li>
-        <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li>
+        {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
     </ul>
 </li>
@@ -34,8 +34,8 @@
         <li><a href="javascript:void(0);" onclick="f_egreso()">Egresos</a></li>
         <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
         <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
-        <li><a href="javascript:void(0);" onclick="inventario()">Ajuste de inventario</a></li>
-        <li><a href="javascript:void(0);" onclick="printDocument()">imprimir Documento</a></li>
+        {{-- <li><a href="javascript:void(0);" onclick="inventario()">Ajuste de inventario</a></li> --}}
+        {{-- <li><a href="javascript:void(0);" onclick="printDocument()">imprimir Documento</a></li> --}}
         {{-- <li><a href="javascript:void(0);" onclick="imprimirFactura('EPSON-LQ-590')">imprimir Factura</a></li> --}}
     </ul>
 </li>
@@ -67,24 +67,10 @@
 <li class="submenu">
     <a href="javascript:void(0);">
         <span class="icon"><i class="fa fa-columns"></i></span>
-        <span class="text">Producto</span>
-        <span class="plus"></span>
-    </a>
-    <ul>
-        <li id="new_marca"><a href="javascript:void(0);">Crear Marca</a></li>
-        <li id="new_categoria"><a href="javascript:void(0);">Crear Categoria</a></li>
-        <li id="new_sub_categoria"><a href="javascript:void(0);">Crear Sub Categoria</a></li>
-    </ul>
-</li>
-
-<li class="submenu">
-    <a href="javascript:void(0);">
-        <span class="icon"><i class="fa fa-columns"></i></span>
         <span class="text">Configuracion</span>
         <span class="plus"></span>
     </a>
     <ul>
-        <li onclick="settings_barcode()"><a href="javascript:void(0);">Codigo de Barras</a></li>
         <li onclick="configurar_impresoras()"><a href="javascript:void(0);">Impresoras</a></li>
         <li onclick="configurar_notificaciones()"><a href="javascript:void(0);">Notificaciones</a></li>
     </ul>

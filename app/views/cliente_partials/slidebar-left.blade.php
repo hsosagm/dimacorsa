@@ -50,18 +50,17 @@
             </ul>
         </li>
 
-        <li v-show="cliente_id" class="submenu">
-            <a v-on="click: chartVentasPorCliente" href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Grafico de ventas</span>
-            </a>
-        </li>
 
         <li v-show="cliente_id" class="submenu">
-            <a v-on="click: chartComparativaPorMesPorCliente" href="javascript:void(0);">
+            <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Comparativa por mes</span>
+                <span class="text">Graficos</span>
+                <span class="arrow"></span>
             </a>
+            <ul>
+                <li><a v-on="click: chartVentasPorCliente" href="javascript:void(0);">Grafico de ventas</a></li>
+                <li><a v-on="click: chartComparativaPorMesPorCliente" href="javascript:void(0);">Comparativa por mes</a></li>
+            </ul>
         </li>
 
     </ul>

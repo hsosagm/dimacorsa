@@ -1,7 +1,7 @@
  <!-- Start category widget -->
  <li class="sidebar-category">
     <span>Graficos</span>
-    <span class="pull-right"><i class="fa fa-cubes"></i></span>
+    <span class="pull-right"><i class="fa fa-bar-chart-o"></i></span>
 </li>
 
 <li>
@@ -15,13 +15,6 @@
     <a href="javascript:void(0);" onclick="comparativaMensual();">
         <span class="icon"><i class="fa fa-desktop"></i></span>
         <span class="text">Comparativa</span>
-    </a>
-</li>
-
-<li>
-    <a href="javascript:void(0);" onclick="proyeccionMensual();">
-        <span class="icon"><i class="fa fa-desktop"></i></span>
-        <span class="text">Proyecciones</span>
     </a>
 </li>
 
