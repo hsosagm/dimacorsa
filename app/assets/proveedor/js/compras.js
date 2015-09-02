@@ -198,13 +198,6 @@ function getPurchaseDetail(e) {
     });
 }
 
-/*
-    usada de esta manera para mostrar la tabla al nomas cargar el modulo de proveedores
-*/
-getComprasPedientesDePago();
-
-/***************************/
-
 function getComprasPedientesDePago()
 {
    $.ajax({
