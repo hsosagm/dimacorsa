@@ -29,7 +29,7 @@
             {"sClass": "mod_codigo hover width25",                      "sTitle": "Observaciones","aTargets": [5]},
             {"sClass": "widthS icons center",                           "sTitle": "",             "aTargets": [6],
                 "orderable": false,
-                "mRender": function() {
+                "mRender": function(data, type, full) {
                     $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleAbonosClietes(this)"></i>';
                     $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoCliente(this, '+full.DT_RowId+', '+"'"+'{{@$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px">';
                     
