@@ -161,4 +161,44 @@ class ConsultasCierreController extends \BaseController {
 			'table' => View::make('cierre.consultas.OperacionesPorMetodoDePago', compact('operaciones','metodo_pago'))->render()
         ));
 	}
+
+	 /*****************************************************************************************************************************  
+       Inicio Consultas de ventas por usuario del mes en el Balance General
+    ******************************************************************************************************************************/
+    public function getVentasDelMesPorUsuario()
+    {
+    	return Response::json(array(
+			'success' => true,
+			'table' => View::make('cierre.consultas.ventasDelMesPorUsuario')->render()
+        ));
+    }
+
+    public function DTVentasDelMesPorUsuario()
+    {
+        $fecha = "'".Input::get('fecha')."'";
+
+        $table = 'ventas';
+
+        $columns = array(
+            "ventas.created_at as fecha", 
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "clientes.nombre as cliente",
+            "total",
+            "saldo",
+            "completed"
+            );
+ 
+        $Search_columns = array("users.nombre","users.apellido","clientes.nombre",'total','saldo');
+
+        $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+        $where  = " DATE_FORMAT(ventas.created_at, '%Y-%m') = DATE_FORMAT({$fecha}, '%Y-%m') ";
+        $where .= " AND users.id =".Input::get('user_id');
+        $where .= " AND ventas.tienda_id =".Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+    }
+    /*****************************************************************************************************************************  
+       Fin Consultas de ventas por usuario del mes en el Balance General
+    ******************************************************************************************************************************/
 }

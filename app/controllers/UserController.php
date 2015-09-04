@@ -226,7 +226,7 @@ class UserController extends Controller {
 			"completed"
 			);
  
-		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","clientes.apellido");
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre");
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 

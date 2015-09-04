@@ -337,6 +337,20 @@
                         }
                     }
                 });
+            },
+
+            getVentasDelMesPorUsuario: function(e, user_id, fecha) {
+                $.ajax({
+                    type: "GET",
+                    url: 'admin/cierre/consultas/getVentasDelMesPorUsuario',
+                    data: {user_id: user_id, fecha: fecha.substring(0,10), grafica: true},
+                }).done(function(data) {
+                    if (data.success == true)
+                    {
+                        return $('#cierres_dt').html(data.table);
+                    }
+                    msg.warning(data, 'Advertencia!');
+                });
             }
         }
     });

@@ -56,7 +56,11 @@
 				</tr>
 				@foreach(@$ventas_usuarios as $key => $user)
 				<tr>
-					<td colspan="2">{{ $user->nombre .' '. $user->apellido}}</td>
+					<td colspan="2" class="fg-theme">
+						<i v-on="click: getVentasDelMesPorUsuario(this,{{$user->id}},'{{$fecha}}')" class="fa fa-search" style="cursor:pointer">
+							{{ $user->nombre .' '. $user->apellido}}
+						</i>
+					</td>
 					<td style="text-align: right;"> {{ f_num::get($user->total) }} </td>
 					<td style="text-align: right;"> {{ f_num::get($user->utilidad) }} </td>
 					<td style="text-align: right;">%{{ f_num::get(($user->utilidad * 100 )/str_replace(',', '', $user->total ))}}</td>

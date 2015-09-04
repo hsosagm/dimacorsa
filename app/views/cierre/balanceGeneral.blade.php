@@ -51,7 +51,7 @@
         });
        },
 
-       cierreDelMesPorFecha: function(){
+       cierreDelMesPorFecha: function() {
             $fecha = $('#start_hidden').val();
             $.ajax({
                 type: "GET",
@@ -63,6 +63,20 @@
                     $('#graph_container').show();
                     $('#graph_container').html(data);
                 }
+            });
+       },
+
+       getVentasDelMesPorUsuario: function(e, user_id, fecha) {
+            $.ajax({
+                type: "GET",
+                url: 'admin/cierre/consultas/getVentasDelMesPorUsuario',
+                data: {user_id: user_id, fecha: fecha.substring(0,10)},
+            }).done(function(data) {
+                if (data.success == true)
+                {
+                    return $('#cierres').html(data.table);
+                }
+                msg.warning(data, 'Advertencia!');
             });
        }
    }

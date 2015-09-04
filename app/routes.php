@@ -273,6 +273,8 @@
             Route::group(array('prefix' => 'consultas'),function() 
             {
                 Route::get('ConsultasPorMetodoDePago/{model}' , 'ConsultasCierreController@ConsultasPorMetodoDePago');
+                Route::get('getVentasDelMesPorUsuario'        , 'ConsultasCierreController@getVentasDelMesPorUsuario');
+                Route::get('DtVentasDelMesPorUsuario'         , 'ConsultasCierreController@DTVentasDelMesPorUsuario');
             });
         });
 

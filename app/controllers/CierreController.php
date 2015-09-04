@@ -7,15 +7,13 @@ class CierreController extends \BaseController {
         $fecha = Input::get('fecha');
         $fecha_enviar = "'{$fecha}'";
 
-        if ($fecha == 'current_date') 
-        {
+        if ($fecha == 'current_date') {
             $fecha_enviar = 'current_date';
             $dt = Carbon::now();
         }
+
         else
-        {
             $dt = Carbon::createFromFormat('Y-m-d',$fecha);
-        }
 
         $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
         $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
@@ -370,7 +368,7 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
             $ventas_usuarios =  DB::table('users')
-            ->select(DB::raw('users.nombre, users.apellido,
+            ->select(DB::raw('users.id, users.nombre, users.apellido,
                 sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
                 sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
             ->join('ventas','ventas.user_id','=','users.id')
@@ -575,7 +573,7 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
             $ventas_usuarios =  DB::table('users')
-            ->select(DB::raw('users.nombre, users.apellido,
+            ->select(DB::raw('users.id, users.nombre, users.apellido,
                 sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
                 sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
             ->join('ventas','ventas.user_id','=','users.id')
@@ -796,4 +794,4 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
         Fin Consultas de ventas del mes en el Balance General
     **********************************************************************************************************************************/
         
-    }
+}
