@@ -382,7 +382,13 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
 
             $date = Carbon::now();
 
-            $data['dia_inicio'] = Carbon::createFromFormat('Y-m-d H:i:s', Venta::first()->created_at);
+            $fecha_env = Venta::first();
+
+            if (@$fecha_env->created_at == null) {
+                $fecha_env = Carbon::now();
+            }
+
+            $data['dia_inicio'] = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env);
             $data['total_ventas'] = f_num::get($ventas->total   );
             $data['total_ganancias'] = f_num::get($ganancias->total);
             $data['total_soporte'] = f_num::get($soporte->total  );
@@ -586,7 +592,14 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             ->get();
 
             $date = Carbon::createFromFormat('Y-m-d', "{$fecha}");
-            $data['dia_inicio'] = Carbon::createFromFormat('Y-m-d H:i:s', Venta::first()->created_at);
+
+            $fecha_env = Venta::first();
+
+            if (@$fecha_env->created_at == null) {
+                $fecha_env = Carbon::now();
+            }
+
+            $data['dia_inicio'] = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env);
             $data['total_ventas'] = f_num::get($ventas->total   );
             $data['total_ganancias'] = f_num::get($ganancias->total);
             $data['total_soporte'] = f_num::get($soporte->total  );

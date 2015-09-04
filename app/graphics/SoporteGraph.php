@@ -6,7 +6,13 @@ class SoporteGraph extends \BaseController
 {
     public function form_graph_by_date_get()
     {
-        $first = Carbon::createFromFormat('Y-m-d H:i:s', Soporte::first()->created_at);
+        $fecha_env = Soporte::first();
+
+        if (@$fecha_env->created_at == null) {
+            $fecha_env = Carbon::now();
+        }
+
+        $first = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env);
 
         return View::make('soporte.chart', compact('first'));
     }
