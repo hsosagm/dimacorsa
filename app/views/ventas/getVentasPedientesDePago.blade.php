@@ -24,7 +24,7 @@
 
             <tbody>
                 @foreach($ventas as $q)
-                    <tr id="{{$q->cliente_id}}" class="{{($q->saldo_vencido > 0)? 'red':''}}">
+                    <tr id="{{$q->cliente_id}}" class="{{($q->saldo_vencido > 0)? 'red':''}}" v-on="click: goToCustomer({{$q->cliente_id}})" style="cursor:pointer">
                         <td style="display:none" width="10%"> {{ $q->fecha }} </td>
                         <td class="" width="23%"> {{ $q->cliente }} </td>
                         <td class="" width="22%"> {{ $q->direccion }} </td>

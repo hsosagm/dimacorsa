@@ -23,15 +23,23 @@
 
             <tbody>
                 <tr v-repeat="av: historialPagos" id="@{{av.id}}">
-                    <td width="15%"> @{{ av.tienda }} </td>
-                    <td width="25%"> @{{ av.usuario }} </td>
-                    <td width="15%"> @{{ av.fecha }} </td>
-                    <td width="15%"> @{{ av.metodoPago }} </td>
-                    <td width="15%" class="right"> @{{ av.factura }} </td>
-                    <td width="15%" class="right"> @{{ av.monto | currency ' ' }} </td>
+                    <td> @{{ av.tienda }} </td>
+                    <td> @{{ av.usuario }} </td>
+                    <td> @{{ av.fecha }} </td>
+                    <td> @{{ av.metodoPago }} </td>
+                    <td class="right"> @{{ av.factura }} </td>
+                    <td class="right"> @{{ av.monto | currency ' ' }} </td>
                 </tr>
             </tbody>
-
         </table>
     </div>
 </div>
+
+<style type="text/css">
+    .display th:nth-child(1) { width: 15% !important; }
+    .display th:nth-child(2) { width: 25% !important; }
+    .display th:nth-child(3) { width: 15% !important; }
+    .display th:nth-child(4) { width: 15% !important; }
+    .display th:nth-child(5) { width: 15% !important; }
+    .display th:nth-child(6) { width: 15% !important; }
+</style>
