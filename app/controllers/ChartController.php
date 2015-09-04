@@ -362,14 +362,79 @@ class ChartController extends \BaseController {
 
     public function getConsultaPorCriterio()
     {
-        $user = User::whereRaw("(select count(*) from ventas where user_id = users.id and DATE_FORMAT(ventas.created_at,'%Y-%m') = DATE_FORMAT(current_date ,'%Y-%m')) > 0 ")->where('tienda_id',Auth::user()->tienda_id)->get(); 
+        $fecha_inicial = 'current_date';
+        $fecha_final = 'current_date';
+        $formato = '%Y-%m';
 
-        $categoria = Categoria::all();
-        $marca = Marca::all(); 
+        if (Input::has('fecha_inicial') && Input::has('fecha_final')) 
+        {
+            $fecha_inicial = "'".Input::get('fecha_inicial')."'";
+            $fecha_final = "'".Input::get('fecha_final')."'";
+            $formato = '%Y-%m-%d';
+        }
+
+
+        $user = User::select('nombre','id')->whereIn('id', function($query) 
+            use ($fecha_inicial, $fecha_final, $formato)
+        {
+            $query->select(DB::raw('user_id')) 
+            ->from('ventas')
+            ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') >= DATE_FORMAT( {$fecha_inicial} ,'{$formato}') ")
+            ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') <= DATE_FORMAT( {$fecha_final} ,'{$formato}') ")
+            ->where('tienda_id','=', Auth::user()->tienda_id);
+        })->get(); 
+
+
+        $categoria = Categoria::select('nombre','id')->whereIn('id', function($query) 
+            use ($fecha_inicial, $fecha_final, $formato)
+        {
+            $query->select(DB::raw('categoria_id')) 
+            ->from('productos')
+            ->join('detalle_ventas','producto_id','=','productos.id')
+            ->join('ventas','venta_id','=','ventas.id')
+            ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') >= DATE_FORMAT( {$fecha_inicial} ,'{$formato}') ")
+            ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') <= DATE_FORMAT( {$fecha_final} ,'{$formato}') ")
+            ->where('tienda_id','=', Auth::user()->tienda_id);
+        })->get(); 
+
+
+        $marca = Marca::select('nombre','id')->whereIn('id', function($query) 
+            use ($fecha_inicial, $fecha_final, $formato)
+        {
+            $query->select(DB::raw('marca_id'))
+            ->from('productos')
+            ->join('detalle_ventas','producto_id','=','productos.id')
+            ->join('ventas','venta_id','=','ventas.id')
+            ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') >= DATE_FORMAT( {$fecha_inicial} ,'{$formato}') ")
+            ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') <= DATE_FORMAT( {$fecha_final} ,'{$formato}') ")
+            ->where('tienda_id','=', Auth::user()->tienda_id);
+        })->get();
+
+
+        $datos="";
+
+        foreach ($categoria as $cat) {
+            $categoria_id = $cat->id;
+
+            $marcas = Marca::select('nombre','id')->whereIn('id', function($query) 
+                use ($categoria_id, $fecha_inicial,$fecha_final, $formato)
+            {
+                $query->select(DB::raw('marca_id'))
+                ->from('productos')
+                ->join('detalle_ventas','producto_id','=','productos.id')
+                ->join('ventas','venta_id','=','ventas.id')
+                ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') >= DATE_FORMAT({$fecha_inicial} ,'{$formato}') ")
+                ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') <= DATE_FORMAT({$fecha_final} ,'{$formato}') ")
+                ->where('tienda_id','=', Auth::user()->tienda_id)
+                ->where('categoria_id','=', $categoria_id);
+            })->get();   
+            $datos[] = array('id' => $cat->id, 'nombre' => $cat->nombre, 'marcas' => $marcas );
+        }
 
         $data['user'] = $user;
         $data['categoria'] = $categoria;
         $data['marca'] = $marca;
+        $data['datos'] = json_encode($datos);
 
         return Response::json(array(
             'success'   => true,

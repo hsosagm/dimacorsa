@@ -114,7 +114,7 @@
 
             getActualizarConsultasPorFecha: function(e)
             {
-                e.preventDefault();
+                e.preventDefault(); 
                 var form = $(e.target).closest("form");
                 $('input[type=submit]', form).prop('disabled', true);
 

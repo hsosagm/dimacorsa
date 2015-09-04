@@ -1,7 +1,7 @@
 <!-- Start body content -->
 <div class="body-content animated fadeIn">
 
-	<h1 class="tienda_nombre"></h1>
+	<h1 class="tienda_nombre">Clickgt.com</h1>
 
 	<!-- Start calendar container -->
 	<div id="demo-settings">
