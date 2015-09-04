@@ -619,6 +619,16 @@ var vm = new Vue({
 					$('#example').dataTable().fnFilter( $(this).val() );
 				});
 			}, 0);
+		},
+
+		goToCustomer: function(cliente_id) {
+			vm.closeMainContainer();
+			vm.cliente_id = cliente_id;
+            vm.getInfoCliente(cliente_id);
+            $('#customer_search').val('');
+            $('.montoAbono').val(0);
+            vm.monto = 0;
+            vm.tableDetail = '';
 		}
 
 	}

@@ -24,12 +24,12 @@
 
 			<tbody>
 		        <tr v-repeat="av: historialAbonos" id="@{{av.id}}">
-		            <td width="12%"> @{{ av.fecha }} </td>
-		            <td width="16%"> @{{ av.usuario }} </td>
-		            <td width="12%"> @{{ av.metodoPago }} </td>
-		            <td width="10%" class="right"> @{{ av.monto | currency ' ' }} </td>
-		            <td width="40%"> @{{ av.observaciones }} </td>
-		            <td class="widthS center font14"  width="10%"> 
+		            <td> @{{ av.fecha }} </td>
+		            <td> @{{ av.usuario }} </td>
+		            <td> @{{ av.metodoPago }} </td>
+		            <td class="right"> @{{ av.monto | currency ' ' }} </td>
+		            <td> @{{ av.observaciones }} </td>
+		            <td class="widthS center font14"> 
 		                <a href="javascript:void(0);" title="Ver detalle" v-on="click: togleDetalleAbonos(this, av)" v-class="hide_detail: av.active" class="fa fa-plus-square"> 
 		                <a href="javascript:void(0);" title="Imprimir abono" v-on="click: imprimirAbonoVenta($event, av.id, '{{@$comprobante->impresora}}')" class="fa fa-print font14"> 
 		            </td>
@@ -39,3 +39,12 @@
 		</table>
     </div>
 </div>
+
+<style type="text/css">
+    .display th:nth-child(1) { width: 12% !important; }
+    .display th:nth-child(2) { width: 16% !important; }
+    .display th:nth-child(3) { width: 12% !important; }
+    .display th:nth-child(4) { width: 10% !important; }
+    .display th:nth-child(5) { width: 40% !important; }
+    .display th:nth-child(6) { width: 10% !important; }
+</style>

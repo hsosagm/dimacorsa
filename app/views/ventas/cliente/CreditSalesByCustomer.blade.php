@@ -34,31 +34,27 @@
 		                $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
 		                $fecha_vencida = date('Ymd',strtotime("-30 days"));
 			        ?>
-					@if( $fecha_entrada < $fecha_vencida )
-			            <tr id="{{ $q->id }}" class="red">
-				            <td                width="17%"> {{ $q->usuario }} </td>
-				            <td class="center" width="13%"> {{ $q->fecha }} </td>
-				            <td                width="40%"> {{ $q->cliente }} </td>
-				            <td class="right"  width="9%"> {{ $total }} </td>
-				            <td class="right"  width="9%"> {{ $saldo }} </td>
-				            <td class="widthS center font14"  width="12%"> 
-				                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> 
-				            </td>
-				        </tr>
-					@else
-				        <tr id="{{ $q->id }}">
-				            <td                width="17%"> {{ $q->usuario }} </td>
-				            <td class="center" width="13%"> {{ $q->fecha }} </td>
-				            <td                width="40%"> {{ $q->cliente }} </td>
-				            <td class="right"  width="9%"> {{ $total }} </td>
-				            <td class="right"  width="9%"> {{ $saldo }} </td>
-				            <td class="widthS center font14"  width="12%"> 
-				                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail">
-				            </td>
-				        </tr>
-					@endif
+		            <tr id="{{ $q->id }}" class="{{ $fecha_entrada < $fecha_vencida ? 'red' : '' }}">
+			            <td> {{ $q->usuario }} </td>
+			            <td class="center"> {{ $q->fecha }} </td>
+			            <td> {{ $q->cliente }} </td>
+			            <td class="right"> {{ $total }} </td>
+			            <td class="right"> {{ $saldo }} </td>
+			            <td class="widthS center font14"> 
+			                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> 
+			            </td>
+			        </tr>
 				@endforeach
 			</tbody>
 		</table>
     </div>
 </div>
+
+<style type="text/css">
+    .display th:nth-child(1) { width: 17% !important; }
+    .display th:nth-child(2) { width: 13% !important; }
+    .display th:nth-child(3) { width: 40% !important; }
+    .display th:nth-child(4) { width: 9% !important; }
+    .display th:nth-child(5) { width: 9% !important; }
+    .display th:nth-child(6) { width: 12% !important; }
+</style>

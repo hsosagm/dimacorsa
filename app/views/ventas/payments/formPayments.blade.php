@@ -2,7 +2,6 @@
  			<div class="panel-heading">
  				<div class="DTTT btn-group"></div>
  				<div class="pull-right">
-                    <button v-on="click: getVentasPedientesDePago" class="btn" title="regresar"><i class="fa fa-reply"></i></button>
                     <button v-on="click: closeMainContainer" class="btn" title="Cerrar"><i class="fa fa-times"></i></button>
  				</div>
  				<div class="clearfix"></div>
