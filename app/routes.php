@@ -538,7 +538,7 @@ Route::get('exportar' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
 Route::get('test', function()
 {
 
-    
+
 
 });
 

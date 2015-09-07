@@ -310,7 +310,6 @@ module.exports = function(grunt) {
         }
     });
 
-    // Load grunt plugins
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -321,8 +320,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-phpunit');
 
     grunt.registerTask('dev', ['cssmin', 'concat', 'notify:end', 'watch']);
-
-    grunt.registerTask('build', ['cssmin', 'concat', 'uglify', 'copy', 'watch']);
-    //grunt.registerTask('build', ['cssmin', 'concat', 'uglify', 'copy', 'watch']);
-
+    grunt.registerTask('build', ['cssmin', 'concat', 'uglify', 'copy']);
 };
