@@ -213,6 +213,16 @@
             Route::get('exportarKardex/{tipo}'                       , 'KardexController@exportarKardex');
         });
 
+
+        Route::group(array('prefix' => 'exportar'),function() 
+        {
+            Route::get('exportarEstadoDeCuentaDeClientes'   , 'ExportarController@exportarEstadoDeCuentaDeClientes');
+            Route::get('exportarEstadoDeCuentaPorCliente'   , 'ExportarController@exportarEstadoDeCuentaPorCliente');
+            Route::get('exportarVentasPendientesPorUsuario' , 'ExportarController@exportarVentasPendientesPorUsuario');
+            Route::get('exportarVentasPendientesDeUsuarios' , 'ExportarController@exportarVentasPendientesDeUsuarios');
+        });
+
+
         Route::group(array('prefix' => 'configuracion'),function() 
         {
             Route::get('impresora'              , 'ConfiguracionController@impresora');
@@ -523,7 +533,7 @@
 
     });
 
-Route::get('exportar/{tipo}' , 'KardexController@exportarKardex');
+Route::get('exportar' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
 
 Route::get('test', function()
 {
