@@ -528,7 +528,7 @@ Route::get('exportar/{tipo}' , 'KardexController@exportarKardex');
 Route::get('test', function()
 {
 
-    
+
 
 });
 
