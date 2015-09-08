@@ -451,7 +451,12 @@ var vm = new Vue({
 				data: {user_id: vm.user_id_creditos , sSearch:sSearch},
 			}).done(function(data) {
 				if (data.success == true) {
-					$('.grid_detalle_factura').html(data.table);
+					vm.cliente_id = 0;
+					vm.infoCliente   = '';
+					vm.saldo_total   = '';
+					vm.saldo_vencido = '';
+					vm.historialPagos = data.data;
+					vm.proccesDataTable(data.table);
 					$(nTr).next('.subtable').fadeIn('slow');
 					compile();
 					return $(e).addClass('hide_detail');
@@ -497,7 +502,12 @@ var vm = new Vue({
 				data: {cliente_id: vm.cliente_id_creditos , sSearch:sSearch},
 			}).done(function(data) {
 				if (data.success == true) {
-					$('.grid_detalle_factura').html(data.table);
+					vm.cliente_id = 0;
+					vm.infoCliente   = '';
+					vm.saldo_total   = '';
+					vm.saldo_vencido = '';
+					vm.historialPagos = data.data;
+					vm.proccesDataTable(data.table);
 					$(nTr).next('.subtable').fadeIn('slow');
 					compile();
 					return $(e).addClass('hide_detail');
@@ -513,8 +523,14 @@ var vm = new Vue({
 				url: "user/ventas/getDetalleVentasPendientesPorUsuario?page=" + page,
 				data: {user_id: vm.user_id_creditos , sSearch:sSearch},
 			}).done(function(data) {
-				if (data.success == true)
-					return  $('.grid_detalle_factura').html(data.table);
+				if (data.success == true) {
+					vm.cliente_id = 0;
+					vm.infoCliente   = '';
+					vm.saldo_total   = '';
+					vm.saldo_vencido = '';
+					vm.historialPagos = data.data;
+					return vm.proccesDataTable(data.table);
+				}
 
 				msg.warning(data, 'Advertencia!');
 			});
@@ -527,8 +543,14 @@ var vm = new Vue({
 				url: "user/ventas/getVentasPendientesPorCliente?page=" + page,
 				data: {cliente_id: vm.cliente_id_creditos , sSearch:sSearch},
 			}).done(function(data) {
-				if (data.success == true)
-					return  $('.grid_detalle_factura').html(data.table);
+				if (data.success == true) {
+					vm.cliente_id = 0;
+					vm.infoCliente   = '';
+					vm.saldo_total   = '';
+					vm.saldo_vencido = '';
+					vm.historialPagos = data.data;
+					return vm.proccesDataTable(data.table);
+				}
 
 				msg.warning(data, 'Advertencia!');
 			});
@@ -629,8 +651,23 @@ var vm = new Vue({
             $('.montoAbono').val(0);
             vm.monto = 0;
             vm.tableDetail = '';
-		}
+		},
 
+		exportarEstadoDeCuentaDeClientes:  function(tipo) {
+			window.open('admin/exportar/exportarEstadoDeCuentaDeClientes/'+tipo ,'_blank');
+		},
+
+		exportarEstadoDeCuentaPorCliente: function(tipo, cliente_id) {
+			window.open('admin/exportar/exportarEstadoDeCuentaPorCliente/'+tipo+'?cliente_id='+cliente_id ,'_blank');
+		},
+
+		exportarVentasPendientesDeUsuarios: function(tipo) {
+			window.open('admin/exportar/exportarVentasPendientesDeUsuarios/'+tipo,'_blank');
+		},
+
+		exportarVentasPendientesPorUsuario: function(tipo, user_id) {
+			window.open('admin/exportar/exportarVentasPendientesPorUsuario/'+tipo+'?user_id='+user_id ,'_blank');
+		}
 	}
 });
 

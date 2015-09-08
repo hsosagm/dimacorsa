@@ -216,10 +216,10 @@
 
         Route::group(array('prefix' => 'exportar'),function() 
         {
-            Route::get('exportarEstadoDeCuentaDeClientes'   , 'ExportarController@exportarEstadoDeCuentaDeClientes');
-            Route::get('exportarEstadoDeCuentaPorCliente'   , 'ExportarController@exportarEstadoDeCuentaPorCliente');
-            Route::get('exportarVentasPendientesPorUsuario' , 'ExportarController@exportarVentasPendientesPorUsuario');
-            Route::get('exportarVentasPendientesDeUsuarios' , 'ExportarController@exportarVentasPendientesDeUsuarios');
+            Route::get('exportarEstadoDeCuentaDeClientes/{tipo}'   , 'ExportarController@exportarEstadoDeCuentaDeClientes');
+            Route::get('exportarEstadoDeCuentaPorCliente/{tipo}'   , 'ExportarController@exportarEstadoDeCuentaPorCliente');
+            Route::get('exportarVentasPendientesPorUsuario/{tipo}' , 'ExportarController@exportarVentasPendientesPorUsuario');
+            Route::get('exportarVentasPendientesDeUsuarios/{tipo}' , 'ExportarController@exportarVentasPendientesDeUsuarios');
         });
 
 
@@ -533,7 +533,7 @@
 
     });
 
-Route::get('exportar' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
+Route::get('exportar/{tipo}' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
 
 Route::get('test', function()
 {
