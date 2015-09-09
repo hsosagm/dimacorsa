@@ -5,11 +5,11 @@ $(function() {
     $(document).on("click", "#_edit_dt", function(){ _edit_dt(this); });
     $(document).on("click", "#_delete", function(){ _delete(this); });
     $(document).on("click", "#_delete_dt", function(){ _delete_dt(this); });
-    $(document).on("click", "#_print",      function(){ _print(this); })
+    $(document).on("click", "#_print",      function(){ _print(this); });
     $(document).on("keyup", ".input_numeric", function(){ input_numeric(this); });
 });
 
-ajaxStatus = 0;
+ajaxStatus=0;
 $('.cierre_modal_content').draggable();
 $('.btnremove').on('click', function() {
     $('#home').empty();
