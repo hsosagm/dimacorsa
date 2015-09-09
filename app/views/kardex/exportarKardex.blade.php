@@ -1,3 +1,24 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<table>
+	<tr>
+		<td height="30" colspan="10" align="center">
+			<h1>Reporte de Kardex</h1>
+		</td>
+	</tr>
+	<tr>
+		<td  colspan="10" height="30" align="center">
+			<h1>Del {{ Input::get('fecha_inicial') }} al {{ Input::get('fecha_final') }}</h1>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="10" height="30" align="center">
+			<h1>Producto: {{ $producto->descripcion }}</h1>
+		</td>
+	</tr>
+	
+</table>
+
 <table>
 	<tr style="background-color: #D5D5D5;">
 		<td align="center"> <strong>Fecha </strong> </td>              

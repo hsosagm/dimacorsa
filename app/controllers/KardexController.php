@@ -61,7 +61,9 @@ class KardexController extends \BaseController {
         ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('".Input::get('fecha_final')."', '%Y-%m-%d')")
         ->get();
 
-        Excel::create('Kardex', function($excel) use($kardex) 
+        $producto = Producto::find(Input::get('producto_id'));
+
+        Excel::create('Kardex', function($excel) use($kardex, $producto) 
         {
             $excel->setTitle('Kardex');
             $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
@@ -69,13 +71,13 @@ class KardexController extends \BaseController {
             $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
             $excel->setSubject('Click');
 
-            $excel->sheet('datos', function($hoja) use($kardex) 
+            $excel->sheet('datos', function($hoja) use($kardex, $producto) 
             {
                 $hoja->setOrientation('landscape');
-                $hoja->loadView('kardex.exportarKardex', array('kardex' => $kardex ));
+                $hoja->loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto));
             });
 
-        })->export("xls");
+        })->export("pdf");
     }
     /*******************************************************************
     Fin  Exportar Kardex
