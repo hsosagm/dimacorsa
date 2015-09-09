@@ -1,6 +1,6 @@
 
 var vm = new Vue({
-
+	
 	el: 'body',
 
 	data: {
@@ -113,6 +113,7 @@ var vm = new Vue({
 			});
 		},
 
+
 		payFromTable: function( e, cliente_id ) {
 			vm.cliente_id = cliente_id;
             vm.getInfoCliente(cliente_id);
@@ -122,6 +123,7 @@ var vm = new Vue({
             vm.tableDetail = '';
             vm.getFormAbonosVentas();
 		},
+
 
 		submitFormPayments: function(e) {
 			e.preventDefault();

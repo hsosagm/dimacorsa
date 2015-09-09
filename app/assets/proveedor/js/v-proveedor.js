@@ -4,7 +4,6 @@ var vm = new Vue({
 
     data: {
     	ProviderFinder: '',
-    	PanelBody: false,
     	tableDetail: '',
     	proveedor_id: '',
     	divAbonosPorSeleccion: '',
@@ -13,6 +12,7 @@ var vm = new Vue({
     	saldo_vencido: '',
     	saldoParcial: '',
     	monto: '',
+    	proveedor_id_creditos: 0,
     },
 
     methods: {
@@ -25,10 +25,9 @@ var vm = new Vue({
 
 
     	clearPanelBody: function() {
-    		this.PanelBody = false;
     		this.tableDetail = '';
     		$('.table').html('');
-    		$('.dt-container').hide();
+    		$('#main_container').hide();
     	},
 
 
@@ -49,7 +48,7 @@ var vm = new Vue({
 	                    vm.infoProveedor = data.info;
 	                    vm.saldo_total   = data.saldo_total;
 	                    vm.saldo_vencido = data.saldo_vencido;
-	                    GetPurchasesForPaymentsBySelection(1, null);
+	                    vm.GetPurchasesForPaymentsBySelection(1, null);
 	                    vm.updateMonto();
 	                    return;
 	                }
@@ -61,14 +60,12 @@ var vm = new Vue({
 
     	updateMonto: function() {
 			vm.$nextTick(function() {
-				if (vm.PanelBody) {
-			        var selectedMonto = $("input[type='radio'][name='monto']:checked").val();
-			        if (selectedMonto == 'on') {
-			        	vm.monto = $('#monto').val();
-			        	return;
-			        };
-			        vm.monto = selectedMonto;
-				};
+			    var selectedMonto = $("input[type='radio'][name='monto']:checked").val();
+			    if (selectedMonto == 'on') {
+			        vm.monto = $('#monto').val();
+			        return;
+			    };
+			    vm.monto = selectedMonto;
 		    });
     	},
 
@@ -110,10 +107,11 @@ var vm = new Vue({
 		        success: function (data) {
 		            if (data.success == true)
 		            {
+		            	$('#main_container').hide();
 		                $("#table_length").html("");
-		                $(".PanelBody").html(data.form);
-		                vm.PanelBody = true;
-		                SST_search();
+		                $('#main_container').html(data.form)
+		            	$('#main_container').show();
+		                vm.SST_search();
 		                return compile();
 		            }
 		            msg.warning(data, 'Advertencia!');
@@ -181,7 +179,7 @@ var vm = new Vue({
 		            {
 		                msg.success('Abonos Eliminados', 'Listo!');
 		                vm.updateInfoProveedor();
-		                return vm.GetPurchasesForPaymentsBySelection();
+		                return vm.GetPurchasesForPaymentsBySelection(1,null);
 		            }
 		            msg.warning(data, 'Advertencia!');
 		            $('input[type=button]', e.target).prop('disabled', false);
@@ -191,7 +189,6 @@ var vm = new Vue({
 
 
         GetPurchasesForPaymentsBySelection: function() {
-
 		    $.ajax({
 		        type: 'GET',
 		        url: "admin/compras/payments/formPaymentsPagination",
@@ -205,17 +202,14 @@ var vm = new Vue({
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
-
         },
 
 
         getEditarProveedor: function() {
-
 	        $.ajax({
 	            type: "POST",
 	            url: "admin/proveedor/edit",
 	            data: { id: vm.proveedor_id },
-	            contentType: 'application/x-www-form-urlencoded',
 	            success: function (data) {
 	                $('.modal-body').html(data);
 	                $('.modal-title').text('Editar proveedor');
@@ -225,28 +219,22 @@ var vm = new Vue({
 	                alert(request.responseText);
 	            }
 	        });
-
         },
 
 
         getHistorialCompras: function() {
-        	this.PanelBody = false;
-
 		    $.ajax({
 		        type: "GET",
 		        url: "admin/compras/ConsultPurchase",
 		        data: { proveedor_id: vm.proveedor_id },
-		        contentType: 'application/x-www-form-urlencoded',
 		        success: function (data) {
-		            makeTable(data, '', 'Compras');
+		            vm.proccesDataTable(data);
 		        }
 		    });
         },
-
+ 
 
         getComprasPendientesDePago: function() {
-        	this.PanelBody = false;
-
 		    $.ajax({
 		        type: 'GET',
 		        url: "admin/compras/ShowTableUnpaidShopping",
@@ -254,16 +242,7 @@ var vm = new Vue({
 		        success: function (data) {
 		            if (data.success == true)
 		            {
-		                setTimeout(function()
-		                {
-		                    $('#example_length').prependTo("#table_length");
-		                    $('.dt-container').show();
-		                    $('#iSearch').keyup(function() {
-		                        $('#example').dataTable().fnFilter( $(this).val() );
-		                    })
-		                }, 300);
-
-		                return generate_dt_local(data.table);
+		                return vm.proccesDataTable(data.table);
 		            }
 		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
 		        }
@@ -272,33 +251,24 @@ var vm = new Vue({
 
 
         getHistorialAbonos: function() {
-        	this.PanelBody = false;
-
 	        $.ajax({
 	            type: "GET",
 	            url: "admin/compras/ShowTableHistoryPaymentDetails",
 	            data: { proveedor_id: vm.proveedor_id },
-	            contentType: 'application/x-www-form-urlencoded',
 	            success: function (data) {
-	                makeTable(data, 'admin/compras/payments/', 'Pagos');
-	            },
-	            error: function (request, status, error) {
-	                alert(request.responseText);
+	               	vm.proccesDataTable(data);
 	            }
 	        });
         },
 
 
         getHistorialPagos: function() {
-        	this.PanelBody = false;
-
 	        $.ajax({
 	            type: "GET",
 	            url: "admin/compras/ShowTableHistoryPayment",
 	            data: { proveedor_id: vm.proveedor_id },
-	            contentType: 'application/x-www-form-urlencoded',
 	            success: function (data) {
-	                makeTable(data, '', 'Pagos');
+	                vm.proccesDataTable(data);
 	            }
 	        });
         },
@@ -334,6 +304,223 @@ var vm = new Vue({
 				}
 				msg.warning(data, 'Advertencia!');
 			}); 
+		},
+
+		GetPurchasesForPaymentsBySelection: function(page , sSearch ) {
+		    $.ajax({
+		        type: 'GET',
+		        url: "admin/compras/payments/formPaymentsPagination?page=" + page,
+		        data: { proveedor_id: vm.proveedor_id, sSearch: sSearch },
+		        success: function (data) {
+		            if (data.success == true){
+		               $('#tab4').html(data.table);
+		               return compile();
+		            }
+		            
+		            msg.warning(data, 'Advertencia!');
+		        }
+		    });
+		},
+
+		abonosComprasPorSeleccion: function(element){
+		    var form = $("form[data-remote-abonosComprasPorSeleccion]");
+		    var array_ids_compras = vm.GetPurchasesSelected();
+		    $(element.target).prop("disabled", true);
+		    
+		    $.ajax({
+		        type: "POST",
+		        url:  "admin/compras/payments/abonosComprasPorSeleccion",
+		        data: form.serialize()+'&array_ids_compras='+array_ids_compras,
+		        success: function (data) {
+		            if (data.success == true) 
+		            {
+		                vm.divAbonosPorSeleccion = data.detalle;
+		                msg.success('Abonos Ingresados', 'Listo!');
+		                vm.updateInfoProveedor();
+		                return compile();
+		            }
+		            msg.warning(data, 'Advertencia!');
+		            $(element).prop("disabled", false);
+		        }
+		    });
+
+		},
+
+		GetPurchasesSelected: function() {
+		    var checkboxValues = new Array();
+		    $('input[name="selectedPurshase[]"]:checked').each(function() {
+		        checkboxValues.push($(this).val());
+		    });
+
+		    return checkboxValues;
+		},
+		
+		SST_search: function() {
+		    $("#iSearch").val("");
+		    $("#iSearch").unbind();
+		    $('#iSearch').keyup(function() {
+		        vm.GetPurchasesForPaymentsBySelection( 1, $(this).val() );
+		    });
+		},
+
+		proveedoresListado: function() {
+		    $.get( "admin/proveedor/index", function( data ) {
+		        vm.proccesDataTable(data);
+		        $('#example').addClass('tableSelected');
+		    });
+		},
+
+		getComprasPedientesDePago: function() {
+		   $.ajax({
+		        type: 'GET',
+		        url: "admin/compras/getComprasPedientesDePago",
+		        success: function (data) {
+		            if (data.success == true) {
+		                vm.proveedor_id = '';
+		                vm.proccesDataTable(data.table);
+		                $('#example').DataTable( {
+		                    "order": [[ 3, "desc" ]]
+		                } );
+		                $("#iSearch").focus();
+		                return compile();
+		            }
+		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+		        }
+		    }); 
+		},
+
+		ComprasPendientesPorProveedor: function(e, id) {
+		    vm.proveedor_id_creditos = id;
+		    if ($(e.target).hasClass("hide_detail"))  {
+		        $(e.target).removeClass('hide_detail');
+		        $('.subtable').fadeOut('slow');
+		    } 
+		    else {
+		        $('.hide_detail').removeClass('hide_detail');
+
+		        if ( $( ".subtable" ).length ) {
+		            $('.subtable').fadeOut('slow', function(){
+		                vm.getComprasPendientesPorProveedor(e.target, 1 , null);
+		            })
+		        }
+		        else {
+		            vm.getComprasPendientesPorProveedor(e.target, 1 , null);
+		        }
+		    }
+		},
+
+	 	getComprasPendientesPorProveedor: function(e , page , sSearch) {
+		    $('.subtable').remove();
+		    var nTr = $(e).parents('tr')[0];
+		    $(e).addClass('hide_detail');
+		    $(nTr).after("<tr class='subtable'> <td colspan=6><div class='grid_detalle_factura'></div></td></tr>");
+		    $('.subtable').addClass('hide_detail');
+
+		    $.ajax({
+		        type: 'GET',
+		        url: "admin/compras/getComprasPendientesPorProveedor?page=" + page,
+		        data: { proveedor_id: vm.proveedor_id_creditos,  sSearch:sSearch},
+		        success: function (data) {
+		            if (data.success == true) {
+		                vm.proccesDataTable(data.table);
+		                $(nTr).next('.subtable').fadeIn('slow');
+		                $(e).addClass('hide_detail');
+		                return compile();
+		            }
+		            msg.warning(data, 'Advertencia!');
+		        }
+		    });
+		},
+
+ 		getComprasPendientesPorProveedorPaginacion: function(page , sSearch) {
+		    $.ajax({
+		        type: 'GET',
+		        url: "admin/compras/getComprasPendientesPorProveedor?page=" + page,
+		        data: { proveedor_id:  vm.proveedor_id_creditos , sSearch:sSearch},
+		        success: function (data) {
+		            if (data.success == true) { 
+		                vm.proccesDataTable(data.table);
+		            	return compile();
+		            }
+		            msg.warning(data, 'Advertencia!');
+		        }
+		    });
+		},
+
+		getCompraConDetalle: function(e, compra_id) {
+		    $.ajax({
+		        type: 'GET',
+		        url: "admin/compras/getCompraConDetalle",
+		        data: {compra_id: compra_id },
+		        success: function (data) {
+		            if (data.success == true) {
+		                $('.modal-body').html(data.table);
+						$('.modal-title').text( 'Vista');
+						return $('.bs-modal').modal('show');
+				     }
+		            msg.warning(data, 'Advertencia!');
+		        }
+		    });
+		},
+
+		proccesDataTable: function(data) {
+			$('#main_container').hide();
+			$('#main_container').html(data);
+			$("#iSearch").unbind().val("").focus();
+
+			compile();
+
+			setTimeout(function() {
+				$('#example').dataTable();
+				$('#example_length').prependTo("#table_length");
+				$('#main_container').show();
+				vm.showFilter = true;
+				$('#iSearch').keyup(function() {
+					$('#example').dataTable().fnFilter( $(this).val() );
+				});
+			}, 0);
+		},
+
+		crearProveedor: function() {
+			$.ajax({
+				type: "POST",
+				url: 'admin/proveedor/crearProveedor',
+			}).done(function(data) {
+				$('.modal-body').html(data);
+				$('.modal-title').text( 'Crear Proveedor');
+				return $('.bs-modal').modal('show');
+			});
+		},
+
+		actualizarProveedor: function() {
+			$.ajax({
+				type: "POST",
+				url: 'admin/proveedor/actualizarProveedor',
+				data: {id: $('.dataTable tbody .row_selected').attr('id')},
+			}).done(function(data) {
+				$('.modal-body').html(data);
+				$('.modal-title').text( 'Editar Proveedor');
+				return $('.bs-modal').modal('show');
+			});
+		},
+
+		eliminarProveedor: function() {
+			$.confirm({
+				confirm: function(){
+					$.ajax({
+						type: "POST",
+						url: 'admin/proveedor/eliminarProveedor',
+						data: {id: $('.dataTable tbody .row_selected').attr('id')},
+					}).done(function(data) {
+						if ($.trim(data) == 'success') {
+							msg.success('Proveedor eliminado', 'Listo!')
+							return $('.dataTable tbody .row_selected').hide();
+						}
+						msg.warning(data, 'Advertencia!');
+					});
+				}
+			});
+			$('.modal-title').text( 'Eliminar Proveedor');
 		},
 
 		closeMainContainer: function() {

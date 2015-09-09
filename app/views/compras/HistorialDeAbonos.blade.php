@@ -1,11 +1,7 @@
-
+@include('proveedor_partials.head_content_table')
 <script>
 $(document).ready(function() {
-
-    proccess_table('Inventario');
-
     $('#example').dataTable({
-
         "language": {
             "lengthMenu": "Mostrar _MENU_ archivos por pagina",
             "zeroRecords": "No se encontro ningun archivo",
@@ -13,17 +9,16 @@ $(document).ready(function() {
             "infoEmpty": "No hay archivos disponibles",
             "infoFiltered": "- ( filtrado de _MAX_ archivos )"
         },
-        
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthS",                      "sTitle": "Fecha",       "aTargets": [1]},
-            {"sClass": "mod_codigo hover  widthM",                     "sTitle": "M.P.",        "aTargets": [2]},
-            {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Monto",       "aTargets": [3]},
-            {"sClass": "mod_codigo hover  widthL",                     "sTitle": "Observaciones","aTargets": [4]},
-            {"sClass": "widthS icons center",                          "sTitle": "",             "aTargets": [5],
+            {"sClass": "mod_codigo hover width20",                      "sTitle": "Usuario",     "aTargets": [0]},
+            {"sClass": "mod_codigo hover width10",                      "sTitle": "Fecha",       "aTargets": [1]},
+            {"sClass": "mod_codigo hover  width10",                     "sTitle": "M.P.",        "aTargets": [2]},
+            {"sClass": "mod_codigo hover right width5 formato_precio", "sTitle": "Monto",       "aTargets": [3]},
+            {"sClass": "mod_codigo hover  width50",                     "sTitle": "Observaciones","aTargets": [4]},
+            {"sClass": "width5 icons center",                          "sTitle": "",             "aTargets": [5],
                 "orderable": false,
                 "mRender": function() {
-                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i> <i style="padding-left:10px" class="fa fa-trash-o btn-link theme-c" onClick="_delete_dt(this)"></i>';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i> <i style="padding-left:10px" class="fa fa-trash-o btn-link theme-c" url="admin/compras/payments/" onClick="_delete_dt(this)"></i>';
                 }
             },
         ],
@@ -34,7 +29,6 @@ $(document).ready(function() {
                 $(this).html(formato_precio($(this).html()));
             });
         },
-
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,

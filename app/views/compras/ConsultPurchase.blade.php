@@ -1,11 +1,7 @@
-
+@include('proveedor_partials.head_content_table')
 <script>
 $(document).ready(function() {
-
-    proccess_table('Inventario');
-
     $('#example').dataTable({
-
         "language": {
             "lengthMenu": "Mostrar _MENU_ archivos por pagina",
             "zeroRecords": "No se encontro ningun archivo",
@@ -13,16 +9,15 @@ $(document).ready(function() {
             "infoEmpty": "No hay archivos disponibles",
             "infoFiltered": "- ( filtrado de _MAX_ archivos )"
         },
-        
         "aoColumnDefs": [
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Fecha",       "aTargets": [0]},
-            {"sClass": "mod_codigo hover widthS",                      "sTitle": "F. Doc.",  "aTargets": [1]},
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [2]},
-            {"sClass": "mod_codigo hover widthM",                      "sTitle": "Proveedor",   "aTargets": [3]},
-            {"sClass": "mod_codigo hover  widthS",                     "sTitle": "Factura",     "aTargets": [4]},
-            {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Total",       "aTargets": [5]},
-            {"sClass": "mod_codigo hover right widthS formato_precio", "sTitle": "Saldo",       "aTargets": [6]},
-            {"sClass": "widthS center icons",   "sTitle": "",   "aTargets": [7],
+            {"sClass": "mod_codigo hover width15",                      "sTitle": "Fecha",       "aTargets": [0]},
+            {"sClass": "mod_codigo hover width10",                      "sTitle": "F. Doc.",  "aTargets": [1]},
+            {"sClass": "mod_codigo hover width20",                      "sTitle": "Usuario",     "aTargets": [2]},
+            {"sClass": "mod_codigo hover width20",                      "sTitle": "Proveedor",   "aTargets": [3]},
+            {"sClass": "mod_codigo hover  width10",                     "sTitle": "Factura",     "aTargets": [4]},
+            {"sClass": "mod_codigo hover right width10 formato_precio", "sTitle": "Total",       "aTargets": [5]},
+            {"sClass": "mod_codigo hover right width10 formato_precio", "sTitle": "Saldo",       "aTargets": [6]},
+            {"sClass": "width5 center icons",   "sTitle": "",   "aTargets": [7],
                 "orderable": false,
                 "mRender": function() {
                     return ' <i class="fa fa-plus-square btn-link theme-c" onClick="showPurchasesDetail(this)"></i>';
@@ -36,12 +31,10 @@ $(document).ready(function() {
                 $(this).html(formato_precio($(this).html()));
             });
         },
-
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
         "sAjaxSource": "admin/compras/Purchase_dt?proveedor_id={{Input::get('proveedor_id')}}"
     });
-
 });
 </script>

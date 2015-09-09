@@ -7,3 +7,21 @@
 .navbar-search {
 	margin-right: 2px;
 }
+
+
+#divFormPayments {
+	padding-bottom: 35px !important;
+}
+
+#formPayments {
+	padding-bottom: 10px;
+}
+
+
+#main_container {
+    margin-bottom: 50px;
+    margin-left: 50px;
+    display: block;
+    padding-bottom: 50px;
+}
+

@@ -16,7 +16,7 @@
 
 
 <div id="print_test"></div>
-<div id="garantiaContainer" style="display:none; z-index:-1;"></div>
+<div id="garantiaContainer" style="display:none; z-index:-1;" style="background-color:#FFFFFF !important;"></div>
 
 	<!-- FORMS -->
 	<div id="forms" class="form-container col-md-10">

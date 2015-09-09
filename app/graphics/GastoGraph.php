@@ -7,6 +7,7 @@ class GastoGraph extends \BaseController
     public function form_graph_by_date_get()
     {
         $fecha_gasto = @Gasto::first()->created_at;
+        
         if ($fecha_gasto != null) 
             $first = Carbon::createFromFormat('Y-m-d H:i:s',$fecha_gasto );
         else
