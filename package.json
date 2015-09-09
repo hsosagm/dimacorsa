@@ -1,34 +1,27 @@
 {
-  "name": "gruntRocks",
+  "name": "laravel",
   "version": "0.0.0",
-  "description": "Usando Grunt com Laravel e Bootstrap",
-  "main": "Gruntfile.js",
+  "description": "test",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/elena-kolevska/grunt-laravel.git"
+    "url": "https://github.com/hsosagm/click.git"
   },
-  "keywords": [
-    "Laravel",
-    "Grunt",
-    "Bootstrap",
-    "laravel.com.br"
-  ],
-  "author": "Elena Kolevska",
-  "license": "BSD",
+  "author": "hsosa",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/elena-kolevska/grunt-laravel/issues"
+    "url": "https://github.com/hsosagm/click/issues"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-concat": "^0.5.0",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-cssmin": "~0.9.0",
-    "grunt-contrib-less": "~0.8.2",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-execute": "^0.2.2",
-    "grunt-notify": "^0.4.1",
-    "grunt-phpunit": "~0.3.1",
-    "grunt-pusher": "^0.1.0"
+    "browser-sync": "^2.9.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-livereload": "^3.8.0",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-uglify": "^1.4.0"
   }
 }
