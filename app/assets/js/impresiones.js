@@ -130,3 +130,31 @@ function printDocument(impresora, url, id)
         };
     }
 }
+
+function printDocument2()
+{
+    if (isLoaded()) {
+        qz.findPrinter();
+
+        window['qzDoneFinding'] = function() {
+            var printer = qz.getPrinter();
+            
+            if (printer !== null) {
+
+                var printer = qz.getPrinter();
+
+                qz.appendPDF(getPath() + "pdf/leonel.pdf");
+                
+                window['qzDoneAppending'] = function() {
+                    qz.printPS();
+                    window['qzDoneAppending'] = null;
+                    return;
+                };
+            }
+            else {
+                msg.error('La impresora no se encuentra', 'Error!');
+            }
+            window['qzDoneFinding'] = null;
+        };
+    }
+}

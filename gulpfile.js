@@ -52,6 +52,7 @@ gulp.task('cssProveedor', function () {
 	])
 	.pipe(concat('proveedor.css'))
 	.pipe(gulp.dest('public/css/'))
+    .pipe(livereload())
 });
 
 gulp.task('cssCliente', function () {
@@ -74,6 +75,7 @@ gulp.task('cssCliente', function () {
 	])
 	.pipe(concat('cliente.css'))
 	.pipe(gulp.dest('public/css/'))
+    .pipe(livereload())
 });
 
 /*
@@ -102,6 +104,7 @@ gulp.task('jsCustom', function () {
 	])
 	.pipe(concat('custom.js'))
 	.pipe(gulp.dest('public/js/'))
+    .pipe(livereload())
 });
 
 gulp.task('jsProveedor', function () {
@@ -114,6 +117,7 @@ gulp.task('jsProveedor', function () {
 	])
 	.pipe(concat('proveedor.js'))
 	.pipe(gulp.dest('public/js/'))
+    .pipe(livereload())
 });
 
 gulp.task('jsCliente', function () {
@@ -128,6 +132,7 @@ gulp.task('jsCliente', function () {
 	])
 	.pipe(concat('cliente.js'))
 	.pipe(gulp.dest('public/js/'))
+    .pipe(livereload())
 });
 
 /*
