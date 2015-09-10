@@ -422,8 +422,14 @@ class VentasController extends \BaseController {
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
 
-    	if(count($venta->detalle_venta)>0)
-        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
+    	if(count($venta->detalle_venta)>0){
+    		$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta'=>$venta))->save("pdf/".Input::get('id').Auth::user()->id.'v.pdf');
+
+            return Response::json(array(
+                'success' => true,
+                'pdf'   => Input::get('id').Auth::user()->id.'v'
+            ));
+    	}
 
     	else
         	return 'Ingrese productos ala factura para poder inprimir';

@@ -14,7 +14,7 @@ div.autocomplete-suggestion {
 div.autocomplete-suggestion { white-space: nowrap; overflow: hidden; }
 div.autocomplete-selected {
     background: #F0F0F0;
-    border-radius: .3em;
+    border-radius: .3em; 
 }
 div.autocomplete-suggestions strong { 
 	font-weight: normal; 

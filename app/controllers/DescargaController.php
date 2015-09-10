@@ -152,7 +152,12 @@ class DescargaController extends BaseController {
 
         if(count($descarga->detalle_descarga)>0)
         {
-            return View::make('descargas.imprimir', compact('descarga'))->render();
+            $pdf = PDF::loadView('descargas.imprimir',  array('descarga'=>$descarga))->save("pdf/".Input::get('id').Auth::user()->id.'d.pdf');
+
+            return Response::json(array(
+                'success' => true,
+                'pdf'   => Input::get('id').Auth::user()->id.'d'
+            ));
         }
         else
             return 'Ingrese productos ala Descarga para poder inprimir';

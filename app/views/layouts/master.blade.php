@@ -62,36 +62,6 @@
     if($.trim(deployJava.getJREs())== ""){
                 
     }
-
-     if (isLoaded()) {
-        impresora = 'IP2700-series';
-        qz.findPrinter(impresora);
-
-        window['qzDoneFinding'] = function() {
-            var printer = qz.getPrinter();
-            
-            if (printer !== null) {
-                    /*qz.appendPDF("http://localhost:4000/leonel.pdf");
-                    qz.setCopies(1);*/
-
-                    $.get("test", function( data ) {
-                        qz.appendHTML('<html>' +data+'</html>');
-                        qz.printHTML();
-                    });
-                    
-
-                   /* window['qzDoneAppending'] = function() {
-                        qz.printPS();
-                        window['qzDoneAppending'] = null;
-                    };*/
-            }
-            else {
-                msg.error('La impresora "'+impresora+'" no se encuentra', 'Error!');
-            }
-
-            window['qzDoneFinding'] = null;
-        };
-    }
     </script>
 
     <script>

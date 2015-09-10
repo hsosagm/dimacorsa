@@ -251,12 +251,19 @@ class TrasladoController extends \BaseController {
 
     public function getTrasladosEnviados()
     {
-        return View::make('traslado.getTrasladosEnviados')->render();
+
+        $comprobante = DB::table('printer')->select('impresora')
+        ->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'comprobante')->first();
+
+        return View::make('traslado.getTrasladosEnviados',compact('comprobante'))->render();
     }
 
     public function getTrasladosRecibidos()
     {
-        return View::make('traslado.getTrasladosRecibidos')->render();
+        $comprobante = DB::table('printer')->select('impresora')
+        ->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'comprobante')->first();
+
+        return View::make('traslado.getTrasladosRecibidos', compact('comprobante'))->render();
     }
 
     public function getTrasladosEnviados_dt()
@@ -301,6 +308,30 @@ class TrasladoController extends \BaseController {
         $Where .= " AND traslados.status = 1";
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $Where);
+    }
+
+    public function ImprimirTraslado()
+    {
+        $traslado = Traslado::with('detalle_traslado')->find(Input::get('id'));
+        $tienda_d = Tienda::find($traslado->tienda_id_destino);
+        $tienda_o = Tienda::find($traslado->tienda_id);
+
+        $tienda['origen'] = $tienda_o->nombre." ".$tienda_o->direccion;
+        $tienda['destino'] = $tienda_d->nombre." ".$tienda_d->direccion;
+        
+        if(count($traslado->detalle_traslado)>0)
+        {
+
+            $pdf = PDF::loadView('traslado.imprimir',  array('traslado'=>$traslado , 'tienda' => $tienda))
+            ->save("pdf/".Input::get('id').Auth::user()->id.'t.pdf');
+
+            return Response::json(array(
+                'success' => true,
+                'pdf'   => Input::get('id').Auth::user()->id.'t'
+            ));
+        }
+        else
+            return 'Ingrese productos ala Descarga para poder inprimir';
     }
 
 }
