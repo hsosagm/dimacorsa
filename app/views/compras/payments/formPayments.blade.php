@@ -1,3 +1,5 @@
+@include('proveedor_partials.head_content')
+
 <div id="formPayments" class="panel panel-tab rounded shadow">
 	<div class="panel-heading no-padding">
 		<ul class="nav nav-tabs nav-pills">
@@ -8,7 +10,7 @@
 			</li>
 
 			<li>
-				<a aria-expanded="false" href="#tab4" data-toggle="tab" onclick="GetPurchasesForPaymentsBySelection(1, null);">
+				<a aria-expanded="false" href="#tab4" data-toggle="tab" v-on="click: GetPurchasesForPaymentsBySelection(1, null);">
 					<i class="fa fa-paypal"></i> <span>Seleccionar Compras</span>
 				</a>
 			</li>

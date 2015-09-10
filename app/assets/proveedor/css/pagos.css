@@ -2,11 +2,6 @@
 	padding: 5px;
 } 
 
-.OverdueBalance_Details , .FullBalance_Details {
-	height: 125px;
-	margin-top: 5px;
-	font-size: 10px;
-}
  .totales-pagos {
         color: black;
         font-size: 10px;

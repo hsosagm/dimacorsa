@@ -337,7 +337,12 @@
             Route::get('proveedores'                 , 'ProveedorController@proveedores' );
             Route::get('ImprimirAbono'               , 'ProveedorController@ImprimirAbono' );
             Route::get('getInfoProveedor'            , 'ProveedorController@getInfoProveedor');
+            Route::post('crearProveedor'             , 'ProveedorController@create');
+            Route::post('actualizarProveedor'        , 'ProveedorController@edit');
+            Route::post('eliminarProveedor'          , 'ProveedorController@delete');
         });
+
+
 
         Route::group(array('prefix' => 'compras'), function()
         {
@@ -533,13 +538,16 @@
 
     });
 
-Route::get('exportar/{tipo}' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
+Route::get('exportar/' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
 
 Route::get('test', function()
 {
 
+        $venta = Venta::with('cliente', 'detalle_venta')->find(30335);
 
+        $pdf = PDF::loadView('ventas.DemoFactura',  array('venta' => $venta ))->setPaper('letter');
 
+        return $pdf->stream(); 
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
@@ -563,7 +571,8 @@ Route::get('cached', array('after' => 'cache:30', function() {
     return $total;
 }));
 
-/*Route::get('timetest', function() 
+/*
+Route::get('timetest', function() 
 {
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);

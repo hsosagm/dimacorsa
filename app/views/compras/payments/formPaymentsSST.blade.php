@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="col-md-2">
-                            <input  class="btn theme-button" type="button" value="Enviar" onclick="abonosComprasPorSeleccion(this);" >
+                            <input  class="btn theme-button" type="button" value="Enviar" v-on="click: abonosComprasPorSeleccion($event);" >
                         </div>
                     </div>
 

@@ -60,3 +60,7 @@
 		</div>
 	</div>
 </div>
+
+<style type="text/css" media="screen">
+	.modal-dialog { width: 800px; }
+</style>

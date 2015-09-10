@@ -33,12 +33,12 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Proveedores" data-toggle="tooltip">
-                        <i class="fa fa-list-alt" id="proveedores"></i>
+                        <i class="fa fa-list-alt" v-on="click: proveedoresListado"></i>
                     </a>
                 </li>
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compras Pendientes" data-toggle="tooltip">
-                        <i class="fa fa-money" onclick="getComprasPedientesDePago();"></i>
+                        <i class="fa fa-money" v-on="click: getComprasPedientesDePago"></i>
                     </a>
                 </li>
                  <li class="dropdown navbar-profile" style="margin-right: 25px;">
