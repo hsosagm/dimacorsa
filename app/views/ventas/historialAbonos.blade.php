@@ -13,8 +13,8 @@
 		    
 		    <thead>
 		        <tr>
-		            <th>Fecha</th>
 		            <th>Usuario</th>
+		            <th>Fecha</th>
 		            <th>Metodo pago</th>
 		            <th>Monto</th>
 		            <th>Observaciones</th>
@@ -24,8 +24,8 @@
 
 			<tbody>
 		        <tr v-repeat="av: historialAbonos" id="@{{av.id}}">
-		            <td> @{{ av.fecha }} </td>
 		            <td> @{{ av.usuario }} </td>
+		            <td> @{{ av.fecha }} </td>
 		            <td> @{{ av.metodoPago }} </td>
 		            <td class="right"> @{{ av.monto | currency ' ' }} </td>
 		            <td> @{{ av.observaciones }} </td>

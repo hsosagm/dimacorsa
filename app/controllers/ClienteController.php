@@ -337,7 +337,7 @@ class ClienteController extends \BaseController {
         $ventas = DB::table('ventas')
         ->select(DB::raw("ventas.id,
             ventas.total,
-            ventas.created_at as fecha, 
+            ventas.created_at as fecha,
             CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
             clientes.nombre as cliente,
             saldo"))
@@ -384,7 +384,7 @@ class ClienteController extends \BaseController {
             ->join('users', 'abonos_ventas.user_id', '=', 'users.id')
             ->join('metodo_pago', 'abonos_ventas.metodo_pago_id', '=', 'metodo_pago.id')
             ->where('cliente_id', Input::get('cliente_id'))
-            ->orderBy('fecha', 'ASC')
+            ->orderBy('fecha', 'DESC')
             ->get();
 
         $comprobante = DB::table('printer')->select('impresora')
@@ -394,30 +394,6 @@ class ClienteController extends \BaseController {
             'success' => true,
             'data'    => $abonosVentas,
             'table'   => View::make('ventas.historialAbonos', compact('comprobante'))->render()
-        ));
-    }
-
-    public function getHistorialPagos()
-    {
-        $pagosVentas = DB::table('pagos_ventas')
-            ->select(DB::raw("monto,
-                CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
-                CONCAT_WS(' ',tiendas.nombre,tiendas.direccion) as tienda,
-                pagos_ventas.created_at as fecha,
-                ventas.id as factura,
-                metodo_pago.descripcion as metodoPago"))
-            ->join('metodo_pago', 'pagos_ventas.metodo_pago_id', '=', 'metodo_pago.id')
-            ->join('ventas', 'pagos_ventas.venta_id', '=', 'ventas.id')
-            ->join('users', 'ventas.user_id', '=', 'users.id')
-            ->join('tiendas', 'ventas.tienda_id', '=', 'tiendas.id')
-            ->where('cliente_id', Input::get('cliente_id'))
-            ->orderBy('fecha', 'ASC')
-            ->get();
-
-        return Response::json(array(
-            'success' => true,
-            'data'    => $pagosVentas,
-            'table'   => View::make('ventas.historialPagos')->render()
         ));
     }
 

@@ -96,6 +96,7 @@ var vm = new Vue({
 
 
 		getFormAbonosVentas: function() {
+			vm.tableDetail = '';
 			$.ajax({
 				type: 'GET',
 				url: "user/ventas/payments/formPayments",

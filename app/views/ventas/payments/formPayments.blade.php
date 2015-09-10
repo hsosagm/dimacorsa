@@ -61,7 +61,7 @@
  										</div>
 
  										<div class="col-md-2">
- 											<input v-if="!tableDetail" class="btn theme-button" type="submit" value="Enviar">
+ 											<input v-show="!tableDetail" class="btn theme-button" type="submit" value="Enviar">
  										</div>
  									</div>
 
