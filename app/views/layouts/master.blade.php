@@ -57,9 +57,46 @@
     <script type="text/javascript" src="js/qz/qz.js"></script>
     <script type="text/javascript" src="js/qz/html2canvas.js"></script>
     <script type="text/javascript" src="js/qz/jquery.plugin.html2canvas.js"></script>
+    
+    <script type="text/javascript">
+    if($.trim(deployJava.getJREs())== ""){
+                
+    }
+
+     if (isLoaded()) {
+        impresora = 'IP2700-series';
+        qz.findPrinter(impresora);
+
+        window['qzDoneFinding'] = function() {
+            var printer = qz.getPrinter();
+            
+            if (printer !== null) {
+                    /*qz.appendPDF("http://localhost:4000/leonel.pdf");
+                    qz.setCopies(1);*/
+
+                    $.get("test", function( data ) {
+                        qz.appendHTML('<html>' +data+'</html>');
+                        qz.printHTML();
+                    });
+                    
+
+                   /* window['qzDoneAppending'] = function() {
+                        qz.printPS();
+                        window['qzDoneAppending'] = null;
+                    };*/
+            }
+            else {
+                msg.error('La impresora "'+impresora+'" no se encuentra', 'Error!');
+            }
+
+            window['qzDoneFinding'] = null;
+        };
+    }
+    </script>
 
     <script>
         $(document).ready(function(){
+
             /*configuracion del thema capturado de la base de datos*/ 
             $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
             $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');

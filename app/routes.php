@@ -543,11 +543,14 @@ Route::get('exportar/' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
 Route::get('test', function()
 {
 
+
         $venta = Venta::with('cliente', 'detalle_venta')->find(30335);
 
+        return View::make('ventas.DemoFactura', compact('venta'));
+        
         $pdf = PDF::loadView('ventas.DemoFactura',  array('venta' => $venta ))->setPaper('letter');
 
-        return $pdf->stream(); 
+        return $pdf->download("test.pdf"); 
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
