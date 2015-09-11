@@ -26,8 +26,8 @@
 </li>
 
 <li>
-    <a  href="javascript:void(0);">
-        <span class="icon"><i class="fa fa-pencil"></i></span>
-        <input type="button" onClick="printDocument2()" value="Imprimir PDF" /><br />
+    <a id="graph_s" href="javascript:void(0);">
+        <span class="icon"><i class="fa fa-group"></i></span>
+        <span class="text">Soporte</span>
     </a>
 </li>

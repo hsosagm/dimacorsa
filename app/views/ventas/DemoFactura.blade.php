@@ -16,7 +16,7 @@
             <td colspan="4"> Nombre: {{ @$venta->cliente->nombre.' '.@$venta->cliente->apellido }}</td>
         </tr>
     </table>
-    <div style="font-size:11px; height:550px;">
+    <div style="font-size:11px; height:550px;"> 
         <table width="100%">
             <tr style="text-align:center;">
                 <td width="8%">Cantidad</td>

@@ -450,7 +450,7 @@ $(document).on('click', '.pagination_cierre_graficas a', function (e) {
 		<!--  inicio de compras del dia -->
 		@if(count($dataDetalle['todos']['detalleCompras']))
 		<div style="border-bottom:solid 1px #000000">
-			<h5> <strong>&nbsp;&nbsp;&nbsp;Comrpas del Dia</strong> </h5>
+			<h5> <strong>&nbsp;&nbsp;&nbsp;Compras del Dia</strong> </h5>
 			<table width="100%" class=""> 
 				<thead>
 					<tr class="bg-theme" style="opacity: 0.6;">

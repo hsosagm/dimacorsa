@@ -224,7 +224,14 @@ class SalesPaymentsController extends \BaseController {
 
         $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
 
-        return View::make('ventas.payments.ImprimirAbonoVenta', compact("detalle", 'abonos_venta','saldo'));
+        $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta',  array(
+            'detalle' => $detalle, 'abonos_venta' => $abonos_venta, 'saldo' => $saldo))
+        ->save("pdf/".Input::get('id').Auth::user()->id.'ac.pdf');
+
+        return Response::json(array(
+            'success' => true,
+            'pdf'   => Input::get('id').Auth::user()->id.'ac'
+        ));
     }
 
     public function getDetalleAbono()

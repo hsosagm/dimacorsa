@@ -5,8 +5,21 @@
  ?>
 
    <div align="center"> 
-        <h2> Constancia de Descarga : {{ $descarga->id }} </h2>
+        <h2> Constancia de Traslado </h2>
    </div>
+   <br>
+	<table style="width:100%">
+        <tr>
+            <td width="15%" align="center" style="{{$brtdTop}}"> Origen :  </td>
+            <td width="85%" style="{{$brtdTop}}"> {{ $tienda['origen']}} </td>
+        </tr>
+        <tr>
+            <td style="{{$brtdBottom}}" width="15%" align="center"> Destino: </td>
+            <td style="{{$brtdBottom}}" width="85%"> {{ $tienda['destino']}} </td>
+        </tr>
+    </table>
+<br>
+<br>
     <table style="width:100%">
         <tr>
             <th width="15%" style="{{$brtdBT}}">Cantidad</th>
@@ -15,7 +28,7 @@
             <th width="15%" style="{{$brtdBT}}">Total</th>
         </tr>
         <?php $total = 0; ?>
-        @foreach($descarga->detalle_descarga as $key => $dt)
+        @foreach($traslado->detalle_traslado as $key => $dt)
         <tr style="font-size:12px; ">
             <td width="15%"> {{ $dt->cantidad }} </td>   
             <td width="55%"> {{ $dt->producto->descripcion}} </td>
@@ -40,14 +53,13 @@
         </tr>
         <tr>
             <td width="33%" align="center"> {{ Auth::user()->nombre .' '.Auth::user()->apellido }} </td>
-            <td width="33%" align="center"> {{ $descarga->created_at }}</td>
+            <td width="33%" align="center"> {{ $traslado->created_at }}</td>
             <td width="33%" align="center"> {{ date('Y-m-d h:i:s')}} </td>
         </tr>
     </table>
     <br>
     Nota:
     <table style="width:100%;">
-        <tr> <td width="100%" style="{{$brtdBT}}">-{{ $descarga->descripcion }}</td>  </tr>
-        <tr> <td width="100%">-</td> </tr>
-        <tr> <td width="100%" style="{{$brtdBT}}">-</td> </tr>
+        <tr> <td width="100%" style="{{$brtdBT}}">-{{ $traslado->nota }}</td>  </tr>
+        <tr> <td width="100%" style="{{$brtdBottom}}">-</td> </tr>
     </table>

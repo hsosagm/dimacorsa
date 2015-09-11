@@ -277,7 +277,14 @@ class ProveedorController extends BaseController {
 
         $saldo = Compra::where('proveedor_id', '=' , $abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
 
-        return View::make('proveedor.ImprimirAbono',compact('abono', 'detalle' , 'saldo'))->render();
+        $pdf = PDF::loadView('proveedor.ImprimirAbono',  array(
+            'detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo))
+        ->save("pdf/".Input::get('id').Auth::user()->id.'ap.pdf');
+
+        return Response::json(array(
+            'success' => true,
+            'pdf'   => Input::get('id').Auth::user()->id.'ap'
+        ));
     }
 
 

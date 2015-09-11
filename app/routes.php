@@ -14,6 +14,15 @@
     Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
     /******************************************************************************/
     
+    /******************************************************************************/
+    Route::post('ImprimirGarantia'          , 'VentasController@ImprimirGarantia');
+    Route::post('ImprimirDescarga'          , 'DescargaController@ImprimirDescarga');
+    Route::post('ImprimirTraslado'           , 'TrasladoController@ImprimirTraslado');
+    Route::post('ImprimirAbonoCliente'      , 'SalesPaymentsController@imprimirAbonoVenta');
+    Route::post('ImprimirAbonoProveedor'     , 'ProveedorController@ImprimirAbono' );
+
+    /******************************************************************************/
+
     Route::get('/'     , 'HomeController@index'   );
     Route::get('logIn' , 'HomeController@login'   );
     Route::get('logout', 'HomeController@logout'  );
@@ -171,10 +180,7 @@
             Route::get('getModalImprimirVenta'                  , 'VentasController@getModalImprimirVenta'  );
             Route::get('printInvoice'                           , 'VentasController@printInvoice'  );
             // Route::get('ImprimirFacturaVenta'                   , 'VentasController@ImprimirFacturaVenta'  );
-            Route::get('imprimirFactura'                   , 'VentasController@imprimirFactura'  ); // for test
-            Route::get('ImprimirGarantia'                       , 'VentasController@ImprimirGarantia'  );
-            Route::get('ImprimirGarantiaVenta/dt/{code}/{id}'   , 'VentasController@ImprimirGarantiaVenta_dt'  );
-            Route::get('imprimirAbonoVenta/{id}'                , 'VentasController@imprimirAbonoVenta'  );
+            Route::get('imprimirFactura'                        , 'VentasController@imprimirFactura'  ); // for test
             Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');
             Route::get('getVentasPendientesPorCliente'          , 'VentasController@getVentasPendientesPorCliente' );
             Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
@@ -185,13 +191,12 @@
 
             Route::group(array('prefix' => 'payments'),function() 
             {
-                Route::get('formPayments'              , 'SalesPaymentsController@formPayments');
-                Route::post('formPayments'             , 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination'    , 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'       , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'         , 'SalesPaymentsController@SelectedPaySales'  );
-                Route::get('getDetalleAbono'           , 'SalesPaymentsController@getDetalleAbono'  );
-                Route::get('imprimirAbonoVenta'        , 'SalesPaymentsController@imprimirAbonoVenta'  );
+                Route::get('formPayments'               , 'SalesPaymentsController@formPayments');
+                Route::post('formPayments'              , 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination'     , 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('eliminarAbonoVenta'        , 'SalesPaymentsController@eliminarAbonoVenta'  );
+                Route::post('SelectedPaySales'          , 'SalesPaymentsController@SelectedPaySales'  );
+                Route::get('getDetalleAbono'            , 'SalesPaymentsController@getDetalleAbono'  );
             });
         });
 
@@ -335,7 +340,6 @@
             Route::post('total_credito'              , 'ProveedorController@TotalCredito'   );
             Route::get('ShowModalPaySupplier'        , 'ProveedorController@ShowModalPaySupplier'  );
             Route::get('proveedores'                 , 'ProveedorController@proveedores' );
-            Route::get('ImprimirAbono'               , 'ProveedorController@ImprimirAbono' );
             Route::get('getInfoProveedor'            , 'ProveedorController@getInfoProveedor');
             Route::post('crearProveedor'             , 'ProveedorController@create');
             Route::post('actualizarProveedor'        , 'ProveedorController@edit');
@@ -402,7 +406,6 @@
             Route::get('edit'                               , 'DescargaController@edit'   );
             Route::post('eliminar_detalle'                  , 'DescargaController@eliminar_detalle'   );
             Route::post('delete'                            , 'DescargaController@delete'   );
-            Route::get('ImprimirDescarga'                   , 'DescargaController@ImprimirDescarga'   );
             Route::get('OpenTableDownloadsDay'              , 'DescargaController@OpenTableDownloadsDay' );
             Route::get('DownloadsDay_dt'                    , 'DescargaController@DownloadsDay_dt'  );
             Route::get('showgDownloadsDetail'               , 'DescargaController@showgDownloadsDetail'  );
@@ -537,17 +540,23 @@
         });
 
     });
-
-Route::get('exportar/' , 'ExportarController@exportarEstadoDeCuentaPorCliente');
-
-Route::get('test', function()
+    
+Route::post('/eliminar_pdf', function()
 {
+    $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
+    if (is_file($file)) {
+        chmod($file,0777);
+        if(!unlink($file)){ }
+    } 
+});
 
-        $venta = Venta::with('cliente', 'detalle_venta')->find(30335);
+Route::get('/test', function()
+{
+    $venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
 
-        $pdf = PDF::loadView('ventas.DemoFactura',  array('venta' => $venta ))->setPaper('letter');
-
-        return $pdf->stream(); 
+    $pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta'=>$venta));
+    
+    return $pdf->stream(); 
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

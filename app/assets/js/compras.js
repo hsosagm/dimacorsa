@@ -13,7 +13,7 @@ $(function() {
     $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);}); 
     $(document).on("enter", "#serialsDetalleCompra",                function(){ guardarSerieDetalleCompra(); });
 });
-
+ 
 function f_com_op()  {    
     $.get( "admin/compras/create", function( data ) {
         $('.panel-title').text('Formulario Compras');

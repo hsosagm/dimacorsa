@@ -57,9 +57,16 @@
     <script type="text/javascript" src="js/qz/qz.js"></script>
     <script type="text/javascript" src="js/qz/html2canvas.js"></script>
     <script type="text/javascript" src="js/qz/jquery.plugin.html2canvas.js"></script>
+    
+    <script type="text/javascript">
+    if($.trim(deployJava.getJREs())== ""){
+                
+    }
+    </script>
 
     <script>
         $(document).ready(function(){
+
             /*configuracion del thema capturado de la base de datos*/ 
             $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
             $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');

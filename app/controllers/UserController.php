@@ -175,7 +175,10 @@ class UserController extends Controller {
 		$factura = DB::table('printer')->select('impresora')
 		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
 
-		return View::make('user_consulta.VentasDelDia',compact('factura'));
+		$garantia = DB::table('printer')->select('impresora')
+		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'garantia')->first();
+
+		return View::make('user_consulta.VentasDelDia',compact('factura','garantia'));
 	}
 
 	public function VerTablaSoporteDelDiaUsuario()
