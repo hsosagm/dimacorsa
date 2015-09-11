@@ -32,6 +32,8 @@
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
+
+            "order": [[ 1, "desc" ]],
             
             "aoColumnDefs": [
                 {"sClass": "widthS",                        "sTitle": "Usuario",                      "aTargets": [0]},
@@ -45,7 +47,7 @@
                     }
                 }
             ],
-
+  
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
                 $("td[class*='formato_precio']").each(function() {

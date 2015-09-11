@@ -26,10 +26,9 @@
 
             <tbody>
                 @foreach($ventas as $q)
-                   <!-- <tr id="{{$q->cliente_id}}" class="{{($q->saldo_vencido > 0)? 'red':''}}" v-on="click: goToCustomer({{$q->cliente_id}})" style="cursor:pointer">-->
-                   <tr id="{{$q->cliente_id}}" class="{{($q->saldo_vencido > 0)? 'red':''}}" style="cursor:pointer">
+                    <tr id="{{$q->cliente_id}}" class="{{($q->saldo_vencido > 0)? 'red':''}}">
                         <td style="display:none" width="10%"> {{ $q->fecha }} </td>
-                        <td class="" width="23%"> {{ $q->cliente }} </td>
+                        <td width="23%" v-on="click: goToCustomer({{$q->cliente_id}})" style="cursor:pointer;">{{ $q->cliente }} <i class="fa fa-search" style="float: right; margin-right:5px;"></i></td>
                         <td class="" width="22%"> {{ $q->direccion }} </td>
                         <td class="right" width="10%"> {{ f_num::get($q->total) }} </td>
                         <td class="right" width="10%"> {{ f_num::get($q->saldo_total) }} </td>

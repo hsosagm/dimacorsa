@@ -33,7 +33,6 @@
             <ul>
                 <li><a href="javascript:void(0);" v-on="click: salesByCustomer">Historial de Ventas</a></li>
                 <li><a href="javascript:void(0);" v-on="click: creditSalesByCustomer">Pendientes de pago</a></li>
-                <li><a href="javascript:void(0);" v-on="click: getHistorialPagos">Historial de pagos</a></li>
                 <li><a href="javascript:void(0);" v-on="click: getHistorialAbonos">Historial de abonos</a></li>
             </ul>
         </li>

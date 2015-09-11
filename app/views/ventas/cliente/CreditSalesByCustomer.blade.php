@@ -52,8 +52,8 @@
 
 <style type="text/css">
     .display th:nth-child(1) { width: 17% !important; }
-    .display th:nth-child(2) { width: 13% !important; }
-    .display th:nth-child(3) { width: 40% !important; }
+    .display th:nth-child(2) { width: 15% !important; }
+    .display th:nth-child(3) { width: 38% !important; }
     .display th:nth-child(4) { width: 9% !important; }
     .display th:nth-child(5) { width: 9% !important; }
     .display th:nth-child(6) { width: 12% !important; }
