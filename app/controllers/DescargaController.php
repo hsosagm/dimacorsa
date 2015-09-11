@@ -213,6 +213,7 @@ class DescargaController extends BaseController {
     public function ingresarSeriesDetalleDescarga()
     {
         if (Input::get('guardar') == true) {
+            Input::merge(array('serials' => str_replace("'", '', Input::get('serials'))));
             $detalle_descarga = DetalleDescarga::find(Input::get('detalle_descarga_id'));
             $detalle_descarga->serials = Input::get('serials');
             $detalle_descarga->save();

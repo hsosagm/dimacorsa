@@ -12,6 +12,7 @@ function f_ven_op() {
         $(".forms").html(data);
         ocultar_capas();
         $(".form-panel").show();
+        $('#cliente').focus();
     });
 }
  
@@ -350,14 +351,18 @@ function ingresarSeriesDetalleVenta(e, detalle_venta_id) {
             $('.modal-body').html(data.view);
             $('.modal-title').text( 'Ingresar Series');
             $('.bs-modal').modal('show');
-            return $("input[name='serials']").focus();
+            setTimeout(function(){
+                $("#serialsDetalleVenta").focus();
+            }, 500);
+            return ;
         }
         msg.warning(data, 'Advertencia!');
     });
 }
 
 function guardarSerieDetalleVenta () {
-    if($.trim($("#serialsDetalleVenta").val()) != ''){
+
+    if($.trim($("#serialsDetalleVenta").val().replace("'","")) != ''){
         var ingreso = true;
         $("#listaSeriesDetalleVenta").html("");
 
@@ -366,14 +371,14 @@ function guardarSerieDetalleVenta () {
             $tr = '<tr><td>'+serialsDetalleVenta[i]+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleVenta(this,'+$value+');"></i></td></tr>';
             $("#listaSeriesDetalleVenta").prepend($tr);
-            if(serialsDetalleVenta[i] == $("#serialsDetalleVenta").val())
+            if(serialsDetalleVenta[i] == $("#serialsDetalleVenta").val().replace("'",""))
                 ingreso = false
         };
 
         if(ingreso == true) {
             serialsDetalleVenta.push($("#serialsDetalleVenta").val());
-            $value ="'"+$("#serialsDetalleVenta").val()+"'";
-            $tr  = '<tr><td>'+$("#serialsDetalleVenta").val()+'</td>';
+            $value ="'"+$("#serialsDetalleVenta").val().replace("'","")+"'";
+            $tr  = '<tr><td>'+$("#serialsDetalleVenta").val().replace("'","")+'</td>';
             $tr += '<td><i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleVenta(this,'+$value+');"></i></td></tr>';
             $("#listaSeriesDetalleVenta").prepend($tr);
             msg.success('Serie ingresada..!', 'Listo!');

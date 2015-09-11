@@ -229,7 +229,10 @@ var app = new Vue({
                     $('.modal-body').html(data.view);
                     $('.modal-title').text( 'Ingresar Series');
                     $('.bs-modal').modal('show');
-                    return $("input[name='serials']").focus();
+                    setTimeout(function(){
+                        $("#serialsDetalleVenta").focus();
+                    }, 500);
+                    return ;
                 }
                 msg.warning(data, 'Advertencia!');
             });

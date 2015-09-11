@@ -579,8 +579,9 @@ class VentasController extends \BaseController {
 	public function ingresarSeriesDetalleVenta()
 	{
 		if (Input::get('guardar') == true) {
+			Input::merge(array('serials' => str_replace("'", '', Input::get('serials'))));
 			$detalle_venta = DetalleVenta::find(Input::get('detalle_venta_id'));
-			$detalle_venta->serials = Input::get('serials');
+			$detalle_venta->serials = Input::get('serials') ; 
 			$detalle_venta->save();
 
 			return Response::json(array('success' => true));

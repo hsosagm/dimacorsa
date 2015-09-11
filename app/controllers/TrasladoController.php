@@ -19,9 +19,12 @@ class TrasladoController extends \BaseController {
 
             $destino = Tienda::find($traslado->tienda_id_destino);
 
+            $comprobante = DB::table('printer')->select('impresora')
+            ->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'comprobante')->first();
+
             return Response::json(array(
                 'success' => true, 
-                'detalle' => View::make('traslado.detalle',compact("id"))->render(),
+                'detalle' => View::make('traslado.detalle',compact("id",'comprobante'))->render(),
                 'info_head' => View::make('traslado.info_head', compact("traslado","destino"))->render()
             ));
         }
@@ -98,9 +101,12 @@ class TrasladoController extends \BaseController {
 
         $detalle = $this->consulta_detalle_traslado();
 
+        $comprobante = DB::table('printer')->select('impresora')
+            ->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'comprobante')->first();
+
         return Response::json(array(
             'success' => true, 
-            'form' => View::make('traslado.abrirTraslado',compact("id", "traslado", "destino", "detalle"))->render(),
+            'form' => View::make('traslado.abrirTraslado',compact("id", "traslado", "destino", "detalle", 'comprobante'))->render(),
             ));
     }
 
@@ -230,6 +236,7 @@ class TrasladoController extends \BaseController {
     public function ingresarSeriesDetalleTraslado()
     {
         if (Input::get('guardar') == true) {
+            Input::merge(array('serials' => str_replace("'", '', Input::get('serials'))));
             $detalle_traslado = DetalleTraslado::find(Input::get('detalle_traslado_id'));
             $detalle_traslado->serials = Input::get('serials');
             $detalle_traslado->save();

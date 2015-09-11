@@ -172,7 +172,10 @@ function ingresarSeriesDetalleTraslado(e, detalle_traslado_id) {
             $('.modal-body').html(data.view);
             $('.modal-title').text( 'Ingresar Series Traslado');
             $('.bs-modal').modal('show');
-            return $("input[name='serials']").focus();
+            setTimeout(function(){
+                $("input[name='serials']").focus();
+            }, 500);
+            return ;
         }
         msg.warning(data, 'Advertencia!');
     });

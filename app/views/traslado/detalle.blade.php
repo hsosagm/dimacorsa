@@ -38,7 +38,7 @@
 <div class="form-footer" >
     <div class="row">
         <div class="col-md-6">
-            <i class="fa fa-print fa-lg icon-print" onclick=""></i>
+            <i class="fa fa-print fa-lg icon-print" onclick="ImprimirTraslado(this, {{$id}}, '{{@$comprobante->impresora}}')"> </i>
         </div>
         <div class="col-md-6" align="right">
             <i class="fa fa-trash-o fa-lg icon-delete" onclick="eliminarTraslado(this,{{$id}});"></i>
@@ -46,3 +46,4 @@
         </div>
     </div>
 </div>
+

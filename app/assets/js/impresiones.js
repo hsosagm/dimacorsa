@@ -1,12 +1,10 @@
 
-function ExportarCierreDelMes(tipo,fecha_completa){
-
+function ExportarCierreDelMes(tipo,fecha_completa) {
     $fecha = fecha_completa.substring(0, 10); 
-
     window.open('admin/cierre/ExportarCierreDelMes/'+tipo+'/'+$fecha ,'_blank');
 }
 
-function imprimir_cierre_por_fecha_dt(e) {
+function ExportarCierreDelDiaPdf(e) {
     $fecha_completa = $(e).closest('tr').find("td").eq(3).html();
     $fecha = $fecha_completa.substring(0, 10); 
     window.open('admin/cierre/ExportarCierreDelDia/pdf/'+$fecha ,'_blank');
@@ -42,8 +40,7 @@ function ImprimirGarantia(e, id, impresora) {
     printDocument(impresora, url, id);
 }
 
-function printDocument(impresora, url, id)
-{
+function printDocument(impresora, url, id) {
     if (isLoaded()) {
         qz.findPrinter(impresora);
         window['qzDoneFinding'] = function() {
@@ -84,5 +81,3 @@ function printDocument(impresora, url, id)
         };
     }
 }
-
-

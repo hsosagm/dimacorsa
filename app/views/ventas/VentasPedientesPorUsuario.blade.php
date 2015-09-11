@@ -34,7 +34,7 @@
                         <td class="right" width="15%"> {{ f_num::get($q->saldo_total) }} </td>
                         <td class="right" width="15%"> {{ f_num::get($q->saldo_vencido) }} </td>
                         <td class="center" width="3%">
-                            <i id="{{$q->user_id}}" class="fa fa-plus-square btn-link theme-c" style="margin-left:5px" v-on="click: DetalleVentasPendientesPorUsuario($event, {{$q->user_id}})" ></i>
+                            <i id="{{$q->user_id}}" class="fa fa-search btn-link theme-c" style="margin-left:5px" v-on="click: DetalleVentasPendientesPorUsuario($event, {{$q->user_id}})" ></i>
                         </td>
                     </tr>
                 @endforeach

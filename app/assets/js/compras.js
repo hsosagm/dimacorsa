@@ -495,7 +495,11 @@ function ingresarSeriesDetalleCompra(e, detalle_compra_id) {
             $('.modal-body').html(data.view);
             $('.modal-title').text( 'Ingresar Series Compra');
             $('.bs-modal').modal('show');
-            return $("input[name='serials']").focus();
+            setTimeout(function(){
+                $("input[name='serials']").focus();
+            }, 500);
+            return ;
+            
         }
         msg.warning(data, 'Advertencia!');
     });
@@ -504,7 +508,10 @@ function ingresarSeriesDetalleCompra(e, detalle_compra_id) {
 function guardarSerieDetalleCompra () {
     if($.trim($("#serialsDetalleCompra").val()) != ''){
         var ingreso = true;
-        $("#listaSeriesDetalleCompra").html("");
+        $("#listaSeriesDetalleCompra").html("");setTimeout(function(){
+                        $("#serialsDetalleVenta").focus();
+                    }, 500);
+                    return ;
 
         for (var i = 0; i < serialsDetalleCompra.length; i++) {
             $value ="'"+serialsDetalleCompra[i]+"'";

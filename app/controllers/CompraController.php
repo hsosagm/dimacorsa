@@ -349,6 +349,7 @@ class CompraController extends \BaseController {
 	public function ingresarSeriesDetalleCompra()
 	{
 		if (Input::get('guardar') == true) {
+			Input::merge(array('serials' => str_replace("'", '', Input::get('serials'))));
 			$detalle_compra = DetalleCompra::find(Input::get('detalle_compra_id'));
 			$detalle_compra->serials = Input::get('serials');
 			$detalle_compra->save();

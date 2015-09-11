@@ -2,7 +2,7 @@
 
 {{ Form::open(array('v-on="submit: generarVenta"','class' => "form-generarVenta")) }}
     
-    <input type="hidden" name="cliente_id" v-model="cliente.id" value="1">
+    <input type="hidden" name="cliente_id" v-model="cliente.id" >
 
     <div class="row">
         <div class="col-md-6 master-detail-info">
@@ -17,26 +17,26 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" v-show="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
+                    <td colspan="2" v-if="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
                         <label class="col-md-6" style="padding-left: 0px !important;">@{{ cliente.nombre }}</label>
                         <label class="col-md-6" >Tipo Cliente: : @{{ cliente.tipocliente.nombre }}</label>
                     </td>
                 </tr>
             </table>
         </div>
-        <div class="col-md-6" style="font-size:11px">
-            <label class="col-md-3 btn-success" v-show="cliente.id">Saldo total:</label>
-            <label class="col-md-3 btn-success" v-show="cliente.id">@{{ cliente.saldo_total | currency ' '}}</label>
-            <label class="col-md-3 btn-danger" v-show="cliente.id">Saldo Vencido:</label>
-            <label class="col-md-3 btn-danger" v-show="cliente.id">@{{ cliente.saldo_vencido | currency ' '}}</label>
-            <label class="col-md-6" v-show="cliente.id">@{{ cliente.direccion }}</label>
-            <label class="col-md-3" v-show="cliente.id">NIT: @{{ cliente.nit }}</label>
-            <label class="col-md-3" v-show="cliente.id">Tel: @{{ cliente.telefono }}</label>
+        <div class="col-md-6" style="font-size:11px"  v-if="cliente.id">
+            <label class="col-md-3 btn-success" >Saldo total:</label>
+            <label class="col-md-3 btn-success" >@{{ cliente.saldo_total | currency ' '}}</label>
+            <label class="col-md-3 btn-danger" >Saldo Vencido:</label>
+            <label class="col-md-3 btn-danger" >@{{ cliente.saldo_vencido | currency ' '}}</label>
+            <label class="col-md-6" >@{{ cliente.direccion }}</label>
+            <label class="col-md-3" >NIT: @{{ cliente.nit }}</label>
+            <label class="col-md-3" >Tel: @{{ cliente.telefono }}</label>
         </div>
     </div>
 
     <div v-show="!venta_id" class="form-footer footer" align="right">
-          <button type="submit" class="btn theme-button">Enviar!</button>
+          <button type="submit" class="btn theme-button inputGuardarVenta">Enviar!</button>
     </div>
 
 {{ Form::close() }}
@@ -143,8 +143,7 @@
             app.getInfoCliente(data.id);
             $('#cliente').val("");
             app.verCliente = true;
-            $(".inputGuardar").focus();
-
+            $(".inputGuardarVenta").focus();
         }
     });
 

@@ -149,7 +149,10 @@ function ingresarSeriesDetalleDescarga(e, detalle_descarga_id) {
             $('.modal-body').html(data.view);
             $('.modal-title').text( 'Ingresar Serie Descarga');
             $('.bs-modal').modal('show');
-            return $("input[name='serials']").focus();
+            setTimeout(function(){
+                $("input[name='serials']").focus();
+            }, 500);
+            return ;
         }
         msg.warning(data, 'Advertencia!');
     });
