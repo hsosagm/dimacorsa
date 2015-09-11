@@ -1,15 +1,12 @@
 <div class="panel dt-panel-cierre rounded shadow">
-    <div class="panel-heading-cierre bg-theme">
-        <div class="pull-left">
-        	<strong >{{ strtoupper(@$titulo['fecha']) }}</strong>
-        	<br>
-        	{{ @$titulo['tienda'] }}
-        </div>
-        <div class="clearfix"></div>
-    </div>
-    <div class="panel-body-cierre no-padding" id="table " style="border-bottom: double;">
+    <div class="panel-body-cierre no-padding" id="table " style="border-bottom: 1px solid;">
 		<table width="100%" id="table table-responsive">
 			<thead class="cierre_head">
+				<tr>
+					<th colspan="7" align="center" height="30">
+						<strong >{{ strtoupper(@$titulo['fecha']) }} </strong>{{ @$titulo['tienda'] }}
+					</th>
+				</tr>
 				<tr>
 					<th width="30%" style="text-align:center"> Descripcion </th>
 					<th width="12%" style="text-align:center"> Efectivo </th>
@@ -20,7 +17,7 @@
 					<th width="12%" style="text-align:center"> Totales</th>
 				</tr>
 			</thead>
-			<tbody class="table-hover cierre_body" style="border-bottom: double;">
+			<tbody class="table-hover cierre_body" style="border-bottom: 1px solid;">
 				<tr class="">
 					<td>Ventas</td>
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('Ventas',1);"> 
@@ -253,7 +250,7 @@
 						</th>
 						<th></th>
 					</tr>
-					<tr style="border-top:solid 1px #000000">
+					<tr style="border-bottom: 1px solid;">
 						<th style="text-align: left;">Monto a depositar</th>
 						<th align="right" class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->efectivo)}}</th>
 						<th align="right" class="right" style="padding-right: 10px !important;"></th>
@@ -262,15 +259,16 @@
 						<th align="right" class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->deposito)}}</th>
 						<th></th>
 					</tr>
+
+					<tr style="border-top:solid 1px">
+						<td colspan="7" align="center">
+							*** El corte fue realizado por {{ @$corte_realizado->user->nombre.' '.@$corte_realizado->user->apellido }} a las {{ @$corte_realizado->created_at }} horas ***
+						</td>
+					</tr>
 				@endif
 			</tfoot>  
 		</table>
     </div>
-    @if(@$corte_realizado != null)
-		<div align="center">
-			*** El corte fue realizado por {{ @$corte_realizado->user->nombre.' '.@$corte_realizado->user->apellido }} a las {{ @$corte_realizado->created_at }} horas ***
-		</div>
-	@endif
     <div class="detalle_cierre_footer"> 
        <!--  inicio de ventas al credito -->
         @if(count($dataDetalle['credito']['pagosVentas']))
@@ -395,4 +393,7 @@
     </div>
 </div>
 
-
+<style>
+	td{ height:20px; }
+	th{ height:20px;}
+</style>

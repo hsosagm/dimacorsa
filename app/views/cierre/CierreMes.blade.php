@@ -3,9 +3,8 @@
 	<div class="panel-heading-cierre bg-theme">
 		<div class="pull-left"><span>Balance General - {{$data['mes']}}  </span> </div>
 		<div class="pull-right">
-			<i  class="fa fa-file-excel-o fa-2" onclick=""> </i>
-			<i class="fa fa-file-pdf-o fa-2" onclick=""> </i>
-			<i class="fa fa-print fa-2"  onclick=""> </i>
+			<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelMes('xls','{{$fecha}}')"> </i>
+			<i class="fa fa-file-pdf-o fa-2"  onclick="ExportarCierreDelMes('pdf','{{$fecha}}')"> </i>
 		</div>
 		<div class="clearfix"></div>
 	</div>

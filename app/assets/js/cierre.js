@@ -46,8 +46,8 @@ function CierreDelDiaPorFecha(e) {
 }
 
 function CierreDelMesPorFecha() {
-	fecha = $(".datepicker .calendar .days .selected").attr('date');
 
+	fecha = $(".datepicker .calendar .days .selected").attr('date');
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelMesPorFecha',

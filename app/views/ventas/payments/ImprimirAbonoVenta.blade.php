@@ -80,10 +80,10 @@
 	@foreach($detalle as $key => $dt)
 	<tr>
 		<td align="center">{{$dt->venta_id}}</td>
-		<td align="center">{{$dt->total}}</td>
-		<td align="center">{{$dt->saldo_anterior}}</td>
-		<td align="center">{{$dt->monto}}</td>
-		<td align="center">{{$dt->saldo}}</td>
+		<td align="right">{{$dt->total}}</td>
+		<td align="right">{{$dt->saldo_anterior}}</td>
+		<td align="right">{{$dt->monto}}</td>
+		<td align="right">{{$dt->saldo}}</td>
 	</tr>
 	@endforeach
 	<tr>

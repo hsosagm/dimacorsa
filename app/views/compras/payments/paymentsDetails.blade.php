@@ -24,6 +24,6 @@
 </table> 
 
 <div class="form-footer" align="right">
-	<input class="btn btn-info" onClick="ImprimirAbonoProveedor(this,{{ $abonos_compra_id }}, '{{@$comprobante->impresora}}')" type="button" value="Imprimir">
+	<input class="btn btn-info" v-on="click: imprimirAbonoProveedor(this,{{ $abonos_compra_id }}, '{{@$comprobante->impresora}}')" type="button" value="Imprimir">
 	<input class="btn btn-danger" v-on="click: eliminarAbono( this, {{$abonos_compra_id}} )" type="button" value="Eliminar">
 </div>

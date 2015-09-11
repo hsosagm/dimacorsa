@@ -88,77 +88,65 @@ class CierreController extends \BaseController {
 
     public function ExportarCierreDelDia($tipo,$fecha)
     {
-        $data = $this->resumen_movimientos($fecha);
+        $  $fecha = Input::get('fecha');
+        $fecha_enviar = "'{$fecha}'";
 
-        $caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
-        $caja_positivos = $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
-        $caja =  $caja_positivos - $caja_negativos;
-        $esperado_caja = f_num::get($caja); 
-        if ($fecha == 'current_date')
-            $fecha = Carbon::now();
-
-        $data['pagos_ventas']['titulo']   = 'Ventas';
-        $data['abonos_ventas']['titulo']  = 'Abonos';
-        $data['soporte']['titulo']        = 'Soporte';
-        $data['adelantos']['titulo']      = 'Adelantos';
-        $data['ingresos']['titulo']       = 'Ingresos';
-        $data['egresos']['titulo']        = 'Egresos';
-        $data['gastos']['titulo']         = 'Gastos';
-        $data['abonos_compras']['titulo'] = 'Abonos Compras';
-        $data['pagos_compras']['titulo']  = 'Pagos Compras';
-        $data['resultados'] = array('Efectivo esperado en caja' ,$esperado_caja,'','Fecha:','',$fecha);
-
-        Excel::create('Cierre del dia', function($excel) use($data) 
+        if ($fecha == 'current_date') 
         {
-            $excel->setTitle('Cierre del dia');
+            $fecha_enviar = 'current_date';
+            $dt = Carbon::now();
+        }
+        else
+        {
+            $dt = Carbon::createFromFormat('Y-m-d',$fecha);
+        }
+
+        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
+        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+
+        $titulo ['fecha']  = $fecha_titulo;
+
+        $data = $this->resumen_movimientos($fecha);
+        $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+
+        $corte_realizado = Cierre::with('user')->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->first();
+
+
+        if (trim($tipo) =='pdf') {
+            $pdf = PDF::loadView('cierre.ExportarCierreDelDia', array(
+                'data' => $data,
+                'fecha' => $fecha, 
+                'dataDetalle' => $dataDetalle, 
+                'corte_realizado' => $corte_realizado,
+                'titulo' => $titulo))
+            ->setPaper('letter');
+        
+            return $pdf->stream(); 
+        }
+
+
+        Excel::create('CierreDia', function($excel) use($data, $fecha, $dataDetalle, $corte_realizado, $titulo) 
+        {
+            $excel->setTitle('CierreDia');
             $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
             ->setCompany('Click Chiquimula');
             $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
             $excel->setSubject('Click');
 
-            $excel->sheet('datos', function($hoja) use($data) 
+            $excel->sheet('datos', function($hoja) use($data, $fecha, $dataDetalle, $corte_realizado, $titulo) 
             {
-                $hoja->setBorder('A1:G13', 'dashDotDot');
                 $hoja->setOrientation('landscape');
-                $hoja->fromArray($data, null, 'A3', true);
-                //$sheet->loadView('cierre.CierreDia', array('data' => $data , 'fecha' => ''));
-                $hoja->appendRow( 1, array(
-                    'Constancia de movimientos del dia'
-                    ));
-                $hoja->cells('A3:G3', function($celda) 
-                {   
-                   $celda->setValignment('middle');
-                   $celda->setAlignment('center');
-               });
-                $hoja->cells('A3:A13', function($celda) 
-                {   
-                   $celda->setValignment('middle');
-                   $celda->setAlignment('left');
-               });
-                $hoja->cells('B3:G13', function($celda) 
-                {   
-                   $celda->setValignment('middle');
-                   $celda->setAlignment('right');
-               });
-                $hoja->setColumnFormat(array(
-                    'B3:G13' => '#,##0.00_-'
-                    ));
-                $hoja->setWidth(array(
-                    'A'     =>  30,  'B'     =>  15,
-                    'C'     =>  15,  'D'     =>  15,
-                    'E'     =>  15,  'F'     =>  15,
-                    'G'     =>  15,  
-                    ));
-                $hoja->setHeight(array(
-                 1     =>  23,     5 =>  23,     9 =>  23,    13 =>  23,
-                 2     =>  23,     6 =>  23,     10 =>  23,
-                 3     =>  23,     7 =>  23,     11 =>  23,
-                 4     =>  23,     8 =>  23,     12 =>  23,
-                 ));
-            });
+                $hoja->loadView('cierre.ExportarCierreDelDia', array(
+                    'data' => $data,
+                    'fecha' => $fecha, 
+                    'dataDetalle' => $dataDetalle, 
+                    'corte_realizado' => $corte_realizado,
+                    'titulo' => $titulo));
+                });
 
-})->export("{$tipo}");
-}
+        })->export('xls');
+    }
 
 public function CierreDelDiaPorFecha()
 {
@@ -334,6 +322,108 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             return $arreglo_ordenado;
         }
 
+        public function ExportarCierreDelMes($tipo,$fecha)
+        {
+            $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+            ->first(array(DB::raw('sum(total) as total')));
+
+            $ganancias =  DB::table('users')
+            ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
+            ->join('ventas','ventas.user_id','=','users.id')
+            ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+            ->where('users.tienda_id','=',Auth::user()->tienda_id)->where('users.status','=',1)
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+            ->orderBy('total', 'DESC')->first();
+
+            $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
+            ->where('tienda_id','=',Auth::user()->tienda_id)
+            ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+            ->first(array(DB::raw('sum(monto) as total')));
+
+            $gastos = Gasto::join('detalle_gastos','detalle_gastos.gasto_id','=','gastos.id')
+            ->where('tienda_id','=',Auth::user()->tienda_id)
+            ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+            ->first(array(DB::raw('sum(monto) as total')));
+
+            $compras = Compra::where('tienda_id','=',Auth::user()->tienda_id)
+            ->first(array(DB::raw('sum(saldo) as total')));
+
+            $ventas_c = Venta::where('tienda_id','=',Auth::user()->tienda_id)
+            ->first(array(DB::raw('sum(saldo) as total')));
+
+            $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
+            ->where('tienda_id','=',Auth::user()->tienda_id)
+            ->where('existencias.existencia','>', 0)
+            ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+
+            $ventas_usuarios =  DB::table('users')
+            ->select(DB::raw('users.id, users.nombre, users.apellido,
+                sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
+                sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
+            ->join('ventas','ventas.user_id','=','users.id')
+            ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+            ->where('users.tienda_id','=',Auth::user()->tienda_id)
+            ->where('users.status','=',1)
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+            ->orderBy('total', 'DESC')
+            ->groupBy('users.id','users.nombre','users.apellido')
+            ->get();
+
+            $date = Carbon::createFromFormat('Y-m-d', "{$fecha}");
+
+            $fecha_env = Venta::first();
+
+            if (@$fecha_env->created_at == null) {
+                $fecha_env = Carbon::now();
+            }else{
+                $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
+            }
+
+            $data['dia_inicio'] =  $fecha_env;
+            $data['total_ventas'] = f_num::get($ventas->total   );
+            $data['total_ganancias'] = f_num::get($ganancias->total);
+            $data['total_soporte'] = f_num::get($soporte->total  );
+            $data['total_gastos'] = f_num::get($gastos->total   );
+            $data['compras_credito'] = f_num::get($compras->total  );
+            $data['ventas_credito'] = f_num::get($ventas_c->total );
+            $data['inversion_actual'] = f_num::get($inversion->total);
+            $data['ganancias_netas'] = f_num::get(($ganancias->total+$soporte->total)-$gastos->total);
+            $data['mes'] = Traductor::getMes($date->formatLocalized('%B')).' '.$date->formatLocalized('%Y');
+            $data['fecha'] = $date;
+            $data['fecha_input'] = $date->formatLocalized('%Y-%m-%d');
+
+            if (trim($tipo) == "pdf") {
+                $pdf = PDF::loadView('cierre.ExportarCierreDelMes', array(
+                    'data' => $data,
+                    'ventas_usuarios' => $ventas_usuarios))
+                ->setPaper('letter');
+            
+                return $pdf->stream(); 
+            }
+            
+
+            Excel::create('CierreMes', function($excel) use($data, $ventas_usuarios) 
+            {
+                $excel->setTitle('CierreMes');
+                $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
+                ->setCompany('Click Chiquimula');
+                $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
+                $excel->setSubject('Click');
+
+                $excel->sheet('datos', function($hoja) use($data, $ventas_usuarios) 
+                {
+                    $hoja->setOrientation('landscape');
+                    $hoja->loadView('cierre.ExportarCierreDelMes', array(
+                    'data' => $data,
+                    'ventas_usuarios' => $ventas_usuarios));
+                    });
+
+            })->export('xls');
+            
+        }
+
+
         function CierreDelMes()
         {
             $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
@@ -404,6 +494,7 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             $data['fecha_input'] = $date->formatLocalized('%Y-%m-%d');
 
             return View::make('cierre.balanceGeneral',compact('ventas_usuarios','data'));
+
         }
 
 
@@ -629,7 +720,12 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
         }
 
         public function CierresDelMes_dt()
-        {
+        {   
+            $fecha_enviar = "'".Input::get('fecha')."'";
+
+            if (Input::get('fecha') == 'current_date') 
+                $fecha_enviar = 'current_date';
+
             $table = 'cierre_diario';
 
             $columns = array(
@@ -645,7 +741,7 @@ public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
             JOIN users ON (users.id = cierre_diario.user_id)
             JOIN tiendas ON (tiendas.id = cierre_diario.tienda_id)";
 
-            $where = " DATE_FORMAT(cierre_diario.created_at, '%Y-%m')  = DATE_FORMAT(current_date, '%Y-%m')";
+            $where = " DATE_FORMAT(cierre_diario.created_at, '%Y-%m')  = DATE_FORMAT({$fecha_enviar}, '%Y-%m')";
             $where .= ' AND cierre_diario.tienda_id = '.Auth::user()->tienda_id;
 
             echo TableSearch::get($table, $columns, $Searchable, $Join, $where ); 

@@ -6,7 +6,6 @@
         <div class="pull-right">
         		<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
         		<i class="fa fa-file-pdf-o fa-2"onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
-        		<i class="fa fa-print fa-2" onclick="imprimir_cierre_por_fecha('{{$fecha}}')"> </i>
         		@if(!Input::has('grafica'))
         			<i onclick="click: $('.dt-container-cierre').hide();" class="fa fa-times"></i>
                 @endif

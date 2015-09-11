@@ -25,5 +25,5 @@
 
 <div class="form-footer" align="right">
 	<input class="btn btn-danger" v-on="click: eliminarAbonoPorSeleccion( this, {{$abonos_ventas_id}} )" type="button" value="Eliminar">
-	<input class="btn theme-button" v-on="click: imprimirAbonoVenta( this, {{$abonos_ventas_id}} )" type="button" value="Imprimir">
+	<input class="btn theme-button" v-on="click: imprimirAbonoVenta( this, {{$abonos_ventas_id}}, '{{@$comprobante->impresora}}' )" type="button" value="Imprimir">
 </div>

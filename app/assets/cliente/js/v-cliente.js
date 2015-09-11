@@ -256,7 +256,7 @@ var vm = new Vue({
 
 
 		imprimirAbonoVenta: function(e, id, impresora) {
-		    var url = "user/ventas/payments/imprimirAbonoVenta";
+		    var url = "ImprimirAbonoCliente";
 		    printDocument(impresora, url, id);
 		},
 
@@ -305,12 +305,6 @@ var vm = new Vue({
 					}
 				});
 			}
-		},
-
-
-		imprimirAbonoVenta: function(e ,id, impresora) {
-			var url = "user/ventas/payments/imprimirAbonoVenta";
-		    printDocument(impresora, url, id);
 		},
 
 
