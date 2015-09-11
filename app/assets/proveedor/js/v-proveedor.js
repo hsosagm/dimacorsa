@@ -523,6 +523,13 @@ var vm = new Vue({
 			$('.modal-title').text( 'Eliminar Proveedor');
 		},
 
+		imprimirAbonoProveedor: function(e, id, impresora) {
+			alert();
+			$(e.target).attr('disabled','disabled');
+		    var url = "ImprimirAbonoProveedor";
+		    printDocument(impresora, url, id);
+		},
+
 		closeMainContainer: function() {
 			$('#main_container').hide();
 			vm.showFilter = false;

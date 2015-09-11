@@ -94,10 +94,10 @@
 	?>
 	<tr>
 		<td>{{$dt->compra_id}}</td>
-		<td class="align_right">{{$total}}</td>
-		<td class="align_right">{{$monto}}</td>
-		<td class="align_right">{{$saldo_anterior}}</td>
-		<td class="align_right">{{$saldo}}</td>
+		<td class="right">{{$total}}</td>
+		<td class="right">{{$monto}}</td>
+		<td class="right">{{$saldo_anterior}}</td>
+		<td class="right">{{$saldo}}</td>
 	</tr>
 	@endforeach
 	<tr>
