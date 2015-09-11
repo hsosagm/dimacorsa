@@ -231,6 +231,7 @@ var vm = new Vue({
 			$.get( "/user/cliente/salesByCustomer", function( data ) {
 				if (data.success == true)
 				{
+					vm.formPayments = false;
 					return vm.proccesDataTable(data.table);
 				}
 				msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
@@ -245,6 +246,7 @@ var vm = new Vue({
 				data: { cliente_id: vm.cliente_id },
 				success: function (data) {
 					if (data.success == true) {
+						vm.formPayments = false;
 						return vm.proccesDataTable(data.table);
 					}
 					msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
@@ -267,6 +269,7 @@ var vm = new Vue({
 				success: function (data) {
 					if (data.success == true)
 					{
+						vm.formPayments = false;
 						vm.historialAbonos = data.data;
 						return vm.proccesDataTable(data.table);
 					}

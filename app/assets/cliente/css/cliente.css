@@ -134,3 +134,11 @@
 	margin-bottom: 50px;
 	margin-left: 50px;
 }
+
+.navbar-avatar {
+    border-radius: 999px;
+    float: right;
+    width:25px !important;
+    height: 25px !important;
+
+}

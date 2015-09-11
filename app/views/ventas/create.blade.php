@@ -17,7 +17,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" v-show="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
+                    <td colspan="2" v-if="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
                         <label class="col-md-6" style="padding-left: 0px !important;">@{{ cliente.nombre }}</label>
                         <label class="col-md-6" >Tipo Cliente: : @{{ cliente.tipocliente.nombre }}</label>
                     </td>

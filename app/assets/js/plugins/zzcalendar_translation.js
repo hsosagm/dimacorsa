@@ -17,7 +17,3 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     labelMonthSelect: 'Seleccione un mes',
     hiddenName: true,
 });
-
-jQuery.extend( jQuery.fn.pickatime.defaults, {
-    clear: 'borrar'
-});

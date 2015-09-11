@@ -92,7 +92,7 @@ gulp.task('jsMain', function () {
         'app/assets/components/bower/highcharts/highcharts.js',
         'app/assets/components/bower/highcharts/highcharts-3d.js',
         'app/assets/components/bower/highcharts/modules/exporting.js',
-        'app/assets/js/plugins/*.js'
+        'app/assets/js/plugins/**/*.js'
 	])
 	.pipe(concat('main.js'))
 	.pipe(gulp.dest('public/js/'))
