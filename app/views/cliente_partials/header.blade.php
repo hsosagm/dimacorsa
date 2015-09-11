@@ -48,7 +48,7 @@
                   <li class="dropdown navbar-profile" style="margin-right: 25px;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
-                            <span class="avatar"><img src="img/avatar/35/1.png" class="img-circle" alt="admin"></span>
+                            <span class="avatar"><img src="img/logout.jpg" class="navbar-avatar"></span>
                             <span class="text hidden-xs hidden-sm text-muted">
                                 <?php 
                                 $user_nombre = explode(' ',Auth::user()->nombre);

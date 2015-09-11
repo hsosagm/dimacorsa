@@ -301,3 +301,12 @@ div.spinner.flat {
     margin-top: 50px;
     margin-bottom: 50px;
 }
+
+.navbar-avatar {
+    border-radius: 999px;
+    float: right;
+    margin-right: 2px;
+    width:25px !important;
+    height: 25px !important;
+
+}

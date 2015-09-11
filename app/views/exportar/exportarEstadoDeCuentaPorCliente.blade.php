@@ -15,16 +15,16 @@
 		</td>
 	</tr>
 	<tr style="background-color: #D5D5D5;"><?php $i = 0 ?>
-		<td align="center"> <strong>Fecha </strong> </td>              
-		<td align="center"> <strong>Usuario </strong> </td>            
-		<td align="center"> <strong>Total </strong> </td>          
+		<td align="center"> <strong>Fecha</strong> </td>              
+		<td align="center"> <strong>Usuario</strong> </td>            
+		<td align="center"> <strong>Total</strong> </td>          
 		<td align="center"> <strong>Saldo</strong> </td>      
 	</tr>
 	@foreach($data['ventas'] as $dt)
 			<tr height="15" style="{{($i == 1)?'background-color: #ECECEC;':'background-color: #FFFFFF;'}}{{($dt->dias >= 30)? 'background-color:#FFE3E3;':''}}" >
-				<td>{{ $dt->fecha_ingreso }} </td>              
-				<td>{{ $dt->usuario }} </td>            
-				<td align="right">{{ $dt->total }} </td>          
+				<td>{{ $dt->fecha_ingreso }}</td>              
+				<td>{{ $dt->usuario }}</td>            
+				<td align="right">{{ $dt->total }}</td>          
 				<td align="right">{{ $dt->saldo }} <?php ($i == 0)? $i=1:$i=0; ?></td>   
 			</tr>
 	@endforeach

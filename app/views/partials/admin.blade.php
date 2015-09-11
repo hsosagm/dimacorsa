@@ -15,7 +15,7 @@
         <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Consultas Generales</a></li>
         <li onclick="getTrasladosEnviados(this)"><a href="javascript:void(0);">Traslados Enviados</a></li>
         <li onclick="getTrasladosRecibidos(this)"><a href="javascript:void(0);">Traslados Recibidos</a></li>
-        <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li>
+        {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
     </ul>
 </li>
@@ -34,9 +34,6 @@
         <li><a href="javascript:void(0);" onclick="f_egreso()">Egresos</a></li>
         <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
         <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
-        {{-- <li><a href="javascript:void(0);" onclick="inventario()">Ajuste de inventario</a></li> --}}
-        {{-- <li><a href="javascript:void(0);" onclick="printDocument()">imprimir Documento</a></li> --}}
-        {{-- <li><a href="javascript:void(0);" onclick="imprimirFactura('EPSON-LQ-590')">imprimir Factura</a></li> --}}
     </ul>
 </li>
 <!-- Fin menu operaciones -->

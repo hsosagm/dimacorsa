@@ -3,20 +3,9 @@
 
 	<h1 class="tienda_nombre">Clickgt.com</h1>
 
-	<!-- Start calendar container -->
-	<div id="demo-settings">
-		<a id="demo-settings-toggler" class="fa fa-calendar" href="javascript:void(0)"> </a>
-		<div class="main main-nr">
-			<p> <span id="date-text"> </span> </p>
-			<input type="text" name="date" id="date-input" value=""/>
-			<div class="datepicker" style="display: block;"> </div>   
-		</div>
-	</div>
-	<!-- End caledar container -->
 
-
-<div id="print_test"></div>
-<div id="garantiaContainer" style="display:none; z-index:-1;" style="background-color:#FFFFFF !important;"></div>
+	<div id="print_test"></div>
+	<div id="garantiaContainer" style="display:none; z-index:-1;" style="background-color:#FFFFFF !important;"></div>
 
 	<!-- FORMS -->
 	<div id="forms" class="form-container col-md-10">
@@ -34,8 +23,8 @@
 			<div class="panel-body no-padding">
 				<div class="form-horizontal forms"></div>
 			</div>
-        </div>
-    </div>
+		</div>
+	</div>
 
 	<div class="producto-container col-md-9">
 		<div class="panel form-h producto-panel shadow">
@@ -155,20 +144,20 @@
 			</div>
 		</div>
 	</div>
-<!--/ End body content -->
+	<!--/ End body content -->
 
-<div class="col-lg-8 col-md-8 col-sm-8">
-    <div class="modal modal-info fade" id='bs-modal-cierre' data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="Lightbox modal-dialog cierre_modal_content" style="width:70%;">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
-            <h4 class="modal-title" id="modal-title-cierre"></h4>
-        </div>
-        <div class="modal-body" id="modal-body-cierre" ></div>
-    </div>
-</div>
-</div>
-</div>
+	<div class="col-lg-8 col-md-8 col-sm-8">
+		<div class="modal modal-info fade" id='bs-modal-cierre' data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="Lightbox modal-dialog cierre_modal_content" style="width:70%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<h4 class="modal-title" id="modal-title-cierre"></h4>
+					</div>
+					<div class="modal-body" id="modal-body-cierre" ></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div><!-- /.body-content -->
