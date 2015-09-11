@@ -23,8 +23,7 @@
     </div>
     <div class="col-md-1">
         <i  class="fa fa-file-excel-o fa-lg" v-on="click: exportarKardexExcel($event, {{@$producto_id}}, '{{$fecha_inicial}}', '{{$fecha_final}}')"> </i>
-        <i class="fa fa-file-pdf-o fa-lg" > </i>
-        <i class="fa fa-print fa-lg" > </i>
+        <i class="fa fa-file-pdf-o fa-lg" v-on="click: exportarKardexPdf($event, {{@$producto_id}}, '{{$fecha_inicial}}', '{{$fecha_final}}')"> </i>
     </div>
 </div>
 

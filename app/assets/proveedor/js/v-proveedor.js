@@ -524,7 +524,6 @@ var vm = new Vue({
 		},
 
 		imprimirAbonoProveedor: function(e, id, impresora) {
-			alert();
 			$(e.target).attr('disabled','disabled');
 		    var url = "ImprimirAbonoProveedor";
 		    printDocument(impresora, url, id);

@@ -22,7 +22,7 @@ $(document).ready(function() {
             {"sClass": "width10 icons center",                          "sTitle": "",            "aTargets": [4],
                 "orderable": false,
                 "mRender": function() {
-                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="VerDetalleDelCierreDelDia(this)"></i><a href="javascript:void(0);" title="Imprimir Cierre" onclick="imprimir_cierre_por_fecha_dt(this)" class="fa fa-print font14" style="padding-left:15px"><a href="javascript:void(0);" title="Ver Cierre" onclick="CierreDelDiaPorFecha(this)" class="fa fa-eye font14" style="padding-left:10px">';
+                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="VerDetalleDelCierreDelDia(this)"></i><a href="javascript:void(0);" title="Imprimir Cierre" onclick="imprimir_cierre_por_fecha_dt(this)" class="fa fa-file-pdf-o font14" style="padding-left:15px"><a href="javascript:void(0);" title="Ver Cierre" onclick="CierreDelDiaPorFecha(this)" class="fa fa-eye font14" style="padding-left:10px">';
                 }
 
             },

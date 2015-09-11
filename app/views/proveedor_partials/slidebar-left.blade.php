@@ -39,7 +39,7 @@
             <ul>
                 <li><a href="javascript:void(0);" v-on="click: getHistorialCompras">Historial de compras</a></li>
                 <li><a href="javascript:void(0);" v-on="click: getComprasPendientesDePago">Cuentas por pagar</a></li>
-                <li><a href="javascript:void(0);" v-on="click: getHistorialPagos">Historial de pagos</a></li>
+                <!-- <li><a href="javascript:void(0);" v-on="click: getHistorialPagos">Historial de pagos</a></li> -->
                 <li><a href="javascript:void(0);" v-on="click: getHistorialAbonos"> Historial de abonos</a></li>
             </ul>
         </li>

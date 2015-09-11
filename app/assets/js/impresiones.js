@@ -1,35 +1,15 @@
 
+function ExportarCierreDelMes(tipo,fecha_completa){
 
-function ImprimirCierreDelDia_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
+    $fecha = fecha_completa.substring(0, 10); 
 
-function ImprimirCierreDelDia(id,user) {
-    var md5 = $.md5('encript'+user); 
-    window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function ImprimirCierreDelDia_dt(e,user) {
-    id = $(e).closest('tr').attr('id');
-    var md5 = $.md5('encript'+user); 
-    window.open('admin/cierre/ImprimirCierreDelDia_dt/'+md5+'/'+id,'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-
-function imprimir_cierre() {
-    window.open("dmin/cierre/CierreDelDia",'','toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
-}
-
-function imprimir_cierre_por_fecha(fecha) {
-     window.open("admin/cierre/CierreDelDiaPorFecha?fecha="+fecha+'&imprimir=true','','toolbar=no,scrollbars=yes,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+    window.open('admin/cierre/ExportarCierreDelMes/'+tipo+'/'+$fecha ,'_blank');
 }
 
 function imprimir_cierre_por_fecha_dt(e) {
     $fecha_completa = $(e).closest('tr').find("td").eq(3).html();
     $fecha = $fecha_completa.substring(0, 10); 
-    window.open("admin/cierre/CierreDelDiaPorFecha?fecha="+$fecha+'&imprimir=true','','toolbar=no,scrollbars=yes,location=no,statusbar=no,menubar=no,resizable=no,directories=no,titlebar=no,width=800,height=500');
+    window.open('admin/cierre/ExportarCierreDelDia/pdf/'+$fecha ,'_blank');
 }
 
 function ImprimirTraslado(e, id, impresora) {

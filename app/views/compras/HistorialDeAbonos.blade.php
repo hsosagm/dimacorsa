@@ -14,11 +14,17 @@ $(document).ready(function() {
             {"sClass": "mod_codigo hover width10",                      "sTitle": "Fecha",       "aTargets": [1]},
             {"sClass": "mod_codigo hover  width10",                     "sTitle": "M.P.",        "aTargets": [2]},
             {"sClass": "mod_codigo hover right width5 formato_precio", "sTitle": "Monto",       "aTargets": [3]},
-            {"sClass": "mod_codigo hover  width50",                     "sTitle": "Observaciones","aTargets": [4]},
-            {"sClass": "width5 icons center",                          "sTitle": "",             "aTargets": [5],
+            {"sClass": "mod_codigo hover  width45",                     "sTitle": "Observaciones","aTargets": [4]},
+            {"sClass": "width10 icons center",                          "sTitle": "",             "aTargets": [5],
                 "orderable": false,
-                "mRender": function() {
-                    return '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i> <i style="padding-left:10px" class="fa fa-trash-o btn-link theme-c" url="admin/compras/payments/" onClick="_delete_dt(this)"></i>';
+                "mRender": function(data, type, full ) {
+                    $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i> '; 
+
+                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoProveedor(this, '+full.DT_RowId+', '+"'"+'{{@$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px"> </a>';
+
+                    $v += '<i style="padding-left:10px" class="fa fa-trash-o btn-link theme-c" url="admin/compras/payments/" onClick="_delete_dt(this)"></i>';
+
+                    return $v;
                 }
             },
         ],

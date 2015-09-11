@@ -20,6 +20,14 @@
     Route::post('ImprimirTraslado'           , 'TrasladoController@ImprimirTraslado');
     Route::post('ImprimirAbonoCliente'      , 'SalesPaymentsController@imprimirAbonoVenta');
     Route::post('ImprimirAbonoProveedor'     , 'ProveedorController@ImprimirAbono' );
+    Route::post('/eliminar_pdf', function() {
+        $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
+        if (is_file($file)) {
+            chmod($file,0777);
+            if(!unlink($file)){ }
+        } 
+    });
+
 
     /******************************************************************************/
 
@@ -277,6 +285,7 @@
             Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
             Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
             Route::get('ExportarCierreDelDia/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelDia' );
+            Route::get('ExportarCierreDelMes/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelMes' );
             Route::get('VentasDelMes'                        , 'CierreController@VentasDelMes' );
             Route::get('VentasDelMes_dt'                     , 'CierreController@VentasDelMes_dt' );
             Route::get('SoportePorFecha'                     , 'CierreController@SoportePorFecha' );
@@ -541,20 +550,10 @@
 
     });
     
-Route::post('/eliminar_pdf', function()
-{
-    $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
-    if (is_file($file)) {
-        chmod($file,0777);
-        if(!unlink($file)){ }
-    } 
-});
 
 Route::get('/test', function()
 {
-    $venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
-
-    $pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta'=>$venta));
+    $pdf = PDF::loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto))->setPaper('letter')->setOrientation('landscape');
     
     return $pdf->stream(); 
 });

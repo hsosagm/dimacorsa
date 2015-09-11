@@ -573,7 +573,10 @@ class CompraController extends \BaseController {
 
 	public function ShowTableHistoryPaymentDetails()
 	{
-		return View::make('compras.HistorialDeAbonos');
+		$comprobante = DB::table('printer')->select('impresora')
+        ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
+		return View::make('compras.HistorialDeAbonos', compact('comprobante'));
 	}
 
 	public function HistorialDeAbonos()
