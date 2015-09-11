@@ -1,5 +1,3 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <table>
 	<tr style="background-color: #FFFFFF;">
 		<td height="30" colspan="4" align="center">
@@ -25,9 +23,9 @@
 
 	@foreach($data['ventas'] as $dt)
 		<tr height="15" style="{{($i == 1)?'background-color: #ECECEC;':'background-color: #FFFFFF;'}}{{($dt->dias >= 30)? 'background-color:#FFE3E3;':''}}" >
-			<td>{{ $dt->fecha_ingreso }} </td>              
-			<td>{{ $dt->cliente }} </td>            
-			<td align="right">{{ $dt->total }} </td>          
+			<td>{{ $dt->fecha_ingreso }}</td>              
+			<td>{{ $dt->cliente }}</td>            
+			<td align="right">{{ $dt->total }}</td>          
 			<td align="right">{{ $dt->saldo }} <?php ($i == 0)? $i=1:$i=0; ?> </td>      
 		</tr>
 	@endforeach

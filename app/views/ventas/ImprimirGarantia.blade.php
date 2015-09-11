@@ -28,17 +28,17 @@
             <?php $total = 0;  $serials = "";?>
 
             @foreach($venta->detalle_venta as $key => $dt)
-            <tr>
-                <td>  {{ $dt->cantidad }} </td>   
-                <td>  {{ $dt->producto->descripcion}} {{ $dt->producto->marca->nombre}} </td>
-                <td align="right"> {{ f_num::get($dt->precio) }} </td>
-                <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>   
-            </tr>
-            <?php 
-            $total = $total +($dt->cantidad * $dt->precio); 
-            if ($dt->serials != null ) 
-                $serials .= $dt->serials." , ";
-            ?>
+                <tr>
+                    <td>  {{ $dt->cantidad }} </td>   
+                    <td>  {{ $dt->producto->descripcion}} {{ $dt->producto->marca->nombre}} </td>
+                    <td align="right"> {{ f_num::get($dt->precio) }} </td>
+                    <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>   
+                </tr>
+                <?php 
+                    $total = $total +($dt->cantidad * $dt->precio); 
+                    if ($dt->serials != null ) 
+                        $serials .= $dt->serials." , ";
+                ?>
             @endforeach
             <tr>
                 <td colspan="2"></td>
