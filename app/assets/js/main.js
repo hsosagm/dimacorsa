@@ -312,26 +312,16 @@ function _print()
         qz.findPrinter();
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
-            
             if (printer !== null) {
 
                 $.ajax({
                     type: "POST",
                     url: "admin/barcode/print_code",
                     data: { id: $('.dataTable tbody .row_selected').attr('id') },
-                    contentType: 'application/x-www-form-urlencoded',
-                    success: function (data, text)
-                    {
-                        if (data["success"] == true)
-                        {
-                            // $("#barcode").barcode(
-                            //     data["codigo"],
-                            //     data["tipo"],
-                            //     { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"] }
-                            // );
-
+                    success: function (data, text) {
+                        if (data["success"] == true) {
+                            //$("#barcode").barcode( data["codigo"], data["tipo"], { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"]});
                             $("#barcode").show();
-
                             $("#barcode").JsBarcode(
                                 data["codigo"] , 
                                 {
@@ -360,8 +350,7 @@ function _print()
                                 }
                             });
                         }
-                        else
-                        {
+                        else {
                             msg.warning('Hubo un error', 'Advertencia!')
                         }
                     }

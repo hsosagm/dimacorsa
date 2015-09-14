@@ -1,4 +1,5 @@
 <div class="panel">
+
 	<div class="panel-heading">
 		<div class="pull-left">
 			<h3 class="panel-title fg-theme">Configurar Impresoras</h3>
@@ -8,8 +9,10 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
+
 	<div class="panel-body">
 		<div  class="panel panel-tab rounded shadow">
+
 			<div class="panel-heading no-padding">
 				<ul class="impresoras nav nav-tabs nav-pills">
 					<li class="active" width="25%">
@@ -41,7 +44,9 @@
 				<div class="tab-pane fade inner-all active in" id="tab1">
 					{{ Form::_open('Configuracion de factura guardada') }}
 						<div class="row">
-							<div class="col-md-12"><h3>Configuracion factura</h3></div>
+							<div class="col-md-12">
+								<h3>Configuracion factura</h3>
+							</div>
 						</div>
 						<hr>
 						<div class="row">
@@ -66,7 +71,9 @@
 				<div class="tab-pane fade inner-all" id="tab2">
 					{{ Form::_open('Configuracion de garantia guardada') }}
 						<div class="row">
-							<div class="col-md-12"><h3>Configuracion garantia</h3></div>
+							<div class="col-md-12">
+								<h3>Configuracion garantia</h3>
+							</div>
 						</div>
 						<hr>
 						<div class="row">
@@ -87,10 +94,13 @@
 						</div>
 					{{ Form::close() }}
 				</div>
+
 				<div class="tab-pane fade inner-all" id="tab3">
 					{{ Form::_open('Configuracion de comprobante guardada') }}
 						<div class="row">
-							<div class="col-md-12"><h3>Configuracion comprobante</h3></div>
+							<div class="col-md-12">
+								<h3>Configuracion comprobante</h3>
+							</div>
 						</div>
 						<hr>
 						<div class="row">
@@ -111,10 +121,13 @@
 						</div>
 					{{ Form::close() }}
 				</div>
+
 				<div class="tab-pane fade inner-all" id="tab4">
 					{{ Form::_open('Configuracion de codigo de barras guardada') }}
 						<div class="row">
-							<div class="col-md-12"><h3>Configuracion condigo de barras</h3></div>
+							<div class="col-md-12">
+								<h3>Configuracion condigo de barras</h3>
+							</div>
 						</div>
 						<hr>
 						<div class="row">
@@ -135,10 +148,12 @@
 						</div>
 					{{ Form::close() }}
 				</div>
+
 			</div>
 		</div>
 	</div>
 </div>
+
 <script>
 	function cargar_impresoras_select(e)
 	{

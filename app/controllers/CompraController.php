@@ -44,10 +44,12 @@ class CompraController extends \BaseController {
 		$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
 		$saldo = $this->TotalCreditoProveedor($proveedor->id);
 		$detalle = $this->TablePurchaseDetailsEdit($id);
+		$codigoBarra = DB::table('printer')->select('impresora')
+			->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
 
 		return Response::json(array(
 			'success' => true, 
-			'form' => View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle"))->render()
+			'form' => View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle","codigoBarra"))->render()
 		));
 
 
@@ -115,15 +117,18 @@ class CompraController extends \BaseController {
 			if (!$query->_create())
 			{
 				return $query->errors();
-			}
+			} 
 
+
+			$codigoBarra = DB::table('printer')->select('impresora')
+			->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
 			$detalle = $this->TablePurchaseDetails();
 			$producto = Producto::find(Input::get('producto_id'));
 			$p_costo  = ProcesarCompra::getPrecio((Input::get('precio')*100),Input::get('cantidad'),$producto->p_costo,$producto->existencia);
 			return Response::json(array(
 				'success' => true,
 				'p_costo' => 'Precio Costo: '.($p_costo/100),
-				'table'   => View::make('compras.detalle_body', compact("detalle"))->render(),
+				'table'   => View::make('compras.detalle_body', compact("detalle","codigoBarra"))->render(),
 			));
 		}
 
