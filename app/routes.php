@@ -17,9 +17,10 @@
     /******************************************************************************/
     Route::post('ImprimirGarantia'          , 'VentasController@ImprimirGarantia');
     Route::post('ImprimirDescarga'          , 'DescargaController@ImprimirDescarga');
-    Route::post('ImprimirTraslado'           , 'TrasladoController@ImprimirTraslado');
+    Route::post('ImprimirTraslado'          , 'TrasladoController@ImprimirTraslado');
     Route::post('ImprimirAbonoCliente'      , 'SalesPaymentsController@imprimirAbonoVenta');
-    Route::post('ImprimirAbonoProveedor'     , 'ProveedorController@ImprimirAbono' );
+    Route::post('ImprimirAbonoProveedor'    , 'ProveedorController@ImprimirAbono' );
+    
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
         if (is_file($file)) {
@@ -27,8 +28,6 @@
             if(!unlink($file)){ }
         } 
     });
-
-
     /******************************************************************************/
 
     Route::get('/'     , 'HomeController@index'   );
