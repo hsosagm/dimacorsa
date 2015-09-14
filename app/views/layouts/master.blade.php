@@ -46,10 +46,6 @@
     <script src="js/custom.js"></script>
     
     <script type="text/javascript">
-        if($.trim(deployJava.getJREs())== ""){
-                    
-        }
- 
         $(document).ready(function(){
 
             /*configuracion del thema capturado de la base de datos*/ 

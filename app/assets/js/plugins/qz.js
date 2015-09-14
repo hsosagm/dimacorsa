@@ -12,6 +12,14 @@
     * MANIFEST.MF TrustedLibrary=true discrepency between JRE6 and JRE7.
     */
     function deployQZ() {
+        pluginJavaActivo = true;
+
+        if($.trim(deployJava.getJREs()) == ""){
+            pluginJavaActivo = false;
+            qz = false;
+            return  false;
+        }
+
         var attributes = {id: "qz", code:'qz.PrintApplet.class', 
             archive:'qz-print.jar', width:1, height:1};
         var parameters = {jnlp_href: 'qz-print_jnlp.jnlp', 
@@ -22,6 +30,7 @@
             attributes['archive'] = 'jre6/qz-print.jar';
             parameters['jnlp_href'] = 'jre6/qz-print_jnlp.jnlp';
         }
+
         deployJava.runApplet(attributes, parameters, '1.5');
     }
     
@@ -70,7 +79,7 @@
     */
     function isLoaded() {
         if (!qz) {
-            alert('Error:\n\n\tPrint plugin is NOT loaded!');
+            alert('Error:\n\n\tEl Plugin para impresion no esta instalado o no esta funcionando...!');
             return false;
         } else {
             try {
