@@ -1,6 +1,6 @@
 var app = new Vue({
 
-    el: '#forms',
+    el: 'body',
 
     data: {
 
