@@ -552,9 +552,7 @@
 
 Route::get('/test', function()
 {
-    $pdf = PDF::loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto))->setPaper('letter')->setOrientation('landscape');
-    
-    return $pdf->stream(); 
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
