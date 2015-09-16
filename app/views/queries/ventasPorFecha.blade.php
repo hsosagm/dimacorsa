@@ -37,6 +37,8 @@
 						$v += '<i onclick="printInvoice(this, '+full.DT_RowId+', '+"'"+'{{@$factura->impresora}}'+"'"+')" class="fa fa-print fg-theme" style="padding-left:10px"></i>';
 						$v += '<i title="Imprimir Garantia" onclick="ImprimirGarantia(this, '+full.DT_RowId+', '+"'"+'{{@$garantia->impresora}}'+"'"+')" class="fa fa-file-o fg-theme" style="padding-left:10px"></i>';
 
+						$v += '<i title="Devolucion" onclick="returnSale(this, '+full.DT_RowId+')" class="fa fa-file-o fg-theme" style="padding-left:10px"></i>';
+
 						return $v;
 					}
 				}

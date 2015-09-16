@@ -255,6 +255,10 @@ var app = new Vue({
                     }
                 });
             };
+        },
+
+        devoluciones: function() {
+            alert(1);
         }
    }
 

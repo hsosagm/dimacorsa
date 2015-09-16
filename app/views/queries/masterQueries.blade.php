@@ -1,7 +1,5 @@
 <div id="Master">
-
-    <table id="MasterQueries" v-if="showMaster" style="text-align:center">
-     
+    <table id="MasterQueries" v-if="x == 1" style="text-align:center">
         <tr>
             <td><p>Ventas</p><img src="images/consultas/ventas.png" height=80 width=80></img>
                 <div class="row">
@@ -77,11 +75,10 @@
                 </div>
             </td>
         </tr>
-
     </table>
 
-    <div v-show="!showMaster" class="mqData"></div>
-
+    <div v-show="x == 2" class="mqData"></div>
+    <div v-show="x == 3" id="returnDiv"></div>
 </div>
 
 <script type="text/javascript">
@@ -91,7 +88,32 @@
         el: '#Master',
 
         data: {
-            showMaster: true
+            x: 1,
+            devoluciones: { 
+                venta: [],
+                detalle_venta: [],
+                articulos: []
+            }
+        },
+
+        computed: {
+            totalCantidadDevolucion: function ()
+            {
+                var total = 0;
+                this.devoluciones.articulos.forEach(function(q) {
+                    total = total + q.cantidad;
+                });
+                return total;
+            },
+
+            totalMontoDevolucion: function()
+            {
+                var total = 0;
+                this.devoluciones.articulos.forEach(function(q) {
+                    total = total + (q.cantidad * q.precio);
+                });
+                return total;
+            }
         },
 
         methods: {
@@ -136,7 +158,7 @@
 
             proccesTable: function(data)
             {
-                queries.showMaster = false;
+                queries.x = 2;
                 $('.mqData').html(data);
                 $("#iSearch").unbind().val("").focus();
                 $("#table_length").html("");
@@ -154,15 +176,73 @@
 
             returnToMasterQueries: function()
             {
-                queries.showMaster = true;
+                queries.x = 1;
+            },
+
+            get_ckbox_dev: function()
+            {
+                var chkArray = [];
+                
+                $(".ckbox-dev input:checked").each(function() {
+                    chkArray.push($(this).closest('td').prev('td').text());
+                });
+                
+                var selected;
+                selected = chkArray.join(',');
+                
+                if(selected.length > 1){
+                    alert("You have selected " + selected); 
+                }else{
+                    alert("Please at least one of the checkbox");   
+                }
+            },
+
+            pushToDevoluciones: function(event, producto_id, cantidad, precio, index)
+            {
+                alert(index);
+                if ( $(event.target).prop('checked') )
+                {
+                this.devoluciones.articulos.splice(index, 0, { producto_id: producto_id, cantidad: cantidad, precio: precio, index:index });
+                }
+                else
+                {
+                    this.devoluciones.articulos.$remove(index);
+                }
+            },
+
+            enviarDevolucion: function()
+            {
+                $.ajax({
+                    type: "get",
+                    url: 'test',
+                    data: { datos: queries.devoluciones },
+                }).done(function(data) {
+                    alert(data);
+                });
             }
-       }
+        }
     });
 
     function queries_compile() {
         queries.$nextTick(function() {
             queries.$compile(queries.$el);
         });
-    }
+    };
+
+    function returnSale(e, venta_id) {
+        $.ajax({
+            type: "GET",
+            url: 'user/ventas/getVentaConDetalleParaDevolucion',
+            data: { venta_id: venta_id },
+        }).done(function(data) {
+            if (data.success == true)
+            {
+                $('#returnDiv').html(data.table);
+                queries.x = 3;
+                return queries_compile();
+            }
+            msg.warning(data, 'Advertencia!');
+        });
+    };
 
 </script>

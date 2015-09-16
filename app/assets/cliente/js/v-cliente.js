@@ -558,7 +558,6 @@ var vm = new Vue({
 
 
 		getVentaConDetalle: function(e, venta_id) {
-
 			$.ajax({
 				type: "GET",
 				url: 'user/ventas/getVentaConDetalle',

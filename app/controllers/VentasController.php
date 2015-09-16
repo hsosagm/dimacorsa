@@ -774,4 +774,23 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	public function getVentaConDetalleParaDevolucion()
+	{
+		$venta = Venta::with('cliente')->find(Input::get('venta_id'));
+
+		$detalle_venta = DB::table('detalle_ventas')
+		    ->select('producto_id', 'cantidad', 'precio', 'ganancias', 'descripcion', 'existencia', 'p_costo', 'marcas.nombre as marca')
+		    ->where('venta_id', '=', Input::get('venta_id'))
+		    ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+		    ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+		    ->get();
+
+		$detalle_venta = json_encode($detalle_venta);
+
+		 return Response::json(array(
+            'success' => true,
+            'table' => View::make('ventas.devoluciones.ventaConDetalleParaDevolucion', compact('venta', 'detalle_venta'))->render()
+        ));
+	}
+
 }

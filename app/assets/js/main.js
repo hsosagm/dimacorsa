@@ -379,7 +379,7 @@ function makeTable($data, $url, $title) {
     $('.table').html($data);
     $('.dataTable').attr('url', $url);
     $('.dataTable').attr('title', $title);
-}
+};
 
  
 function clean_panel() {
@@ -388,13 +388,13 @@ function clean_panel() {
     $( ".DTTT" ).html("");
     $('.dt-panel').show();
     ocultar_capas();
-}
+};
 
 function ocultar_capas() {
     $('.dt-container').hide();
     $('#graph_container').hide();
     $(".dt-container-cierre").hide();
-}
+};
 
 // codigo para limpiar las capas y generar datatables cuando se usa local
 function generate_dt_local(data) {
@@ -408,14 +408,12 @@ function generate_dt_local(data) {
     $('.table').html(data);
     $('#example').DataTable();
     $("#iSearch").focus();
-}
-
+};
 
 // filtra datatable en la posision que se encuentra
 $.fn.dataTableExt.oApi.fnStandingRedraw = function(oSettings) {
     oSettings.oApi._fnDraw(oSettings);
 };
-
 
 // para sumar columnas filtradas en datatables
 jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
@@ -429,7 +427,7 @@ jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
 
         return a + b;
     }, 0 );
-} );
+});
 
 /* Consultas.js */
 function getMasterQueries() {
@@ -450,7 +448,7 @@ function getMasterQueries() {
             $('.table').html(data.view);
         }
     });
-}
+};
 
 $('[data-action=collapse_head]').click(function(){
     var targetCollapse = $(this).parents('.panel').find('.HeadQueriesContainer');
