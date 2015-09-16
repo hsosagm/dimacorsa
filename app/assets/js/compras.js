@@ -25,33 +25,64 @@ function f_com_op()  {
     });
 } 
 
-function print_code_producto() {    
-    $id  = $("input[name='producto_id']").val();
+function imprimirCodigoDeProductoDetalleCompra(e , id, impresora) {    
+    $(e).prop('disabled', true);
+     if (isLoaded()) {
+        qz.findPrinter(impresora);
+        window['qzDoneFinding'] = function() {
+            var printer = qz.getPrinter();
+            if (printer !== null) {
 
-    $.ajax({
-        type: "POST",
-        url: "admin/barcode/print_code",
-        data: { id: $id },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-            if (data["success"] == true) {
-                $("#print_barcode").barcode(
-                    data["codigo"],
-                    data["tipo"], {
-                        barWidth:data["ancho"],
-                        barHeight:data["alto"],
-                        fontSize:data["letra"]
+                $.ajax({
+                    type: "POST",
+                    url: "admin/barcode/print_code",
+                    data: { id: id },
+                    success: function (data, text) {
+                        if (data["success"] == true) {
+                            //$("#barcode").barcode( data["codigo"], data["tipo"], { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"]});
+                            $("#barcode").show();
+                            $("#barcode").JsBarcode(
+                                data["codigo"] , 
+                                {
+                                    width:  2,
+                                    height: 100,
+                                    backgroundColor:"#ffffff",
+                                    format: "CODE128",
+                                    displayValue: true,
+                                    fontSize: 16
+                                }
+                            );
+                            html2canvas($("#barcode"), {
+                                onrendered: function(canvas) {
+                                    var myImage = canvas.toDataURL("image/png");
+                                    if (notReady()) { return; }
+                                    qz.setPaperSize("62mm", "18mm");  // barcode
+                                    qz.setOrientation("portrait");
+                                    qz.setAutoSize(true);
+                                    qz.appendImage(myImage);
+                                    window['qzDoneAppending'] = function() {
+                                        qz.printPS();
+                                        $("#barcode").hide();
+                                        window['qzDoneAppending'] = null;
+                                        $(e).prop('disabled', false);
+                                    };
+                                }
+                            });
+                        }
+                        else {
+                            $(e).prop('disabled', false);
+                            msg.warning('Hubo un error', 'Advertencia!')
+                        }
                     }
-                    );   
-                $("#print_barcode").show();
-                $.print("#print_barcode");
-                $("#print_barcode").hide();
+                });
             }
             else {
-                msg.warning('Hubo un error', 'Advertencia!')
+                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
+                $(e).prop('disabled', false);
             }
-        }
-    });
+            window['qzDoneFinding'] = null;
+        };
+    }
 }
 
 function OpenModalPurchaseInfo(element) {
@@ -292,20 +323,21 @@ function  DeletePurchaseItemSerials(element) {
     });
 }
 
-function _edit_producto() {
-    $id  =  $("input[name='producto_id']").val();
-    if ($id > 0) {
-        $.ajax({
-            type: "POST",
-            url: "admin/productos/edit",
-            data: {id: $id},
-            contentType: 'application/x-www-form-urlencoded',
-            success: function (data) {
-                $(".contenedor_producto").html(data);
-                $(".contenedor_producto").slideToggle('slow');
-            }
-        });
-    };
+function editarProductoDetalleCompra(id) {
+    $url = 'admin/productos/edit_dt';
+    $.ajax({
+        type: "GET",
+        url: $url,
+        data: {id: id},
+        success: function (data) {
+            $('.modal-body').html(data);
+            $('.modal-title').text( 'Editar ' + $('.dataTable').attr('title') );
+            $('.bs-modal').modal('show');
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
 }; 
 
 function _add_producto() {

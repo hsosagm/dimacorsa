@@ -70,21 +70,41 @@ class ConfiguracionController extends \BaseController {
 	{
 		if (Session::token() == Input::get('_token'))
 		{	
-			$factura 	 = Input::get('factura') ;
-			$garantia 	 = Input::get('garantia') ;
-			$comprobante = Input::get('comprobante') ;
-			$codigoBarra = Input::get('codigoBarra') ;
-
-			DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->delete();
-
-			DB::table('printer')->insert(array(
-				array('impresora' => $factura     , 'nombre' => 'factura'     , 'tienda_id' => Auth::user()->tienda_id),
-				array('impresora' => $garantia    , 'nombre' => 'garantia'    , 'tienda_id' => Auth::user()->tienda_id),
-				array('impresora' => $comprobante , 'nombre' => 'comprobante' , 'tienda_id' => Auth::user()->tienda_id),
-				array('impresora' => $codigoBarra , 'nombre' => 'codigoBarra' , 'tienda_id' => Auth::user()->tienda_id),
+			if (Input::has('factura')) 
+			{
+				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','factura')->delete();
+				DB::table('printer')->insert(array(
+					array('impresora' => Input::get('factura'), 'nombre' => 'factura', 'tienda_id' => Auth::user()->tienda_id),
 				));
+				return 'success';
+			}
 
-			return 'success';
+			else if (Input::has('garantia')) 
+			{
+				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','garantia')->delete();
+				DB::table('printer')->insert(array(
+					array('impresora' => Input::get('garantia'), 'nombre' => 'garantia', 'tienda_id' => Auth::user()->tienda_id),
+				));
+				return 'success';
+			}
+
+			else if (Input::has('comprobante')) 
+			{
+				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','comprobante')->delete();
+				DB::table('printer')->insert(array(
+					array('impresora' => Input::get('comprobante'), 'nombre' => 'comprobante', 'tienda_id' => Auth::user()->tienda_id),
+				));
+				return 'success';
+			}
+
+			else if (Input::has('codigoBarra')) 
+			{
+				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','codigoBarra')->delete();
+				DB::table('printer')->insert(array(
+					array('impresora' => Input::get('codigoBarra') , 'nombre' => 'codigoBarra', 'tienda_id' => Auth::user()->tienda_id),
+				));
+				return 'success';
+			}
 		}
 	}
 }

@@ -139,6 +139,25 @@ function FinalizeSale(element, $id) {
     });
 }
 
+function FinalizarEImprimirGarantia(e, venta_id, impresora_garantia){
+    FinalizeSale(e, venta_id);
+    printInvoice(e, venta_id, impresora_factura);
+    ImprimirGarantia(e, venta_id, impresora_garantia);
+}
+
+function FinalizarEImprimirFacturaYGarantia(e, venta_id, impresora_garantia, impresora_factura){
+    FinalizeSale(e, venta_id);
+    printInvoice(e, venta_id, impresora_factura);
+    setTimeout(function(){
+        ImprimirGarantia(e, venta_id, impresora_garantia);
+    }, 1000);
+}
+
+function FinalizarEImprimirFactura(e, venta_id, impresora_factura) {
+    FinalizeSale(e, venta_id);
+    printInvoice(e, venta_id, impresora_factura);
+}
+
 function showSalesDetail(e) {
 
     if ($(e).hasClass("hide_detail")) 

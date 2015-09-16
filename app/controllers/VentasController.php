@@ -194,12 +194,18 @@ class VentasController extends \BaseController {
 			{
 				return $pv->errors();
 			}
+			
+			$factura = DB::table('printer')->select('impresora')
+			->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
+
+			$garantia = DB::table('printer')->select('impresora')
+			->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
 
 			$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
 
 			return Response::json(array(
 				'success' => true, 
-				'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto'))->render()
+				'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia'))->render()
 			));
 
 		}
@@ -242,9 +248,15 @@ class VentasController extends \BaseController {
         $resta_abonar = $TotalVenta - $this->getTotalPagado();
         $vuelto = 0;
 
+        $factura = DB::table('printer')->select('impresora')
+		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
+
+		$garantia = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
+
 		return Response::json(array(
 			'success' => true, 
-			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto'))->render()
+			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia'))->render()
 		));
 	}
 
@@ -406,24 +418,14 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
-	function ImprimirGarantiaVenta_dt($code,$id)
-	{
-		$venta_id = $id;
-
-		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
-    	if(count($venta->detalle_venta)>0)
-        	return View::make('ventas.ImprimirGarantia', compact('venta'))->render();
-
-    	else
-        	return 'Ingrese productos ala factura para poder inprimir';
-	}
-
 	function ImprimirGarantia()
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+		$tienda = Tienda::find(Auth::user()->tienda_id);
 
     	if(count($venta->detalle_venta)>0){
-    		$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta'=>$venta))->save("pdf/".Input::get('id').Auth::user()->id.'v.pdf');
+    		$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta' => $venta, 'tienda' => $tienda))
+    		->save("pdf/".Input::get('id').Auth::user()->id.'v.pdf');
 
             return Response::json(array(
                 'success' => true,

@@ -4,10 +4,10 @@
 		<tbody> 
 			<tr>
 				<th width="10%">Cantidad</th>
-				<th width="70%">Descripcion</th>
-				<th width="10%" style="text-align: center;">Precio</th>
-				<th width="10%" style="text-align: center;">Totales</th>
-				<th width="10%" colspan="2"></th>
+				<th width="65%">Descripcion</th>
+				<th width="7%" style="text-align: center;">Precio</th>
+				<th width="8%" style="text-align: center;">Totales</th>
+				<th width="20%" colspan="4"></th>
 			</tr>
 			@foreach ($detalle as $key => $q)
 				<?php $deuda = $deuda + $q->total;   ?>
@@ -29,6 +29,12 @@
 					</td>
 					<td width="5%" >
 		                <i onclick="ingresarSeriesDetalleCompra(this, {{ $q->id }})" class="fa fa-barcode fg-theme"></i>
+		            </td>
+		            <td width="5%" >
+		                <i onclick="editarProductoDetalleCompra({{ $q->producto_id }})" class="fa fa-pencil fg-theme"></i>
+		            </td>
+		            <td width="5%" >
+		                <i onclick="imprimirCodigoDeProductoDetalleCompra(this,{{ $q->producto_id }}, '{{ @$codigoBarra->impresora }}')" class="fa fa-print fg-theme"></i>
 		            </td>
 				</tr> 
 			@endforeach	
