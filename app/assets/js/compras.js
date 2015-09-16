@@ -23,67 +23,23 @@ function f_com_op()  {
         $(".producto-container").hide();
         $(".form-panel").show();
     });
-} 
+};
 
-function imprimirCodigoDeProductoDetalleCompra(e , id, impresora) {    
-    $(e).prop('disabled', true);
-     if (isLoaded()) {
-        qz.findPrinter(impresora);
-        window['qzDoneFinding'] = function() {
-            var printer = qz.getPrinter();
-            if (printer !== null) {
-
-                $.ajax({
-                    type: "POST",
-                    url: "admin/barcode/print_code",
-                    data: { id: id },
-                    success: function (data, text) {
-                        if (data["success"] == true) {
-                            //$("#barcode").barcode( data["codigo"], data["tipo"], { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"]});
-                            $("#barcode").show();
-                            $("#barcode").JsBarcode(
-                                data["codigo"] , 
-                                {
-                                    width:  2,
-                                    height: 100,
-                                    backgroundColor:"#ffffff",
-                                    format: "CODE128",
-                                    displayValue: true,
-                                    fontSize: 16
-                                }
-                            );
-                            html2canvas($("#barcode"), {
-                                onrendered: function(canvas) {
-                                    var myImage = canvas.toDataURL("image/png");
-                                    if (notReady()) { return; }
-                                    qz.setPaperSize("62mm", "18mm");  // barcode
-                                    qz.setOrientation("portrait");
-                                    qz.setAutoSize(true);
-                                    qz.appendImage(myImage);
-                                    window['qzDoneAppending'] = function() {
-                                        qz.printPS();
-                                        $("#barcode").hide();
-                                        window['qzDoneAppending'] = null;
-                                        $(e).prop('disabled', false);
-                                    };
-                                }
-                            });
-                        }
-                        else {
-                            $(e).prop('disabled', false);
-                            msg.warning('Hubo un error', 'Advertencia!')
-                        }
-                    }
-                });
-            }
-            else {
-                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
-                $(e).prop('disabled', false);
-            }
-            window['qzDoneFinding'] = null;
-        };
-    }
-}
+function getActualizarDetalleCompra(compra_id){
+     $.ajax({
+        type: "GET",
+        url: 'admin/compras/getActualizarDetalleCompra',
+        data:{ compra_id: compra_id },
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            $('.body-detail').html(data.table);
+            $("#search_producto").focus();
+            return;
+        }
+        msg.warning(data, 'Advertencia!');
+    }); 
+};
 
 function OpenModalPurchaseInfo(element) {
     $id  =  $(element).attr('compra_id');
@@ -93,21 +49,20 @@ function OpenModalPurchaseInfo(element) {
         type: "POST",
         url: $url,
         data: {id: $id},
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             $('.modal-body').html(data);
             $('.modal-title').text( 'Editar Informacion Compra');
             $('.bs-modal').modal('show');
         }
     });
-}
+};
 
 function return_compras() {
     $(".dt-container").hide();
     $(".producto-container").hide();
     $(".dt-container-cierre").hide();
     $(".form-panel").show();
-}
+};
 
 var val_anterior;
 
@@ -116,11 +71,11 @@ function EditPurchaseItemDetails(element) {
     $(element).html('<input type="text" value="'+$.trim(val_anterior)+'" class="SaveEditPurchaseItemDetails" />');
     $('.SaveEditPurchaseItemDetails').focus();
     $('.SaveEditPurchaseItemDetails').select();
-}
+};
 
 function DisableEditPurchaseItemDetails(element) {
     $(element).closest('td').html(val_anterior);
-}
+};
 
 function SaveEditPurchaseItemDetails(e,element) {
     $detalle_id  = $(element).closest('td').attr('cod');
@@ -143,7 +98,7 @@ function SaveEditPurchaseItemDetails(e,element) {
         }
     });
     e.preventDefault(); 
-}   
+};   
 
 function InsertPurchaseItemSerials(element) {
     var cod = '';
@@ -178,7 +133,7 @@ function InsertPurchaseItemSerials(element) {
             msg.success('Ingresado..!', 'Listo!');
         }
     }
-}
+};
 
 function DeletePurchaseInitial(element) {
     var compra_id = $(element).attr('compra_id');
@@ -200,26 +155,26 @@ function DeletePurchaseInitial(element) {
             });
         }
     });
-}
+};
 
 function ModalPurchasePayment(element) {
    var compra_id = $(element).attr('id');
-   $.ajax({
-    type: 'GET',
-    url: "admin/compras/ModalPurchasePayment",
-    data: { compra_id: compra_id },
-    success: function (data) {
-       if (data.success == true) {
-        $('.modal-body').html(data.detalle);
-        $('.modal-title').text('Ingresar Pagos');
-        $('.bs-modal').modal('show');
-    }
-    else {
-        msg.warning(data, 'Advertencia!');
-    }
-}
-});
-}
+       $.ajax({
+        type: 'GET',
+        url: "admin/compras/ModalPurchasePayment",
+        data: { compra_id: compra_id },
+        success: function (data) {
+           if (data.success == true) {
+                $('.modal-body').html(data.detalle);
+                $('.modal-title').text('Ingresar Pagos');
+                $('.bs-modal').modal('show');
+            }
+            else {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+};
 
 function SavePurchasePayment(e,element) {
     form = $(element);
@@ -229,7 +184,6 @@ function SavePurchasePayment(e,element) {
         type: "POST",
         url:  "admin/compras/ModalPurchasePayment",
         data: form.serialize(),
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             if (data.success == true)  {
                 msg.success('Ingresado', 'Listo!');
@@ -245,7 +199,7 @@ function SavePurchasePayment(e,element) {
 
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 
 function DeletePurchasePaymentItem(id , compra_id)
@@ -268,7 +222,7 @@ function DeletePurchasePaymentItem(id , compra_id)
             }
         }
     });
-}
+};
 
 function FinishInitialPurchase(element,compra_id)
 {    
@@ -291,7 +245,7 @@ function FinishInitialPurchase(element,compra_id)
         }
     });
     return false;
-}
+};
 
 
 function OpenModalPurchaseItemSerials() {
@@ -300,7 +254,6 @@ function OpenModalPurchaseItemSerials() {
         type: "GET",
         url: "admin/compras/OpenModalPurchaseItemSerials",
         data: {serial: $serial},
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             $('.modal-body').html(data);
             $('.modal-title').text('Seriales');
@@ -310,7 +263,7 @@ function OpenModalPurchaseItemSerials() {
             }, 500);
         }
     });
-}
+};
 
 function  DeletePurchaseItemSerials(element) {
     var id  = $(element).attr('id');
@@ -321,7 +274,7 @@ function  DeletePurchaseItemSerials(element) {
             $(element).closest('tr').hide();
         }
     });
-}
+};
 
 function editarProductoDetalleCompra(id) {
     $url = 'admin/productos/edit_dt';
@@ -331,7 +284,7 @@ function editarProductoDetalleCompra(id) {
         data: {id: id},
         success: function (data) {
             $('.modal-body').html(data);
-            $('.modal-title').text( 'Editar ' + $('.dataTable').attr('title') );
+            $('.modal-title').text( 'Editar Producto');
             $('.bs-modal').modal('show');
         },
         error: function (request, status, error) {
@@ -345,7 +298,7 @@ function _add_producto() {
         $(".contenedor_producto").html(data);
         $(".contenedor_producto").slideToggle('slow');
     });
-}
+};
 
 function VerFacturaDeCompra(e) {
     $id = $(e).closest('tr').attr('id');
@@ -355,7 +308,6 @@ function VerFacturaDeCompra(e) {
         type: "POST",
         url: $url,
         data: {id: $id},
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             if (data.success == true) {
                 $('.panel-title').text('Formulario Compras');
@@ -370,7 +322,7 @@ function VerFacturaDeCompra(e) {
             }
         }
     });
-}
+};
 
 
 function showPurchasesDetail(e) {
@@ -390,7 +342,7 @@ function showPurchasesDetail(e) {
             getPurchaseDetail(e);
         }
     }
-}
+};
 
 function getPurchaseDetail(e) {
     $id = $(e).closest('tr').attr('id');
@@ -416,7 +368,7 @@ function getPurchaseDetail(e) {
             }
         }
     });
-}
+};
 
 function CreditPurchases(e) {
     $(e).prop("disabled", true);
@@ -462,13 +414,13 @@ function CreditPurchases(e) {
                         $('#saldo_por_busqueda_vencido').text(sv_filter_applied);
                     })
                 }, 300);
-}
-else {
-    msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-}
-}
-}); 
-}
+            }
+            else {
+                msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+            }
+        }
+    }); 
+};
 
 function showPaymentsDetail(e){
     if ($(e).hasClass("hide_detail"))  {
@@ -487,7 +439,7 @@ function showPaymentsDetail(e){
             getPaymentsDetail(e);
         }
     }
-}
+};
 
 function getPaymentsDetail(e) {
     $id = $(e).closest('tr').attr('id');
@@ -513,7 +465,7 @@ function getPaymentsDetail(e) {
             }
         }
     });
-}
+};
 
 var serialsDetalleCompra = [];
 
@@ -530,20 +482,17 @@ function ingresarSeriesDetalleCompra(e, detalle_compra_id) {
             setTimeout(function(){
                 $("input[name='serials']").focus();
             }, 500);
-            return ;
+            return;
             
         }
         msg.warning(data, 'Advertencia!');
     });
-}
+};
 
 function guardarSerieDetalleCompra () {
     if($.trim($("#serialsDetalleCompra").val()) != ''){
         var ingreso = true;
-        $("#listaSeriesDetalleCompra").html("");setTimeout(function(){
-                        $("#serialsDetalleVenta").focus();
-                    }, 500);
-                    return ;
+        $("#listaSeriesDetalleCompra").html("");
 
         for (var i = 0; i < serialsDetalleCompra.length; i++) {
             $value ="'"+serialsDetalleCompra[i]+"'";
@@ -570,13 +519,13 @@ function guardarSerieDetalleCompra () {
     }
     else
         msg.warning('El campo se encuentra vacio..!', 'Advertencia!');
-}
+};
 
 function eliminarSerialsDetalleCompra(e, serie) {
     serialsDetalleCompra.splice(serialsDetalleCompra.indexOf(serie), 1);
     $(e).closest('tr').hide();
     $("#serialsDetalleCompra").focus();
-}
+};
 
 function guardarSeriesDetalleCompra(e, detalle_compra_id) {
     $(e).prop("disabled", true);
@@ -592,4 +541,4 @@ function guardarSeriesDetalleCompra(e, detalle_compra_id) {
         $(e).prop("disabled", true);
         msg.warning(data, 'Advertencia!');
     });
-}
+};

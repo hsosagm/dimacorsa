@@ -34,7 +34,7 @@
 		                <i onclick="editarProductoDetalleCompra({{ $q->producto_id }})" class="fa fa-pencil fg-theme"></i>
 		            </td>
 		            <td width="5%" >
-		                <i onclick="imprimirCodigoDeProductoDetalleCompra(this,{{ $q->producto_id }}, '{{ @$codigoBarra->impresora }}')" class="fa fa-print fg-theme"></i>
+		                <i onclick="imprimirCodigoBarras(this, {{ $q->producto_id }}, '{{ @$codigoBarra->impresora }}')" class="fa fa-print fg-theme"></i>
 		            </td>
 				</tr> 
 			@endforeach	

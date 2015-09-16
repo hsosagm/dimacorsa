@@ -50,7 +50,7 @@
 
 	<div class="row">
 		<div class="col-md-1"></div>
-		<div class="col-md-3"> Categoria: </div>
+		<div class="col-md-3"> SubCategoria: </div>
 		<div class="col-md-7 select_sub_categorias">
 			{{Form::select('sub_categoria_id',array('unasigned'),@$producto->sub_categoria_id ,array('class'=>'form-control'))}}  
 		</div>

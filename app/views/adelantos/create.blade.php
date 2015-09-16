@@ -32,7 +32,8 @@
 
         <div class="col-lg-3">                               
         
-         {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+         {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->where('id','!=',6)
+         ->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
          
         </div>
 

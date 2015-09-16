@@ -48,7 +48,8 @@
 							</div>
 
 							<div class="col-md-4">
-								{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+								{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->where('id','!=',6)
+								->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 							</div>
 
 							<div class="col-md-2">

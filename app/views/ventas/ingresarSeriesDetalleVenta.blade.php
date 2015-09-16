@@ -23,7 +23,7 @@
 						<td>{{ $serials[$i] }}</td>
 						<td>
 							<i class="fa fa-trash fg-red" onclick="eliminarSerialsDetalleVenta(this,'{{ $serials[$i] }}');"></i>
-							<script> serialsDetalleVenta.push('{{$serials[$i]}}') </script>
+							<script> serialsDetalleVenta.push('{{$serials[$i]}}'); </script>
 						</td>
 					</tr>
 				@endfor
