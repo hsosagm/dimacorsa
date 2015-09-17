@@ -192,6 +192,7 @@
             Route::get('getVentasPendientesPorCliente'          , 'VentasController@getVentasPendientesPorCliente' );
             Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
             Route::get('getVentaConDetalleParaDevolucion'       , 'VentasController@getVentaConDetalleParaDevolucion');
+            Route::get('getCheckCantidadDevolucion'             , 'VentasController@getCheckCantidadDevolucion');
             Route::get('getVentasPorHoraPorUsuario'             , 'VentasController@getVentasPorHoraPorUsuario');
             Route::post('ingresarSeriesDetalleVenta'            , 'VentasController@ingresarSeriesDetalleVenta');
             Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');

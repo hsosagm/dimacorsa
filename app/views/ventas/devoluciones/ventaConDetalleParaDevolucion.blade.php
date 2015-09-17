@@ -1,75 +1,57 @@
-
 <div style="font-size:12px; padding-left: 15px;">
     <h4 style="text-align:center">Devolucion de productos</h4>
 
 	<table class="table_white">
 		<tr>
-			<td> <label>Monto: @{{ totalMontoDevolucion }}</label> </td>
-			<td> <label>Articulos: 0</label> </td>
-			<td colspan="3"></td>
-			<td> <label>Fecha: @{{ devoluciones.venta.created_at }}</label> </td>
+			<td colspan="2"> Cliente: @{{ devoluciones.venta.cliente.nombre }} </td>
+			<td> Nit: @{{ devoluciones.venta.cliente.nit }} </td>
 		</tr>
-
 		<tr>
-			<td colspan="5"> <label>Cliente: @{{ devoluciones.venta.cliente.nombre }}</label> </td>
-			<td> <label>Nit: @{{ devoluciones.venta.cliente.nit }}</label> </td>
+			<td style="width: 28%"> Monto: @{{ totalMontoDevolucion | currency ' '}} </td>
+			<td style="width: 28%"> Articulos: @{{ totalCantidadDevolucion }} </td>
+			<td style="width: 28%"> Fecha: 2015-09-01 </td>
+			<td> <i v-if="totalCantidadDevolucion" v-on="click: enviarDevolucion" class="fa fa-check fa-lg icon-success"></i> </td>
 		</tr>
 	</table>
 </div>
 
-
-<div style="min-height:250px; padding:1px; font-size:12px;">
+<div style="min-height:200px; padding:1px; font-size:12px;">
 	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th class="center">Check</th>
-				<th class="center">Cantidad</th>
-				<th class="center">Descripcion</th>
-				<th class="center">Precio</th>
-				<th class="center">Totales</th>
-			</tr>
-		</thead>
-
 		<tbody>
+			<tr>
+				<td class="center"></td>
+				<td class="center">Cantidad</td>
+				<td class="center">Descripcion</td>
+				<td class="center">Precio</td>
+				<td class="center">Totales</td>
+			</tr>
+
 	        <tr v-repeat="dev: devoluciones.detalle_venta">
 				<td>
-					<div class="ckbox ckbox-teal ckbox-dev">
+					<div class="ckbox ckbox-teal" style="margin-left:30px;">
 						<input 
 						    id="checkbox-@{{dev.producto_id}}"
 						    type="checkbox"
-						    v-on="click: pushToDevoluciones($event, dev.producto_id, dev.cantidad, dev.precio, {{@index}})"
+						    v-on="click: pushToDevoluciones($event, dev.producto_id, dev.cantidad, dev.precio)"
 						>
 						<label for="checkbox-@{{dev.producto_id}}"></label>
 					</div>
 				</td>
-				<td> @{{dev.cantidad}} </td>
+				<td v-on="dblclick: edit" class="right"> @{{dev.cantidad}} </td>
+				<td  class="detail-input-edit">
+				    <input style="width:90px" class="input_numeric" type="text" 
+				    v-on="keyup: doneEdit($event, dev.producto_id) | key 'enter', keyup: cancelEdit | key 'esc', blur:onBlur"> 
+				</td>
 				<td> @{{dev.descripcion}} </td>
-				<td> @{{dev.precio}} </td>
-				<td> @{{dev.precio}} </td>
+				<td class="right"> @{{dev.precio | currency ' '}} </td>
+				<td class="right"> @{{dev.cantidad * dev.precio | currency ' '}} </td>
 	        </tr>
-		</tbody>
-
-		<tfoot>
-			<tr>
-				<td colspan="2"></td>
-				<td>
-					<div class="row">
-						<div class="col-md-8" style="font-size:14px;">Total cancelado</div>
-					</div>
-				</td>
-				<td></td>
-				<td>
-					<div class="col-md-4" style="text-align:right; font-size:14px;"> 
-						total
-					</div>
-				</td>
+			<tr style="font-size:14px">
+				<td class="center" colspan="4"> Total cancelado: </td>
+				<td class="right"> @{{ totalVenta | currency ' '}} </td>
 			</tr>
-		</tfoot>
+		</tbody>
 	</table>
-</div>
-
-<div>
-	<pre>@{{ $data | json }}</pre>
 </div>
 
 <script type="text/javascript">
@@ -78,11 +60,14 @@
 </script>
 
 <style type="text/css">
-    .table th:nth-child(1) { width: 10% !important; }
+    .table th:nth-child(1) { width: 8% !important; }
     .table th:nth-child(2) { width: 10% !important; }
-    .table th:nth-child(3) { width: 60% !important; }
+    .table th:nth-child(3) { width: 62% !important; }
     .table th:nth-child(4) { width: 10% !important; }
     .table th:nth-child(5) { width: 10% !important; }
+    .table tr td {
+    	padding-right: 12px !important;
+    }
     .table_white tr td {
     	background: white;
     }

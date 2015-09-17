@@ -89,7 +89,7 @@
 
         data: {
             x: 1,
-            devoluciones: { 
+            devoluciones: {
                 venta: [],
                 detalle_venta: [],
                 articulos: []
@@ -101,7 +101,7 @@
             {
                 var total = 0;
                 this.devoluciones.articulos.forEach(function(q) {
-                    total = total + q.cantidad;
+                    total = total + parseInt(q.cantidad);
                 });
                 return total;
             },
@@ -110,6 +110,15 @@
             {
                 var total = 0;
                 this.devoluciones.articulos.forEach(function(q) {
+                    total = total + (q.cantidad * q.precio);
+                });
+                return total;
+            },
+
+            totalVenta: function()
+            {
+                var total = 0;
+                this.devoluciones.detalle_venta.forEach(function(q) {
                     total = total + (q.cantidad * q.precio);
                 });
                 return total;
@@ -179,35 +188,83 @@
                 queries.x = 1;
             },
 
-            get_ckbox_dev: function()
+            pushToDevoluciones: function(event, producto_id, cantidad, precio)
             {
-                var chkArray = [];
-                
-                $(".ckbox-dev input:checked").each(function() {
-                    chkArray.push($(this).closest('td').prev('td').text());
-                });
-                
-                var selected;
-                selected = chkArray.join(',');
-                
-                if(selected.length > 1){
-                    alert("You have selected " + selected); 
-                }else{
-                    alert("Please at least one of the checkbox");   
-                }
-            },
-
-            pushToDevoluciones: function(event, producto_id, cantidad, precio, index)
-            {
-                alert(index);
-                if ( $(event.target).prop('checked') )
+                if ( $(event.target).is(':checked') )
                 {
-                this.devoluciones.articulos.splice(index, 0, { producto_id: producto_id, cantidad: cantidad, precio: precio, index:index });
+                    this.devoluciones.articulos.push({ producto_id: producto_id, cantidad: cantidad, precio: precio });
                 }
                 else
                 {
-                    this.devoluciones.articulos.$remove(index);
+                    $(event.target).closest('td').next('td').next('td').hide(); 
+                    $(event.target).closest('td').next('td').show(); 
+                    this.devoluciones.articulos.forEach(function(q, index)
+                    {
+                        if( producto_id === q.producto_id) {
+                            queries.devoluciones.articulos.$remove(index);
+                        }
+                    });
                 }
+            },
+
+            edit: function(event)
+            {
+                if ( $(event.target).closest('td').prev('td').find('input:checkbox').is(':checked') )
+                {
+                    $(event.target).closest('td').hide();
+                    $(event.target).closest('td').next('td').show();
+                    $(event.target).closest('td').next('td').find('input:text').val(event.target.textContent).focus().select();
+                }
+            },
+
+            cancelEdit: function (event)
+            {
+                $(event.target).closest('td').hide();
+                $(event.target).closest('td').prev('td').show();
+            },
+
+            onBlur: function (event)
+            {
+                $(event.target).closest('td').hide();
+                $(event.target).closest('td').prev('td').show();
+            },
+
+            doneEdit: function (event, producto_id)
+            {
+                $.ajax({
+                    type: "GET",
+                    url: 'user/ventas/getCheckCantidadDevolucion',
+                    data: { venta_id: this.devoluciones.venta.id, producto_id: producto_id, cantidad: event.target.value },
+                }).done(function(data) {
+                    if (data == 'success')
+                    {
+                        // coloca el valor del input al td.text y luego lo oculta para mostrat el td.text
+                        $(event.target).closest('td').prev('td').text(event.target.value);
+                        $(event.target).closest('td').hide();
+                        $(event.target).closest('td').prev('td').show();
+
+                        // actualiza el array que se va a enviar
+                        queries.devoluciones.articulos.forEach(function(q)
+                        {
+                            if( producto_id === q.producto_id) {
+                                return q.cantidad = event.target.value;
+                            }
+                        });
+
+                        // actualiza devoluciones.detalle_venta.cantidad en caso de que se le quite el check y se vuelva a poner 
+                        // aga el push con el mismo valor que tiene el td.text
+                        queries.devoluciones.detalle_venta.forEach(function(q)
+                        {
+                            if( producto_id === q.producto_id) {
+                                return q.cantidad = event.target.value;
+                            }
+                        });
+
+                        return;
+                    }
+                    msg.warning(data, 'Advertencia!');
+                    $(event.target).select();
+                });
             },
 
             enviarDevolucion: function()
@@ -215,7 +272,7 @@
                 $.ajax({
                     type: "get",
                     url: 'test',
-                    data: { datos: queries.devoluciones },
+                    data: { datos: queries.devoluciones.articulos },
                 }).done(function(data) {
                     alert(data);
                 });

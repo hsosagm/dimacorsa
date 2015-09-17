@@ -789,10 +789,26 @@ class VentasController extends \BaseController {
 
 		$detalle_venta = json_encode($detalle_venta);
 
-		 return Response::json(array(
+		return Response::json(array(
             'success' => true,
             'table' => View::make('ventas.devoluciones.ventaConDetalleParaDevolucion', compact('venta', 'detalle_venta'))->render()
         ));
+	}
+
+	public function getCheckCantidadDevolucion()
+	{
+		$dv = DetalleVenta::where('venta_id', Input::get('venta_id'))
+		->whereProductoId(Input::get('producto_id'))->first();
+
+		if ($dv) {
+			if ($dv->cantidad >= Input::get('cantidad')) {
+				return 'success';
+			}
+
+			return 'La cantidad ingresada ['.Input::get('cantidad').'] es mayor a la cantidad vendida ['.$dv->cantidad.'].';
+		}
+
+		return 'No se encontro ningun registro';
 	}
 
 }
