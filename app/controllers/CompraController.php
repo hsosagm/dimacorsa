@@ -24,7 +24,7 @@ class CompraController extends \BaseController {
 				'success' => true, 
 				'detalle' => View::make('compras.detalle',compact("id"))->render(),
 				'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
-			));
+				));
 		}
 
 		return View::make('compras.create');
@@ -45,12 +45,12 @@ class CompraController extends \BaseController {
 		$saldo = $this->TotalCreditoProveedor($proveedor->id);
 		$detalle = $this->TablePurchaseDetailsEdit($id);
 		$codigoBarra = DB::table('printer')->select('impresora')
-			->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
 
 		return Response::json(array(
 			'success' => true, 
 			'form' => View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle","codigoBarra"))->render()
-		));
+			));
 
 
 	}
@@ -60,7 +60,7 @@ class CompraController extends \BaseController {
 		if (Input::has('_token'))
 		{
 			$id = Input::get('id');
-	    	$compra = Compra::find(Input::get('id'));
+			$compra = Compra::find(Input::get('id'));
 
 			if ( $compra->update_master() )
 			{
@@ -69,21 +69,21 @@ class CompraController extends \BaseController {
 				$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
 				$saldo = $this->TotalCreditoProveedor($proveedor->id);
 
-		       return Response::json(array(
+				return Response::json(array(
 					'success' => true, 
 					'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
-				));
+					));
 			}
 			else
 			{
-			    return $compra->errors();
+				return $compra->errors();
 			}
-    	}
+		}
 
-    	$compra = Compra::find(Input::get('id'));
-    	$proveedor = Proveedor::find($compra->proveedor_id);
+		$compra = Compra::find(Input::get('id'));
+		$proveedor = Proveedor::find($compra->proveedor_id);
 
-        return View::make('compras.edit_info',compact('compra','proveedor'))->render();
+		return View::make('compras.edit_info',compact('compra','proveedor'))->render();
 	}
 
 	public function DeletePurchaseDetailsItem()
@@ -129,7 +129,7 @@ class CompraController extends \BaseController {
 				'success' => true,
 				'p_costo' => 'Precio Costo: '.($p_costo/100),
 				'table'   => View::make('compras.detalle_body', compact("detalle","codigoBarra"))->render(),
-			));
+				));
 		}
 
 		return false;
@@ -201,7 +201,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => true, 
 			'detalle' => View::make('compras.payment',compact('total_compra'))->render()
-		));
+			));
 	}
 
 	public function PurchasePaymentDetail()
@@ -212,8 +212,8 @@ class CompraController extends \BaseController {
 
 		return Response::json( array(
 			'success' => true,
-		    'detalle' => View::make('compras.payment',compact('total_pagos','total_compra','det_pagos'))->render() 
-		));
+			'detalle' => View::make('compras.payment',compact('total_pagos','total_compra','det_pagos'))->render() 
+			));
 	}
 
 	//funcion para eliminar un detalle de pago
@@ -231,7 +231,7 @@ class CompraController extends \BaseController {
 		
 		$validaciones = array( 
 			Input::get('dato') => array('required','numeric','min:1')
-		);
+			);
 
 		$validator = Validator::make($datos, $validaciones);
 
@@ -248,7 +248,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => $procesar,
 			'table'   => View::make('compras.detalle_body', compact("detalle"))->render()
-		));
+			));
 	}
 
 	//funcion para verificar si ya se ingreso un pago con ese metodo
@@ -278,14 +278,14 @@ class CompraController extends \BaseController {
 	}
 
 	public function TotalCreditoProveedor($proveedor_id)
-    {
-        $total = Compra::select(DB::Raw('sum(saldo) as total'))
-        ->where('proveedor_id','=', $proveedor_id)
-        ->where('tienda_id','=', Auth::user()->tienda_id)
-        ->where('saldo','>', 0 )->first();
+	{
+		$total = Compra::select(DB::Raw('sum(saldo) as total'))
+		->where('proveedor_id','=', $proveedor_id)
+		->where('tienda_id','=', Auth::user()->tienda_id)
+		->where('saldo','>', 0 )->first();
 
-        return $total->total;
-    }
+		return $total->total;
+	}
 
 	public function TablePurchaseDetails()
 	{
@@ -322,33 +322,47 @@ class CompraController extends \BaseController {
 	public function showPurchaseDetail()
 	{
 		$detalle = DB::table('detalle_compras')
-        ->select(array('detalle_compras.id', 'compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-        ->where('compra_id', Input::get('id'))
-        ->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-        ->get();
+		->select(array('detalle_compras.id', 'compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+		->where('compra_id', Input::get('id'))
+		->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
+		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+		->get();
 
 		$deuda = 0;
 
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.DT_detalle_compra', compact('detalle', 'deuda'))->render()
-        ));
+			));
 	}
 
 	public function showPaymentsDetail()
 	{
-		 $detalle = DB::table('detalle_abonos_compra')
-        ->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
-        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
-        ->where('abonos_compra_id','=', Input::get('id'))->get();
+		$detalle = DB::table('detalle_abonos_compra')
+		->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
+		->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+		->where('abonos_compra_id','=', Input::get('id'))->get();
 
 		$deuda = 0;
 
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.DT_detalle_abono', compact('detalle', 'deuda'))->render()
-        ));
+			));
+	}
+
+	public function getActualizarDetalleCompra()
+	{
+		$codigoBarra = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
+		
+		$detalle = $this->TablePurchaseDetails();
+
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('compras.detalle_body', compact("detalle","codigoBarra"))->render(),
+			));
+
 	}
 
 	public function ingresarSeriesDetalleCompra()
@@ -371,7 +385,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'view'   => View::make('compras.ingresarSeriesDetalleCompra', compact('serials'))->render()
-        ));
+			));
 	}
 
 	/*
@@ -397,7 +411,7 @@ class CompraController extends \BaseController {
 			"numero_documento",
 			"total",
 			"saldo"
-		);
+			);
 
 		$Search_columns = array("users.nombre", "users.apellido", "fecha_documento", "numero_documento");
 
@@ -412,27 +426,27 @@ class CompraController extends \BaseController {
 	public function ShowTableUnpaidShopping()
 	{
 		$compras = DB::table('compras')
-        	->select(DB::raw("compras.fecha_documento as fecha, 
-        		compras.created_at as  fecha_ingreso,
-            	CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            	proveedores.nombre as proveedor,
-            	numero_documento,
-            	compras.id as id ,
-            	saldo,
-                total"))
-	        ->join('users', 'compras.user_id', '=', 'users.id')
-	        ->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
-	        ->where('compras.completed', '=', 1)
-	        ->where('saldo', '>', 0)
-	        ->where('compras.tienda_id', '=', Auth::user()->tienda_id)
-	        ->where('proveedor_id','=',Input::get('proveedor_id'))
-	        ->orderBy('fecha', 'ASC')
-	        ->get();
+		->select(DB::raw("compras.fecha_documento as fecha, 
+			compras.created_at as  fecha_ingreso,
+			CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+			proveedores.nombre as proveedor,
+			numero_documento,
+			compras.id as id ,
+			saldo,
+			total"))
+		->join('users', 'compras.user_id', '=', 'users.id')
+		->join('proveedores', 'compras.proveedor_id', '=', 'proveedores.id')
+		->where('compras.completed', '=', 1)
+		->where('saldo', '>', 0)
+		->where('compras.tienda_id', '=', Auth::user()->tienda_id)
+		->where('proveedor_id','=',Input::get('proveedor_id'))
+		->orderBy('fecha', 'ASC')
+		->get();
 
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('compras.ComprasPendientesDePago', compact('compras'))->render()
-        ));
+			));
 	}
 
 	public function ComprasPendientesDePago()
@@ -448,7 +462,7 @@ class CompraController extends \BaseController {
 			"completed",
 			"saldo",
 			"compras.total as total"
-		);
+			);
 
 		$Search_columns = array("users.nombre","users.apellido","fecha_documento","numero_documento");
 
@@ -465,42 +479,42 @@ class CompraController extends \BaseController {
 	{
 		$saldo_total = Compra::where('tienda_id','=',Auth::user()->tienda_id)
 		->where('compras.completed', '=', 1)
-        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
+		->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
-        $saldo_vencido = DB::table('compras')
-        ->select(DB::raw('sum(saldo) as total'))->where('saldo','>',0)
-        ->where('compras.completed', '=', 1)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
-        ->where('tienda_id','=',Auth::user()->tienda_id)->first();
-         $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		$saldo_vencido = DB::table('compras')
+		->select(DB::raw('sum(saldo) as total'))->where('saldo','>',0)
+		->where('compras.completed', '=', 1)
+		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+		->where('tienda_id','=',Auth::user()->tienda_id)->first();
+		$tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
 		$infoSaldosTotales = "Saldo total &nbsp;".f_num::get($saldo_total->total)."{$tab}Saldo vencido &nbsp;".f_num::get($saldo_vencido->total);
 		$tienda_id = Auth::user()->tienda_id;
 
 		$compras = DB::table('proveedores')
-        	->select(DB::raw("
-        		proveedores.id as id,
-        		proveedores.nombre as proveedor,
-        		proveedores.direccion as direccion,
-        		sum(compras.total) as total,
-        		sum(compras.saldo) as saldo_total,
-        		(select sum(saldo) from compras where 
-        			tienda_id = {$tienda_id} AND completed = 1 AND
-        			DATEDIFF(current_date,fecha_documento) >= 30 
-        			AND proveedor_id = proveedores.id) as saldo_vencido
-        		"))
-	        ->join('compras', 'compras.proveedor_id', '=', 'proveedores.id')
-	        ->where('compras.saldo', '>', 0)
-	        ->where('compras.completed', '=', 1)
-	        ->where('compras.tienda_id', '=', Auth::user()->tienda_id)
-	        ->groupBy('proveedor_id')
-	        ->get();
+		->select(DB::raw("
+			proveedores.id as id,
+			proveedores.nombre as proveedor,
+			proveedores.direccion as direccion,
+			sum(compras.total) as total,
+			sum(compras.saldo) as saldo_total,
+			(select sum(saldo) from compras where 
+				tienda_id = {$tienda_id} AND completed = 1 AND
+				DATEDIFF(current_date,fecha_documento) >= 30 
+				AND proveedor_id = proveedores.id) as saldo_vencido
+		"))
+		->join('compras', 'compras.proveedor_id', '=', 'proveedores.id')
+		->where('compras.saldo', '>', 0)
+		->where('compras.completed', '=', 1)
+		->where('compras.tienda_id', '=', Auth::user()->tienda_id)
+		->groupBy('proveedor_id')
+		->get();
 
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('compras.getComprasPedientesDePago', compact('compras'))->render(),
 			'infoSaldosTotales' => $infoSaldosTotales
-        ));
+			));
 
 	}
 
@@ -508,31 +522,31 @@ class CompraController extends \BaseController {
 	{	
 		$table = 'compras';
 
-        $columns = array(
-            "compras.id as id_compra",
-            "compras.numero_documento as factura",  
-            "compras.created_at as fecha_ingreso",  
-            "compras.fecha_documento as fecha_documento",  
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
-            "compras.total as total", 
-            "compras.saldo as saldo",
-            "DATEDIFF(current_date,fecha_documento) as dias"
-        );
+		$columns = array(
+			"compras.id as id_compra",
+			"compras.numero_documento as factura",  
+			"compras.created_at as fecha_ingreso",  
+			"compras.fecha_documento as fecha_documento",  
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
+			"compras.total as total", 
+			"compras.saldo as saldo",
+			"DATEDIFF(current_date,fecha_documento) as dias"
+			);
 
-        $Search_columns = array("users.nombre","users.apellido","venta.created_at","compras.factura");
+		$Search_columns = array("users.nombre","users.apellido","venta.created_at","compras.factura");
 
-        $Join = "JOIN users ON (users.id = compras.user_id) ";
+		$Join = "JOIN users ON (users.id = compras.user_id) ";
 
-        $where  = " compras.tienda_id = ".Auth::user()->tienda_id;
-        $where  = " compras.saldo > 0 ";
-        $where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
+		$where  = " compras.tienda_id = ".Auth::user()->tienda_id;
+		$where  = " compras.saldo > 0 ";
+		$where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
 
-        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
+		$detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
 
-        return Response::json(array(
-            'success' => true,
-            'table'   => View::make('compras.getComprasPendientesPorProveedor', compact('detalle'))->render()
-        ));
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('compras.getComprasPendientesPorProveedor', compact('detalle'))->render()
+			));
 
 	}
 	
@@ -540,10 +554,10 @@ class CompraController extends \BaseController {
 	{
 		$compra = Compra::with('detalle_compra','proveedor')->find(Input::get('compra_id'));
 
-		 return Response::json(array(
-            'success' => true,
-            'table' => View::make('compras.getCompraConDetalle', compact('compra'))->render()
-        ));
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('compras.getCompraConDetalle', compact('compra'))->render()
+			));
 	}
 
 	public function ShowTableHistoryPayment()
@@ -561,7 +575,7 @@ class CompraController extends \BaseController {
 			"compras.numero_documento as factura",
 			"metodo_pago.descripcion as metodo_descripcion",
 			'monto'
-		);
+			);
 
 		$Searchable = array("users.nombre","users.apellido","compras.numero_documento");
 
@@ -580,7 +594,7 @@ class CompraController extends \BaseController {
 	public function ShowTableHistoryPaymentDetails()
 	{
 		$comprobante = DB::table('printer')->select('impresora')
-        ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
 		return View::make('compras.HistorialDeAbonos', compact('comprobante'));
 	}

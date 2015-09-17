@@ -65,6 +65,13 @@
             Route::get('sidebarTypeSetting/{tipo}'    , 'TemaController@sidebarTypeSetting' );
         }); 
 
+        Route::group(array('prefix' => 'notaDeCredito'), function()
+        {   
+            Route::get('create' , 'NotaCreditoController@create' );
+            Route::post('create','NotaCreditoController@create' );
+            Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
+        }); 
+
         Route::group(array('prefix' => 'consulta'), function()
         {
             Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario'   );
@@ -83,6 +90,10 @@
             Route::get('GastosDelDiaUsuario_dt'        , 'UserController@GastosDelDiaUsuario'           );
             Route::get('AdelantosDelDiaUsuario_dt'     , 'UserController@AdelantosDelDiaUsuario'        );
             Route::get('clientes_dt'                   , 'UserController@clientes'                      );
+            Route::get('getConsultarSerie'             , 'UserController@getConsultarSerie'             );
+            Route::post('setConsultarSerie'            , 'UserController@setConsultarSerie'             );
+            Route::get('getConsultarNotasDeCredito'    , 'UserController@getConsultarNotasDeCredito'    );
+            Route::get('DtConsultarNotasDeCredito'     , 'UserController@DtConsultarNotasDeCredito'     );
         });
 
         Route::group(array('prefix' => 'cliente'), function()
@@ -357,7 +368,6 @@
         });
 
 
-
         Route::group(array('prefix' => 'compras'), function()
         {
             Route::get('create'                             , 'CompraController@create' );
@@ -392,6 +402,7 @@
             Route::get('getComprasPendientesPorProveedor'   , 'CompraController@getComprasPendientesPorProveedor');
             Route::get('getCompraConDetalle'                , 'CompraController@getCompraConDetalle');
             Route::post('ingresarSeriesDetalleCompra'       , 'CompraController@ingresarSeriesDetalleCompra');
+            Route::get('getActualizarDetalleCompra'         , 'CompraController@getActualizarDetalleCompra');
 
             Route::group(array('prefix' => 'payments'),function() 
             {
@@ -554,7 +565,7 @@
 
 Route::get('/test', function()
 {
-    return json_encode( Input::all() );
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

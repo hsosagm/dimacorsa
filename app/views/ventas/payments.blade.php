@@ -9,12 +9,17 @@
             <div v-show="!vuelto" class="col-md-6"><p>Resta abonar: @{{ resta_abonar | currency ' '}}</p></div>
             <div v-show="vuelto" class="col-md-4"><p class="btn-success" style="padding-left:10px">Su vuelto es: @{{ vuelto | currency ' ' }}</p></div>
         </div>
-
+        <div class="row" style="margin-left:20px; width:90%">
+            <div class="col-md-4"><p>Monto</p></div> 
+            <div class="col-md-4"><p>Metodo</p></div> 
+            <div class="col-md-4"><p></p></div> 
+        </div>
         <div class="row" style="margin-top:10px; margin-left:20px; width:90%">
-            <div class="col-md-2"><p>Monto</p></div> 
             <div class="col-md-4"><input class="form-control numeric" type="text" value="{{ $resta_abonar }}" name="monto"></div>
-            <div class="col-md-2"><p>Metodo</p></div> 
-            <div class="col-md-4">{{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}</div>
+            <div class="col-md-4">{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',6)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}</div>
+            <div class="col-md-4">
+                <button type="button" onclick="getConsultarNotasDeCreditoCliente(this,{{$cliente_id}})" class="btn-theme form-control ">Notas de Credito</button>
+            </div>
         </div>
 
         <div style="height:150px">

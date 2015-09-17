@@ -48,3 +48,42 @@ function VentasAlCreditoUsuario(e) {
         }
     }); 
 }
+
+function getConsultarSerie(e) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/getConsultarSerie',
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            clean_panel();
+            $('#graph_container').show();
+            $('#graph_container').html(data.view);
+            return;
+        }
+        msg.warning(data, 'Advertencia!');
+    }); 
+} 
+
+function setConsultarSerie(e) {
+    $(e).prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: 'user/consulta/setConsultarSerie',
+        data: { serials: $('.inputSerieParaConsultar').val()},
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            $('.resultadoDeBusquedaDeSerie').html(data.view);
+            return $(e).prop("disabled", false);
+        }
+        msg.warning(data, 'Advertencia!');
+        return $(e).prop("disabled", false);
+    }); 
+}
+
+function getConsultarNotasDeCredito(e) {
+    $.get( "user/consulta/getConsultarNotasDeCredito", function( data ) {
+        makeTable(data, '/user/notaDeCredito/', '');
+    });
+}

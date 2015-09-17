@@ -113,9 +113,12 @@ class ProductoController extends Controller {
 
     public function getInventario()
     {
+        $codigoBarra = DB::table('printer')->select('impresora')->where('tienda_id',Auth::user()->tienda_id)
+        ->where('nombre','codigoBarra')->first();
+
         return Response::json(array(
             'success'=> true,
-            'view' => View::make('producto.getInventario')->render()
+            'view' => View::make('producto.getInventario', compact('codigoBarra'))->render()
             )); 
     }
 

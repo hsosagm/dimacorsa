@@ -7,14 +7,12 @@
     <div class="col-md-4" align="center"><p>Pagos   : {{ @$total_pagos  }}</p></div>
 </div>
 <div class="form-group">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <input class="form-control input_numeric input" type="text" name="monto" placeholder="Monto" value="{{ @$total_compra - @$total_pagos }}" >
     </div>
-    <div class="col-md-5">
-        {{ Form::select('metodo_pago_id', MetodoPago::lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
-    </div>
-    <div class="col-md-2">
-        <button class="form-control" disabled>nota</button>
+    <div class="col-md-6">
+        {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',6)
+        ->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
     </div>
 </div><br>
 <div class="pagos-detalle">

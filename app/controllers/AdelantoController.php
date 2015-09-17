@@ -7,7 +7,7 @@ class AdelantoController extends \BaseController {
         $this->table = $table;
     } 
  
-     public function create()
+    public function create()
     {
         if (Input::has('_token'))
         {

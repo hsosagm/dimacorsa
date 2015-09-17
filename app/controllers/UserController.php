@@ -167,6 +167,31 @@ class UserController extends Controller {
 		return $no_assigned; 
 	}
 
+	public function getConsultarSerie()
+	{
+		return Response::json(array(
+			'success' => true, 
+			'view' => View::make('user_consulta.consultarSerie')->render(),
+			));
+	}
+
+	public function setConsultarSerie()
+	{
+		$detalleCompra = DetalleCompra::select('compra_id', 'producto_id')
+		->where('serials', 'LIKE','%'.trim(str_replace("'", '', Input::get('serials'))).'%')
+		->join('compras', 'compras.id', '=', 'compra_id')
+		->where('tienda_id','=' , Auth::user()->tienda_id)->first();
+
+		$detalleVenta  = DetalleVenta::select('venta_id', 'producto_id')
+		->where('serials', 'LIKE','%'.trim(str_replace("'", '', Input::get('serials'))).'%')
+		->join('ventas', 'ventas.id', '=', 'venta_id')
+		->where('tienda_id','=', Auth::user()->tienda_id)->first();
+
+		return Response::json(array(
+			'success' => true, 
+			'view' => View::make('user_consulta.consultarSerieBody',compact('detalleVenta', 'detalleCompra'))->render(),
+			));
+	}
 
 	//area de consultas para el usuario
 
@@ -211,6 +236,12 @@ class UserController extends Controller {
 		return View::make('user_consulta.Clientes');
 	}
 
+	public function getConsultarNotasDeCredito()
+	{
+		return View::make('user_consulta.consultarNotasDeCredito');
+	}
+
+
 
 //**********************************************************************************************************************
 //Consultas del Usuario
@@ -228,7 +259,7 @@ class UserController extends Controller {
 			"saldo",
 			"completed"
 			);
- 
+
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre");
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
@@ -397,24 +428,47 @@ class UserController extends Controller {
 	public function VentasAlCreditoUsuario()
 	{
 		$ventas = DB::table('ventas')
-        ->select(DB::raw("ventas.id,
-        	ventas.total,
-        	ventas.created_at as fecha, 
-            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-            cliente.nombre as cliente,
-            saldo"))
-        ->join('users', 'ventas.user_id', '=', 'users.id')
-        ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
-        ->where('ventas.tienda_id', Auth::user()->tienda_id)
-        ->where('saldo', '>', 0)
-        ->where('ventas.user_id', '=', Auth::user()->id)
-        ->orderBy('fecha', 'ASC')
-        ->get();
+		->select(DB::raw("ventas.id,
+			ventas.total,
+			ventas.created_at as fecha, 
+			CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+			cliente.nombre as cliente,
+			saldo"))
+		->join('users', 'ventas.user_id', '=', 'users.id')
+		->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
+		->where('ventas.tienda_id', Auth::user()->tienda_id)
+		->where('saldo', '>', 0)
+		->where('ventas.user_id', '=', Auth::user()->id)
+		->orderBy('fecha', 'ASC')
+		->get();
 
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('ventas.creditSales', compact('ventas'))->render()
-        ));
+			));
+	}
+
+	public function DtConsultarNotasDeCredito()
+	{
+		$table = 'notas_creditos';
+
+		$columns = array(
+			"notas_creditos.created_at as fecha", 
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"clientes.nombre as cliente",
+			"tipo",
+			"nota",
+			"monto",
+			"estado"
+			);
+
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre", 'tipo', 'monto');
+
+		$Join = "JOIN users ON (users.id = notas_creditos.user_id) JOIN clientes ON (clientes.id = notas_creditos.cliente_id)";
+
+		$where = "notas_creditos.tienda_id =".Auth::user()->tienda_id;
+
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
 }
 

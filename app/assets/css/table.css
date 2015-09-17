@@ -259,6 +259,11 @@ table {
   background: #FFE3E3 !important;
 }
 
+.blue td {
+  color: #3D39FF;
+  background: #B8CBFB !important;
+}
+
 .home_num {
   min-width: 88px;
   text-align: right;
