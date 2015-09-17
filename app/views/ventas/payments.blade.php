@@ -18,7 +18,7 @@
             <div class="col-md-4"><input class="form-control numeric" type="text" value="{{ $resta_abonar }}" name="monto"></div>
             <div class="col-md-4">{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',6)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}</div>
             <div class="col-md-4">
-                <button type="button" onclick="getConsultarNotasDeCredito(this)" class="btn-theme form-control ">Notas de Credito</button>
+                <button type="button" onclick="getConsultarNotasDeCreditoCliente(this,{{$cliente_id}})" class="btn-theme form-control ">Notas de Credito</button>
             </div>
         </div>
 

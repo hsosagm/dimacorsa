@@ -194,21 +194,26 @@ class VentasController extends \BaseController {
 			{
 				return $pv->errors();
 			}
-			
+
 			$factura = DB::table('printer')->select('impresora')
 			->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
 
 			$garantia = DB::table('printer')->select('impresora')
 			->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
 
+			$venta = Venta::find(Input::get('venta_id'));
+
+			$cliente_id = $venta->cliente_id;
+
 			$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
 
 			return Response::json(array(
 				'success' => true, 
-				'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia'))->render()
+				'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia', 'cliente_id'))->render()
 			));
 
 		}
+
 
 		PagosVenta::where('venta_id', Input::get('venta_id'))->delete();
 
@@ -254,9 +259,12 @@ class VentasController extends \BaseController {
 		$garantia = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
 
+		$venta = Venta::find(Input::get('venta_id'));
+		$cliente_id = $venta->cliente_id;
+
 		return Response::json(array(
 			'success' => true, 
-			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia'))->render()
+			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia', 'cliente_id'))->render()
 		));
 	}
 

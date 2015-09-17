@@ -67,8 +67,9 @@
 
         Route::group(array('prefix' => 'notaDeCredito'), function()
         {   
-            Route::get('create', 'NotaCreditoController@create' );
+            Route::get('create' , 'NotaCreditoController@create' );
             Route::post('create','NotaCreditoController@create' );
+            Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
         }); 
 
         Route::group(array('prefix' => 'consulta'), function()

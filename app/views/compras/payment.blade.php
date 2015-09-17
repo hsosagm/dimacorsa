@@ -11,7 +11,8 @@
         <input class="form-control input_numeric input" type="text" name="monto" placeholder="Monto" value="{{ @$total_compra - @$total_pagos }}" >
     </div>
     <div class="col-md-6">
-        {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',6)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
+        {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',6)
+        ->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
     </div>
 </div><br>
 <div class="pagos-detalle">
