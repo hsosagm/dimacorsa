@@ -13,6 +13,7 @@
     </div>
 
     <ul class="sidebar-menu">
+        
 
         <li class="active home">
             <a href="javascript:void(0);">
@@ -21,10 +22,18 @@
                 <span class="selected"></span>
             </a>
         </li>
-
+        
         <li class="sidebar-category">
             <span>ADMIN</span>
             <span class="pull-right"><i class="fa fa-code"></i></span>
+        </li>
+            
+        <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-cube"></i></span>
+                <span class="text">Punto de Venta</span>
+                <span class="plus"></span>
+            </a>
         </li>
 
         <li class="submenu">
@@ -44,6 +53,7 @@
                 <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
             </ul>
         </li>
+
 
         <li class="submenu">
             <a href="javascript:void(0);">

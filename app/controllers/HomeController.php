@@ -59,6 +59,7 @@ class HomeController extends \BaseController {
         else
             $user->vista = 'Default';
 
+        $user->caja_id = 0;
         $user->save();
 
         return View::make('layouts.master', compact('clientes'));
@@ -67,6 +68,10 @@ class HomeController extends \BaseController {
 
     public function logout()
     {
+        $user = User::find(Auth::user()->id);
+        $user->caja_id = 0;
+        $user->save();
+        
         Auth::logout();
 
         return Redirect::to('logIn')->with('message', 'Su session ha sido cerrada.');

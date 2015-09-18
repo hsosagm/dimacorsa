@@ -8,7 +8,7 @@ class CajaController extends \BaseController {
         {
             $caja = new Caja;
 
-            if (!$caja->create())
+            if (!$caja->_create())
             {
                 return $caja->errors(); 
             }
@@ -17,6 +17,22 @@ class CajaController extends \BaseController {
         }
 
         return View::make('cajas.create');
+    }
+
+    public function asignar()
+    {
+        if (Input::has('_token'))
+        {
+            $user = User::find(Auth::user()->id);
+            $user->caja_id = Input::get('caja_id');
+            $user->save();
+
+            $caja = Caja::find(Input::get('caja_id'));
+
+            return 'success';
+        }
+
+        return View::make('cajas.asignar');
     }
 
 	public function getConsultarCajas()

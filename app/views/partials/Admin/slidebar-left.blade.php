@@ -13,7 +13,7 @@
     </div>
 
     <ul class="sidebar-menu">
-
+        
         <li class="active home">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-home"></i></span>
@@ -25,6 +25,13 @@
         <li class="sidebar-category">
             <span>ADMIN</span>
             <span class="pull-right"><i class="fa fa-code"></i></span>
+        </li>
+        
+        <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-cube"></i></span>
+                <span class="text">Punto de Venta</span>
+            </a>
         </li>
 
         <li class="submenu">
@@ -39,6 +46,7 @@
                 <li onclick="getTrasladosRecibidos(this)"><a href="javascript:void(0);">Traslados Recibidos</a></li>
                 <li onclick="getConsultarNotasDeCredito(this)"><a href="javascript:void(0);">Consultar Notas de Credito</a></li>
                 <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Consultar Serie</a></li>
+                <li onclick="getConsultarCajas(this)"><a href="javascript:void(0);">Consultar Cajas</a></li>
                 {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
                 <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
             </ul>

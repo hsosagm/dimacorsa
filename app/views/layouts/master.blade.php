@@ -3,6 +3,8 @@
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
 <?php $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>
 <?php $vista = Auth::user()->vista; ?>
+<?php $caja = Auth::user()->caja_id; ?>
+
 
 @include('partials.head')
 
@@ -46,9 +48,9 @@
     <script src="js/main.js"></script>
     <script src="js/custom.js"></script>
     
+    
     <script type="text/javascript">
         $(document).ready(function(){
-
             /*configuracion del thema capturado de la base de datos*/ 
             $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
             $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');
@@ -100,6 +102,14 @@
                 event.preventDefault();
             }
         });
+
+        if("{{$vista}}" == "User")
+        {    
+            if("{{$caja}}" == "0")
+            {
+                getAsignarCajaUsuario();
+            }   
+        }
     </script>
 
     <canvas id="barcode" style="display:none;"></canvas>

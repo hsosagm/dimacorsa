@@ -217,7 +217,13 @@
                 Route::get('getDetalleAbono'            , 'SalesPaymentsController@getDetalleAbono'  );
             });
         });
-
+        
+        Route::group(array('prefix' => 'cajas'),function() 
+        {
+            Route::get('asignar'             , 'CajaController@asignar');
+            Route::post('asignar'            , 'CajaController@asignar');
+        });
+        
         Route::get('profile'                   , 'UserController@edit_profile');
         Route::post('new'                      , 'UserController@create_new'  );
         Route::post('profile'                  , 'UserController@edit_profile');
@@ -233,8 +239,10 @@
         {
             Route::get('create'              , 'CajaController@create');
             Route::post('create'             , 'CajaController@create');
-            Route::get('getConsultarCajas'    , 'CajaController@getConsultarCajas');
-            Route::get('DtConsultarCajas'     , 'CajaController@DtConsultarCajas' );
+            Route::get('asignar'             , 'CajaController@asignar');
+            Route::post('asignar'            , 'CajaController@asignar');
+            Route::get('getConsultarCajas'   , 'CajaController@getConsultarCajas');
+            Route::get('DtConsultarCajas'    , 'CajaController@DtConsultarCajas' );
         });
 
 
@@ -572,7 +580,7 @@
 
 Route::get('/test', function()
 {
-
+    return json_encode(Caja::all());
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
