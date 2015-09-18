@@ -819,4 +819,32 @@ class VentasController extends \BaseController {
 		return 'No se encontro ningun registro';
 	}
 
+	public function getVentasParaDevoluciones()
+	{
+        return Response::json(array(
+            'success'=> true,
+            'view' => View::make('ventas.ventasParaDevoluciones')->render()
+        )); 
+	}
+
+	public function DT_ventasParaDevoluciones()
+	{
+        $table = 'ventas';
+
+		$columns = array(
+			"ventas.created_at as fecha", 
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"clientes.nombre as cliente",
+			"total",
+			"saldo"
+		);
+
+        $Search_columns = array("users.nombre","users.apellido","clientes.nombre","ventas.total",'ventas.created_at');
+        
+        $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+        $where = "ventas.tienda_id = ".Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Search_columns, $Join ,$where );
+	}
+
 }

@@ -1,4 +1,4 @@
-<div style="font-size:12px; padding-left: 15px;">
+<div style="font-size:12px; padding-left: 15px; padding-bottom:20px; border: 1px solid #D7D7D7">
     <h4 style="text-align:center">Devolucion de productos</h4>
 
 	<table class="table_white">
@@ -16,14 +16,14 @@
 </div>
 
 <div style="min-height:200px; padding:1px; font-size:12px;">
-	<table class="table table-striped">
+	<table class="table table-bordered">
 		<tbody>
 			<tr>
-				<td class="center"></td>
-				<td class="center">Cantidad</td>
-				<td class="center">Descripcion</td>
-				<td class="center">Precio</td>
-				<td class="center">Totales</td>
+				<th class="center"></th>
+				<th class="center">Cantidad</th>
+				<th class="center">Descripcion</th>
+				<th class="center">Precio</th>
+				<th class="center">Totales</th>
 			</tr>
 
 	        <tr v-repeat="dev: devoluciones.detalle_venta">
@@ -46,17 +46,18 @@
 				<td class="right"> @{{dev.precio | currency ' '}} </td>
 				<td class="right"> @{{dev.cantidad * dev.precio | currency ' '}} </td>
 	        </tr>
-			<tr style="font-size:14px">
-				<td class="center" colspan="4"> Total cancelado: </td>
-				<td class="right"> @{{ totalVenta | currency ' '}} </td>
+			<tr>
+				<th class="center" colspan="4"> Total cancelado: </th>
+				<th class="right"> @{{ totalVenta | currency ' '}} </th>
 			</tr>
 		</tbody>
 	</table>
 </div>
 
 <script type="text/javascript">
-	queries.devoluciones.venta = {{ $venta }};
-	queries.devoluciones.detalle_venta = {{ $detalle_venta }};
+	dv.devoluciones.venta = {{ $venta }};
+	dv.devoluciones.detalle_venta = {{ $detalle_venta }};
+	dv.devoluciones.articulos = [];
 </script>
 
 <style type="text/css">
@@ -67,8 +68,9 @@
     .table th:nth-child(5) { width: 10% !important; }
     .table tr td {
     	padding-right: 12px !important;
+  
     }
     .table_white tr td {
-    	background: white;
+    	background: transparent;
     }
 </style>

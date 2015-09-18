@@ -218,6 +218,13 @@
                 Route::post('SelectedPaySales'          , 'SalesPaymentsController@SelectedPaySales'  );
                 Route::get('getDetalleAbono'            , 'SalesPaymentsController@getDetalleAbono'  );
             });
+
+            Route::group(array('prefix' => 'devoluciones'),function() 
+            {
+                Route::get('getVentasParaDevoluciones'  , 'VentasController@getVentasParaDevoluciones');
+                Route::get('DT_ventasParaDevoluciones'  , 'VentasController@DT_ventasParaDevoluciones');
+            });
+
         });
 
         Route::get('profile'                   , 'UserController@edit_profile');

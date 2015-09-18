@@ -367,7 +367,6 @@ jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
     }, 0 );
 });
 
-/* Consultas.js */
 function getMasterQueries() {
     $('#graph_container').hide();
     $('.dt-container').hide();
@@ -400,3 +399,19 @@ $('[data-action=collapse_head]').click(function(){
         }
     }
 });
+
+function devoluciones() {
+    $.ajax({
+        type: 'GET',
+        url: 'user/ventas/devoluciones/getVentasParaDevoluciones',
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            clean_panel();
+            $('#graph_container').show();
+            $('#graph_container').html(data.view);
+            return;
+        }
+        msg.warning(data, 'Advertencia!');
+    }); 
+};
