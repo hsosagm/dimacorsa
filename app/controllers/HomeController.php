@@ -45,6 +45,19 @@ class HomeController extends \BaseController {
 
         $clientes = DB::table('clientes')->count();
 
+        $user = User::find(Auth::user()->id);
+       
+        if (Auth::user()->hasRole("Owner"))
+            $user->vista = 'Owner';
+
+        else if (Auth::user()->hasRole("Admin")) 
+            $user->vista = 'Admin';
+
+        else if (Auth::user()->hasRole("User")) 
+            $user->vista = 'User';
+
+        $user->save();
+
         return View::make('layouts.master', compact('clientes'));
     }
 

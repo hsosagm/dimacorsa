@@ -2,6 +2,7 @@
 
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
 <?php $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>
+<?php $vista = Auth::user()->vista; ?>
 
 @include('partials.head')
 
@@ -14,8 +15,8 @@
     </div>
 
     <section id="wrapper">
-        @include('partials.header')
-        @include('partials.slidebar-left')
+        @include('partials.'.$vista.'.header')
+        @include('partials.'.$vista.'.slidebar-left')
 
         <section id="page-content">
             <div id="loader">
