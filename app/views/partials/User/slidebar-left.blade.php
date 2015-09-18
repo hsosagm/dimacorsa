@@ -26,6 +26,22 @@
             <span class="pull-right"><i class="fa fa-magic"></i></span>
         </li>
 
+        @if(Auth::user()->hasRole("Owner"))
+            <li class="submenu">
+                <a href="javascript:void(0);" onclick="cambiarVistaPropietario(this)">
+                    <span class="icon"><i class="fa fa-cog"></i></span>
+                    <span class="text">Vista Propietario</span>
+                </a>
+            </li>
+        @elseif(Auth::user()->hasRole("Admin")) 
+             <li class="submenu">
+                <a href="javascript:void(0);" onclick="cambiarVistaAdministardor(this)">
+                    <span class="icon"><i class="fa fa-cog"></i></span>
+                    <span class="text">Vista Administrador</span>
+                </a>
+            </li>
+        @endif
+
         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>

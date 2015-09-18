@@ -28,8 +28,8 @@
         </li>
         
         <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-cube"></i></span>
+            <a href="javascript:void(0);" onclick="cambiarVistaPuntoDeVenta(this)">
+                <span class="icon"><i class="fa fa-dollar"></i></span>
                 <span class="text">Punto de Venta</span>
             </a>
         </li>

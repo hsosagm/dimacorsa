@@ -235,6 +235,14 @@
  
     Route::group(array('prefix' => 'admin'), function()
     {
+
+        Route::group(array('prefix' => 'vista'),function() 
+        {
+            Route::post('cambiarVistaPuntoDeVenta'   , 'VistaController@cambiarVistaPuntoDeVenta');
+            Route::post('cambiarVistaAdministardor'  , 'VistaController@cambiarVistaAdministardor');
+            Route::post('cambiarVistaPropietario'    , 'VistaController@cambiarVistaPropietario');
+        });
+
         Route::group(array('prefix' => 'cajas'),function() 
         {
             Route::get('create'              , 'CajaController@create');
@@ -580,7 +588,7 @@
 
 Route::get('/test', function()
 {
-    return json_encode(Caja::all());
+    return  Caja::count();
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

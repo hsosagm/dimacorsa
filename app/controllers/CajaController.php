@@ -6,6 +6,12 @@ class CajaController extends \BaseController {
     {
         if (Input::has('_token'))
         {
+            $cantidad_cajas = Caja::count();
+            $tienda = Tienda::find(Auth::user()->tienda_id);
+
+            if ($cantidad_cajas >= $tienda->limite_cajas) 
+                return "no puede crear mas cajas porque exede la cantidad de cajas pagadas...!";
+
             $caja = new Caja;
 
             if (!$caja->_create())
