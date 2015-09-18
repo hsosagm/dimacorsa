@@ -56,6 +56,8 @@
                 <li><a href="javascript:void(0);" onclick="VerTablaGastosDelDiaUsuario(this)">Gastos del Dia</a></li>
                 <li><a href="javascript:void(0);" onclick="VerTablaAdelantosDelDiaUsuario(this)">Adelantos del Dia</a></li>
                 <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
+                <li onclick="getConsultarNotasDeCredito(this)"><a href="javascript:void(0);">Consultar Notas de Credito</a></li>
+                <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Consultar Serie</a></li>
             </ul>
         </li>
 
@@ -71,6 +73,8 @@
                 <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelantos</a></li>
+                <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Nota de Credito</a></li>
+
             </ul>
         </li>
 

@@ -8,7 +8,10 @@ class VentasController extends \BaseController {
 		{
 			$venta = new Venta;
 
-			if (!$venta->create_master())
+			$data = Input::all();
+        	$data['caja_id'] = Auth::user()->caja_id;
+
+			if (!$venta->create_master($data))
 			{
 				return $venta->errors();
 			}

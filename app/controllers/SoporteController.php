@@ -27,7 +27,10 @@ class SoporteController extends BaseController {
 
         $soporte = new Soporte;
 
-        if (!$soporte->create_master())
+        $data = Input::all();
+        $data['caja_id'] = Auth::user()->caja_id;
+
+        if (!$soporte->create_master($data))
         {
             return $soporte->errors();
         }

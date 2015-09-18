@@ -21,7 +21,13 @@ class UserController extends Controller {
 	{
 		$table = 'users';
 
-		$columns = array("username","nombre","apellido","email","tienda_id","status");
+		$columns = array(
+			"username",
+			"nombre",
+			"apellido",
+			"email",
+			"tienda_id",
+			"status");
 
 		$Searchable = array("username","nombre","apellido","email","tienda_id","status");
 		
@@ -59,6 +65,13 @@ class UserController extends Controller {
 
 		if (Input::has('_token'))
 		{
+			$cantidad_usuarios = User::where('status','=',1)->count();
+			$tienda = Tienda::find(Auth::user()->tienda_id);
+			if (Input::get('status') == 1) {
+				if ($cantidad_usuarios >= $tienda->limite_usuarios) 
+					return "no puede crear mas usuarios porque exede la cantidad de usuarios pagados...!";
+			}
+			
 			$user = $this->user->find(Input::get('id'));
 
 			if ( $user->_update() )

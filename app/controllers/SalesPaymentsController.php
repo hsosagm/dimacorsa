@@ -17,7 +17,10 @@ class SalesPaymentsController extends \BaseController {
 
 			$abonosVenta = new AbonosVenta;
 
-			if (!$abonosVenta->create_master())
+            $data = Input::all();
+            $data['caja_id'] = Auth::user()->caja_id;
+
+			if (!$abonosVenta->create_master($data))
 			{
 				return $abonosVenta->errors();
 			}
@@ -140,6 +143,8 @@ class SalesPaymentsController extends \BaseController {
                     'monto' => Input::get('monto') );
 
         $abono = new AbonosVenta;
+
+        $data['caja_id'] = Auth::user()->caja_id;
 
         if (!$abono->create_master($data)) 
         {   

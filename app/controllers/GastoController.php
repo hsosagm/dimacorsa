@@ -27,7 +27,10 @@ class GastoController extends \BaseController {
 
         $gasto = new Gasto;
 
-        if (!$gasto->create_master())
+        $data = Input::all();
+        $data['caja_id'] = Auth::user()->caja_id;
+
+        if (!$gasto->create_master($data))
         {
             return $gasto->errors();
         }

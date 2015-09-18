@@ -16,6 +16,7 @@ $(document).on('submit', 'form[data-remote]', function(e) {
             if ($.trim(data) == 'success')  {
                 msg.success(form.data('success'), 'Listo!');
                 $('.bs-modal').modal('hide');
+                $('.modal-header .close').show();
 
                 if ($.trim($("input[name='compra_id']").val()) != "") {
                     getActualizarDetalleCompra($("input[name='compra_id']").val());
