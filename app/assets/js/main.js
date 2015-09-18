@@ -10,7 +10,6 @@ $(function() {
 });
 
 ajaxStatus=0;
-$('.cierre_modal_content').draggable();
 $('.btnremove').on('click', function() {
     $('#home').empty();
 });

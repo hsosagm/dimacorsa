@@ -35,41 +35,21 @@
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle f_ven_op" data-placement="bottom"  title="Venta" data-toggle="tooltip"><i class="fa fa-dollar"></i></a>
                 </li>
-                @if(Auth::user()->hasRole("Owner") || Auth::user()->hasRole("Admin"))
-                    <li class="dropdown navbar-message">
-                        <a id="f_com_op" href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compra"  data-toggle="tooltip"><i class="fa fa-shopping-cart"></i></a>
-                    </li>
-                @endif
                 <li class="dropdown navbar-message">
                     <a  href="javascript:void(0)" onclick="getInventario()" class="dropdown-toggle" data-placement="bottom"  title="Inventario"  data-toggle="tooltip"><i class="fa fa-list-alt"></i></a>
                 </li>
                 <li class="dropdown navbar-message">
                     <a  href="/cliente" class="dropdown-toggle"  data-placement="bottom"  title="Clientes"  data-toggle="tooltip"><i class="fa fa-users"></i></a>
                 </li>
-                @if(Auth::user()->hasRole("Owner") || Auth::user()->hasRole("Admin"))
-                    <li class="dropdown navbar-message">
-                        <a  href="/proveedor" class="dropdown-toggle" data-placement="bottom"  title="Proveedores"  data-toggle="tooltip"><i class="fa fa-folder-open"></i></a>
-                    </li>
-                    <li class="dropdown navbar-message">
-                        <a href="javascript:void(0)" onclick="chartVentasPorUsuario();" title="Graficas Ventas"><i class="fa fa-bar-chart-o"></i></a>
-                    </li>
-                    <li class="dropdown navbar-message">
-                        <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_descarga();" title="Descargas" data-toggle="tooltip"><i class="fa fa-download"></i></a>
-                    </li>
-                    <li class="dropdown navbar-message">
-                        <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_traslado();" title="Traslados" data-toggle="tooltip"><i class="fa fa-exchange"></i></a>
-                    </li>
-                @endif
                 <li class="dropdown navbar-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
                             <span class="avatar"><img src="img/logout.jpg" class="navbar-avatar"></span>
                             <span class="text hidden-xs hidden-sm text-muted">
                                 <?php 
-                                $user_nombre = explode(' ',Auth::user()->nombre);
-                                $user_apellido = explode(' ',Auth::user()->apellido);
-
-                                echo $user_nombre[0].' '.$user_apellido[0];
+                                    $user_nombre = explode(' ',Auth::user()->nombre);
+                                    $user_apellido = explode(' ',Auth::user()->apellido);
+                                    echo $user_nombre[0].' '.$user_apellido[0];
                                 ?>
                                 <span class="caret"></span>
                             </span>

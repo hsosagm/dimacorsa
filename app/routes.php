@@ -226,7 +226,13 @@
             });
 
         });
-
+        
+        Route::group(array('prefix' => 'cajas'),function() 
+        {
+            Route::get('asignar'             , 'CajaController@asignar');
+            Route::post('asignar'            , 'CajaController@asignar');
+        });
+        
         Route::get('profile'                   , 'UserController@edit_profile');
         Route::post('new'                      , 'UserController@create_new'  );
         Route::post('profile'                  , 'UserController@edit_profile');
@@ -238,6 +244,17 @@
  
     Route::group(array('prefix' => 'admin'), function()
     {
+        Route::group(array('prefix' => 'cajas'),function() 
+        {
+            Route::get('create'              , 'CajaController@create');
+            Route::post('create'             , 'CajaController@create');
+            Route::get('asignar'             , 'CajaController@asignar');
+            Route::post('asignar'            , 'CajaController@asignar');
+            Route::get('getConsultarCajas'   , 'CajaController@getConsultarCajas');
+            Route::get('DtConsultarCajas'    , 'CajaController@DtConsultarCajas' );
+        });
+
+
         Route::group(array('prefix' => 'kardex'),function() 
         {
             Route::get('getKardexPorFecha/{consulta}'          , 'KardexController@getKardexPorFecha');

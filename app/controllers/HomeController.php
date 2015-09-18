@@ -45,12 +45,33 @@ class HomeController extends \BaseController {
 
         $clientes = DB::table('clientes')->count();
 
+        $user = User::find(Auth::user()->id);
+       
+        if (Auth::user()->hasRole("Owner"))
+            $user->vista = 'Owner';
+
+        else if (Auth::user()->hasRole("Admin")) 
+            $user->vista = 'Admin';
+
+        else if (Auth::user()->hasRole("User")) 
+            $user->vista = 'User';
+
+        else
+            $user->vista = 'Default';
+
+        $user->caja_id = 0;
+        $user->save();
+
         return View::make('layouts.master', compact('clientes'));
     }
 
 
     public function logout()
     {
+        $user = User::find(Auth::user()->id);
+        $user->caja_id = 0;
+        $user->save();
+        
         Auth::logout();
 
         return Redirect::to('logIn')->with('message', 'Su session ha sido cerrada.');
