@@ -3,13 +3,13 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ColumVistaUser extends Migration {
+class ColumCajaUser extends Migration {
 
 	public function up()
 	{
 		Schema::table('users', function($table)
 		{
-			$table->string('vista')->default('Default');
+			$table->integer('caja_id')->default(0);
 		});
 	}
 
@@ -17,7 +17,8 @@ class ColumVistaUser extends Migration {
 	{
 		Schema::table('users', function($table)
 		{
-			$table->dropColumn('vista');
+			$table->dropColumn('caja_id');
 		});
 	}
+
 }

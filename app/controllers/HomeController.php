@@ -56,6 +56,9 @@ class HomeController extends \BaseController {
         else if (Auth::user()->hasRole("User")) 
             $user->vista = 'User';
 
+        else
+            $user->vista = 'Default';
+
         $user->save();
 
         return View::make('layouts.master', compact('clientes'));

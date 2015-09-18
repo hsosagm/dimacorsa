@@ -39,6 +39,7 @@
                 <li onclick="getTrasladosRecibidos(this)"><a href="javascript:void(0);">Traslados Recibidos</a></li>
                 <li onclick="getConsultarNotasDeCredito(this)"><a href="javascript:void(0);">Consultar Notas de Credito</a></li>
                 <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Consultar Serie</a></li>
+                <li onclick="getConsultarCajas(this)"><a href="javascript:void(0);">Consultar Cajas</a></li>
                 {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
                 <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
             </ul>
@@ -57,6 +58,7 @@
                 <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
                 <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Nota de Credito</a></li>
+                <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Crear Cajas</a></li>
             </ul>
         </li>
 
