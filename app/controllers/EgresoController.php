@@ -27,7 +27,10 @@ class EgresoController extends \BaseController {
 
         $egreso = new Egreso;
 
-        if (!$egreso->create_master())
+        $data = Input::all();
+        $data['caja_id'] = Auth::user()->caja_id;
+
+        if (!$egreso->create_master($data))
         {
             return $egreso->errors();
         }

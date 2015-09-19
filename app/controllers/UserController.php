@@ -21,7 +21,13 @@ class UserController extends Controller {
 	{
 		$table = 'users';
 
-		$columns = array("username","nombre","apellido","email","tienda_id","status");
+		$columns = array(
+			"username",
+			"nombre",
+			"apellido",
+			"email",
+			"tienda_id",
+			"status");
 
 		$Searchable = array("username","nombre","apellido","email","tienda_id","status");
 		
@@ -36,6 +42,7 @@ class UserController extends Controller {
 			{
 				$tema = new Tema;
 				$tema->user_id = $this->user->get_id();
+				$tema->status = 2;
 				$tema->save();
 
 				$role = EntrustRole::find(3);
@@ -58,6 +65,13 @@ class UserController extends Controller {
 
 		if (Input::has('_token'))
 		{
+			$cantidad_usuarios = User::where('status','=',1)->count();
+			$tienda = Tienda::find(Auth::user()->tienda_id);
+			if (Input::get('status') == 1) {
+				if ($cantidad_usuarios >= $tienda->limite_usuarios) 
+					return "no puede crear mas usuarios porque exede la cantidad de usuarios pagados...!";
+			}
+			
 			$user = $this->user->find(Input::get('id'));
 
 			if ( $user->_update() )
@@ -432,7 +446,7 @@ class UserController extends Controller {
 			ventas.total,
 			ventas.created_at as fecha, 
 			CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-			cliente.nombre as cliente,
+			clientes.nombre as cliente,
 			saldo"))
 		->join('users', 'ventas.user_id', '=', 'users.id')
 		->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')

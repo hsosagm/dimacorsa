@@ -29,3 +29,18 @@ function setAsignarCajaUsuario() {
 		msg.warning(data, 'Advertencia!');
 	});
 }
+
+function getMovimientosDeCaja() {
+	$.ajax({
+		type: "POST",
+		url: '/user/cajas/getMovimientosDeCaja',
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			clean_panel();
+        	$('#graph_container').show();
+        	return $('#graph_container').html(data.view);
+		}
+		msg.warning(data, 'Advertencia!');
+	});
+}

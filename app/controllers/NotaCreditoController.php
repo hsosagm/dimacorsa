@@ -9,8 +9,11 @@ class NotaCreditoController extends \BaseController {
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
 
             $notaCredito = new NotaCredito;
+            
+            $data = Input::all();
+            $data['caja_id'] = Auth::user()->caja_id;
 
-            if (!$notaCredito->create_master())
+            if (!$notaCredito->create_master($data))
             {
                 return $notaCredito->errors(); 
             }

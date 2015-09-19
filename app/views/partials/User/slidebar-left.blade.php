@@ -26,6 +26,22 @@
             <span class="pull-right"><i class="fa fa-magic"></i></span>
         </li>
 
+        @if(Auth::user()->hasRole("Owner"))
+            <li class="submenu">
+                <a href="javascript:void(0);" onclick="cambiarVistaPropietario(this)">
+                    <span class="icon"><i class="fa fa-cog"></i></span>
+                    <span class="text">Vista Propietario</span>
+                </a>
+            </li>
+        @elseif(Auth::user()->hasRole("Admin")) 
+             <li class="submenu">
+                <a href="javascript:void(0);" onclick="cambiarVistaAdministardor(this)">
+                    <span class="icon"><i class="fa fa-cog"></i></span>
+                    <span class="text">Vista Administrador</span>
+                </a>
+            </li>
+        @endif
+
         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
@@ -41,6 +57,9 @@
                 <li><a href="javascript:void(0);" onclick="VerTablaAdelantosDelDiaUsuario(this)">Adelantos del Dia</a></li>
                 <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
                 <li><a href="javascript:void(0);" onclick="devoluciones()">Devoluciones</a></li>
+                <li onclick="getConsultarNotasDeCredito(this)"><a href="javascript:void(0);">Consultar Notas de Credito</a></li>
+                <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Consultar Serie</a></li>
+
             </ul>
         </li>
 
@@ -56,9 +75,22 @@
                 <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelantos</a></li>
+                <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Nota de Credito</a></li>
+
             </ul>
         </li>
+        
+         <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-columns"></i></span>
+                <span class="text">Caja</span>
+                <span class="plus"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="getMovimientosDeCaja(this)">Movimientos de Caja</a></li>
 
+            </ul>
+        </li>
     </ul>
 
     <div class="sidebar-footer hidden-xs hidden-sm hidden-md">

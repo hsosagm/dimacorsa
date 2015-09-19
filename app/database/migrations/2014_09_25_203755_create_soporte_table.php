@@ -20,11 +20,13 @@ class CreateSoporteTable extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
 			$table->integer('soporte_estado_id')->unsigned()->default(1);
+			$table->integer('caja_id')->unsigned();
 			$table->date('fecha_entrega')->nullable();
 			$table->timestamps();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('soporte_estado_id')->references('id')->on('soporte_estados')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('caja_id')->references('id')->on('cajas')->onDelete('restrict')->onUpdate('cascade');
 		});
 
 		Schema::create('soporte_espera', function(Blueprint $table)

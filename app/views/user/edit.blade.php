@@ -1,5 +1,3 @@
-
-<!-- Start tabs heading -->
 <div class="panel-heading no-padding">
     <ul class="nav nav-tabs">
         <li class="active" id="tab-perfil-user">
@@ -15,10 +13,8 @@
             </a>
         </li>
     </ul>
-</div><!-- /.panel-heading -->
-<!--/ End tabs heading -->
+</div>
 
-<!-- Start tabs content -->
 <div class="">
     <div class="tab-content" style="background: white" >
         <div class="tab-pane fade active in" id="tab-informacion" style="background:white !important">
@@ -38,6 +34,16 @@
             {{ Form::_text('email', @$user->email) }}
 
             {{ Form::_password('password') }}
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    Activo: {{Form::radio('status', 1, true) }}
+                </div>
+                <div class="col-md-6">
+                    Inactivo: {{Form::radio('status', 2, false) }}
+                </div>
+            </div>
 
             <div style="" class="modal-footer">
                 <input class="btn theme-button" value="Guardar!" type="submit">
@@ -79,7 +85,6 @@
 
         @else
 
-
             {{ Form::open(array('url' => 'owner/user/remove_role', 'method' =>'post', 'role'=>'form', 'class' => 'form-add-group')) }}
             <div class="input-group form-roles" style="margin-bottom: 5px">
                 <span class="input-group-addon form-button button-del-group" name="1">
@@ -96,8 +101,7 @@
         @endforeach
     </div>
 </div>
-</div><!-- /.panel-body -->
-<!--/ End tabs content -->
+</div>
 
 <style type="text/css">
 

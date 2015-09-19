@@ -14,6 +14,8 @@ class CreateTiendasTable extends Migration {
 			$table->string('direccion');
 			$table->string('telefono', 50);
 			$table->tinyInteger('status');
+			$table->integer('limite_cajas')->default(1);
+			$table->integer('limite_usuarios')->default(3);
 			$table->timestamps();
 		});
 	}

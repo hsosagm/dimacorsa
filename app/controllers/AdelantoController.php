@@ -27,7 +27,10 @@ class AdelantoController extends \BaseController {
 
         $adelanto = new Adelanto;
 
-        if (!$adelanto->create_master())
+        $data = Input::all();
+        $data['caja_id'] = Auth::user()->caja_id;
+
+        if (!$adelanto->create_master($data))
         {
             return $adelanto->errors();
         }

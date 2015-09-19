@@ -28,8 +28,8 @@
         </li>
         
         <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-cube"></i></span>
+            <a href="javascript:void(0);" onclick="cambiarVistaPuntoDeVenta(this)">
+                <span class="icon"><i class="fa fa-dollar"></i></span>
                 <span class="text">Punto de Venta</span>
             </a>
         </li>
@@ -49,22 +49,6 @@
                 <li onclick="getConsultarCajas(this)"><a href="javascript:void(0);">Consultar Cajas</a></li>
                 {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
                 <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
-            </ul>
-        </li>
-
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-columns"></i></span>
-                <span class="text">Operaciones</span>
-                <span class="plus"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);" onclick="f_soporte()">Soporte</a></li>
-                <li><a href="javascript:void(0);" onclick="f_gastos()">Gastos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_egreso()">Egresos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
-                <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Nota de Credito</a></li>
             </ul>
         </li>
 
@@ -92,8 +76,6 @@
                 <li onclick="configurar_notificaciones()"><a href="javascript:void(0);">Notificaciones</a></li>
             </ul>
         </li>
-
-
 
     </ul>
 

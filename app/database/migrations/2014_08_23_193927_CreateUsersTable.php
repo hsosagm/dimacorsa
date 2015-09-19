@@ -10,13 +10,15 @@ class CreateUsersTable extends Migration {
 		Schema::create('users', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->integer('tienda_id')->unsigned()->default(1);
+            $table->integer('tienda_id')->unsigned();
 	        $table->string('username', 15)->unique();
             $table->string('nombre', 100);
             $table->string('apellido', 100);
             $table->string('email', 100)->unique();
+            $table->string('vista')->default('Default');
+            $table->integer('caja_id')->default(0);
+            $table->tinyInteger('status')->default(2);
             $table->string('password', 100);
-            $table->tinyInteger('status')->default(1);
             $table->string('remember_token')->nullable();
 			$table->timestamps();
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
