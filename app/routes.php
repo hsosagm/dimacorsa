@@ -220,8 +220,9 @@
         
         Route::group(array('prefix' => 'cajas'),function() 
         {
-            Route::get('asignar'             , 'CajaController@asignar');
-            Route::post('asignar'            , 'CajaController@asignar');
+            Route::get('asignar'                , 'CajaController@asignar');
+            Route::post('asignar'               , 'CajaController@asignar');
+            Route::post('getMovimientosDeCaja'  , 'CajaController@getMovimientosDeCaja');
         });
         
         Route::get('profile'                   , 'UserController@edit_profile');

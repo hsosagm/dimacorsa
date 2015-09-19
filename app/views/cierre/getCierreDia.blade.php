@@ -26,7 +26,7 @@
 				</tr>
 			</thead>
 			<tbody class="table-hover cierre_body" style="border-bottom: double;">
-				<tr class="">
+				<tr>
 					<td>Ventas</td>
 					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',1);"> 
 						{{ f_num::get($data['pagos_ventas']['efectivo']) }} 

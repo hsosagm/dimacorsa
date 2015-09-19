@@ -446,7 +446,7 @@ class UserController extends Controller {
 			ventas.total,
 			ventas.created_at as fecha, 
 			CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
-			cliente.nombre as cliente,
+			clientes.nombre as cliente,
 			saldo"))
 		->join('users', 'ventas.user_id', '=', 'users.id')
 		->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')

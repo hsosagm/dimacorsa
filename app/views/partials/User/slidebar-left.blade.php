@@ -77,7 +77,18 @@
 
             </ul>
         </li>
+        
+         <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-columns"></i></span>
+                <span class="text">Caja</span>
+                <span class="plus"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="getMovimientosDeCaja(this)">Movimientos de Caja</a></li>
 
+            </ul>
+        </li>
     </ul>
 
     <div class="sidebar-footer hidden-xs hidden-sm hidden-md">
