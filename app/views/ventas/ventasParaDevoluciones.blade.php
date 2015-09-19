@@ -8,7 +8,11 @@
     </div>
 </div>
 <div v-show="x == 1" id="inventarioContainer" style="min-width: 310px; height: 400px; margin: 0 auto">
-    <h4 style="text-align:center">Devolucion parcial o total de ventas</h4>
+
+    <div style="height: 60px; border: 1px solid #D6D6D6">
+        <h4 style="text-align:center">Devolucion parcial o total de ventas</h4>
+    </div>
+
     <table class="dt-table table-striped table-theme" id="example">
         <tbody style="background: #ffffff;">
             <tr>
@@ -85,7 +89,7 @@
             devoluciones: {
                 venta: [],
                 detalle_venta: [],
-                articulos: []
+                productos: []
             }
         },
 
@@ -93,7 +97,7 @@
             totalCantidadDevolucion: function ()
             {
                 var total = 0;
-                this.devoluciones.articulos.forEach(function(q) {
+                this.devoluciones.productos.forEach(function(q) {
                     total = total + parseInt(q.cantidad);
                 });
                 return total;
@@ -102,7 +106,7 @@
             totalMontoDevolucion: function()
             {
                 var total = 0;
-                this.devoluciones.articulos.forEach(function(q) {
+                this.devoluciones.productos.forEach(function(q) {
                     total = total + (q.cantidad * q.precio);
                 });
                 return total;
@@ -139,16 +143,16 @@
             {
                 if ( $(event.target).is(':checked') )
                 {
-                    this.devoluciones.articulos.push({ producto_id: producto_id, cantidad: cantidad, precio: precio });
+                    this.devoluciones.productos.push({ producto_id: producto_id, cantidad: cantidad, precio: precio });
                 }
                 else
                 {
                     $(event.target).closest('td').next('td').next('td').hide(); 
                     $(event.target).closest('td').next('td').show(); 
-                    this.devoluciones.articulos.forEach(function(q, index)
+                    this.devoluciones.productos.forEach(function(q, index)
                     {
                         if( producto_id === q.producto_id) {
-                            dv.devoluciones.articulos.$remove(index);
+                            dv.devoluciones.productos.$remove(index);
                         }
                     });
                 }
@@ -180,7 +184,7 @@
             {
                 $.ajax({
                     type: "GET",
-                    url: 'user/ventas/getCheckCantidadDevolucion',
+                    url: 'user/ventas/devoluciones/getCheckCantidadDevolucion',
                     data: { venta_id: this.devoluciones.venta.id, producto_id: producto_id, cantidad: event.target.value },
                 }).done(function(data) {
                     if (data == 'success')
@@ -191,7 +195,7 @@
                         $(event.target).closest('td').prev('td').show();
 
                         // actualiza el array que se va a enviar
-                        dv.devoluciones.articulos.forEach(function(q)
+                        dv.devoluciones.productos.forEach(function(q)
                         {
                             if( producto_id === q.producto_id) {
                                 return q.cantidad = event.target.value;
@@ -214,14 +218,14 @@
                 });
             },
 
-            enviarDevolucion: function()
+            enviarDevolucionParcial: function()
             {
                 $.ajax({
-                    type: "get",
-                    url: 'test',
-                    data: { datos: dv.devoluciones.articulos },
+                    type: "POST",
+                    url: 'user/ventas/devoluciones/postDevolucionParcial',
+                    data: { datos: dv.devoluciones.productos, venta_id: this.devoluciones.venta.id },
                 }).done(function(data) {
-                    alert(data);
+                    console.log(data);
                 });
             }
         }
@@ -236,7 +240,7 @@
     function returnSale(e, venta_id) {
         $.ajax({
             type: "GET",
-            url: 'user/ventas/getVentaConDetalleParaDevolucion',
+            url: 'user/ventas/devoluciones/getVentaConDetalleParaDevolucion',
             data: { venta_id: venta_id },
         }).done(function(data) {
             if (data.success == true)

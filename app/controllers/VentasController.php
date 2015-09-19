@@ -784,6 +784,9 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	/*
+	* Inicio devoluciones
+	*/
 	public function getVentaConDetalleParaDevolucion()
 	{
 		$venta = Venta::with('cliente')->find(Input::get('venta_id'));
@@ -845,6 +848,44 @@ class VentasController extends \BaseController {
         $where = "ventas.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Search_columns, $Join ,$where );
+	}
+
+	public function postDevolucionParcial()
+	{
+		// return json_encode(Input::all());
+
+		$datos = Input::get('datos');
+
+        $length = count($datos);
+
+        $detalle_venta = DetalleVenta::whereVentaId(Input::get('venta_id'))->get();
+
+        for($i=0; $i<$length; $i++)
+        {
+        	$existencia = Existencia::whereProductoId($datos[$i]['producto_id'])
+        	->whereTiendaId(Auth::user()->tienda_id)
+        	->first();
+	        $existencia->existencia = $existencia->existencia + $datos[$i]['cantidad'];
+	        $existencia->save();
+
+	        $total_venta = 0;
+
+	        foreach ($detalle_venta as $dv)
+	        {
+	        	if ( $dv->producto_id === $datos[$i]['producto_id'] )
+	        	{
+	        		$dv->cantidad = $dv->cantidad - $datos[$i]['cantidad'];
+	                $dv->save();
+	        	}
+	        	$total_venta = $total_venta + ($dv->cantidad * $dv->precio);
+	        }
+        }
+
+        $venta = Venta::find(Input::get('venta_id'));
+        $venta->total = $total_venta;
+        $venta->save();
+
+        return 'success';
 	}
 
 }

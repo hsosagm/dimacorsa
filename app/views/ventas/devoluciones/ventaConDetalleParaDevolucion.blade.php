@@ -10,7 +10,7 @@
 			<td style="width: 28%"> Monto: @{{ totalMontoDevolucion | currency ' '}} </td>
 			<td style="width: 28%"> Articulos: @{{ totalCantidadDevolucion }} </td>
 			<td style="width: 28%"> Fecha: 2015-09-01 </td>
-			<td> <i v-if="totalCantidadDevolucion" v-on="click: enviarDevolucion" class="fa fa-check fa-lg icon-success"></i> </td>
+			<td> <i v-if="totalCantidadDevolucion" v-on="click: enviarDevolucionParcial" class="fa fa-check fa-lg icon-success"></i> </td>
 		</tr>
 	</table>
 </div>
@@ -54,10 +54,14 @@
 	</table>
 </div>
 
+<div>
+	<pre> @{{ $data | json }}</pre>
+</div>
+
 <script type="text/javascript">
 	dv.devoluciones.venta = {{ $venta }};
 	dv.devoluciones.detalle_venta = {{ $detalle_venta }};
-	dv.devoluciones.articulos = [];
+	dv.devoluciones.productos = [];
 </script>
 
 <style type="text/css">

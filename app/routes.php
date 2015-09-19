@@ -202,8 +202,6 @@
             Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');
             Route::get('getVentasPendientesPorCliente'          , 'VentasController@getVentasPendientesPorCliente' );
             Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
-            Route::get('getVentaConDetalleParaDevolucion'       , 'VentasController@getVentaConDetalleParaDevolucion');
-            Route::get('getCheckCantidadDevolucion'             , 'VentasController@getCheckCantidadDevolucion');
             Route::get('getVentasPorHoraPorUsuario'             , 'VentasController@getVentasPorHoraPorUsuario');
             Route::post('ingresarSeriesDetalleVenta'            , 'VentasController@ingresarSeriesDetalleVenta');
             Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');
@@ -221,8 +219,11 @@
 
             Route::group(array('prefix' => 'devoluciones'),function() 
             {
-                Route::get('getVentasParaDevoluciones'  , 'VentasController@getVentasParaDevoluciones');
-                Route::get('DT_ventasParaDevoluciones'  , 'VentasController@DT_ventasParaDevoluciones');
+                Route::get('getVentaConDetalleParaDevolucion'  , 'VentasController@getVentaConDetalleParaDevolucion');
+                Route::get('getCheckCantidadDevolucion'        , 'VentasController@getCheckCantidadDevolucion');
+                Route::get('getVentasParaDevoluciones'         , 'VentasController@getVentasParaDevoluciones');
+                Route::get('DT_ventasParaDevoluciones'         , 'VentasController@DT_ventasParaDevoluciones');
+                Route::post('postDevolucionParcial'            , 'VentasController@postDevolucionParcial');
             });
 
         });
