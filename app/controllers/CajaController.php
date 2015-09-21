@@ -1,6 +1,7 @@
 <?php
 
-class CajaController extends \BaseController {
+class CajaController extends \BaseController 
+{
 
 	public function create()
     {
@@ -43,7 +44,11 @@ class CajaController extends \BaseController {
 
     public function getMovimientosDeCaja()
     {
-        $data = $this->resumen_movimientos('current_date');
+
+        $fecha['inicial'] = CierreCaja::max('created_at');
+        $fecha['final']   = Carbon::now();
+
+        $data = $this->resumen_movimientos($fecha);
 
         return Response::json(array(
             'success' => true,
@@ -67,9 +72,7 @@ class CajaController extends \BaseController {
 			);
 
 		$Search_columns = array("cajas.nombre","tiendas.nombre");
-
 		$Join = "JOIN tiendas ON (tiendas.id = cajas.tienda_id)";
-
 		$where = "cajas.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
@@ -90,106 +93,85 @@ class CajaController extends \BaseController {
         return $data;
     }
 
-    /*********************************************************************************************************************************    
-        Inicio de Funciones para generar la consulta agrupandolos por el metodo de pago y Caja
-    **********************************************************************************************************************************/
-
     // funcion cuando la tabla si tiene el campo tienda id
-        function query( $tabla , $campo , $fecha ) 
-        {
-            $fecha_enviar = "'{$fecha}'";
+    function query( $tabla , $campo , $fecha ) 
+    {
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha['inicial']}', '%Y-%m-%d %H:%i:%s')")
+        ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha['final']}', '%Y-%m-%d %H:%i:%s')")
+        ->where("{$tabla}.tienda_id", '=' , Auth::user()->tienda_id)
+        ->where("{$tabla}.caja_id", '=' , Auth::user()->caja_id)
+        ->groupBy('metodo_pago.id')->get();
 
-            if ($fecha == 'current_date') 
-                $fecha_enviar = 'current_date';
-
-            $Query = DB::table('metodo_pago')
-            ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
-            ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-            ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
-            ->where("{$tabla}.tienda_id", '=' , Auth::user()->tienda_id)
-            ->where("{$tabla}.caja_id", '=' , Auth::user()->caja_id)
-            ->groupBy('metodo_pago.id')->get();
-
-            return $this->llenar_arreglo($Query);
-        }
+        return $this->llenar_arreglo($Query);
+    }
 
     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en plural
-        function _query( $tabla ,$tabla_master, $campo , $fecha ) 
-        {
-            $fecha_enviar = "'{$fecha}'";
+    function _query( $tabla ,$tabla_master, $campo , $fecha ) 
+    {
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.created_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha['inicial']}', '%Y-%m-%d %H:%i:%s')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.created_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha['final']}', '%Y-%m-%d %H:%i:%s')")            ->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
+        ->where("{$tabla_master}s.caja_id", '=' , Auth::user()->caja_id)
+        ->groupBy('metodo_pago.id')->get();
 
-            if ($fecha == 'current_date') 
-                $fecha_enviar = 'current_date';
+        return $this->llenar_arreglo($Query);
+    }
 
-            $Query = DB::table('metodo_pago')
-            ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
-            ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-            ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
-            ->whereRaw("DATE_FORMAT({$tabla_master}s.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
-            ->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
-            ->where("{$tabla_master}s.caja_id", '=' , Auth::user()->caja_id)
-            ->groupBy('metodo_pago.id')->get();
+    // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en singular
+    function __query( $tabla ,$tabla_master, $campo , $fecha ) 
+    {
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
+        ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha['inicial']}', '%Y-%m-%d %H:%i:%s')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha['final']}', '%Y-%m-%d %H:%i:%s')")
+        ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
+        ->where("{$tabla_master}.caja_id", '=' , Auth::user()->caja_id)
+        ->groupBy('metodo_pago.id')->get();
 
-            return $this->llenar_arreglo($Query);
-        }
+        return $this->llenar_arreglo($Query);
+    }
 
-     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en singular
-        function __query( $tabla ,$tabla_master, $campo , $fecha ) 
-        {
-            $fecha_enviar = "'{$fecha}'";
+    function llenar_arreglo($Query)
+    {
+        $arreglo_ordenado = array( 
+            'titulo'  => '',
+            'efectivo'=>"0.00",
+            'credito' =>"0.00",
+            'cheque'  =>"0.00",
+            'tarjeta' =>"0.00",
+            'deposito'=>"0.00",
+            'total'   =>"0.00"
+            );
 
-            if ($fecha == 'current_date') 
-                $fecha_enviar = 'current_date';
+        foreach ($Query as $key => $val) 
+        {   
+            if($val->descripcion == 'Efectivo')
+                $arreglo_ordenado['efectivo'] = $val->total;
 
-            $Query = DB::table('metodo_pago')
-            ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
-            ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-            ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
-            ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
-            ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
-            ->where("{$tabla_master}.caja_id", '=' , Auth::user()->caja_id)
-            ->groupBy('metodo_pago.id')->get();
+            if($val->descripcion == 'Credito')
+                $arreglo_ordenado['credito'] = $val->total;
 
-            return $this->llenar_arreglo($Query);
-        }
+            if($val->descripcion == 'Cheque')
+                $arreglo_ordenado['cheque'] = $val->total;
 
-        function llenar_arreglo($Query)
-        {
-            $arreglo_ordenado = array( 
-                'titulo'  => '',
-                'efectivo'=>"0.00",
-                'credito' =>"0.00",
-                'cheque'  =>"0.00",
-                'tarjeta' =>"0.00",
-                'deposito'=>"0.00",
-                'total'   =>"0.00"
-                );
+            if($val->descripcion == 'Tarjeta')
+                $arreglo_ordenado['tarjeta'] = $val->total;
 
-            foreach ($Query as $key => $val) 
-            {   
-                if($val->descripcion == 'Efectivo')
-                    $arreglo_ordenado['efectivo'] = $val->total;
-
-                if($val->descripcion == 'Credito')
-                    $arreglo_ordenado['credito'] = $val->total;
-
-                if($val->descripcion == 'Cheque')
-                    $arreglo_ordenado['cheque'] = $val->total;
-
-                if($val->descripcion == 'Tarjeta')
-                    $arreglo_ordenado['tarjeta'] = $val->total;
-
-                if($val->descripcion == 'Deposito'){
-                    $arreglo_ordenado['deposito'] = $val->total;
-                }
-
-                $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
+            if($val->descripcion == 'Deposito'){
+                $arreglo_ordenado['deposito'] = $val->total;
             }
 
-            return $arreglo_ordenado;
+            $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
-    /*********************************************************************************************************************************    
-        Fin de Funciones para generar la consulta agrupandolos por el metodo de pago y Caja
-    **********************************************************************************************************************************/
-
+        
+        return $arreglo_ordenado;
+    }
 }

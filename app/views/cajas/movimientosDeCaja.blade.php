@@ -150,7 +150,7 @@
                         {{ f_num::get($data['egresos']['deposito']) }} 
                     </td> 
                     <td class="right"> {{ f_num::get($data['egresos']['total']) }} </td> 
-                </tr>|
+                </tr>
                 <tr>
                     <td>Notas de Credito</td>
                     <td class="center"></td>
