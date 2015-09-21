@@ -589,7 +589,7 @@
 
 Route::get('/test', function()
 {
-    return  Caja::count();
+    return  CierreCaja::max('created_at');
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

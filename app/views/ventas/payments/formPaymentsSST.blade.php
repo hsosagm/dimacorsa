@@ -17,8 +17,7 @@
                     <div class="row">
                         <label class="col-md-2" style="text-align:right">Metodo pago:</label>
                         <div class="col-md-2">
-                            {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->where('id','!=',6)
-                            ->lists('descripcion', 'id') ,'', array('class'=>'form-control col-md-6')) }}
+                            {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->where('id','!=',6)->where('id','!=',7)->lists('descripcion', 'id') ,'', array('class'=>'form-control col-md-6')) }}
                         </div>
 
                         <div class="col-md-6">
