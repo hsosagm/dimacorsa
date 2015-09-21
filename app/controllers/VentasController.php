@@ -855,15 +855,10 @@ class VentasController extends \BaseController {
 
 	public function postDevolucionParcial()
 	{
-		// return json_encode(Input::all());
-
 		$datos = Input::get('datos');
-
-        $length = count($datos);
-
         $detalle_venta = DetalleVenta::whereVentaId(Input::get('venta_id'))->get();
 
-        for($i=0; $i<$length; $i++)
+        for($i=0; $i<count($datos); $i++)
         {
         	$existencia = Existencia::whereProductoId($datos[$i]['producto_id'])
         	->whereTiendaId(Auth::user()->tienda_id)
@@ -879,16 +874,26 @@ class VentasController extends \BaseController {
 	        	{
 	        		$dv->cantidad = $dv->cantidad - $datos[$i]['cantidad'];
 	                $dv->save();
+	                if ($dv->cantidad == 0) {
+	                	$dv->delete();
+	                }
 	        	}
 	        	$total_venta = $total_venta + ($dv->cantidad * $dv->precio);
 	        }
         }
 
+        $detalle_venta = DetalleVenta::whereVentaId(Input::get('venta_id'))->get();
+
         $venta = Venta::find(Input::get('venta_id'));
+
+        if (count($detalle_venta) == 0) {
+        	$venta->delete();
+			return Response::json(array('success' => true));
+        }
+
         $venta->total = $total_venta;
         $venta->save();
-
-        return 'success';
+        return Response::json(array('success' => true));
 	}
 
 }

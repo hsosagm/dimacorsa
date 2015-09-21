@@ -125,13 +125,8 @@
         methods: {
             reset: function() {
                 dv.x = dv.x - 1;
-                if(dv.x == 1){
-                    setTimeout(function() {
-                        $('#example_length').prependTo("#table_length2");
-                        $('#iSearch').keyup(function(){
-                            $('#example').dataTable().fnFilter( $(this).val() );
-                        })
-                    }, 300);
+                if(dv.x == 1) {
+                    $('#example').dataTable().fnStandingRedraw();
                 }
             },
 
@@ -218,6 +213,19 @@
                 });
             },
 
+            getFormMetodoPagoNotaDeCredito: function(venta_id)
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: 'user/notaDeCredito/getFormMetodoPagoNotaDeCredito',
+                    data: { venta_id: venta_id },
+                }).done(function(data) {
+                    $('.modal-body').html(data);
+                    $('.modal-title').text( 'Nota de credito' );
+                    $('.bs-modal').modal('show');
+                });
+            },
+
             enviarDevolucionParcial: function()
             {
                 $.ajax({
@@ -225,7 +233,12 @@
                     url: 'user/ventas/devoluciones/postDevolucionParcial',
                     data: { datos: dv.devoluciones.productos, venta_id: this.devoluciones.venta.id },
                 }).done(function(data) {
-                    console.log(data);
+                    if (data.success == true)
+                    {
+                        dv.close();
+                        return msg.success('Nota de credito ingresada', 'Advertencia!');;
+                    }
+                    msg.warning(data, 'Advertencia!');
                 });
             }
         }

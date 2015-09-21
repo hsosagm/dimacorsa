@@ -44,4 +44,13 @@ class NotaCreditoController extends \BaseController {
             ));
     }
 
+    public function getFormSeleccionarTipoDeNotaDeCredito()
+    {
+        return  View::make('notas_creditos.formSeleccionarTipoDeNotaDeCredito');
+    }
+
+    public function getFormMetodoPagoNotaDeCredito()
+    {
+        return  View::make('notas_creditos.formMetodoPagoNotaDeCredito');
+    }
 }

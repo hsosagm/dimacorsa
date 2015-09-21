@@ -65,9 +65,8 @@
                 <li><a href="javascript:void(0);" onclick="f_egreso()">Egresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
-                <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Nota de Credito</a></li>
                 <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Crear Cajas</a></li>
-                <li><a href="javascript:void(0);" onclick="devoluciones()">Devoluciones</a></li>
+                <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li>
             </ul>
         </li>
 

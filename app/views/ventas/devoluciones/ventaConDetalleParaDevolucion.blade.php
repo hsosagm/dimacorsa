@@ -10,7 +10,7 @@
 			<td style="width: 28%"> Monto: @{{ totalMontoDevolucion | currency ' '}} </td>
 			<td style="width: 28%"> Articulos: @{{ totalCantidadDevolucion }} </td>
 			<td style="width: 28%"> Fecha: 2015-09-01 </td>
-			<td> <i v-if="totalCantidadDevolucion" v-on="click: enviarDevolucionParcial" class="fa fa-check fa-lg icon-success"></i> </td>
+			<td> <i v-if="totalCantidadDevolucion" v-on="click: getFormMetodoPagoNotaDeCredito(devoluciones.venta.id)" class="fa fa-check fa-lg icon-success"></i> </td>
 		</tr>
 	</table>
 </div>
