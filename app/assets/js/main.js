@@ -14,7 +14,7 @@ $('.btnremove').on('click', function() {
     $('#home').empty();
 });
 
-$(document).ajaxSend(function() {
+$(document).ajaxSend(function(event, jqXHR, ajaxSettings, thrownError ) {
     $('#home').empty();
     $('#loader').show();
 });

@@ -75,7 +75,7 @@
                 <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
                 <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelantos</a></li>
-                <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Nota de Credito</a></li>
+                <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li>
 
             </ul>
         </li>
@@ -88,7 +88,7 @@
             </a>
             <ul>
                 <li><a href="javascript:void(0);" onclick="getMovimientosDeCaja(this)">Movimientos de Caja</a></li>
-
+                <li><a href="javascript:void(0);" onclick="corteDeCaja(this)">Realizar corte</a></li>
             </ul>
         </li>
     </ul>

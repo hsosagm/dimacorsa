@@ -20,6 +20,7 @@ class TableCajasPorTienda extends Migration {
 		Schema::create('cierre_caja', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('tienda_id')->unsigned();
 			$table->integer('user_id')->unsigned();
 			$table->integer('caja_id')->unsigned();
 			$table->decimal('efectivo_esp', 8, 2);
@@ -31,8 +32,11 @@ class TableCajasPorTienda extends Migration {
 			$table->decimal('tarjeta', 8, 2);
 			$table->decimal('deposito', 8, 2);
 			$table->text('nota');
+			$table->timestamp('fecha_inicial');
+			$table->timestamp('fecha_final');
 			$table->timestamps();
 			
+			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('caja_id')->references('id')->on('cajas')->onDelete('restrict')->onUpdate('cascade');
 		});

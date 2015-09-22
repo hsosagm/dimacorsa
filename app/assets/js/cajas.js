@@ -44,3 +44,13 @@ function getMovimientosDeCaja() {
 		msg.warning(data, 'Advertencia!');
 	});
 }
+
+function corteDeCaja() {
+	$.get( "user/cajas/corteDeCaja", function( data ) {
+    	if ( data.success == true ) {
+			$('.modal-body').html(data.form);
+			$('.modal-title').text('Cierre del Dia');
+			return $('.bs-modal').modal('show');
+    	};
+	});	
+}
