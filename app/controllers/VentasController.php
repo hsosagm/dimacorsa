@@ -855,6 +855,8 @@ class VentasController extends \BaseController {
 
 	public function postDevolucionParcial()
 	{
+		return json_encode(Input::all());
+
 		$datos = Input::get('datos');
         $detalle_venta = DetalleVenta::whereVentaId(Input::get('venta_id'))->get();
 
@@ -894,6 +896,8 @@ class VentasController extends \BaseController {
         $venta->total = $total_venta;
         $venta->save();
         return Response::json(array('success' => true));
+
+        
 	}
 
 }

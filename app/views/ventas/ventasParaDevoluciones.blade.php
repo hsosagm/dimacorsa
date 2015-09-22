@@ -218,27 +218,11 @@
                 $.ajax({
                     type: 'GET',
                     url: 'user/notaDeCredito/getFormMetodoPagoNotaDeCredito',
-                    data: { venta_id: venta_id },
+                    data: { venta_id: venta_id, monto: dv.totalMontoDevolucion },
                 }).done(function(data) {
                     $('.modal-body').html(data);
                     $('.modal-title').text( 'Nota de credito' );
                     $('.bs-modal').modal('show');
-                });
-            },
-
-            enviarDevolucionParcial: function()
-            {
-                $.ajax({
-                    type: "POST",
-                    url: 'user/ventas/devoluciones/postDevolucionParcial',
-                    data: { datos: dv.devoluciones.productos, venta_id: this.devoluciones.venta.id },
-                }).done(function(data) {
-                    if (data.success == true)
-                    {
-                        dv.close();
-                        return msg.success('Nota de credito ingresada', 'Advertencia!');;
-                    }
-                    msg.warning(data, 'Advertencia!');
                 });
             }
         }
@@ -265,5 +249,36 @@
             msg.warning(data, 'Advertencia!');
         });
     };
+
+    function enviarDevolucionParcial()
+    {
+        var nota_credito_opcion = $('input[name="nota_credito_opcion"]:checked').val();
+        var mp_nota_credito_caja = $('input[name="mp_nota_credito_caja"]:checked').val();
+
+        if ( nota_credito_opcion == 'agregarNotaAlCliente' ) {
+            alert(nota_credito_opcion);
+        }
+        else {
+            alert( mp_nota_credito_caja );
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: 'user/ventas/devoluciones/postDevolucionParcial',
+            data: { 
+                datos: dv.devoluciones.productos, venta_id: dv.devoluciones.venta.id, monto: dv.totalMontoDevolucion,
+                nota_credito_opcion: nota_credito_opcion, mp_nota_credito_caja: mp_nota_credito_caja 
+            },
+        }).done(function(data) {
+            console.log(data);
+            if (data.success == true)
+            {
+                dv.close();
+                return msg.success('Nota de credito ingresada', 'Advertencia!');;
+            }
+            msg.warning(data, 'Advertencia!');
+        });
+    }
 
 </script>
