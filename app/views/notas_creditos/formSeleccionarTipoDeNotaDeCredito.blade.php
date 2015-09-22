@@ -10,7 +10,7 @@
 			<div style="padding-left:12px">
 				<div class="rdio rdio-theme circle">
 					<input value="notaDeCreditoPorDevolucion" id="radio-type-rounded" type="radio" name="nota_credito" checked>
-					<label style="margin-left:10px" for="radio-type-rounded">Nota de credito por devolucione de articulos</label>
+					<label style="margin-left:10px" for="radio-type-rounded">Nota de credito por devolucion de articulos</label>
 				</div>
 				<div class="rdio rdio-theme circle">
 					<input value="notaDeCreditoPorDescuento" id="radio-type-rounded2" type="radio" name="nota_credito">

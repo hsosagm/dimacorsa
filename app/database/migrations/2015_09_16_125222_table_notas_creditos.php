@@ -12,6 +12,7 @@ class TableNotasCreditos extends Migration {
 			$table->integer('cliente_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
 			$table->integer('user_id')->unsigned();
+			$table->integer('caja_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned();
 			$table->decimal('monto', 8, 2)->default(0.00);
 			$table->decimal('descuento_sobre_saldo', 8, 2)->default(0.00);

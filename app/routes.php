@@ -27,7 +27,7 @@
             chmod($file,0777);
             if(!unlink($file)){ }
         } 
-    });
+    }); 
     /******************************************************************************/
 
     Route::get('/'     , 'HomeController@index'   );
@@ -235,6 +235,9 @@
             Route::get('asignar'                , 'CajaController@asignar');
             Route::post('asignar'               , 'CajaController@asignar');
             Route::post('getMovimientosDeCaja'  , 'CajaController@getMovimientosDeCaja');
+            Route::get('corteDeCaja'            , 'CajaController@corteDeCaja');
+            Route::post('corteDeCaja'           , 'CajaController@corteDeCaja');
+
         });
         
         Route::get('profile'                   , 'UserController@edit_profile');
@@ -601,7 +604,7 @@
 
 Route::get('/test', function()
 {
-    return  CierreCaja::max('created_at');
+
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

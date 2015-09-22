@@ -56,23 +56,6 @@
         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-columns"></i></span>
-                <span class="text">Operaciones</span>
-                <span class="plus"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);" onclick="f_soporte()">Soporte</a></li>
-                <li><a href="javascript:void(0);" onclick="f_gastos()">Gastos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_egreso()">Egresos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_ingreso()">Ingresos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_adelanto()">Adelantos</a></li>
-                <li><a href="javascript:void(0);" onclick="crearNotaDeCredito()">Crear Cajas</a></li>
-                <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li>
-            </ul>
-        </li>
-
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-columns"></i></span>
                 <span class="text">Cierre</span>
                 <span class="plus"></span>
             </a>

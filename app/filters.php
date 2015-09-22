@@ -157,16 +157,16 @@ Event::listen('eloquent.updated: Descarga', function(Descarga $model){
 
 
 /** Roles de Administrador , Propietario  y Usuario **/
-Entrust::routeNeedsRole( 'user/*'   ,  array('Owner','Admin','User') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'cliente'  ,  array('Owner','Admin','User') , Redirect::to('/'), false );
+Entrust::routeNeedsRole( 'user/*'   ,  array('Owner','Admin','User') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'cliente'  ,  array('Owner','Admin','User') , '<script>window.location.reload();</script>', false );
 
 /** Roles de Administrador y Propietario **/
-Entrust::routeNeedsRole( 'admin/*'     , array('Owner','Admin') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'proveedor'   , array('Owner','Admin') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'owner/users' , array('Owner','Admin') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'owner/user/*', array('Owner','Admin') , Redirect::to('/'), false );
+Entrust::routeNeedsRole( 'admin/*'     , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'proveedor'   , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'owner/users' , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'owner/user/*', array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 
 /** Roles del Propietario **/
-Entrust::routeNeedsRole( 'owner/chart/*'  , array('Owner') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'owner/soporte/*', array('Owner') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'owner/gastos/*' , array('Owner') , Redirect::to('/'), false );
+Entrust::routeNeedsRole( 'owner/chart/*'  , array('Owner') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'owner/soporte/*', array('Owner') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'owner/gastos/*' , array('Owner') , '<script>window.location.reload();</script>', false );
