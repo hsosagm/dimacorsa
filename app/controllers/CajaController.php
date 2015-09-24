@@ -142,7 +142,7 @@ class CajaController extends \BaseController
         $data['ingresos']         =   $this->_query('detalle_ingresos','ingreso','monto',$fecha);
         $data['egresos']          =   $this->_query('detalle_egresos','egreso','monto',$fecha);
         $data['gastos']           =   $this->_query('detalle_gastos','gasto','monto',$fecha);
-        $data['notas_creditos']   =   $this->query('notas_creditos','monto',$fecha);
+        $data['notas_creditos']   =   $this->___query('adelanto_nota_credito','notas_creditos','nota_credito','monto',$fecha);
         return $data;
     }
 
@@ -183,6 +183,21 @@ class CajaController extends \BaseController
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
+        ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha['inicial']}', '%Y-%m-%d %H:%i:%s')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha['final']}', '%Y-%m-%d %H:%i:%s')")
+        ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
+        ->where("{$tabla_master}.caja_id", '=' , Auth::user()->caja_id)
+        ->groupBy('metodo_pago.id')->get();
+
+        return $this->llenar_arreglo($Query);
+    }
+
+    function ___query( $tabla ,$tabla_master, $foranea ,$campo , $fecha ) 
+    {
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$foranea}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha['inicial']}', '%Y-%m-%d %H:%i:%s')")
         ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha['final']}', '%Y-%m-%d %H:%i:%s')")
         ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)

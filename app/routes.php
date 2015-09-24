@@ -280,7 +280,6 @@
             Route::get('DtConsultarCajas'    , 'CajaController@DtConsultarCajas' );
             Route::get('cortesDeCajaPorDia'  , 'CajaController@cortesDeCajaPorDia');
             Route::get('DtCortesDeCajasPorDia', 'CajaController@DtCortesDeCajasPorDia');
-
             Route::post('getMovimientosDeCajaDt', 'CajaController@getMovimientosDeCajaDt');
 
         });

@@ -262,7 +262,8 @@ class UserController extends Controller {
 //**********************************************************************************************************************
 	public function VentasDelDiaUsuario_dt()
 	{
-		
+		$fecha = CierreCaja::where('caja_id','=',Auth::user()->caja_id)->max('created_at');
+
 		$table = 'ventas';
 
 		$columns = array(
@@ -279,8 +280,8 @@ class UserController extends Controller {
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d') ";
-		$where .= " AND users.id =".Auth::user()->id;
+		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') > DATE_FORMAT('{$fecha}', '%Y-%m-%d') ";
+		$where .= " AND users.caja_id =".Auth::user()->caja_id;
 		$where .= " AND ventas.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
@@ -288,6 +289,8 @@ class UserController extends Controller {
 
 	public function SoporteDelDiaUsuario()
 	{
+		$fecha = CierreCaja::where('caja_id','=',Auth::user()->caja_id)->max('created_at');
+
 		$table = 'detalle_soporte';
 
 		$columns = array(
@@ -307,8 +310,8 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_soporte.metodo_pago_id)";
 
 		$where = " 
-		DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d')";
-		$where .= " AND users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d')  > DATE_FORMAT('{$fecha}', '%Y-%m-%d')";
+		$where .= " AND users.caja_id =".Auth::user()->caja_id;
 		$where .= " AND soporte.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
@@ -316,6 +319,8 @@ class UserController extends Controller {
 
 	public function IngresosDelDiaUsuario()
 	{
+		$fecha = CierreCaja::where('caja_id','=',Auth::user()->caja_id)->max('created_at');
+
 		$table = 'detalle_ingresos';
 
 		$columns = array(
@@ -335,8 +340,8 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";
 
 		$where = " 
-		DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
-		$where .= " AND users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d')  > DATE_FORMAT('{$fecha}', '%Y-%m-%d') ";
+		$where .= " AND users.caja_id =".Auth::user()->caja_id;
 		$where .= " AND ingresos.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
@@ -345,6 +350,8 @@ class UserController extends Controller {
 
 	public function EgresosDelDiaUsuario()
 	{
+		$fecha = CierreCaja::where('caja_id','=',Auth::user()->caja_id)->max('created_at');
+
 		$table = 'detalle_egresos';
 
 		$columns = array(
@@ -364,8 +371,8 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
 
 		$where = " 
-		DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
-		$where .= " AND users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d')  > DATE_FORMAT('{$fecha}', '%Y-%m-%d') ";
+		$where .= " AND users.caja_id =".Auth::user()->caja_id;
 		$where .= " AND egresos.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
@@ -373,6 +380,8 @@ class UserController extends Controller {
 
 	public function GastosDelDiaUsuario()
 	{
+		$fecha = CierreCaja::where('caja_id','=',Auth::user()->caja_id)->max('created_at');
+
 		$table = 'detalle_gastos';
 
 		$columns = array(
@@ -392,8 +401,8 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_gastos.metodo_pago_id)";
 
 		$where = "
-		DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
-		$where .= " AND users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d') > DATE_FORMAT('{$fecha}', '%Y-%m-%d') ";
+		$where .= " AND users.caja_id =".Auth::user()->caja_id;
 		$where .= " AND gastos.tienda_id =".Auth::user()->tienda_id;
 		
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );		
@@ -401,6 +410,8 @@ class UserController extends Controller {
 
 	public function AdelantosDelDiaUsuario()
 	{
+		$fecha = CierreCaja::where('caja_id','=',Auth::user()->caja_id)->max('created_at');
+
 		$table = 'detalle_adelantos';
 
 		$columns = array(
@@ -420,8 +431,8 @@ class UserController extends Controller {
 		JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";
 
 		$where = "
-		DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d')  = DATE_FORMAT(current_date, '%Y-%m-%d') ";
-		$where .= " AND users.id =".Auth::user()->id;
+		DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d')  >  DATE_FORMAT('{$fecha}', '%Y-%m-%d') ";
+		$where .= " AND users.caja_id =".Auth::user()->caja_id;
 		$where .= " AND adelantos.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
@@ -429,6 +440,7 @@ class UserController extends Controller {
 	
 	public function clientes()
 	{
+
 		$table = 'clientes';
 
 		$columns = array(
@@ -479,7 +491,9 @@ class UserController extends Controller {
 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre", 'tipo', 'monto');
 
-		$Join = "JOIN users ON (users.id = notas_creditos.user_id) JOIN clientes ON (clientes.id = notas_creditos.cliente_id)";
+		$Join  = "JOIN users ON (users.id = notas_creditos.user_id) ";
+		$Join .= "JOIN clientes ON (clientes.id = notas_creditos.cliente_id) ";
+		$Join .= "JOIN adelanto_nota_credito ON (notas_creditos.id = nota_credito_id) ";
 
 		$where = "notas_creditos.tienda_id =".Auth::user()->tienda_id;
 
