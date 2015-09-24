@@ -21,7 +21,8 @@ $(document).ready(function() {
             {"sClass": "widthS right formato_precio",                   "sTitle": "Total",   "aTargets": [3]},
             {"sClass": "widthS right formato_precio",                   "sTitle": "Saldo",   "aTargets": [4]},
             {"bVisible": false,                                                              "aTargets": [5]},
-            {"sClass": "widthS icons center", "orderable": false,             "sTitle": "",        "aTargets": [6],
+            {"bVisible": false,                                                              "aTargets": [6]},
+            {"sClass": "widthS icons center", "orderable": false,             "sTitle": "",        "aTargets": [7],
                 "mRender": function(  data, type, full ) {
                     $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
                     $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
@@ -43,7 +44,12 @@ $(document).ready(function() {
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
             if ( aData[5] == 0){
                 jQuery(nRow).addClass('red');
-            }               
+            }  
+
+            if ( aData[6] == 1){
+                jQuery(nRow).attr('anulada', true);
+                jQuery(nRow).addClass('yellow');
+            }              
         },
 
         "bJQueryUI": false,

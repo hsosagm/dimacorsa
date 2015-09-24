@@ -53,4 +53,22 @@ function getConsultarNotasDeCreditoCliente(e, cliente_id){
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-}
+};
+
+function EliminarDetalleNotaCreditoAdelanto(e, adelanto_nota_credito_id) {
+    $(e).prop('disabled', true)
+
+    $.ajax({
+        type: "POST",
+        url: 'user/notaDeCredito/eliminarDetalle',
+        data:{adelanto_nota_credito_id: adelanto_nota_credito_id},
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            msg.success('Detalle Eliminado..', 'Listo!');
+            return $('.body-detail').html(data.table);
+        }
+        msg.warning(data, 'Advertencia!');
+        $(e).prop('disabled', false)
+    });
+};

@@ -59,6 +59,56 @@ class CajaController extends \BaseController
         ));
     }
 
+    public function getMovimientosDeCajaDt()
+    {
+
+        $cierre = CierreCaja::find(Input::get('cierre_caja_id'));
+
+        $fecha['inicial'] = $cierre->fecha_inicial;
+        $fecha['final']   = $cierre->fecha_final;
+
+        $data = $this->resumen_movimientos($fecha);
+
+        return Response::json(array(
+            'success' => true,
+            'view' => View::make('cajas.movimientosDeCaja',compact('data'))->render()
+        ));
+    }
+
+
+    public function cortesDeCajaPorDia()
+    {
+        return View::make('cajas.cortesDeCajasPorDia');
+    }
+
+    public function DtCortesDeCajasPorDia()
+    {
+            $fecha_enviar = "'".Input::get('fecha')."'";
+
+            $fecha_enviar = 'current_date';
+            
+            $table = 'cierre_caja';
+
+            $columns = array(
+                "cajas.nombre as caja_nombre",
+                "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+                "nota",
+                "cierre_caja.fecha_inicial as fecha_inicial",
+                "cierre_caja.fecha_final as fecha_final"
+                );
+
+            $Searchable = array("users.nombre","users.apellido","cierre_caja.created_at","nota");
+
+            $Join = "
+            JOIN users ON (users.id = cierre_caja.user_id)
+            JOIN cajas ON (cajas.id = cierre_caja.caja_id)";
+
+            $where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  = DATE_FORMAT({$fecha_enviar}, '%Y-%m')";
+            $where .= ' AND cierre_caja.tienda_id = '.Auth::user()->tienda_id;
+
+            echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+    }
+
 	public function getConsultarCajas()
 	{
 		return View::make('cajas.consultarCajas');

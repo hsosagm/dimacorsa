@@ -6,8 +6,11 @@
 		{{ Form::hidden('categoria_id')}}
 		{{ Form::hidden('sub_categoria_id')}}
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-8">
 				<input class="form-control" name="codigo" type="text"  placeholder="Codigo" autofocus>
+			</div>
+			<div class="col-md-4">
+				<input class="form-control" name="stock_minimo"  type="number"  placeholder="Existencia Minima" autofocus>
 			</div>
 		</div>
 		<div class="row">

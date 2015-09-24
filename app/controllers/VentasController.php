@@ -34,6 +34,25 @@ class VentasController extends \BaseController {
 		{
 			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 
+            if (Auth::user()->hasRole("Admin"))
+            {
+            	$producto = Producto::find(Input::get('producto_id'));
+
+            	if ((@$producto->p_publico * 0.90) > Input::get('precio')) {
+            		return 'no puede hacer mas descuento que el autorizado';
+            	}
+            } 
+
+            else if (Auth::user()->hasRole("User"))
+            {
+            	$producto = Producto::find(Input::get('producto_id'));
+
+            	if ((@$producto->p_publico * 0.95) > Input::get('precio')) {
+            		return 'no puede hacer mas descuento que el autorizado';
+            	}
+            } 
+
+
 			if ($this->check_if_code_exists_in_this_sale() == true) {
 				return "El codigo ya ha sido ingresado..";
 			}

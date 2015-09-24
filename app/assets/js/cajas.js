@@ -49,8 +49,31 @@ function corteDeCaja() {
 	$.get( "user/cajas/corteDeCaja", function( data ) {
     	if ( data.success == true ) {
 			$('.modal-body').html(data.form);
-			$('.modal-title').text('Cierre del Dia');
+			$('.modal-title').text('Corte de Caja');
 			return $('.bs-modal').modal('show');
     	};
 	});	
+}
+
+function cortesDeCajaPorDia()
+{
+	$.get( "admin/cajas/cortesDeCajaPorDia", function( data ) {
+        makeTable(data, '/admin/cajas/', '');
+    });
+}
+
+function getMovimientosDeCajaDt(e, cierre_caja_id) {
+	$.ajax({
+		type: "POST",
+		url: '/admin/cajas/getMovimientosDeCajaDt',
+		data:{cierre_caja_id: cierre_caja_id}
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			clean_panel();
+        	$('#graph_container').show();
+        	return $('#graph_container').html(data.view);
+		}
+		msg.warning(data, 'Advertencia!');
+	});
 }

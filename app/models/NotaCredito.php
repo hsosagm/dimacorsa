@@ -10,4 +10,14 @@ class NotaCredito extends \BaseModel {
     {
         return $this->belongsTo('User');
     }
+
+    public function adelanto()
+    {
+        return $this->hasMany('AdelantoNotaCredito');
+    }
+
+    public function devolucion()
+    {
+        return $this->hasMany('DevolucionNotaCredito');
+    }
 }

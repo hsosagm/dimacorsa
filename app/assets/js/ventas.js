@@ -215,6 +215,10 @@ function getSalesDetail(e) {
 
 function openSale(e)
 {
+    if ($.trim($(e).closest('tr').attr('anulada')) == 'true') {
+        return msg.warning('no puedes abrir porque la factura fue anulada..', 'Advertencia!')
+    }
+
     $.confirm({
         text: "esta seguro que desea abrir la venta?",
         title: "Confirmacion",
@@ -301,6 +305,10 @@ function OpenModalSalesItemSerials(e)
 // for test
 function imprimirFactura(p)
 {
+    if ($.trim($(e).closest('tr').attr('anulada')) == 'true') {
+        return msg.warning('no puedes imprimir porque la factura esta anulada..', 'Advertencia!')
+    }
+
     if (isLoaded()) {
         qz.findPrinter();
 

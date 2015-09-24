@@ -25,7 +25,8 @@
 				{"sClass": "widthS right formato_precio",    "sTitle": "Total",                        "aTargets": [3]},
 				{"sClass": "widthS right formato_precio",    "sTitle": "Saldo",                        "aTargets": [4]},
 				{"sClass": "widthS",                         "sTitle": "Completed", "bVisible": false, "aTargets": [5]},
-				{"sClass": "widthS center font14", "orderable": false, "sTitle": "Operaciones", "aTargets": [6],
+				{"sClass": "widthS",                         "sTitle": "Canceled", "bVisible": false, "aTargets": [6]},
+				{"sClass": "widthS center font14", "orderable": false, "sTitle": "Operaciones", "aTargets": [7],
 					"mRender": function( data, type, full ) {
 						$v  = '<i title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail fg-theme"></i>';
 						$v += '<i title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o fg-theme" style="padding-left:10px"></i>';
@@ -52,7 +53,12 @@
 			"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
 				if ( aData[5] == 0){
 					jQuery(nRow).addClass('red');
-				}               
+				} 
+
+				if ( aData[6] == 1){
+                	jQuery(nRow).attr('anulada', true);
+                	jQuery(nRow).addClass('yellow');
+            	}               
 			},
 		});
     });

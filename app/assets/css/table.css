@@ -264,6 +264,11 @@ table {
   background: #B8CBFB !important;
 }
 
+.yellow td {
+  color: #DE9800;
+  background: #FEFFCD !important;
+}
+
 .home_num {
   min-width: 88px;
   text-align: right;

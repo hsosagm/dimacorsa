@@ -29,6 +29,10 @@
             <label class="col-md-3 btn-success" >@{{ cliente.saldo_total | currency ' '}}</label>
             <label class="col-md-3 btn-danger" >Saldo Vencido:</label>
             <label class="col-md-3 btn-danger" >@{{ cliente.saldo_vencido | currency ' '}}</label>
+            <label class="col-md-3 border-theme" >Limite de Credito:</label>
+            <label class="col-md-3" >@{{ cliente.limite_credito | currency ' '}}</label>
+            <label class="col-md-3" >Saldo Disponible:</label>
+            <label class="col-md-3" >@{{ (cliente.limite_credito - cliente.saldo_total) | currency ' '}}</label>
             <label class="col-md-6" >@{{ cliente.direccion }}</label>
             <label class="col-md-3" >NIT: @{{ cliente.nit }}</label>
             <label class="col-md-3" >Tel: @{{ cliente.telefono }}</label>

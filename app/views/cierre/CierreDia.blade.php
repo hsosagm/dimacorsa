@@ -1,57 +1,55 @@
-
-
 <script>
-   var graph_container = new Vue({
+	var graph_container = new Vue({
 
-    el: '#graph_container',
+	    el: '#graph_container',
 
-    data: {
-        x: 1,
-    },
+	    data: {
+	        x: 1,
+	    },
 
-    methods: {
+	    methods: {
 
-        reset: function() {
-            graph_container.x = graph_container.x - 1;
-        },
+	        reset: function() {
+	            graph_container.x = graph_container.x - 1;
+	        },
 
-        close: function() {
-            $('#graph_container').hide();
-        }, 
+	        close: function() {
+	            $('#graph_container').hide();
+	        }, 
 
-    	getAsignarInfoEnviar: function($v_model ,$v_metodo){
-            cierre_model= $v_model;
-            cierre_metodo_pago_id = $v_metodo;
-            graph_container.getCierreConsultasPorMetodoDePago(1 , null); 
-        },
+	    	getAsignarInfoEnviar: function($v_model ,$v_metodo){
+	            cierre_model= $v_model;
+	            cierre_metodo_pago_id = $v_metodo;
+	            graph_container.getCierreConsultasPorMetodoDePago(1 , null); 
+	        },
 
-        getCierreConsultasPorMetodoDePago: function(page , sSearch) {
-            $.ajax({
-                type: 'GET',
-                url: "admin/cierre/consultas/ConsultasPorMetodoDePago/"+cierre_model+"?page=" + page,
-                data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar, grafica:"_graficas" },
-                success: function (data) {
-                    if (data.success == true) {
-                        graph_container.x = 2;
-                        $('#cierres').html(data.table);
-                    }
-                    else {
-                        msg.warning(data, 'Advertencia!');
-                    }
-                }
-            });
-        }
-    }
-});
+	        getCierreConsultasPorMetodoDePago: function(page , sSearch) {
+	            $.ajax({
+	                type: 'GET',
+	                url: "admin/cierre/consultas/ConsultasPorMetodoDePago/"+cierre_model+"?page=" + page,
+	                data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar, grafica:"_graficas" },
+	                success: function (data) {
+	                    if (data.success == true) {
+	                        graph_container.x = 2;
+	                        $('#cierres').html(data.table);
+	                    }
+	                    else {
+	                        msg.warning(data, 'Advertencia!');
+	                    }
+	                }
+	            });
+	        }
+	    }
+	});
 
         		
    function graph_container_compile() {
-    graph_container.$nextTick(function() {
-        graph_container.$compile(graph_container.$el);
-    });
-}
+	    graph_container.$nextTick(function() {
+	        graph_container.$compile(graph_container.$el);
+	    });
+	}
 
-$(document).on('click', '.pagination_cierre_graficas a', function (e) {
+	$(document).on('click', '.pagination_cierre_graficas a', function (e) {
         e.preventDefault();
         var page = $(this).attr('href').split('page=')[1];
         graph_container.getCierreConsultasPorMetodoDePago(page , null); 

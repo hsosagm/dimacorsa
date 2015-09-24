@@ -1,6 +1,5 @@
 <?php
 
-
 Route::filter('cache', function($route, $request, $response, $age=60){
     $response->setTtl($age);
 });
@@ -19,7 +18,6 @@ Route::filter('auth', function()
             return Redirect::to('logIn');
         }
     }
-
 });
 
 
@@ -32,6 +30,7 @@ Route::filter('csrf', function()
 		}
 	}
 });
+
 
 Event::listen('eloquent.updated: Compra', function(Compra $model){
     if ($model->completed == 1 && $model->kardex == 0) 
@@ -125,7 +124,6 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
 });
 
 Event::listen('eloquent.updated: Descarga', function(Descarga $model){
-
     if ($model->status == 1 && $model->kardex == 0) 
     {
         $venta = Descarga::find($model->id);

@@ -64,7 +64,8 @@ class QueriesController extends \BaseController {
 			"clientes.nombre as cliente",
 			"total",
 			"saldo",
-			"completed"
+			"completed",
+			"canceled"
 		);
 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","ventas.total",'ventas.created_at');

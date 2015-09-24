@@ -30,9 +30,10 @@
     }); 
     /******************************************************************************/
 
-    Route::get('/'     , 'HomeController@index'   );
-    Route::get('logIn' , 'HomeController@login'   );
-    Route::get('logout', 'HomeController@logout'  );
+    Route::get('/'     , 'HomeController@index');
+    Route::get('logIn' , 'HomeController@login');
+    Route::post('logIn','HomeController@validate_phone');
+    Route::get('logout', 'HomeController@logout');
     Route::post('index', 'HomeController@validate');
 
     Route::get('proveedor', function()
@@ -71,6 +72,8 @@
             Route::get('getFormMetodoPagoNotaDeCredito', 'NotaCreditoController@getFormMetodoPagoNotaDeCredito');
             Route::get('create' , 'NotaCreditoController@create' );
             Route::post('create','NotaCreditoController@create' );
+            Route::post('detalle','NotaCreditoController@detalle' );
+            Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
         }); 
 
@@ -228,16 +231,24 @@
                 Route::post('postDevolucionParcial'            , 'VentasController@postDevolucionParcial');
             });
 
+            Route::group(array('prefix' => 'cotizaciones'),function() 
+            {
+                Route::get('create'                                 , 'VentasController@create' );
+                Route::post('create'                                , 'VentasController@create' );
+                Route::post('detalle'                               , 'VentasController@detalle');
+                Route::post('UpdateDetalle'                         , 'VentasController@UpdateDetalle' );
+                Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
+            });
+
         });
         
         Route::group(array('prefix' => 'cajas'),function() 
         {
-            Route::get('asignar'                , 'CajaController@asignar');
-            Route::post('asignar'               , 'CajaController@asignar');
-            Route::post('getMovimientosDeCaja'  , 'CajaController@getMovimientosDeCaja');
-            Route::get('corteDeCaja'            , 'CajaController@corteDeCaja');
-            Route::post('corteDeCaja'           , 'CajaController@corteDeCaja');
-
+            Route::get('asignar'               , 'CajaController@asignar');
+            Route::post('asignar'              , 'CajaController@asignar');
+            Route::post('getMovimientosDeCaja' , 'CajaController@getMovimientosDeCaja');
+            Route::get('corteDeCaja'           , 'CajaController@corteDeCaja');
+            Route::post('corteDeCaja'          , 'CajaController@corteDeCaja');
         });
         
         Route::get('profile'                   , 'UserController@edit_profile');
@@ -267,6 +278,11 @@
             Route::post('asignar'            , 'CajaController@asignar');
             Route::get('getConsultarCajas'   , 'CajaController@getConsultarCajas');
             Route::get('DtConsultarCajas'    , 'CajaController@DtConsultarCajas' );
+            Route::get('cortesDeCajaPorDia'  , 'CajaController@cortesDeCajaPorDia');
+            Route::get('DtCortesDeCajasPorDia', 'CajaController@DtCortesDeCajasPorDia');
+
+            Route::post('getMovimientosDeCajaDt', 'CajaController@getMovimientosDeCajaDt');
+
         });
 
 
@@ -604,7 +620,10 @@
 
 Route::get('/test', function()
 {
+     $verificar = AdelantoNotaCredito::where('metodo_pago_id', '=', 1)
+            ->where('nota_credito_id', '=', 1)->get();
 
+            return json_encode($verificar);
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

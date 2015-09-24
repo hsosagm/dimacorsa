@@ -64,6 +64,7 @@
                 <li><a href="javascript:void(0);" onClick="cierre();">Realizar Corte</a></li>
                 <li><a href="javascript:void(0);" onClick="CierreDelMes();">Balance General</a></li>
                 <li><a href="javascript:void(0);" onClick="CierresDelMes();">Movimientos por fecha</a></li>
+                <li><a href="javascript:void(0);" onClick="cortesDeCajaPorDia()">Cortes de Caja por Dia</a></li>
             </ul>
         </li>
 

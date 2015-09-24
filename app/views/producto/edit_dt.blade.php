@@ -57,6 +57,16 @@
 		<div class="col-md-1"></div>
 	</div>
 
+
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-3"> Existencia Minima: </div>
+		<div class="col-md-7 select_sub_categorias">
+			{{ Form::input('number', 'stock_minimo', '0', array('class' => 'form-control')) }} 
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+
 	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Inactivo: </div>
