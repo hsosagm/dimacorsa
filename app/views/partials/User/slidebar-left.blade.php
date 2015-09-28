@@ -42,23 +42,53 @@
             </li>
         @endif
 
-        <li class="submenu">
+         <li class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
-                <span class="text">Consultas</span>
+                <span class="text">Consultas Generales</span>
                 <span class="plus"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this)">Ventas del Dia</a></li>
-                <li><a href="javascript:void(0);" onclick="VerTablaSoporteDelDiaUsuario(this)">Soporte del Dia</a></li>
-                <li><a href="javascript:void(0);" onclick="VerTablaEgresosDelDiaUsuario(this)">Egresos del Dia</a></li>
-                <li><a href="javascript:void(0);" onclick="VerTablaIngresosDelDiaUsuario(this)">Ingresos del Dia</a></li>
-                <li><a href="javascript:void(0);" onclick="VerTablaGastosDelDiaUsuario(this)">Gastos del Dia</a></li>
-                <li><a href="javascript:void(0);" onclick="VerTablaAdelantosDelDiaUsuario(this)">Adelantos del Dia</a></li>
                 <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
-                <li><a href="javascript:void(0);" onclick="devoluciones()">Devoluciones</a></li>
-                <li onclick="getConsultarNotasDeCredito(this)"><a href="javascript:void(0);">Consultar Notas de Credito</a></li>
                 <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Consultar Serie</a></li>
+
+            </ul>
+        </li>
+
+        <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Consultas del Dia</span>
+                <span class="plus"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this,'dia')">Ventas</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaSoporteDelDiaUsuario(this, 'dia')">Soporte</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaEgresosDelDiaUsuario(this, 'dia')">Egresos</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaIngresosDelDiaUsuario(this, 'dia')">Ingresos</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaGastosDelDiaUsuario(this, 'dia')">Gastos</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaAdelantosDelDiaUsuario(this, 'dia')">Adelantos</a></li>
+                <li><a href="javascript:void(0);" onclick="devoluciones()">Devoluciones</a></li>
+                <li onclick="getConsultarNotasDeCredito(this, 'dia')"><a href="javascript:void(0);">Notas de Credito</a></li>
+
+            </ul>
+        </li>
+
+        <li class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-file-o"></i></span>
+                <span class="text">Consultas por Caja</span>
+                <span class="plus"></span>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this, 'caja')">Ventas</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaSoporteDelDiaUsuario(this, 'caja')">Soporte</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaEgresosDelDiaUsuario(this, 'caja')">Egresos</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaIngresosDelDiaUsuario(this, 'caja')">Ingresos</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaGastosDelDiaUsuario(this, 'caja')">Gastos</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaAdelantosDelDiaUsuario(this, 'caja')">Adelantos</a></li>
+                <li><a href="javascript:void(0);" onclick="devoluciones()">Devoluciones</a></li>
+                <li onclick="getConsultarNotasDeCredito(this, 'caja')"><a href="javascript:void(0);">Notas de Credito</a></li>
 
             </ul>
         </li>

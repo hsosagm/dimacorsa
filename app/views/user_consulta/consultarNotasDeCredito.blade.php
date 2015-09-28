@@ -48,7 +48,10 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/consulta/DtConsultarNotasDeCredito"
+        "sAjaxSource": "user/consulta/DtConsultarNotasDeCredito",
+        "fnServerParams": function (aoData) {
+           aoData.push({ "name": "tipo", "value": "{{Input::get('tipo')}}" });
+       },
     });
 
 });

@@ -1,7 +1,7 @@
 <div class="row">
 
 	<div class="col-md-6">
-		{{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Venta Generada', 'status' => '0')) }}
+		{{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Producto Ingresado', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}
 		{{ Form::hidden('venta_id', $venta_id) }}
 		{{ Form::hidden('ganancias', 0) }}

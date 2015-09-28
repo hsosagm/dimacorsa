@@ -1,38 +1,80 @@
-function VerTablaVentasDelDiaUsuario(e) {
-    $.get( "user/consulta/VerTablaVentasDelDiaUsuario", function( data ) {
-        makeTable(data, '', 'Ventas del Dia');
-    });
-}  
+function VerTablaVentasDelDiaUsuario(e, tipo) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/VerTablaVentasDelDiaUsuario',
+        data: {tipo: tipo}
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '', 'Ventas');
 
-function VerTablaSoporteDelDiaUsuario(e) {
-    $.get( "user/consulta/VerTablaSoporteDelDiaUsuario", function( data ) {
-        makeTable(data, '', 'Soportes del Dia');
+        msg.warning(data, 'Advertencia!');
     });
-}  
+};  
 
-function VerTablaIngresosDelDiaUsuario(e) {
-    $.get( "user/consulta/VerTablaIngresosDelDiaUsuario", function( data ) {
-        makeTable(data, '', 'Ingresos del Dia');
-    });
-} 
+function VerTablaSoporteDelDiaUsuario(e, tipo) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/VerTablaSoporteDelDiaUsuario',
+        data: {tipo: tipo}
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '', 'Soportes');
 
-function VerTablaEgresosDelDiaUsuario(e) {
-    $.get( "user/consulta/VerTablaEgresosDelDiaUsuario", function( data ) {
-        makeTable(data, '', 'Egresos del Dia');
+        msg.warning(data, 'Advertencia!');
     });
-}  
+}; 
 
-function VerTablaGastosDelDiaUsuario(e) {
-    $.get( "user/consulta/VerTablaGastosDelDiaUsuario", function( data ) {
-        makeTable(data, '', 'Gastos del Dia');
-    });
-}   
+function VerTablaIngresosDelDiaUsuario(e, tipo) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/VerTablaIngresosDelDiaUsuario',
+        data: {tipo: tipo}
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '', 'Ingresos');
 
-function VerTablaAdelantosDelDiaUsuario(e) {
-    $.get( "user/consulta/VerTablaAdelantosDelDiaUsuario", function( data ) {
-        makeTable(data, '', 'Adelantos del Dia');
+        msg.warning(data, 'Advertencia!');
     });
-}
+}; 
+
+function VerTablaEgresosDelDiaUsuario(e, tipo) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/VerTablaEgresosDelDiaUsuario',
+        data: {tipo: tipo}
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '', 'Egresos');
+
+        msg.warning(data, 'Advertencia!');
+    });
+};  
+
+function VerTablaGastosDelDiaUsuario(e, tipo) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/VerTablaGastosDelDiaUsuario',
+        data: {tipo: tipo}
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '', 'Gastos');
+
+        msg.warning(data, 'Advertencia!');
+    });
+};   
+
+function VerTablaAdelantosDelDiaUsuario(e, tipo) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/VerTablaAdelantosDelDiaUsuario',
+        data: {tipo: tipo}
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '', 'Adelantos');
+
+        msg.warning(data, 'Advertencia!');
+    });
+};
 
 function VentasAlCreditoUsuario(e) {
     $(e).prop("disabled", true);
@@ -47,7 +89,7 @@ function VentasAlCreditoUsuario(e) {
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
         }
     }); 
-}
+};
 
 function getConsultarSerie(e) {
     $.ajax({
@@ -63,7 +105,7 @@ function getConsultarSerie(e) {
         }
         msg.warning(data, 'Advertencia!');
     }); 
-} 
+}; 
 
 function setConsultarSerie(e) {
     $(e).prop("disabled", true);
@@ -80,10 +122,17 @@ function setConsultarSerie(e) {
         msg.warning(data, 'Advertencia!');
         return $(e).prop("disabled", false);
     }); 
-}
+};
 
-function getConsultarNotasDeCredito(e) {
-    $.get( "user/consulta/getConsultarNotasDeCredito", function( data ) {
-        makeTable(data, '/user/notaDeCredito/', '');
+function getConsultarNotasDeCredito(e, tipo) {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/getConsultarNotasDeCredito',
+        data: {tipo: tipo}
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '/user/notaDeCredito/', 'Notas de Credito');
+
+        msg.warning(data, 'Advertencia!');
     });
-}
+};

@@ -19,12 +19,12 @@
             </table>
         </div>
         <div class="col-md-6" style="font-size:11px"  v-if="cliente.id">
-            <label class="col-md-3" >Nombre:</label>
-            <label class="col-md-9" >@{{ cliente.nombre }}</label>
-            <label class="col-md-3" >NIT:</label>
-            <label class="col-md-3" >@{{ cliente.nit }}</label>
-            <label class="col-md-3" >Telefono:</label>
-            <label class="col-md-3" >@{{ cliente.telefono }}</label>
+            <label class="col-md-2" >Nombre:</label>
+            <label class="col-md-10" >@{{ cliente.nombre }}</label>
+            <label class="col-md-2" >NIT:</label>
+            <label class="col-md-4" >@{{ cliente.nit }}</label>
+            <label class="col-md-2" >Telefono:</label>
+            <label class="col-md-4" >@{{ cliente.telefono }}</label>
             <label class="col-md-12" >@{{ cliente.direccion }}</label>
         </div>
     </div>

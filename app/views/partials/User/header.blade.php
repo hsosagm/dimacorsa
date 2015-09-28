@@ -30,10 +30,14 @@
                         </div>
                     </form>
                 </li>
+                
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle f_ven_op" data-placement="bottom"  title="Venta" data-toggle="tooltip"><i class="fa fa-dollar"></i></a>
+                </li>
+                <li class="dropdown navbar-message">
+                    <a href="javascript:void(0)" class="dropdown-toggle" onclick="f_coti_op()" data-placement="bottom"  title="Cotizacion" data-toggle="tooltip"><i class="fa fa-list-ol"></i></a>
                 </li>
                 <li class="dropdown navbar-message">
                     <a  href="javascript:void(0)" onclick="getInventario()" class="dropdown-toggle" data-placement="bottom"  title="Inventario"  data-toggle="tooltip"><i class="fa fa-list-alt"></i></a>
@@ -41,6 +45,7 @@
                 <li class="dropdown navbar-message">
                     <a  href="/cliente" class="dropdown-toggle"  data-placement="bottom"  title="Clientes"  data-toggle="tooltip"><i class="fa fa-users"></i></a>
                 </li>
+
                 <li class="dropdown navbar-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">

@@ -33,7 +33,10 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/consulta/GastosDelDiaUsuario_dt"
+        "sAjaxSource": "user/consulta/GastosDelDiaUsuario_dt",
+        "fnServerParams": function (aoData) {
+           aoData.push({ "name": "tipo", "value": "{{Input::get('tipo')}}" });
+       },
     });
 
 });

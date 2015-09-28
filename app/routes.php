@@ -20,6 +20,7 @@
     Route::post('ImprimirTraslado'          , 'TrasladoController@ImprimirTraslado');
     Route::post('ImprimirAbonoCliente'      , 'SalesPaymentsController@imprimirAbonoVenta');
     Route::post('ImprimirAbonoProveedor'    , 'ProveedorController@ImprimirAbono' );
+    Route::post('ImprimirCotizacion'        , 'CotizacionController@ImprimirCotizacion' );
     
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
@@ -231,15 +232,15 @@
                 Route::post('postDevolucionParcial'            , 'VentasController@postDevolucionParcial');
             });
 
-            Route::group(array('prefix' => 'cotizaciones'),function() 
-            {
-                Route::get('create'                                 , 'VentasController@create' );
-                Route::post('create'                                , 'VentasController@create' );
-                Route::post('detalle'                               , 'VentasController@detalle');
-                Route::post('UpdateDetalle'                         , 'VentasController@UpdateDetalle' );
-                Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
-            });
+        });
 
+        Route::group(array('prefix' => 'cotizaciones'),function() 
+        {
+            Route::get('create'                  , 'CotizacionController@create' );
+            Route::post('create'                 , 'CotizacionController@create' );
+            Route::post('detalle'                , 'CotizacionController@detalle');
+            Route::post('removeItemCotizacion'   , 'CotizacionController@removeItemCotizacion' );
+            Route::post('updateClienteId'        , 'CotizacionController@updateClienteId' );
         });
         
         Route::group(array('prefix' => 'cajas'),function() 

@@ -34,7 +34,10 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/consulta/IngresosDelDiaUsuario_dt"
+        "sAjaxSource": "user/consulta/IngresosDelDiaUsuario_dt",
+        "fnServerParams": function (aoData) {
+           aoData.push({ "name": "tipo", "value": "{{Input::get('tipo')}}" });
+       },
     });
 
 });
