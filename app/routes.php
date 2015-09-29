@@ -395,7 +395,6 @@
             Route::post('compra'       , 'ProductoController@compra' );
         });
 
-
         Route::group(array('prefix' => 'proveedor'), function()
         {
             Route::get('buscar'                      , 'ProveedorController@search');
@@ -620,10 +619,7 @@
 
 Route::get('/test', function()
 {
-     $verificar = AdelantoNotaCredito::where('metodo_pago_id', '=', 1)
-            ->where('nota_credito_id', '=', 1)->get();
 
-            return json_encode($verificar);
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

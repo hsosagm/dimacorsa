@@ -36,6 +36,9 @@
                     <a id="f_com_op" href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compra"  data-toggle="tooltip"><i class="fa fa-shopping-cart"></i></a>
                 </li>
                 <li class="dropdown navbar-message">
+                    <a href="javascript:void(0)" class="dropdown-toggle" onclick="f_coti_op()" data-placement="bottom"  title="Cotizacion" data-toggle="tooltip"><i class="fa fa-list-ol"></i></a>
+                </li>
+                <li class="dropdown navbar-message">
                     <a  href="javascript:void(0)" onclick="getInventario()" class="dropdown-toggle" data-placement="bottom"  title="Inventario"  data-toggle="tooltip"><i class="fa fa-list-alt"></i></a>
                 </li>
                 <li class="dropdown navbar-message">
