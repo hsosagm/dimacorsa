@@ -33,6 +33,13 @@
                 
             </ul>
             <ul class="nav navbar-nav navbar-right">
+
+                @if(Auth::user()->hasRole("Owner")||Auth::user()->hasRole("Admin"))
+                    <li class="dropdown navbar-message">
+                        <a  href="/" class="dropdown-toggle fg-theme" data-placement="bottom"  title="ERP"  data-toggle="tooltip">ERP</a>
+                    </li>
+                @endif
+
                 <li class="dropdown navbar-message">
                     <a href="javascript:void(0)" class="dropdown-toggle f_ven_op" data-placement="bottom"  title="Venta" data-toggle="tooltip"><i class="fa fa-dollar"></i></a>
                 </li>

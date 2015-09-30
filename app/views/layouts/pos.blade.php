@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
-<?php $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>
-<?php $caja = Auth::user()->caja_id; ?>
-
+<?php $tema = Tema::whereUserId(Auth::user()->id)->first(); ?>
+<?php $caja = Caja::whereUserId(Auth::user()->id)->get(); ?>
 
 @include('partials.head')
 

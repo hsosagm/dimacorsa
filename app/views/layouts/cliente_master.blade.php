@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
-<?php  $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>
-<!-- START @HEAD -->
+<?php $tema = Tema::whereUserId(Auth::user()->id)->first(); ?>
+<?php $caja = Caja::whereUserId(Auth::user()->id)->get(); ?>
+
 @include('cliente_partials.head')
-<!-- END @HEAD -->
 
 <body style="display: block;" class="page-header-fixed page-sidebar-fixed page-footer-fixed">
 
     <section id="wrapper">
 
-     <!--/ START HEADER -->
      @include('cliente_partials.header')
-     <!--/ END HEADER -->
-
-     <!-- /#sidebar-left -->
      @include('cliente_partials.slidebar-left')
-     <!--/ END SIDEBAR LEFT -->
 
-     <!-- START @PAGE CONTENT -->
      <section id="page-content">
 
         <div id="loader"><div class="spinner flat"></div></div>
@@ -27,20 +21,13 @@
             <h2><a href="/" class="fa fa-home" style="font-size:22px;" onclick="limpiar_home();"></a> <span v-html="infoCliente" id="infoSaldosTotales"></span></h2>
         </div>
 
-
         @include('cliente_partials.body-content')
-
         @include('cliente_partials.footer')
 
-    </section><!-- /#page-content -->
-    <!--/ END PAGE CONTENT -->
+    </section>
 
-    <!-- START @SIDEBAR RIGHT -->
     @include('cliente_partials.slidebar-right')
-    <!-- END   @SIDEBAR RIGHT -->
-    
 </section>
-
 
 <div id="back-top" class="animated pulse circle">
     <i class="fa fa-angle-up"></i>
@@ -83,7 +70,6 @@
         }
 
     }); 
-
 
     $('#customer_search').autocomplete({
         serviceUrl: '/user/cliente/search',

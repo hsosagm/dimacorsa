@@ -26,9 +26,10 @@ class IngresoController extends \BaseController {
         }
 
         $ingreso = new Ingreso;
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
 
         $data = Input::all();
-        $data['caja_id'] = Auth::user()->caja_id;
+        $data['caja_id'] = $caja->id;
 
         if (!$ingreso->create_master($data))
         {

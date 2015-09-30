@@ -1,6 +1,7 @@
 <div align="center">
 	<h4>
-		{{ @$detalleCompra->producto->descripcion }}
+
+		{{ (@$detalleCompra->producto->descripcion == "")? @$detalleVenta->producto->descripcion:@$detalleCompra->producto->descripcion }}
 	</h4>
 </div>
 
@@ -25,6 +26,10 @@
 							<td width="70%">  {{ @$detalleCompra->compra->fecha_documento }} </td>
 						</tr>
 						<tr>
+							<td width="30%"> No. Factura: </td>
+							<td width="70%">  {{ @$detalleCompra->compra->numero_documento }} </td>
+						</tr>
+						<tr>
 							<td width="30%"> Proveedor: </td>
 							<td width="70%"> {{ @$detalleCompra->compra->proveedor->nombre }} </td>
 						</tr>
@@ -35,8 +40,7 @@
 						<tr>
 							<td width="30%"> Garantia: </td>
 							<td width="70%">  
-								<?php @$garantia_compra = (date_diff( new DateTime(@$detalleCompra->compra->fecha_documento), Carbon::now())->format('%R%a days') - 365); ?>
-								{{ ( @$garantia_compra > 0 )? @$garantia_compra.' Dias Termino Garantia': @$garantia_compra.' Dias Faltan de Garantia' }}
+								{{  (date_diff( new DateTime(@$detalleCompra->compra->fecha_documento), Carbon::now())->format('%R%a days')).' Dias' }}
 							</td>
 						</tr>
 					</table>	
@@ -68,6 +72,10 @@
 							<td width="70%"> {{ @$detalleVenta->venta->created_at }} </td>
 						</tr>
 						<tr>
+							<td width="30%"> Usuario: </td>
+							<td width="70%"> {{ @$detalleVenta->venta->user->nombre }} </td>
+						</tr>
+						<tr>
 							<td width="30%"> Cliente: </td>
 							<td width="70%"> {{ @$detalleVenta->venta->cliente->nombre }} </td>
 						</tr>
@@ -78,8 +86,7 @@
 						<tr>
 							<td width="30%"> Garantia: </td>
 							<td width="70%">  
-								<?php @$garantia_venta = (date_diff( new DateTime(@$detalleVenta->venta->created_at), Carbon::now())->format('%R%a days') - 365); ?>
-								{{ ( @$garantia_venta > 0 )? @$garantia_venta.' Dias Termino Garantia': @$garantia_venta.' Dias Faltan de Garantia' }}
+								{{ (date_diff( new DateTime(@$detalleVenta->venta->created_at), Carbon::now())->format('%R%a days')).' Dias' }}
 							</td>
 						</tr>
 					</table>

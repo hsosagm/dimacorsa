@@ -9,7 +9,9 @@ class VentasController extends \BaseController {
 			$venta = new Venta;
 
 			$data = Input::all();
-        	$data['caja_id'] = Auth::user()->caja_id;
+			$caja = Caja::whereUserId(Auth::user()->id)->first();
+			
+        	$data['caja_id'] = $caja->id;
 
 			if (!$venta->create_master($data))
 			{

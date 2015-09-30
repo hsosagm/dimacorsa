@@ -11,6 +11,7 @@ class TableCajasPorTienda extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('tienda_id')->unsigned();
+			$table->integer('user_id');
 			$table->string('nombre');
 	
 			$table->timestamps();

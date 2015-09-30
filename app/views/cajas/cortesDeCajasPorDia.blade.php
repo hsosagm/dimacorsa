@@ -22,7 +22,7 @@ $(document).ready(function() {
             {"sClass": "width5 icons center",                   "sTitle": "",            "aTargets": [5],
                 "orderable": false,
                 "mRender": function(data, type, full) {
-                    return '<i title="Ver Corte" onclick="getMovimientosDeCajaDt(this, '+full.DT_RowId+')" class="fa fa-eye font14" style="padding-left:10px"> </i>';
+                    return '<i title="Ver Corte" onclick="getMovimientosDeCajaDt(this, '+full.DT_RowId+')" class="fa fa-search font14" style="padding-left:10px"> </i>';
                 }
 
             },

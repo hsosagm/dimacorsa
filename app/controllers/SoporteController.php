@@ -26,9 +26,10 @@ class SoporteController extends BaseController {
         }
 
         $soporte = new Soporte;
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
 
         $data = Input::all();
-        $data['caja_id'] = Auth::user()->caja_id;
+        $data['caja_id'] = $caja->id;
 
         if (!$soporte->create_master($data))
         {

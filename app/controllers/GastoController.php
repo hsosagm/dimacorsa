@@ -26,9 +26,10 @@ class GastoController extends \BaseController {
         }
 
         $gasto = new Gasto;
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
 
         $data = Input::all();
-        $data['caja_id'] = Auth::user()->caja_id;
+        $data['caja_id'] = $caja->id;
 
         if (!$gasto->create_master($data))
         {

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
-<?php $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>
-<?php $vista = Auth::user()->vista; ?>
-<?php $caja = Auth::user()->caja_id; ?>
-
+<?php $tema = Tema::whereUserId(Auth::user()->id)->first(); ?>
+<?php $caja = Caja::whereUserId(Auth::user()->id)->get(); ?>
 
 @include('partials.head')
 
@@ -17,8 +15,20 @@
     </div>
 
     <section id="wrapper">
-        @include('partials.'.$vista.'.header')
-        @include('partials.'.$vista.'.slidebar-left')
+
+        @if(Auth::user()->hasRole("Owner"))
+            @include('partials.Owner.header')
+            @include('partials.Owner.slidebar-left')
+        @elseif(Auth::user()->hasRole("Admin"))
+            @include('partials.Admin.header')
+            @include('partials.Admin.slidebar-left')
+        @elseif(Auth::user()->hasRole("User"))
+            @include('partials.User.header')
+            @include('partials.User.slidebar-left')
+        @else
+            @include('partials.Default.header')
+            @include('partials.Default.slidebar-left')
+        @endif
 
         <section id="page-content">
             <div id="loader">

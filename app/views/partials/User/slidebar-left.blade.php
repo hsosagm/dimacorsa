@@ -38,35 +38,36 @@
                 <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Serie</a></li>
             </ul>
         </li>
+        @if(count($caja))
+            <li class="submenu">
+                <a href="javascript:void(0);">
+                    <span class="icon"><i class="fa fa-columns"></i></span>
+                    <span class="text">Operaciones</span>
+                    <span class="plus"></span>
+                </a>
+                <ul>
+                    <li><a href="javascript:void(0);" onclick="f_soporte(this)">Soporte</a></li>
+                    <li><a href="javascript:void(0);" onclick="f_gastos(this)">Gastos</a></li>
+                    <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
+                    <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
+                    <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelantos</a></li>
+                    <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li>
 
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-columns"></i></span>
-                <span class="text">Operaciones</span>
-                <span class="plus"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);" onclick="f_soporte(this)">Soporte</a></li>
-                <li><a href="javascript:void(0);" onclick="f_gastos(this)">Gastos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
-                <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelantos</a></li>
-                <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li>
-
-            </ul>
-        </li>
-        
-         <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-columns"></i></span>
-                <span class="text">Caja</span>
-                <span class="plus"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);" onclick="getMovimientosDeCaja(this)">Movimientos de Caja</a></li>
-                <li><a href="javascript:void(0);" onclick="corteDeCaja(this)">Realizar corte</a></li>
-            </ul>
-        </li>
+                </ul>
+            </li>
+            
+             <li class="submenu">
+                <a href="javascript:void(0);">
+                    <span class="icon"><i class="fa fa-columns"></i></span>
+                    <span class="text">Caja</span>
+                    <span class="plus"></span>
+                </a>
+                <ul>
+                    <li><a href="javascript:void(0);" onclick="getMovimientosDeCaja(this)">Movimientos de Caja</a></li>
+                    <li><a href="javascript:void(0);" onclick="corteDeCaja(this)">Realizar corte</a></li>
+                </ul>
+            </li>
+        @endif
     </ul>
 
     <div class="sidebar-footer hidden-xs hidden-sm hidden-md">
