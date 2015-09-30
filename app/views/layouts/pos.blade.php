@@ -2,7 +2,6 @@
 
 <?php $tienda = Tienda::find(Auth::user()->tienda_id); ?>
 <?php $tema = Tema::where('user_id', Auth::user()->id)->first(); ?>
-<?php $vista = Auth::user()->vista; ?>
 <?php $caja = Auth::user()->caja_id; ?>
 
 
@@ -17,17 +16,24 @@
     </div>
 
     <section id="wrapper">
-        @include('partials.'.$vista.'.header')
-        @include('partials.'.$vista.'.slidebar-left')
+
+        @include('partials.User.header')
+
+        @include('partials.User.slidebar-left')
 
         <section id="page-content">
+
             <div id="loader">
                 <div class="spinner flat"></div>
             </div>
 
             <div class="header-content">
-                <h2> <span ><a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="ocultar_capas();"></a></span>  
-                <span id="home"></span></h2>
+                <h2> 
+                    <span >
+                        <a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="ocultar_capas();"></a>
+                    </span>  
+                    <span id="home"></span>
+                </h2>
             </div>
 
             @include('partials.body-content')
@@ -35,9 +41,11 @@
             <footer class="footer-content"> 
                 2015 &copy; {{$tienda->nombre}}. Created by <a href="javascript:void(0)">SOFTWARE.</a>
             </footer>
+
         </section>
 
         @include('partials.slidebar-right')
+        
     </section>
 
 
@@ -47,7 +55,6 @@
 
     <script src="js/main.js"></script>
     <script src="js/custom.js"></script>
-    
     
     <script type="text/javascript">
         $(document).ready(function(){

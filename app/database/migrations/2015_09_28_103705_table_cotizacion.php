@@ -26,19 +26,18 @@ class TableCotizacion extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('cotizacion_id')->unsigned();
-			$table->integer('producto_id')->unsigned();
+			$table->integer('producto_id')->default(0);
 			$table->integer('cantidad')->unsigned();
 			$table->decimal('precio', 8, 2);
 			$table->timestamps();
 			$table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onDelete('cascade')->onUpdate('cascade');
-			$table->foreign('producto_id')->references('id')->on('productos')->onDelete('restrict')->onUpdate('cascade');
 		});
 
 	}
 
 	public function down()
 	{
-		Schema::drop('detalle_cotizacion');
+		Schema::drop('detalle_cotizaciones');
 		Schema::drop('cotizaciones');
 	}
 

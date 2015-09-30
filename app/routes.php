@@ -47,6 +47,11 @@
         return View::make('layouts.cliente_master');
     });
 
+    Route::get('pos', function()
+    {
+        return View::make('layouts.pos');
+    });
+
     Route::group(array('prefix' => 'user'), function()
     {
         Route::group(array('prefix' => 'chart'), function()

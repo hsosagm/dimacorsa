@@ -32,30 +32,11 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown navbar-message">
-                    <a id="f_com_op" href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Compra"  data-toggle="tooltip"><i class="fa fa-shopping-cart"></i></a>
-                </li>
-                <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" class="dropdown-toggle" onclick="f_coti_op()" data-placement="bottom"  title="Cotizacion" data-toggle="tooltip"><i class="fa fa-list-ol"></i></a>
-                </li>
-                <li class="dropdown navbar-message">
-                    <a  href="javascript:void(0)" onclick="getInventario()" class="dropdown-toggle" data-placement="bottom"  title="Inventario"  data-toggle="tooltip"><i class="fa fa-list-alt"></i></a>
-                </li>
-                <li class="dropdown navbar-message">
-                    <a  href="/cliente" class="dropdown-toggle"  data-placement="bottom"  title="Clientes"  data-toggle="tooltip"><i class="fa fa-users"></i></a>
-                </li>
-                <li class="dropdown navbar-message">
-                    <a  href="/proveedor" class="dropdown-toggle" data-placement="bottom"  title="Proveedores"  data-toggle="tooltip"><i class="fa fa-folder-open"></i></a>
-                </li>
-                <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" onclick="chartVentasPorUsuario();" title="Graficas Ventas"><i class="fa fa-bar-chart-o"></i></a>
-                </li>
-                <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_descarga();" title="Descargas" data-toggle="tooltip"><i class="fa fa-download"></i></a>
-                </li>
-                <li class="dropdown navbar-message">
-                    <a href="javascript:void(0)" class="dropdown-toggle " data-placement="bottom" onclick="fopen_traslado();" title="Traslados" data-toggle="tooltip"><i class="fa fa-exchange"></i></a>
-                </li>
+                
+                <!--Inicio header -->
+                @include('partials.Controles.header')
+                <!--Fin header -->
+               
                 <li class="dropdown navbar-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
