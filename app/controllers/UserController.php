@@ -279,6 +279,15 @@ class UserController extends Controller {
 		));
 	}
 
+	public function VentasSinFinalizar()
+	{
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('user_consulta.ventasSinFinalizar')->render()
+		));
+	}
+	
+
 
 
 //**********************************************************************************************************************
@@ -561,6 +570,37 @@ class UserController extends Controller {
 		}
 
 		$where .= " AND notas_creditos.tienda_id =".Auth::user()->tienda_id;
+
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+	}
+
+	public function DtVentasSinFinalizar()
+	{
+		$caja = Caja::whereUserId(Auth::user()->id)->first(); 
+
+		$table = 'ventas';
+
+		$columns = array(
+			"ventas.created_at as fecha", 
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"clientes.nombre as cliente",
+			"total",
+			"saldo",
+			"completed",
+			"canceled"
+			);
+
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre");
+
+		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
+
+		$fecha = "'".CierreCaja::where('caja_id','=',$caja->id )->max('created_at')."'";
+
+		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') >= DATE_FORMAT({$fecha}, '%Y-%m-%d') ";
+
+		$where .= " AND ventas.completed = 2 ";
+		
+		$where .= " AND ventas.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}

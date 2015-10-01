@@ -136,3 +136,15 @@ function getConsultarNotasDeCredito(e, tipo) {
         msg.warning(data, 'Advertencia!');
     });
 };
+
+function VentasSinFinalizar() {
+    $.ajax({
+        type: "GET",
+        url: 'user/consulta/VentasSinFinalizar',
+    }).done(function(data) {
+        if (data.success == true)
+            return makeTable(data.table, '', 'Ventas Sin Finalizar');
+
+        msg.warning(data, 'Advertencia!');
+    });
+};

@@ -26,7 +26,6 @@ $(document).ready(function() {
                 "mRender": function(  data, type, full ) {
                     $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
                     $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
-                    $v += '<a href="javascript:void(0);" title="Enviar Venta" onclick="enviarVentaACaja(this, '+full.DT_RowId+')" class="fa fa-paper-plane-o font14" style="padding-left:10px">';
 
                     return $v;
                 }
@@ -58,10 +57,7 @@ $(document).ready(function() {
         "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "user/consulta/VentasDelDiaUsuario_dt",
-        "fnServerParams": function (aoData) {
-           aoData.push({ "name": "tipo", "value": "{{Input::get('tipo')}}" });
-       },
+        "sAjaxSource": "user/consulta/DtVentasSinFinalizar",
     });
 
 });

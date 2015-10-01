@@ -269,6 +269,11 @@ table {
   background: #FEFFCD !important;
 }
 
+.orange td {
+  color: #FF6A02 !important;
+  background: #FFD9B5 !important;
+}
+
 .home_num {
   min-width: 88px;
   text-align: right;

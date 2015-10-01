@@ -62,13 +62,13 @@
                         {{ f_num::get($data['soporte']['efectivo']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['soporte']['credito'] ) }} 
+                        {{ f_num::get($data['soporte']['credito']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['soporte']['cheque']  ) }} 
+                        {{ f_num::get($data['soporte']['cheque']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['soporte']['tarjeta'] ) }} 
+                        {{ f_num::get($data['soporte']['tarjeta']) }} 
                     </td> 
                     <td class="right hover">
                         {{ f_num::get($data['soporte']['deposito']) }} 
@@ -81,13 +81,13 @@
                        {{ f_num::get($data['adelantos']['efectivo']) }} 
                     </td> 
                     <td class="right"> 
-                        {{ f_num::get($data['adelantos']['credito'] ) }} 
+                        {{ f_num::get($data['adelantos']['credito']) }} 
                     </td> 
                     <td class="right hover">
-                       {{ f_num::get($data['adelantos']['cheque']  ) }} 
+                       {{ f_num::get($data['adelantos']['cheque']) }} 
                     </td> 
                     <td class="right hover">
-                       {{ f_num::get($data['adelantos']['tarjeta'] ) }} 
+                       {{ f_num::get($data['adelantos']['tarjeta']) }} 
                     </td> 
                     <td class="right hover">
                        {{ f_num::get($data['adelantos']['deposito']) }} 
@@ -95,18 +95,37 @@
                     <td class="right"> {{ f_num::get($data['adelantos']['total']) }} </td> 
                 </tr>
                 <tr>
+                    <td>Notas de Credito Adelanto</td>
+                    <td class="right hover">
+                        {{ f_num::get($data['adelanto_notas_creditos']['efectivo']) }}
+                    </td> 
+                    <td class="right"> 
+                        {{ f_num::get($data['adelanto_notas_creditos']['credito']) }} 
+                    </td> 
+                    <td class="right hover">
+                        {{ f_num::get($data['adelanto_notas_creditos']['cheque']) }} 
+                    </td> 
+                    <td class="right hover">
+                        {{ f_num::get($data['adelanto_notas_creditos']['tarjeta']) }} 
+                    </td> 
+                    <td class="right hover">
+                        {{ f_num::get($data['adelanto_notas_creditos']['deposito']) }} 
+                    </td> 
+                    <td class="right"> {{ f_num::get($data['adelanto_notas_creditos']['total']) }} </td> 
+                </tr>
+                <tr>
                     <td>Ingresos</td>
                     <td class="right hover">
                        {{ f_num::get($data['ingresos']['efectivo']) }} 
                     </td> 
                     <td class="right"> 
-                        {{ f_num::get($data['ingresos']['credito'] ) }} 
+                        {{ f_num::get($data['ingresos']['credito']) }} 
                     </td> 
                     <td class="right hover">
-                       {{ f_num::get($data['ingresos']['cheque']  ) }} 
+                       {{ f_num::get($data['ingresos']['cheque']) }} 
                     </td> 
                     <td class="right hover">
-                       {{ f_num::get($data['ingresos']['tarjeta'] ) }} 
+                       {{ f_num::get($data['ingresos']['tarjeta']) }} 
                     </td> 
                     <td class="right hover">
                        {{ f_num::get($data['ingresos']['deposito']) }} 
@@ -119,13 +138,13 @@
                         ({{ f_num::get(($data['gastos']['efectivo'] == 0) ?  '0.00':$data['gastos']['efectivo']) }})
                     </td> 
                     <td class="right"> 
-                        {{ f_num::get($data['gastos']['credito'] ) }} 
+                        {{ f_num::get($data['gastos']['credito']) }} 
                     </td> 
                     <td class="right hover">
-                         {{ f_num::get($data['gastos']['cheque']  ) }} 
+                         {{ f_num::get($data['gastos']['cheque']) }} 
                      </td> 
                     <td class="right hover">
-                         {{ f_num::get($data['gastos']['tarjeta'] ) }} 
+                         {{ f_num::get($data['gastos']['tarjeta']) }} 
                      </td> 
                     <td class="right hover">
                          {{ f_num::get($data['gastos']['deposito']) }} 
@@ -138,13 +157,13 @@
                         ({{ f_num::get(($data['egresos']['efectivo'] == 0) ?  '0.00':$data['egresos']['efectivo']) }})
                     </td> 
                     <td class="right"> 
-                        {{ f_num::get($data['egresos']['credito'] ) }} 
+                        {{ f_num::get($data['egresos']['credito']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['egresos']['cheque']  ) }} 
+                        {{ f_num::get($data['egresos']['cheque']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['egresos']['tarjeta'] ) }} 
+                        {{ f_num::get($data['egresos']['tarjeta']) }} 
                     </td> 
                     <td class="right hover">
                         {{ f_num::get($data['egresos']['deposito']) }} 
@@ -152,23 +171,23 @@
                     <td class="right"> {{ f_num::get($data['egresos']['total']) }} </td> 
                 </tr>
                 <tr>
-                    <td>Notas de Credito</td>
+                    <td>Notas de Credito Devolucion</td>
                     <td class="right hover">
-                        ({{ f_num::get(($data['notas_creditos']['efectivo'] == 0) ?  '0.00':$data['notas_creditos']['efectivo']) }})
+                        ({{ f_num::get(($data['devolucion_notas_creditos']['efectivo'] == 0) ?  '0.00':$data['devolucion_notas_creditos']['efectivo']) }})
                     </td> 
                     <td class="right"> 
-                        {{ f_num::get($data['notas_creditos']['credito'] ) }} 
+                        {{ f_num::get($data['devolucion_notas_creditos']['credito']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['notas_creditos']['cheque']  ) }} 
+                        {{ f_num::get($data['devolucion_notas_creditos']['cheque']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['notas_creditos']['tarjeta'] ) }} 
+                        {{ f_num::get($data['devolucion_notas_creditos']['tarjeta']) }} 
                     </td> 
                     <td class="right hover">
-                        {{ f_num::get($data['notas_creditos']['deposito']) }} 
+                        {{ f_num::get($data['devolucion_notas_creditos']['deposito']) }} 
                     </td> 
-                    <td class="right"> {{ f_num::get($data['notas_creditos']['total']) }} </td> 
+                    <td class="right"> {{ f_num::get($data['devolucion_notas_creditos']['total']) }} </td> 
                 </tr>
             </tbody>
             <tfoot>
@@ -176,9 +195,9 @@
                     <th>Efectivo esperado en caja</th>
                     <th class="right" style="padding-right: 10px !important;">
                         <?php 
-                            $caja_negativos = $data['notas_creditos']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
+                            $caja_negativos = $data['devolucion_notas_creditos']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
 
-                            $caja_positivos = $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
+                            $caja_positivos = $data['adelanto_notas_creditos']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
 
                             $caja =  $caja_positivos - $caja_negativos;
                             echo f_num::get($caja);

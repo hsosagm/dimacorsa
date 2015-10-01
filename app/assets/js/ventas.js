@@ -14,7 +14,7 @@ function f_ven_op() {
         $(".form-panel").show();
         $('#cliente').focus();
     });
-}
+};
  
 function RemoveSale() {
     $.confirm({
@@ -35,7 +35,7 @@ function RemoveSale() {
 			});
         }
     }); 
-}
+};
 
 function OpenModalSalesPayments($venta_id)
 {
@@ -54,12 +54,9 @@ function OpenModalSalesPayments($venta_id)
 	        {
 	            msg.warning(data, 'Advertencia!');
 	        }
-    },
-    error: function(errors){
-        msg.error('Hubo un error, intentelo de nuevo', 'Advertencia!');
-    }
-});
-}
+        }
+    });
+};
 
 
 $(document).on('submit', 'form[data-remote-sales-payment]', function(e) {
@@ -112,7 +109,7 @@ function RemoveSalePayment($id, $venta_id) {
         }
 
     });
-}
+};
 
 
 function FinalizeSale(element, $id) {
@@ -137,13 +134,13 @@ function FinalizeSale(element, $id) {
             }
         }
     });
-}
+};
 
 function FinalizarEImprimirGarantia(e, venta_id, impresora_garantia){
     FinalizeSale(e, venta_id);
     printInvoice(e, venta_id, impresora_factura);
     ImprimirGarantia(e, venta_id, impresora_garantia);
-}
+};
 
 function FinalizarEImprimirFacturaYGarantia(e, venta_id, impresora_garantia, impresora_factura){
     FinalizeSale(e, venta_id);
@@ -151,12 +148,12 @@ function FinalizarEImprimirFacturaYGarantia(e, venta_id, impresora_garantia, imp
     setTimeout(function(){
         ImprimirGarantia(e, venta_id, impresora_garantia);
     }, 1000);
-}
+};
 
 function FinalizarEImprimirFactura(e, venta_id, impresora_factura) {
     FinalizeSale(e, venta_id);
     printInvoice(e, venta_id, impresora_factura);
-}
+};
 
 function showSalesDetail(e) {
 
@@ -180,7 +177,7 @@ function showSalesDetail(e) {
             getSalesDetail(e);
         }
     }
-}
+};
 
 
 function getSalesDetail(e) {
@@ -210,7 +207,7 @@ function getSalesDetail(e) {
             }
         }
     });
-}
+};
 
 
 function openSale(e)
@@ -240,7 +237,7 @@ function openSale(e)
             });
         }
     });
-}
+};
 
 
 function CreditSales(e)
@@ -261,7 +258,7 @@ function CreditSales(e)
             }
         }
     }); 
-}
+};
 
 function getModalImprimirVenta(e,id)
 {
@@ -281,7 +278,7 @@ function getModalImprimirVenta(e,id)
             }
         }
     });       
-}
+};
 
 function OpenModalSalesItemSerials(e)
 {
@@ -300,7 +297,7 @@ function OpenModalSalesItemSerials(e)
             }, 500);
         }
     });
-}
+};
 
 // for test
 function imprimirFactura(p)
@@ -364,7 +361,7 @@ function imprimirFactura(p)
             window['qzDoneFinding'] = null;
         };
     }
-}
+};
 
 var serialsDetalleVenta = [];
 
@@ -385,7 +382,7 @@ function ingresarSeriesDetalleVenta(e, detalle_venta_id) {
         }
         msg.warning(data, 'Advertencia!');
     });
-}
+};
 
 function guardarSerieDetalleVenta () {
 
@@ -418,13 +415,13 @@ function guardarSerieDetalleVenta () {
     }
     else
         msg.warning('El campo se encuentra vacio..!', 'Advertencia!');
-}
+};
 
 function eliminarSerialsDetalleVenta(e, serie) {
     serialsDetalleVenta.splice(serialsDetalleVenta.indexOf(serie), 1);
     $(e).closest('tr').hide();
     $("#serialsDetalleVenta").focus();
-}
+};
 
 function guardarSeriesDetalleVenta(e, detalle_venta_id) {
     $(e).prop("disabled", true);
@@ -440,4 +437,22 @@ function guardarSeriesDetalleVenta(e, detalle_venta_id) {
         $(e).prop("disabled", true);
         msg.warning(data, 'Advertencia!');
     });
-}
+};
+
+function enviarVentaACaja(e, venta_id) {
+    $(e).prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: 'user/ventas/enviarVentaACaja',
+        data: { venta_id: venta_id },
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            $('.bs-modal').modal('hide');
+            msg.success('Venta Enviada..', 'Listo!');
+            return $(".form-panel").hide();
+        }
+        msg.warning(data, 'Advertencia!');
+        $(e).prop("disabled", false);
+    });
+};

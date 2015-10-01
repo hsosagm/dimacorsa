@@ -35,6 +35,9 @@
             <ul>
                 <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
                 <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this,'dia')">Mis Ventas del Dia</a></li>
+                @if(count($caja))
+                    <li><a href="javascript:void(0);" onclick="VentasSinFinalizar(this)">Ventas sin Finalizar</a></li>
+                @endif
                 <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Serie</a></li>
             </ul>
         </li>

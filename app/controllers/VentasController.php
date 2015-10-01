@@ -9,9 +9,6 @@ class VentasController extends \BaseController {
 			$venta = new Venta;
 
 			$data = Input::all();
-			$caja = Caja::whereUserId(Auth::user()->id)->first();
-			
-        	$data['caja_id'] = $caja->id;
 
 			if (!$venta->create_master($data))
 			{
@@ -317,6 +314,21 @@ class VentasController extends \BaseController {
 		return 'error';
 	}
 
+	public function enviarVentaACaja()
+	{
+
+		$venta = Venta::find(Input::get('venta_id'));
+
+		if ($venta->completed == 1) 
+			return 'esta venta ya fue finalizada..';	
+		
+		$venta->completed = 2;
+
+		if ($venta->save()) 
+			return Response::json(array( 'success' => true ));
+
+		return 'Huvo un error intentelo de nuevo';
+	}
 
 	public function FinalizeSale()
 	{
@@ -331,10 +343,12 @@ class VentasController extends \BaseController {
             $saldo = $credit->monto;
         }
         $total = DetalleVenta::where('venta_id','=',Input::get('venta_id'))->first(array(DB::raw('sum(cantidad * precio) as total')));
+		$caja = Caja::whereUserId(Auth::user()->id)->first();
 
 		$venta = Venta::find(Input::get('venta_id'));
 		$venta->completed = 1;
 		$venta->saldo = $saldo;
+		$venta->caja_id = $caja->id;
 		$venta->total = $total->total;
 		
 		if ($venta->save()) {

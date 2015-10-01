@@ -105,6 +105,9 @@
             Route::post('setConsultarSerie'            , 'UserController@setConsultarSerie'             );
             Route::get('getConsultarNotasDeCredito'    , 'UserController@getConsultarNotasDeCredito'    );
             Route::get('DtConsultarNotasDeCredito'     , 'UserController@DtConsultarNotasDeCredito'     );
+            Route::get('VentasSinFinalizar'            , 'UserController@VentasSinFinalizar'            );
+            Route::get('DtVentasSinFinalizar'          , 'UserController@DtVentasSinFinalizar'     );
+
         });
 
         Route::group(array('prefix' => 'cliente'), function()
@@ -208,6 +211,7 @@
             Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
             Route::get('getModalImprimirVenta'                  , 'VentasController@getModalImprimirVenta'  );
             Route::get('printInvoice'                           , 'VentasController@printInvoice'  );
+            Route::post('enviarVentaACaja'                      , 'VentasController@enviarVentaACaja'  );
             // Route::get('ImprimirFacturaVenta'                   , 'VentasController@ImprimirFacturaVenta'  );
             Route::get('imprimirFactura'                        , 'VentasController@imprimirFactura'  ); // for test
             Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');
