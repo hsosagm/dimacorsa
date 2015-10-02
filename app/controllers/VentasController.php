@@ -931,8 +931,6 @@ class VentasController extends \BaseController {
         $venta->total = $total_venta;
         $venta->save();
         return Response::json(array('success' => true));
-
-        
 	}
 
 }
