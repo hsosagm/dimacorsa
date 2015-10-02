@@ -13,7 +13,7 @@
     Route::get('/{img}.ico', function(){ return "";});
     Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
     /******************************************************************************/
-    
+
     /******************************************************************************/
     Route::post('ImprimirGarantia'          , 'VentasController@ImprimirGarantia');
     Route::post('ImprimirDescarga'          , 'DescargaController@ImprimirDescarga');
@@ -21,14 +21,14 @@
     Route::post('ImprimirAbonoCliente'      , 'SalesPaymentsController@imprimirAbonoVenta');
     Route::post('ImprimirAbonoProveedor'    , 'ProveedorController@ImprimirAbono' );
     Route::post('ImprimirCotizacion'        , 'CotizacionController@ImprimirCotizacion' );
-    
+
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
         if (is_file($file)) {
             chmod($file,0777);
             if(!unlink($file)){ }
-        } 
-    }); 
+        }
+    });
     /******************************************************************************/
 
     Route::get('/'     , 'HomeController@index');
@@ -65,12 +65,12 @@
         });
 
         Route::group(array('prefix' => 'tema'), function()
-        {   
+        {
             Route::get('colorSchemes/{color}'         , 'TemaController@colorSchemes' );
             Route::get('navbarColor/{color}'          , 'TemaController@navbarColor'  );
             Route::get('sidebarColor/{color}'         , 'TemaController@sidebarColor' );
             Route::get('sidebarTypeSetting/{tipo}'    , 'TemaController@sidebarTypeSetting' );
-        }); 
+        });
 
         Route::group(array('prefix' => 'notaDeCredito'), function()
         {
@@ -81,7 +81,7 @@
             Route::post('detalle','NotaCreditoController@detalle' );
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
-        }); 
+        });
 
         Route::group(array('prefix' => 'consulta'), function()
         {
@@ -125,7 +125,7 @@
             Route::get('contacto_nuevo'        , 'ClienteController@contacto_nuevo' );
             Route::post('contacto_update'      , 'ClienteController@contacto_update');
             Route::post('contacto_info'        , 'ClienteController@contacto_info'  );
-            Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer'); 
+            Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer');
             Route::get('DT_salesByCustomer'    , 'ClienteController@DT_salesByCustomer');
             Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
             Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
@@ -222,7 +222,7 @@
             Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');
             Route::get('getDetalleVentasPendientesPorUsuario'   , 'VentasController@getDetalleVentasPendientesPorUsuario');
 
-            Route::group(array('prefix' => 'payments'),function() 
+            Route::group(array('prefix' => 'payments'),function()
             {
                 Route::get('formPayments'               , 'SalesPaymentsController@formPayments');
                 Route::post('formPayments'              , 'SalesPaymentsController@formPayments');
@@ -232,7 +232,7 @@
                 Route::get('getDetalleAbono'            , 'SalesPaymentsController@getDetalleAbono'  );
             });
 
-            Route::group(array('prefix' => 'devoluciones'),function() 
+            Route::group(array('prefix' => 'devoluciones'),function()
             {
                 Route::get('getVentaConDetalleParaDevolucion'  , 'VentasController@getVentaConDetalleParaDevolucion');
                 Route::get('getCheckCantidadDevolucion'        , 'VentasController@getCheckCantidadDevolucion');
@@ -243,7 +243,7 @@
 
         });
 
-        Route::group(array('prefix' => 'cotizaciones'),function() 
+        Route::group(array('prefix' => 'cotizaciones'),function()
         {
             Route::get('create'                  , 'CotizacionController@create' );
             Route::post('create'                 , 'CotizacionController@create' );
@@ -251,8 +251,8 @@
             Route::post('removeItemCotizacion'   , 'CotizacionController@removeItemCotizacion' );
             Route::post('updateClienteId'        , 'CotizacionController@updateClienteId' );
         });
-        
-        Route::group(array('prefix' => 'cajas'),function() 
+
+        Route::group(array('prefix' => 'cajas'),function()
         {
             Route::get('asignar'               , 'CajaController@asignar');
             Route::post('asignar'              , 'CajaController@asignar');
@@ -260,7 +260,7 @@
             Route::get('corteDeCaja'           , 'CajaController@corteDeCaja');
             Route::post('corteDeCaja'          , 'CajaController@corteDeCaja');
         });
-        
+
         Route::get('profile'                   , 'UserController@edit_profile');
         Route::post('new'                      , 'UserController@create_new'  );
         Route::post('profile'                  , 'UserController@edit_profile');
@@ -269,33 +269,33 @@
         Route::get('view_existencias'          , 'ProductoController@view_existencias');
         Route::get('OpenModalSalesItemSerials' , 'CompraController@OpenModalPurchaseItemSerials' );
     });
- 
+
     Route::group(array('prefix' => 'admin'), function()
     {
 
-        Route::group(array('prefix' => 'vista'),function() 
+        Route::group(array('prefix' => 'vista'),function()
         {
             Route::post('cambiarVistaPuntoDeVenta'   , 'VistaController@cambiarVistaPuntoDeVenta');
             Route::post('cambiarVistaAdministardor'  , 'VistaController@cambiarVistaAdministardor');
             Route::post('cambiarVistaPropietario'    , 'VistaController@cambiarVistaPropietario');
         });
 
-        Route::group(array('prefix' => 'cajas'),function() 
+        Route::group(array('prefix' => 'cajas'),function()
         {
-            Route::get('create'              , 'CajaController@create');
-            Route::post('create'             , 'CajaController@create');
-            Route::get('asignar'             , 'CajaController@asignar');
-            Route::post('asignar'            , 'CajaController@asignar');
-            Route::get('getConsultarCajas'   , 'CajaController@getConsultarCajas');
-            Route::get('DtConsultarCajas'    , 'CajaController@DtConsultarCajas' );
-            Route::get('cortesDeCajaPorDia'  , 'CajaController@cortesDeCajaPorDia');
-            Route::get('DtCortesDeCajasPorDia', 'CajaController@DtCortesDeCajasPorDia');
-            Route::post('getMovimientosDeCajaDt', 'CajaController@getMovimientosDeCajaDt');
-
+            Route::get('create'                           , 'CajaController@create');
+            Route::post('create'                          , 'CajaController@create');
+            Route::get('asignar'                          , 'CajaController@asignar');
+            Route::post('asignar'                         , 'CajaController@asignar');
+            Route::get('getConsultarCajas'                , 'CajaController@getConsultarCajas');
+            Route::get('DtConsultarCajas'                 , 'CajaController@DtConsultarCajas' );
+            Route::get('cortesDeCajaPorDia'               , 'CajaController@cortesDeCajaPorDia');
+            Route::get('DtCortesDeCajasPorDia'            , 'CajaController@DtCortesDeCajasPorDia');
+            Route::post('getMovimientosDeCajaDt'          , 'CajaController@getMovimientosDeCajaDt');
+            Route::get('ConsultasPorMetodoDePago/{model}' ,'ConsultasCajaController@ConsultasPorMetodoDePago');
         });
 
 
-        Route::group(array('prefix' => 'kardex'),function() 
+        Route::group(array('prefix' => 'kardex'),function()
         {
             Route::get('getKardexPorFecha/{consulta}'          , 'KardexController@getKardexPorFecha');
             Route::get('DtKardexPorFecha/{consulta}'           , 'KardexController@DtKardexPorFecha');
@@ -303,7 +303,7 @@
         });
 
 
-        Route::group(array('prefix' => 'exportar'),function() 
+        Route::group(array('prefix' => 'exportar'),function()
         {
             Route::get('exportarEstadoDeCuentaDeClientes/{tipo}'   , 'ExportarController@exportarEstadoDeCuentaDeClientes');
             Route::get('exportarEstadoDeCuentaPorCliente/{tipo}'   , 'ExportarController@exportarEstadoDeCuentaPorCliente');
@@ -312,7 +312,7 @@
         });
 
 
-        Route::group(array('prefix' => 'configuracion'),function() 
+        Route::group(array('prefix' => 'configuracion'),function()
         {
             Route::get('impresora'              , 'ConfiguracionController@impresora');
             Route::get('notificacion'           , 'ConfiguracionController@notificacion');
@@ -322,7 +322,7 @@
             Route::get('getImpresoras/{im}'     , 'ConfiguracionController@getImpresoras');
         });
 
-        Route::group(array('prefix' => 'queries'),function() 
+        Route::group(array('prefix' => 'queries'),function()
         {
             Route::get('getMasterQueries'                        , 'QueriesController@getMasterQueries'    );
             Route::get('getVentasPorFecha/{consulta}'            , 'QueriesController@getVentasPorFecha'   );
@@ -347,7 +347,7 @@
             Route::get('DtIngresosPorFecha/{consulta}'           , 'QueriesController@DtIngresosPorFecha'   );
         });
 
-        Route::group(array('prefix' => 'cierre'),function() 
+        Route::group(array('prefix' => 'cierre'),function()
         {
             Route::get('CierreDelDia'                        , 'CierreController@CierreDelDia' );
             Route::get('getCierreDelDia'                     , 'CierreController@getCierreDelDia' );
@@ -370,7 +370,7 @@
             Route::get('GastosPorFecha_dt'                   , 'CierreController@GastosPorFecha_dt' );
             Route::get('DetalleDeVentasPorProducto'          , 'CierreController@DetalleDeVentasPorProducto' );
             Route::get('DetalleVentaCierre'                  , 'CierreController@DetalleVentaCierre' );
-            Route::group(array('prefix' => 'consultas'),function() 
+            Route::group(array('prefix' => 'consultas'),function()
             {
                 Route::get('ConsultasPorMetodoDePago/{model}' , 'ConsultasCierreController@ConsultasPorMetodoDePago');
                 Route::get('getVentasDelMesPorUsuario'        , 'ConsultasCierreController@getVentasDelMesPorUsuario');
@@ -378,7 +378,7 @@
             });
         });
 
-        Route::group(array('prefix' => 'barcode'),function() 
+        Route::group(array('prefix' => 'barcode'),function()
         {
             Route::get('create'      , 'BarCodeController@create');
             Route::post('create'     , 'BarCodeController@create');
@@ -467,7 +467,7 @@
             Route::post('ingresarSeriesDetalleCompra'       , 'CompraController@ingresarSeriesDetalleCompra');
             Route::get('getActualizarDetalleCompra'         , 'CompraController@getActualizarDetalleCompra');
 
-            Route::group(array('prefix' => 'payments'),function() 
+            Route::group(array('prefix' => 'payments'),function()
             {
                 Route::get('formPayments'               , 'PurchasePaymentsController@formPayments');
                 Route::post('formPayments'              , 'PurchasePaymentsController@formPayments');
@@ -501,8 +501,8 @@
             Route::post('ingresarSeriesDetalleDescarga'     , 'DescargaController@ingresarSeriesDetalleDescarga');
             Route::post('finalizarDescarga'                 , 'DescargaController@finalizarDescarga');
         });
-    
-        Route::group(array('prefix' => 'traslados'),function() 
+
+        Route::group(array('prefix' => 'traslados'),function()
         {
             Route::get('buscarTienda'                   , 'TrasladoController@buscarTienda');
             Route::get('create'                         , 'TrasladoController@create' );
@@ -624,7 +624,7 @@
         });
 
     });
-    
+
 
 Route::get('/test', function()
 {
@@ -653,7 +653,7 @@ Route::get('cached', array('after' => 'cache:30', function() {
 }));
 
 /*
-Route::get('timetest', function() 
+Route::get('timetest', function()
 {
     $start = date('Y/m/d H:i:s');
     $start = round(microtime(true) * 1000);

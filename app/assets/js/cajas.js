@@ -1,6 +1,7 @@
 function getConsultarCajas(e) {
     $.get( "admin/cajas/getConsultarCajas", function( data ) {
         makeTable(data, '/admin/cajas/', '');
+        return $('#example').addClass('tableSelected');
     });
 }
 
@@ -52,7 +53,7 @@ function corteDeCaja() {
 			$('.modal-title').text('Corte de Caja');
 			return $('.bs-modal').modal('show');
     	};
-	});	
+	});
 }
 
 function cortesDeCajaPorDia()

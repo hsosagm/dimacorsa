@@ -3,13 +3,18 @@
 }
 
 .cierre-titulos{
-	font-size:15px !important 
+	font-size:15px !important
 }
 
 .cierre_body{
 	border: 1px solid #ddd;
 }
 .cierre_body .hover:hover {
+	background: #6FE98C;
+	cursor:pointer;
+}
+
+.cierre_caja .hover:hover {
 	background: #6FE98C;
 	cursor:pointer;
 }
@@ -89,7 +94,7 @@
 
 .cierre_detalle tr td{
 	font-size: 13px;
-	line-height: 140% !important 
+	line-height: 140% !important
 }
 
 .cierre_totales .row {
