@@ -1,6 +1,6 @@
 <?php
 
-class CajaController extends \BaseController 
+class CajaController extends \BaseController
 {
 
 	public function create()
@@ -10,14 +10,14 @@ class CajaController extends \BaseController
             $cantidad_cajas = Caja::count();
             $tienda = Tienda::find(Auth::user()->tienda_id);
 
-            if ($cantidad_cajas >= $tienda->limite_cajas) 
+            if ($cantidad_cajas >= $tienda->limite_cajas)
                 return "no puede crear mas cajas porque exede la cantidad de cajas pagadas...!";
 
             $caja = new Caja;
 
             if (!$caja->_create())
             {
-                return $caja->errors(); 
+                return $caja->errors();
             }
 
             return 'success';
@@ -30,7 +30,7 @@ class CajaController extends \BaseController
     {
         if (Input::has('_token'))
         {
-            if (Input::get('caja_id') <= 0 ) 
+            if (Input::get('caja_id') <= 0 )
                 return 'Seleccione una Caja..!';
 
             $user = User::find(Auth::user()->id);
@@ -49,15 +49,15 @@ class CajaController extends \BaseController
     {
         $caja = Caja::whereUserId(Auth::user()->id)->first();
 
-        $data['fecha_inicial'] = CierreCaja::where('caja_id','=', $caja->id)->max('created_at');
-        $data['fecha_final']   = Carbon::now();
-        $data['caja_id'] = $caja->id;
+        $datos['fecha_inicial'] = CierreCaja::where('caja_id','=', $caja->id)->max('created_at');
+        $datos['fecha_final']   = Carbon::now();
+        $datos['caja_id'] = $caja->id;
 
-        $data = $this->resumen_movimientos($data);
+        $data = $this->resumen_movimientos($datos);
 
         return Response::json(array(
             'success' => true,
-            'view' => View::make('cajas.movimientosDeCaja',compact('data'))->render()
+            'view' => View::make('cajas.movimientosDeCaja',compact('data','datos'))->render()
         ));
     }
 
@@ -66,73 +66,17 @@ class CajaController extends \BaseController
 
         $cierre = CierreCaja::find(Input::get('cierre_caja_id'));
 
-        $data['fecha_inicial'] = $cierre->fecha_inicial;
-        $data['fecha_final']   = $cierre->fecha_final;
-        $data['caja_id'] = $cierre->caja_id;
+        $datos['fecha_inicial'] = $cierre->fecha_inicial;
+        $datos['fecha_final']   = $cierre->fecha_final;
+        $datos['caja_id'] = $cierre->caja_id;
 
-        $data = $this->resumen_movimientos($data);
+        $data = $this->resumen_movimientos($datos);
 
         return Response::json(array(
             'success' => true,
-            'view' => View::make('cajas.movimientosDeCaja',compact('data'))->render()
+            'view' => View::make('cajas.movimientosDeCaja',compact('data','datos'))->render()
         ));
     }
-
-
-    public function cortesDeCajaPorDia()
-    {
-        return View::make('cajas.cortesDeCajasPorDia');
-    }
-
-    public function DtCortesDeCajasPorDia()
-    {
-            $fecha_enviar = "'".Input::get('fecha')."'";
-
-            $fecha_enviar = 'current_date';
-            
-            $table = 'cierre_caja';
-
-            $columns = array(
-                "cajas.nombre as caja_nombre",
-                "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-                "nota",
-                "cierre_caja.fecha_inicial as fecha_inicial",
-                "cierre_caja.fecha_final as fecha_final"
-                );
-
-            $Searchable = array("users.nombre","users.apellido","cierre_caja.created_at","nota");
-
-            $Join = "
-            JOIN users ON (users.id = cierre_caja.user_id)
-            JOIN cajas ON (cajas.id = cierre_caja.caja_id)";
-
-            $where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  = DATE_FORMAT({$fecha_enviar}, '%Y-%m')";
-            $where .= ' AND cierre_caja.tienda_id = '.Auth::user()->tienda_id;
-
-            echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
-    }
-
-	public function getConsultarCajas()
-	{
-		return View::make('cajas.consultarCajas');
-	}
-
-	public function DtConsultarCajas()
-	{
-		$table = 'cajas';
-
-		$columns = array(
-			"tiendas.nombre as tienda",
-			"cajas.nombre as caja",
-			"cajas.created_at as fecha"
-		);
-
-		$Search_columns = array("cajas.nombre","tiendas.nombre");
-		$Join = "JOIN tiendas ON (tiendas.id = cajas.tienda_id)";
-		$where = "cajas.tienda_id =".Auth::user()->tienda_id;
-
-		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
-	}
 
     public function resumen_movimientos($datos)
     {
@@ -140,7 +84,7 @@ class CajaController extends \BaseController
 
         $data['pagos_ventas']           =   $this->_query('pagos_ventas','venta','monto',$datos);
         $data['abonos_ventas']          =   $this->query('abonos_ventas','monto',$datos);
-        $data['soporte']                =   $this->__query('detalle_soporte','soporte','monto',$datos); 
+        $data['soporte']                =   $this->__query('detalle_soporte','soporte','monto',$datos);
         $data['adelantos']              =   $this->_query('detalle_adelantos','adelanto','monto',$datos);
         $data['ingresos']               =   $this->_query('detalle_ingresos','ingreso','monto',$datos);
         $data['egresos']                =   $this->_query('detalle_egresos','egreso','monto',$datos);
@@ -151,7 +95,7 @@ class CajaController extends \BaseController
     }
 
     // funcion cuando la tabla si tiene el campo tienda id
-    function query( $tabla , $campo , $data ) 
+    function query( $tabla , $campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -166,7 +110,7 @@ class CajaController extends \BaseController
     }
 
     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en plural
-    function _query( $tabla ,$tabla_master, $campo , $data ) 
+    function _query( $tabla ,$tabla_master, $campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -181,7 +125,7 @@ class CajaController extends \BaseController
     }
 
     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en singular
-    function __query( $tabla ,$tabla_master, $campo , $data ) 
+    function __query( $tabla ,$tabla_master, $campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -197,7 +141,7 @@ class CajaController extends \BaseController
     }
 
     //funcion cuando la tabla master tiene nombre separados y tambien su foranea
-    function ___query( $tabla ,$tabla_master, $foranea ,$campo , $data ) 
+    function ___query( $tabla ,$tabla_master, $foranea ,$campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -214,7 +158,7 @@ class CajaController extends \BaseController
 
     function llenar_arreglo($Query)
     {
-        $arreglo_ordenado = array( 
+        $arreglo_ordenado = array(
             'titulo'  => '',
             'efectivo'=>"0.00",
             'credito' =>"0.00",
@@ -224,8 +168,8 @@ class CajaController extends \BaseController
             'total'   =>"0.00"
         );
 
-        foreach ($Query as $key => $val) 
-        {   
+        foreach ($Query as $key => $val)
+        {
             if($val->descripcion == 'Efectivo')
                 $arreglo_ordenado['efectivo'] = $val->total;
 
@@ -243,7 +187,7 @@ class CajaController extends \BaseController
 
             $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
-        
+
         return $arreglo_ordenado;
     }
 
@@ -264,7 +208,7 @@ class CajaController extends \BaseController
                 return $cierre->errors();
             }
 
-            return Response::json(array( 
+            return Response::json(array(
                 'success' => true ,
                 'id' => $cierre->get_id()
             ));
@@ -280,11 +224,11 @@ class CajaController extends \BaseController
 
         $efectivo = $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['adelantos']['cheque'] + $data['ingresos']['cheque'];
-        
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['adelantos']['tarjeta'] + $data['ingresos']['tarjeta'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['adelantos']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto_notas_creditos']['cheque'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['adelantos']['deposito'] + $data['ingresos']['deposito'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['adelantos']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'];
+
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['adelantos']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto_notas_creditos']['deposito'];
 
         $movimientos = array(
             'efectivo' => $efectivo,
@@ -300,4 +244,60 @@ class CajaController extends \BaseController
             'form' => View::make('cajas.corteDeCaja', compact('movimientos'))->render()
         ));
     }
+
+    public function cortesDeCajaPorDia()
+    {
+        return View::make('cajas.cortesDeCajasPorDia');
+    }
+
+    public function DtCortesDeCajasPorDia()
+    {
+        $fecha_enviar = "'".Input::get('fecha')."'";
+
+        $fecha_enviar = 'current_date';
+
+        $table = 'cierre_caja';
+
+        $columns = array(
+            "cajas.nombre as caja_nombre",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
+            "nota",
+            "cierre_caja.fecha_inicial as fecha_inicial",
+            "cierre_caja.fecha_final as fecha_final"
+            );
+
+        $Searchable = array("users.nombre","users.apellido","cierre_caja.created_at","nota");
+
+        $Join = "
+        JOIN users ON (users.id = cierre_caja.user_id)
+        JOIN cajas ON (cajas.id = cierre_caja.caja_id)";
+
+        $where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  = DATE_FORMAT({$fecha_enviar}, '%Y-%m')";
+        $where .= ' AND cierre_caja.tienda_id = '.Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
+    }
+
+	public function getConsultarCajas()
+	{
+		return View::make('cajas.consultarCajas');
+	}
+
+	public function DtConsultarCajas()
+	{
+		$table = 'cajas';
+
+		$columns = array(
+			"tiendas.nombre as tienda",
+			"cajas.nombre as caja",
+			"(select CONCAT_WS(' ',nombre,apellido) from users where id = cajas.user_id) as usuario",
+			"cajas.updated_at as fecha"
+		);
+
+		$Search_columns = array("cajas.nombre","tiendas.nombre");
+		$Join = "JOIN tiendas ON (tiendas.id = cajas.tienda_id)";
+		$where = "cajas.tienda_id =".Auth::user()->tienda_id;
+
+		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+	}
 }

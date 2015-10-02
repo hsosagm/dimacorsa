@@ -12,26 +12,26 @@ $(document).ready(function() {
             "infoEmpty": "No hay archivos disponibles",
             "infoFiltered": "- ( filtrado de _MAX_ archivos )"
         },
-        
+
         "aoColumnDefs": [
-            {"sClass": "width15",                                        "sTitle": "Tienda",   "aTargets": [0]},
-            {"sClass": "width35",                                        "sTitle": "Caja",     "aTargets": [1]},
-            {"sClass": "width50",                                        "sTitle": "Usuario",  "aTargets": [2]},
+            {"sClass": "width15",                                        "sTitle": "Tienda",            "aTargets": [0]},
+            {"sClass": "width25",                                        "sTitle": "Caja",              "aTargets": [1]},
+            {"sClass": "width35",                                        "sTitle": "Usuario",           "aTargets": [2]},
+            {"sClass": "width25",                                        "sTitle": "Fecha Asignacion",  "aTargets": [3]},
         ],
 
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $( ".DTTT" ).append('<button id="_create" class="btn btngrey " >Crear</button>');
-            
+            $( ".DTTT" ).append('<button class="btn btngrey" disabled>Asignar</button>');
+
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));
             });
         },
 
-        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
-            if ( aData[6] == 0){
-                jQuery(nRow).addClass('blue');
-            }               
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+
         },
 
         "bJQueryUI": false,
