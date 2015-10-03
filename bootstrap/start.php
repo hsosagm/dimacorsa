@@ -23,7 +23,6 @@ $app = new Illuminate\Foundation\Application;
 | given environment, then we will automatically detect it for you.
 |
 */
-Dotenv::load(base_path());
 
 $env = $app->detectEnvironment(array(
 
