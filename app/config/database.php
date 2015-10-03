@@ -55,7 +55,8 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => getenv('DB_NAME'),
+			// 'database'  => getenv('DB_NAME'),
+			'database'  => env('DB_NAME'),
 			'username'  => 'forge',
 			'password'  => 'TOVaHHRRD56Yv3ID9PN2',
 			'charset'   => 'utf8',
