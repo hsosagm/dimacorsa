@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => '127.0.0.1',
-			'database'  => getenv('DB_NAME'),
-			'username'  => 'clickdb',
-			'password'  => 'RjAzsMSBzLzPcxWM',
+            'database'  => getenv('DB_NAME'),
+            'username'  => getenv('DB_USER'),
+            'password'  => getenv('DB_PASS'),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_spanish_ci',
 			'prefix'    => '',

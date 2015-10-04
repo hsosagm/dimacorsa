@@ -24,12 +24,33 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
+
 $env = $app->detectEnvironment(array(
 
 	'local' => array('hsosa-UX305','nelug-ASUS'),
 	'production' => array('cli-pos'),
 
 ));
+
+
+/*
+|--------------------------------------------------------------------------
+| Load Environment Variables
+|--------------------------------------------------------------------------
+|
+| Next we will load the environment variables for the application which
+| are stored in the ".env" file. These variables will be loaded into
+| the $_ENV and "putenv" facilities of PHP so they stay available.
+|
+*/
+
+if (file_exists(__DIR__.'/../.env'))
+{
+	$dotenv = new Dotenv\Dotenv(__DIR__.'/../');
+	$dotenv->load();
+
+	$dotenv->required(['DB_NAME', 'DB_USER', 'DB_PASS']);
+}
 
 /*
 |--------------------------------------------------------------------------
