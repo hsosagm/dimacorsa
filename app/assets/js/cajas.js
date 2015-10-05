@@ -32,9 +32,18 @@ function corteDeCaja() {
 
 function cortesDeCajaPorDia()
 {
-	$.get( "admin/cajas/cortesDeCajaPorDia", function( data ) {
-        makeTable(data, '/admin/cajas/', '');
-    });
+    $.ajax({
+		type: "GET",
+		url: 'admin/cajas/cortesDeCajaPorDia',
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			clean_panel();
+        	$('#graph_container').show();
+        	return $('#graph_container').html(data.view);
+		}
+		msg.warning(data, 'Advertencia!');
+	});
 }
 
 function getMovimientosDeCajaDt(e, cierre_caja_id) {

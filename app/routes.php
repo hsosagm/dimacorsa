@@ -630,6 +630,9 @@
 
 Route::get('/test', function()
 {
+    echo Carbon::now()->startOfMonth();
+    echo '<br>';
+    echo Carbon::now()->endOfMonth();
 
 });
 

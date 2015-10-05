@@ -63,7 +63,6 @@ class CajaController extends \BaseController
 
     public function getMovimientosDeCajaDt()
     {
-
         $cierre = CierreCaja::find(Input::get('cierre_caja_id'));
 
         $datos['fecha_inicial'] = $cierre->fecha_inicial;
@@ -74,7 +73,7 @@ class CajaController extends \BaseController
 
         return Response::json(array(
             'success' => true,
-            'view' => View::make('cajas.movimientosDeCaja',compact('data','datos'))->render()
+            'view' => View::make('cajas.detalleMovimientos',compact('data','datos'))->render()
         ));
     }
 
@@ -247,14 +246,19 @@ class CajaController extends \BaseController
 
     public function cortesDeCajaPorDia()
     {
-        return View::make('cajas.cortesDeCajasPorDia');
+		$fecha_inicial = Carbon::now()->startOfMonth();
+		$fecha_final  = Carbon::now()->endOfMonth();
+
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('cajas.cortesDeCajasPorDia', compact('fecha_inicial','fecha_final'))->render()
+		));
     }
 
     public function DtCortesDeCajasPorDia()
     {
-        $fecha_enviar = "'".Input::get('fecha')."'";
-
-        $fecha_enviar = 'current_date';
+		$fecha_inicial = "'".Input::get('fecha_inicial')."'";
+		$fecha_final  ="'".Input::get('fecha_final')."'";
 
         $table = 'cierre_caja';
 
@@ -272,7 +276,8 @@ class CajaController extends \BaseController
         JOIN users ON (users.id = cierre_caja.user_id)
         JOIN cajas ON (cajas.id = cierre_caja.caja_id)";
 
-        $where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  = DATE_FORMAT({$fecha_enviar}, '%Y-%m')";
+		$where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  >= DATE_FORMAT({$fecha_inicial}, '%Y-%m')";
+        $where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  <= DATE_FORMAT({$fecha_final}, '%Y-%m')";
         $where .= ' AND cierre_caja.tienda_id = '.Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
