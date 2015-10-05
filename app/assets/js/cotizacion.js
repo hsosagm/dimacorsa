@@ -11,3 +11,12 @@ function f_coti_op() {
         $('#cliente').focus();
     });
 }
+
+function ingresarProductoRapido() {
+    $.ajax({
+      url: "user/cotizaciones/ingresarProductoRapido",
+      type: "GET"
+    }).done(function(data) {
+        
+    });
+}

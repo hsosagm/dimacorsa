@@ -14,10 +14,10 @@ class ConsultasCajaController extends \BaseController {
 			return $this->consultasAbonos('compras' , 'showPaymentsDetail');
 
         else if ($model == 'AdelantosNotasCreditos')
-    		return $this->consultasNotasCreditos('adelanto');
+    		return $this->consultasNotaCredito('adelanto');
 
         else if ($model == 'DevolucionNotasCreditos')
-        	return $this->consultasNotasCreditos('devolucion');
+        	return $this->consultasNotaCredito('devolucion');
 
 		else if ($model == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
 			return $this->OperacionesConsultas(strtolower(rtrim($model, 's')));
@@ -162,7 +162,7 @@ class ConsultasCajaController extends \BaseController {
         ));
 	}
 
-    public function consultasNotasCreditos($_table)
+    public function consultasNotaCredito($_table)
 	{
         $fecha_inicial = "'".Input::get('fecha_inicial')."'";
 		$fecha_final = "'".Input::get('fecha_final')."'";

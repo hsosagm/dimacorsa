@@ -35,29 +35,22 @@ class CotizacionController extends \BaseController {
             if (Auth::user()->hasRole("Admin"))
             {
             	$producto = Producto::find(Input::get('producto_id'));
-
             	if ((@$producto->p_publico * 0.90) > Input::get('precio')) {
             		return 'no puede hacer mas descuento que el autorizado';
             	}
-            } 
+            }
 
             else if (Auth::user()->hasRole("User"))
             {
             	$producto = Producto::find(Input::get('producto_id'));
-
             	if ((@$producto->p_publico * 0.95) > Input::get('precio')) {
             		return 'no puede hacer mas descuento que el autorizado';
             	}
-            } 
+            }
 
 
 			if ($this->verificarSiExisteEnlaCotizacionElProducto() == true) {
 				return "El codigo ya ha sido ingresado..";
-			}
-
-			$nueva_existencia = $this->check_inventory();
-			if ($nueva_existencia === false) {
-				return "La cantidad que esta ingresando es mayor a la existencia..";
 			}
 
 			$query = new DetalleCotizacion;
@@ -80,7 +73,6 @@ class CotizacionController extends \BaseController {
 		return 'Token invalido';
 	}
 
-
 	public function verificarSiExisteEnlaCotizacionElProducto()
     {
 		$query = DB::table('detalle_ventas')->select('id')
@@ -89,35 +81,10 @@ class CotizacionController extends \BaseController {
 	    ->first();
 
 	    if($query == null)
-	    {
 	        return false;
-	    }
 
 	    return true;
     }
-
-
-    public function check_inventory( $producto_id = null, $cantidad = null )
-    {
-    	if ($producto_id === null) {
-    		$producto_id = Input::get('producto_id');
-    	}
-
-    	if ($cantidad === null) {
-    		$cantidad = Input::get('cantidad');
-    	}
-
-	    $query = Existencia::where('producto_id', $producto_id )->where('tienda_id', Auth::user()->tienda_id)->first();
-
-	    if ( $query == null || $query->existencia < $cantidad ) {
-	    	return false;
-	    }
-
-	    $nueva_existencia = $query->existencia - $cantidad;
-
-	    return $nueva_existencia;
-    }
-
 
     public function getCotizacionDetalle()
 	{
@@ -125,8 +92,8 @@ class CotizacionController extends \BaseController {
         ->select(array(
         	'detalle_cotizaciones.id',
         	'cotizacion_id', 'producto_id',
-        	'cantidad', 
-        	'precio', 
+        	'cantidad',
+        	'precio',
         	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
         ->where('cotizacion_id', Input::get('cotizacion_id'))
         ->join('productos', 'detalle_cotizaciones.producto_id', '=', 'productos.id')
@@ -147,9 +114,8 @@ class CotizacionController extends \BaseController {
 			return Response::json(array(
 				'success' => true
             ));
-		}
 
-		return 'Huvo un error al tratar de eliminar';	
+		return 'Huvo un error al tratar de eliminar';
 	}
 
 	public function updateClienteId()
@@ -164,5 +130,36 @@ class CotizacionController extends \BaseController {
 		return Response::json(array(
 			'success' => true
         ));
+	}
+	public function ingresarProductoRapido()
+	{
+		if (Input::has('_token'))
+		{
+			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
+			Input::merge(array('producto_id' => 0));
+
+			$query = new DetalleCotizacion;
+
+			if ( !$query->_create())
+			{
+				return $query->errors();
+			}
+
+			$detalle = $this->getCotizacionDetalle();
+
+			$detalle = json_encode($detalle);
+
+			return Response::json(array(
+				'success' => true,
+				'table'   => View::make('cotizaciones.detalle_body', compact('detalle'))->render()
+	        ));
+		}
+
+		return 'Token invalido';
+	}
+
+	public function ImprimirCotizacion()
+	{
+		
 	}
 }

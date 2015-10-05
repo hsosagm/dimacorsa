@@ -250,6 +250,8 @@
             Route::post('detalle'                , 'CotizacionController@detalle');
             Route::post('removeItemCotizacion'   , 'CotizacionController@removeItemCotizacion' );
             Route::post('updateClienteId'        , 'CotizacionController@updateClienteId' );
+            Route::get('ingresarProductoRapido' , 'CotizacionController@ingresarProductoRapido' );
+            Route::post('ingresarProductoRapido' , 'CotizacionController@ingresarProductoRapido' );
         });
 
         Route::group(array('prefix' => 'cajas'),function()

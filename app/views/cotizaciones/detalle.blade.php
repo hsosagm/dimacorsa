@@ -9,16 +9,21 @@
 				<td>Codigo:</td>
 				<td>Cantidad:</td>
 				<td>Precio:</td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>
-					<input type="text" id="search_producto"> 
+					<input type="text" id="search_producto">
 					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
 				</td>
 				<td><input class="input input_numeric" type="text" name="cantidad"></td>
 				<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
 				<td>
 					<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
+				</td>
+				<td>
+					<button type="button" name="button" onclick="ingresarProductoRapido(this, {{$cotizacion_id}})">Producto Rapido</button>
 				</td>
 			</tr>
 		</table>
@@ -64,8 +69,8 @@
 			if($.trim($(this).val()) == ""){
 				if($(this).attr('status') == "1") {
 					$(this).val($(this).attr('placeholder'));
-					$(this).select();  
-					$(this).attr('status',0);  
+					$(this).select();
+					$(this).attr('status',0);
 				}
 				else{
 					$(this).val("");
