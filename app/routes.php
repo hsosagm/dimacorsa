@@ -274,6 +274,7 @@
 
     Route::group(array('prefix' => 'admin'), function()
     {
+        Route::get('users/buscar', 'UserController@buscar');
 
         Route::group(array('prefix' => 'vista'),function()
         {
@@ -287,7 +288,9 @@
             Route::get('create'                           , 'CajaController@create');
             Route::post('create'                          , 'CajaController@create');
             Route::get('asignar'                          , 'CajaController@asignar');
+            Route::get('asignarDt'                        , 'CajaController@asignarDt');
             Route::post('asignar'                         , 'CajaController@asignar');
+            Route::post('asignarDt'                       , 'CajaController@asignarDt');
             Route::get('getConsultarCajas'                , 'CajaController@getConsultarCajas');
             Route::get('DtConsultarCajas'                 , 'CajaController@DtConsultarCajas' );
             Route::get('cortesDeCajaPorDia'               , 'CajaController@cortesDeCajaPorDia');
@@ -295,7 +298,6 @@
             Route::post('getMovimientosDeCajaDt'          , 'CajaController@getMovimientosDeCajaDt');
             Route::get('ConsultasPorMetodoDePago/{model}' ,'ConsultasCajaController@ConsultasPorMetodoDePago');
         });
-
 
         Route::group(array('prefix' => 'kardex'),function()
         {

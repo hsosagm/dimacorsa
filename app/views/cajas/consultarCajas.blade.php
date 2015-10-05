@@ -22,8 +22,7 @@ $(document).ready(function() {
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $( ".DTTT" ).append('<button id="_create" class="btn btngrey " >Crear</button>');
-            $( ".DTTT" ).append('<button class="btn btngrey" disabled>Asignar</button>');
-
+            $( ".DTTT" ).append('<button class="btn btngrey btn_edit" disabled onclick="asignarDt()">Asignar</button>');
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));
             });

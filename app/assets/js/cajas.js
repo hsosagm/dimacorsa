@@ -61,3 +61,21 @@ function getMovimientosDeCajaDt(e, cierre_caja_id) {
 		msg.warning(data, 'Advertencia!');
 	});
 }
+
+function asignarDt() {
+    $caja_id  = $('.dataTable tbody .row_selected').attr('id');
+
+    $.ajax({
+		type: "GET",
+		url: 'admin/cajas/asignarDt',
+        data: {caja_id: $caja_id},
+	}).done(function(data) {
+		if (data.success == true)
+		{
+            $('.modal-body').html(data.view);
+            $('.modal-title').text('Asingnar Caja');
+            return $('.bs-modal').modal('show');
+		}
+		msg.warning(data, 'Advertencia!');
+	});
+}

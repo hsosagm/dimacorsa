@@ -45,6 +45,28 @@ class CajaController extends \BaseController
         return View::make('cajas.asignar');
     }
 
+	public function asignarDt()
+	{
+		if (Input::has('_token'))
+        {
+			if (Input::get('user_id') <= 0)
+				return 'Seleccione Usuario';
+				
+			$caja = Caja::find(Input::get('caja_id'));
+			$caja->user_id = Input::get('user_id');
+			$caja->save();
+
+			return 'success';
+		}
+
+		$caja = Caja::find(Input::get('caja_id'));
+
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('cajas.asignarDt',compact('caja'))->render()
+		));
+	}
+
     public function getMovimientosDeCaja()
     {
         $caja = Caja::whereUserId(Auth::user()->id)->first();
