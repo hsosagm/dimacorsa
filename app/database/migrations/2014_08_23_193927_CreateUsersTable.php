@@ -16,7 +16,6 @@ class CreateUsersTable extends Migration {
             $table->string('apellido', 100);
             $table->string('email', 100)->unique();
             $table->string('vista')->default('Default');
-            $table->integer('caja_id')->default(0);
             $table->tinyInteger('status')->default(2);
             $table->string('password', 100);
             $table->string('remember_token')->nullable();

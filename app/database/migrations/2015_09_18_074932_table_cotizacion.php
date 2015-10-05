@@ -20,7 +20,7 @@ class TableCotizacion extends Migration {
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		}); 
+		});
 
 		Schema::create('detalle_cotizaciones', function(Blueprint $table)
 		{
@@ -32,7 +32,6 @@ class TableCotizacion extends Migration {
 			$table->timestamps();
 			$table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onDelete('cascade')->onUpdate('cascade');
 		});
-
 	}
 
 	public function down()
