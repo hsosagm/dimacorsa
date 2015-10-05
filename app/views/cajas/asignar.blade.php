@@ -1,4 +1,3 @@
-
 {{ Form::_open('Caja Asignada') }}
 
 {{ Form::hidden('user_id', ) }}
