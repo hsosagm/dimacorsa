@@ -261,6 +261,7 @@
             Route::post('getMovimientosDeCaja' , 'CajaController@getMovimientosDeCaja');
             Route::get('corteDeCaja'           , 'CajaController@corteDeCaja');
             Route::post('corteDeCaja'          , 'CajaController@corteDeCaja');
+            Route::get('ConsultasPorMetodoDePago/{model}' ,'ConsultasCajaController@ConsultasPorMetodoDePago');
         });
 
         Route::get('profile'                   , 'UserController@edit_profile');
@@ -296,7 +297,6 @@
             Route::get('cortesDeCajaPorDia'               , 'CajaController@cortesDeCajaPorDia');
             Route::get('DtCortesDeCajasPorDia'            , 'CajaController@DtCortesDeCajasPorDia');
             Route::post('getMovimientosDeCajaDt'          , 'CajaController@getMovimientosDeCajaDt');
-            Route::get('ConsultasPorMetodoDePago/{model}' ,'ConsultasCajaController@ConsultasPorMetodoDePago');
         });
 
         Route::group(array('prefix' => 'kardex'),function()

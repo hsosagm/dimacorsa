@@ -16,10 +16,10 @@
                 ?>
                 <tr>
                     <td width="10%"> {{ $monto }} </td>
-                    <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->metodo_pago->descripcion }} </td>        
+                    <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->metodo_pago->descripcion }} </td>
                     <td width="5%"><i style="color:#FF5960" onclick="RemoveSalePayment({{$q->id}}, {{Input::get('venta_id')}})" class="pointer">&#10007</i></td>
                 </tr>
-            @endforeach  
+            @endforeach
         </tbody>
 
     </table>
@@ -33,10 +33,7 @@
 
         $(".modal-footer").empty().slideUp('slow').slideDown('slow')
         .append(
-            '<button style="width:270px; margin-right:5px; margin-top:10px" type="button" onclick="FinalizarEImprimirGarantia(this, {{$venta_id}},'+"'"+'{{$garantia->impresora}}'+"'"+')" class="btn btn-success"><i class="fa fa-print"></i> Finalizar e imprimir garantia</button>',
-            "<button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button>",
-            '<button style="width:270px; margin-right:5px; margin-top:10px" type="button" onclick="FinalizarEImprimirFacturaYGarantia(this, {{$venta_id}},'+"'"+'{{$garantia->impresora}}'+"'"+','+"'"+'{{$factura->impresora}}'+"'"+')" class="btn btn-success"><i class="fa fa-print"></i> Finalizar e imprimir fact. y garant.</button>',
-            '<button style="width:270px; margin-right:5px; margin-top:10px" type="button" onclick="FinalizarEImprimirFactura(this, {{$venta_id}},'+"'"+'{{$factura->impresora}}'+"'"+')" class="btn btn-success"><i class="fa fa-print"></i> Finalizar e imprimir factura</button>'
+            "<button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button>"
         );
 
         $('.modal-title').text('Pagos completados puede finalizar la venta');

@@ -31,7 +31,7 @@
 	        getCajaConsultasPorMetodoDePago: function(page , sSearch) {
                 $.ajax({
             		type: "GET",
-            		url: "admin/cajas/ConsultasPorMetodoDePago/" + graph_container.caja_model + "?page=" + page,
+            		url: "user/cajas/ConsultasPorMetodoDePago/" + graph_container.caja_model + "?page=" + page,
                     data: {
                         sSearch: sSearch ,
                         metodo_pago_id : graph_container.caja_metodo_pago_id ,

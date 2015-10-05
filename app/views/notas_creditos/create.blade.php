@@ -4,9 +4,8 @@
 	<input type="hidden" name="cliente_id" id="cliente_id">
 
 	<div class="row" style="padding:10px">
-		<div class="col-md-2">Cliente:</div>
-		<div class="col-md-10">
-			<input type="text" id="cliente" class="input form-control">
+		<div class="col-md-12">
+			<input type="text" id="cliente" placeholder="Buscar Cliente...." class="input form-control">
 		</div>
 	</div>
 

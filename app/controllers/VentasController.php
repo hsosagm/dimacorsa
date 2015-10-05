@@ -40,7 +40,7 @@ class VentasController extends \BaseController {
             	if ((@$producto->p_publico * 0.90) > Input::get('precio')) {
             		return 'no puede hacer mas descuento que el autorizado';
             	}
-            } 
+            }
 
             else if (Auth::user()->hasRole("User"))
             {
@@ -49,7 +49,7 @@ class VentasController extends \BaseController {
             	if ((@$producto->p_publico * 0.95) > Input::get('precio')) {
             		return 'no puede hacer mas descuento que el autorizado';
             	}
-            } 
+            }
 
 
 			if ($this->check_if_code_exists_in_this_sale() == true) {
@@ -90,8 +90,8 @@ class VentasController extends \BaseController {
         ->select(array(
         	'detalle_ventas.id',
         	'venta_id', 'producto_id',
-        	'cantidad', 
-        	'precio', 
+        	'cantidad',
+        	'precio',
         	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
         ->where('venta_id', Input::get('venta_id'))
         ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
@@ -144,7 +144,7 @@ class VentasController extends \BaseController {
             ));
 		}
 
-		return 'Huvo un error al tratar de eliminar';	
+		return 'Huvo un error al tratar de eliminar';
 	}
 
 
@@ -190,7 +190,7 @@ class VentasController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
-			if($this->check_if_payment_already_exists() == true) 
+			if($this->check_if_payment_already_exists() == true)
 				return "Seleccione otro metodo de pago o modifique el que ya existe";
 
             $vuelto = 0;
@@ -229,7 +229,7 @@ class VentasController extends \BaseController {
 			$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
 
 			return Response::json(array(
-				'success' => true, 
+				'success' => true,
 				'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia', 'cliente_id'))->render()
 			));
 
@@ -284,7 +284,7 @@ class VentasController extends \BaseController {
 		$cliente_id = $venta->cliente_id;
 
 		return Response::json(array(
-			'success' => true, 
+			'success' => true,
 			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia', 'cliente_id'))->render()
 		));
 	}
@@ -319,12 +319,12 @@ class VentasController extends \BaseController {
 
 		$venta = Venta::find(Input::get('venta_id'));
 
-		if ($venta->completed == 1) 
-			return 'esta venta ya fue finalizada..';	
-		
+		if ($venta->completed == 1)
+			return 'esta venta ya fue finalizada..';
+
 		$venta->completed = 2;
 
-		if ($venta->save()) 
+		if ($venta->save())
 			return Response::json(array( 'success' => true ));
 
 		return 'Huvo un error intentelo de nuevo';
@@ -350,7 +350,7 @@ class VentasController extends \BaseController {
 		$venta->saldo = $saldo;
 		$venta->caja_id = $caja->id;
 		$venta->total = $total->total;
-		
+
 		if ($venta->save()) {
 			return Response::json(array( 'success' => true ));
 		}
@@ -376,7 +376,7 @@ class VentasController extends \BaseController {
 
 		if(!Auth::user()->hasRole("Admin") && !Auth::user()->hasRole("Owner"))
 		{
-			if ($venta->completed != 0) 
+			if ($venta->completed == 1) 
 				return json_encode('La venta no se puede abrir porque ya fue finalizada');
 		}
 
@@ -385,7 +385,7 @@ class VentasController extends \BaseController {
 		$kardex = Kardex::where('kardex_transaccion_id',2)->where('transaccion_id',Input::get('venta_id'));
 		$kardex->delete();
 
-		
+
 		$detalle = $this->getSalesDetail();
 
 		$detalle = json_encode($detalle);
@@ -404,8 +404,8 @@ class VentasController extends \BaseController {
 		$ventas = DB::table('ventas')
         ->select(DB::raw("ventas.id,
         	ventas.total,
-        	DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as fecha,  
-            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+        	DATE_FORMAT(ventas.created_at, '%Y-%m-%d') as fecha,
+            CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
             clientes.nombre as cliente,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
@@ -448,7 +448,7 @@ class VentasController extends \BaseController {
 	    $string = str_replace( array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $string );
 	    $string = str_replace( array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C',), $string );
 
-	   return $string; 
+	   return $string;
 	}
 
 
@@ -483,7 +483,7 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
-	
+
 	function printInvoice()
 	{
 
@@ -561,7 +561,7 @@ class VentasController extends \BaseController {
  //    	else
  //        	return 'Ingrese productos ala factura para poder inprimir';
 	// }
-	
+
 
 	function updateClienteId()
 	{
@@ -629,7 +629,7 @@ class VentasController extends \BaseController {
 		if (Input::get('guardar') == true) {
 			Input::merge(array('serials' => str_replace("'", '', Input::get('serials'))));
 			$detalle_venta = DetalleVenta::find(Input::get('detalle_venta_id'));
-			$detalle_venta->serials = Input::get('serials') ; 
+			$detalle_venta->serials = Input::get('serials') ;
 			$detalle_venta->save();
 
 			return Response::json(array('success' => true));
@@ -638,7 +638,7 @@ class VentasController extends \BaseController {
 		$detalle_venta = DetalleVenta::find(Input::get('detalle_venta_id'));
 		$serials = explode(',', $detalle_venta->serials );
 
-		if (trim($detalle_venta->serials) == null ) 
+		if (trim($detalle_venta->serials) == null )
 			$serials = [];
 
 		return Response::json(array(
@@ -671,9 +671,9 @@ class VentasController extends \BaseController {
         		clientes.direccion as direccion,
         		sum(ventas.total) as total,
         		sum(ventas.saldo) as saldo_total,
-        		(select sum(saldo) from ventas where 
+        		(select sum(saldo) from ventas where
         			tienda_id = {$tienda_id} AND completed = 1 AND
-        			DATEDIFF(current_date, created_at) >= 30 
+        			DATEDIFF(current_date, created_at) >= 30
         			AND cliente_id = clientes.id) as saldo_vencido
         		"))
 	        ->join('ventas', 'ventas.cliente_id', '=', 'clientes.id')
@@ -704,9 +704,9 @@ class VentasController extends \BaseController {
         		tiendas.direccion as tienda,
         		sum(ventas.total) as total,
         		sum(ventas.saldo) as saldo_total,
-        		(select sum(saldo) from ventas where 
+        		(select sum(saldo) from ventas where
         			tienda_id = {$tienda_id} AND completed = 1 AND
-        			DATEDIFF(current_date, created_at) >= 30 
+        			DATEDIFF(current_date, created_at) >= 30
         			AND user_id = users.id) as saldo_vencido
         		"))
 	        ->join('ventas', 'ventas.user_id', '=', 'users.id')
@@ -724,14 +724,14 @@ class VentasController extends \BaseController {
 	}
 
 	public function getDetalleVentasPendientesPorUsuario()
-	{	
+	{
 		$table = 'ventas';
 
         $columns = array(
             "ventas.id as id_compra",
-            "ventas.created_at as fecha_ingreso",  
-            "clientes.nombre as usuario", 
-            "ventas.total as total", 
+            "ventas.created_at as fecha_ingreso",
+            "clientes.nombre as usuario",
+            "ventas.total as total",
             "ventas.saldo as saldo",
             "DATEDIFF(current_date,ventas.created_at) as dias"
         );
@@ -756,14 +756,14 @@ class VentasController extends \BaseController {
 	}
 
 	public function getVentasPendientesPorCliente()
-	{	
+	{
 		$table = 'ventas';
 
         $columns = array(
             "ventas.id as id_compra",
-            "ventas.created_at as fecha_ingreso",  
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
-            "ventas.total as total", 
+            "ventas.created_at as fecha_ingreso",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "ventas.total as total",
             "ventas.saldo as saldo",
             "DATEDIFF(current_date,ventas.created_at) as dias"
         );
@@ -786,7 +786,7 @@ class VentasController extends \BaseController {
         ));
 
 	}
-	
+
 	public function getVentaConDetalle()
 	{
 		$venta = Venta::with('detalle_venta','cliente')->find(Input::get('venta_id'));
@@ -865,7 +865,7 @@ class VentasController extends \BaseController {
         return Response::json(array(
             'success'=> true,
             'view' => View::make('ventas.ventasParaDevoluciones')->render()
-        )); 
+        ));
 	}
 
 	public function DT_ventasParaDevoluciones()
@@ -873,7 +873,7 @@ class VentasController extends \BaseController {
         $table = 'ventas';
 
 		$columns = array(
-			"ventas.created_at as fecha", 
+			"ventas.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"clientes.nombre as cliente",
 			"total",
@@ -881,7 +881,7 @@ class VentasController extends \BaseController {
 		);
 
         $Search_columns = array("users.nombre","users.apellido","clientes.nombre","ventas.total",'ventas.created_at');
-        
+
         $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
         $where = "ventas.tienda_id = ".Auth::user()->tienda_id;
 
