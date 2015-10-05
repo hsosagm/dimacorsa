@@ -9,8 +9,6 @@
 				<td>Codigo:</td>
 				<td>Cantidad:</td>
 				<td>Precio:</td>
-				<td></td>
-				<td></td>
 			</tr>
 			<tr>
 				<td>
@@ -21,9 +19,7 @@
 				<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
 				<td>
 					<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
-				</td>
-				<td>
-					<button type="button" name="button" onclick="ingresarProductoRapido(this, {{$cotizacion_id}})">Producto Rapido</button>
+					<i onclick="alert()" class="fg-theme"><strong>PR</strong></i>
 				</td>
 			</tr>
 		</table>

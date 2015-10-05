@@ -190,12 +190,11 @@ class ConsultasCajaController extends \BaseController {
 		$where .= " AND notas_creditos.caja_id = ".Input::get('caja_id');
 
 		$notasCreditos = SST::get($table, $columns, $Search_columns, $Join, $where );
-        return json_encode($notasCreditos);
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
         return Response::json(array(
 			'success' => true,
-			'table' => View::make('cajas.consultas.NotasDeCreditoPorMetodoDePago', compact('notasCreditos','metodo_pago'))->render()
+			'table' => View::make('cajas.consultas.notaCreditoPorMetodoDePago', compact('notasCreditos','metodo_pago'))->render()
         ));
 	}
 }

@@ -114,7 +114,8 @@ class CotizacionController extends \BaseController {
 			return Response::json(array(
 				'success' => true
             ));
-
+		}
+		
 		return 'Huvo un error al tratar de eliminar';
 	}
 
@@ -131,6 +132,7 @@ class CotizacionController extends \BaseController {
 			'success' => true
         ));
 	}
+
 	public function ingresarProductoRapido()
 	{
 		if (Input::has('_token'))
@@ -160,6 +162,6 @@ class CotizacionController extends \BaseController {
 
 	public function ImprimirCotizacion()
 	{
-		
+
 	}
 }
