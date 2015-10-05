@@ -122,13 +122,16 @@ function graph_container_compile() {
             if (counter == 2) {
                 counter = 0;
                 picker_start.set('select', picker_start.get('highlight'));
+                $('.short_calendar .picker__table').css('display', 'none');
             };
+            $('.short_calendar .picker__table').css('display', 'none');
             counter++;
         },
         onClose: function(element) {
-          
+          $('.short_calendar .picker__table').css('display', 'none');
         }
     });
 
+    $('.short_calendar .picker__table').css('display', 'none');
     var picker_start = $start.pickadate('picker')
 </script>
