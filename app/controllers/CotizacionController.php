@@ -180,8 +180,9 @@ class CotizacionController extends \BaseController {
 
 		$emails = array($cotizacion->cliente->email);
 
-		if (trim($cotizacion->cliente->email) == ""))
-			return 'el cliente ingresado no tiene Correo Electronico...!';
+
+		if (!filter_var($cotizacion->cliente->email, FILTER_VALIDATE_EMAIL))
+			return 'el cliente ingresado no tiene Correo Electronico Valido...!';
 
 		Mail::queue('emails.mensaje', array('asunto' => 'Cotizacion'), function($message) use($emails, $cotizacion, $tienda)
 		{
