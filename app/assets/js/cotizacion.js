@@ -13,21 +13,10 @@ function f_coti_op() {
 }
 
 function ingresarProductoRapido(e, cotizacion_id) {
-    $.ajax({
-      url: "user/cotizaciones/ingresarProductoRapido",
-      type: "GET",
-      data: {cotizacion_id: cotizacion_id},
-    }).done(function(data) {
-        if (data.success == true) {
-            $('.form_producto_rapido').html(data.view);
-            return $(".form_producto_rapido").slideToggle('slow');
-        }
-        msg.warning(data,'Advertencia..!');
-    });
+
 }
 
 function setIngresarProductoRapido(e) {
-    return alert($('.formProductoRapido').serialize());
     $(e).prop('disabled', true);
 
     $.ajax({

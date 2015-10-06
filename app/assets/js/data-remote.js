@@ -1,7 +1,7 @@
 $(document).on('submit', 'form[data-remote]', function(e) {
     $('input[type=submit]', this).attr('disabled', 'disabled');
 
-    if( $('input[type=checkbox]', this).is(':checked') ) 
+    if( $('input[type=checkbox]', this).is(':checked') )
         $('input[type=checkbox]', this).val('1');
     else
         $('input[type=checkbox]', this).val('0');
@@ -36,7 +36,7 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
     $('button[type=submit]', this).attr('disabled', 'disabled');
     var form = $(this);
 
-    $.ajax({  
+    $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
@@ -63,8 +63,8 @@ $(document).on('submit', 'form[data-remote-md]', function(e) {
 $(document).on('submit', 'form[data-remote-md-2]', function(e) {
     $('input[type=submit]', this).attr('disabled', 'disabled');
     var form = $(this);
-   
-    $.ajax({  
+
+    $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
@@ -87,7 +87,7 @@ $(document).on('submit', 'form[data-remote-cat]', function(e) {
     $('input[type=submit]', this).attr('disabled', 'disabled');
     var nombre = $('input[name=nombre]' , this);
     var form = $(this);
-   
+
     $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
@@ -135,7 +135,7 @@ $(document).on('enter', 'form[data-remote-md-d]', function(e) {
 
     e.preventDefault();
     var form = $(this);
-    
+
     if (form.attr('status') == 0) {
         form.attr('status', '1');
         $.ajax({
@@ -151,6 +151,7 @@ $(document).on('enter', 'form[data-remote-md-d]', function(e) {
                     $('input[name=serials]', form).val('');
                     form.attr('status', '0');
                     $("#search_producto").focus();
+                    $(".form_producto_rapido").slideUp('slow');
                     return $('.precio-costo').html(data.p_costo);
                 }
                 msg.warning(data, 'Advertencia!');
@@ -167,7 +168,7 @@ $(document).on('enter', 'form[data-remote-md-d2]', function(e) {
 
     e.preventDefault();
     var form = $(this);
-    
+
     if (form.attr('status') == 0) {
         form.attr('status', '1');
         $.ajax({
@@ -223,7 +224,7 @@ $(document).on('submit', 'form[data-remote-product]', function(e) {
     var form = $(this);
     codigo = $('input[name=codigo]', form).val();
 
-    if( $('input[type=checkbox]', this).is(':checked') ) 
+    if( $('input[type=checkbox]', this).is(':checked') )
         $('input[type=checkbox]', this).val('1');
     else
         $('input[type=checkbox]', this).val('0');
@@ -249,7 +250,7 @@ $(document).on('submit', 'form[data-remote-product]', function(e) {
 $(document).on('submit', 'form[data-remote-md-d]', function(e) {
     e.preventDefault();
     var form = $(this);
-    
+
     if (form.attr('status') == 0) {
         form.attr('status', '1');
         $.ajax({
@@ -277,7 +278,7 @@ $(document).on('submit', 'form[data-remote-md-d]', function(e) {
 function ingresarProductoAlDetalle(e) {
     $(e).attr('disabled','disabled');
     var form = $("form[data-remote-md-d]");
-    
+
     if (form.attr('status') == 0) {
         form.attr('status', '1');
         $.ajax({
@@ -308,7 +309,7 @@ function ingresarProductoAlDetalle(e) {
 function ingresarProductoAlDetalle2(e) {
     $(e).attr('disabled','disabled');
     var form = $("form[data-remote-md-d2]");
-    
+
     if (form.attr('status') == 0) {
         form.attr('status', '1');
         $.ajax({

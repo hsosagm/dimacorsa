@@ -48,10 +48,6 @@ class CotizacionController extends \BaseController {
             	}
             }
 
-			if ($this->verificarSiExisteEnlaCotizacionElProducto() == true) {
-				return "El codigo ya ha sido ingresado..";
-			}
-
 			$query = new DetalleCotizacion;
 
 			$data = Input::all();
@@ -84,19 +80,6 @@ class CotizacionController extends \BaseController {
 		return 'Token invalido';
 	}
 
-	public function verificarSiExisteEnlaCotizacionElProducto()
-    {
-		$query = DB::table('detalle_ventas')->select('id')
-	    ->where('venta_id', Input::get("cotizacion_id"))
-	    ->where('producto_id', Input::get("producto_id"))
-	    ->first();
-
-	    if($query == null)
-	        return false;
-
-	    return true;
-    }
-
     public function getCotizacionDetalle()
 	{
 		$detalle = DB::table('detalle_cotizaciones')
@@ -108,8 +91,6 @@ class CotizacionController extends \BaseController {
         	DB::raw('detalle_cotizaciones.descripcion AS descripcion,
 			cantidad * precio AS total')))
         ->where('cotizacion_id', Input::get('cotizacion_id'))
-        ->join('productos', 'detalle_cotizaciones.producto_id', '=', 'productos.id')
-        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
         return $detalle;
