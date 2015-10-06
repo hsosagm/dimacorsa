@@ -15,12 +15,12 @@
     /******************************************************************************/
 
     /******************************************************************************/
-    Route::post('ImprimirGarantia'          , 'VentasController@ImprimirGarantia');
-    Route::post('ImprimirDescarga'          , 'DescargaController@ImprimirDescarga');
-    Route::post('ImprimirTraslado'          , 'TrasladoController@ImprimirTraslado');
-    Route::post('ImprimirAbonoCliente'      , 'SalesPaymentsController@imprimirAbonoVenta');
-    Route::post('ImprimirAbonoProveedor'    , 'ProveedorController@ImprimirAbono' );
-    Route::post('ImprimirCotizacion'        , 'CotizacionController@ImprimirCotizacion' );
+    Route::post('ImprimirGarantia'            , 'VentasController@ImprimirGarantia');
+    Route::post('ImprimirDescarga'            , 'DescargaController@ImprimirDescarga');
+    Route::post('ImprimirTraslado'            , 'TrasladoController@ImprimirTraslado');
+    Route::post('ImprimirAbonoCliente'        , 'SalesPaymentsController@imprimirAbonoVenta');
+    Route::post('ImprimirAbonoProveedor'      , 'ProveedorController@ImprimirAbono' );
+    Route::get('ImprimirCotizacion/{op}/{id}' , 'CotizacionController@ImprimirCotizacion' );
 
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
@@ -85,11 +85,6 @@
 
         Route::group(array('prefix' => 'consulta'), function()
         {
-            Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario'   );
-            Route::get('VerTablaSoporteDelDiaUsuario'  , 'UserController@VerTablaSoporteDelDiaUsuario'  );
-            Route::get('VerTablaIngresosDelDiaUsuario' , 'UserController@VerTablaIngresosDelDiaUsuario' );
-            Route::get('VerTablaEgresosDelDiaUsuario'  , 'UserController@VerTablaEgresosDelDiaUsuario'  );
-            Route::get('VerTablaGastosDelDiaUsuario'   , 'UserController@VerTablaGastosDelDiaUsuario'   );
             Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
             Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
             Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'        );
@@ -250,8 +245,9 @@
             Route::post('detalle'                , 'CotizacionController@detalle');
             Route::post('removeItemCotizacion'   , 'CotizacionController@removeItemCotizacion' );
             Route::post('updateClienteId'        , 'CotizacionController@updateClienteId' );
-            Route::get('ingresarProductoRapido' , 'CotizacionController@ingresarProductoRapido' );
+            Route::get('ingresarProductoRapido'  , 'CotizacionController@ingresarProductoRapido' );
             Route::post('ingresarProductoRapido' , 'CotizacionController@ingresarProductoRapido' );
+            Route::post('EliminarCotizacion'     , 'CotizacionController@EliminarCotizacion' );
         });
 
         Route::group(array('prefix' => 'cajas'),function()

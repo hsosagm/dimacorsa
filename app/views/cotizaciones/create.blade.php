@@ -1,7 +1,7 @@
 <div>
 
     {{ Form::open(array('v-on="submit: generarCotizacion"','class' => "form-generarCotizacion")) }}
-    
+
     <input type="hidden" name="cliente_id" v-model="cliente.id" >
 
     <div class="row">

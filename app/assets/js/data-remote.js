@@ -161,6 +161,35 @@ $(document).on('enter', 'form[data-remote-md-d]', function(e) {
     }
 });
 
+
+$(document).on('enter', 'form[data-remote-md-dc]', function(e) {
+    e.preventDefault();
+    var form = $(this);
+    if (form.attr('status') == 0) {
+        form.attr('status', '1');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success == true) {
+                    msg.success(form.data('success'), 'Listo!');
+                    $('.body-detail').html(data.table);
+                    form.trigger('reset');
+                    $('#precio-publico').attr('placeholder',"");
+                    $('input[name=serials]', form).val('');
+                    form.attr('status', '0');
+                    $("#search_producto").focus();
+                    $(".form_producto_rapido").slideUp('slow');
+                    return $('.precio-costo').html(data.p_costo);
+                }
+                msg.warning(data, 'Advertencia!');
+                form.attr('status', '0');
+            }
+        });
+    }
+});
+
 //funcion que se utiliza para traslados y descargas debido a que solo se envia la cantidad
 $(document).on('enter', 'form[data-remote-md-d2]', function(e) {
     if ($.trim($("input[name=cantidad]").val()) == "")
@@ -326,6 +355,37 @@ function ingresarProductoAlDetalle2(e) {
                     form.attr('status', '0');
                     $("#search_producto").focus();
                     $('.precio-costo').html(data.p_costo);
+                    return $(e).removeAttr('disabled');
+                }
+                msg.warning(data, 'Advertencia!');
+                $(e).removeAttr('disabled');
+                form.attr('status', '0');
+            }
+        });
+    }
+}
+
+function ingresarProductoAlDetalleCotizacion(e) {
+    $(e).attr('disabled','disabled');
+    var form = $("form[data-remote-md-dc]");
+
+    if (form.attr('status') == 0) {
+        form.attr('status', '1');
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success == true) {
+                    msg.success(form.data('success'), 'Listo!');
+                    $('.body-detail').html(data.table);
+                    form.trigger('reset');
+                     $('#precio-publico').attr('placeholder',"");
+                    $('input[name=serials]', form).val('');
+                    form.attr('status', '0');
+                    $("#search_producto").focus();
+                    $('.precio-costo').html(data.p_costo);
+                    $(".form_producto_rapido").slideUp('slow');
                     return $(e).removeAttr('disabled');
                 }
                 msg.warning(data, 'Advertencia!');

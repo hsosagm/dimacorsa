@@ -130,7 +130,6 @@ class CotizacionController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
-			return "leonel";
 			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 			Input::merge(array('producto_id' => 0));
 
@@ -157,8 +156,24 @@ class CotizacionController extends \BaseController {
 		));
 	}
 
-	public function ImprimirCotizacion()
+	public function EliminarCotizacion()
 	{
+		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
+		if($cotizacion->delete()){
+			return Response::json(array(
+				'success' => true
+	        ));
+		}
 
+		return 'error al tratar e eliminar';
+	}
+
+	public function ImprimirCotizacion($op, $id)
+	{
+		$cotizacion = Cotizacion::with('cliente', 'detalle_cotizacion')->find($id);
+
+		$pdf = PDF::loadView('cotizaciones.exportPdf',  array('cotizacion' => $cotizacion));
+
+		return $pdf->stream('cotizacion-'.$id);
 	}
 }

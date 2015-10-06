@@ -29,7 +29,7 @@ class BaseController extends Controller {
             {
                 return 'success';
             }
-            
+
             return $model->errors();
     	}
 
@@ -55,7 +55,7 @@ class BaseController extends Controller {
 
     	return View::make($this->getView().'.edit', compact('model'));
     }
-    
+
 
     public function delete()
     {

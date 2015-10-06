@@ -26,19 +26,14 @@
 		{{ Form::close() }}
 	</div>
 
-	<div class="col-md-6">
-		<div class="row master-precios">
-			<div class="col-md-4 precio-publico" style="text-align:left;"> </div>
-			<div class="col-md-3 existencia" style="text-align:right;"> </div>
-		</div>
-		<div class="row master-descripcion">
+	<div class="col-md-6">ter-descripcion">
 			<div class="col-md-11 descripcion"> </div>
 		</div>
 	</div>
 
 </div>
 
-<div class="form_producto_rapido"> </div>
+<div class="form_producto_rapido" status="0"> </div>
 
 <div class="body-detail">
 	@include('cotizaciones.detalle_body')
@@ -47,10 +42,11 @@
 <div class="form-footer" >
 	<div class="row">
 		<div class="col-md-6">
-			<i class="fa fa-print fa-lg icon-print" onclick="getImprimirCotizacion(this, {{$cotizacion_id}} );"></i>
+			<i class="fa fa-envelope-o fa-lg icon-print" onclick="ImprimirCotizacion(this, {{$cotizacion_id}}, 'correo');"></i>
+			<i class="fa fa-file-pdf-o fa-lg icon-print" onclick="ImprimirCotizacion(this, {{$cotizacion_id}}, 'pdf');"></i>
 		</div>
 		<div class="col-md-6" align="right">
-			<i class="fa fa-trash-o fa-lg icon-delete" onclick="EliminarCotizacion();"></i>
+			<i class="fa fa-trash-o fa-lg icon-delete" onclick="EliminarCotizacion(this, {{$cotizacion_id}});"></i>
 			<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$cotizacion_id}} );"></i>
 		</div>
 	</div>
