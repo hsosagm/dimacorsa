@@ -9,5 +9,6 @@ class DetalleCotizacionValidator extends ValidatorAssistant {
         'producto_id' 	=>  'required|integer|min:1',
         'cantidad'    	=>  'required|integer|min:1',
         'precio'      	=>  'required|numeric',
+        'descripcion'  	=>  'required|min:5',
     );
 }

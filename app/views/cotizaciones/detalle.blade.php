@@ -19,7 +19,7 @@
 				<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
 				<td>
 					<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
-					<i onclick="alert()" class="fg-theme"><strong>PR</strong></i>
+					<i onclick="ingresarProductoRapido(this, {{$cotizacion_id}})" class="fg-theme" style="padding-left:10px; cursor:pointer;"><strong>PR</strong></i>
 				</td>
 			</tr>
 		</table>
@@ -37,6 +37,8 @@
 	</div>
 
 </div>
+
+<div class="form_producto_rapido"> </div>
 
 <div class="body-detail">
 	@include('cotizaciones.detalle_body')

@@ -54,8 +54,12 @@ class CotizacionController extends \BaseController {
 			}
 
 			$query = new DetalleCotizacion;
+			$producto = Producto::find(Input::get('producto_id'));
 
-			if ( !$query->_create())
+			$data = Input::all();
+			$data['descripcion'] = $producto->descripcion;
+
+			if ( !$query->_create($data))
 			{
 				return $query->errors();
 			}
@@ -94,7 +98,8 @@ class CotizacionController extends \BaseController {
         	'cotizacion_id', 'producto_id',
         	'cantidad',
         	'precio',
-        	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        	DB::raw('detalle_cotizaciones.descripcion AS descripcion,
+			cantidad * precio AS total')))
         ->where('cotizacion_id', Input::get('cotizacion_id'))
         ->join('productos', 'detalle_cotizaciones.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
@@ -115,7 +120,7 @@ class CotizacionController extends \BaseController {
 				'success' => true
             ));
 		}
-		
+
 		return 'Huvo un error al tratar de eliminar';
 	}
 
@@ -157,7 +162,10 @@ class CotizacionController extends \BaseController {
 	        ));
 		}
 
-		return 'Token invalido';
+		return Response::json(array(
+			'success' => true,
+			'view'   => View::make('cotizaciones.ingresarProductoRapido')->render()
+		));
 	}
 
 	public function ImprimirCotizacion()

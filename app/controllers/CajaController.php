@@ -20,6 +20,18 @@ class CajaController extends \BaseController
                 return $caja->errors();
             }
 
+			$cierre = new CierreCaja;
+
+            $datos = array();
+            $datos['fecha_inicial'] = Carbon::now();
+            $datos['fecha_final'] = Carbon::now();
+            $datos['caja_id'] = $caja->get_id();
+
+            if (!$cierre->create_master($datos))
+            {
+                return $cierre->errors();
+            }
+			
             return 'success';
         }
 
@@ -51,7 +63,7 @@ class CajaController extends \BaseController
         {
 			if (Input::get('user_id') <= 0)
 				return 'Seleccione Usuario';
-				
+
 			$caja = Caja::find(Input::get('caja_id'));
 			$caja->user_id = Input::get('user_id');
 			$caja->save();

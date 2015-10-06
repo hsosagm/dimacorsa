@@ -27,6 +27,7 @@ class TableCotizacion extends Migration {
 			$table->increments('id');
 			$table->integer('cotizacion_id')->unsigned();
 			$table->integer('producto_id')->default(0);
+			$table->text('descripcion');
 			$table->integer('cantidad')->unsigned();
 			$table->decimal('precio', 8, 2);
 			$table->timestamps();
