@@ -27,6 +27,7 @@ function ingresarProductoRapido(e, cotizacion_id) {
 }
 
 function setIngresarProductoRapido(e) {
+    return alert($('.formProductoRapido').serialize());
     $(e).prop('disabled', true);
 
     $.ajax({

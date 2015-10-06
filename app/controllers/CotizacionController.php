@@ -48,16 +48,23 @@ class CotizacionController extends \BaseController {
             	}
             }
 
-
 			if ($this->verificarSiExisteEnlaCotizacionElProducto() == true) {
 				return "El codigo ya ha sido ingresado..";
 			}
 
 			$query = new DetalleCotizacion;
-			$producto = Producto::find(Input::get('producto_id'));
 
 			$data = Input::all();
-			$data['descripcion'] = $producto->descripcion;
+
+			if (Input::get('producto_id') > 0)
+			{
+				$producto = Producto::find(Input::get('producto_id'));
+				$data['descripcion'] = $producto->descripcion;
+			}
+			else
+			{
+				$data['producto_id'] = 0;
+			}
 
 			if ( !$query->_create($data))
 			{
@@ -142,6 +149,7 @@ class CotizacionController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
+			return "leonel";
 			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 			Input::merge(array('producto_id' => 0));
 
