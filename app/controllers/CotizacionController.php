@@ -171,9 +171,29 @@ class CotizacionController extends \BaseController {
 	public function ImprimirCotizacion($op, $id)
 	{
 		$cotizacion = Cotizacion::with('cliente', 'detalle_cotizacion')->find($id);
+		$tienda = Tienda::find(Auth::user()->tienda_id);
 
-		$pdf = PDF::loadView('cotizaciones.exportPdf',  array('cotizacion' => $cotizacion));
+		if (trim($op) == 'pdf') {
+			$pdf = PDF::loadView('cotizaciones.exportPdf',  array('cotizacion' => $cotizacion, 'tienda' => $tienda));
+			return $pdf->stream('cotizacion-'.$id);
+		}
 
-		return $pdf->stream('cotizacion-'.$id);
+		$emails = array($cotizacion->cliente->email);
+
+		if (trim($cotizacion->cliente->email) == ""))
+			return 'el cliente ingresado no tiene Correo Electronico...!';
+
+		Mail::queue('emails.mensaje', array('asunto' => 'Cotizacion'), function($message) use($emails, $cotizacion, $tienda)
+		{
+			$pdf = PDF::loadView('cotizaciones.exportPdf',  array('cotizacion' => $cotizacion, 'tienda' => $tienda));
+			$message->to($emails)->subject('Cotizacion');
+			$message->attachData($pdf->output(), Carbon::now()."-Cotizacion.pdf");
+		});
+
+		return Response::json(array(
+			'success' => true,
+			'mensaje' => 'Correo Enviado a '.$cotizacion->cliente->email
+		));
+
 	}
 }

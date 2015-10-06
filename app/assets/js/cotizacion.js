@@ -55,5 +55,18 @@ function  EliminarCotizacion(e, cotizacion_id){
 }
 
 function ImprimirCotizacion(e, cotizacion_id, opcion) {
-    window.open('ImprimirCotizacion/'+opcion+'/'+cotizacion_id ,'_blank');
+    if ($.trim(opcion) == 'pdf') {
+        return window.open('ImprimirCotizacion/'+opcion+'/'+cotizacion_id ,'_blank');
+    }
+
+    $.ajax({
+        url: 'ImprimirCotizacion/'+opcion+'/'+cotizacion_id,
+        type: "GET"
+    }).done(function(data) {
+        if (data.success == true) {
+            msg.success(data.mensaje, 'Listo!');
+            return;
+        }
+        msg.warning(data,'Advertencia..!');
+    });
 }
