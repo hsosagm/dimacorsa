@@ -628,7 +628,6 @@
 
 Route::get('/test', function()
 {
-    return getenv('DB_NAME');
 
 });
 
