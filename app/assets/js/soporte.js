@@ -9,7 +9,7 @@ function f_soporte() {
         $('.modal-title').text('Ingresar soporte');
         $('.bs-modal').modal('show');
     });
-}
+};
 
 function delete_soporte() {
     $id = $("input[name='soporte_id']").val();;
@@ -26,8 +26,8 @@ function delete_soporte() {
                     if (data == 'success') {
                         msg.success('Soporte eliminado', 'Listo!')
                         $('.bs-modal').modal('hide');
-                        
-                    } 
+
+                    }
                     else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }

@@ -9,12 +9,12 @@ function f_gastos() {
         $('.modal-title').text('Ingresar Gasto');
         $('.bs-modal').modal('show');
     });
-}
+};
 
 function delete_gasto() {
     $id = $("input[name='gasto_id']").val();;
     $url = "user/gastos/delete_master";
-    
+
     $.confirm({
         confirm: function(){
             $.ajax({
@@ -26,7 +26,7 @@ function delete_gasto() {
                     if ($.trim(data) == 'success') {
                         msg.success('Gasto eliminado', 'Listo!')
                        $('.bs-modal').modal('hide');
-                    } 
+                    }
                     else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }

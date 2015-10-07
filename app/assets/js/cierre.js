@@ -7,8 +7,8 @@ function CierreDelDia() {
 		clean_panel();
         $('#graph_container').show();
         $('#graph_container').html(data);
-	}); 
-}
+	});
+};
 
 function CierreDelMes() {
 	$.get( "admin/cierre/CierreDelMes", function( data ) {
@@ -16,7 +16,7 @@ function CierreDelMes() {
         $('#graph_container').show();
         $('#graph_container').html(data);
 	});
-}
+};
 
 function cierre() {
 	$.get( "admin/cierre/cierre", function( data ) {
@@ -26,12 +26,12 @@ function cierre() {
 			return $('.bs-modal').modal('show');
     	};
     	return msg.error('El cierre ya ha sido realizado por' + " " + data.user, 'Error!');
-	});	
-}
+	});
+};
 
 function CierreDelDiaPorFecha(e) {
 	$fecha_completa = $(e).closest('tr').find("td").eq(3).html();
-    $fecha = $fecha_completa.substring(0, 10); 
+    $fecha = $fecha_completa.substring(0, 10);
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierreDelDiaPorFecha',
@@ -43,10 +43,9 @@ function CierreDelDiaPorFecha(e) {
             $('#graph_container').html(data);
         }
     });
-}
+};
 
 function CierreDelMesPorFecha() {
-
 	fecha = $(".datepicker .calendar .days .selected").attr('date');
     $.ajax({
         type: "GET",
@@ -59,7 +58,7 @@ function CierreDelMesPorFecha() {
             $('.dt-container-cierre').show();
         }
     });
-}
+};
 
 function CierresDelMes() {
 	fecha = $(".datepicker .calendar .days .selected").attr('date');
@@ -73,13 +72,13 @@ function CierresDelMes() {
 			 makeTable(data, '', '');
         }
     });
-}
+};
 
 function VerDetalleDelCierreDelDia(e) {
     if ($(e).hasClass("hide_detail")) {
         $(e).removeClass('hide_detail');
         $('.subtable').hide();
-    } 
+    }
 
     else {
         $('.hide_detail').removeClass('hide_detail');
@@ -93,7 +92,7 @@ function VerDetalleDelCierreDelDia(e) {
             ObtenerDetalleDelCierreDelDia(e);
         }
     }
-}
+};
 
 function ObtenerDetalleDelCierreDelDia(e) {
     $id = $(e).closest('tr').attr('id');
@@ -117,11 +116,11 @@ function ObtenerDetalleDelCierreDelDia(e) {
             }
         }
     });
-}
+};
 
 function ExportarCierreDelDia(tipo,fecha) {
     window.open('admin/cierre/ExportarCierreDelDia/'+tipo+'/'+fecha ,'_blank');
-}
+};
 
 var cierre_fecha_enviar = "current_date";
 var cierre_metodo_pago_id = 1;
@@ -131,8 +130,8 @@ var cierre_model = "" ;
 function asignarInfoEnviar($v_model ,$v_metodo){
     cierre_model= $v_model;
     cierre_metodo_pago_id = $v_metodo;
-    cierreConsultasPorMetodoDePago(1 , null); 
-}
+    cierreConsultasPorMetodoDePago(1 , null);
+};
 
 function cierreConsultasPorMetodoDePago(page , sSearch) {
     $.ajax({
@@ -150,7 +149,7 @@ function cierreConsultasPorMetodoDePago(page , sSearch) {
             }
         }
     });
-}
+};
 
 $(document).on('click', '.pagination_cierre a', function (e) {
     e.preventDefault();
@@ -160,12 +159,12 @@ $(document).on('click', '.pagination_cierre a', function (e) {
 
 function ocultarMostrarDetalleCierre(e) {
     if($(e).hasClass('fa fa-angle-down'))
-        $(e).attr('class', 'fa fa-angle-up');   
+        $(e).attr('class', 'fa fa-angle-up');
     else
         $(e).attr('class', 'fa fa-angle-down');
 
     $('.cierre_detalle').toggle('slow');
-}
+};
 
 function VentasDelMesCierre(e,fecha) {
     $.ajax({
@@ -177,7 +176,7 @@ function VentasDelMesCierre(e,fecha) {
             makeTable(data, '', '');
         }
     });
-}
+};
 
 function SoporteDelMesCierre(e,fecha) {
      $.ajax({
@@ -189,7 +188,7 @@ function SoporteDelMesCierre(e,fecha) {
             makeTable(data, '', '');
         }
     });
-}
+};
 
 function GastosDelMesCierre(e,fecha) {
     $.ajax({
@@ -201,7 +200,7 @@ function GastosDelMesCierre(e,fecha) {
             makeTable(data, '', '');
         }
     });
-}
+};
 
 function DetalleDeVentasPorProducto(e)
 {
@@ -210,7 +209,7 @@ function DetalleDeVentasPorProducto(e)
     if ($(e).hasClass("hide_detail"))  {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
-    } 
+    }
     else {
         $('.hide_detail').removeClass('hide_detail');
 
@@ -223,7 +222,7 @@ function DetalleDeVentasPorProducto(e)
             getDetalleDeVentasPorProducto(e, 1 , null);
         }
     }
-}
+};
 
 function getDetalleDeVentasPorProducto(e , page , sSearch) {
     $('.subtable').remove();
@@ -247,7 +246,7 @@ function getDetalleDeVentasPorProducto(e , page , sSearch) {
             }
         }
     });
-}
+};
 
 function getDetalleDeVentasPorProductoPaginacion(page , sSearch) {
     $.ajax({
@@ -263,7 +262,7 @@ function getDetalleDeVentasPorProductoPaginacion(page , sSearch) {
             }
         }
     });
-}
+};
 
 $(document).on('click', '.pagination_cierre_ventas a', function (e) {
     e.preventDefault();
@@ -287,11 +286,11 @@ function DetalleVentaCierre(e, venta_id) {
             }
         }
     });
-}
+};
 
 function mostrar_view_graficas()
 {
     clean_panel();
     $('.dt-container').show();
     $('.table').html($('.graficas_auxiliar').html());
-}
+};

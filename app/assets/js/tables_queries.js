@@ -6,4 +6,4 @@ function list_roles() {
     $.get( "owner/roles", function( data ) {
         $("#full_width").html(data);
     });
-}
+};

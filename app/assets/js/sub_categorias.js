@@ -17,7 +17,7 @@ function new_sub_categoria()
 	else {
 		msg.warning('Seleccione una categoria..', 'Advertencia!');
 	}
-}
+};
 
 function sub_categoria_edit(e , sub_categoria_id)
 {
@@ -34,4 +34,4 @@ function sub_categoria_edit(e , sub_categoria_id)
 			})
 		}
 	});
-}
+};

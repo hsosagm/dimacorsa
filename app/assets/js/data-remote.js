@@ -332,7 +332,7 @@ function ingresarProductoAlDetalle(e) {
             }
         });
     }
-}
+};
 
 //funcion para ingresar productos al detalle utilizada en traslados y descargas
 function ingresarProductoAlDetalle2(e) {
@@ -363,7 +363,7 @@ function ingresarProductoAlDetalle2(e) {
             }
         });
     }
-}
+};
 
 function ingresarProductoAlDetalleCotizacion(e) {
     $(e).attr('disabled','disabled');
@@ -394,4 +394,4 @@ function ingresarProductoAlDetalleCotizacion(e) {
             }
         });
     }
-}
+};

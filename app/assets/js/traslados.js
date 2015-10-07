@@ -16,7 +16,7 @@ function fopen_traslado() {
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-} 
+};
 
 
 function eliminarTraslado(e , traslado_id) {
@@ -36,7 +36,7 @@ function eliminarTraslado(e , traslado_id) {
 			});
 		}
 	});
-}
+};
 
 function finalizarTraslado(e , traslado_id) {
 	$.confirm({
@@ -57,7 +57,7 @@ function finalizarTraslado(e , traslado_id) {
 			});
 		}
 	});
-}
+};
 
 function recibirTraslado(e , traslado_id) {
 	$.confirm({
@@ -78,7 +78,7 @@ function recibirTraslado(e , traslado_id) {
 			});
 		}
 	});
-}
+};
 
 function abrirTraslado(e){
 	$id = $(e).closest('tr').attr('id');
@@ -101,7 +101,7 @@ function abrirTraslado(e){
 
 function abrirTrasladoDeRecibido(e){
 	$id = $(e).closest('tr').attr('id');
-	
+
 	$.ajax({
 		type: "POST",
 		url: 'admin/traslados/abrirTrasladoDeRecibido',
@@ -116,13 +116,13 @@ function abrirTrasladoDeRecibido(e){
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-}
+};
 
 function verDetalleTraslado(e, opcion) {
 	if ($(e).hasClass("hide_detail")) {
 		$(e).removeClass('hide_detail');
 		$('.subtable').hide();
-	} 
+	}
 	else {
 		$('.hide_detail').removeClass('hide_detail');
 
@@ -135,7 +135,7 @@ function verDetalleTraslado(e, opcion) {
 			getDetalleTraslado(e, opcion);
 		}
 	}
-}
+};
 
 function getDetalleTraslado(e, opcion) {
 	$id = $(e).closest('tr').attr('id');
@@ -158,7 +158,7 @@ function getDetalleTraslado(e, opcion) {
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-}
+};
 
 var serialsDetalleTraslado = [];
 
@@ -179,7 +179,7 @@ function ingresarSeriesDetalleTraslado(e, detalle_traslado_id) {
         }
         msg.warning(data, 'Advertencia!');
     });
-}
+};
 
 function guardarSerieDetalleTraslado () {
     if($.trim($("#serialsDetalleTraslado").val()) != ''){
@@ -211,13 +211,13 @@ function guardarSerieDetalleTraslado () {
     }
     else
         msg.warning('El campo se encuentra vacio..!', 'Advertencia!');
-}
+};
 
 function eliminarSerialsDetalleTraslado(e, serie) {
     serialsDetalleTraslado.splice(serialsDetalleTraslado.indexOf(serie), 1);
     $(e).closest('tr').hide();
     $("#serialsDetalleTraslado").focus();
-}
+};
 
 function guardarSeriesDetalleTraslado(e, detalle_traslado_id) {
     $(e).prop("disabled", true);
@@ -233,16 +233,16 @@ function guardarSeriesDetalleTraslado(e, detalle_traslado_id) {
         $(e).prop("disabled", true);
         msg.warning(data, 'Advertencia!');
     });
-}
+};
 
 function getTrasladosEnviados(e){
 	$.get( "admin/traslados/getTrasladosEnviados", function( data ) {
 		makeTable(data, ' ', 'Traslados Enviados');
 	});
-}
+};
 
 function getTrasladosRecibidos(e){
 	$.get( "admin/traslados/getTrasladosRecibidos", function( data ) {
 		makeTable(data, ' ', 'Traslados Recibidos');
 	});
-}
+};

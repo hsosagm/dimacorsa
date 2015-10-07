@@ -23,20 +23,17 @@ function cliente_contacto_view_info(element) {
             });
         }
     });
-}
+};
 
 
 function cliente_contacto_nuevo() {
- $.get( "user/cliente/contacto_nuevo", function( data ) {
-
-    $('.body-contactos').slideUp('slow',function() {
-        $('.body-contactos').html(data);
-        $('.body-contactos').slideDown('slow', function() {
-
+     $.get( "user/cliente/contacto_nuevo", function( data ) {
+        $('.body-contactos').slideUp('slow',function() {
+            $('.body-contactos').html(data);
+            $('.body-contactos').slideDown('slow', function() { });
         });
     });
-});
-}
+};
 
 function cliente_update(e,element) {
     form = $(element);
@@ -59,7 +56,7 @@ function cliente_update(e,element) {
     });
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 function cliente_update_modal(e,element) {
     form = $(element);
@@ -81,7 +78,7 @@ function cliente_update_modal(e,element) {
     });
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 
 function cliente_contacto_create(e,element) {
@@ -109,7 +106,7 @@ function cliente_contacto_create(e,element) {
 
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 
 function cliente_contacto_view(element) {
@@ -128,7 +125,7 @@ function cliente_contacto_view(element) {
          })
         }
     });
-}
+};
 
 function cliente_contacto_update(e,element) {
     form = $(element);
@@ -155,7 +152,7 @@ function cliente_contacto_update(e,element) {
 
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 function cliente_contacto_delete(element,cliente_contacto_id) {
     $.confirm({
@@ -177,7 +174,7 @@ function cliente_contacto_delete(element,cliente_contacto_id) {
             });
         }
     });
-}
+};
 
 function cliente_help() {
     $id = $("input[name='cliente_id']").val();
@@ -197,21 +194,6 @@ function cliente_help() {
     }
 };
 
-
-// function creditSalesByCustomer() {
-//     $.ajax({
-//         type: 'GET',
-//         url: "user/cliente/creditSalesByCustomer",
-//         data: { cliente_id: vm.cliente_id },
-//         success: function (data) {
-//             if (data.success == true) {
-//                 return generate_dt(data.table);
-//             }
-//             msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-//         }
-//     }); 
-// }
-
 function generate_dt(data) {
     vm.clearPanelBody();
     $('.table').html(data);
@@ -227,14 +209,14 @@ function generate_dt(data) {
             $('#example').dataTable().fnFilter( $(this).val() );
         });
     }, 0);
-}
+};
 
 function verDetalleAbonosClietes(e) {
 
     if ($(e).hasClass("hide_detail"))   {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
-    } 
+    }
     else  {
         $('.hide_detail').removeClass('hide_detail');
 
@@ -247,7 +229,7 @@ function verDetalleAbonosClietes(e) {
             obtenerDetalleAbonosClientes(e);
         }
     }
-}
+};
 
 function obtenerDetalleAbonosClientes(e) {
     $id = $(e).closest('tr').attr('id');
@@ -273,4 +255,4 @@ function obtenerDetalleAbonosClientes(e) {
             }
         }
     });
-}
+};

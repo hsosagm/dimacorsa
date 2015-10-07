@@ -10,7 +10,7 @@ function new_categoria() {
 		$('.modal-title-categorias').text('Crear Categorias');
 		$('.bs-modal-categorias').modal('show');
 	});
-}
+};
 
 function categoria_edit(e , categoria_id) {
 	$.ajax({
@@ -26,13 +26,13 @@ function categoria_edit(e , categoria_id) {
 			})
 		}
 	});
-}
+};
 
 function cancelar_edicion_categoria() {
 	$('.edit_categorias').slideUp('slow');
-}
+};
 
-function guardar_edicion_categoria(element) {	
+function guardar_edicion_categoria(element) {
 	var form = $('form[data-remote-cat-e]');
 	$(element).prop('disabled', true);
 
@@ -53,6 +53,6 @@ function guardar_edicion_categoria(element) {
 			}
 		}
 	});
-	
+
 	return false;
-}
+};

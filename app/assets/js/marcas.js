@@ -11,7 +11,7 @@ function new_marca()
 		$('.modal-title-categorias').text('Crear Marcas');
 		$('.bs-modal-categorias').modal('show');
 	});
-}
+};
 
 function marca_edit(e , marca_id)
 {
@@ -26,7 +26,7 @@ function marca_edit(e , marca_id)
 				$('.edit_categorias').slideDown('slow', function() {
 				});
 			})
-			
+
 		},
 	});
-}
+};

@@ -25,7 +25,7 @@ function proveedores() {
 
 function clear_contacto_body() {
     $('.body-contactos').slideUp('slow');
-}
+};
 
 function proveedor_nuevo(e,element) {
      form = $(element);
@@ -51,7 +51,7 @@ function proveedor_nuevo(e,element) {
         }
     });
     e.preventDefault();
-}
+};
 
 function proveedor_new(e,element) {
     form = $(element);
@@ -85,7 +85,7 @@ function proveedor_new(e,element) {
     });
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 function proveedor_help() {
     $id = $("input[name='proveedor_id']").val();
@@ -107,9 +107,9 @@ function proveedor_help() {
 
 function proveedor_create() {
     $.get( "admin/proveedor/_create", function( data ) {
-        if ($(".contenedor_edicion_compras").hasClass('open_crear')) 
+        if ($(".contenedor_edicion_compras").hasClass('open_crear'))
             $(".contenedor_edicion_compras").removeClass('open_crear')
-        else 
+        else
             $(".contenedor_edicion_compras").addClass('open_crear');;
 
         if ($(".contenedor_edicion_compras").hasClass('open_actualizar')) {
@@ -130,11 +130,11 @@ function proveedor_edit() {
             data: {id: $id},
             contentType: 'application/x-www-form-urlencoded',
             success: function (data) {
-                if ($(".contenedor_edicion_compras").hasClass('open_actualizar')) 
+                if ($(".contenedor_edicion_compras").hasClass('open_actualizar'))
                     $(".contenedor_edicion_compras").removeClass('open_actualizar')
-                else 
+                else
                     $(".contenedor_edicion_compras").addClass('open_actualizar');;
-                
+
                 if ($(".contenedor_edicion_compras").hasClass('open_crear')) {
                     $(".contenedor_edicion_compras").removeClass('open_crear')
                     $(".contenedor_edicion_compras").slideToggle('slow');
@@ -171,7 +171,7 @@ function contacto_create(e,element) {
 
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 function contacto_view(element) {
     $id = $(element).attr('contacto_id');
@@ -188,7 +188,7 @@ function contacto_view(element) {
            })
         }
     });
-}
+};
 
 function contacto_view_info(element) {
     $id = $(element).attr('contacto_id');
@@ -203,7 +203,7 @@ function contacto_view_info(element) {
             });
         }
     });
-}
+};
 
 function contacto_nuevo() {
    $.get( "admin/proveedor/contacto_nuevo", function( data ) {
@@ -213,7 +213,7 @@ function contacto_nuevo() {
             });
         });
     });
-}
+};
 
 function contacto_update(e,element) {
     form = $(element);
@@ -239,7 +239,7 @@ function contacto_update(e,element) {
     });
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 function proveedor_update(e,element)
 {
@@ -262,7 +262,7 @@ function proveedor_update(e,element)
     });
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 function proveedor_actualizar(e,element)
 {
@@ -291,7 +291,7 @@ function proveedor_actualizar(e,element)
     });
     e.preventDefault();
     $('input[type=submit]', form).removeAttr('disabled');
-}
+};
 
 function proveedor_contacto_delete(element,proveedor_contacto_id)
 {
@@ -314,4 +314,4 @@ function proveedor_contacto_delete(element,proveedor_contacto_id)
             });
         }
     });
-}
+};

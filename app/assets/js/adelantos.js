@@ -8,12 +8,12 @@ function f_adelanto() {
         $('.modal-title').text('Ingresar Adelanto');
         $('.bs-modal').modal('show');
     });
-}
+};
 
 function delete_adelanto() {
     $id = $("input[name='adelanto_id']").val();;
     $url = "user/adelantos/delete_master";
-    
+
     $.confirm({
         confirm: function() {
             $.ajax({
@@ -25,7 +25,7 @@ function delete_adelanto() {
                     if (data == 'success') {
                         msg.success('Adelanto eliminado', 'Listo!')
                        $('.bs-modal').modal('hide');
-                    } 
+                    }
                     else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }

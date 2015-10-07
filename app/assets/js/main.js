@@ -68,7 +68,7 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
 function input_numeric(element)
 {
     element.value = (element.value + '').replace(/[^0-9-.]/g, '');
-}
+};
 
 function formato_precio(num) {
     num = num.toString().replace(/\Q|\,/g, '');
@@ -83,7 +83,7 @@ function formato_precio(num) {
     for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
     num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
     return ((sign) ? '' : '-') + ' ' + num + '.' + cents;
-}
+};
 
 function formato_porcentaje(num) {
     num = num.toString().replace(/\|\,/g, '');
@@ -98,7 +98,7 @@ function formato_porcentaje(num) {
     for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
     num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
     return ((sign) ? '' : '-') + '% ' + num + '.' + cents;
-}
+};
 
 function proccess_table($v) {
     $("#iSearch").val("");
@@ -118,19 +118,19 @@ function proccess_table($v) {
         $("#iSearch").focus();
         $('#example_length').prependTo("#table_length");
         $('.dt-container').show();
-        
+
         oTable = $('#example').dataTable();
         $('#iSearch').keyup(function(){
             oTable.fnFilter( $(this).val() );
         })
     }, 300);
-}
+};
 
 
 $(document).on("click", ".tableSelected tbody tr", function() {
-    if ($(this).hasClass('subtable') || $(this).hasClass('subTableChild')) {} 
+    if ($(this).hasClass('subtable') || $(this).hasClass('subTableChild')) {}
         else {
-        if ( $( this ).hasClass( "row_selected" ) ) 
+        if ( $( this ).hasClass( "row_selected" ) )
         {
             $("tr").removeClass("row_selected");
             $('.btn_edit').prop("disabled", true);
@@ -156,7 +156,7 @@ $(document).on('click', '.wclose', function(e) {
 
 
 $(document).on('click', '#sidebar-left .sidebar-menu ul li', function(e) {
-    
+
     e.preventDefault();
 
     $( "li" ).removeClass( "active" )
@@ -169,7 +169,7 @@ $(document).on('click', '#sidebar-left .sidebar-menu ul li', function(e) {
 
 
 $(document).on('click', '#sidebar-left .sidebar-menu .home', function(e) {
-    
+
     e.preventDefault();
 
     $( "li" ).removeClass( "active" )
@@ -188,7 +188,7 @@ function _create() {
         $('.modal-title').text( 'Crear ' + $('.dataTable').attr('title') );
         $('.bs-modal').modal('show');
     });
-}
+};
 
 function _create_dt() {
 
@@ -199,7 +199,7 @@ function _create_dt() {
         $('.modal-title').text( 'Crear ' + $('.dataTable').attr('title') );
         $('.bs-modal').modal('show');
     });
-}
+};
 
 function _edit() {
 
@@ -261,7 +261,7 @@ function _delete() {
 
                         msg.success('Dato eliminado', 'Listo!')
                         oTable.fnDraw();
-                        
+
                     } else {
 
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
@@ -279,10 +279,10 @@ function _delete() {
 };
 
 function _delete_dt(e) {
-    $id = $(e).closest('tr').attr('id');    
+    $id = $(e).closest('tr').attr('id');
 
     $url = $(e).attr('url') + 'delete';
-    
+
     $.confirm({
         confirm: function(){
             $.ajax({
@@ -293,7 +293,7 @@ function _delete_dt(e) {
                     if ($.trim(data) == 'success') {
                         msg.success('Dato eliminado', 'Listo!')
                         $(e).closest('tr').hide();
-                    } 
+                    }
                     else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }
@@ -318,7 +318,7 @@ function makeTable($data, $url, $title) {
     $('.dataTable').attr('title', $title);
 };
 
- 
+
 function clean_panel() {
     $('.table').html("");
     $("#table_length").html("");

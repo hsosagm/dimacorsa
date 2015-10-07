@@ -11,11 +11,11 @@ function graph_g() {
     $.get('owner/gastos/form_graph_by_date', function (data) {
         $('.dt-container').show();
         $('.table').html(data);
-    }); 
-}
+    });
+};
 
 
-function graph_v() {    
+function graph_v() {
     $.ajax({
         type: "GET",
         url: 'owner/chart/ventas',
@@ -27,8 +27,8 @@ function graph_v() {
             return $('#graph_container').html(data.view);
         }
         msg.warning(data, 'Advertencia!');
-    }); 
-}
+    });
+};
 
 
 function graph_s() {
@@ -37,8 +37,8 @@ function graph_s() {
     $.get('owner/soporte/form_graph_by_date', function (data) {
         $('.dt-container').show();
         $('.table').html(data);
-    }); 
-}
+    });
+};
 
 function chartVentasPorUsuario() {
     $.ajax({
@@ -52,8 +52,8 @@ function chartVentasPorUsuario() {
             return $('.table').html(data.view);
         }
         msg.warning(data, 'Advertencia!');
-    }); 
-}
+    });
+};
 
 function comparativaMensual() {
     $.ajax({
@@ -67,8 +67,8 @@ function comparativaMensual() {
             return $('#graph_container').html(data.view);
         }
         msg.warning(data, 'Advertencia!');
-    });  
-}
+    });
+};
 
 function proyeccionMensual() {
     $.ajax({
@@ -82,8 +82,8 @@ function proyeccionMensual() {
             return $('#graph_container').html(data.view);
         }
         msg.warning(data, 'Advertencia!');
-    });   
-}
+    });
+};
 
 function getConsultaPorCriterio(e) {
     $.ajax({
@@ -97,5 +97,5 @@ function getConsultaPorCriterio(e) {
             return $('#graph_container').html(data.view);
         }
         msg.warning(data, 'Advertencia!');
-    });   
-}
+    });
+};

@@ -23,7 +23,7 @@ function users_list() {
         makeTable(data, 'owner/user/', 'Usuario');
         $('#example').addClass('tableSelected');
     });
-}
+};
 
 
 function role_edit(element) {
@@ -36,7 +36,7 @@ function role_edit(element) {
             $(".forms").html(data);
         }
     });
-}
+};
 
 
 function profile() {
@@ -45,7 +45,7 @@ function profile() {
         $('.modal-title').text('Actualizar perfil');
         $('.bs-modal').modal('show');
     });
-}
+};
 
 function _edit_profile() {
     $id  = $('.dataTable tbody .row_selected').attr('id');
@@ -62,7 +62,7 @@ function _edit_profile() {
             $('#bs-modal-profile').modal('show');
         }
     });
-}
+};
 
 function _update_profile(e,element) {
     var form = $(element);
@@ -81,13 +81,13 @@ function _update_profile(e,element) {
     });
 
     e.preventDefault();
-}
+};
 
 function f_user_create() {
     $.get( "owner/user/create", function( data ) {
         $(".forms").html(data);
     });
-}
+};
 
 function add_user_group(element) {
     var id = $('.group_id option:selected').length;
@@ -107,7 +107,7 @@ function add_user_group(element) {
             active_tab_roles();
         }
     });
-}
+};
 
 
 function remove_role(e, element) {
@@ -132,5 +132,4 @@ function active_tab_roles() {
    $("#tab-informacion").removeClass('tab-pane fade active in');
    $("#tab-roles").addClass('tab-pane fade active in');
    $("#tab-informacion").addClass('tab-pane fade');
-}
-
+};

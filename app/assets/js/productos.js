@@ -19,7 +19,7 @@ function getInventario() {
             return $('#example').addClass('tableSelected');
         }
         msg.warning(data, 'Advertencia!');
-    }); 
+    });
 };
 
 function logs_productos() {
@@ -32,7 +32,7 @@ function view_inventario() {
     $.get( "user/productos/inventario", function( data ) {
         makeTable(data, ' ', 'Inventario');
     });
-}
+};
 
 function new_producto() {
     $.get( "admin/productos/create", function( data ) {
@@ -43,7 +43,7 @@ function new_producto() {
         $(".producto-container").show();
         $(".producto-panel").show();
     });
-}
+};
 
 function _view_existencias() {
     $id  = $('.dataTable tbody .row_selected').attr('id');
@@ -57,7 +57,7 @@ function _view_existencias() {
             $('.bs-modal').modal('show');
         }
     });
-}
+};
 
 function inventario() {
     $.get( "admin/inventario/", function( data ) {

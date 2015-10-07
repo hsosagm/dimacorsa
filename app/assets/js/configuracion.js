@@ -1,4 +1,3 @@
-
 function configurar_impresoras()
 {
     buscarImpresoras();
@@ -6,8 +5,8 @@ function configurar_impresoras()
         $('.dt-container-cierre').html(data);
         $('.dt-container').hide();
         $('.dt-container-cierre').show();
-    });  
-} 
+    });
+};
 
 function configurar_notificaciones()
 {
@@ -15,5 +14,5 @@ function configurar_notificaciones()
         $('.dt-container-cierre').html(data);
         $('.dt-container').hide();
         $('.dt-container-cierre').show();
-    }); 
-}
+    });
+};

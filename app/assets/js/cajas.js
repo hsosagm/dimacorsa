@@ -3,7 +3,7 @@ function getConsultarCajas(e) {
         makeTable(data, '/admin/cajas/', '');
         return $('#example').addClass('tableSelected');
     });
-}
+};
 
 function getMovimientosDeCaja() {
 	$.ajax({
@@ -18,7 +18,7 @@ function getMovimientosDeCaja() {
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-}
+};
 
 function corteDeCaja() {
 	$.get( "user/cajas/corteDeCaja", function( data ) {
@@ -28,7 +28,7 @@ function corteDeCaja() {
 			return $('.bs-modal').modal('show');
     	};
 	});
-}
+};
 
 function cortesDeCajaPorDia()
 {
@@ -44,7 +44,7 @@ function cortesDeCajaPorDia()
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-}
+};
 
 function getMovimientosDeCajaDt(e, cierre_caja_id) {
 	$.ajax({
@@ -60,7 +60,7 @@ function getMovimientosDeCajaDt(e, cierre_caja_id) {
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-}
+};
 
 function asignarDt() {
     $caja_id  = $('.dataTable tbody .row_selected').attr('id');
@@ -78,4 +78,4 @@ function asignarDt() {
 		}
 		msg.warning(data, 'Advertencia!');
 	});
-}
+};

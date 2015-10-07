@@ -9,12 +9,12 @@ function f_egreso() {
         $('.modal-title').text('Ingresar egreso');
         $('.bs-modal').modal('show');
     });
-}
+};
 
 function delete_egreso() {
     $id = $("input[name='egreso_id']").val();;
     $url = "user/egresos/delete_master";
-    
+
     $.confirm({
         confirm: function(){
             $.ajax({
@@ -26,7 +26,7 @@ function delete_egreso() {
                     if (data == 'success') {
                         msg.success('Egreso eliminado', 'Listo!')
                        $('.bs-modal').modal('hide');
-                    } 
+                    }
                     else {
                         msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                     }

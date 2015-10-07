@@ -1,38 +1,38 @@
 
 function ExportarCierreDelMes(tipo,fecha_completa) {
-    $fecha = fecha_completa.substring(0, 10); 
+    $fecha = fecha_completa.substring(0, 10);
     window.open('admin/cierre/ExportarCierreDelMes/'+tipo+'/'+$fecha ,'_blank');
-}
+};
 
 function ExportarCierreDelDiaPdf(e) {
     $fecha_completa = $(e).closest('tr').find("td").eq(3).html();
-    $fecha = $fecha_completa.substring(0, 10); 
+    $fecha = $fecha_completa.substring(0, 10);
     window.open('admin/cierre/ExportarCierreDelDia/pdf/'+$fecha ,'_blank');
-}
+};
 
 function ImprimirTraslado(e, id, impresora) {
     $(e).attr('disabled','disabled');
     var url = "ImprimirTraslado";
     printDocument(impresora, url, id);
-}
+};
 
 function ImprimirDescarga(e, id, impresora) {
     $(e).attr('disabled','disabled');
     var url = "ImprimirDescarga";
     printDocument(impresora, url, id);
-}
+};
 
 function ImprimirAbonoProveedor(e , id, impresora) {
     $(e).attr('disabled','disabled');
     var url = "ImprimirAbonoProveedor";
     printDocument(impresora, url, id);
-}
+};
 
 function ImprimirAbonoCliente(e , id, impresora) {
     $(e).attr('disabled','disabled');
     var url = "ImprimirAbonoCliente";
     printDocument(impresora, url, id);
-}
+};
 
 function ImprimirGarantia(e, id, impresora) {
     if ($.trim($(e).closest('tr').attr('anulada')) == 'true') {
@@ -42,14 +42,14 @@ function ImprimirGarantia(e, id, impresora) {
     $(e).attr('disabled','disabled');
     var url = "ImprimirGarantia";
     printDocument(impresora, url, id);
-}
+};
 
 function printDocument(impresora, url, id) {
     if (isLoaded()) {
         qz.findPrinter(impresora);
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
-            
+
             if (printer !== null) {
 
                 $.ajax({
@@ -69,9 +69,9 @@ function printDocument(impresora, url, id) {
                                     data: {pdf: data.pdf },
                                 }).done(function(data) { });
 
-                                return ;   
+                                return ;
                             }
-                        } 
+                        }
                         else {
                             msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
                         }
@@ -84,7 +84,7 @@ function printDocument(impresora, url, id) {
             window['qzDoneFinding'] = null;
         };
     }
-}
+};
 
 
 function imprimirCodigoBarras(e, id, impresora) {
@@ -104,7 +104,7 @@ function imprimirCodigoBarras(e, id, impresora) {
                             //$("#barcode").barcode( data["codigo"], data["tipo"], { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"]});
                             $("#barcode").show();
                             $("#barcode").JsBarcode(
-                                data["codigo"] , 
+                                data["codigo"] ,
                                 {
                                     width:  2,
                                     height: 100,
@@ -145,4 +145,4 @@ function imprimirCodigoBarras(e, id, impresora) {
             window['qzDoneFinding'] = null;
         };
     }
-}
+};

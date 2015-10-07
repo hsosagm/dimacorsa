@@ -9,7 +9,7 @@ function fopen_descarga() {
 		$(".dt-container").hide();
 		$(".form-panel").show();
 	});
-}
+};
 
 function EliminarDescarga(e , descarga_id) {
 	$(e).prop('disabled', true);
@@ -28,13 +28,13 @@ function EliminarDescarga(e , descarga_id) {
 			});
 		}
 	});
-}
+};
 
 function showDownloadsDetail(e) {
     if ($(e).hasClass("hide_detail")) {
         $(e).removeClass('hide_detail');
         $('.subtable').hide();
-    } 
+    }
     else {
         $('.hide_detail').removeClass('hide_detail');
 
@@ -47,7 +47,7 @@ function showDownloadsDetail(e) {
             getDownloadsDetail(e);
         }
     }
-}
+};
 
 function getDownloadsDetail(e) {
     $id = $(e).closest('tr').attr('id');
@@ -72,7 +72,7 @@ function getDownloadsDetail(e) {
             }
         }
     });
-}
+};
 
 function OpenDownload(e)
 {
@@ -94,7 +94,7 @@ function OpenDownload(e)
             }
         }
     });
-}
+};
 
 function FinalizarDescarga(e, descarga_id) {
 	$.confirm({
@@ -114,8 +114,8 @@ function FinalizarDescarga(e, descarga_id) {
                 msg.warning(data, 'Advertencia!');
             });
         }
-    });	
-}
+    });
+};
 
 function IngresarDescripcionDescarga( e , descarga_id) {
     $.ajax({
@@ -135,7 +135,7 @@ function IngresarDescripcionDescarga( e , descarga_id) {
     });
 
     return false;
-}
+};
 
 var serialsDetalleDescarga = [];
 
@@ -156,8 +156,8 @@ function ingresarSeriesDetalleDescarga(e, detalle_descarga_id) {
         }
         msg.warning(data, 'Advertencia!');
     });
-}
- 
+};
+
 function guardarSerieDetalleDescarga () {
     if($.trim($("#serialsDetalleDescarga").val()) != ''){
         var ingreso = true;
@@ -188,13 +188,13 @@ function guardarSerieDetalleDescarga () {
     }
     else
         msg.warning('El campo se encuentra vacio..!', 'Advertencia!');
-}
+};
 
 function eliminarSerialsDetalleDescarga(e, serie) {
     serialsDetalleDescarga.splice(serialsDetalleDescarga.indexOf(serie), 1);
     $(e).closest('tr').hide();
     $("#serialsDetalleDescarga").focus();
-}
+};
 
 function guardarSeriesDetalleDescarga(e, detalle_descarga_id) {
     $(e).prop("disabled", true);
@@ -210,4 +210,4 @@ function guardarSeriesDetalleDescarga(e, detalle_descarga_id) {
         $(e).prop("disabled", true);
         msg.warning(data, 'Advertencia!');
     });
-}
+};

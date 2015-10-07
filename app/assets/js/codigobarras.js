@@ -9,8 +9,8 @@ function settings_barcode() {
         $('.modal-title').text('Configuracion de codigo de barras');
         $('.bs-modal').modal('show');
         viewCode_barcode();
-    });  
-}
+    });
+};
 
 function viewCode_barcode() {
     var tipo=$('#tipo_barcode').val();
@@ -24,10 +24,10 @@ function viewCode_barcode() {
     }
 
     $("#live-code").barcode(codigo, tipo, {
-        barWidth:ancho, 
-        barHeight:alto, 
+        barWidth:ancho,
+        barHeight:alto,
         fontSize:letra,
         showHRI:true,
         moduleSize:5
-    });   
-}
+    });
+};
