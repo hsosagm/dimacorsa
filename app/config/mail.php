@@ -34,7 +34,7 @@
 		| stay compatible with the Postmark e-mail application by default.
 		|
 		*/
-		'port' => ConfigEmail::port(),,
+		'port' => ConfigEmail::port(),
 		/*
 		|--------------------------------------------------------------------------
 		| Global "From" Address

@@ -629,7 +629,18 @@
 
 Route::get('/test', function()
 {
-    return 'test';
+    $emails = array('leonel.madrid@hotmail.com');
+    $pathFile = public_path().'/db/prueba.sql';
+    $data = file_get_contents(public_path().'/db/prueba.sql');
+
+    Mail::queue('emails.mensaje', array('asunto' => 'sql'), function($message)
+    use($emails, $data)
+    {
+        $message->to($emails)->subject('sql');
+        $message->attachData($data, 'prueba.sql');
+    });
+
+    return 'enviado con exito...';
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
