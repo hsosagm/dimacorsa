@@ -10,25 +10,25 @@ class CompraController extends \BaseController {
 
 			if (!$compra->create_master())
 			{
-				return $compra->errors(); 
+				return $compra->errors();
 			}
 
 			$id = $compra->get_id();
-			
+
 			$compra = Compra::find($id);
 			$proveedor = Proveedor::find($compra->proveedor_id);
 			$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
 			$saldo = $this->TotalCreditoProveedor($proveedor->id);
-			
+
 			return Response::json(array(
-				'success' => true, 
+				'success' => true,
 				'detalle' => View::make('compras.detalle',compact("id"))->render(),
 				'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
 				));
 		}
 
 		return View::make('compras.create');
-	} 
+	}
 
 	public function AbrirCompraNoCompletada()
 	{
@@ -48,7 +48,7 @@ class CompraController extends \BaseController {
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
 
 		return Response::json(array(
-			'success' => true, 
+			'success' => true,
 			'form' => View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle","codigoBarra"))->render()
 			));
 
@@ -70,7 +70,7 @@ class CompraController extends \BaseController {
 				$saldo = $this->TotalCreditoProveedor($proveedor->id);
 
 				return Response::json(array(
-					'success' => true, 
+					'success' => true,
 					'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
 					));
 			}
@@ -113,11 +113,11 @@ class CompraController extends \BaseController {
 			}
 
 			$query = new DetalleCompra;
-			
+
 			if (!$query->_create())
 			{
 				return $query->errors();
-			} 
+			}
 
 
 			$codigoBarra = DB::table('printer')->select('impresora')
@@ -163,7 +163,7 @@ class CompraController extends \BaseController {
 	public function OpenModalPurchaseItemSerials()
 	{
 		$data = explode(",", Input::get('serial'));;
-		
+
 		return View::make('compras.serial', compact('data'));
 	}
 
@@ -171,7 +171,7 @@ class CompraController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
-			if ($this->SeachPaymentMethod() != null ) 
+			if ($this->SeachPaymentMethod() != null )
 				return 'no puede ingresar dos pagos con el mismo metodo..!';
 
 			if((($this->TotalPurchase() - $this->TotalPurchasePayment())*100) < (Input::get("monto")*100))
@@ -179,7 +179,7 @@ class CompraController extends \BaseController {
 
 			$pagos = new PagosCompra;
 
-			if (!$pagos->_create()) 
+			if (!$pagos->_create())
 			{
 				$pagos->errors();
 			}
@@ -199,20 +199,20 @@ class CompraController extends \BaseController {
 		$total_compra = number_format($detalle_compra->total, 2, '.', '');
 
 		return Response::json(array(
-			'success' => true, 
+			'success' => true,
 			'detalle' => View::make('compras.payment',compact('total_compra'))->render()
 			));
 	}
 
 	public function PurchasePaymentDetail()
-	{	
+	{
 		$total_pagos = number_format($this->TotalPurchasePayment(), 2, '.', '');
 		$total_compra = number_format($this->TotalPurchase(), 2, '.', '');
 		$det_pagos    = $this->TableDetailsPayments();
 
 		return Response::json( array(
 			'success' => true,
-			'detalle' => View::make('compras.payment',compact('total_pagos','total_compra','det_pagos'))->render() 
+			'detalle' => View::make('compras.payment',compact('total_pagos','total_compra','det_pagos'))->render()
 			));
 	}
 
@@ -228,8 +228,8 @@ class CompraController extends \BaseController {
 	{
 		Input::merge(array('dato' => str_replace(',', '', Input::get('dato'))));
 		$datos = array( Input::get('dato') => Input::get('dato'));
-		
-		$validaciones = array( 
+
+		$validaciones = array(
 			Input::get('dato') => array('required','numeric','min:1')
 			);
 
@@ -296,7 +296,7 @@ class CompraController extends \BaseController {
 		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
 		->get();
 
-		return $query;		
+		return $query;
 	}
 
 	public function TablePurchaseDetailsEdit($compra_id)
@@ -308,17 +308,17 @@ class CompraController extends \BaseController {
 		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
 		->get();
 
-		return $query;		
+		return $query;
 	}
 
 
-	function TableDetailsPayments()
+	public function TableDetailsPayments()
 	{
 		$pagos = PagosCompra::where('compra_id','=', Input::get('compra_id'))->get();
 
 		return $pagos;
 	}
-	
+
 	public function showPurchaseDetail()
 	{
 		$detalle = DB::table('detalle_compras')
@@ -355,7 +355,7 @@ class CompraController extends \BaseController {
 	{
 		$codigoBarra = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
-		
+
 		$detalle = $this->TablePurchaseDetails();
 
 		return Response::json(array(
@@ -377,15 +377,15 @@ class CompraController extends \BaseController {
 		}
 
 		$detalle_compra = DetalleCompra::find(Input::get('detalle_compra_id'));
-		$serials = explode(',', $detalle_compra->serials ); 
+		$serials = explode(',', $detalle_compra->serials );
 
-		if (trim($detalle_compra->serials) == null ) 
+		if (trim($detalle_compra->serials) == null )
 			$serials = [];
-		
+
 		return Response::json(array(
 			'success' => true,
 			'view'   => View::make('compras.ingresarSeriesDetalleCompra', compact('serials'))->render()
-			));
+		));
 	}
 
 	/*
@@ -411,7 +411,7 @@ class CompraController extends \BaseController {
 			"numero_documento",
 			"total",
 			"saldo"
-			);
+		);
 
 		$Search_columns = array("users.nombre", "users.apellido", "fecha_documento", "numero_documento");
 
@@ -426,9 +426,9 @@ class CompraController extends \BaseController {
 	public function ShowTableUnpaidShopping()
 	{
 		$compras = DB::table('compras')
-		->select(DB::raw("compras.fecha_documento as fecha, 
+		->select(DB::raw("compras.fecha_documento as fecha,
 			compras.created_at as  fecha_ingreso,
-			CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+			CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
 			proveedores.nombre as proveedor,
 			numero_documento,
 			compras.id as id ,
@@ -446,7 +446,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('compras.ComprasPendientesDePago', compact('compras'))->render()
-			));
+		));
 	}
 
 	public function ComprasPendientesDePago()
@@ -462,7 +462,7 @@ class CompraController extends \BaseController {
 			"completed",
 			"saldo",
 			"compras.total as total"
-			);
+		);
 
 		$Search_columns = array("users.nombre","users.apellido","fecha_documento","numero_documento");
 
@@ -498,9 +498,9 @@ class CompraController extends \BaseController {
 			proveedores.direccion as direccion,
 			sum(compras.total) as total,
 			sum(compras.saldo) as saldo_total,
-			(select sum(saldo) from compras where 
+			(select sum(saldo) from compras where
 				tienda_id = {$tienda_id} AND completed = 1 AND
-				DATEDIFF(current_date,fecha_documento) >= 30 
+				DATEDIFF(current_date,fecha_documento) >= 30
 				AND proveedor_id = proveedores.id) as saldo_vencido
 		"))
 		->join('compras', 'compras.proveedor_id', '=', 'proveedores.id')
@@ -514,21 +514,20 @@ class CompraController extends \BaseController {
 			'success' => true,
 			'table' => View::make('compras.getComprasPedientesDePago', compact('compras'))->render(),
 			'infoSaldosTotales' => $infoSaldosTotales
-			));
-
+		));
 	}
 
 	public function getComprasPendientesPorProveedor()
-	{	
+	{
 		$table = 'compras';
 
 		$columns = array(
 			"compras.id as id_compra",
-			"compras.numero_documento as factura",  
-			"compras.created_at as fecha_ingreso",  
-			"compras.fecha_documento as fecha_documento",  
-			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
-			"compras.total as total", 
+			"compras.numero_documento as factura",
+			"compras.created_at as fecha_ingreso",
+			"compras.fecha_documento as fecha_documento",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"compras.total as total",
 			"compras.saldo as saldo",
 			"DATEDIFF(current_date,fecha_documento) as dias"
 			);
@@ -546,10 +545,9 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.getComprasPendientesPorProveedor', compact('detalle'))->render()
-			));
-
+		));
 	}
-	
+
 	public function getCompraConDetalle()
 	{
 		$compra = Compra::with('detalle_compra','proveedor')->find(Input::get('compra_id'));
@@ -557,7 +555,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('compras.getCompraConDetalle', compact('compra'))->render()
-			));
+		));
 	}
 
 	public function ShowTableHistoryPayment()
@@ -575,12 +573,12 @@ class CompraController extends \BaseController {
 			"compras.numero_documento as factura",
 			"metodo_pago.descripcion as metodo_descripcion",
 			'monto'
-			);
+		);
 
 		$Searchable = array("users.nombre","users.apellido","compras.numero_documento");
 
 		$Join = "
-		JOIN compras ON (compras.id = pagos_compras.compra_id) 
+		JOIN compras ON (compras.id = pagos_compras.compra_id)
 		JOIN users ON (users.id = compras.user_id)
 		JOIN tiendas ON (tiendas.id = compras.tienda_id)
 		JOIN metodo_pago ON (metodo_pago.id = pagos_compras.metodo_pago_id)";
@@ -588,7 +586,7 @@ class CompraController extends \BaseController {
 		$where = " proveedor_id = ".Input::get('proveedor_id');
 		$where .= ' AND compras.tienda_id = '.Auth::user()->tienda_id;
 
-		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
+		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
 	}
 
 	public function ShowTableHistoryPaymentDetails()
@@ -617,8 +615,8 @@ class CompraController extends \BaseController {
 		JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)";
 
 		$where = " proveedor_id = ".Input::get('proveedor_id');
-		$where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;	
+		$where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;
 
-		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );	
+		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
 	}
-}	
+}

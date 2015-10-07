@@ -10,7 +10,7 @@ function f_coti_op() {
         $(".form-panel").show();
         $('#cliente').focus();
     });
-}
+};
 
 function ingresarProductoRapido(e, cotizacion_id) {
     $.ajax({
@@ -32,7 +32,7 @@ function ingresarProductoRapido(e, cotizacion_id) {
         }
         msg.warning(data,'Advertencia..!');
     });
-}
+};
 
 function  EliminarCotizacion(e, cotizacion_id){
     $.confirm({
@@ -52,21 +52,19 @@ function  EliminarCotizacion(e, cotizacion_id){
             });
         }
     });
-}
+};
 
 function ImprimirCotizacion(e, cotizacion_id, opcion) {
-    if ($.trim(opcion) == 'pdf') {
+    if ($.trim(opcion) == 'pdf')
         return window.open('ImprimirCotizacion/'+opcion+'/'+cotizacion_id ,'_blank');
-    }
 
     $.ajax({
         url: 'ImprimirCotizacion/'+opcion+'/'+cotizacion_id,
         type: "GET"
     }).done(function(data) {
-        if (data.success == true) {
-            msg.success(data.mensaje, 'Listo!');
-            return;
-        }
+        if (data.success == true)
+            return msg.success(data.mensaje, 'Listo!');
+
         msg.warning(data,'Advertencia..!');
     });
-}
+};

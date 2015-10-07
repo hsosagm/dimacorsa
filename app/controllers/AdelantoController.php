@@ -5,8 +5,8 @@ class AdelantoController extends \BaseController {
     public function __construct(Table $table)
     {
         $this->table = $table;
-    } 
- 
+    }
+
     public function create()
     {
         if (Input::has('_token'))
@@ -14,7 +14,7 @@ class AdelantoController extends \BaseController {
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
 
             $query = new DetalleAdelanto;
-           
+
             if ($query->_create())
             {
                 $href = 'user/adelantos/delete_detail';
@@ -28,7 +28,7 @@ class AdelantoController extends \BaseController {
         $adelanto = new Adelanto;
 
         $caja = Caja::whereUserId(Auth::user()->id)->first();
-        
+
         $data = Input::all();
         $data['caja_id'] = $caja->id;
 
@@ -44,7 +44,6 @@ class AdelantoController extends \BaseController {
         $name = 'adelanto_id';
 
         return View::make('adelantos.create', compact('id', 'message', 'name'));
-
     }
 
     public function delete()
@@ -64,4 +63,3 @@ class AdelantoController extends \BaseController {
         return 'Huvo un error al tratar de eliminar';
     }
 }
- 

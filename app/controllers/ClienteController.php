@@ -3,7 +3,7 @@
 class ClienteController extends \BaseController {
 
     public function index()
-    { 
+    {
         return Response::json(array(
             'success' => true,
             'table' => View::make('cliente.index')->render()
@@ -20,14 +20,14 @@ class ClienteController extends \BaseController {
         if(!$id) {
             $id = Input::get('id');
         }
-        
+
         $cliente = Cliente::with('tipocliente')->find($id);
 
         $query = Venta::where('cliente_id','=', $id)
         ->where('saldo', '>', 0)
         ->get();
 
-        if (!count($query) ) 
+        if (!count($query) )
         {
             $cliente['saldo_total']   = 0;
             $cliente['saldo_vencido'] = 0;
@@ -63,7 +63,7 @@ class ClienteController extends \BaseController {
 
             $data = Input::all();
 
-            if (Input::get('nit') == "") 
+            if (Input::get('nit') == "")
                 $data['nit'] = 'C/F';
             else
                 $data['nit'] = $this->limpiaNit(Input::get('nit'));
@@ -90,7 +90,7 @@ class ClienteController extends \BaseController {
 
             $data = Input::all();
 
-            if (Input::get('nit') == "") 
+            if (Input::get('nit') == "")
                 $data['nit'] = 'C/F';
             else
                 $data['nit'] = $this->limpiaNit(Input::get('nit'));
@@ -104,7 +104,7 @@ class ClienteController extends \BaseController {
         }
 
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'view' =>  View::make('cliente.create')->render()
             ));
     }
@@ -116,7 +116,7 @@ class ClienteController extends \BaseController {
         $contactos = ClienteContacto::where('cliente_id','=',Input::get('cliente_id'))->get();
 
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'view' =>  View::make('cliente.actualizarCliente',compact('cliente' , 'contactos'))->render()
             ));
     }
@@ -131,6 +131,16 @@ class ClienteController extends \BaseController {
         }
 
         return 'Error al eliminar el cliente...';
+    }
+
+    public function _edit()
+    {
+        $cliente = Cliente::find(Input::get('cliente_id'));
+
+        return Response::json(array(
+            'success' => true,
+            'view' =>  View::make('cliente._edit', compact('cliente'))->render()
+        ));
     }
 
     public function info()
@@ -150,9 +160,9 @@ class ClienteController extends \BaseController {
         ClienteContacto::destroy(Input::get('cliente_contacto_id'));
 
         $lista = View::make('cliente.contactos_list',compact('cliente_id'))->render();
-        
+
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'lista' => $lista
             ));
 
@@ -160,7 +170,7 @@ class ClienteController extends \BaseController {
 
     public function contacto_create()
     {
-        
+
         $cliente_id = Input::get('cliente_id');
 
         $contacto = new ClienteContacto;
@@ -174,9 +184,9 @@ class ClienteController extends \BaseController {
         }
 
         $lista = View::make('cliente.contactos_list',compact('cliente_id'))->render();
-        
+
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'lista' => $lista
             ));
 
@@ -199,7 +209,7 @@ class ClienteController extends \BaseController {
             return Response::json(array(
                 'success' => true,
                  'lista' => $lista
-                 )); 
+                 ));
         }
 
         $contacto = ClienteContacto::find(Input::get('id'));
@@ -220,7 +230,7 @@ class ClienteController extends \BaseController {
             $cliente = Cliente::find(Input::get('id'));
               $data = Input::all();
 
-            if (Input::get('nit') == "") 
+            if (Input::get('nit') == "")
                 $data['nit'] = 'C/F';
             else
                 $data['nit'] = $this->limpiaNit(Input::get('nit'));
@@ -264,7 +274,7 @@ class ClienteController extends \BaseController {
 
         $columns = array(
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-            "ventas.created_at as fecha", 
+            "ventas.created_at as fecha",
             "ventas.id as idventa",
             "total",
             "saldo"
@@ -276,7 +286,7 @@ class ClienteController extends \BaseController {
 
         $where = "ventas.cliente_id = ". Input::get('cliente_id');
 
-        echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );   
+        echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
 
     public function getInfoCliente()
@@ -287,7 +297,7 @@ class ClienteController extends \BaseController {
 
         $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
-        if (!count($query) ) 
+        if (!count($query) )
         {
             $cliente = Cliente::find(Input::get('cliente_id'));
 
@@ -324,7 +334,7 @@ class ClienteController extends \BaseController {
         $info = $cliente . $tab . " Saldo total &nbsp;". f_num::get($saldo_total) . $tab ." Saldo vencido &nbsp;" .f_num::get($saldo_vencido);
 
         return Response::json(array(
-            'success'       => true, 
+            'success'       => true,
             'info'          => $info,
             'saldo_total'   => $saldo_total,
             'saldo_vencido' => $saldo_vencido
@@ -338,7 +348,7 @@ class ClienteController extends \BaseController {
         ->select(DB::raw("ventas.id,
             ventas.total,
             ventas.created_at as fecha,
-            CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+            CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
             clientes.nombre as cliente,
             saldo"))
         ->join('users', 'ventas.user_id', '=', 'users.id')
@@ -367,7 +377,7 @@ class ClienteController extends \BaseController {
         echo TableSearch::get($table, $columns, $Searchable);
     }
 
-    function limpiaNit($nit) 
+    function limpiaNit($nit)
     {
         return  preg_replace('/[^A-Za-z0-9]/', '', strtoupper($nit));
     }
@@ -376,8 +386,8 @@ class ClienteController extends \BaseController {
     {
         $abonosVentas = DB::table('abonos_ventas')
             ->select(DB::raw("abonos_ventas.id,
-                abonos_ventas.created_at as fecha, 
-                CONCAT_WS(' ',users.nombre,users.apellido) as usuario, 
+                abonos_ventas.created_at as fecha,
+                CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
                 metodo_pago.descripcion as metodoPago,
                 abonos_ventas.monto,
                 observaciones"))

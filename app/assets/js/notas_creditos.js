@@ -25,7 +25,7 @@ function postFormSeleccionarTipoDeNotaDeCredito() {
             }
             return msg.warning(data, 'Advertencia!');
         });
-        
+
         return;
     }
 
@@ -68,6 +68,41 @@ function EliminarDetalleNotaCreditoAdelanto(e, adelanto_nota_credito_id) {
             msg.success('Detalle Eliminado..', 'Listo!');
             return $('.body-detail').html(data.table);
         }
+        msg.warning(data, 'Advertencia!');
+        $(e).prop('disabled', false)
+    });
+};
+
+function crearClienteNotaCredito() {
+    if ($('.formCrearCliente').attr('status') == 0) {
+        $('.formCrearCliente').attr('status', 1);
+        $('.formCrearCliente').slideDown('slow');
+    }
+    else {
+        $('.formCrearCliente').attr('status', 0);
+        $('.formCrearCliente').slideUp('slow');
+    }
+
+};
+
+function guardarClienteNuevoNotaCredito(e) {
+    $(e).prop('disabled', true)
+
+    $.ajax({
+        type: "POST",
+        url: '/user/cliente/create',
+        data: $('#formCrearCliente').serialize(),
+    }).done(function(data) {
+        if (data.success == true) {
+            $('#cliente').val(data.info.nombre+' '+data.info.direccion);
+            $('#cliente_id').val(data.info.id);
+            $('.notaNotaCredito').focus();
+            $('.formCrearCliente').attr('status', 0);
+            $('.formCrearCliente').slideUp('slow');
+            $('.formCrearCliente').trigger('reset');
+            return msg.success('Cliente Guardado..', 'Listo!');
+        }
+
         msg.warning(data, 'Advertencia!');
         $(e).prop('disabled', false)
     });

@@ -31,7 +31,7 @@ class CajaController extends \BaseController
             {
                 return $cierre->errors();
             }
-			
+
             return 'success';
         }
 
@@ -128,7 +128,7 @@ class CajaController extends \BaseController
     }
 
     // funcion cuando la tabla si tiene el campo tienda id
-    function query( $tabla , $campo , $data )
+    public function query( $tabla , $campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -143,7 +143,7 @@ class CajaController extends \BaseController
     }
 
     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en plural
-    function _query( $tabla ,$tabla_master, $campo , $data )
+    public function _query( $tabla ,$tabla_master, $campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -158,7 +158,7 @@ class CajaController extends \BaseController
     }
 
     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en singular
-    function __query( $tabla ,$tabla_master, $campo , $data )
+    public function __query( $tabla ,$tabla_master, $campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -174,7 +174,7 @@ class CajaController extends \BaseController
     }
 
     //funcion cuando la tabla master tiene nombre separados y tambien su foranea
-    function ___query( $tabla ,$tabla_master, $foranea ,$campo , $data )
+    public function ___query( $tabla ,$tabla_master, $foranea ,$campo , $data )
     {
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
@@ -189,7 +189,7 @@ class CajaController extends \BaseController
         return $this->llenar_arreglo($Query);
     }
 
-    function llenar_arreglo($Query)
+    public function llenar_arreglo($Query)
     {
         $arreglo_ordenado = array(
             'titulo'  => '',
@@ -224,7 +224,7 @@ class CajaController extends \BaseController
         return $arreglo_ordenado;
     }
 
-    function corteDeCaja()
+    public function corteDeCaja()
     {
         if ( Input::has('_token') )
         {

@@ -2,7 +2,6 @@
 
 class BaseController extends Controller {
 
-
     public function getModel()
     {
 		$class = get_class($this);
@@ -10,14 +9,12 @@ class BaseController extends Controller {
 	    return new $model;
     }
 
-
     public function getView()
     {
 		$class = get_class($this);
 	    $model = str_replace('Controller', "", $class);
         return strtolower($model);
     }
-
 
 	public function create()
     {
@@ -35,7 +32,6 @@ class BaseController extends Controller {
 
         return View::make($this->getView().'.create');
     }
-
 
     public function edit()
     {
@@ -55,7 +51,6 @@ class BaseController extends Controller {
 
     	return View::make($this->getView().'.edit', compact('model'));
     }
-
 
     public function delete()
     {

@@ -27,9 +27,9 @@ class ConfiguracionController extends \BaseController {
 			$correos = Notificacion::where('tienda_id', '=', Auth::user()->tienda_id)->get();
 
 			return Response::json(array(
-				'success' => true, 
-				'table' => View::make('configuracion.listCorreos',compact('correos'))->render() 
-				));
+				'success' => true,
+				'table' => View::make('configuracion.listCorreos',compact('correos'))->render()
+			));
 		}
 
 		$correos = Notificacion::where('tienda_id', '=', Auth::user()->tienda_id)->get();
@@ -39,7 +39,7 @@ class ConfiguracionController extends \BaseController {
 	public function eliminarNotificacion()
 	{
 		$notificacion = Notificacion::find(Input::get('id'));
-		
+
 		if ($notificacion->delete())
             return 'success';
 	}
@@ -49,7 +49,7 @@ class ConfiguracionController extends \BaseController {
 		$impresoras = explode(",",substr($im, 0, -1));
 		$val = array();
 
-		for ($i=0; $i < count($impresoras); $i++) { 
+		for ($i=0; $i < count($impresoras); $i++) {
 			$val[$impresoras[$i]] = $impresoras[$i];
 		}
 
@@ -62,15 +62,15 @@ class ConfiguracionController extends \BaseController {
 			'factura'     => $factura ,
 			'garantia' 	  => $garantia ,
 			'comprobante' => $comprobante ,
-			'codigoBarra' => $codigoBarra 
-			));
+			'codigoBarra' => $codigoBarra
+		));
 	}
 
 	public function saveImpresora()
 	{
 		if (Session::token() == Input::get('_token'))
-		{	
-			if (Input::has('factura')) 
+		{
+			if (Input::has('factura'))
 			{
 				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','factura')->delete();
 				DB::table('printer')->insert(array(
@@ -79,7 +79,7 @@ class ConfiguracionController extends \BaseController {
 				return 'success';
 			}
 
-			else if (Input::has('garantia')) 
+			else if (Input::has('garantia'))
 			{
 				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','garantia')->delete();
 				DB::table('printer')->insert(array(
@@ -88,7 +88,7 @@ class ConfiguracionController extends \BaseController {
 				return 'success';
 			}
 
-			else if (Input::has('comprobante')) 
+			else if (Input::has('comprobante'))
 			{
 				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','comprobante')->delete();
 				DB::table('printer')->insert(array(
@@ -97,7 +97,7 @@ class ConfiguracionController extends \BaseController {
 				return 'success';
 			}
 
-			else if (Input::has('codigoBarra')) 
+			else if (Input::has('codigoBarra'))
 			{
 				DB::table('printer')->where('tienda_id', '=', Auth::user()->tienda_id)->where('nombre','=','codigoBarra')->delete();
 				DB::table('printer')->insert(array(

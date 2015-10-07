@@ -9,7 +9,7 @@
 
 	<div class="row">
 		<div class="col-md-12 infoCliente" align="center">
-			{{ $cliente->nombre }}
+			{{ $cliente->nombre.' '.$cliente->direccion }}
 		</div>
 		<div class="col-md-12" align="center">
 			{{ Input::get('nota') }}
@@ -23,17 +23,18 @@
 
 	<div class="row" style="padding-top:10px; border-top:1px solid #C8C8C8;">
 		<div class="col-md-6" style="padding-top:5px">
-			<label class="col-md-4">Monto:</label>
-			<div class="col-md-8">
-				<input type="text" name="monto" class="form-control">
+			<div class="col-md-11">
+				<input type="text" name="monto" class="form-control" placeholder="Monto">
 			</div>
 		</div>
-		<div class="col-md-6">
-			<label class="col-md-4">M. Pago:</label>
-			<div class="col-md-8">
+		<div class="col-md-5">
+			<div class="col-md-11">
 				{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->where('id','!=',6)->where('id','!=',7)
 	         	->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
 			</div>
+		</div>
+		<div class="col-md-1">
+			<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
 		</div>
 	</div>
 

@@ -57,6 +57,7 @@ class CotizacionController extends \BaseController {
 				$producto = Producto::find(Input::get('producto_id'));
 				$data['descripcion'] = $producto->descripcion;
 			}
+
 			else
 			{
 				$data['producto_id'] = 0;
@@ -179,7 +180,6 @@ class CotizacionController extends \BaseController {
 		}
 
 		$emails = array($cotizacion->cliente->email);
-
 
 		if (!filter_var($cotizacion->cliente->email, FILTER_VALIDATE_EMAIL))
 			return 'el cliente ingresado no tiene Correo Electronico Valido...!';
