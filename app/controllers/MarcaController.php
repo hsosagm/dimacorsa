@@ -25,10 +25,10 @@ class MarcaController extends BaseController {
                     'model' => 'Marca' ,
                     'nombre' => $marca->nombre ,
                     'input' => 'marca_id' ,
-                    'id' => $id 
+                    'id' => $id
                 );
             }
-            
+
             return $marcas->errors();
     	}
 
@@ -37,7 +37,6 @@ class MarcaController extends BaseController {
 
     public function edit()
     {
-        
         if (Input::has('_token'))
         {
             $marca = Marca::find(Input::get('id'));
@@ -51,13 +50,13 @@ class MarcaController extends BaseController {
             $marca = Marca::find(Input::get('id'));
 
             return array(
-                    'success' => true ,
-                    'lista' => $lista ,
-                    'model' => 'Marca' ,
-                    'nombre' => $marca->nombre ,
-                    'input' => 'marca_id' ,
-                    'id' => Input::get('id') 
-                );
+                'success' => true ,
+                'lista' => $lista ,
+                'model' => 'Marca' ,
+                'nombre' => $marca->nombre ,
+                'input' => 'marca_id' ,
+                'id' => Input::get('id')
+            );
         }
 
         $marca = Marca::find(Input::get('marca_id'));

@@ -14,9 +14,9 @@ class ExportarController extends \BaseController {
                 clientes.direccion as direccion,
                 sum(ventas.total) as total,
                 sum(ventas.saldo) as saldo_total,
-                (select sum(saldo) from ventas where 
+                (select sum(saldo) from ventas where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, created_at) >= 30 
+                    DATEDIFF(current_date, created_at) >= 30
                     AND cliente_id = clientes.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.cliente_id', '=', 'clientes.id')
@@ -28,7 +28,7 @@ class ExportarController extends \BaseController {
             ->get();
 
         $data['ventas'] = $ventas;
-        $data['orientacion'] = "landscape"; 
+        $data['orientacion'] = "landscape";
         $data['tipo'] = $tipo;
         $data['titulo'] = "Ventas_Pendientes_de_Pago_Clientes_".Carbon::now();
 
@@ -42,12 +42,11 @@ class ExportarController extends \BaseController {
 
     public function exportarEstadoDeCuentaPorCliente($tipo)
     {
-
         $ventas = DB::table('ventas')
             ->select(
-                DB::raw("ventas.created_at as fecha_ingreso"),  
-                DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"), 
-                DB::raw("ventas.total as total"), 
+                DB::raw("ventas.created_at as fecha_ingreso"),
+                DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"),
+                DB::raw("ventas.total as total"),
                 DB::raw("ventas.saldo as saldo"),
                 DB::raw("DATEDIFF(current_date,ventas.created_at) as dias"))
             ->join('users','users.id','=','ventas.user_id')
@@ -60,7 +59,7 @@ class ExportarController extends \BaseController {
         $cliente = Cliente::find(Input::get('cliente_id'));
 
         $data['titulo'] = "Ventas_pendietes_de_pago_del_cliente".$cliente->nombre;
-        $data['orientacion'] = "landscape"; 
+        $data['orientacion'] = "landscape";
         $data['tipo'] = $tipo;
         $data['cliente'] = $cliente->nombre;
 
@@ -84,9 +83,9 @@ class ExportarController extends \BaseController {
                 tiendas.direccion as tienda,
                 sum(ventas.total) as total,
                 sum(ventas.saldo) as saldo_total,
-                (select sum(saldo) from ventas where 
+                (select sum(saldo) from ventas where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, created_at) >= 30 
+                    DATEDIFF(current_date, created_at) >= 30
                     AND user_id = users.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.user_id', '=', 'users.id')
@@ -98,7 +97,7 @@ class ExportarController extends \BaseController {
             ->get();
 
         $data['ventas'] = $ventas;
-        $data['orientacion'] = "landscape"; 
+        $data['orientacion'] = "landscape";
         $data['tipo'] = $tipo;
         $data['titulo'] = "Venta_ Pendientes_de_Pago_De_Usuarios".Carbon::now();
 
@@ -111,9 +110,9 @@ class ExportarController extends \BaseController {
     {
         $ventas = DB::table('ventas')
             ->select(
-                DB::raw("ventas.created_at as fecha_ingreso"),  
-                DB::raw("clientes.nombre as cliente"), 
-                DB::raw("ventas.total as total"), 
+                DB::raw("ventas.created_at as fecha_ingreso"),
+                DB::raw("clientes.nombre as cliente"),
+                DB::raw("ventas.total as total"),
                 DB::raw("ventas.saldo as saldo"),
                 DB::raw("DATEDIFF(current_date,ventas.created_at) as dias"))
             ->join('clientes','clientes.id','=','ventas.cliente_id')
@@ -126,7 +125,7 @@ class ExportarController extends \BaseController {
         $user = User::find(Input::get('user_id'));
 
         $data['titulo'] = "Ventas_pendietes_de_pago_del_Usuario_".$user->nombre.' '.$user->apellido;
-        $data['orientacion'] = "landscape"; 
+        $data['orientacion'] = "landscape";
         $data['tipo'] = $tipo;
         $data['usuario'] = $user->nombre.' '.$user->apellido;
 
@@ -134,13 +133,13 @@ class ExportarController extends \BaseController {
 
         if ($tipo == 'pdf')
             $data['orientacion'] = "portrait";
-         
+
         return $this->exportarExel($data, $vista);
     }
 
     public function exportarExel($data, $vista)
     {
-        Excel::create($data['titulo'], function($excel) use($data, $vista) 
+        Excel::create($data['titulo'], function($excel) use($data, $vista)
         {
             $excel->setTitle($data['titulo']);
             $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
@@ -148,7 +147,7 @@ class ExportarController extends \BaseController {
             $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
             $excel->setSubject('Click');
 
-            $excel->sheet('datos', function($hoja) use($data, $vista) 
+            $excel->sheet('datos', function($hoja) use($data, $vista)
             {
                 $hoja->setOrientation($data['orientacion']);
                 $hoja->loadView('exportar.'.$vista, array('data' => $data));

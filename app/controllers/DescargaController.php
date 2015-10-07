@@ -3,9 +3,9 @@
 class DescargaController extends BaseController {
 
     public function create()
-    { 
+    {
         if (Input::has('_token'))
-        {    
+        {
             $consultar = DetalleDescarga::where('descarga_id','=',Input::get('descarga_id'))
             ->where('producto_id','=',Input::get('producto_id'))->get();
 
@@ -15,7 +15,7 @@ class DescargaController extends BaseController {
             $existencia = Existencia::where('producto_id','=',Input::get('producto_id'))
             ->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
-            if ($existencia->existencia < Input::get('cantidad')) 
+            if ($existencia->existencia < Input::get('cantidad'))
                 return 'No puede descargar mas de la Existencia';
 
             $producto = Producto::find(Input::get('producto_id'));
@@ -40,7 +40,7 @@ class DescargaController extends BaseController {
 
                 $detalle = $this->consulta_detalle_descargas();
 
-                return Response::json(array('success' => true, 
+                return Response::json(array('success' => true,
                     'table' => View::make('descargas.detalle',compact('detalle'))->render() ));
                 }
 
@@ -60,7 +60,6 @@ class DescargaController extends BaseController {
         ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
         return View::make('descargas.create', compact('id', 'comprobante'));
-
     }
 
     public function finalizarDescarga()
@@ -68,7 +67,7 @@ class DescargaController extends BaseController {
         $detalle = DetalleDescarga::select(DB::raw('sum(cantidad*precio) as total'))
         ->where('descarga_id', '=', Input::get('descarga_id'))->first();
 
-        if ($detalle->total == null) 
+        if ($detalle->total == null)
             return 'La descarga no se puede finalizar porque no tiene productos...';
 
         $descarga = Descarga::find(Input::get('descarga_id'));
@@ -80,41 +79,40 @@ class DescargaController extends BaseController {
 
 
     public function descripcion()
-    { 
+    {
         if (Input::has('_token'))
-        {   
+        {
             $descarga = Descarga::find(Input::get('descarga_id'));
             $descarga->descripcion = trim(Input::get('descripcion'));
 
            if( $descarga->save())
                 return trim('success');
         }
-        
+
         $descarga = Descarga::find(Input::get('descarga_id'));
 
-        return Response::json(array('success' => true, 
-            'data' => View::make('descargas.descripcion',compact('descarga'))->render() 
+        return Response::json(array('success' => true,
+            'data' => View::make('descargas.descripcion',compact('descarga'))->render()
         ));
     }
 
     public function delete()
-    {   
+    {
         $detalle = DetalleDescarga::where('descarga_id' , '=' , Input::get('descarga_id'))->get();
 
-        foreach ($detalle as $dt) 
+        foreach ($detalle as $dt)
         {
             $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
             ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
 
             $existencia->existencia = $existencia->existencia + $dt->cantidad ;
 
-            $existencia->save();  
+            $existencia->save();
         }
 
         Descarga::destroy(Input::get('descarga_id'));
 
         return 'success';
-
     }
 
     public function eliminar_detalle()
@@ -143,7 +141,7 @@ class DescargaController extends BaseController {
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
-        return $query;      
+        return $query;
     }
 
     public function ImprimirDescarga()
@@ -179,8 +177,8 @@ class DescargaController extends BaseController {
         ->select(array(
             'detalle_descargas.id',
             'descarga_id', 'producto_id',
-            'cantidad', 
-            'precio', 
+            'cantidad',
+            'precio',
             DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, (cantidad * precio) AS total') ))
         ->where('descarga_id', Input::get('descarga_id'))
         ->join('productos', 'detalle_descargas.producto_id', '=', 'productos.id')
@@ -190,7 +188,7 @@ class DescargaController extends BaseController {
         return $detalle;
     }
 
-    public function  OpenDownload() 
+    public function  OpenDownload()
     {
         $descarga_id = Input::get('descarga_id');
 
@@ -222,14 +220,14 @@ class DescargaController extends BaseController {
         }
 
         $detalle_descarga = DetalleDescarga::find(Input::get('detalle_descarga_id'));
-        $serials = explode(',', $detalle_descarga->serials ); 
+        $serials = explode(',', $detalle_descarga->serials );
 
-        if (trim($detalle_descarga->serials) == null ) 
+        if (trim($detalle_descarga->serials) == null )
             $serials = [];
-        
+
         return Response::json(array(
             'success' => true,
             'view'   => View::make('descargas.ingresarSeriesDetalleDescarga', compact('serials'))->render()
         ));
     }
-} 
+}

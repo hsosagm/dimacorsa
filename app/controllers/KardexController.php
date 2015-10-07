@@ -8,8 +8,8 @@ class KardexController extends \BaseController {
 
         $columns = array(
             "kardex.created_at as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
-            "kardex_transaccion.nombre as nombre", 
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "kardex_transaccion.nombre as nombre",
             "evento",
             "cantidad",
             "existencia",
@@ -24,7 +24,7 @@ class KardexController extends \BaseController {
 
         $where = " DATE_FORMAT(kardex.created_at, '%Y-%m') = DATE_FORMAT(current_date, '%Y-%m') ";
 
-        if (Input::get('fecha_inicial') != null && Input::get('fecha_final') != null) 
+        if (Input::get('fecha_inicial') != null && Input::get('fecha_final') != null)
         {
             $where  = "DATE_FORMAT(kardex.created_at, '%Y-%m-%d') >= DATE_FORMAT('".Input::get('fecha_inicial')."', '%Y-%m-%d')";
             $where .= " AND DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('".Input::get('fecha_final')."', '%Y-%m-%d')";
@@ -41,6 +41,7 @@ class KardexController extends \BaseController {
             'table'   => View::make('kardex.getKardex', compact('kardex'))->render()
         ));
 	}
+
     /*******************************************************************
     Inicio Exportar Kardex
     *******************************************************************/
@@ -48,8 +49,8 @@ class KardexController extends \BaseController {
     {
         $kardex = DB::table('kardex')
         ->select("kardex.created_at as fecha",
-            DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"), 
-            DB::raw("kardex_transaccion.nombre as transaccion"), 
+            DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"),
+            DB::raw("kardex_transaccion.nombre as transaccion"),
             "evento","cantidad", "existencia", "costo", "costo_promedio",
             DB::raw("(costo * cantidad) as total_movimiento"),
             DB::raw("(costo_promedio * existencia) as total_acumulado"))
@@ -65,10 +66,10 @@ class KardexController extends \BaseController {
 
         if (trim($tipo) == 'pdf') {
             $pdf = PDF::loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto,  'tipo' =>  $tipo))->setPaper('letter')->setOrientation('landscape');
-            return $pdf->stream('Kardex.pdf'); 
+            return $pdf->stream('Kardex.pdf');
         }
 
-        Excel::create('Kardex', function($excel) use($kardex, $producto, $tipo) 
+        Excel::create('Kardex', function($excel) use($kardex, $producto, $tipo)
         {
             $excel->setTitle('Kardex');
             $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
@@ -76,7 +77,7 @@ class KardexController extends \BaseController {
             $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
             $excel->setSubject('Click');
 
-            $excel->sheet('datos', function($hoja) use($kardex, $producto , $tipo) 
+            $excel->sheet('datos', function($hoja) use($kardex, $producto , $tipo)
             {
                 $hoja->setOrientation('landscape');
                 $hoja->loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto, 'tipo' =>  $tipo));
@@ -88,7 +89,6 @@ class KardexController extends \BaseController {
     Fin  Exportar Kardex
     *******************************************************************/
 
-
     /*******************************************************************
     Inicio Consultas de Kardex
     *******************************************************************/
@@ -98,20 +98,20 @@ class KardexController extends \BaseController {
         $producto_id = Input::get('producto_id');
 
         if (Input::has('fecha_inicial')) {
-            $fecha_inicial = Input::get('fecha_inicial'); 
+            $fecha_inicial = Input::get('fecha_inicial');
             $fecha_final = Input::get('fecha_final');
             $consulta = 'fechas';
         }
         else {
             $fecha_inicial = Carbon::now()->startOfMonth();
         }
-        
+
         return View::make('kardex.getKardexPorFecha',compact('consulta','fecha_inicial','fecha_final','producto_id'))->render();
     }
 
     public function DtKardexPorFecha($consulta)
     {
-        if ($consulta == 'mes') 
+        if ($consulta == 'mes')
             echo $this->consultaKardex('%Y-%m');
         else if ($consulta == 'fechas')
             echo $this->consultaKardex(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -123,8 +123,8 @@ class KardexController extends \BaseController {
 
          $columns = array(
             "kardex.created_at as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
-            "kardex_transaccion.nombre as nombre", 
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "kardex_transaccion.nombre as nombre",
             "evento",
             "cantidad",
             "existencia",
@@ -139,7 +139,7 @@ class KardexController extends \BaseController {
 
         $where = "DATE_FORMAT(kardex.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-        if ($fecha_inicial != null && $fecha_final != null) 
+        if ($fecha_inicial != null && $fecha_final != null)
         {
             $where  = "DATE_FORMAT(kardex.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
             $where .= " AND DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
@@ -147,7 +147,7 @@ class KardexController extends \BaseController {
 
         $where .= " AND kardex.tienda_id =".Auth::user()->tienda_id;
         $where .= " AND kardex.producto_id =".Input::get('producto_id');
-        
+
         $Join = "JOIN users ON (users.id = kardex.user_id) ";
         $Join .= "JOIN kardex_transaccion ON (kardex_transaccion.id = kardex_transaccion_id) ";
 

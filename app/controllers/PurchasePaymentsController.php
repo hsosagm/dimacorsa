@@ -6,7 +6,7 @@ class PurchasePaymentsController extends \BaseController {
 	{
 		$detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('id'))->get();
 
-        foreach ($detalle as $key => $dt) 
+        foreach ($detalle as $key => $dt)
         {
             $this->ReturnBalancePurchase($dt->compra_id , $dt->monto);
         }
@@ -54,7 +54,7 @@ class PurchasePaymentsController extends \BaseController {
 
             $monto = Input::get('monto');
 
-			foreach ($compras as $compra) 
+			foreach ($compras as $compra)
 			{
 				$detalleAbono = new DetalleAbonosCompra;
 			    $detalleAbono->abonos_compra_id = $abonos_compra_id;
@@ -84,13 +84,14 @@ class PurchasePaymentsController extends \BaseController {
 			        ));
 				}
 			}
-			    $detalle = $this->BalanceDetails($abonos_compra_id);
-			     $comprobante = DB::table('printer')->select('impresora')
-					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
-		        return Response::json(array(
-		            'success' => true,
-		            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id', 'comprobante'))->render()
-		        ));
+		    $detalle = $this->BalanceDetails($abonos_compra_id);
+		    $comprobante = DB::table('printer')->select('impresora')
+				->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
+			return Response::json(array(
+	            'success' => true,
+	            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id', 'comprobante'))->render()
+	        ));
 		}
 
 		$proveedor_id = Input::get('proveedor_id');
@@ -98,7 +99,7 @@ class PurchasePaymentsController extends \BaseController {
         $data =  $this->TotalCredito();
         $saldo_vencido = $data['saldo_vencido'];
         $saldo_total = $data['saldo_total'];
-        
+
         return Response::json(array(
             'success' => true,
             'form' => View::make('compras.payments.formPayments', compact('saldo_total', 'saldo_vencido', 'proveedor_id'))->render()
@@ -111,8 +112,8 @@ class PurchasePaymentsController extends \BaseController {
 		$table = 'compras';
 
 		$columns = array(
-			"compras.id", 
-			"compras.created_at as fecha", 
+			"compras.id",
+			"compras.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"CONCAT_WS(' ',proveedores.nombre) as proveedor",
 			"numero_documento",
@@ -178,12 +179,12 @@ class PurchasePaymentsController extends \BaseController {
     }
 
 
-    //funcion para eliminar el abono 
+    //funcion para eliminar el abono
     public function eliminarAbono()
     {
         $detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('abonos_compra_id'))->get();
 
-        foreach ($detalle as $key => $dt) 
+        foreach ($detalle as $key => $dt)
         {
             $this->ReturnBalancePurchase($dt->compra_id , $dt->monto);
         }
@@ -199,36 +200,35 @@ class PurchasePaymentsController extends \BaseController {
 		$update->save();
     }
 
-
     /* Seccion de Abonos Por Compra */
-
     public function abonosComprasPorSeleccion()
     {
-
 		$ids_compra = explode(',', Input::get('array_ids_compras'));
 
-    	if (empty(Input::get('array_ids_compras'))) 
+    	if (empty(Input::get('array_ids_compras')))
     	{
     		return 'Seleccione almenos una compra para realizar esata accion';
     	}
 
-    	$data = array('proveedor_id' => Input::get('proveedor_id'),
-    				'metodo_pago_id' => Input::get('metodo_pago_id'),
-					'monto' => Input::get('monto'),
-					'observaciones' => Input::get('observaciones')  );
+    	$data = array(
+			'proveedor_id' => Input::get('proveedor_id'),
+			'metodo_pago_id' => Input::get('metodo_pago_id'),
+			'monto' => Input::get('monto'),
+			'observaciones' => Input::get('observaciones')
+		);
 
     	$abono = new AbonosCompra;
 
-		if (!$abono->create_master($data)) 
-		{   
+		if (!$abono->create_master($data))
+		{
 			return $abono->errors();
 		}
 
 		$abonos_compra_id = $abono->get_id();
 		$total = 0;
 
-    	for ($i=0; $i < count($ids_compra) ; $i++) 
-    	{ 
+    	for ($i=0; $i < count($ids_compra) ; $i++)
+    	{
     		$compra = Compra::find($ids_compra[$i]);
 
             if (!$compra) {
@@ -243,11 +243,11 @@ class PurchasePaymentsController extends \BaseController {
 
 			$detalle = new DetalleAbonosCompra;
 
-			if (!$detalle->_create($data_detalle)) 
+			if (!$detalle->_create($data_detalle))
 			{
 				return $detalle->errors();
 			}
-   				
+
    			$compra->saldo = 0.00 ;
 			$compra->save();
     	}
@@ -279,6 +279,6 @@ class PurchasePaymentsController extends \BaseController {
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
         return array('saldo_total' => $saldo_total->total , 'saldo_vencido' => $saldo_vencido->total );
-    } 
- 
+    }
+
 }

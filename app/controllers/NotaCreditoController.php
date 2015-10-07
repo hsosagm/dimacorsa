@@ -17,7 +17,7 @@ class NotaCreditoController extends \BaseController {
 
             if (!$notaCredito->create_master($data))
             {
-                return $notaCredito->errors(); 
+                return $notaCredito->errors();
             }
 
             $nota_credito_id = $notaCredito->get_id();
@@ -26,7 +26,7 @@ class NotaCreditoController extends \BaseController {
             return Response::json(array(
                 'success' => true,
                 'detalle' => View::make('notas_creditos.detalle', compact('nota_credito_id', 'cliente'))->render()
-                ));
+            ));
         }
 
         return View::make('notas_creditos.create');
@@ -39,16 +39,16 @@ class NotaCreditoController extends \BaseController {
             $verificar = AdelantoNotaCredito::where('metodo_pago_id', '=', Input::get('metodo_pago_id'))
             ->where('nota_credito_id', '=', Input::get('nota_credito_id'))->get();
 
-            if (count($verificar)) 
+            if (count($verificar))
                 return 'ya a ingresado ese metodo de pago en este adelanto...!';
-            
+
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
 
             $notaCreditoAdelanto = new AdelantoNotaCredito;
 
             if (!$notaCreditoAdelanto->_create())
             {
-                return $notaCreditoAdelanto->errors(); 
+                return $notaCreditoAdelanto->errors();
             }
 
             $detalle = AdelantoNotaCredito::where('nota_credito_id', '=', Input::get('nota_credito_id'))->get();
@@ -56,7 +56,7 @@ class NotaCreditoController extends \BaseController {
             return Response::json(array(
                 'success' => true,
                 'table' => View::make('notas_creditos.detalle_body', compact('detalle'))->render()
-                ));
+            ));
         }
 
         return View::make('notas_creditos.create');
@@ -69,7 +69,6 @@ class NotaCreditoController extends \BaseController {
         $adelanto->delete();
 
         $detalle = AdelantoNotaCredito::where('nota_credito_id', '=', $nota_credito_id )->get();
-
 
         return Response::json(array(
             'success' => true,
@@ -94,7 +93,7 @@ class NotaCreditoController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'table' => View::make('notas_creditos.consultarNotasDeCreditoCliente', compact('data'))
-            ));
+        ));
     }
 
     public function getFormSeleccionarTipoDeNotaDeCredito()
@@ -105,7 +104,6 @@ class NotaCreditoController extends \BaseController {
     public function getFormMetodoPagoNotaDeCredito()
     {
         $venta = Venta::find(Input::get('venta_id'));
-
         return  View::make('notas_creditos.formMetodoPagoNotaDeCredito', compact('venta'));
     }
 }

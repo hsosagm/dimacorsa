@@ -5,20 +5,19 @@ class GastoController extends \BaseController {
     public function __construct(Table $table)
     {
         $this->table = $table;
-    } 
+    }
 
-     public function create()
+    public function create()
     {
         if (Input::has('_token'))
         {
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
-            
+
             $query = new DetalleGasto;
-           
+
             if ($query->_create())
             {
                 $href = 'user/gastos/delete_detail';
-
                 return Response::json(array('success' => true, 'detalle' => $this->table->detail($query, 'gasto_id', $href )));
             }
 
@@ -43,7 +42,6 @@ class GastoController extends \BaseController {
         $name = 'gasto_id';
 
         return View::make('gastos.create', compact('id', 'message', 'name'));
-
     }
 
     public function delete()
@@ -62,6 +60,4 @@ class GastoController extends \BaseController {
 
         return 'Huvo un error al tratar de eliminar';
     }
-
 }
- 

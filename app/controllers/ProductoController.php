@@ -39,7 +39,7 @@ class ProductoController extends Controller {
 			    return $producto->errors();
 			}
     	}
-    	
+
         $producto = Producto::find(Input::get('id'));
 
         $message = "Producto actualizado";
@@ -49,7 +49,6 @@ class ProductoController extends Controller {
 
     public function edit_dt()
     {
-        
         $producto = Producto::find(Input::get('id'));
 
         return View::make('producto.edit_dt', compact('producto'));
@@ -65,14 +64,14 @@ class ProductoController extends Controller {
     	}
 
     	return 'error';
-    } 
+    }
 
     public function find()
     {
         $values = trim(Input::get('codigo'));
         $values = preg_replace('/\s{2,}/', ' ', $values);
 
-        if ($values == '') 
+        if ($values == '')
         {
             return 'El campo del codigo se encuentra vacio...!';
         }
@@ -119,7 +118,7 @@ class ProductoController extends Controller {
         return Response::json(array(
             'success'=> true,
             'view' => View::make('producto.getInventario', compact('codigoBarra'))->render()
-            )); 
+        ));
     }
 
     public function index()
@@ -133,10 +132,11 @@ class ProductoController extends Controller {
             "ROUND(p_costo/100,2) as p_costo",
             "p_publico",
             "existencias.existencia as existencia",
-            "productos.existencia as existencia_total");
+            "productos.existencia as existencia_total"
+		);
 
         $Searchable = array("codigo","nombre","descripcion");
-        
+
         $Join = 'JOIN marcas ON productos.marca_id = marcas.id  Join  existencias ON productos.id = existencias.producto_id ';
         $where = "tienda_id = ".Auth::user()->tienda_id;
 
@@ -161,7 +161,7 @@ class ProductoController extends Controller {
             "productos.existencia as existencia_total");
 
         $Searchable = array("codigo","nombre","descripcion");
-        
+
         $Join = 'JOIN marcas ON productos.marca_id = marcas.id  JOIN  existencias ON productos.id = existencias.producto_id ';
         $where = "tienda_id = ".Auth::user()->tienda_id;
 
@@ -180,7 +180,7 @@ class ProductoController extends Controller {
             "existencias.existencia as existencia");
 
         $Searchable = array("codigo","nombre","descripcion");
-        
+
         $Join = 'JOIN marcas ON productos.marca_id = marcas.id  JOIN  existencias ON productos.id = existencias.producto_id ';
         $where = "tienda_id = ".Auth::user()->tienda_id;
 
@@ -199,6 +199,6 @@ class ProductoController extends Controller {
 
         $info = Producto::find(Input::get('id'));
 
-        return View::make("producto.existencia",compact('Query','info'));  
+        return View::make("producto.existencia",compact('Query','info'));
     }
 }

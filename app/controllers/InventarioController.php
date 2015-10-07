@@ -2,12 +2,10 @@
 
 class InventarioController extends Controller {
 
-
     public function getInventario()
     {
         return View::make('inventario.inventario');
     }
-
 
     public function dt_getInventario()
     {
@@ -38,7 +36,6 @@ class InventarioController extends Controller {
 //UPDATE `existencias` SET `existencia_real` = null WHERE 1;
 //UPDATE `existencias` SET `ajuste` = null WHERE 1;
 //UPDATE `existencias` SET `user_id` = null WHERE 1;
-
     public function setExistencia()
     {
     	$existencia = Existencia::where('producto_id', Input::get('id'))
