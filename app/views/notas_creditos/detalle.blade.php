@@ -2,8 +2,12 @@
 	<input type="hidden" name="cliente_id" id="cliente_id">
 
 	<div class="row" style="padding:10px; padding-top:0px;">
-		<div class="col-md-12">
+		<div class="col-md-10">
 			<input type="text" id="cliente" placeholder="Buscar Cliente...." class="input form-control">
+		</div>
+		<div class="col-md-2">
+			<i class="fa fa-plus-square btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
+			<i class="fa fa-pencil btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
 		</div>
 	</div>
 
@@ -15,6 +19,44 @@
 			{{ Input::get('nota') }}
 		</div>
 	</div>
+</div>
+
+<div class="formCrearCliente" status="0" style="display:none">
+	{{ Form::open(array('id' => 'formCrearCliente')) }}
+		<div class="form-group row">
+			<div class="col-sm-3">
+				<h4>Nuevo cliente</h4>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-sm-6">
+				<input type="text" name="nombre" style="width: 100% !important;" class="input sm_input" placeholder="Nombre">
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="direccion" style="width: 100% !important;" class="input sm_input" placeholder="Direccion">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-sm-4">
+				<input type="text" name="nit" style="width: 100% !important;" class="input sm_input" placeholder="Nit">
+			</div>
+			<div class="col-sm-4">
+				<input type="text" name="telefono" style="width: 100% !important;" class="input sm_input" placeholder="Telefono">
+			</div>
+			<div class="col-sm-4">
+				<input type="text" name="email" style="width: 100% !important;" class="sm_input" placeholder="Email">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-sm-9"></div>
+			<div class="col-sm-3" style="text-align:right;">
+				<button type="button" onclick="guardarClienteNuevoNotaCredito(this)" class="bg-theme">Guardar..!</button>
+			</div>
+		</div>
+	{{ Form::close() }}
 </div>
 
 {{ Form::open(array('url' => '/user/notaDeCredito/detalle', 'data-remote-md-d', 'data-success' => 'Ingresado', 'status' => '0')) }}

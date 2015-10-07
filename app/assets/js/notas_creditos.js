@@ -82,7 +82,22 @@ function crearClienteNotaCredito() {
         $('.formCrearCliente').attr('status', 0);
         $('.formCrearCliente').slideUp('slow');
     }
+    $('.formActualizarCliente').attr('status',0);
+    $('.formActualizarCliente').slideUp('slow');
+};
 
+function actualizarClienteNotaCredito() {
+    if ($('.formActualizarCliente').attr('status') == 0) {
+        
+        $('.formActualizarCliente').attr('status', 1);
+        $('.formActualizarCliente').slideDown('slow');
+    }
+    else {
+        $('.formActualizarCliente').attr('status', 0);
+        $('.formActualizarCliente').slideUp('slow');
+    }
+    $('.formCrearCliente').attr('status',0);
+    $('.formCrearCliente').slideUp('slow');
 };
 
 function guardarClienteNuevoNotaCredito(e) {

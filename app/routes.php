@@ -114,6 +114,7 @@
             Route::get('create'                , 'ClienteController@create');
             Route::post('create'               , 'ClienteController@create');
             Route::post('edit'                 , 'ClienteController@edit');
+            Route::get('_edit'                 , 'ClienteController@_edit');
             Route::get('info'                  , 'ClienteController@info'  );
             Route::post('contacto_create'      , 'ClienteController@contacto_create');
             Route::post('contacto_delete'      , 'ClienteController@contacto_delete');

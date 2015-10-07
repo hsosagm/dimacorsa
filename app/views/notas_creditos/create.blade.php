@@ -9,6 +9,7 @@
 		</div>
 		<div class="col-md-1">
 			<i class="fa fa-plus-square btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
+			<i class="fa fa-pencil btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
 		</div>
 	</div>
 
@@ -62,6 +63,7 @@
 		    </div>
 		{{ Form::close() }}
 	</div>
+	<div class="formActualizarCliente" status="0" style="display:none"></div>
 </div>
 
 <script type="text/javascript">
