@@ -53,7 +53,7 @@
 		<div class="form-group row">
 			<div class="col-sm-9"></div>
 			<div class="col-sm-3" style="text-align:right;">
-				<button type="button" onclick="guardarClienteNuevoNotaCredito(this)" class="bg-theme">Guardar..!</button>
+				<button type="button" onclick="guardarClienteNuevoDetalleNotaCredito(this)" class="bg-theme">Guardar..!</button>
 			</div>
 		</div>
 	{{ Form::close() }}
