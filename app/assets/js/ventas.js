@@ -15,7 +15,7 @@ function f_ven_op() {
         $('#cliente').focus();
     });
 };
- 
+
 function RemoveSale() {
     $.confirm({
         confirm: function() {
@@ -34,7 +34,7 @@ function RemoveSale() {
 				}
 			});
         }
-    }); 
+    });
 };
 
 function OpenModalSalesPayments($venta_id)
@@ -44,7 +44,7 @@ function OpenModalSalesPayments($venta_id)
         url: "user/ventas/ModalSalesPayments",
         data: { venta_id: $venta_id },
         success: function (data) {
-	        if (data.success == true) 
+	        if (data.success == true)
 	        {
 	            $('.modal-body').html(data.detalle);
 	            $('.modal-title').text('Ingreso de Pagos');
@@ -70,7 +70,7 @@ $(document).on('submit', 'form[data-remote-sales-payment]', function(e) {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (data) {
-  
+
                 if (data.success == true)
                 {
                     msg.success('Pago ingresado', 'Listo!');
@@ -138,7 +138,6 @@ function FinalizeSale(element, $id) {
 
 function FinalizarEImprimirGarantia(e, venta_id, impresora_garantia){
     FinalizeSale(e, venta_id);
-    printInvoice(e, venta_id, impresora_factura);
     ImprimirGarantia(e, venta_id, impresora_garantia);
 };
 
@@ -157,12 +156,12 @@ function FinalizarEImprimirFactura(e, venta_id, impresora_factura) {
 
 function showSalesDetail(e) {
 
-    if ($(e).hasClass("hide_detail")) 
+    if ($(e).hasClass("hide_detail"))
     {
         $(e).removeClass('hide_detail');
         $('.subtable').hide();
-    } 
-    else 
+    }
+    else
     {
         $('.hide_detail').removeClass('hide_detail');
 
@@ -257,7 +256,7 @@ function CreditSales(e)
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             }
         }
-    }); 
+    });
 };
 
 function getModalImprimirVenta(e,id)
@@ -277,7 +276,7 @@ function getModalImprimirVenta(e,id)
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             }
         }
-    });       
+    });
 };
 
 function OpenModalSalesItemSerials(e)
@@ -311,7 +310,7 @@ function imprimirFactura(p)
 
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
-            
+
             if (printer !== null) {
                 $.ajax({
                     type: 'GET',
@@ -352,12 +351,12 @@ function imprimirFactura(p)
           qz.print();
 
                     }
-                }); 
+                });
             }
             else {
                 msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
             }
-            
+
             window['qzDoneFinding'] = null;
         };
     }
