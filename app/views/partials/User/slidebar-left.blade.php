@@ -10,7 +10,7 @@
             </div>
         </div>
     </div>
-    
+
     <ul class="sidebar-menu">
 
         <li class="active home">
@@ -53,12 +53,11 @@
                     <li><a href="javascript:void(0);" onclick="f_gastos(this)">Gastos</a></li>
                     <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
                     <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
-                    <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelantos</a></li>
                     <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li>
 
                 </ul>
             </li>
-            
+
              <li class="submenu">
                 <a href="javascript:void(0);">
                     <span class="icon"><i class="fa fa-columns"></i></span>
