@@ -13,7 +13,7 @@
     </div>
 
     <ul class="sidebar-menu">
-        
+
         <li class="active home">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-home"></i></span>
@@ -26,7 +26,7 @@
             <span>ADMIN</span>
             <span class="pull-right"><i class="fa fa-code"></i></span>
         </li>
-        
+
         <li class="submenu">
             <a href="javascript:void(0);" onclick="cambiarVistaPuntoDeVenta(this)">
                 <span class="icon"><i class="fa fa-dollar"></i></span>
@@ -34,23 +34,13 @@
             </a>
         </li>
 
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-cube"></i></span>
-                <span class="text">Consultas</span>
-                <span class="plus"></span>
-            </a>
-            <ul>
-                <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Consultas Generales</a></li>
-                <li onclick="getTrasladosEnviados(this)"><a href="javascript:void(0);">Traslados Enviados</a></li>
-                <li onclick="getTrasladosRecibidos(this)"><a href="javascript:void(0);">Traslados Recibidos</a></li>
-                <li onclick="getConsultarNotasDeCredito(this)"><a href="javascript:void(0);">Consultar Notas de Credito</a></li>
-                <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Consultar Serie</a></li>
-                <li onclick="getConsultarCajas(this)"><a href="javascript:void(0);">Consultar Cajas</a></li>
-                {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
-                <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
-            </ul>
-        </li>
+        <!--Inicio operaciones -->
+        @include('partials.Controles.operaciones')
+        <!--Fin operaciones -->
+
+        <!--Inicio Consultas -->
+        @include('partials.Controles.consultas')
+        <!--Fin Consultas -->
 
         <li class="submenu">
             <a href="javascript:void(0);">
