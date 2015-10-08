@@ -1,13 +1,13 @@
 <div class="row" style="padding:10px">
-	<input type="hidden" name="cliente_id" id="cliente_id">
+	<input type="hidden" name="cliente_id" id="cliente_id_nota" value="{{ $cliente->id }}">
 
 	<div class="row" style="padding:10px; padding-top:0px;">
 		<div class="col-md-10">
-			<input type="text" id="cliente" placeholder="Buscar Cliente...." class="input form-control">
+			<input type="text" id="cliente_nota" placeholder="Buscar Cliente...." class="input form-control">
 		</div>
 		<div class="col-md-2">
 			<i class="fa fa-plus-square btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
-			<i class="fa fa-pencil btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
+			<i class="fa fa-pencil btn-link theme-c" onclick="actualizarClienteNotaCredito(this, 'detalle')"></i>
 		</div>
 	</div>
 
@@ -59,6 +59,8 @@
 	{{ Form::close() }}
 </div>
 
+<div class="formActualizarCliente" status="0" style="display:none"></div>
+
 {{ Form::open(array('url'=>'/user/notaDeCredito/detalle', 'data-remote-md-d', 'data-success'=>'Ingresado', 'status'=>'0', 'id'=>'adelantoMetodoDePagoForm')) }}
 
 	{{ Form::hidden('nota_credito_id', $nota_credito_id) }}
@@ -84,19 +86,19 @@
 <div class="body-detail" style="min-height: 160px ! important;"></div>
 
 <script type="text/javascript">
-	$('#cliente').autocomplete({
+	$('#cliente_nota').autocomplete({
 		serviceUrl: '/user/cliente/search',
 		onSelect: function (data) {
-			$('#cliente_id').val(data.id);
-
+			$('#cliente_id_nota').val(data.id);
+			var nombre = data.value;
 			$.ajax({
                 type: "POST",
                 url: '/user/notaDeCredito/updateClienteId',
-                data: {cliente_id: data.id , nota_credito_id: $("input[name='nota_credito_id']").val();},
+                data: {cliente_id: data.id , nota_credito_id: $("input[name='nota_credito_id']").val() },
             }).done(function(data) {
                 if (data.success == true) {
-					$(".infoCliente").html(data.value);
-                    return msg.warning('Cliente Actualizado', 'Listo!');
+					$(".infoCliente").html(nombre);
+                    return msg.success('Cliente Actualizado', 'Listo!');
                 }
                 msg.warning(data, 'Advertencia!');
             });

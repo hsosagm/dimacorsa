@@ -33,7 +33,10 @@
 
         $(".modal-footer").empty().slideUp('slow').slideDown('slow')
         .append(
-            "<button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button> <button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button><button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button><button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button>"
+            '<button style="width:270px; margin-right:5px; margin-top:10px" type="button" onclick="FinalizarEImprimirGarantia(this, {{$venta_id}},'+"'"+'{{$garantia->impresora}}'+"'"+')" class="btn btn-success"><i class="fa fa-print"></i> Finalizar e imprimir garantia</button>',
+            "<button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button>",
+            '<button style="width:270px; margin-right:5px; margin-top:10px" type="button" onclick="FinalizarEImprimirFacturaYGarantia(this, {{$venta_id}},'+"'"+'{{$garantia->impresora}}'+"'"+','+"'"+'{{$factura->impresora}}'+"'"+')" class="btn btn-success"><i class="fa fa-print"></i> Finalizar e imprimir fact. y garant.</button>',
+            '<button style="width:270px; margin-right:5px; margin-top:10px" type="button" onclick="FinalizarEImprimirFactura(this, {{$venta_id}},'+"'"+'{{$factura->impresora}}'+"'"+')" class="btn btn-success"><i class="fa fa-print"></i> Finalizar e imprimir factura</button>'
         );
 
         $('.modal-title').text('Pagos completados puede finalizar la venta');

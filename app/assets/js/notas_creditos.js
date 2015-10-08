@@ -85,13 +85,13 @@ function crearClienteNotaCredito() {
     $('.formActualizarCliente').slideUp('slow');
 };
 
-function actualizarClienteNotaCredito() {
-    if($('#cliente_id').val() > 0) {
+function actualizarClienteNotaCredito(e, opcion) {
+    if($('#cliente_id_nota').val() > 0) {
         if ($('.formActualizarCliente').attr('status') == 0) {
             $.ajax({
                 type: "GET",
                 url: '/user/cliente/_edit',
-                data: {cliente_id: $('#cliente_id').val()},
+                data: {cliente_id: $('#cliente_id_nota').val(), opcion:opcion },
             }).done(function(data) {
                 if (data.success == true) {
                     $('.formActualizarCliente').html(data.view);
@@ -145,8 +145,8 @@ function guardarClienteNuevoNotaCredito(e) {
         data: $('#formCrearCliente').serialize(),
     }).done(function(data) {
         if (data.success == true) {
-            $('#cliente').val(data.info.nombre+' '+data.info.direccion);
-            $('#cliente_id').val(data.info.id);
+            $('#cliente_nota').val(data.info.nombre+' '+data.info.direccion);
+            $('#cliente_id_nota').val(data.info.id);
             $('.notaNotaCredito').focus();
             $('.formCrearCliente').attr('status', 0);
             $('.formCrearCliente').slideUp('slow');
@@ -168,14 +168,14 @@ function guardarClienteActualizadoNotaCredito(e) {
         data: $('#formEditCliente').serialize(),
     }).done(function(data) {
         if (data.success == true) {
-            $('#cliente').val(data.info.nombre+' '+data.info.direccion);
-            $('#cliente_id').val(data.info.id);
+            $('#cliente_nota').val(data.info.nombre+' '+data.info.direccion);
+            $('#cliente_id_nota').val(data.info.id);
             $('.notaNotaCredito').focus();
             $('.formActualizarCliente').attr('status', 0);
             $('.formActualizarCliente').slideUp('slow');
             $('.formActualizarCliente').trigger('reset');
             msg.success('Cliente Actualizado..', 'Listo!');
-            return data;
+            return data.info;
         }
         msg.warning(data, 'Advertencia!');
         $(e).prop('disabled', false)
@@ -184,5 +184,67 @@ function guardarClienteActualizadoNotaCredito(e) {
 };
 
 function guardarClienteNuevoDetalleNotaCredito(e) {
-    console.log(guardarClienteNuevoNotaCredito(e));
+    $(e).prop('disabled', true)
+
+    $.ajax({
+        type: "POST",
+        url: '/user/cliente/create',
+        data: $('#formCrearCliente').serialize(),
+    }).done(function(data) {
+        if (data.success == true) {
+            var nombre = data.info.nombre+' '+data.info.direccion;
+            $('#cliente_nota').val(nombre);
+            $('#cliente_id_nota').val(data.info.id);
+            $('.formCrearCliente').attr('status', 0);
+            $('.formCrearCliente').slideUp('slow');
+            $('.formCrearCliente').trigger('reset');
+
+            $.ajax({
+                type: "POST",
+                url: '/user/notaDeCredito/updateClienteId',
+                data: {cliente_id: data.info.id , nota_credito_id: $("input[name='nota_credito_id']").val() },
+            }).done(function(data) {
+                if (data.success == true) {
+					$(".infoCliente").html(nombre);
+                }
+            });
+            return msg.success('Cliente Guardado..', 'Listo!');
+        }
+        msg.warning(data, 'Advertencia!');
+        $(e).prop('disabled', false)
+    });
 }
+
+function guardarClienteActualizadoDetalleNotaCredito(e) {
+    $(e).prop('disabled', true)
+    $.ajax({
+        type: "POST",
+        url: '/user/cliente/edit',
+        data: $('#formEditCliente').serialize(),
+    }).done(function(data) {
+        if (data.success == true) {
+            var nombre = data.info.nombre+' '+data.info.direccion;
+            $('#cliente_nota').val(nombre);
+            $('#cliente_id_nota').val(data.info.id);
+            $('.formActualizarCliente').attr('status', 0);
+            $('.formActualizarCliente').slideUp('slow');
+            $('.formActualizarCliente').trigger('reset');
+
+            $.ajax({
+                type: "POST",
+                url: '/user/notaDeCredito/updateClienteId',
+                data: {cliente_id: data.info.id , nota_credito_id: $("input[name='nota_credito_id']").val() },
+            }).done(function(data) {
+                if (data.success == true) {
+					$(".infoCliente").html(nombre);
+                }
+            });
+
+            msg.success('Cliente Actualizado..', 'Listo!');
+            return data.info;
+        }
+        msg.warning(data, 'Advertencia!');
+        $(e).prop('disabled', false)
+        return data;
+    });
+};

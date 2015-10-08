@@ -32,7 +32,12 @@
     <div class="form-group row">
         <div class="col-sm-9"></div>
         <div class="col-sm-3" style="text-align:right;">
-            <button type="button" onclick="guardarClienteActualizadoNotaCredito(this)" class="bg-theme">Actualizar..!</button>
+            @if(Input::get('opcion') == 'create')
+                <button type="button" onclick="guardarClienteActualizadoNotaCredito(this)" class="bg-theme">Actualizar..!</button>
+            @else
+                <button type="button" onclick="guardarClienteActualizadoDetalleNotaCredito(this)" class="bg-theme">Actualizar..!</button>
+            @endif
+
         </div>
     </div>
 {{ Form::close() }}

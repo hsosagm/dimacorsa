@@ -1,15 +1,15 @@
 <div class="master-detail-body">
 	{{ Form::open(array('data-remote-md', 'data-success' => 'Nota de Credito  Generada' ,"onsubmit"=>" return false")) }}
 
-	<input type="hidden" name="cliente_id" id="cliente_id">
+	<input type="hidden" name="cliente_id" id="cliente_id_nota">
 
 	<div class="row" style="padding:10px">
 		<div class="col-md-11">
-			<input type="text" id="cliente" placeholder="Buscar Cliente...." class="input form-control">
+			<input type="text" id="cliente_nota" placeholder="Buscar Cliente...." class="input form-control">
 		</div>
 		<div class="col-md-1">
 			<i class="fa fa-plus-square btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
-			<i class="fa fa-pencil btn-link theme-c" onclick="actualizarClienteNotaCredito(this)"></i>
+			<i class="fa fa-pencil btn-link theme-c" onclick="actualizarClienteNotaCredito(this, 'create')"></i>
 		</div>
 	</div>
 
@@ -67,10 +67,10 @@
 </div>
 
 <script type="text/javascript">
-	$('#cliente').autocomplete({
+	$('#cliente_nota').autocomplete({
 		serviceUrl: '/user/cliente/search',
 		onSelect: function (data) {
-			$('#cliente_id').val(data.id);
+			$('#cliente_id_nota').val(data.id);
 		}
 	});
 </script>
