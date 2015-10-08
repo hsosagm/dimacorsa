@@ -27,13 +27,6 @@
             <span class="pull-right"><i class="fa fa-code"></i></span>
         </li>
 
-        <li class="submenu">
-            <a href="javascript:void(0);" onclick="cambiarVistaPuntoDeVenta(this)">
-                <span class="icon"><i class="fa fa-dollar"></i></span>
-                <span class="text">Punto de Venta</span>
-            </a>
-        </li>
-
         <!--Inicio operaciones -->
         @include('partials.Controles.operaciones')
         <!--Fin operaciones -->
