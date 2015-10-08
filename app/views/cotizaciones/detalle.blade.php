@@ -53,7 +53,6 @@
 		</div>
 		<div class="col-md-6" align="right">
 			<i class="fa fa-trash-o fa-lg icon-delete" onclick="EliminarCotizacion(this, {{$cotizacion_id}});"></i>
-			<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$cotizacion_id}} );"></i>
 		</div>
 	</div>
 </div>
