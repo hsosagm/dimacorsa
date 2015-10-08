@@ -486,7 +486,6 @@ class VentasController extends \BaseController {
 
 	function printInvoice()
 	{
-
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
 
 		if (!count($venta)) {
@@ -512,7 +511,7 @@ class VentasController extends \BaseController {
         		$len4 = strlen($totales);
         		$e1 = "    ";
         		$e1 = substr($e1, 0, -$len1);
-            	$e2 = "                                                                                                                                      "; // le corri 25 esp + de la configuracion anterior
+            	$e2 = "                                                                                              "; // le corri 40 esp - de la configuracion anterior
         		$e2 = substr($e2, 0, -$len2);
         		$e2 = substr($e2, 0, -$len3);
             	$e3 = "                 ";
@@ -526,7 +525,7 @@ class VentasController extends \BaseController {
 
         	$totalEnLetras = $convertir->ConvertirALetras($total);
 
-        	$e4 = "                                                                                                                                                              ";
+        	$e4 = "                                                                                                                      ";
         	$total_venta = f_num::get($total);
         	$len5 = strlen($total_venta);
         	$e4 = substr($e4, 0, -$len5);

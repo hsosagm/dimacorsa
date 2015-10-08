@@ -2,6 +2,7 @@
 /app/storage
 /vendor
 .env
+.env~
 .env.local.php
 .env.php
 node_modules
