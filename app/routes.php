@@ -79,6 +79,7 @@
             Route::get('create' , 'NotaCreditoController@create' );
             Route::post('create','NotaCreditoController@create' );
             Route::post('detalle','NotaCreditoController@detalle' );
+            Route::post('updateClienteId','NotaCreditoController@updateClienteId' );
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
         });
@@ -283,17 +284,18 @@
 
         Route::group(array('prefix' => 'cajas'),function()
         {
-            Route::get('create'                           , 'CajaController@create');
-            Route::post('create'                          , 'CajaController@create');
-            Route::get('asignar'                          , 'CajaController@asignar');
-            Route::get('asignarDt'                        , 'CajaController@asignarDt');
-            Route::post('asignar'                         , 'CajaController@asignar');
-            Route::post('asignarDt'                       , 'CajaController@asignarDt');
-            Route::get('getConsultarCajas'                , 'CajaController@getConsultarCajas');
-            Route::get('DtConsultarCajas'                 , 'CajaController@DtConsultarCajas' );
-            Route::get('cortesDeCajaPorDia'               , 'CajaController@cortesDeCajaPorDia');
-            Route::get('DtCortesDeCajasPorDia'            , 'CajaController@DtCortesDeCajasPorDia');
-            Route::post('getMovimientosDeCajaDt'          , 'CajaController@getMovimientosDeCajaDt');
+            Route::get('create'                  , 'CajaController@create');
+            Route::post('create'                 , 'CajaController@create');
+            Route::post('edit'                   , 'CajaController@edit');
+            Route::get('asignar'                 , 'CajaController@asignar');
+            Route::get('asignarDt'               , 'CajaController@asignarDt');
+            Route::post('asignar'                , 'CajaController@asignar');
+            Route::post('asignarDt'              , 'CajaController@asignarDt');
+            Route::get('getConsultarCajas'       , 'CajaController@getConsultarCajas');
+            Route::get('DtConsultarCajas'        , 'CajaController@DtConsultarCajas' );
+            Route::get('cortesDeCajaPorDia'      , 'CajaController@cortesDeCajaPorDia');
+            Route::get('DtCortesDeCajasPorDia'   , 'CajaController@DtCortesDeCajasPorDia');
+            Route::post('getMovimientosDeCajaDt' , 'CajaController@getMovimientosDeCajaDt');
         });
 
         Route::group(array('prefix' => 'kardex'),function()

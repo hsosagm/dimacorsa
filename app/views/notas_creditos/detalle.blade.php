@@ -59,7 +59,7 @@
 	{{ Form::close() }}
 </div>
 
-{{ Form::open(array('url' => '/user/notaDeCredito/detalle', 'data-remote-md-d', 'data-success' => 'Ingresado', 'status' => '0')) }}
+{{ Form::open(array('url'=>'/user/notaDeCredito/detalle', 'data-remote-md-d', 'data-success'=>'Ingresado', 'status'=>'0', 'id'=>'adelantoMetodoDePagoForm')) }}
 
 	{{ Form::hidden('nota_credito_id', $nota_credito_id) }}
 
@@ -76,7 +76,7 @@
 			</div>
 		</div>
 		<div class="col-md-1">
-			<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
+			<i onclick="ingresarAdelantoMetodoDePago(this)" class="fa fa-check fg-theme"></i>
 		</div>
 	</div>
 
@@ -88,7 +88,18 @@
 		serviceUrl: '/user/cliente/search',
 		onSelect: function (data) {
 			$('#cliente_id').val(data.id);
-			$(".infoCliente").html(data.value);
+			$.ajax({
+                type: "POST",
+                url: '/user/notaDeCredito/updateClienteId',
+                data: {cliente_id: data.id , nota_credito_id: $("input[name='nota_credito_id']").val();},
+            }).done(function(data) {
+                if (data.success == true) {
+					$(".infoCliente").html(data.value);
+                    return msg.warning('Cliente Actualizado', 'Listo!');
+                }
+                msg.warning(data, 'Advertencia!');
+            });
+
 		}
 	});
 </script>

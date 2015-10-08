@@ -73,7 +73,7 @@ class NotaCreditoController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'table' => View::make('notas_creditos.detalle_body', compact('detalle'))->render()
-        ));
+        )); 
     }
 
     public function getConsultarNotasDeCreditoCliente()
@@ -95,6 +95,14 @@ class NotaCreditoController extends \BaseController {
             'table' => View::make('notas_creditos.consultarNotasDeCreditoCliente', compact('data'))
         ));
     }
+
+	public function updateClienteId() {
+
+		$notaCredito = NotaCredito::find(Input::get('nota_credito_id'));
+
+		$notaCredito->cliente_id = Input::get('');
+
+	}
 
     public function getFormSeleccionarTipoDeNotaDeCredito()
     {

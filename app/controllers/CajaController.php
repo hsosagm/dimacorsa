@@ -79,6 +79,25 @@ class CajaController extends \BaseController
 		));
 	}
 
+	public function edit()
+    {
+    	if (Input::has('_token'))
+        {
+	    	$caja = Caja::find(Input::get('id'));
+
+			if ( $caja->_update() )
+			{
+		        return 'success';
+			}
+
+			return $caja->errors();
+    	}
+
+    	$caja = Caja::find(Input::get('id'));
+
+    	return View::make('cajas.edit', compact('caja'));
+    }
+
     public function getMovimientosDeCaja()
     {
         $caja = Caja::whereUserId(Auth::user()->id)->first();

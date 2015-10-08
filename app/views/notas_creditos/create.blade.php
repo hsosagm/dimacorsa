@@ -9,13 +9,13 @@
 		</div>
 		<div class="col-md-1">
 			<i class="fa fa-plus-square btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
-			<i class="fa fa-pencil btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
+			<i class="fa fa-pencil btn-link theme-c" onclick="actualizarClienteNotaCredito(this)"></i>
 		</div>
 	</div>
 
 	<div class="row" style="padding:10px">
 		<div class="col-md-11">
-			<textarea name="nota" class="form-control notaNotaCredito"></textarea>
+			<textarea name="nota" class="form-control notaNotaCredito" placeholder="Nota...!"></textarea>
 		</div>
 	</div>
 
@@ -29,7 +29,7 @@
 	<div class="formCrearCliente" status="0" style="display:none">
 		{{ Form::open(array('id' => 'formCrearCliente')) }}
 			<div class="form-group row">
-				<div class="col-sm-3">
+				<div class="col-sm-12">
 					<h4>Nuevo cliente</h4>
 				</div>
 			</div>

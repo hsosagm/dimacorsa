@@ -3,8 +3,8 @@
     {{ Form::hidden('id', $cliente->id) }}
 
     <div class="form-group row">
-        <div class="col-sm-3">
-            <h4>Nuevo cliente</h4>
+        <div class="col-sm-12">
+            <h4>Actualizar cliente</h4>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="form-group row">
         <div class="col-sm-9"></div>
         <div class="col-sm-3" style="text-align:right;">
-            <button type="button" onclick="guardarClienteEditadoNotaCredito(this)" class="bg-theme">Guardar..!</button>
+            <button type="button" onclick="guardarClienteActualizadoNotaCredito(this)" class="bg-theme">Actualizar..!</button>
         </div>
     </div>
 {{ Form::close() }}
