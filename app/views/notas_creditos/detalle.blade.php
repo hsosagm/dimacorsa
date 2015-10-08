@@ -88,6 +88,7 @@
 		serviceUrl: '/user/cliente/search',
 		onSelect: function (data) {
 			$('#cliente_id').val(data.id);
+
 			$.ajax({
                 type: "POST",
                 url: '/user/notaDeCredito/updateClienteId',

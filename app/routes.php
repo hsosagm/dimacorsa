@@ -89,6 +89,7 @@
             Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
             Route::get('VerTablaClientesUsuario'       , 'UserController@VerTablaClientesUsuario'       );
             Route::get('VentasAlCreditoUsuario'        , 'UserController@VentasAlCreditoUsuario'        );
+            Route::get('VerTablaVentasDelDiaUsuario'   , 'UserController@VerTablaVentasDelDiaUsuario');
             //datatables de consultas de los usuarios//
             Route::get('VentasDelDiaUsuario_dt'        , 'UserController@VentasDelDiaUsuario_dt'        );
             Route::get('SoporteDelDiaUsuario_dt'       , 'UserController@SoporteDelDiaUsuario'          );

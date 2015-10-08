@@ -33,7 +33,7 @@
 
         $(".modal-footer").empty().slideUp('slow').slideDown('slow')
         .append(
-            "<button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button>"
+            "<button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button> <button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button><button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button><button style='width:270px; margin-right:5px; margin-top:10px' type='button' onclick='FinalizeSale(this, {{Input::get('venta_id')}})' class='btn btn-success'><i class='fa fa-check'></i> Finalizar</button>"
         );
 
         $('.modal-title').text('Pagos completados puede finalizar la venta');

@@ -9,7 +9,6 @@ function getFormSeleccionarTipoDeNotaDeCredito() {
     });
 };
 
-
 function postFormSeleccionarTipoDeNotaDeCredito() {
     if ( $('input[name="nota_credito"]:checked').val() == 'notaDeCreditoPorDevolucion' ) {
         $.ajax({
@@ -155,9 +154,9 @@ function guardarClienteNuevoNotaCredito(e) {
             msg.success('Cliente Guardado..', 'Listo!');
             return data;
         }
-
         msg.warning(data, 'Advertencia!');
         $(e).prop('disabled', false)
+        return data;
     });
 };
 
@@ -178,8 +177,12 @@ function guardarClienteActualizadoNotaCredito(e) {
             msg.success('Cliente Actualizado..', 'Listo!');
             return data;
         }
-
         msg.warning(data, 'Advertencia!');
         $(e).prop('disabled', false)
+        return data;
     });
 };
+
+function guardarClienteNuevoDetalleNotaCredito(e) {
+    console.log(guardarClienteNuevoNotaCredito(e));
+}
