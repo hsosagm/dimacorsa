@@ -213,7 +213,7 @@ function guardarClienteNuevoDetalleNotaCredito(e) {
         msg.warning(data, 'Advertencia!');
         $(e).prop('disabled', false)
     });
-}
+};
 
 function guardarClienteActualizadoDetalleNotaCredito(e) {
     $(e).prop('disabled', true)
@@ -248,3 +248,6 @@ function guardarClienteActualizadoDetalleNotaCredito(e) {
         return data;
     });
 };
+
+eliminarNotaDeCretidoAdelanto
+imprimirNotaDeCretidoAdelanto

@@ -36,7 +36,7 @@ class UserController extends Controller {
 
 	public function buscar()
 	{
-		return Autocomplete::get('users', array('id', 'username', 'nombre', 'apellido'));
+		return Autocomplete::get('users', array('id', 'nombre', 'apellido', 'username'));
 	}
 
 

@@ -7,7 +7,7 @@ class CajaController extends \BaseController
     {
         if (Input::has('_token'))
         {
-            $cantidad_cajas = Caja::count();
+            $cantidad_cajas = Caja::whereTiendaId(Auth::user()->tienda_id)->count();
             $tienda = Tienda::find(Auth::user()->tienda_id);
 
             if ($cantidad_cajas >= $tienda->limite_cajas)

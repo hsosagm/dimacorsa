@@ -13,7 +13,7 @@
     </div>
 
     <ul class="sidebar-menu">
-        
+
 
         <li class="active home">
             <a href="javascript:void(0);">
@@ -22,12 +22,12 @@
                 <span class="selected"></span>
             </a>
         </li>
-        
+
         <li class="sidebar-category">
             <span>ADMIN</span>
             <span class="pull-right"><i class="fa fa-code"></i></span>
         </li>
-        
+
         <!--Inicio operaciones -->
         @include('partials.Controles.operaciones')
         <!--Fin operaciones -->
@@ -35,21 +35,10 @@
         <!--Inicio Consultas -->
         @include('partials.Controles.consultas')
         <!--Fin Consultas -->
-        
-        <li class="submenu">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-columns"></i></span>
-                <span class="text">Cierre</span>
-                <span class="plus"></span>
-            </a>
-            <ul>
-                <li><a href="javascript:void(0);" id="CierreDelDia">Movimientos del dia</a></li>
-                <li><a href="javascript:void(0);" onClick="cierre();">Realizar Corte</a></li>
-                <li><a href="javascript:void(0);" onClick="CierreDelMes();">Balance General</a></li>
-                <li><a href="javascript:void(0);" onClick="CierresDelMes();">Movimientos por fecha</a></li>
-                <li><a href="javascript:void(0);" onClick="cortesDeCajaPorDia()">Cortes de Caja por Dia</a></li>
-            </ul>
-        </li>
+
+        <!--Inicio Cierres -->
+       @include('partials.Controles.cierres', array('opcion' => 'Owner'))
+       <!--Fin Cierres -->
 
         <!--Inicio configuracion -->
        @include('partials.Controles.configuracion')

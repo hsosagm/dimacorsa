@@ -85,6 +85,16 @@
 {{ Form::close() }}
 <div class="body-detail" style="min-height: 160px ! important;"></div>
 
+<div class="form-footer" >
+	<div class="row">
+		<div class="col-md-6">
+				<i class="fa fa-print fa-lg icon-print" onclick="imprimirNotaDeCretidoAdelanto(this, {{$nota_credito_id}} );"></i>
+		</div>
+		<div class="col-md-6" align="right">
+			<i class="fa fa-trash-o fa-lg icon-delete" onclick="eliminarNotaDeCretidoAdelanto();"></i>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	$('#cliente_nota').autocomplete({
 		serviceUrl: '/user/cliente/search',
