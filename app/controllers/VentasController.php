@@ -33,7 +33,7 @@ class VentasController extends \BaseController {
 		{
 			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 
-            if (Auth::user()->hasRole("Admin"))
+            /*if (Auth::user()->hasRole("Admin"))
             {
             	$producto = Producto::find(Input::get('producto_id'));
 
@@ -49,7 +49,7 @@ class VentasController extends \BaseController {
             	if ((@$producto->p_publico * 0.95) > Input::get('precio')) {
             		return 'no puede hacer mas descuento que el autorizado';
             	}
-            }
+            }*/
 
 
 			if ($this->check_if_code_exists_in_this_sale() == true) {
@@ -376,7 +376,7 @@ class VentasController extends \BaseController {
 
 		if(!Auth::user()->hasRole("Admin") && !Auth::user()->hasRole("Owner"))
 		{
-			if ($venta->completed == 1) 
+			if ($venta->completed == 1)
 				return json_encode('La venta no se puede abrir porque ya fue finalizada');
 		}
 

@@ -249,10 +249,10 @@ function guardarClienteActualizadoDetalleNotaCredito(e) {
     });
 };
 
-function eliminarNotaDeCretidoAdelanto(){
-
-}
+function eliminarNotaDeCretidoAdelanto(nota_credito_id) {
+    
+};
 
 function imprimirNotaDeCretidoAdelanto(){
-    
-}
+
+};

@@ -88,10 +88,10 @@
 <div class="form-footer" >
 	<div class="row">
 		<div class="col-md-6">
-				<i class="fa fa-print fa-lg icon-print" onclick="imprimirNotaDeCretidoAdelanto(this, {{$nota_credito_id}} );"></i>
+				<i class="fa fa-print fa-lg icon-print" onclick="imprimirNotaDeCretidoAdelanto(this, {{$nota_credito_id}});"></i>
 		</div>
 		<div class="col-md-6" align="right">
-			<i class="fa fa-trash-o fa-lg icon-delete" onclick="eliminarNotaDeCretidoAdelanto();"></i>
+			<i class="fa fa-trash-o fa-lg icon-delete" onclick="eliminarNotaDeCretidoAdelanto({{$nota_credito_id}});"></i>
 		</div>
 	</div>
 </div>
