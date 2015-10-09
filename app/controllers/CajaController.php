@@ -299,8 +299,8 @@ class CajaController extends \BaseController
 
     public function cortesDeCajaPorDia()
     {
-		$fecha_inicial = Carbon::now()->startOfMonth();
-		$fecha_final  = Carbon::now()->endOfMonth();
+		$fecha_inicial = Carbon::now()->startOfDay();
+		$fecha_final  = Carbon::now()->endOfDay();
 
 		return Response::json(array(
 			'success' => true,
