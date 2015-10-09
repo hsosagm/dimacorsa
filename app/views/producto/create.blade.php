@@ -10,7 +10,7 @@
 				<input class="form-control" name="codigo" type="text"  placeholder="Codigo" autofocus>
 			</div>
 			<div class="col-md-4">
-				<input class="form-control" name="stock_minimo"  type="text"  placeholder="Existencia Minima">
+				<input class="form-control" name="stock_minimo"  type="text"  placeholder="Exist. Min.">
 			</div>
 		</div>
 		<div class="row">
