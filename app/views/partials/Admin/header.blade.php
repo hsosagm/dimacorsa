@@ -31,7 +31,7 @@
                 @include('partials.Controles.header')
                 <!--Fin header -->
 
-                <!--Inicio userOptionHeader -->
+                <!--Inicio userTecnologia ModernaOptionHeader -->
                 @include('partials.Controles.userOptionHeader')
                 <!--Fin userOptionHeader -->
 

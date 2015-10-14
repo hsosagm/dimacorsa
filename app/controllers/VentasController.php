@@ -483,6 +483,19 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
+	function ImprimirGarantiaPdf()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+		$tienda = Tienda::find(Auth::user()->tienda_id);
+
+    	if(count($venta->detalle_venta) > 0){
+			$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta' => $venta, 'tienda' => $tienda));
+			return $pdf->stream();
+    	}
+
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
 
 	function printInvoice()
 	{

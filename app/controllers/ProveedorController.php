@@ -280,6 +280,20 @@ class ProveedorController extends BaseController {
         ));
     }
 
+    public function ImprimirAbonoPdf()
+    {
+        $detalle = DB::table('detalle_abonos_compra')
+        ->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
+        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+        ->where('abonos_compra_id','=', Input::get('id'))->get();
+
+        $abono = AbonosCompra::with('proveedor','user','metodoPago')->find(Input::get('id'));
+        $saldo = Compra::where('proveedor_id', '=' , $abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
+        $pdf = PDF::loadView('proveedor.ImprimirAbono', array('detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo));
+
+        return $pdf->stream();
+    }
+
     public function getInfoProveedor()
     {
         $data =  $this->_TotalCredito();

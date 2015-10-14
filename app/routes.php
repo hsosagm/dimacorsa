@@ -15,11 +15,21 @@
     /******************************************************************************/
 
     /******************************************************************************/
+    //rutas para imprimr con el plugin qzprint
     Route::post('ImprimirGarantia'            , 'VentasController@ImprimirGarantia');
     Route::post('ImprimirDescarga'            , 'DescargaController@ImprimirDescarga');
     Route::post('ImprimirTraslado'            , 'TrasladoController@ImprimirTraslado');
     Route::post('ImprimirAbonoCliente'        , 'SalesPaymentsController@imprimirAbonoVenta');
     Route::post('ImprimirAbonoProveedor'      , 'ProveedorController@ImprimirAbono' );
+
+    //rutas para mostrar el pdf cuando no carga el plugin
+    Route::get('ImprimirGarantiaPdf'            , 'VentasController@ImprimirGarantiaPdf');
+    Route::get('ImprimirDescargaPdf'            , 'DescargaController@ImprimirDescargaPdf');
+    Route::get('ImprimirTrasladoPdf'            , 'TrasladoController@ImprimirTrasladoPdf');
+    Route::get('ImprimirAbonoClientePdf'        , 'SalesPaymentsController@imprimirAbonoVentaPdf');
+    Route::get('ImprimirAbonoProveedorPdf'      , 'ProveedorController@ImprimirAbonoPdf');
+
+
     Route::get('ImprimirCotizacion/{op}/{id}' , 'CotizacionController@ImprimirCotizacion' );
     Route::get('imprimirNotaDeCretidoAdelanto', 'NotaCreditoController@imprimirNotaDeCretidoAdelanto' );
     Route::get('retirarDineroDeCajaPdf'       , 'CajaController@retirarDineroDeCajaPdf' );

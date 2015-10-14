@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class TrasladoController extends \BaseController {
 
@@ -10,9 +10,9 @@ class TrasladoController extends \BaseController {
 
             if (!$traslado->create_master())
             {
-                return $traslado->errors(); 
+                return $traslado->errors();
             }
- 
+
             $id = $traslado->get_id();
 
             $traslado = Traslado::find($id);
@@ -23,22 +23,22 @@ class TrasladoController extends \BaseController {
             ->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'comprobante')->first();
 
             return Response::json(array(
-                'success' => true, 
+                'success' => true,
                 'detalle' => View::make('traslado.detalle',compact("id",'comprobante'))->render(),
                 'info_head' => View::make('traslado.info_head', compact("traslado","destino"))->render()
             ));
         }
 
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'view' => View::make('traslado.create')->render(),
             ));
     }
 
-    public function detalle() 
+    public function detalle()
     {
     	if (Input::has('_token'))
-        {   
+        {
             $consultar = DetalleTraslado::where('traslado_id','=',Input::get('traslado_id'))
             ->where('producto_id','=',Input::get('producto_id'))->get();
 
@@ -48,7 +48,7 @@ class TrasladoController extends \BaseController {
             $existencia = Existencia::where('producto_id','=',Input::get('producto_id'))
             ->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
-            if ($existencia->existencia < Input::get('cantidad')) 
+            if ($existencia->existencia < Input::get('cantidad'))
                 return 'No puede trasladar mas de la Existencia';
 
             $producto = Producto::find(Input::get('producto_id'));
@@ -74,8 +74,8 @@ class TrasladoController extends \BaseController {
                 $detalle = $this->consulta_detalle_traslado();
 
                 return Response::json(array(
-                    'success' => true, 
-                    'table' => View::make('traslado.detalle_body',compact('detalle'))->render() 
+                    'success' => true,
+                    'table' => View::make('traslado.detalle_body',compact('detalle'))->render()
                     ));
             }
 
@@ -89,7 +89,7 @@ class TrasladoController extends \BaseController {
 
         $traslado = Traslado::find($id);
 
-        if ($traslado->status == 1 && $traslado->recibido == 1) 
+        if ($traslado->status == 1 && $traslado->recibido == 1)
             return  "El traslado no se puede abrir porque ya fue recibido";
 
         $traslado->update(array('status' => 0 , 'kardex' => 0));
@@ -105,7 +105,7 @@ class TrasladoController extends \BaseController {
             ->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'comprobante')->first();
 
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'form' => View::make('traslado.abrirTraslado',compact("id", "traslado", "destino", "detalle", 'comprobante'))->render(),
             ));
     }
@@ -116,7 +116,7 @@ class TrasladoController extends \BaseController {
 
         $traslado = Traslado::find($id);
 
-        if ($traslado->status == 1 && $traslado->recibido == 1) 
+        if ($traslado->status == 1 && $traslado->recibido == 1)
             return  "El traslado no se puede abrir porque ya fue recibido";
 
         $destino = Tienda::find($traslado->tienda_id_destino);
@@ -124,7 +124,7 @@ class TrasladoController extends \BaseController {
         $detalle = $this->consulta_detalle_traslado();
 
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'form' => View::make('traslado.abrirTrasladoDeRecibido',compact("id", "traslado", "destino", "detalle"))->render(),
             ));
     }
@@ -133,7 +133,7 @@ class TrasladoController extends \BaseController {
     {
         $detalle = DetalleTraslado::where('traslado_id', '=', Input::get('traslado_id'))->get();
 
-        foreach ($detalle as $dt) 
+        foreach ($detalle as $dt)
         {
            $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
            ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
@@ -167,23 +167,23 @@ class TrasladoController extends \BaseController {
     }
 
     public function eliminarTraslado()
-    {   
+    {
         $detalle = DetalleTraslado::where('traslado_id' , '=' , Input::get('traslado_id'))->get();
 
-        foreach ($detalle as $dt) 
+        foreach ($detalle as $dt)
         {
             $existencia = Existencia::where('producto_id' , '=' , $dt->producto_id)
             ->where('tienda_id' , '=' , Auth::user()->tienda_id )->first();
 
             $existencia->existencia = $existencia->existencia + $dt->cantidad ;
 
-            $existencia->save();  
+            $existencia->save();
         }
 
-        if (Traslado::destroy(Input::get('traslado_id'))) 
+        if (Traslado::destroy(Input::get('traslado_id')))
             return Response::json(array('success' => true));
 
-        return 'error';   
+        return 'error';
     }
 
     public function finalizarTraslado()
@@ -191,7 +191,7 @@ class TrasladoController extends \BaseController {
         $detalle = DetalleTraslado::select(DB::raw('sum(cantidad*precio) as total'))
         ->where('traslado_id', '=', Input::get('traslado_id'))->first();
 
-        if ($detalle->total == null) 
+        if ($detalle->total == null)
             return 'El traslado no se puede finalizar porque no tiene productos...';
 
         $traslado = Traslado::find(Input::get('traslado_id'));
@@ -202,7 +202,7 @@ class TrasladoController extends \BaseController {
         return Response::json(array('success' => true));
     }
 
-    public function consulta_detalle_traslado () 
+    public function consulta_detalle_traslado ()
     {
         $query = DB::table('detalle_traslados')
         ->select(array('detalle_traslados.id as id','traslado_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, (cantidad * precio) AS total') ))
@@ -211,7 +211,7 @@ class TrasladoController extends \BaseController {
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
-        return $query;      
+        return $query;
     }
 
     public function getDetalleTraslado()
@@ -220,7 +220,7 @@ class TrasladoController extends \BaseController {
 
         $traslado = Traslado::find(Input::get('traslado_id'));
 
-        if (Input::get('opcion') == 1) 
+        if (Input::get('opcion') == 1)
             $user = User::find($traslado->user_id_recibido);
         else
             $user = User::find($traslado->user_id);
@@ -245,11 +245,11 @@ class TrasladoController extends \BaseController {
         }
 
         $detalle_traslado = DetalleTraslado::find(Input::get('detalle_traslado_id'));
-        $serials = explode(',', $detalle_traslado->serials ); 
+        $serials = explode(',', $detalle_traslado->serials );
 
-        if (trim($detalle_traslado->serials) == null ) 
+        if (trim($detalle_traslado->serials) == null )
             $serials = [];
-        
+
         return Response::json(array(
             'success' => true,
             'view'   => View::make('traslado.ingresarSeriesDetalleTraslado', compact('serials'))->render()
@@ -325,7 +325,7 @@ class TrasladoController extends \BaseController {
 
         $tienda['origen'] = $tienda_o->nombre." ".$tienda_o->direccion;
         $tienda['destino'] = $tienda_d->nombre." ".$tienda_d->direccion;
-        
+
         if(count($traslado->detalle_traslado)>0)
         {
 
@@ -336,6 +336,24 @@ class TrasladoController extends \BaseController {
                 'success' => true,
                 'pdf'   => Input::get('id').Auth::user()->id.'t'
             ));
+        }
+        else
+            return 'Ingrese productos ala Descarga para poder inprimir';
+    }
+
+	public function ImprimirTrasladoPdf()
+    {
+        $traslado = Traslado::with('detalle_traslado')->find(Input::get('id'));
+        $tienda_d = Tienda::find($traslado->tienda_id_destino);
+        $tienda_o = Tienda::find($traslado->tienda_id);
+
+        $tienda['origen'] = $tienda_o->nombre." ".$tienda_o->direccion;
+        $tienda['destino'] = $tienda_d->nombre." ".$tienda_d->direccion;
+
+        if(count($traslado->detalle_traslado)>0)
+        {
+            $pdf = PDF::loadView('traslado.imprimir',  array('traslado'=>$traslado , 'tienda' => $tienda));
+            return $pdf->stream();
         }
         else
             return 'Ingrese productos ala Descarga para poder inprimir';

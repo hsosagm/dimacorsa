@@ -53,7 +53,7 @@ function printDocument(impresora, url, id) {
             if (printer !== null) {
 
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: url,
                     data: { id: id },
                     success: function (data, text) {
@@ -83,6 +83,9 @@ function printDocument(impresora, url, id) {
             }
             window['qzDoneFinding'] = null;
         };
+    }
+    else {
+        window.open(url+'Pdf?id='+id ,'_blank');
     }
 };
 

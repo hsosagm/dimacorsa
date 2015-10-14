@@ -3,9 +3,11 @@
     <div class="media">
         <div class="media-body">
             <h4 class="media-heading"><span>
-                {{$tienda->nombre}}
+                {{ $tienda->nombre }}
             </span></h4>
-            <small>Tecnologia Moderna</small>
+            <small>
+                {{ $tienda->direccion }}
+            </small>
         </div>
     </div>
 </div>
