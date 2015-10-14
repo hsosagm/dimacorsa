@@ -62,6 +62,18 @@ class NotaCreditoController extends \BaseController {
         return View::make('notas_creditos.create');
     }
 
+	public function deleteAdelanto()
+	{
+		$notaCredito = NotaCredito::find(	Input::get('nota_credito_id'));
+
+		if ($notaCredito->delete()) {
+			return Response::json(array(
+                'success' => true,
+            ));
+		}
+
+		return 'error al tratar de eliminar...!';
+	}
     public function eliminarDetalle()
     {
         $adelanto = AdelantoNotaCredito::find(Input::get('adelanto_nota_credito_id'));
@@ -96,8 +108,8 @@ class NotaCreditoController extends \BaseController {
         ));
     }
 
-	public function updateClienteId() {
-
+	public function updateClienteId()
+	{
 		$notaCredito = NotaCredito::find(Input::get('nota_credito_id'));
 		$notaCredito->cliente_id = Input::get('cliente_id');
 		$notaCredito->save();
@@ -117,4 +129,16 @@ class NotaCreditoController extends \BaseController {
         $venta = Venta::find(Input::get('venta_id'));
         return  View::make('notas_creditos.formMetodoPagoNotaDeCredito', compact('venta'));
     }
+
+	public function imprimirNotaDeCretidoAdelanto()
+	{
+		$notaCreditoAdelanto = AdelantoNotaCredito::whereNotaCreditoId(Input::get('nota_credito_id'))->get();
+		if (count($notaCreditoAdelanto) <= 0 )
+			return 'no has ingresado pagos ala Nota de Credito....!';
+
+		$notaCredito = NotaCredito::with('adelanto', 'cliente', 'user')->find(Input::get('nota_credito_id'));
+
+		$pdf = PDF::loadView('notas_creditos.comprobanteAdelanto',  array('notaCredito' => $notaCredito));
+		return $pdf->stream('Adelanto_Nota_De_Credito_'.$notaCredito->id);
+	}
 }

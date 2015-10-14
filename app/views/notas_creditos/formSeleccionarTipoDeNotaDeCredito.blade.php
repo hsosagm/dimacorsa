@@ -6,7 +6,7 @@
 
 <div id="nota_credito">
 	<div class="form-group">
-		<form> 
+		<form>
 			<div style="padding-left:12px">
 				<div class="rdio rdio-theme circle">
 					<input value="notaDeCreditoPorDevolucion" id="radio-type-rounded" type="radio" name="nota_credito" checked>
@@ -14,10 +14,10 @@
 				</div>
 				<div class="rdio rdio-theme circle">
 					<input value="notaDeCreditoPorDescuento" id="radio-type-rounded2" type="radio" name="nota_credito">
-					<label style="margin-left:10px" for="radio-type-rounded2">Nota de credito por descuento</label>
+					<label style="margin-left:10px" for="radio-type-rounded2">Nota de credito por adelanto</label>
 				</div>
 			</div>
-		</form> 
+		</form>
 	</div>
 
 	<div class="modal-footer">

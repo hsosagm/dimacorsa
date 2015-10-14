@@ -24,7 +24,6 @@ function postFormSeleccionarTipoDeNotaDeCredito() {
             }
             return msg.warning(data, 'Advertencia!');
         });
-
         return;
     }
 
@@ -108,7 +107,6 @@ function actualizarClienteNotaCredito(e, opcion) {
         $('.formCrearCliente').attr('status',0);
         return $('.formCrearCliente').slideUp('slow');
     }
-
     msg.warning('Seleccione un cliente para modificar..', 'Advertencia!');
 };
 
@@ -250,9 +248,20 @@ function guardarClienteActualizadoDetalleNotaCredito(e) {
 };
 
 function eliminarNotaDeCretidoAdelanto(nota_credito_id) {
-    
-};
-
-function imprimirNotaDeCretidoAdelanto(){
-
+    $.confirm({
+        confirm: function(){
+            $.ajax({
+                type: "POST",
+                url: 'user/notaDeCredito/deleteAdelanto',
+                data:{nota_credito_id: nota_credito_id},
+            }).done(function(data) {
+                if (data.success == true)
+                {
+                    $('.bs-modal').modal('hide');
+                    return msg.success('Adelanto Eliminado..', 'Listo!');
+                }
+                msg.warning(data, 'Advertencia!');
+            });
+        }
+    });
 };
