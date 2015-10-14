@@ -4,22 +4,22 @@ class ConsultasCajaController extends \BaseController {
 
 	public function ConsultasPorMetodoDePago($model)
 	{
-		if($model == 'Ventas')
+		if(trim($model) == 'Ventas')
 			return $this->consultasPagos('venta','showSalesDetail');
 
-		else if ($model == 'AbonosVentas')
+		else if (trim($model) == 'AbonosVentas')
 			return $this->consultasAbonos('ventas' , 'verDetalleAbonosClietes');
 
-		else if ($model == 'AbonosCompras')
+		else if (trim($model) == 'AbonosCompras')
 			return $this->consultasAbonos('compras' , 'showPaymentsDetail');
 
-        else if ($model == 'AdelantosNotasCreditos')
+        else if (trim($model) == 'AdelantosNotasCreditos')
     		return $this->consultasNotaCredito('adelanto');
 
-        else if ($model == 'DevolucionNotasCreditos')
+        else if (trim($model) == 'DevolucionNotasCreditos')
         	return $this->consultasNotaCredito('devolucion');
 
-		else if ($model == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
+		else if (trim($model) == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
 			return $this->OperacionesConsultas(strtolower(rtrim($model, 's')));
 
 		else

@@ -62,10 +62,14 @@
                 });
             },
 
+			imprimirCorteDeCaja: function(e, cierre_caja_id) {
+				window.open('imprimirCorteCaja/'+cierre_caja_id  ,'_blank');
+			},
+
 	        getCajaConsultasPorMetodoDePago: function(page , sSearch) {
                 $.ajax({
             		type: "GET",
-            		url: "admin/cajas/ConsultasPorMetodoDePago/" + graph_container.caja_model + "?page=" + page,
+            		url: "user/cajas/ConsultasPorMetodoDePago/" + graph_container.caja_model + "?page=" + page,
                     data: {
                         sSearch: sSearch ,
                         metodo_pago_id : graph_container.caja_metodo_pago_id ,
@@ -75,7 +79,7 @@
                     },
             	}).done(function(data) {
             		if (data.success == true) {
-                        graph_container.x = 2;
+                        graph_container.x = 3;
                         return $('#cajas_dt').html(data.table);
             		}
             		msg.warning(data, 'Advertencia!');
@@ -119,7 +123,7 @@
     </table>
 </div>
 <div v-show="x == 2" id="cajas"></div>
-<div v-show="x == 2" id="cajas_dt"></div>
+<div v-show="x == 3" id="cajas_dt"></div>
 
 
 <script>
@@ -135,16 +139,11 @@
             if (counter == 2) {
                 counter = 0;
                 picker_start.set('select', picker_start.get('highlight'));
-                $('.short_calendar .picker__table').css('display', 'none');
             };
             counter++;
         },
-        onClose: function(element) {
-            $('.short_calendar .picker__table').css('display', 'none');
-        }
+        onClose: function(element) { }
     });
-
-    $('.short_calendar .picker__table').css('display', 'none');
     var picker_start = $start.pickadate('picker')
 
     $(document).ready(function() {
@@ -179,8 +178,11 @@
                 {"sClass": "width5 icons center",                   "sTitle": "",            "aTargets": [5],
                     "orderable": false,
                     "mRender": function(data, type, full) {
-                        return '<i title="Ver Corte" onclick="graph_container.getMovimientosDeCajaDt(this, '+full.DT_RowId+')" class="fa fa-search font14" style="padding-left:10px"> </i>';
-                    }
+						$v='<i title="Ver Corte" onclick="graph_container.getMovimientosDeCajaDt(this, '+full.DT_RowId+')" class="fa fa-search font14" style="padding-left:10px"> </i>';
+                        $v+='<i title="Ver Corte" onclick="graph_container.imprimirCorteDeCaja(this, '+full.DT_RowId+')" class="fa fa-print font14" style="padding-left:10px"> </i>';
+
+						return $v;
+					}
 
                 },
             ],
