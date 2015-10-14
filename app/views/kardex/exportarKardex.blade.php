@@ -31,16 +31,16 @@
 
 <table width="97%">
 	<tr style="background-color: #D5D5D5;">
-		<td align="center" width="18%"> <strong>Fecha </strong> </td>              
-		<td align="center" width="15%"> <strong>Usuario </strong> </td>             
-		<td align="center" width="10%"> <strong>Transaccion </strong> </td>         
-		<td align="center" width="8%"> <strong>Evento </strong> </td>              
-		<td align="center" width="5%"> <strong>Cantidad </strong> </td>            
-		<td align="center" width="5%"> <strong>Existencia </strong> </td>          
-		<td align="center" width="9%"> <strong>Costo Unitario </strong> </td>      
-		<td align="center" width="10%"> <strong>Costo Promedio </strong> </td>      
+		<td align="center" width="18%"> <strong>Fecha </strong> </td>
+		<td align="center" width="15%"> <strong>Usuario </strong> </td>
+		<td align="center" width="10%"> <strong>Transaccion </strong> </td>
+		<td align="center" width="8%"> <strong>Evento </strong> </td>
+		<td align="center" width="5%"> <strong>Cantidad </strong> </td>
+		<td align="center" width="5%"> <strong>Existencia </strong> </td>
+		<td align="center" width="9%"> <strong>Costo Unitario </strong> </td>
+		<td align="center" width="10%"> <strong>Costo Promedio </strong> </td>
 		<td align="center" width="10%"> <strong>Costo del Movimiento </strong> </td>
-		<td align="center" width="10%"> <strong>Total Acumulado </strong> </td> 
+		<td align="center" width="10%"> <strong>Total Acumulado </strong> </td>
 	</tr>
 	<?php $i = 0 ?>
 	@foreach($kardex as $data)
@@ -76,7 +76,7 @@
 	@endforeach
 </table>
 
- 
+
 <style>
 	@page { margin: 10px; }
 body { margin: 10px; }

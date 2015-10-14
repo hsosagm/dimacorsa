@@ -17,11 +17,12 @@ class Traductor
             "october"   => "Octubre",
             "november"  => "Noviembre",
             "december"  => "Diciembre",
-            );
+        );
+
         return $meses[strtolower($mes)];
     }
 
-    public static function getDia($dia) 
+    public static function getDia($dia)
     {
         $dias = array(
             'monday'    => 'Lunes',
@@ -31,7 +32,8 @@ class Traductor
             'friday'    => 'Viernes',
             'saturday'  => 'Sabado',
             'sunday'    => 'Domingo'
-            );
+        );
+        
         return $dias[strtolower($dia)];
     }
 }
