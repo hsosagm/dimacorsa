@@ -6,7 +6,7 @@ class CierreCaja extends \BaseModel {
 
 	protected $guarded = array('id');
 
-    public function user()
+    public function user() 
     {
         return $this->belongsTo('User');
     }

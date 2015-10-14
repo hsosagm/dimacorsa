@@ -4,5 +4,5 @@ class Caja extends \BaseModel {
 
 	protected $table = 'cajas';
 
-	protected $guarded = array('id');
+	protected $guarded = array('id'); 
 }
