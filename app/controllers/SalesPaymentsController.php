@@ -269,4 +269,5 @@ class SalesPaymentsController extends \BaseController {
             'table'   => View::make('ventas.payments.DT_detalle_abono', compact('detalle', 'deuda'))->render()
         ));
     }
+
 }

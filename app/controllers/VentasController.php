@@ -235,7 +235,6 @@ class VentasController extends \BaseController {
 
 		}
 
-
 		PagosVenta::where('venta_id', Input::get('venta_id'))->delete();
 
         if ($this->getTotalVenta() == null ) {
@@ -257,6 +256,14 @@ class VentasController extends \BaseController {
 	    return true;
     }
 
+	public function pagoConNotasDeCredito()
+	{
+
+		return  Response::json(array(
+			'success' => true,
+			'datos' => Input::get('datos')
+		));
+	}
 
 	public function getTotalVenta()
 	{

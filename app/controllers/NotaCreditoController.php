@@ -8,7 +8,6 @@ class NotaCreditoController extends \BaseController {
         {
             $notaCredito = new NotaCredito;
             $caja = Caja::whereUserId(Auth::user()->id)->first();
-
             $data = [];
             $data['cliente_id'] = Input::get('cliente_id');
             $data['caja_id'] = $caja->id;
@@ -90,21 +89,41 @@ class NotaCreditoController extends \BaseController {
 
     public function getConsultarNotasDeCreditoCliente()
     {
-        $data = DB::table('notas_creditos')->select(
+        $dataAdelanto = DB::table('notas_creditos')->select(
+			DB::raw("notas_creditos.id as id"),
+			DB::raw("adelanto_nota_credito.id as id_foraneo"),
             DB::raw("notas_creditos.created_at as fecha"),
             DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"),
-            DB::raw("clientes.nombre as cliente"),
-            "tipo","Monto","nota")
+			DB::raw("clientes.nombre as cliente"),
+			DB::raw("notas_creditos.tipo as tipo"),
+			DB::raw("notas_creditos.nota as nota"),
+            DB::raw("adelanto_nota_credito.monto as monto"))
         ->join("users", "users.id", "=", "user_id")
-        ->join("clientes", "clientes.id", "=", "cliente_id")
-        ->whereRaw("date_format(notas_creditos.updated_at, '%Y-%m-%d') != date_format(current_date,'%Y-%m-%d')")
-        ->where("venta_id",">",0)
-        ->where("estado","=",0)
+		->join("clientes", "clientes.id", "=", "cliente_id")
+        ->join("adelanto_nota_credito", "nota_credito_id", "=", "notas_creditos.id")
+		->where("estado", "=", 0)
+        ->where("cliente_id", "=", Input::get('cliente_id'))
+        ->get();
+
+		$dataDevolucion = DB::table('notas_creditos')->select(
+			DB::raw("notas_creditos.id as id"),
+			DB::raw("devolucion_nota_credito.id as id_foraneo"),
+            DB::raw("notas_creditos.created_at as fecha"),
+            DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"),
+			DB::raw("clientes.nombre as cliente"),
+			DB::raw("notas_creditos.tipo as tipo"),
+			DB::raw("notas_creditos.nota as nota"),
+            DB::raw("devolucion_nota_credito.monto as monto"))
+        ->join("users", "users.id", "=", "user_id")
+		->join("clientes", "clientes.id", "=", "cliente_id")
+        ->join("devolucion_nota_credito", "nota_credito_id", "=", "notas_creditos.id")
+        ->where("estado", "=", 0)
+		->where("cliente_id", "=", Input::get('cliente_id'))
         ->get();
 
         return Response::json(array(
             'success' => true,
-            'table' => View::make('notas_creditos.consultarNotasDeCreditoCliente', compact('data'))
+            'view' => View::make('notas_creditos.consultarNotasDeCreditoCliente', compact('dataAdelanto', 'dataDevolucion'))->render()
         ));
     }
 

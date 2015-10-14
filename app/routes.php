@@ -96,6 +96,7 @@
             Route::post('updateClienteId','NotaCreditoController@updateClienteId' );
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
+            Route::get('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
         });
 
         Route::group(array('prefix' => 'consulta'), function()
@@ -233,15 +234,16 @@
             Route::post('ingresarSeriesDetalleVenta'            , 'VentasController@ingresarSeriesDetalleVenta');
             Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');
             Route::get('getDetalleVentasPendientesPorUsuario'   , 'VentasController@getDetalleVentasPendientesPorUsuario');
+            Route::post('pagoConNotasDeCredito'                 , 'VentasController@pagoConNotasDeCredito');
 
             Route::group(array('prefix' => 'payments'),function()
             {
-                Route::get('formPayments'               , 'SalesPaymentsController@formPayments');
-                Route::post('formPayments'              , 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination'     , 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'        , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'          , 'SalesPaymentsController@SelectedPaySales'  );
-                Route::get('getDetalleAbono'            , 'SalesPaymentsController@getDetalleAbono'  );
+                Route::get('formPayments'           , 'SalesPaymentsController@formPayments');
+                Route::post('formPayments'          , 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination' , 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('eliminarAbonoVenta'    , 'SalesPaymentsController@eliminarAbonoVenta');
+                Route::post('SelectedPaySales'      , 'SalesPaymentsController@SelectedPaySales');
+                Route::get('getDetalleAbono'        , 'SalesPaymentsController@getDetalleAbono');
             });
 
             Route::group(array('prefix' => 'devoluciones'),function()
