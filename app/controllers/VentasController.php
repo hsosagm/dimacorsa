@@ -387,11 +387,14 @@ class VentasController extends \BaseController {
 				return json_encode('La venta no se puede abrir porque ya fue finalizada');
 		}
 
-		$venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
+		if ($venta->completed == 1)
+			$venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
+
+		else if ($venta->completed == 2)
+			$venta->update(array('completed' => 2, 'saldo' => 0 , 'kardex' => 0));
 
 		$kardex = Kardex::where('kardex_transaccion_id',2)->where('transaccion_id',Input::get('venta_id'));
 		$kardex->delete();
-
 
 		$detalle = $this->getSalesDetail();
 

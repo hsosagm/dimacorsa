@@ -12,6 +12,6 @@
         <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Series</a></li>
         {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>
-        <li><a href="javascript:void(0);" onclick="getConsultarNotasDeCreditoCliente()">Notas Creditos</a></li>
+        {{-- <li><a href="javascript:void(0);" onclick="getConsultarNotasDeCreditoCliente()">Notas Creditos</a></li> --}}
     </ul>
 </li>
