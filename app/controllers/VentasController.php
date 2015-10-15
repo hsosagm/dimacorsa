@@ -323,13 +323,15 @@ class VentasController extends \BaseController {
 
 	public function enviarVentaACaja()
 	{
-
 		$venta = Venta::find(Input::get('venta_id'));
+		$total = DetalleVenta::where('venta_id','=',Input::get('venta_id'))->first(array(DB::raw('sum(cantidad * precio) as total')));
+
 
 		if ($venta->completed == 1)
 			return 'esta venta ya fue finalizada..';
 
-		$venta->completed = 2;
+			$venta->completed = 2;
+			$venta->total = $total->total;
 
 		if ($venta->save())
 			return Response::json(array( 'success' => true ));
