@@ -324,7 +324,7 @@ function clean_panel() {
     $("#table_length").html("");
     $( ".DTTT" ).html("");
     $('.dt-panel').show();
-    $("#graph_container").attr('z-index', '1');
+    $("#graph_container").css( "zIndex", 1);
     ocultar_capas();
 };
 

@@ -1,5 +1,5 @@
 <script>
-	var graph_container = new Vue({
+	var notasCreditosVue = new Vue({
 
 	    el: '#graph_container',
 
@@ -8,21 +8,26 @@
 	        x: 1,
 
             tabla: {
-                adelanto: {{ json_encode($dataAdelanto) }} ,
-                devolucion: {{ json_encode($dataDevolucion) }} ,
+                adelanto: [] ,
+                devolucion: [] ,
             },
 
             envio: {
                 notas:[]
             },
 
-            total: 0,
+			venta_id: 0,
+			cliente_id: 0,
+			metodo_pago_id: 6,
+			restanteVenta: 0,
+			total: 0,
+
 	    },
 
 	    methods: {
 
 	        reset: function() {
-	            graph_container.x = graph_container.x - 1;
+	            notasCreditosVue.x = notasCreditosVue.x - 1;
 	        },
 
 	        close: function() {
@@ -33,6 +38,11 @@
             {
                 if ( $(event.target).is(':checked') )
                 {
+					var restante = this.restanteVenta - this.total;
+					if(restante < monto){
+						return $(event.target).prop('checked', false);
+					}
+
                     this.envio.notas.push({ id_nota: id_nota, id_foraneo: id_foraneo, monto: monto });
                     this.total += parseFloat(monto);
                 }
@@ -41,8 +51,8 @@
                     this.envio.notas.forEach(function(q, index)
                     {
                         if( id_nota === q.id_nota) {
-                            graph_container.envio.notas.$remove(index);
-                            graph_container.total -= parseFloat(monto);
+                            notasCreditosVue.envio.notas.$remove(index);
+                            notasCreditosVue.total -= parseFloat(monto);
                         }
                     });
                 }
@@ -53,24 +63,43 @@
                 $.ajax({
             		type: "POST",
             		url: 'user/ventas/pagoConNotasDeCredito',
-                    data: { datos: graph_container.envio.notas },
+                    data: {
+						datos: notasCreditosVue.envio.notas,
+						venta_id: notasCreditosVue.venta_id,
+						cliente_id: notasCreditosVue.cliente_id,
+						total: notasCreditosVue.total,
+						metodo_pago_id: notasCreditosVue.metodo_pago_id
+					},
             	}).done(function(data) {
             		if (data.success == true)
             		{
 						$.each( data.datos, function( key, value ) {
 						  	console.log(value.id_nota + '-' + value.id_foraneo  + '-' + value.monto);
 						});
+						console.log("-----------------------------------------------------");
+						console.log('venta_id: '+ data.venta_id);
+						console.log('cliente_id: '+ data.cliente_id);
+						console.log('total: '+ data.total);
+						console.log('metodo_pago_id: '+ data.metodo_pago_id);
             			return;
             		}
             		msg.warning(data, 'Advertencia!');
             	});
-            }
+            },
+
+			verificarMonto: function(event, monto)
+			{
+				 if ( monto > this.restanteVenta )
+					return false;
+
+				return true;
+			}
 	    }
     });
 
     function graph_container_compile() {
-	    graph_container.$nextTick(function() {
-	        graph_container.$compile(graph_container.$el);
+	    notasCreditosVue.$nextTick(function() {
+	        notasCreditosVue.$compile(graph_container.$el);
 	    });
 	}
 </script>
@@ -85,6 +114,6 @@
 	@include('notas_creditos.consultas.notasDeCreditoCliente')
 </div>
 <div  v-show="x == 2" id="container2"> </div>
-<pre>
-    @{{envio.notas | json}}
+<pre class="right" style="padding-right:25px">
+    <button v-on="click: eviarNotasDeCredito" v-show="total" class="btn bg-theme btn-info">Agregar</button>
 </pre>

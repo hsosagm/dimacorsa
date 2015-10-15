@@ -121,9 +121,21 @@ class NotaCreditoController extends \BaseController {
 		->where("cliente_id", "=", Input::get('cliente_id'))
         ->get();
 
+		$cliente_id    = Input::get('cliente_id');
+ 		$venta_id      = 10;
+		$restanteVenta = 150;
+
+
         return Response::json(array(
             'success' => true,
-            'view' => View::make('notas_creditos.consultarNotasDeCreditoCliente', compact('dataAdelanto', 'dataDevolucion'))->render()
+			'dataDevolucion' => $dataDevolucion,
+			'dataAdelanto'   => $dataAdelanto,
+			'restanteVenta'  => $restanteVenta,
+			'venta_id'       => $venta_id,
+			'cliente_id'     => $cliente_id,
+            'view' => View::make('notas_creditos.consultarNotasDeCreditoCliente',
+			compact('dataAdelanto', 'dataDevolucion', 'venta_id', 'restanteVenta', 'cliente_id'))->render(),
+
         ));
     }
 

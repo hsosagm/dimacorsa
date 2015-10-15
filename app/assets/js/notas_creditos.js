@@ -48,8 +48,14 @@ function getConsultarNotasDeCreditoCliente(e, cliente_id){
 		{
             clean_panel();
         	$('#graph_container').show();
-            return $('#graph_container').html(data.view);
-			$("#graph_container").attr('z-index', '1200');
+            $('#graph_container').html(data.view);
+            notasCreditosVue.tabla.adelanto = data.dataAdelanto;
+            notasCreditosVue.tabla.adelanto = data.dataAdelanto;
+            notasCreditosVue.venta_id = data.venta_id;
+            notasCreditosVue.cliente_id = data.cliente_id;
+            notasCreditosVue.restanteVenta = data.restanteVenta;
+
+			return $("#graph_container").css( "zIndex", 1200);
 		}
 		msg.warning(data, 'Advertencia!');
 	});

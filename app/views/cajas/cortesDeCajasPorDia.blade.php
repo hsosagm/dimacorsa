@@ -94,7 +94,7 @@
 	    });
 	}
 
-	$(document).on('click', '.pagination_caja_graficas a', function (e) {
+	$(document).on('click', '.pagination_caja a', function (e) {
         e.preventDefault();
         var page = $(this).attr('href').split('page=')[1];
         graph_container.getCajaConsultasPorMetodoDePago(page , null);

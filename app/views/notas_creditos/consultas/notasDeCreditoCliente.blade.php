@@ -20,14 +20,13 @@
                 <td> @{{ anc.nota }} </td>
                 <td class="right"> @{{ anc.monto | currency ' '}} </td>
                 <td>
-                    <div class="ckbox ckbox-teal" style="margin-left:30px;">
+                    <div class="ckbox ckbox-teal" style="margin-left:30px;" v-show="verificarMonto(event, anc.monto)">
 						<input id="checkbox-@{{ anc.id }}-@{{ anc.id_foraneo }}" type="checkbox"
                         v-on="click: agregarNota($event, anc.id, anc.id_foraneo, anc.monto)">
 						<label for="checkbox-@{{ anc.id }}-@{{ anc.id_foraneo }}"></label>
 					</div>
                 </td>
             </tr>
-
             <tr v-repeat="dnc: tabla.devolucion">
                 <td> @{{ dnc.fecha }} </td>
                 <td> @{{ dnc.usuario }} </td>
@@ -36,7 +35,7 @@
                 <td> @{{ dnc.nota }} </td>
                 <td class="right"> @{{ dnc.monto | currency ' '}} </td>
                 <td>
-                    <div class="ckbox ckbox-teal" style="margin-left:30px;">
+                    <div class="ckbox ckbox-teal" style="margin-left:30px;" v-show="verificarMonto(event, anc.monto)" >
 						<input id="checkbox-@{{ dnc.id }}-@{{ dnc.id_foraneo }}" type="checkbox"
                         v-on="click: agregarNota($event, dnc.id, dnc.id_foraneo, dnc.monto)">
 						<label for="checkbox-@{{ dnc.id }}-@{{ dnc.id_foraneo }}"></label>
@@ -46,15 +45,10 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" class="right"> Total:</td>
-                <td class="right"> @{{ total | currency ' '}} </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="6"></td>
-                <td>
-                    <button v-on="click: eviarNotasDeCredito" class="btn bg-theme form-control">Agregar</button>
-                </td>
+                <th colspan="2"></th>
+                <th colspan="2"> Restante de la venta: @{{ (restanteVenta - total) | currency ' '}} </th>
+                <th colspan="2"> Total: @{{ total | currency ' '}} </th>
+                <th></th>
             </tr>
         </tfoot>
     </table>
