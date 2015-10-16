@@ -2,7 +2,7 @@
 
 class DetalleDevolucionNotaCredito extends \BaseModel {
 
-	protected $table = 'devolucion_nota_credito';
+	protected $table = 'detalle_devolucion_nota_credito';
 
 	protected $guarded = array('id');
 

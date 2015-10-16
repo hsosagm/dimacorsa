@@ -8,6 +8,8 @@ class NotaCreditoValidator extends ValidatorAssistant {
         'cliente_id'       => 'required|integer|min:1',
         'user_id'          => 'required|integer|min:1',
         'tienda_id'        => 'required|integer|min:1',
-        'nota'             => 'required|min:5',
+        'caja_id'          => 'required|integer|min:1',
+        'estado'           => 'required|integer|min:0|max:1',
+        'tipo'             => 'required',
     );
 }

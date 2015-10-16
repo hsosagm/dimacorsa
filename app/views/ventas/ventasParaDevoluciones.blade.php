@@ -134,11 +134,11 @@
                 $('#graph_container').hide();
             },
 
-            pushToDevoluciones: function(event, producto_id, cantidad, precio)
+            pushToDevoluciones: function(event, detalle_venta_id, producto_id, cantidad, precio)
             {
                 if ( $(event.target).is(':checked') )
                 {
-                    this.devoluciones.productos.push({ producto_id: producto_id, cantidad: cantidad, precio: precio });
+                    this.devoluciones.productos.push({ detalle_venta_id: detalle_venta_id, producto_id: producto_id, cantidad: cantidad, precio: precio });
                 }
                 else
                 {
@@ -250,25 +250,19 @@
         });
     };
 
-    function enviarDevolucionParcial()
+    function enviarDevolucionParcial(descuento_sobre_saldo, monto)
     {
         var nota_credito_opcion = $('input[name="nota_credito_opcion"]:checked').val();
         var mp_nota_credito_caja = $('input[name="mp_nota_credito_caja"]:checked').val();
 
-        if ( nota_credito_opcion == 'agregarNotaAlCliente' ) {
-            alert(nota_credito_opcion);
-        }
-        else {
-            alert( mp_nota_credito_caja );
-        }
-
-
         $.ajax({
             type: "POST",
             url: 'user/ventas/devoluciones/postDevolucionParcial',
-            data: { 
-                datos: dv.devoluciones.productos, venta_id: dv.devoluciones.venta.id, monto: dv.totalMontoDevolucion,
-                nota_credito_opcion: nota_credito_opcion, mp_nota_credito_caja: mp_nota_credito_caja 
+            data: {
+                datos: dv.devoluciones.productos, venta_id: dv.devoluciones.venta.id,
+                nota_credito_opcion: nota_credito_opcion, mp_nota_credito_caja: mp_nota_credito_caja,
+                tienda_id: dv.devoluciones.venta.tienda_id, cliente_id: dv.devoluciones.venta.cliente_id,
+                descuento_sobre_saldo: descuento_sobre_saldo, monto: monto
             },
         }).done(function(data) {
             console.log(data);

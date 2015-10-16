@@ -829,7 +829,7 @@ class VentasController extends \BaseController {
 		$venta = Venta::with('cliente')->find(Input::get('venta_id'));
 
 		$detalle_venta = DB::table('detalle_ventas')
-		    ->select('producto_id', 'cantidad', 'precio', 'ganancias', 'descripcion', 'existencia', 'p_costo', 'marcas.nombre as marca')
+		    ->select('detalle_ventas.id', 'producto_id', 'cantidad', 'precio', 'ganancias', 'descripcion', 'existencia', 'p_costo', 'marcas.nombre as marca')
 		    ->where('venta_id', '=', Input::get('venta_id'))
 		    ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
 		    ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
@@ -889,47 +889,109 @@ class VentasController extends \BaseController {
 
 	public function postDevolucionParcial()
 	{
-		return json_encode(Input::all());
+		$this->devUpdateDetalleVenta();
+		$this->devUpdateVenta();
+        $nota_credito = $this->createNotaCredito();
+        $dnc_id = $this->createDevolucionNotaCredito($nota_credito);
+		$this->createDetalleDevolucion($dnc_id);
 
+		return Response::json(array(
+			'success' => true
+        ));
+	}
+
+    public function devUpdateDetalleVenta()
+    {
+		foreach (Input::get('datos') as $d) {
+			$dv = DetalleVenta::find($d['detalle_venta_id']);
+
+			if ($dv->cantidad > $d['cantidad']) {
+				$dv->cantidad = $dv->cantidad - $d['cantidad'];
+				$dv->save();
+			} 
+			else {
+				$dv->delete();
+			}
+		}
+    }
+
+	public function devUpdateVenta()
+	{
+		$detalle_venta = DetalleVenta::whereVentaId(Input::get('venta_id'))->get();
+
+		$total_venta = 0;
+
+		if (count($detalle_venta)) {
+			foreach ($detalle_venta as $key => $dv) {
+				$total_venta = $total_venta + ($dv->cantidad * $dv->precio);
+			}
+		}
+
+	    $venta = Venta::find(Input::get('venta_id'));
+	    $venta->saldo = $venta->saldo - Input::get('descuento_sobre_saldo');
+	    $venta->total = $total_venta;
+	    $venta->save();
+	}
+
+	public function createNotaCredito()
+	{
+        if (Input::get('nota_credito_opcion') == 'agregarNotaAlCliente') {
+        	$estado = 0;
+        	$metodo_pago_id = 6;
+        } else {
+        	$estado = 1;
+        	$metodo_pago_id = Input::get('mp_nota_credito_caja');
+        }
+
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
+        $notaCredito = new NotaCredito;
+        
+		$data  = ['cliente_id' => Input::get('cliente_id'), 'caja_id' => $caja->id, 'estado' =>  $estado, 'tipo' => 'devolucion'];
+
+		if (!$notaCredito->create_master($data))
+		{
+			return $notaCredito->errors();
+		}
+
+		return  array(
+			'nota_credito_id' => $notaCredito->get_id(),
+			'metodo_pago_id' => $metodo_pago_id
+		);
+	}
+
+    public function createDevolucionNotaCredito($nota_credito)
+    {
+        // variables: nota_credito_id, venta_id, metodo_pago_id, monto, descuento_sobre_saldo
+
+        $data  = ['nota_credito_id' => $nota_credito['nota_credito_id'], 'venta_id' => Input::get('venta_id'), 'metodo_pago_id' => $nota_credito['metodo_pago_id'], 'monto' =>  Input::get('monto'), 'descuento_sobre_saldo' => Input::get('descuento_sobre_saldo')];
+
+        $dnc = new DevolucionNotaCredito;
+
+		if (!$dnc->_create($data))
+		{
+			return $dnc->errors();
+		}
+
+		return $dnc->get_id();
+    }
+
+    // variables: devolucin_id(id de devolucion_nota_credito), producto_id, cantidad, precio, serials
+	public function createDetalleDevolucion($dnc_id)
+	{
 		$datos = Input::get('datos');
-        $detalle_venta = DetalleVenta::whereVentaId(Input::get('venta_id'))->get();
+        $ddnc = new DetalleDevolucionNotaCredito;
 
         for($i=0; $i<count($datos); $i++)
         {
-        	$existencia = Existencia::whereProductoId($datos[$i]['producto_id'])
-        	->whereTiendaId(Auth::user()->tienda_id)
-        	->first();
-	        $existencia->existencia = $existencia->existencia + $datos[$i]['cantidad'];
-	        $existencia->save();
+        	$ddnc->devolucion_id = $dnc_id;
+        	$ddnc->producto_id = $datos[$i]['producto_id'];
+        	$ddnc->cantidad = $datos[$i]['cantidad'];
+        	$ddnc->precio = $datos[$i]['precio'];
 
-	        $total_venta = 0;
-
-	        foreach ($detalle_venta as $dv)
-	        {
-	        	if ( $dv->producto_id === $datos[$i]['producto_id'] )
-	        	{
-	        		$dv->cantidad = $dv->cantidad - $datos[$i]['cantidad'];
-	                $dv->save();
-	                if ($dv->cantidad == 0) {
-	                	$dv->delete();
-	                }
-	        	}
-	        	$total_venta = $total_venta + ($dv->cantidad * $dv->precio);
-	        }
+			Existencia::where('producto_id', $datos[$i]['producto_id'])
+			->where('tienda_id', Input::get('tienda_id'))
+			->update(array('existencia' => 'existencia' + $datos[$i]['cantidad']));
         }
-
-        $detalle_venta = DetalleVenta::whereVentaId(Input::get('venta_id'))->get();
-
-        $venta = Venta::find(Input::get('venta_id'));
-
-        if (count($detalle_venta) == 0) {
-        	$venta->delete();
-			return Response::json(array('success' => true));
-        }
-
-        $venta->total = $total_venta;
-        $venta->save();
-        return Response::json(array('success' => true));
 	}
 
 }
