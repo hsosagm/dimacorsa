@@ -109,7 +109,7 @@ class ConsultasCajaController extends \BaseController {
         $where .= " AND DATE_FORMAT(abonos_{$_table}.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT({$fecha_inicial}, '%Y-%m-%d %H:%i:%s')";
         $where .= " AND DATE_FORMAT(abonos_{$_table}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT({$fecha_final}, '%Y-%m-%d %H:%i:%s')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
-        $where .= " AND {$_table}.caja_id = ".Input::get('caja_id');
+        $where .= " AND {$table}.caja_id = ".Input::get('caja_id');
 
 		$abonos = SST::get($table, $columns, $Search_columns, $Join, $where );
 

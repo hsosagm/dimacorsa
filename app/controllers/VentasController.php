@@ -495,6 +495,26 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
+	function imprimirFacturaBond()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+
+    	if(count($venta->detalle_venta)>0){
+			$pdf = PDF::loadView('ventas.imprimirFacturaPdf',  array('venta' => $venta))
+			->setPaper('letter')
+			->save("pdf/".Input::get('id').Auth::user()->id.'vf.pdf');
+
+            return Response::json(array(
+                'success' => true,
+                'pdf'   => Input::get('id').Auth::user()->id.'vf'
+            ));
+    	}
+
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+
 	function ImprimirGarantiaPdf()
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
@@ -507,6 +527,15 @@ class VentasController extends \BaseController {
 
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function imprimirFacturaBondPdf()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+
+		$pdf = PDF::loadView('ventas.imprimirFacturaPdf',  array('venta' => $venta))->setPaper('letter');
+
+		return $pdf->stream();
 	}
 
 	function printInvoice()

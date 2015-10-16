@@ -19,7 +19,7 @@
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
-            
+
             "aoColumnDefs": [
             {"sClass": "mod_codigo hover widthM",                      "sTitle": "Usuario",     "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",                      "sTitle": "Fecha",       "aTargets": [1]},
@@ -29,7 +29,7 @@
             {"sClass": "widthS icons center",                          "sTitle": "",            "aTargets": [5],
                 "orderable": false,
                 "mRender": function() {
-                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar" url="user/adelantos/" onclick="_delete_dt(this)"></i> ';
+                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar" url="user/notasCredito/" onclick="_delete_dt(this)"></i> ';
                 }
             },
         ],
@@ -51,13 +51,13 @@
 
 });
 
-$('input[name="fecha_inicial"]').pickadate({ 
+$('input[name="fecha_inicial"]').pickadate({
   max: true,
   selectYears: true,
   selectMonths: true
 });
 
-$('input[name="fecha_final"]').pickadate({ 
+$('input[name="fecha_final"]').pickadate({
   max: true,
   selectYears: true,
   selectMonths: true
