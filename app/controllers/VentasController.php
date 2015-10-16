@@ -33,7 +33,7 @@ class VentasController extends \BaseController {
 		{
 			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 
-            if (Auth::user()->hasRole("Admin"))
+            /*if (Auth::user()->hasRole("Admin"))
             {
             	$producto = Producto::find(Input::get('producto_id'));
 
@@ -49,7 +49,7 @@ class VentasController extends \BaseController {
             	if ((@$producto->p_publico * 0.95) > Input::get('precio')) {
             		return 'no puede hacer mas descuento que el autorizado';
             	}
-            }
+            }*/
 
 
 			if ($this->check_if_code_exists_in_this_sale() == true) {
@@ -235,7 +235,6 @@ class VentasController extends \BaseController {
 
 		}
 
-
 		PagosVenta::where('venta_id', Input::get('venta_id'))->delete();
 
         if ($this->getTotalVenta() == null ) {
@@ -257,6 +256,14 @@ class VentasController extends \BaseController {
 	    return true;
     }
 
+	public function pagoConNotasDeCredito()
+	{
+
+		return  Response::json(array(
+			'success' => true,
+			'datos' => Input::get('datos')
+		));
+	}
 
 	public function getTotalVenta()
 	{
@@ -316,13 +323,15 @@ class VentasController extends \BaseController {
 
 	public function enviarVentaACaja()
 	{
-
 		$venta = Venta::find(Input::get('venta_id'));
+		$total = DetalleVenta::where('venta_id','=',Input::get('venta_id'))->first(array(DB::raw('sum(cantidad * precio) as total')));
+
 
 		if ($venta->completed == 1)
 			return 'esta venta ya fue finalizada..';
 
-		$venta->completed = 2;
+			$venta->completed = 2;
+			$venta->total = $total->total;
 
 		if ($venta->save())
 			return Response::json(array( 'success' => true ));
@@ -376,15 +385,18 @@ class VentasController extends \BaseController {
 
 		if(!Auth::user()->hasRole("Admin") && !Auth::user()->hasRole("Owner"))
 		{
-			if ($venta->completed == 1) 
+			if ($venta->completed == 1)
 				return json_encode('La venta no se puede abrir porque ya fue finalizada');
 		}
 
-		$venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
+		if ($venta->completed == 1)
+			$venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
+
+		else if ($venta->completed == 2)
+			$venta->update(array('completed' => 2, 'saldo' => 0 , 'kardex' => 0));
 
 		$kardex = Kardex::where('kardex_transaccion_id',2)->where('transaccion_id',Input::get('venta_id'));
 		$kardex->delete();
-
 
 		$detalle = $this->getSalesDetail();
 
@@ -483,6 +495,48 @@ class VentasController extends \BaseController {
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
 
+	function imprimirFacturaBond()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+
+    	if(count($venta->detalle_venta)>0){
+			$pdf = PDF::loadView('ventas.imprimirFacturaPdf',  array('venta' => $venta))
+			->setPaper('letter')
+			->save("pdf/".Input::get('id').Auth::user()->id.'vf.pdf');
+
+            return Response::json(array(
+                'success' => true,
+                'pdf'   => Input::get('id').Auth::user()->id.'vf'
+            ));
+    	}
+
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+
+	function ImprimirGarantiaPdf()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+		$tienda = Tienda::find(Auth::user()->tienda_id);
+
+    	if(count($venta->detalle_venta) > 0){
+			$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta' => $venta, 'tienda' => $tienda));
+			return $pdf->stream();
+    	}
+
+    	else
+        	return 'Ingrese productos ala factura para poder inprimir';
+	}
+
+	function imprimirFacturaBondPdf()
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+
+		$pdf = PDF::loadView('ventas.imprimirFacturaPdf',  array('venta' => $venta))->setPaper('letter');
+
+		return $pdf->stream();
+	}
 
 	function printInvoice()
 	{

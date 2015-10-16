@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class ConsultasCierreController extends \BaseController {
 
@@ -16,6 +16,12 @@ class ConsultasCierreController extends \BaseController {
 		else if ($model == 'AbonosCompras')
 			return $this->consultasAbonos('compras' , 'showPaymentsDetail');
 
+		else if (trim($model) == 'AdelantosNotasCreditos')
+			return $this->consultasNotaCredito('adelanto');
+
+	    else if (trim($model) == 'DevolucionNotasCreditos')
+	    	return $this->consultasNotaCredito('devolucion');
+
 		else if ($model == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
 			return $this->OperacionesConsultas(strtolower(rtrim($model, 's')));
 
@@ -28,7 +34,7 @@ class ConsultasCierreController extends \BaseController {
 		$fecha = "'".Input::get('fecha')."'";
 		$columna = '';
 
-        if (Input::get('fecha') == 'current_date') 
+        if (Input::get('fecha') == 'current_date')
             $fecha = 'current_date';
 
 		$table = "{$_table}s";
@@ -41,8 +47,8 @@ class ConsultasCierreController extends \BaseController {
 		$columns = array(
 			"{$_table}s.id",
         	"{$_table}s.total as total",
-        	"DATE_FORMAT({$_table}s.created_at, '%Y-%m-%d') as fecha",  
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
+        	"DATE_FORMAT({$_table}s.created_at, '%Y-%m-%d') as fecha",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "{$columna} as nombre_extra",
             "pagos_{$_table}s.monto as pago"
 		);
@@ -60,7 +66,7 @@ class ConsultasCierreController extends \BaseController {
 
 		$where  = " {$_table}s.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND {$_table}s.completed =  1 ";
-		$where .= " AND DATE_FORMAT({$_table}s.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
+		$where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 
 		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
@@ -77,7 +83,7 @@ class ConsultasCierreController extends \BaseController {
 	{
 		$fecha = "'".Input::get('fecha')."'";
 
-        if (Input::get('fecha') == 'current_date') 
+        if (Input::get('fecha') == 'current_date')
             $fecha = 'current_date';
 
         $columna = '';
@@ -91,8 +97,8 @@ class ConsultasCierreController extends \BaseController {
 		$columns = array(
 			"abonos_{$_table}.id",
         	"abonos_{$_table}.monto as total",
-        	"DATE_FORMAT(abonos_{$_table}.created_at, '%Y-%m-%d') as fecha",  
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario", 
+        	"DATE_FORMAT(abonos_{$_table}.created_at, '%Y-%m-%d') as fecha",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "{$columna} as nombre_extra"
 		);
 
@@ -105,10 +111,10 @@ class ConsultasCierreController extends \BaseController {
 			$Join .= "JOIN proveedores ON (proveedores.id = abonos_{$_table}.proveedor_id)";
 		else
 			$Join .= "JOIN clientes ON (clientes.id = abonos_{$_table}.cliente_id)";
-		
+
 
 		$where  = " abonos_{$_table}.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND DATE_FORMAT(abonos_{$_table}.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
+		$where .= " AND DATE_FORMAT(abonos_{$_table}.updated_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 
 		$abonos = SST::get($table, $columns, $Search_columns, $Join, $where );
@@ -126,10 +132,10 @@ class ConsultasCierreController extends \BaseController {
 		$fecha = "'".Input::get('fecha')."'";
 		$table_s = "{$_table}s";
 
-        if (Input::get('fecha') == 'current_date') 
+        if (Input::get('fecha') == 'current_date')
             $fecha = 'current_date';
 
-        if ($_table == 'soporte') 
+        if ($_table == 'soporte')
         	$table_s = $_table;
 
 			$table = "{$table_s}";
@@ -137,7 +143,7 @@ class ConsultasCierreController extends \BaseController {
 		$columns = array(
 			"{$table_s}.id",
         	"detalle_{$table_s}.monto as total",
-        	"DATE_FORMAT({$table_s}.created_at, '%Y-%m-%d') as fecha",  
+        	"DATE_FORMAT({$table_s}.created_at, '%Y-%m-%d') as fecha",
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "detalle_{$table_s}.descripcion as  descripcion"
 		);
@@ -149,7 +155,7 @@ class ConsultasCierreController extends \BaseController {
 		$Join .= "JOIN users ON (users.id = {$table_s}.user_id) ";
 
 		$where  = " {$table_s}.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND DATE_FORMAT({$table_s}.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
+		$where .= " AND DATE_FORMAT({$table_s}.updated_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 
 		$operaciones = SST::get($table, $columns, $Search_columns, $Join, $where );
@@ -162,7 +168,43 @@ class ConsultasCierreController extends \BaseController {
         ));
 	}
 
-	 /*****************************************************************************************************************************  
+	public function consultasNotaCredito($_table)
+	{
+		$fecha = "'".Input::get('fecha')."'";
+
+        if (Input::get('fecha') == 'current_date')
+            $fecha = 'current_date';
+
+        $table = 'notas_creditos';
+
+		$columns = array(
+			"notas_creditos.id",
+        	"{$_table}_nota_credito.monto as total",
+        	"DATE_FORMAT(notas_creditos.updated_at, '%Y-%m-%d') as fecha",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "notas_creditos.nota as  descripcion"
+		);
+
+		$Search_columns = array("users.nombre","users.apellido","notas_creditos.updated_at");
+
+		$Join  = "JOIN {$_table}_nota_credito ON (notas_creditos.id = {$_table}_nota_credito.nota_credito_id) ";
+		$Join .= "JOIN metodo_pago ON ({$_table}_nota_credito.metodo_pago_id = metodo_pago.id) ";
+		$Join .= "JOIN users ON (users.id = notas_creditos.user_id) ";
+
+		$where  = " notas_creditos.tienda_id = ".Auth::user()->tienda_id;
+        $where .= " AND DATE_FORMAT(notas_creditos.updated_at, '%Y-%m-%d') =  DATE_FORMAT({$fecha}, '%Y-%m-%d')";
+        $where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
+
+		$notasCreditos = SST::get($table, $columns, $Search_columns, $Join, $where );
+		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
+
+        return Response::json(array(
+			'success' => true,
+			'table' => View::make('cierre.consultas.notaCreditoPorMetodoDePago', compact('notasCreditos','metodo_pago'))->render()
+        ));
+	}
+
+	 /*****************************************************************************************************************************
        Inicio Consultas de ventas por usuario del mes en el Balance General
     ******************************************************************************************************************************/
     public function getVentasDelMesPorUsuario()
@@ -180,14 +222,14 @@ class ConsultasCierreController extends \BaseController {
         $table = 'ventas';
 
         $columns = array(
-            "ventas.created_at as fecha", 
+            "ventas.created_at as fecha",
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "clientes.nombre as cliente",
             "total",
             "saldo",
             "completed"
             );
- 
+
         $Search_columns = array("users.nombre","users.apellido","clientes.nombre",'total','saldo');
 
         $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
@@ -198,7 +240,8 @@ class ConsultasCierreController extends \BaseController {
 
         echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
-    /*****************************************************************************************************************************  
+
+    /*****************************************************************************************************************************
        Fin Consultas de ventas por usuario del mes en el Balance General
     ******************************************************************************************************************************/
 }

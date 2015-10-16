@@ -1,7 +1,7 @@
 <!-- Start body content -->
 <div class="body-content animated fadeIn">
 
-	<h1 class="tienda_nombre">Clickgt.com</h1>
+	<h1 class="tienda_nombre"> {{ $tienda->nombre }} </h1>
 
 
 	<div id="print_test"></div>
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 
-	<!-- TABLES --> 
+	<!-- TABLES -->
 	<div class="dt-container col-md-11">
 		<div class="panel dt-panel rounded shadow">
 			<div class="panel-heading">

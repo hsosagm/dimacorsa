@@ -5,7 +5,7 @@ class SalesPaymentsController extends \BaseController {
 	public function formPayments()
 	{
 		if (Session::token() == Input::get('_token'))
-		{	
+		{
             $ventas = Venta::where('cliente_id', Input::get('cliente_id'))
             ->where('saldo', '>', 0)
             ->orderBy('created_at', 'ASC')
@@ -30,7 +30,7 @@ class SalesPaymentsController extends \BaseController {
 
             $monto = Input::get('monto');
 
-			foreach ($ventas as $venta) 
+			foreach ($ventas as $venta)
 			{
 				$detalleAbono = new DetalleAbonosVenta;
 			    $detalleAbono->abonos_ventas_id = $abonos_ventas_id;
@@ -62,7 +62,7 @@ class SalesPaymentsController extends \BaseController {
 				}
 			}
 			    $detalle = $this->BalanceDetails($abonos_ventas_id);
-			    
+
                 $comprobante = DB::table('printer')->select('impresora')
                 ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
@@ -104,8 +104,8 @@ class SalesPaymentsController extends \BaseController {
 		$table = 'ventas';
 
 		$columns = array(
-			"ventas.id", 
-			"ventas.created_at as fecha", 
+			"ventas.id",
+			"ventas.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"clientes.nombre as cliente",
 			"saldo",
@@ -134,7 +134,7 @@ class SalesPaymentsController extends \BaseController {
     {
         $ids_venta = explode(',', Input::get('array_ids_ventas'));
 
-        if (empty(Input::get('array_ids_ventas'))) 
+        if (empty(Input::get('array_ids_ventas')))
         {
             return 'Seleccione almenos una venta para realizar esata accion';
         }
@@ -148,16 +148,16 @@ class SalesPaymentsController extends \BaseController {
 
         $data['caja_id'] = $caja->id;
 
-        if (!$abono->create_master($data)) 
-        {   
+        if (!$abono->create_master($data))
+        {
             return $abono->errors();
         }
 
         $abonos_ventas_id = $abono->get_id();
-        $total = 0; 
+        $total = 0;
 
-        for ($i=0; $i < count($ids_venta) ; $i++) 
-        { 
+        for ($i=0; $i < count($ids_venta) ; $i++)
+        {
             $venta = Venta::find($ids_venta[$i]);
 
             if (!$venta) {
@@ -172,11 +172,11 @@ class SalesPaymentsController extends \BaseController {
 
             $detalle = new DetalleAbonosVenta;
 
-            if (!$detalle->_create($data_detalle)) 
+            if (!$detalle->_create($data_detalle))
             {
                 return $detalle->errors();
             }
-                
+
             $venta->saldo = 0.00 ;
             $venta->save();
         }
@@ -196,7 +196,7 @@ class SalesPaymentsController extends \BaseController {
         ));
     }
 
-    function BalanceDetails($abonos_ventas_id) 
+    function BalanceDetails($abonos_ventas_id)
     {
         $query = DB::table('detalle_abonos_ventas')
         ->select('venta_id', 'total', 'monto', 'saldo', DB::raw('(saldo+monto) as saldo_anterior'))
@@ -206,12 +206,12 @@ class SalesPaymentsController extends \BaseController {
         return $query;
     }
 
-     //funcion para eliminar el abono 
+     //funcion para eliminar el abono
     public function eliminarAbonoVenta()
     {
         $detalle = DetalleAbonosVenta::where('abonos_ventas_id','=',Input::get('abonos_ventas_id'))->get();
 
-        foreach ($detalle as $dt) 
+        foreach ($detalle as $dt)
         {
             $venta = Venta::find($dt->venta_id);
             $venta->saldo = $venta->saldo + $dt->monto ;
@@ -241,6 +241,19 @@ class SalesPaymentsController extends \BaseController {
         ));
     }
 
+	function imprimirAbonoVentaPdf()
+    {
+        $detalle = $this->BalanceDetails(Input::get('id'));
+
+        $abonos_venta = AbonosVenta::with('cliente','user','metodoPago')->find(Input::get('id'));
+
+        $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta', array('detalle' => $detalle, 'abonos_venta' => $abonos_venta, 'saldo' => $saldo));
+
+        return $pdf->stream();
+    }
+
     public function getDetalleAbono()
     {
          $detalle = DB::table('detalle_abonos_ventas')
@@ -256,4 +269,5 @@ class SalesPaymentsController extends \BaseController {
             'table'   => View::make('ventas.payments.DT_detalle_abono', compact('detalle', 'deuda'))->render()
         ));
     }
+
 }

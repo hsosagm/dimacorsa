@@ -161,6 +161,19 @@ class DescargaController extends BaseController {
             return 'Ingrese productos ala Descarga para poder inprimir';
     }
 
+    public function ImprimirDescargaPdf()
+    {
+        $descarga = Descarga::with('detalle_descarga')->find(Input::get('id'));
+
+        if(count($descarga->detalle_descarga)>0)
+        {
+            $pdf = PDF::loadView('descargas.imprimir',  array('descarga'=>$descarga));
+            return $pdf->stream();
+        }
+        else
+            return 'Ingrese productos ala Descarga para poder inprimir';
+    }
+
     public function showgDownloadsDetail()
     {
         $detalle = $this->getDownloadsDetail();

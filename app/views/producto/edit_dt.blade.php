@@ -1,5 +1,5 @@
 
-{{Form::open(array('data-remote', 'data-success' => 'Producto Actualizado'))}} 
+{{Form::open(array('data-remote', 'data-success' => 'Producto Actualizado'))}}
 
 {{ Form::hidden('id', @$producto->id) }}
 <div class="form-edit-producto">
@@ -33,8 +33,8 @@
 	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Marca: </div>
-		<div class="col-md-7 select_marcas"> 
-			{{ Form::select('marca_id',Marca::lists('nombre', 'id'),@$producto->marca_id, array('class'=>'form-control'));}} 
+		<div class="col-md-7 select_marcas">
+			{{ Form::select('marca_id',Marca::lists('nombre', 'id'),@$producto->marca_id, array('class'=>'form-control'));}}
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -43,7 +43,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Categoria: </div>
 		<div class="col-md-7 select_categorias">
-			{{ Form::select('categoria_id',Categoria::lists('nombre', 'id'),@$producto->categoria_id, array('class'=>'form-control'));}}  
+			{{ Form::select('categoria_id',Categoria::lists('nombre', 'id'),@$producto->categoria_id, array('class'=>'form-control'));}}
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -52,7 +52,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> SubCategoria: </div>
 		<div class="col-md-7 select_sub_categorias">
-			{{Form::select('sub_categoria_id',array('unasigned'),@$producto->sub_categoria_id ,array('class'=>'form-control'))}}  
+			{{Form::select('sub_categoria_id',array('unasigned'),@$producto->sub_categoria_id ,array('class'=>'form-control'))}}
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -62,7 +62,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Existencia Minima: </div>
 		<div class="col-md-7 select_sub_categorias">
-			{{ Form::input('number', 'stock_minimo', '0', array('class' => 'form-control')) }} 
+			{{ Form::input('text', 'stock_minimo', '0', array('class' => 'form-control')) }} 
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -73,9 +73,9 @@
 		<div class="col-md-7">
 
 			@if($producto->inactivo==1)
-			{{ Form::checkbox('Inactivo', '1', true); }} 
-			@else 
-			{{ Form::checkbox('Inactivo', '0', false); }} 
+			{{ Form::checkbox('Inactivo', '1', true); }}
+			@else
+			{{ Form::checkbox('Inactivo', '0', false); }}
 			@endif
 
 		</div>
@@ -108,7 +108,7 @@
 <script>
 	$(function(){
 		$("form[data-remote] select[name=categoria_id]").change(function(){
-			
+
 			$.ajax({
 				type: 'get',
 				url: 'admin/sub_categorias/filtro',

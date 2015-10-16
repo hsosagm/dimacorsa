@@ -1,9 +1,9 @@
 <div class="Garantia">
     <table style="font-size:12px">
         <tr>
-            <td> {{ HTML::image('images/logo.jpg', '', array( 'width' => 125, 'height' => 90 )) }} </td>
+            <td> <img src="images/logo.jpg" width="125"  height="90"/> </td>
         </tr>
-        <tr> 
+        <tr>
             <td colspan="4"> {{ $tienda->direccion }}  Telefono: {{ $tienda->telefono }} </td>
         </tr>
         <tr>
@@ -16,7 +16,7 @@
             <td colspan="4"> Nombre: {{ @$venta->cliente->nombre.' '.@$venta->cliente->apellido }}</td>
         </tr>
     </table>
-    <div style="height:550px;"> 
+    <div style="height:550px;">
         <table width="100%" style="font-size:11px;">
             <tr style="text-align:center;">
                 <td width="8%">Cantidad</td>
@@ -29,14 +29,14 @@
 
             @foreach($venta->detalle_venta as $key => $dt)
                 <tr>
-                    <td>  {{ $dt->cantidad }} </td>   
+                    <td>  {{ $dt->cantidad }} </td>
                     <td>  {{ $dt->producto->descripcion}} {{ $dt->producto->marca->nombre}} </td>
                     <td align="right"> {{ f_num::get($dt->precio) }} </td>
-                    <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>   
+                    <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>
                 </tr>
-                <?php 
-                    $total = $total +($dt->cantidad * $dt->precio); 
-                    if ($dt->serials != null ) 
+                <?php
+                    $total = $total +($dt->cantidad * $dt->precio);
+                    if ($dt->serials != null )
                         $serials .= $dt->serials." , ";
                 ?>
             @endforeach

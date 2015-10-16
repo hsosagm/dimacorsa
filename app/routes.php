@@ -15,12 +15,27 @@
     /******************************************************************************/
 
     /******************************************************************************/
-    Route::post('ImprimirGarantia'            , 'VentasController@ImprimirGarantia');
-    Route::post('ImprimirDescarga'            , 'DescargaController@ImprimirDescarga');
-    Route::post('ImprimirTraslado'            , 'TrasladoController@ImprimirTraslado');
-    Route::post('ImprimirAbonoCliente'        , 'SalesPaymentsController@imprimirAbonoVenta');
-    Route::post('ImprimirAbonoProveedor'      , 'ProveedorController@ImprimirAbono' );
+    //rutas para imprimr con el plugin qzprint
+    Route::post('ImprimirGarantia'         , 'VentasController@ImprimirGarantia');
+    Route::post('ImprimirDescarga'         , 'DescargaController@ImprimirDescarga');
+    Route::post('ImprimirTraslado'         , 'TrasladoController@ImprimirTraslado');
+    Route::post('ImprimirAbonoCliente'     , 'SalesPaymentsController@imprimirAbonoVenta');
+    Route::post('ImprimirAbonoProveedor'   , 'ProveedorController@ImprimirAbono' );
+    Route::post('imprimirFacturaBond'      , 'VentasController@imprimirFacturaBond' );
+
+    //rutas para mostrar el pdf cuando no carga el plugin
+    Route::get('ImprimirGarantiaPdf'       , 'VentasController@ImprimirGarantiaPdf');
+    Route::get('ImprimirDescargaPdf'       , 'DescargaController@ImprimirDescargaPdf');
+    Route::get('ImprimirTrasladoPdf'       , 'TrasladoController@ImprimirTrasladoPdf');
+    Route::get('ImprimirAbonoClientePdf'   , 'SalesPaymentsController@imprimirAbonoVentaPdf');
+    Route::get('ImprimirAbonoProveedorPdf' , 'ProveedorController@ImprimirAbonoPdf');
+    Route::get('imprimirFacturaBondPdf'    , 'VentasController@imprimirFacturaBondPdf');
+
+
     Route::get('ImprimirCotizacion/{op}/{id}' , 'CotizacionController@ImprimirCotizacion' );
+    Route::get('imprimirNotaDeCretidoAdelanto', 'NotaCreditoController@imprimirNotaDeCretidoAdelanto' );
+    Route::get('retirarDineroDeCajaPdf'       , 'CajaController@retirarDineroDeCajaPdf' );
+    Route::get('imprimirCorteCaja/{id}'       , 'CajaController@imprimirCorteCaja' );
 
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
@@ -76,12 +91,14 @@
         {
             Route::get('getFormSeleccionarTipoDeNotaDeCredito', 'NotaCreditoController@getFormSeleccionarTipoDeNotaDeCredito');
             Route::get('getFormMetodoPagoNotaDeCredito', 'NotaCreditoController@getFormMetodoPagoNotaDeCredito');
-            Route::get('create' , 'NotaCreditoController@create' );
-            Route::post('create','NotaCreditoController@create' );
+            Route::get('create'  , 'NotaCreditoController@create' );
+            Route::post('create' ,'NotaCreditoController@create'  );
+            Route::post('deleteAdelanto' ,'NotaCreditoController@deleteAdelanto'  );
             Route::post('detalle','NotaCreditoController@detalle' );
             Route::post('updateClienteId','NotaCreditoController@updateClienteId' );
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
+            Route::get('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
         });
 
         Route::group(array('prefix' => 'consulta'), function()
@@ -219,15 +236,16 @@
             Route::post('ingresarSeriesDetalleVenta'            , 'VentasController@ingresarSeriesDetalleVenta');
             Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');
             Route::get('getDetalleVentasPendientesPorUsuario'   , 'VentasController@getDetalleVentasPendientesPorUsuario');
+            Route::post('pagoConNotasDeCredito'                 , 'VentasController@pagoConNotasDeCredito');
 
             Route::group(array('prefix' => 'payments'),function()
             {
-                Route::get('formPayments'               , 'SalesPaymentsController@formPayments');
-                Route::post('formPayments'              , 'SalesPaymentsController@formPayments');
-                Route::get('formPaymentsPagination'     , 'SalesPaymentsController@formPaymentsPagination');
-                Route::post('eliminarAbonoVenta'        , 'SalesPaymentsController@eliminarAbonoVenta'  );
-                Route::post('SelectedPaySales'          , 'SalesPaymentsController@SelectedPaySales'  );
-                Route::get('getDetalleAbono'            , 'SalesPaymentsController@getDetalleAbono'  );
+                Route::get('formPayments'           , 'SalesPaymentsController@formPayments');
+                Route::post('formPayments'          , 'SalesPaymentsController@formPayments');
+                Route::get('formPaymentsPagination' , 'SalesPaymentsController@formPaymentsPagination');
+                Route::post('eliminarAbonoVenta'    , 'SalesPaymentsController@eliminarAbonoVenta');
+                Route::post('SelectedPaySales'      , 'SalesPaymentsController@SelectedPaySales');
+                Route::get('getDetalleAbono'        , 'SalesPaymentsController@getDetalleAbono');
             });
 
             Route::group(array('prefix' => 'devoluciones'),function()
@@ -260,6 +278,7 @@
             Route::post('getMovimientosDeCaja' , 'CajaController@getMovimientosDeCaja');
             Route::get('corteDeCaja'           , 'CajaController@corteDeCaja');
             Route::post('corteDeCaja'          , 'CajaController@corteDeCaja');
+            Route::get('retirarEfectivoDeCaja' , 'CajaController@retirarEfectivoDeCaja');
             Route::get('ConsultasPorMetodoDePago/{model}' ,'ConsultasCajaController@ConsultasPorMetodoDePago');
         });
 
@@ -297,6 +316,8 @@
             Route::get('cortesDeCajaPorDia'      , 'CajaController@cortesDeCajaPorDia');
             Route::get('DtCortesDeCajasPorDia'   , 'CajaController@DtCortesDeCajasPorDia');
             Route::post('getMovimientosDeCajaDt' , 'CajaController@getMovimientosDeCajaDt');
+            Route::get('resumenDeActividadActualDeCajas' , 'CajaController@resumenDeActividadActualDeCajas');
+
         });
 
         Route::group(array('prefix' => 'kardex'),function()
@@ -632,18 +653,7 @@
 
 Route::get('/test', function()
 {
-    $emails = array('leonel.madrid@hotmail.com');
-    $pathFile = public_path().'/db/prueba.sql';
-    $data = file_get_contents(public_path().'/db/prueba.sql');
 
-    Mail::queue('emails.mensaje', array('asunto' => 'sql'), function($message)
-    use($emails, $data)
-    {
-        $message->to($emails)->subject('sql');
-        $message->attachData($data, 'prueba.sql');
-    });
-
-    return 'enviado con exito...';
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

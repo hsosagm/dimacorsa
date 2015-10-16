@@ -22,33 +22,35 @@
 				@if(count($detalleCompra))
 					<table class="table" width="100%">
 						<tr>
-							<td width="30%"> Fecha: </td>
-							<td width="70%">  {{ @$detalleCompra->compra->fecha_documento }} </td>
+							<td width="40%"> Fecha: </td>
+							<td width="60%">  {{ @$detalleCompra->compra->fecha_documento }} </td>
 						</tr>
 						<tr>
-							<td width="30%"> No. Factura: </td>
-							<td width="70%">  {{ @$detalleCompra->compra->numero_documento }} </td>
+							<td width="40%"> No. Factura: </td>
+							<td width="60%">  {{ @$detalleCompra->compra->numero_documento }} </td>
 						</tr>
+						@if(Auth::user()->hasRole("Owner") || Auth::user()->hasRole("Admin"))
+							<tr>
+								<td width="40%"> Proveedor: </td>
+								<td width="60%"> {{ @$detalleCompra->compra->proveedor->nombre }} </td>
+							</tr>
+							<tr>
+								<td width="40%"> Telefono: </td>
+								<td width="60%"> {{ @$detalleCompra->compra->proveedor->telefono }} </td>
+							</tr>
+						@endif
 						<tr>
-							<td width="30%"> Proveedor: </td>
-							<td width="70%"> {{ @$detalleCompra->compra->proveedor->nombre }} </td>
-						</tr>
-						<tr>
-							<td width="30%"> Telefono: </td>
-							<td width="70%"> {{ @$detalleCompra->compra->proveedor->telefono }} </td>
-						</tr>
-						<tr>
-							<td width="30%"> Garantia: </td>
-							<td width="70%">  
-								{{  (date_diff( new DateTime(@$detalleCompra->compra->fecha_documento), Carbon::now())->format('%R%a days')).' Dias' }}
+							<td width="40%"> Dias desde la compra: </td>
+							<td width="60%">
+								{{  (date_diff( new DateTime(@$detalleCompra->compra->fecha_documento), Carbon::now())->format('%R%a Dias')).' ' }}
 							</td>
 						</tr>
-					</table>	
+					</table>
 				@else
 					<p>
 						No se encontro la serie en Compras...!
 					</p>
-				@endif			
+				@endif
 			</div>
 		</div>
 	</div>
@@ -68,25 +70,25 @@
 				@if(count($detalleVenta))
 					<table class="table" width="100%">
 						<tr>
-							<td width="30%"> Fecha: </td>
-							<td width="70%"> {{ @$detalleVenta->venta->created_at }} </td>
+							<td width="40%"> Fecha: </td>
+							<td width="60%"> {{ @$detalleVenta->venta->created_at }} </td>
 						</tr>
 						<tr>
-							<td width="30%"> Usuario: </td>
-							<td width="70%"> {{ @$detalleVenta->venta->user->nombre }} </td>
+							<td width="40%"> Usuario: </td>
+							<td width="60%"> {{ @$detalleVenta->venta->user->nombre .' '. @$detalleVenta->venta->user->apellido }} </td>
 						</tr>
 						<tr>
-							<td width="30%"> Cliente: </td>
-							<td width="70%"> {{ @$detalleVenta->venta->cliente->nombre }} </td>
+							<td width="40%"> Cliente: </td>
+							<td width="60%"> {{ @$detalleVenta->venta->cliente->nombre }} </td>
 						</tr>
 						<tr>
-							<td width="30%"> Telefono: </td>
-							<td width="70%"> {{ @$detalleVenta->venta->cliente->telefono }} </td>
+							<td width="40%"> Telefono: </td>
+							<td width="60%"> {{ @$detalleVenta->venta->cliente->telefono }} </td>
 						</tr>
 						<tr>
-							<td width="30%"> Garantia: </td>
-							<td width="70%">  
-								{{ (date_diff( new DateTime(@$detalleVenta->venta->created_at), Carbon::now())->format('%R%a days')).' Dias' }}
+							<td width="40%"> Dias desde la venta: </td>
+							<td width="60%">
+								{{ (date_diff( new DateTime(@$detalleVenta->venta->created_at), Carbon::now())->format('%R%a Dias')).' ' }}
 							</td>
 						</tr>
 					</table>

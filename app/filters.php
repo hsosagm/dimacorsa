@@ -33,7 +33,7 @@ Route::filter('csrf', function()
 
 
 Event::listen('eloquent.updated: Compra', function(Compra $model){
-    if ($model->completed == 1 && $model->kardex == 0) 
+    if ($model->completed == 1 && $model->kardex == 0)
     {
         $compra = Compra::find($model->id);
         $compra->kardex = 1 ;
@@ -41,7 +41,7 @@ Event::listen('eloquent.updated: Compra', function(Compra $model){
 
         $detalleCompra = DetalleCompra::with('producto')->where('compra_id',$model->id)->get();
 
-        foreach ($detalleCompra as $dt) 
+        foreach ($detalleCompra as $dt)
         {
             $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
 
@@ -57,13 +57,13 @@ Event::listen('eloquent.updated: Compra', function(Compra $model){
             $kardex->existencia = $existencia->existencia;
             $kardex->costo = $dt->precio;
             $kardex->costo_promedio = ($dt->producto->p_costo/100);
-            $kardex->save();  
+            $kardex->save();
         }
     }
 });
 
 Event::listen('eloquent.updated: Venta', function(Venta $model){
-    if ($model->completed == 1 && $model->kardex == 0) 
+    if ($model->completed == 1 && $model->kardex == 0)
     {
         $venta = Venta::find($model->id);
         $venta->kardex = 1 ;
@@ -71,10 +71,10 @@ Event::listen('eloquent.updated: Venta', function(Venta $model){
 
         $detalleVenta = DetalleVenta::with('producto')->where('venta_id',$model->id)->get();
 
-        foreach ($detalleVenta as $dt) 
+        foreach ($detalleVenta as $dt)
         {
             $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
-            
+
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
             $kardex->user_id = Auth::user()->id;
@@ -87,14 +87,14 @@ Event::listen('eloquent.updated: Venta', function(Venta $model){
             $kardex->existencia = $existencia->existencia;
             $kardex->costo = ($dt->producto->p_costo/100);
             $kardex->costo_promedio = ($dt->producto->p_costo/100);
-            $kardex->save();  
+            $kardex->save();
         }
     }
 });
 
 
 Event::listen('eloquent.updated: Traslado', function(Traslado $model){
-    if ($model->status == 1 && $model->kardex == 0) 
+    if ($model->status == 1 && $model->kardex == 0)
     {
         $venta = Traslado::find($model->id);
         $venta->kardex = 1 ;
@@ -102,10 +102,10 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
 
         $detalleTraslado = DetalleTraslado::with('producto')->where('traslado_id',$model->id)->get();
 
-        foreach ($detalleTraslado as $dt) 
+        foreach ($detalleTraslado as $dt)
         {
             $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
-            
+
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
             $kardex->user_id = Auth::user()->id;
@@ -118,13 +118,13 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
             $kardex->existencia = $existencia->existencia;
             $kardex->costo = ($dt->producto->p_costo/100);
             $kardex->costo_promedio = ($dt->producto->p_costo/100);
-            $kardex->save();  
+            $kardex->save();
         }
     }
 });
 
 Event::listen('eloquent.updated: Descarga', function(Descarga $model){
-    if ($model->status == 1 && $model->kardex == 0) 
+    if ($model->status == 1 && $model->kardex == 0)
     {
         $venta = Descarga::find($model->id);
         $venta->kardex = 1 ;
@@ -132,10 +132,10 @@ Event::listen('eloquent.updated: Descarga', function(Descarga $model){
 
         $detalleDescarga = DetalleDescarga::with('producto')->where('descarga_id',$model->id)->get();
 
-        foreach ($detalleDescarga as $dt) 
+        foreach ($detalleDescarga as $dt)
         {
             $existencia = Existencia::where('tienda_id', '=', $model->tienda_id)->where('producto_id', '=', $dt->producto_id)->first();
-            
+
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
             $kardex->user_id = Auth::user()->id;
@@ -148,7 +148,7 @@ Event::listen('eloquent.updated: Descarga', function(Descarga $model){
             $kardex->existencia = $existencia->existencia;
             $kardex->costo = ($dt->producto->p_costo/100);
             $kardex->costo_promedio = ($dt->producto->p_costo/100);
-            $kardex->save();  
+            $kardex->save();
         }
     }
 });
@@ -156,12 +156,12 @@ Event::listen('eloquent.updated: Descarga', function(Descarga $model){
 
 /** Roles de Administrador , Propietario  y Usuario **/
 Entrust::routeNeedsRole( 'user/*'   ,  array('Owner','Admin','User') , '<script>window.location.reload();</script>', false );
-Entrust::routeNeedsRole( 'cliente'  ,  array('Owner','Admin','User') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'cliente'  ,  array('Owner','Admin','User') , Redirect::to('/'), false );
 
 /** Roles de Administrador y Propietario **/
 Entrust::routeNeedsRole( 'admin/*'     , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
-Entrust::routeNeedsRole( 'proveedor'   , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
-Entrust::routeNeedsRole( 'pos'         , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
+Entrust::routeNeedsRole( 'proveedor'   , array('Owner','Admin') , Redirect::to('/'), false );
+Entrust::routeNeedsRole( 'pos'         , array('Owner','Admin') , Redirect::to('/'), false );
 Entrust::routeNeedsRole( 'owner/users' , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/user/*', array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 

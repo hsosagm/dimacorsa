@@ -44,6 +44,17 @@ function ImprimirGarantia(e, id, impresora) {
     printDocument(impresora, url, id);
 };
 
+function ImprimirFacturaBond(e, id, impresora) {
+    if ($.trim($(e).closest('tr').attr('anulada')) == 'true') {
+        return msg.warning('no puedes imprimir garantia porque la factura fue anulada..', 'Advertencia!')
+    }
+
+    $(e).attr('disabled','disabled');
+    var url = "imprimirFacturaBond";
+    printDocument(impresora, url, id);
+};
+
+
 function printDocument(impresora, url, id) {
     if (isLoaded()) {
         qz.findPrinter(impresora);
@@ -53,7 +64,7 @@ function printDocument(impresora, url, id) {
             if (printer !== null) {
 
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: url,
                     data: { id: id },
                     success: function (data, text) {
@@ -83,6 +94,9 @@ function printDocument(impresora, url, id) {
             }
             window['qzDoneFinding'] = null;
         };
+    }
+    else {
+        window.open(url+'Pdf?id='+id ,'_blank');
     }
 };
 

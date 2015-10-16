@@ -1,14 +1,8 @@
 <aside id="sidebar-right">
-
   <div class="panel panel-tab">
     <div class="panel-heading no-padding">
-      <div class="pull-right">
+      <div class="pull-left">
         <ul class="nav nav-tabs">
-          <li>
-            <a href="#sidebar-profile" data-toggle="tab">
-              <i class="fa fa-user"></i>
-            </a>
-          </li>
           <li>
             <a href="#sidebar-layout" data-toggle="tab">
               <i class="fa fa-cogs"></i>
@@ -19,48 +13,19 @@
               <i class="fa fa-paint-brush"></i>
             </a>
           </li>
-          <li>
-            <a href="#sidebar-chat" data-toggle="tab">
-              <i class="fa fa-comments"></i>
-            </a>
-          </li>
         </ul>
       </div>
       <div class="clearfix"></div>
     </div>
     <div class="panel-body no-padding">
       <div class="tab-content">
-        <div class="tab-pane" id="sidebar-profile">
-          <div class="sidebar-profile">
-
-            <!-- Start right navigation - menu -->
-            <ul class="sidebar-menu niceScroll">
-
-              <!-- Start category about me -->
-              <li class="sidebar-category">
-                <span>ABOUT ME</span>
-                <span class="pull-right"><i class="fa fa-newspaper-o"></i></span>
-              </li>
-              <!--/ End category about me -->
-
-            </ul>
-            <!-- Start right navigation - menu -->
-          </div>
-        </div><!-- /#sidebar-profile -->
         <div class="tab-pane" id="sidebar-layout">
           <div class="sidebar-layout">
-
-            <!-- Start right navigation - menu -->
             <ul class="sidebar-menu niceScroll">
-
-              <!-- Start category sidebar type -->
               <li class="sidebar-category">
                 <span>SIDEBAR TYPE</span>
                 <span class="pull-right"><i class="fa fa-toggle-on"></i></span>
               </li>
-              <!--/ End category sidebar type -->
-
-              <!--/ Start navigation - sidebar -->
               <li>
                 <ul class="list-unstyled sidebar-type-setting">
                   <li>
@@ -89,27 +54,18 @@
                   </li>
                 </ul>
               </li>
-
             </ul>
-            <!-- Start right navigation - menu -->
           </div>
-        </div><!-- /#sidebar-layout -->
+        </div>
         <div class="tab-pane in active" id="sidebar-setting">
           <div class="sidebar-setting">
-            <!-- Start right navigation - menu -->
             <ul class="sidebar-menu">
-
-              <!-- Start category color schemes -->
               <li class="sidebar-category">
                 <span>COLOR SCHEMES</span>
                 <span class="pull-right"><i class="fa fa-tint"></i></span>
               </li>
-              <!--/ End category color schemes -->
-
-              <!-- Start navigation - themes -->
               <li>
                 <div class="sidebar-themes color-schemes">
-
                   <a class="theme" href="javascript:void(0);" style="background-color: #81b71a" data-toggle="tooltip" data-placement="right" data-original-title="Default"><span class="hide">default</span></a>
                   <a class="theme" href="javascript:void(0);" style="background-color: #00B1E1" data-toggle="tooltip" data-placement="top" data-original-title="Blue"><span class="hide">blue</span></a>
                   <a class="theme" href="javascript:void(0);" style="background-color: #37BC9B" data-toggle="tooltip" data-placement="top" data-original-title="Cyan"><span class="hide">cyan</span></a>
@@ -139,22 +95,14 @@
                   <a class="theme" href="javascript:void(0);" style="background-color: #D6725E" data-toggle="tooltip" data-placement="top" data-original-title="Bittersweet"><span class="hide">bittersweet</span></a>
                   <a class="theme" href="javascript:void(0);" style="background-color: #7789D1" data-toggle="tooltip" data-placement="top" data-original-title="Blueberry"><span class="hide">blueberry</span></a>
                   <a class="theme" href="javascript:void(0);" style="background-color: #6FA362" data-toggle="tooltip" data-placement="left" data-original-title="Bud Green"><span class="hide">bud-green</span></a>
-
                 </div>
               </li>
-              <!--/ End navigation - themes -->
-
-              <!-- Start category navbar color -->
               <li class="sidebar-category">
                 <span>NAVBAR COLOR</span>
                 <span class="pull-right"><i class="fa fa-tint"></i></span>
               </li>
-              <!--/ End category navbar color -->
-
-              <!-- Start navigation - navbar color -->
               <li>
                 <div class="sidebar-themes navbar-color">
-
                   <a class="theme bg-dark" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Dark"><span class="hide">dark</span></a>
                   <a class="theme bg-light" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Light"><span class="hide">light</span></a>
                   <a class="theme bg-primary" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Primary"><span class="hide">primary</span></a>
@@ -162,22 +110,14 @@
                   <a class="theme bg-info" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Info"><span class="hide">info</span></a>
                   <a class="theme bg-warning" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Warning"><span class="hide">warning</span></a>
                   <a class="theme bg-danger" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Danger"><span class="hide">danger</span></a>
-
-                </div><!-- /.navbar-color -->
+                </div>
               </li>
-              <!--/ End navigation - navbar color -->
-
-              <!-- Start category sidebar color -->
               <li class="sidebar-category">
                 <span>SIDEBAR COLOR</span>
                 <span class="pull-right"><i class="fa fa-tint"></i></span>
               </li>
-              <!--/ End category sidebar color -->
-
-              <!-- Start navigation - sidebar color -->
               <li>
                 <div class="sidebar-themes sidebar-color">
-
                   <a class="theme bg-dark" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Dark"><span class="hide">dark</span></a>
                   <a class="theme bg-light" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Light"><span class="hide">light</span></a>
                   <a class="theme bg-primary" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Primary"><span class="hide">primary</span></a>
@@ -185,29 +125,12 @@
                   <a class="theme bg-info" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Info"><span class="hide">info</span></a>
                   <a class="theme bg-warning" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Warning"><span class="hide">warning</span></a>
                   <a class="theme bg-danger" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-original-title="Danger"><span class="hide">danger</span></a>
-
-                </div><!-- /.sidebar-color -->
+                </div>
               </li>
-              <!--/ End navigation - sidebar color -->
-
             </ul>
-            <!-- Start right navigation - menu -->
           </div>
-        </div><!-- /#sidebar-setting -->
-        <div class="tab-pane" id="sidebar-chat">
-          <div class="sidebar-chat">
-
-            <form class="form-horizontal">
-              <div class="form-group has-feedback">
-                <input class="form-control" type="text" placeholder="Search messages...">
-                <span class="glyphicon glyphicon-search form-control-feedback"></span>
-              </div>
-            </form>
-
-          </div><!-- /.sidebar-setting -->
-        </div><!-- /#sidebar-chat -->
+        </div>
       </div>
     </div>
   </div>
-
 </aside>

@@ -38,7 +38,7 @@
 
 <script>
     $(document).ready(function(){
-        /*configuracion del thema capturado de la base de datos*/ 
+        /*configuracion del thema capturado de la base de datos*/
         $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
         $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');
         $('#sidebar-left').addClass('{{@$tema->sidebarTypeSetting}}');
@@ -54,7 +54,7 @@
         }
         else if($('#sidebar-left').attr('class') == ''){
             $('#sidebar-left').attr('class','sidebar-{{@$tema->sidebarColor}}');
-        } 
+        }
 
         if($('#sidebar-left').hasClass('sidebar-default')){
             $('#sidebar-type-default').attr('checked','checked');
@@ -69,7 +69,7 @@
             $('#sidebar-type-circle').attr('checked','checked');
         }
 
-    }); 
+    });
 
     $('#customer_search').autocomplete({
         serviceUrl: '/user/cliente/search',
@@ -86,7 +86,7 @@
             };
         }
     });
-    
+
     $(document.body).delegate(":input", "keyup", function(e) {
 
         if (e.keyCode == 13 && e.shiftKey) {
@@ -102,8 +102,6 @@
             $("input, select").eq(position+1).select();
         }
     });
-
-    $('#date-input').datepicker();
 
 </script>
 

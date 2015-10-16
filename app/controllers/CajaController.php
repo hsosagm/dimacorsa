@@ -2,12 +2,12 @@
 
 class CajaController extends \BaseController
 {
-
+	//funcion para crear cajas pero antes de crear verificar si la tienda ya creo las cantidad de cajas disponibles
 	public function create()
     {
         if (Input::has('_token'))
         {
-            $cantidad_cajas = Caja::count();
+            $cantidad_cajas = Caja::whereTiendaId(Auth::user()->tienda_id)->count();
             $tienda = Tienda::find(Auth::user()->tienda_id);
 
             if ($cantidad_cajas >= $tienda->limite_cajas)
@@ -38,6 +38,7 @@ class CajaController extends \BaseController
         return View::make('cajas.create');
     }
 
+	//funcion par asignar caja a un usuario
     public function asignar()
     {
         if (Input::has('_token'))
@@ -57,6 +58,7 @@ class CajaController extends \BaseController
         return View::make('cajas.asignar');
     }
 
+	//funcion par asignar caja a un usuario
 	public function asignarDt()
 	{
 		if (Input::has('_token'))
@@ -79,6 +81,7 @@ class CajaController extends \BaseController
 		));
 	}
 
+	//funcion para editar solo el nombre de la caja
 	public function edit()
     {
     	if (Input::has('_token'))
@@ -98,6 +101,7 @@ class CajaController extends \BaseController
     	return View::make('cajas.edit', compact('caja'));
     }
 
+	//funcion para ver los movimientos actuales de la caja
     public function getMovimientosDeCaja()
     {
         $caja = Caja::whereUserId(Auth::user()->id)->first();
@@ -110,39 +114,41 @@ class CajaController extends \BaseController
 
         return Response::json(array(
             'success' => true,
-            'view' => View::make('cajas.movimientosDeCaja',compact('data','datos'))->render()
+            'view' => View::make('cajas.movimientosDeCaja', compact('data','datos'))->render()
         ));
     }
 
+	//funcion para ver los movimientos de caja desde la tabla cortes de caja
     public function getMovimientosDeCajaDt()
     {
-        $cierre = CierreCaja::find(Input::get('cierre_caja_id'));
+        $cierre_caja = CierreCaja::find(Input::get('cierre_caja_id'));
 
-        $datos['fecha_inicial'] = $cierre->fecha_inicial;
-        $datos['fecha_final']   = $cierre->fecha_final;
-        $datos['caja_id'] = $cierre->caja_id;
+        $datos['fecha_inicial'] = $cierre_caja->fecha_inicial;
+        $datos['fecha_final']   = $cierre_caja->fecha_final;
+        $datos['caja_id'] = $cierre_caja->caja_id;
 
         $data = $this->resumen_movimientos($datos);
 
         return Response::json(array(
             'success' => true,
-            'view' => View::make('cajas.detalleMovimientos',compact('data','datos'))->render()
+            'view' => View::make('cajas.detalleMovimientos', compact('data','datos','cierre_caja'))->render()
         ));
     }
 
+	//funcion para obtener un arryay con los datos de las tablas a necesitar
     public function resumen_movimientos($datos)
     {
         $data = [];
-
-        $data['pagos_ventas']           =   $this->_query('pagos_ventas','venta','monto',$datos);
-        $data['abonos_ventas']          =   $this->query('abonos_ventas','monto',$datos);
-        $data['soporte']                =   $this->__query('detalle_soporte','soporte','monto',$datos);
-        $data['adelantos']              =   $this->_query('detalle_adelantos','adelanto','monto',$datos);
-        $data['ingresos']               =   $this->_query('detalle_ingresos','ingreso','monto',$datos);
-        $data['egresos']                =   $this->_query('detalle_egresos','egreso','monto',$datos);
-        $data['gastos']                 =   $this->_query('detalle_gastos','gasto','monto',$datos);
+        $data['pagos_ventas']             =   $this->_query('pagos_ventas','venta','monto',$datos);
+        $data['abonos_ventas']            =   $this->query('abonos_ventas','monto',$datos);
+        $data['soporte']                  =   $this->__query('detalle_soporte','soporte','monto',$datos);
+        $data['adelantos']                =   $this->_query('detalle_adelantos','adelanto','monto',$datos);
+        $data['ingresos']                 =   $this->_query('detalle_ingresos','ingreso','monto',$datos);
+        $data['egresos']                  =   $this->_query('detalle_egresos','egreso','monto',$datos);
+        $data['gastos']                   =   $this->_query('detalle_gastos','gasto','monto',$datos);
         $data['adelanto_notas_creditos']  =   $this->___query('adelanto_nota_credito','notas_creditos','nota_credito','monto',$datos);
         $data['devolucion_notas_creditos']=   $this->___query('devolucion_nota_credito','notas_creditos','nota_credito','monto',$datos);
+
         return $data;
     }
 
@@ -169,7 +175,8 @@ class CajaController extends \BaseController
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
-        ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")            ->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
+		->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
         ->where("{$tabla_master}s.caja_id", '=' , $data['caja_id'])
         ->groupBy('metodo_pago.id')->get();
 
@@ -211,7 +218,6 @@ class CajaController extends \BaseController
     public function llenar_arreglo($Query)
     {
         $arreglo_ordenado = array(
-            'titulo'  => '',
             'efectivo'=>"0.00",
             'credito' =>"0.00",
             'cheque'  =>"0.00",
@@ -274,13 +280,13 @@ class CajaController extends \BaseController
 
         $data = $this->resumen_movimientos($datos);
 
-        $efectivo = $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
+        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['adelantos']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto_notas_creditos']['cheque'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto_notas_creditos']['cheque'];
 
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['adelantos']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['adelantos']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto_notas_creditos']['deposito'];
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto_notas_creditos']['deposito'];
 
         $movimientos = array(
             'efectivo' => $efectivo,
@@ -299,12 +305,17 @@ class CajaController extends \BaseController
 
     public function cortesDeCajaPorDia()
     {
-		$fecha_inicial = Carbon::now()->startOfMonth();
-		$fecha_final  = Carbon::now()->endOfMonth();
+		$fecha_inicial = Carbon::now()->startOfDay();
+		$fecha_final  = Carbon::now()->endOfDay();
+
+		if (Input::has('fecha')) {
+			$fecha_inicial = Carbon::createFromFormat('Y-m-d',Input::get('fecha'))->startOfDay();
+		    $fecha_final  = Carbon::createFromFormat('Y-m-d',Input::get('fecha'))->endOfDay();
+		}
 
 		return Response::json(array(
 			'success' => true,
-			'view' => View::make('cajas.cortesDeCajasPorDia', compact('fecha_inicial','fecha_final'))->render()
+			'view' => View::make('cajas.cortesDeCajasPorDia', compact('fecha_inicial', 'fecha_final'))->render()
 		));
     }
 
@@ -321,17 +332,16 @@ class CajaController extends \BaseController
             "nota",
             "cierre_caja.fecha_inicial as fecha_inicial",
             "cierre_caja.fecha_final as fecha_final"
-            );
+        );
 
-        $Searchable = array("users.nombre","users.apellido","cierre_caja.created_at","nota");
+        $Searchable = array("users.nombre", "users.apellido", "cierre_caja.created_at", "nota");
 
-        $Join = "
-        JOIN users ON (users.id = cierre_caja.user_id)
-        JOIN cajas ON (cajas.id = cierre_caja.caja_id)";
+        $Join  = "JOIN users ON (users.id = cierre_caja.user_id)";
+        $Join .= "JOIN cajas ON (cajas.id = cierre_caja.caja_id)";
 
-		$where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  >= DATE_FORMAT({$fecha_inicial}, '%Y-%m')";
-        $where = " DATE_FORMAT(cierre_caja.created_at, '%Y-%m')  <= DATE_FORMAT({$fecha_final}, '%Y-%m')";
-        $where .= ' AND cierre_caja.tienda_id = '.Auth::user()->tienda_id;
+		$where  = " DATE_FORMAT(cierre_caja.fecha_final, '%Y-%m-%d')  >= DATE_FORMAT({$fecha_inicial}, '%Y-%m-%d')";
+        $where .= " AND DATE_FORMAT(cierre_caja.fecha_final, '%Y-%m-%d')  <= DATE_FORMAT({$fecha_final}, '%Y-%m-%d')";
+        $where .= " AND cierre_caja.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
     }
@@ -352,10 +362,96 @@ class CajaController extends \BaseController
 			"cajas.updated_at as fecha"
 		);
 
-		$Search_columns = array("cajas.nombre","tiendas.nombre");
+		$Search_columns = array("cajas.nombre", "tiendas.nombre");
 		$Join = "JOIN tiendas ON (tiendas.id = cajas.tienda_id)";
 		$where = "cajas.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+	}
+
+	public function retirarDineroDeCajaPdf()
+	{
+		$datos = [];
+		$caja = Caja::whereUserId(Auth::user()->id)->first();
+
+		$datos['fecha_inicial'] = CierreCaja::where('caja_id','=', $caja->id)->max('created_at');
+		$datos['fecha_final']   = Carbon::now();
+		$datos['caja_id']       = $caja->id;
+
+		$data = $this->resumen_movimientos($datos);
+
+		$efectivo = $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
+		$monto = Input::get('monto');
+
+		$pdf = PDF::loadView('cajas.retirarDineroDeCajaPdf',compact('caja', 'efectivo', 'monto'));
+		return $pdf->stream('DineroCaja');
+	}
+
+	public function retirarEfectivoDeCaja()
+	{
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('cajas.retirarEfectivoDeCaja')->render()
+		));
+	}
+
+	public function imprimirCorteCaja($id)
+	{
+		$cierre_caja = CierreCaja::find($id);
+
+        $datos['fecha_inicial'] = $cierre_caja->fecha_inicial;
+        $datos['fecha_final']   = $cierre_caja->fecha_final;
+        $datos['caja_id'] = $cierre_caja->caja_id;
+
+        $data = $this->resumen_movimientos($datos);
+
+	    $pdf = PDF::loadView('cajas.detalleMovimientos', compact('data', 'datos', 'cierre_caja'));
+
+	    return $pdf->stream('Caja');
+	}
+
+	public function resumenDeActividadActualDeCajas()
+	{
+		$caja = Caja::whereTiendaId(Auth::user()->tienda_id)->get(array('id', 'nombre', 'user_id'));
+		$data = array();
+
+		foreach ($caja as $dt) {
+			$data[] = $this->detalleResumenDeActividadDeCajas($dt);
+		}
+
+        return Response::json(array(
+            'success' => true,
+            'view' => View::make('cajas.resumenDeActividadActualDeCajas', compact('data'))->render()
+        ));
+	}
+
+	public function detalleResumenDeActividadDeCajas($caja)
+	{
+		$datos['fecha_inicial'] = CierreCaja::where('caja_id','=',$caja->id)->max('created_at');
+        $datos['fecha_final']   = Carbon::now();
+        $datos['caja_id']       = $caja->id;
+
+        $data = $this->resumen_movimientos($datos);
+
+        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
+
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto_notas_creditos']['cheque'];
+
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'];
+
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto_notas_creditos']['deposito'];
+
+		$user = User::find($caja->user_id);
+
+        $movimientos = array(
+			'caja'     => $caja->nombre,
+			'usuario'  => @$user->nombre.' '.@$user->apellido,
+            'efectivo' => $efectivo,
+            'cheque'   => $cheque,
+            'tarjeta'  => $tarjeta,
+            'deposito' => $deposito
+        );
+
+		return $movimientos;
 	}
 }

@@ -4,11 +4,11 @@
     * top of the page, bumping all HTML content down.
     */
     deployQZ();
-    
+
     /**
     * Deploys different versions of the applet depending on Java version.
     * Useful for removing warning dialogs for Java 6.  This function is optional
-    * however, if used, should replace the <applet> method.  Needed to address 
+    * however, if used, should replace the <applet> method.  Needed to address
     * MANIFEST.MF TrustedLibrary=true discrepency between JRE6 and JRE7.
     */
     function deployQZ() {
@@ -20,10 +20,10 @@
             return  false;
         }
 
-        var attributes = {id: "qz", code:'qz.PrintApplet.class', 
+        var attributes = {id: "qz", code:'qz.PrintApplet.class',
             archive:'qz-print.jar', width:1, height:1};
-        var parameters = {jnlp_href: 'qz-print_jnlp.jnlp', 
-            cache_option:'plugin', disable_logging:'false', 
+        var parameters = {jnlp_href: 'qz-print_jnlp.jnlp',
+            cache_option:'plugin', disable_logging:'false',
             initial_focus:'false'};
         if (deployJava.versionCheck("1.7+") == true) {}
         else if (deployJava.versionCheck("1.6+") == true) {
@@ -33,7 +33,7 @@
 
         deployJava.runApplet(attributes, parameters, '1.5');
     }
-    
+
     /**
     * Automatically gets called when applet has loaded.
     */
@@ -46,17 +46,17 @@
                 title.innerHTML = title.innerHTML + " " + qz.getVersion();
             } catch(err) { // LiveConnect error, display a detailed meesage
                 document.getElementById("content").style.background = "#F5A9A9";
-                alert("ERROR:  \nThe applet did not load correctly.  Communication to the " + 
-                    "applet has failed, likely caused by Java Security Settings.  \n\n" + 
-                    "CAUSE:  \nJava 7 update 25 and higher block LiveConnect calls " + 
-                    "once Oracle has marked that version as outdated, which " + 
-                    "is likely the cause.  \n\nSOLUTION:  \n  1. Update Java to the latest " + 
-                    "Java version \n          (or)\n  2. Lower the security " + 
+                alert("ERROR:  \nThe applet did not load correctly.  Communication to the " +
+                    "applet has failed, likely caused by Java Security Settings.  \n\n" +
+                    "CAUSE:  \nJava 7 update 25 and higher block LiveConnect calls " +
+                    "once Oracle has marked that version as outdated, which " +
+                    "is likely the cause.  \n\nSOLUTION:  \n  1. Update Java to the latest " +
+                    "Java version \n          (or)\n  2. Lower the security " +
                     "settings from the Java Control Panel.");
           }
       }
     }
-    
+
     /**
     * Returns whether or not the applet is not ready to print.
     * Displays an alert if not ready.
@@ -73,13 +73,13 @@
         }
         return false;
     }
-    
+
     /**
     * Returns is the applet is not loaded properly
     */
     function isLoaded() {
         if (!qz) {
-            alert('Error:\n\n\tEl Plugin para impresion no esta instalado o no esta funcionando...!');
+            console.log('Error:\n\n\tEl Plugin para impresion no esta instalado o no esta funcionando...!');
             return false;
         } else {
             try {
@@ -94,7 +94,7 @@
         }
         return true;
     }
-    
+
     /**
     * Automatically gets called when "qz.print()" is finished.
     */
@@ -103,13 +103,13 @@
         if (qz.getException()) {
             alert('Error printing:\n\n\t' + qz.getException().getLocalizedMessage());
             qz.clearException();
-            return; 
+            return;
         }
-        
+
         // Alert success message
         msg.success('Se ha enviado una impresion a "' + qz.getPrinter() + '"', 'Listo!');
     }
-    
+
     /***************************************************************************
     * Prototype function for finding the "default printer" on the system
     * Usage:
@@ -120,20 +120,20 @@
         if (isLoaded()) {
             // Searches for default printer
             qz.findPrinter();
-            
+
             // Automatically gets called when "qz.findPrinter()" is finished.
             window['qzDoneFinding'] = function() {
                 // Alert the printer name to user
                 var printer = qz.getPrinter();
                 alert(printer !== null ? 'Default printer found: "' + printer + '"':
                     'Default printer ' + 'not found');
-                
+
                 // Remove reference to this function
                 window['qzDoneFinding'] = null;
             };
         }
     }
-    
+
     /***************************************************************************
     * Prototype function for printing raw commands directly to the filesystem
     * Usage:
@@ -144,7 +144,7 @@
         if (isLoaded()) {
             // Any printer is ok since we are writing to the filesystem instead
             qz.findPrinter();
-            
+
             // Automatically gets called when "qz.findPrinter()" is finished.
             window['qzDoneFinding'] = function() {
                 // Send characters/raw commands to qz using "append"
@@ -152,18 +152,18 @@
                 qz.append("A590,1600,2,3,1,1,N,\"QZ Print Plugin " + qz.getVersion() + " sample.html\"\n");
                 qz.append("A590,1570,2,3,1,1,N,\"Testing qz.printToFile() function\"\n");
                 qz.append("P1\n");
-                
+
                 // Send characters/raw commands to file
                 // i.e.  qz.printToFile("\\\\server\\printer");
                 //       qz.printToFile("/home/user/test.txt");
                 qz.printToFile("C:\\qz-print_test-print.txt");
-                
+
                 // Remove reference to this function
                 window['qzDoneFinding'] = null;
             };
         }
     }
-    
+
     /***************************************************************************
     * Prototype function for printing raw commands directly to a hostname or IP
     * Usage:
@@ -174,7 +174,7 @@
         if (isLoaded()) {
             // Any printer is ok since we are writing to a host address instead
             qz.findPrinter();
-            
+
             // Automatically gets called when "qz.findPrinter()" is finished.
             window['qzDoneFinding'] = function() {
                 // Send characters/raw commands to qz using "append"
@@ -182,18 +182,18 @@
                 qz.append("A590,1600,2,3,1,1,N,\"QZ Print Plugin " + qz.getVersion() + " sample.html\"\n");
                 qz.append("A590,1570,2,3,1,1,N,\"Testing qz.printToHost() function\"\n");
                 qz.append("P1\n");
-                
+
                 // qz.printToHost(String hostName, int portNumber);
                 // qz.printToHost("192.168.254.254");   // Defaults to 9100
                 qz.printToHost("192.168.1.254", 9100);
-                
+
                 // Remove reference to this function
                 window['qzDoneFinding'] = null;
             };
         }
     }
-    
-    
+
+
     /***************************************************************************
     * Prototype function for finding the closest match to a printer name.
     * Usage:
@@ -206,27 +206,27 @@
         if (name) {
             p.value = name;
         }
-        
+
         if (isLoaded()) {
             // Searches for locally installed printer with specified name
             qz.findPrinter(p.value);
-            
+
             // Automatically gets called when "qz.findPrinter()" is finished.
             window['qzDoneFinding'] = function() {
                 var p = document.getElementById('printer');
                 var printer = qz.getPrinter();
-                
+
                 // Alert the printer name to user
-                alert(printer !== null ? 'Printer found: "' + printer + 
-                    '" after searching for "' + p.value + '"' : 'Printer "' + 
+                alert(printer !== null ? 'Printer found: "' + printer +
+                    '" after searching for "' + p.value + '"' : 'Printer "' +
                     p.value + '" not found.');
-                
+
                 // Remove reference to this function
                 window['qzDoneFinding'] = null;
             };
         }
     }
-    
+
     /***************************************************************************
     * Prototype function for listing all printers attached to the system
     * Usage:
@@ -238,15 +238,15 @@
         if (isLoaded()) {
             // Searches for a locally installed printer with a bogus name
             qz.findPrinter('\\{bogus_printer\\}');
-            
+
             // Automatically gets called when "qz.findPrinter()" is finished.
             window['qzDoneFinding'] = function() {
                 // Get the CSV listing of attached printers
                 var printers = qz.getPrinters().split(',');
                 for (i in printers) {
-                    alert(printers[i] ? printers[i] : 'Unknown');      
+                    alert(printers[i] ? printers[i] : 'Unknown');
                 }
-                
+
                 // Remove reference to this function
                 window['qzDoneFinding'] = null;
             };
@@ -263,17 +263,17 @@
                 // Get the CSV listing of attached printers
                 var printers = qz.getPrinters().split(',');
                 for (i in printers) {
-                    impresoras = impresoras  + (printers[i] ? printers[i] : 'Unknown') + ",";      
+                    impresoras = impresoras  + (printers[i] ? printers[i] : 'Unknown') + ",";
                 }
                 listado_de_impresoras = impresoras;
                 // Remove reference to this function*/
                 window['qzDoneFinding'] = null;
 
             };
-            
+
         }
     }
-    
+
     /***************************************************************************
     * Prototype function for printing raw EPL commands
     * Usage:
@@ -282,11 +282,11 @@
     ***************************************************************************/
     function printEPL() {
         if (notReady()) { return; }
-         
+
         // Send characters/raw commands to qz using "append"
         // This example is for EPL.  Please adapt to your printer language
         // Hint:  Carriage Return = \r, New Line = \n, Escape Double Quotes= \"
-        qz.append('\nN\n');            
+        qz.append('\nN\n');
         qz.append('q609\n');
         qz.append('Q203,26\n');
         qz.append('B5,26,0,1A,3,7,152,B,"1234"\n');
@@ -296,20 +296,20 @@
         qz.append('A310,116,0,3,1,1,N,"FROM SAMPLE.HTML"\n');
         qz.append('A310,146,0,3,1,1,N,"QZINDUSTRIES.COM"\n');
         qz.appendImage(getPath() + 'img/image_sample_bw.png', 'EPL', 150, 300);
-                
+
         // Automatically gets called when "qz.appendImage()" is finished.
         window['qzDoneAppending'] = function() {
             // Append the rest of our commands
             qz.append('\nP1,1\n');
-            
+
             // Tell the applet to print.
             qz.print();
-            
+
             // Remove reference to this function
             window['qzDoneAppending'] = null;
         };
      }
-     
+
     /***************************************************************************
     * Prototype function for printing raw ESC/POS commands
     * Usage:
@@ -318,59 +318,59 @@
     ***************************************************************************/
     function printESCP() {
         if (notReady()) { return; }
-        
+
         // Append a png in ESCP format with single pixel density
         qz.appendImage(getPath() + "img/image_sample_bw.png", "ESCP", "single");
-                
+
         // Automatically gets called when "qz.appendImage()" is finished.
         window["qzDoneAppending"] = function() {
             // Append the rest of our commands
             qz.append('\nPrinted using qz-print plugin.\n\n\n\n\n\n');
-            
+
             // Tell the apple to print.
             qz.print();
-            
+
             // Remove any reference to this function
             window['qzDoneAppending'] = null;
         };
     }
-    
-    
+
+
     /***************************************************************************
     * Prototype function for printing raw ZPL commands
     * Usage:
     *    qz.append('^XA\n^FO50,50^ADN,36,20^FDHello World!\n^FS\n^XZ\n');
     *    qz.print();
-    ***************************************************************************/     
+    ***************************************************************************/
     function printZPL() {
         if (notReady()) { return; }
-         
+
         // Send characters/raw commands to qz using "append"
         // This example is for ZPL.  Please adapt to your printer language
         // Hint:  Carriage Return = \r, New Line = \n, Escape Double Quotes= \"
         qz.append('^XA\n');
         qz.append('^FO50,50^ADN,36,20^FDPRINTED USING QZ PRINT PLUGIN ' + qz.getVersion() + '\n');
         qz.appendImage(getPath() + 'img/image_sample_bw.png', 'ZPLII');
-                
+
         // Automatically gets called when "qz.appendImage()" is finished.
         window['qzDoneAppending'] = function() {
             // Append the rest of our commands
             qz.append('^FS\n');
-            qz.append('^XZ\n');  
-            
+            qz.append('^XZ\n');
+
             // Tell the apple to print.
             qz.print();
-            
+
             // Remove any reference to this function
             window['qzDoneAppending'] = null;
         };
     }
-    
-        
+
+
     /***************************************************************************
-    * Prototype function for printing syntatically proper raw commands directly 
+    * Prototype function for printing syntatically proper raw commands directly
     * to a EPCL capable card printer, such as the Zebra P330i.  Uses helper
-    * appendEPCL() to add the proper NUL, data length, escape character and 
+    * appendEPCL() to add the proper NUL, data length, escape character and
     * newline per spec:  https://km.zebra.com/kb/index?page=content&id=SO8390
     * Usage:
     *    appendEPCL('A1');
@@ -378,7 +378,7 @@
     ***************************************************************************/
     function printEPCL()  {
         if (notReady()) { return; }
-        
+
         appendEPCL('+RIB 4');      // Monochrome ribbon
         appendEPCL('F');           // Clear monochrome print buffer
         appendEPCL('+C 8');        // Adjust monichrome intensity
@@ -391,25 +391,25 @@
         appendEPCL('&E*');         // Encode magnetic data
         appendEPCL('I 10');        // Print card (10 returns to print ready pos.)
         appendEPCL('MO');          // Move card to output hopper
-        
+
         qz.printToFile("C:\\Users\\Tres\\Desktop\\EPCL_Proper.txt");
         //qz.print();
     }
-    
+
     /**
-    * EPCL helper function that appends a single line of EPCL data, taking into 
-    * account special EPCL NUL characters, data length, escape character and 
+    * EPCL helper function that appends a single line of EPCL data, taking into
+    * account special EPCL NUL characters, data length, escape character and
     * carraige return
     */
     function appendEPCL(data) {
-        if (data == null || data.length == 0) { 
+        if (data == null || data.length == 0) {
             return alert('Empty EPCL data, skipping!');
         }
-        
+
         // Data length for this command, in 2 character Hex (base 16) format
         var len = (data.length + 2).toString(16);
         len = len.length < 2 ? '0' + len : len;
-        
+
         // Append three NULs
         qz.appendHex('x00x00x00');
         // Append our command length, in base16 (hex)
@@ -419,19 +419,19 @@
         // Append carraige return
         qz.append('\r');
     }
-    
+
     /***************************************************************************
     * Prototype function for printing raw base64 encoded commands
     * Usage:
     *    qz.append64('SGVsbG8gV29ybGQh');
     *    qz.print();
-    ***************************************************************************/     
+    ***************************************************************************/
     function print64() {
         if (notReady()) { return; }
-         
+
         // Send base64 encoded characters/raw commands to qz using "append64"
-        // This will automatically convert provided base64 encoded text into 
-        // text/ascii/bytes, etc.  This example is for EPL and contains an 
+        // This will automatically convert provided base64 encoded text into
+        // text/ascii/bytes, etc.  This example is for EPL and contains an
         // embedded image.  Please adapt to your printer language
         qz.append64('Ck4KcTYwOQpRMjAzLDI2CkI1LDI2LDAsMUEsMyw3LDE1MixCLCIxMjM0IgpBMzEwLDI2LDAsMywx' +
             'LDEsTiwiU0tVIDAwMDAwIE1GRyAwMDAwIgpBMzEwLDU2LDAsMywxLDEsTiwiUVogUFJJTlQgQVBQ' +
@@ -510,7 +510,7 @@
             'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' +
             'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' +
             'AAAAAAAAAAAAAAAAAAAAAAAAClAxLDEK');
-        
+
         // Tell the apple to print.
         qz.print();
     }
@@ -522,43 +522,43 @@
     *    qz.setDocumentsPerSpool('5');
     *    qz.appendFile('/path/to/file.txt');
     *    window['qzDoneAppending'] = function() { qz.print(); };
-    ***************************************************************************/     
+    ***************************************************************************/
     function printPages() {
         if (notReady()) { return; }
-        
+
         // Mark the end of a label, in this case  P1 plus a newline character
         // qz-print knows to look for this and treat this as the end of a "page"
         // for better control of larger spooled jobs (i.e. 50+ labels)
         qz.setEndOfDocument('P1,1\r\n');
-        
+
         // The amount of labels to spool to the printer at a time. When
-        // qz-print counts this many `EndOfDocument`'s, a new print job will 
+        // qz-print counts this many `EndOfDocument`'s, a new print job will
         // automatically be spooled to the printer and counting will start
         // over.
         qz.setDocumentsPerSpool("2");
-        
+
         qz.appendFile(getPath() + "misc/epl_multiples.txt");
-        
+
         // Automatically gets called when "qz.appendFile()" is finished.
         window['qzDoneAppending'] = function() {
             // Tell the applet to print.
             qz.print();
-            
+
             // Remove reference to this function
             window['qzDoneAppending'] = null;
         };
     }
-    
+
     /***************************************************************************
     * Prototype function for printing a single XML node containing base64
     * encoded data.
     * Usage:
     *    qz.appendXML('/path/to/file.xml');
     *    window['qzDoneAppending'] = function() { qz.print(); };
-    ***************************************************************************/  
+    ***************************************************************************/
     function printXML() {
         if (notReady()) { return; }
-        
+
         // Appends the contents of an XML file from a SOAP response, etc.
         // First parameter:  A valid complete URL is required for the XML file.
         // Second parameter:  A valid XML tag/node name containing
@@ -566,25 +566,25 @@
         // Example:
         //    qz.appendXML("http://yoursite.com/zpl.xml", "node_1");
         qz.appendXML(getPath() + "misc/zpl_sample.xml", "v7:Image");
-        
+
         // Automatically gets called when "qz.appendXML()" is finished.
         window['qzDoneAppending'] = function() {
             // Tell the applet to print.
             qz.print();
-            
+
             // Remove reference to this function
             window['qzDoneAppending'] = null;
         };
     }
-    
+
     /***************************************************************************
     * Prototype function for printing hexadecimal formatted raw data
-    * 
+    *
     * Usage:
     *    qz.appendHex('00AABBCCDDEEFF');
     *    qz.appendHex('x00xAAxBBxCCxDDxEExFF');
     *    qz.print();
-    ***************************************************************************/ 
+    ***************************************************************************/
     function printHex() {
         if (notReady()) { return; }
         // Since 1.5.4, No backslashes needed (fixes \x00 NUL JavaScript bug)
@@ -601,44 +601,44 @@
         qz.appendHex("73616d706c652e68746d6c220d0a413331302c3134362c30");
         qz.appendHex("2c332c312c312c4e2c227072696e7448657828292066756e");
         qz.appendHex("6374696f6e2e220d0a50312c310d0a");
-        
+
         // Send characters/raw commands to printer
         qz.print();
     }
-    
+
     /***************************************************************************
-    * Prototype function for printing a text or binary file containing raw 
+    * Prototype function for printing a text or binary file containing raw
     * print commands.
     * Usage:
     *    qz.appendFile('/path/to/file.txt');
     *    window['qzDoneAppending'] = function() { qz.print(); };
-    ***************************************************************************/ 
+    ***************************************************************************/
     function printFile(file) {
         if (notReady()) { return; }
-        
+
         // Append raw or binary text file containing raw print commands
         qz.appendFile(getPath() + "misc/" + file);
-        
+
         // Automatically gets called when "qz.appendFile()" is finished.
         window['qzDoneAppending'] = function() {
             // Tell the applet to print.
             qz.print();
-            
+
             // Remove reference to this function
             window['qzDoneAppending'] = null;
         };
     }
-    
+
     /***************************************************************************
     * Prototype function for printing a graphic to a PostScript capable printer.
     * Not to be used in combination with raw printers.
     * Usage:
     *    qz.appendImage('/path/to/image.png');
     *    window['qzDoneAppending'] = function() { qz.printPS(); };
-    ***************************************************************************/ 
+    ***************************************************************************/
     function printImage(scaleImage) {
         if (notReady()) { return; }
-        
+
         // Optional, set up custom page size.  These only work for PostScript printing.
         // setPaperSize() must be called before setAutoSize(), setOrientation(), etc.
         if (scaleImage) {
@@ -649,76 +649,76 @@
             //qz.setOrientation("reverse-landscape");
             //qz.setCopies(3); //Does not seem to do anything
         }
-        
+
         // Append our image (only one image can be appended per print)
         qz.appendImage(getPath() + "img/image_sample.png");
-        
+
         // Automatically gets called when "qz.appendImage()" is finished.
         window['qzDoneAppending'] = function() {
             // Tell the applet to print PostScript.
             qz.printPS();
-            
+
             // Remove reference to this function
             window['qzDoneAppending'] = null;
         };
     }
-    
+
     /***************************************************************************
     * Prototype function for printing a PDF to a PostScript capable printer.
     * Not to be used in combination with raw printers.
     * Usage:
     *    qz.appendPDF('/path/to/sample.pdf');
     *    window['qzDoneAppending'] = function() { qz.printPS(); };
-    ***************************************************************************/ 
+    ***************************************************************************/
     function printPDF() {
         if (notReady()) { return; }
         // Append our pdf (only one pdf can be appended per print)
         qz.appendPDF(getPath() + "misc/pdf_sample.pdf");
-        
+
         // Automatically gets called when "qz.appendPDF()" is finished.
         window['qzDoneAppending'] = function() {
             // Tell the applet to print PostScript.
             qz.printPS();
-            
+
             // Remove reference to this function
             window['qzDoneAppending'] = null;
         };
     }
-    
+
     /***************************************************************************
-    * Prototype function for printing plain HTML 1.0 to a PostScript capable 
+    * Prototype function for printing plain HTML 1.0 to a PostScript capable
     * printer.  Not to be used in combination with raw printers.
     * Usage:
     *    qz.appendHTML('<h1>Hello world!</h1>');
     *    qz.printPS();
-    ***************************************************************************/ 
+    ***************************************************************************/
     function printHTML() {
         if (notReady()) { return; }
-        
+
         // Preserve formatting for white spaces, etc.
         var colA = fixHTML('<h2>*  QZ Print Plugin HTML Printing  *</h2>');
         colA = colA + '<color=red>Version:</color> ' + qz.getVersion() + '<br />';
         colA = colA + '<color=red>Visit:</color> http://code.google.com/p/jzebra';
-        
+
         // HTML image
         var colB = '<img src="' + getPath() + 'img/image_sample.png">';
-        
+
         // Append our image (only one image can be appended per print)
-        qz.appendHTML('<html><table face="monospace" border="1px"><tr height="6cm">' + 
-        '<td valign="top">' + colA + '</td>' + 
-        '<td valign="top">' + colB + '</td>' + 
+        qz.appendHTML('<html><table face="monospace" border="1px"><tr height="6cm">' +
+        '<td valign="top">' + colA + '</td>' +
+        '<td valign="top">' + colB + '</td>' +
         '</tr></table></html>');
-        
+
         qz.printHTML();
     }
-        
+
             /***************************************************************************
     * Prototype function for getting the primary IP or Mac address of a computer
     * Usage:
     *    qz.findNetworkInfo();
     *    window['qzDoneFindingNetwork'] = function() {alert(qz.getMac() + ',' +
     *       qz.getIP()); };
-    ***************************************************************************/ 
+    ***************************************************************************/
     function listNetworkInfo() {
         if (isLoaded()) {
             // Makes a quick connection to www.google.com to determine the active interface
@@ -726,26 +726,26 @@
             // qz.getNetworkUtilities().setHostname("qzindustries.com");
             // qz.getNetworkUtilities().setPort(80);
             qz.findNetworkInfo();
-            
+
             // Automatically gets called when "qz.findPrinter()" is finished.
             window['qzDoneFindingNetwork'] = function() {
                 alert("Primary adapter found: " + qz.getMac() + ", IP: " + qz.getIP());
-                
+
                 // Remove reference to this function
                 window['qzDoneFindingNetwork'] = null;
             };
         }
     }
-    
+
     /***************************************************************************
     * Prototype function for printing an HTML screenshot of the existing page
     * Usage: (identical to appendImage(), but uses html2canvas for png rendering)
     *    qz.setPaperSize("8.5in", "11.0in");  // US Letter
     *    qz.setAutoSize(true);
     *    qz.appendImage($("canvas")[0].toDataURL('image/png'));
-    ***************************************************************************/ 
+    ***************************************************************************/
     function printHTML5Page() {
-        $("#garantiaContainer").html2canvas({ 
+        $("#garantiaContainer").html2canvas({
             canvas: hidden_screenshot,
             onrendered: function() {
                 if (notReady()) { return; }
@@ -758,24 +758,24 @@
                 window['qzDoneAppending'] = function() {
                     // Tell the applet to print.
                     qz.printPS();
-                    
+
                     // Remove reference to this function
                     window['qzDoneAppending'] = null;
                 };
             }
         });
     }
-    
+
     /***************************************************************************
     * Prototype function for logging a PostScript printer's capabilites to the
-    * java console to expose potentially  new applet features/enhancements. 
+    * java console to expose potentially  new applet features/enhancements.
     * Warning, this has been known to trigger some PC firewalls
     * when it scans ports for certain printer capabilities.
     * Usage: (identical to appendImage(), but uses html2canvas for png rendering)
     *    qz.setLogPostScriptFeatures(true);
     *    qz.appendHTML("<h1>Hello world!</h1>");
     *    qz.printPS();
-    ***************************************************************************/ 
+    ***************************************************************************/
     function logFeatures() {
         if (isLoaded()) {
             var logging = qz.getLogPostScriptFeatures();
@@ -783,17 +783,17 @@
             alert('Logging of PostScript printer capabilities to console set to "' + !logging + '"');
         }
     }
-    
+
     /***************************************************************************
     * Prototype function to force Unix to use the terminal/command line for
-    * printing rather than the Java-to-CUPS interface.  This will write the 
-    * raw bytes to a temporary file, then execute a shell command. 
-    * (i.e. lpr -o raw temp_file).  This was created specifically for OSX but 
+    * printing rather than the Java-to-CUPS interface.  This will write the
+    * raw bytes to a temporary file, then execute a shell command.
+    * (i.e. lpr -o raw temp_file).  This was created specifically for OSX but
     * may work on several Linux versions as well.
     *    qz.useAlternatePrinting(true);
     *    qz.append('\n\nHello World!\n\n');
     *    qz.print();
-    ***************************************************************************/ 
+    ***************************************************************************/
     function useAlternatePrinting() {
         if (isLoaded()) {
             var alternate = qz.isAlternatePrinting();
@@ -801,20 +801,20 @@
             alert('Alternate CUPS printing set to "' + !alternate + '"');
         }
     }
-    
-    
+
+
     /***************************************************************************
     * Prototype function to list all available com ports availabe to this PC
-    * used for RS232 communication.  Relies on jssc_qz.jar signed and in the 
+    * used for RS232 communication.  Relies on jssc_qz.jar signed and in the
     * /dist/ folder.
     *    qz.findPorts();
     *    window['qzDoneFindingPorts'] = function() { alert(qz.getPorts()); };
-    ***************************************************************************/ 
+    ***************************************************************************/
     function listSerialPorts() {
         if (isLoaded()) {
             // Search the PC for communication (RS232, COM, tty) ports
             qz.findPorts();
-            
+
             // Automatically called when "qz.findPorts()" is finished
             window['qzDoneFindingPorts'] = function() {
                 var ports = qz.getPorts().split(",");
@@ -829,23 +829,23 @@
             };
         }
     }
-    
-    
+
+
     /***************************************************************************
-    * Prototype function to open the specified communication port for 2-way 
+    * Prototype function to open the specified communication port for 2-way
     * communication.
     *    qz.openPort('COM1');
     *    qz.openPort('/dev/ttyUSB0');
     *    window['qzDoneOpeningPort'] = function(port) { alert(port); };
-    ***************************************************************************/ 
+    ***************************************************************************/
     function openSerialPort() {
         if (isLoaded()) {
             qz.openPort(document.getElementById("port_name").value);
-        
+
             // Automatically called when "qz.openPort()" is finished (even if it fails to open)
             window['qzDoneOpeningPort'] = function(portName) {
                 if (qz.getException()) {
-                    alert("Could not open port [" + portName + "] \n\t" + 
+                    alert("Could not open port [" + portName + "] \n\t" +
                         qz.getException().getLocalizedMessage());
                     qz.clearException();
                 } else {
@@ -854,21 +854,21 @@
             };
         }
     }
-    
+
     /***************************************************************************
     * Prototype function to close the specified communication port.
     *    qz.closePort('COM1');
     *    qz.closePort('/dev/ttyUSB0');
     *    window['qzDoneClosingPort'] = function(port) { alert(port); };
-    ***************************************************************************/ 
+    ***************************************************************************/
     function closeSerialPort() {
         if (isLoaded()) {
             qz.closePort(document.getElementById("port_name").value);
-            
+
             // Automatically called when "qz.closePort() is finished (even if it fails to close)
             window['qzDoneClosingPort'] = function(portName) {
                 if (qz.getException()) {
-                    alert("Could not close port [" + portName + "] \n\t" + 
+                    alert("Could not close port [" + portName + "] \n\t" +
                         qz.getException().getLocalizedMessage());
                     qz.clearException();
                 } else {
@@ -877,15 +877,15 @@
             };
         }
     }
-    
-    
+
+
     /***************************************************************************
     * Prototype function to send data to the open port
     *    qz.setSerialBegin(chr(2));
     *    qz.setSerialEnd(chr(13));
     *    qz.setSerialProperties("9600", "7", "1", "even", "none");
     *    qz.send("COM1", "\nW\n");
-    ***************************************************************************/ 
+    ***************************************************************************/
     function sendSerialData() {
         if (isLoaded()) {
             // Beggining and ending patterns that signify port has responded
@@ -898,14 +898,14 @@
             // Send raw commands to the specified port.
             // W = weight on Mettler Toledo Scale
             qz.send(document.getElementById("port_name").value, "\nW\n");
-            
-            // Automatically called when "qz.send()" is finished waiting for 
+
+            // Automatically called when "qz.send()" is finished waiting for
             // a valid message starting with the value supplied for setSerialBegin()
             // and ending with with the value supplied for setSerialEnd()
             window['qzSerialReturned'] = function(portName, data) {
                 if (qz.getException()) {
                     alert("Could not send data:\n\t" + qz.getException().getLocalizedMessage());
-                    qz.clearException();  
+                    qz.clearException();
                 } else {
                     if (data == null || data == "") {       // Test for blank data
                         alert("No data was returned.")
@@ -918,14 +918,14 @@
             };
         }
     }
-    
+
     /***************************************************************************
     ****************************************************************************
     * *                          HELPER FUNCTIONS                             **
     ****************************************************************************
     ***************************************************************************/
-    
-    
+
+
     /***************************************************************************
     * Gets the current url's path, such as http://site.com/example/dist/
     ***************************************************************************/
@@ -933,32 +933,32 @@
         var path = window.location.href;
         return path.substring(0, path.lastIndexOf("/")) + "/";
     }
-    
+
     /**
     * Fixes some html formatting for printing. Only use on text, not on tags!
     * Very important!
     *   1.  HTML ignores white spaces, this fixes that
     *   2.  The right quotation mark breaks PostScript print formatting
-    *   3.  The hyphen/dash autoflows and breaks formatting  
+    *   3.  The hyphen/dash autoflows and breaks formatting
     */
     function fixHTML(html) {
-        return html.replace(/ /g, "&nbsp;").replace(/’/g, "'").replace(/-/g,"&#8209;"); 
+        return html.replace(/ /g, "&nbsp;").replace(/’/g, "'").replace(/-/g,"&#8209;");
     }
-    
+
     /**
     * Equivelant of VisualBasic CHR() function
     */
     function chr(i) {
         return String.fromCharCode(i);
     }
-    
+
     /***************************************************************************
     * Prototype function for allowing the applet to run multiple instances.
     * IE and Firefox may benefit from this setting if using heavy AJAX to
     * rewrite the page.  Use with care;
     * Usage:
     *    qz.allowMultipleInstances(true);
-    ***************************************************************************/ 
+    ***************************************************************************/
     function allowMultiple() {
       if (isLoaded()) {
         var multiple = qz.getAllowMultipleInstances();

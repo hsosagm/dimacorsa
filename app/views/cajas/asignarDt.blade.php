@@ -29,7 +29,6 @@ $("#usuarios").autocomplete({
     serviceUrl: 'admin/users/buscar',
     onSelect: function (q) {
         $("#usuario_id").val(q.id);
-        msg.success('Usuario Seleccionado','listo');
     }
 });
 </script>

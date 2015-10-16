@@ -1,7 +1,7 @@
 <div id="Master">
 
     <table id="MasterQueries" v-if="showMaster" style="text-align:center">
-     
+
         <tr>
             <td><p>Ventas</p><img src="images/consultas/ventas.png" height=80 width=80></img>
                 <div class="row">
@@ -62,11 +62,11 @@
                     <div class="col-md-5 center" v-on="click: getConsultasPorFecha('mes', 'AbonosClientes')"><span>Fecha</span></div>
                 </div>
             </td>
-            <td><p>Anticipos</p><img src="images/consultas/anticipos.png" height=80 width=80></img>
+            <td><p>Notas de Credito</p><img src="images/consultas/anticipos.png" height=80 width=80></img>
                  <div class="row">
-                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('dia', 'Adelantos')"><span>Hoy</span></div>
+                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('dia', 'NotasCreditos')"><span>Hoy</span></div>
                     <div class="col-md-2 center"><span>|</span></div>
-                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('mes', 'Adelantos')"><span>Fecha</span></div>
+                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('mes', 'NotasCreditos')"><span>Fecha</span></div>
                 </div>
             </td>
             <td><p>Ingresos</p><img src="images/consultas/ingresos.png" height=80 width=80></img>
@@ -95,7 +95,7 @@
         },
 
         methods: {
-            /* 
+            /*
                 inicio consultas
                 e = this
                 consulta = 'dia' , 'mes' , 'fechas'
@@ -114,7 +114,7 @@
 
             getActualizarConsultasPorFecha: function(e)
             {
-                e.preventDefault(); 
+                e.preventDefault();
                 var form = $(e.target).closest("form");
                 $('input[type=submit]', form).prop('disabled', true);
 

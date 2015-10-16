@@ -36,7 +36,7 @@ class UserController extends Controller {
 
 	public function buscar()
 	{
-		return Autocomplete::get('users', array('id', 'username', 'nombre', 'apellido'));
+		return Autocomplete::get('users', array('id', 'nombre', 'apellido', 'username'));
 	}
 
 
@@ -602,7 +602,7 @@ class UserController extends Controller {
 
 		$fecha = "'".CierreCaja::where('caja_id','=',$caja->id )->max('created_at')."'";
 
-		$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') >= DATE_FORMAT({$fecha}, '%Y-%m-%d') ";
+		$where = " DATE_FORMAT(ventas.updated_at, '%Y-%m-%d') >= DATE_FORMAT({$fecha}, '%Y-%m-%d') ";
 
 		$where .= " AND ventas.completed = 2 ";
 

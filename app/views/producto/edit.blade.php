@@ -1,7 +1,7 @@
 <h4>Actualizar Producto</h4>
 <div class="row">
 	<div class="col-md-6">
-		{{Form::open(array('data-remote-product' ,'data-success' => 'Producto Creado'))}} 
+		{{Form::open(array('data-remote-product' ,'data-success' => 'Producto Creado'))}}
 		{{ Form::hidden('id', $producto->id) }}
 		{{ Form::hidden('marca_id', $producto->marca_id)}}
 		{{ Form::hidden('categoria_id', $producto->categoria_id)}}
@@ -11,7 +11,7 @@
 				<input class="form-control" name="codigo" value="{{$producto->codigo}}" type="text"  placeholder="Codigo" autofocus>
 			</div>
 			<div class="col-md-4">
-				<input class="form-control" name="stock_minimo" value="{{$producto->stock_minimo}}" type="number"  placeholder="Existencia Minima" autofocus>
+				<input class="form-control" name="stock_minimo" value="{{$producto->stock_minimo}}" type="text"  placeholder="Exist. Min.">
 			</div>
 		</div>
 		<div class="row">
@@ -61,9 +61,9 @@
 			<div class="col-md-3">&nbsp;&nbsp;Inactivo</div>
 			<div class="col-md-3">
 				@if($producto->inactivo==1)
-					{{ Form::checkbox('Inactivo', '1', true); }} 
-				@else 
-					{{ Form::checkbox('Inactivo', '0', false); }} 
+					{{ Form::checkbox('Inactivo', '1', true); }}
+				@else
+					{{ Form::checkbox('Inactivo', '0', false); }}
 				@endif
 			</div>
 			<div class="col-md-6" align="right">
@@ -99,20 +99,20 @@
 				$("form[data-remote-product] input[name=codigo]").val(codigo_generado);
 			}
 		}
-		
-		$("#buscarMarca").autocomplete({ 
+
+		$("#buscarMarca").autocomplete({
 			serviceUrl: 'admin/marcas/buscar',
 			onSelect: function (q) {
 				$("input[name='marca_id']").val(q.id);
 			}
 		});
 
-		$("#buscarCategoria").autocomplete({ 
+		$("#buscarCategoria").autocomplete({
 			serviceUrl: 'admin/categorias/buscar',
 			onSelect: function (q) {
 				$("input[name='categoria_id']").val(q.id);
 
-				$("#buscarSubCategoria").autocomplete({ 
+				$("#buscarSubCategoria").autocomplete({
 					serviceUrl: 'admin/sub_categorias/buscar/'+q.id+'',
 					onSelect: function (q) {
 

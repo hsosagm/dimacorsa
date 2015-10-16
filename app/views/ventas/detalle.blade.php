@@ -14,7 +14,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="text" id="search_producto"> 
+					<input type="text" id="search_producto">
 					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
 				</td>
 				<td><input class="input input_numeric" type="text" name="cantidad"></td>
@@ -47,7 +47,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			@if(count($caja))
-				<i class="fa fa-print fa-lg icon-print" onclick="getModalImprimirVenta(this, {{$venta_id}} );"></i>
+				{{-- <i class="fa fa-print fa-lg icon-print" onclick="getModalImprimirVenta(this, {{$venta_id}} );"></i> --}}
 			@endif
 		</div>
 		<div class="col-md-6" align="right">
@@ -72,8 +72,8 @@
 			if($.trim($(this).val()) == ""){
 				if($(this).attr('status') == "1") {
 					$(this).val($(this).attr('placeholder'));
-					$(this).select();  
-					$(this).attr('status',0);  
+					$(this).select();
+					$(this).attr('status',0);
 				}
 				else{
 					$(this).val("");

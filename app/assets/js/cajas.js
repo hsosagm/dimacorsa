@@ -79,3 +79,38 @@ function asignarDt() {
 		msg.warning(data, 'Advertencia!');
 	});
 };
+
+function retirarEfectivoDeCaja() {
+    $.ajax({
+		type: "GET",
+		url: 'user/cajas/retirarEfectivoDeCaja',
+	}).done(function(data) {
+		if (data.success == true)
+		{
+            $('.modal-body').html(data.view);
+            $('.modal-title').text('Asingnar Caja');
+            return $('.bs-modal').modal('show');
+		}
+		msg.warning(data, 'Advertencia!');
+	});
+};
+
+function retirarDineroDeCajapdf() {
+    $('.bs-modal').modal('hide');
+    window.open('retirarDineroDeCajaPdf?monto='+$('#montoRetirarCaja').val(), '_blank');
+};
+
+function resumenDeActividadActualDeCajas() {
+    $.ajax({
+        type: "GET",
+        url: '/admin/cajas/resumenDeActividadActualDeCajas',
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            clean_panel();
+            $('#graph_container').show();
+            return $('#graph_container').html(data.view);
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+};
