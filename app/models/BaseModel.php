@@ -32,7 +32,6 @@ class BaseModel extends Eloquent   {
         return 'success';
     }
 
-
     public function _update()
     {
         $class = get_class($this);
@@ -61,7 +60,7 @@ class BaseModel extends Eloquent   {
         }
     }
 
-     public function update_master()
+    public function update_master()
     {
         $data = Input::all();
         $data['user_id'] = Auth::user()->id;
@@ -93,7 +92,6 @@ class BaseModel extends Eloquent   {
         }
     }
 
-
     public function create_master($data = null)
     {
         if ($data == null) 
@@ -120,24 +118,21 @@ class BaseModel extends Eloquent   {
         return 'success';
     }
 
-
     public function errors()
     {
         return $this->errors->first();
     }
-
 
     public function get_id()
     {
         return $this->model_id;
     }
 
-
     public function SaleItem()
     {
         $class = get_class($this);
         $path = "App\\Validators\\{$class}Validator";
-        $v = $path::make();
+        $v = $path::make();  // ?
 
         if ($v->fails())
         {
@@ -155,4 +150,28 @@ class BaseModel extends Eloquent   {
         $class::create($values);
         return 'success';
     }
+
+    public function create_master_with_caja()
+    {
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
+        $data = Input::all();
+        $data['user_id'] = Auth::user()->id;
+        $data['caja_id'] = $caja->id;
+        $class = get_class($this);
+        $path = "App\\Validators\\{$class}Validator";
+        $v = $path::make($data);
+
+        if ($v->fails())
+        {
+            $this->errors = $v->messages();
+            return false;
+        }
+
+        $model = $class::create($data);
+
+        $this->model_id = $model->id;
+
+        return 'success';
+    }
+
 }

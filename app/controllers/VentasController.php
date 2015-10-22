@@ -62,7 +62,7 @@ class VentasController extends \BaseController {
 			}
 
 			$query = new DetalleVenta;
-			if ( !$query->SaleItem())
+			if ( !$query->SaleItem()) // ?
 			{
 				return $query->errors();
 			}
@@ -943,14 +943,15 @@ class VentasController extends \BaseController {
 
 	public function postDevolucionParcial()
 	{
-		$this->devUpdateDetalleVenta();
-		$this->devUpdateVenta();
+		// $this->devUpdateDetalleVenta();
+		// $this->devUpdateVenta();
         $nota_credito = $this->createNotaCredito();
         $dnc_id = $this->createDevolucionNotaCredito($nota_credito);
-		$this->createDetalleDevolucion($dnc_id);
+        return $dnc_id;
+		// $this->createDetalleDevolucionNotaCredito($dnc_id);
 
 		return Response::json(array(
-			'success' => true
+			'id' => 23
         ));
 	}
 
@@ -1013,10 +1014,9 @@ class VentasController extends \BaseController {
 		);
 	}
 
+    // variables: nota_credito_id, venta_id, metodo_pago_id, monto, descuento_sobre_saldo
     public function createDevolucionNotaCredito($nota_credito)
     {
-        // variables: nota_credito_id, venta_id, metodo_pago_id, monto, descuento_sobre_saldo
-
         $data  = ['nota_credito_id' => $nota_credito['nota_credito_id'], 'venta_id' => Input::get('venta_id'), 'metodo_pago_id' => $nota_credito['metodo_pago_id'], 'monto' =>  Input::get('monto'), 'descuento_sobre_saldo' => Input::get('descuento_sobre_saldo')];
 
         $dnc = new DevolucionNotaCredito;
@@ -1030,22 +1030,40 @@ class VentasController extends \BaseController {
     }
 
     // variables: devolucin_id(id de devolucion_nota_credito), producto_id, cantidad, precio, serials
-	public function createDetalleDevolucion($dnc_id)
+	public function createDetalleDevolucionNotaCredito($dnc_id)
 	{
-		$datos = Input::get('datos');
         $ddnc = new DetalleDevolucionNotaCredito;
 
-        for($i=0; $i<count($datos); $i++)
-        {
+		foreach (Input::get('datos') as $d)
+		{
         	$ddnc->devolucion_id = $dnc_id;
-        	$ddnc->producto_id = $datos[$i]['producto_id'];
-        	$ddnc->cantidad = $datos[$i]['cantidad'];
-        	$ddnc->precio = $datos[$i]['precio'];
+        	$ddnc->producto_id = $d['producto_id'];
+        	$ddnc->cantidad = $d['cantidad'];
+        	$ddnc->precio = $d['precio'];
+        	$ddnc->save();
 
-			Existencia::where('producto_id', $datos[$i]['producto_id'])
+			Existencia::where('producto_id', $d['producto_id'])
 			->where('tienda_id', Input::get('tienda_id'))
-			->update(array('existencia' => 'existencia' + $datos[$i]['cantidad']));
-        }
+			->update(array('existencia' => 'existencia' + $d['cantidad']));
+		}
 	}
+
+	// public function createDetalleDevolucion($dnc_id)
+	// {
+	// 	$datos = Input::get('datos');
+ //        $ddnc = new DetalleDevolucionNotaCredito;
+
+ //        for($i=0; $i<count($datos); $i++)
+ //        {
+ //        	$ddnc->devolucion_id = $dnc_id;
+ //        	$ddnc->producto_id = $datos[$i]['producto_id'];
+ //        	$ddnc->cantidad = $datos[$i]['cantidad'];
+ //        	$ddnc->precio = $datos[$i]['precio'];
+
+	// 		Existencia::where('producto_id', $datos[$i]['producto_id'])
+	// 		->where('tienda_id', Input::get('tienda_id'))
+	// 		->update(array('existencia' => 'existencia' + $datos[$i]['cantidad']));
+ //        }
+	// }
 
 }

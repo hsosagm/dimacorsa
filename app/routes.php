@@ -250,7 +250,13 @@
 
             Route::group(array('prefix' => 'devoluciones'),function()
             {
-                Route::get('getVentaConDetalleParaDevolucion'  , 'VentasController@getVentaConDetalleParaDevolucion');
+                Route::get('getVentaConDetalleParaDevolucion'  , 'DevolucionesVentasController@getVentaConDetalleParaDevolucion');
+                Route::post('getVentaConDetalleParaDevolucion'  , 'DevolucionesVentasController@getVentaConDetalleParaDevolucion');
+                Route::get('findProducto'        , 'DevolucionesVentasController@findProducto');
+                Route::post('postDevolucionDetalle'        , 'DevolucionesVentasController@postDevolucionDetalle');
+                Route::post('removeItem'        , 'DevolucionesVentasController@removeItem');
+                Route::post('eliminarDevolucion'        , 'DevolucionesVentasController@eliminarDevolucion');
+
                 Route::get('getCheckCantidadDevolucion'        , 'VentasController@getCheckCantidadDevolucion');
                 Route::get('getVentasParaDevoluciones'         , 'VentasController@getVentasParaDevoluciones');
                 Route::get('DT_ventasParaDevoluciones'         , 'VentasController@DT_ventasParaDevoluciones');

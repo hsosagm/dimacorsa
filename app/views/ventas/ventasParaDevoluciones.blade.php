@@ -58,7 +58,7 @@
 
                     "mRender": function( data, type, full ) {
                         $v  = '<i onclick="showSalesDetail(this)" title="Ver detalle" class="fa fa-plus-square show_detail" style="color:#527DB5"></i>';
-                        $v += '<i onclick="returnSale(this, '+full.DT_RowId+')" title="Abrir para devolucion" class="fa fa-check" style="padding-left:15px; color:#52A954"></i>';
+                        $v += '<i onclick="returnSale('+full.DT_RowId+')" title="Abrir para devolucion" class="fa fa-check" style="padding-left:15px; color:#52A954"></i>';
                         $v += '<i title="Eliminar venta completa" class="fa fa-close" style="padding-left:15px; color:#FF7676"></i>';
                         return $v;
                     }
@@ -234,7 +234,7 @@
         });
     }
 
-    function returnSale(e, venta_id) {
+    function returnSale(venta_id) {
         $.ajax({
             type: "GET",
             url: 'user/ventas/devoluciones/getVentaConDetalleParaDevolucion',
@@ -242,9 +242,10 @@
         }).done(function(data) {
             if (data.success == true)
             {
-                $('#returnDiv').html(data.table);
-                dv.x = 2;
-                return dv_compile();
+                $('.panel-title').text('Formulario Devoluciones');
+                $(".forms").html(data.table);
+                ocultar_capas();
+                return $(".form-panel").show();
             }
             msg.warning(data, 'Advertencia!');
         });
@@ -268,7 +269,7 @@
             console.log(data);
             if (data.success == true)
             {
-                dv.close();
+                // dv.close();
                 return msg.success('Nota de credito ingresada', 'Advertencia!');;
             }
             msg.warning(data, 'Advertencia!');
