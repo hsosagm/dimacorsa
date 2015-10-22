@@ -166,7 +166,10 @@ class NotaCreditoController extends \BaseController {
     public function getFormMetodoPagoNotaDeCredito()
     {
         $venta = Venta::find(Input::get('venta_id'));
-        return  View::make('notas_creditos.formMetodoPagoNotaDeCredito', compact('venta'));
+        //iniciar las variables que se van a enviar en cero para no hacerlo en el blade
+        $descuento_sobre_saldo = 0;
+        $monto = 0;
+        return  View::make('notas_creditos.formMetodoPagoNotaDeCredito', compact('venta', 'descuento_sobre_saldo', 'monto'));
     }
 
 	public function imprimirNotaDeCretidoAdelanto()

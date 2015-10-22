@@ -32,7 +32,7 @@
 						<input 
 						    id="checkbox-@{{dev.producto_id}}"
 						    type="checkbox"
-						    v-on="click: pushToDevoluciones($event, dev.producto_id, dev.cantidad, dev.precio)"
+						    v-on="click: pushToDevoluciones($event, dev.id, dev.producto_id, dev.cantidad, dev.precio)"
 						>
 						<label for="checkbox-@{{dev.producto_id}}"></label>
 					</div>

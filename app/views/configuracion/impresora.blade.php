@@ -154,9 +154,12 @@
 	</div>
 </div>
 
-<script>
+<script type="text/javascript">
 	function cargar_impresoras_select(e)
 	{
+		listado_de_impresoras = listado_de_impresoras.split(' ').join('');
+		listado_de_impresoras = listado_de_impresoras.split('/').join('');
+
 		$.get( "admin/configuracion/getImpresoras/"+listado_de_impresoras, function( data ) {
 			$('.list_impresoras_factura').html(data.factura);
 			$('.list_impresoras_garantia').html(data.garantia);

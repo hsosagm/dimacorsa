@@ -58,7 +58,7 @@
 
                     "mRender": function( data, type, full ) {
                         $v  = '<i onclick="showSalesDetail(this)" title="Ver detalle" class="fa fa-plus-square show_detail" style="color:#527DB5"></i>';
-                        $v += '<i onclick="returnSale(this, '+full.DT_RowId+')" title="Abrir para devolucion" class="fa fa-check" style="padding-left:15px; color:#52A954"></i>';
+                        $v += '<i onclick="returnSale('+full.DT_RowId+')" title="Abrir para devolucion" class="fa fa-check" style="padding-left:15px; color:#52A954"></i>';
                         $v += '<i title="Eliminar venta completa" class="fa fa-close" style="padding-left:15px; color:#FF7676"></i>';
                         return $v;
                     }
@@ -134,11 +134,11 @@
                 $('#graph_container').hide();
             },
 
-            pushToDevoluciones: function(event, producto_id, cantidad, precio)
+            pushToDevoluciones: function(event, detalle_venta_id, producto_id, cantidad, precio)
             {
                 if ( $(event.target).is(':checked') )
                 {
-                    this.devoluciones.productos.push({ producto_id: producto_id, cantidad: cantidad, precio: precio });
+                    this.devoluciones.productos.push({ detalle_venta_id: detalle_venta_id, producto_id: producto_id, cantidad: cantidad, precio: precio });
                 }
                 else
                 {
@@ -234,7 +234,7 @@
         });
     }
 
-    function returnSale(e, venta_id) {
+    function returnSale(venta_id) {
         $.ajax({
             type: "GET",
             url: 'user/ventas/devoluciones/getVentaConDetalleParaDevolucion',
@@ -242,39 +242,34 @@
         }).done(function(data) {
             if (data.success == true)
             {
-                $('#returnDiv').html(data.table);
-                dv.x = 2;
-                return dv_compile();
+                $('.panel-title').text('Formulario Devoluciones');
+                $(".forms").html(data.table);
+                ocultar_capas();
+                return $(".form-panel").show();
             }
             msg.warning(data, 'Advertencia!');
         });
     };
 
-    function enviarDevolucionParcial()
+    function enviarDevolucionParcial(descuento_sobre_saldo, monto)
     {
         var nota_credito_opcion = $('input[name="nota_credito_opcion"]:checked').val();
         var mp_nota_credito_caja = $('input[name="mp_nota_credito_caja"]:checked').val();
 
-        if ( nota_credito_opcion == 'agregarNotaAlCliente' ) {
-            alert(nota_credito_opcion);
-        }
-        else {
-            alert( mp_nota_credito_caja );
-        }
-
-
         $.ajax({
             type: "POST",
             url: 'user/ventas/devoluciones/postDevolucionParcial',
-            data: { 
-                datos: dv.devoluciones.productos, venta_id: dv.devoluciones.venta.id, monto: dv.totalMontoDevolucion,
-                nota_credito_opcion: nota_credito_opcion, mp_nota_credito_caja: mp_nota_credito_caja 
+            data: {
+                datos: dv.devoluciones.productos, venta_id: dv.devoluciones.venta.id,
+                nota_credito_opcion: nota_credito_opcion, mp_nota_credito_caja: mp_nota_credito_caja,
+                tienda_id: dv.devoluciones.venta.tienda_id, cliente_id: dv.devoluciones.venta.cliente_id,
+                descuento_sobre_saldo: descuento_sobre_saldo, monto: monto
             },
         }).done(function(data) {
             console.log(data);
             if (data.success == true)
             {
-                dv.close();
+                // dv.close();
                 return msg.success('Nota de credito ingresada', 'Advertencia!');;
             }
             msg.warning(data, 'Advertencia!');
