@@ -40,7 +40,8 @@ class SalesPaymentsController extends \BaseController {
 				{
 				    $monto = $monto - $venta->saldo;
 				    $detalleAbono->monto = $venta->saldo;
-				    $venta->saldo = 0;
+					$venta->saldo = 0;
+				    $venta->abono = 1;
 				    $detalleAbono->save();
 				    $venta->save();
 				}
@@ -48,6 +49,7 @@ class SalesPaymentsController extends \BaseController {
 				{
 					$detalleAbono->monto = $monto;
 					$venta->saldo = $venta->saldo - $monto;
+					$venta->abono = 1;
 					$detalleAbono->save();
 					$venta->save();
 
@@ -177,7 +179,8 @@ class SalesPaymentsController extends \BaseController {
                 return $detalle->errors();
             }
 
-            $venta->saldo = 0.00 ;
+			$venta->saldo = 0.00 ;
+            $venta->abono = 1 ;
             $venta->save();
         }
 

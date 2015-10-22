@@ -171,6 +171,7 @@
                         $caja_positivos = $data['adelanto_notas_creditos']['efectivo'] + $data['ingresos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
 
                         $caja =  $caja_positivos - $caja_negativos;
+
                         echo f_num::get($caja);
                     ?>
                 </th>
@@ -178,18 +179,21 @@
                 <th class="right">
                     <?php
                         $total_cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] +  $data['adelanto_notas_creditos']['cheque'];
+
                         echo f_num::get($total_cheque);
                      ?>
                 </th>
                 <th class="right">
                     <?php
                         $total_tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'];
+
                         echo f_num::get($total_tarjeta);
                      ?>
                 </th>
                 <th class="right">
                     <?php
                         $total_deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] +  $data['adelanto_notas_creditos']['deposito'];
+
                         echo f_num::get($total_deposito);
                      ?>
                 </th>
@@ -225,6 +229,7 @@
         </tfoot>
     </table>
 </div>
+
 @if(@$cierre_caja != null)
     <script type="text/javascript">
         graph_container.fecha_inicial = '{{ @$cierre_caja->fecha_inicial }}';
@@ -232,6 +237,7 @@
         graph_container.caja_id = {{ @$cierre_caja->caja_id }};
     </script>
 @endif
+
 <style>
     .right{
         text-align: right;

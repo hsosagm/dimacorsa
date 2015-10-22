@@ -8,11 +8,10 @@ class NotaCreditoController extends \BaseController {
         {
             $notaCredito = new NotaCredito;
             $caja = Caja::whereUserId(Auth::user()->id)->first();
-            $data = [];
-            $data['cliente_id'] = Input::get('cliente_id');
+            $data = Input::all();
+
             $data['caja_id'] = $caja->id;
             $data['tipo'] = 'Adelanto';
-            $data['nota'] = Input::get('nota');
 
             if (!$notaCredito->create_master($data))
             {
@@ -20,11 +19,8 @@ class NotaCreditoController extends \BaseController {
             }
 
             $nota_credito_id = $notaCredito->get_id();
-            $cliente = Cliente::find(Input::get('cliente_id'));
-
             return Response::json(array(
-                'success' => true,
-                'detalle' => View::make('notas_creditos.detalle', compact('nota_credito_id', 'cliente'))->render()
+                'success' => true
             ));
         }
 
@@ -63,7 +59,7 @@ class NotaCreditoController extends \BaseController {
 
 	public function deleteAdelanto()
 	{
-		$notaCredito = NotaCredito::find(	Input::get('nota_credito_id'));
+		$notaCredito = NotaCredito::find(Input::get('nota_credito_id'));
 
 		if ($notaCredito->delete()) {
 			return Response::json(array(
@@ -73,6 +69,20 @@ class NotaCreditoController extends \BaseController {
 
 		return 'error al tratar de eliminar...!';
 	}
+
+	public function eliminarNotaCredito()
+	{
+		$notaCredito = NotaCredito::find(Input::get('nota_credito_id'));
+
+		if ($notaCredito->delete()) {
+			return Response::json(array(
+                'success' => true,
+            ));
+		}
+
+		return 'error al tratar de eliminar...!';
+	}
+
     public function eliminarDetalle()
     {
         $adelanto = AdelantoNotaCredito::find(Input::get('adelanto_nota_credito_id'));
@@ -125,7 +135,6 @@ class NotaCreditoController extends \BaseController {
  		$venta_id      = 10;
 		$restanteVenta = 150;
 
-
         return Response::json(array(
             'success' => true,
 			'dataDevolucion' => $dataDevolucion,
@@ -135,7 +144,6 @@ class NotaCreditoController extends \BaseController {
 			'cliente_id'     => $cliente_id,
             'view' => View::make('notas_creditos.consultarNotasDeCreditoCliente',
 			compact('dataAdelanto', 'dataDevolucion', 'venta_id', 'restanteVenta', 'cliente_id'))->render(),
-
         ));
     }
 
@@ -164,12 +172,14 @@ class NotaCreditoController extends \BaseController {
 	public function imprimirNotaDeCretidoAdelanto()
 	{
 		$notaCreditoAdelanto = AdelantoNotaCredito::whereNotaCreditoId(Input::get('nota_credito_id'))->get();
+
 		if (count($notaCreditoAdelanto) <= 0 )
 			return 'no has ingresado pagos ala Nota de Credito....!';
 
 		$notaCredito = NotaCredito::with('adelanto', 'cliente', 'user')->find(Input::get('nota_credito_id'));
 
 		$pdf = PDF::loadView('notas_creditos.comprobanteAdelanto',  array('notaCredito' => $notaCredito));
+
 		return $pdf->stream('Adelanto_Nota_De_Credito_'.$notaCredito->id);
 	}
 }

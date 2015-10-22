@@ -139,7 +139,7 @@ class CajaController extends \BaseController
     public function resumen_movimientos($datos)
     {
         $data = [];
-        $data['pagos_ventas']             =   $this->_query('pagos_ventas','venta','monto',$datos);
+        $data['pagos_ventas']             =   $this->Vquery('pagos_ventas','venta','monto',$datos);
         $data['abonos_ventas']            =   $this->query('abonos_ventas','monto',$datos);
         $data['soporte']                  =   $this->__query('detalle_soporte','soporte','monto',$datos);
         $data['adelantos']                =   $this->_query('detalle_adelantos','adelanto','monto',$datos);
@@ -162,6 +162,23 @@ class CajaController extends \BaseController
         ->whereRaw("DATE_FORMAT({$tabla}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
         ->where("{$tabla}.tienda_id", '=' , Auth::user()->tienda_id)
         ->where("{$tabla}.caja_id", '=' , $data['caja_id'])
+        ->groupBy('metodo_pago.id')->get();
+
+        return $this->llenar_arreglo($Query);
+    }
+
+	// funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en plural exclusivo para ventas
+    public function Vquery( $tabla ,$tabla_master, $campo , $data )
+    {
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
+        ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
+		->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
+		->where("{$tabla_master}s.caja_id", '=' , $data['caja_id'])
+        ->where("{$tabla_master}s.abono", '=' , 0)
         ->groupBy('metodo_pago.id')->get();
 
         return $this->llenar_arreglo($Query);
@@ -384,6 +401,7 @@ class CajaController extends \BaseController
 		$monto = Input::get('monto');
 
 		$pdf = PDF::loadView('cajas.retirarDineroDeCajaPdf',compact('caja', 'efectivo', 'monto'));
+		
 		return $pdf->stream('DineroCaja');
 	}
 

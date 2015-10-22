@@ -91,10 +91,11 @@
         {
             Route::get('getFormSeleccionarTipoDeNotaDeCredito', 'NotaCreditoController@getFormSeleccionarTipoDeNotaDeCredito');
             Route::get('getFormMetodoPagoNotaDeCredito', 'NotaCreditoController@getFormMetodoPagoNotaDeCredito');
-            Route::get('create'  , 'NotaCreditoController@create' );
-            Route::post('create' ,'NotaCreditoController@create'  );
+            Route::get('create'     , 'NotaCreditoController@create' );
+            Route::post('create'    ,'NotaCreditoController@create'  );
             Route::post('deleteAdelanto' ,'NotaCreditoController@deleteAdelanto'  );
-            Route::post('detalle','NotaCreditoController@detalle' );
+            Route::post('eliminarNotaCredito' ,'NotaCreditoController@eliminarNotaCredito'  );
+            Route::post('detalle'   ,'NotaCreditoController@detalle' );
             Route::post('updateClienteId','NotaCreditoController@updateClienteId' );
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
@@ -653,7 +654,13 @@
 
 Route::get('/test', function()
 {
-
+    /* tablas a Eliminar
+    
+        DROP TABLE  adelanto_nota_credito;
+        DROP TABLE  detalle_devolucion_nota_credito;
+        DROP TABLE  devolucion_nota_credito;
+        DROP TABLE  notas_creditos;
+    */
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

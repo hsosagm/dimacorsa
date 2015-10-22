@@ -4,23 +4,24 @@
 	<input type="hidden" name="cliente_id" id="cliente_id_nota">
 
 	<div class="row" style="padding:10px">
-		<div class="col-md-11">
+		<div class="col-md-7">
 			<input type="text" id="cliente_nota" placeholder="Buscar Cliente...." class="input form-control">
 		</div>
 		<div class="col-md-1">
 			<i class="fa fa-plus-square btn-link theme-c" onclick="crearClienteNotaCredito(this)"></i>
 			<i class="fa fa-pencil btn-link theme-c" onclick="actualizarClienteNotaCredito(this, 'create')"></i>
 		</div>
-	</div>
-
-	<div class="row" style="padding:10px">
-		<div class="col-md-11">
-			<textarea name="nota" class="form-control notaNotaCredito" placeholder="Nota...!"></textarea>
+		<div class="col-md-4">
+			<input type="text" name="monto" class="input_numeric form-control" autocomplete="off">
 		</div>
 	</div>
 
 	<br>
-
+	<div class="row">
+		<h4>
+			<label class="col-md-12 cliente_informacion center"></label>
+		</h4>
+	</div>
 	<div class="modal-footer">
 		<input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
 	</div>
@@ -71,6 +72,7 @@
 		serviceUrl: '/user/cliente/search',
 		onSelect: function (data) {
 			$('#cliente_id_nota').val(data.id);
+			$('.cliente_informacion').html(data.value);
 		}
 	});
 </script>

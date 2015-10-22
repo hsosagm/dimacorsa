@@ -1,4 +1,3 @@
- 
 {{ Form::open(array('data-remote-md', 'data-success' => 'Compra Generada' ,"onsubmit"=>" return false")) }}
 {{ Form::hidden('proveedor_id') }}
 
@@ -8,8 +7,8 @@
 			<tr>
 				<td>Proveedor:</td>
 				<td>
-					<input type="text" id="proveedor_id" class="input"> 
-					<i class="fa fa-question-circle btn-link theme-c" id="proveedor_help"></i>
+					<input type="text" id="proveedor_id" class="input">
+				<i class="fa fa-question-circle btn-link theme-c" id="proveedor_help"></i>
 					<i class="fa fa-pencil btn-link theme-c" id="proveedor_edit"> </i>
 					<i class="fa fa-plus-square btn-link theme-c" id="proveedor_create"></i>
 				</td>
@@ -42,7 +41,7 @@
 
 {{ Form::close() }}
 <div class="contenedor_edicion_compras" style="display:none"></div>
-<div class="master-detail"> 
+<div class="master-detail">
 	<div class="master-detail-body"></div>
 </div>
 
@@ -59,8 +58,8 @@
 				type: 'POST',
 				url: 'admin/proveedor/total_credito',
 				data: {proveedor_id:$proveedor_id},
-				success: function (data) 
-				{
+				success: function (data)
+			{
 					$(".proveedor-credito").html('Saldo Total: <strong> Q '+data.saldo_total+'</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Saldo Vencido: <strong> Q '+data.saldo_vencido+'</strong>');
 				},
 				error: function(errors)
@@ -71,13 +70,6 @@
 		}
 	});
 
- $('form[data-remote-md] input[name="fecha_documento"]').pickadate(
- {
- 	max: true,
- 	disable: [7]
- });
+ $('form[data-remote-md] input[name="fecha_documento"]').pickadate();
 
 </script>
-
-				
-			

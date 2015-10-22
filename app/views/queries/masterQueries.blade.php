@@ -64,9 +64,9 @@
             </td>
             <td><p>Notas de Credito</p><img src="images/consultas/anticipos.png" height=80 width=80></img>
                  <div class="row">
-                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('dia', 'NotasCreditos')"><span>Hoy</span></div>
+                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('dia', 'Adelantos')"><span>Hoy</span></div>
                     <div class="col-md-2 center"><span>|</span></div>
-                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('mes', 'NotasCreditos')"><span>Fecha</span></div>
+                    <div class="col-md-5 center" v-on="click: getConsultasPorFecha('mes', 'Adelantos')"><span>Fecha</span></div>
                 </div>
             </td>
             <td><p>Ingresos</p><img src="images/consultas/ingresos.png" height=80 width=80></img>

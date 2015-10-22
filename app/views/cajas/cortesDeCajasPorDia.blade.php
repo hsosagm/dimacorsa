@@ -144,6 +144,7 @@
         },
         onClose: function(element) { }
     });
+	
     var picker_start = $start.pickadate('picker')
 
     $(document).ready(function() {

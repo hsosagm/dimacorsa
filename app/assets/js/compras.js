@@ -10,11 +10,11 @@ $(function() {
     $(document).on('dblclick','.EditPurchaseItemDetails' ,        function() { EditPurchaseItemDetails(this);  });
     $(document).on('blur' ,'.SaveEditPurchaseItemDetails',        function() { DisableEditPurchaseItemDetails(this); });
     $(document).on('enter','.SaveEditPurchaseItemDetails',        function(e){ SaveEditPurchaseItemDetails(e,this); });
-    $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);}); 
+    $(document).on('enter', "input[name='InsertPurchaseItemSerials']",function(){ InsertPurchaseItemSerials(this);});
     $(document).on("enter", "#serialsDetalleCompra",                function(){ guardarSerieDetalleCompra(); });
 });
- 
-function f_com_op()  {    
+
+function f_com_op()  {
     $.get( "admin/compras/create", function( data ) {
         $('.panel-title').text('Formulario Compras');
         $(".forms").html(data);
@@ -38,7 +38,7 @@ function getActualizarDetalleCompra(compra_id){
             return;
         }
         msg.warning(data, 'Advertencia!');
-    }); 
+    });
 };
 
 function OpenModalPurchaseInfo(element) {
@@ -56,6 +56,23 @@ function OpenModalPurchaseInfo(element) {
         }
     });
 };
+
+function _edit_producto() {
+    $id  =  $("input[name='producto_id']").val();
+    if ($id > 0) {
+        $.ajax({
+            type: "POST",
+            url: "admin/productos/edit",
+            data: {id: $id},
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data) {
+                $(".contenedor_producto").html(data);
+                $(".contenedor_producto").slideToggle('slow');
+            }
+        });
+    };
+};
+
 
 function return_compras() {
     $(".dt-container").hide();
@@ -88,7 +105,7 @@ function SaveEditPurchaseItemDetails(e,element) {
         url: 'admin/compras/SaveEditPurchaseItemDetails',
         data: { detalle_id:$detalle_id , tipo_dato:$tipo_dato , dato:$dato ,compra_id:$compra_id },
         success: function (data)  {
-            if (data.success == true) {                        
+            if (data.success == true) {
                 msg.success('Detalle Actualizado..!', 'Listo!');
                 $('.body-detail').html(data.table);
             }
@@ -97,8 +114,8 @@ function SaveEditPurchaseItemDetails(e,element) {
             }
         }
     });
-    e.preventDefault(); 
-};   
+    e.preventDefault();
+};
 
 function InsertPurchaseItemSerials(element) {
     var cod = '';
@@ -179,7 +196,7 @@ function ModalPurchasePayment(element) {
 function SavePurchasePayment(e,element) {
     form = $(element);
     $('input[type=submit]', form).attr('disabled', 'disabled');
-    
+
     $.ajax({
         type: "POST",
         url:  "admin/compras/ModalPurchasePayment",
@@ -225,9 +242,9 @@ function DeletePurchasePaymentItem(id , compra_id)
 };
 
 function FinishInitialPurchase(element,compra_id)
-{    
+{
     $(element).prop("disabled", true);
-    
+
     $.ajax({
         type: 'POST',
         url: 'admin/compras/FinishInitialPurchase',
@@ -291,7 +308,7 @@ function editarProductoDetalleCompra(id) {
             alert(request.responseText);
         }
     });
-}; 
+};
 
 function _add_producto() {
     $.get( "admin/productos/create", function( data ) {
@@ -329,7 +346,7 @@ function showPurchasesDetail(e) {
     if ($(e).hasClass("hide_detail")) {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
-    } 
+    }
     else {
         $('.hide_detail').removeClass('hide_detail');
 
@@ -394,7 +411,7 @@ function CreditPurchases(e) {
                     $( "#home" ).append('<i style="width:139px; text-align:right;">Filtrado vencido:</i>');
                     $( "#home" ).append('<i id="saldo_por_busqueda_vencido" class="home_num"></i>');
                     $('.dt-container').show();
-                    
+
                     oTable = $('#example').dataTable();
                     $('#iSearch').keyup(function() {
                         oTable.fnFilter( $(this).val() );
@@ -419,14 +436,14 @@ function CreditPurchases(e) {
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
             }
         }
-    }); 
+    });
 };
 
 function showPaymentsDetail(e){
     if ($(e).hasClass("hide_detail"))  {
         $(e).removeClass('hide_detail');
         $('.subtable').fadeOut('slow');
-    } 
+    }
     else {
         $('.hide_detail').removeClass('hide_detail');
 
@@ -483,7 +500,7 @@ function ingresarSeriesDetalleCompra(e, detalle_compra_id) {
                 $("input[name='serials']").focus();
             }, 500);
             return;
-            
+
         }
         msg.warning(data, 'Advertencia!');
     });

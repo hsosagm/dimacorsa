@@ -1,4 +1,3 @@
-  
 <div class="row">
 	<div class="col-md-6">
 		{{ Form::open(array('url' => '/admin/compras/detalle', 'data-remote-md-d', 'data-success' => 'Producto Ingresado', 'status' => '0')) }}
@@ -7,8 +6,9 @@
 		<table class="master-table" id="compra_save_producto">
 			<tr>
 				<td>
-					Codigo: 
-					<i class="fa fa-plus-square btn-link theme-c" id="_add_producto"></i>
+					Codigo:
+				    <i class="fa fa-plus-square btn-link theme-c" id="_add_producto"></i>
+                    <i class="fa fa-pencil btn-link theme-c" id="_edit_producto"></i>
 					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
 				</td>
 				<td>Cantidad:</td>
@@ -17,8 +17,8 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="text" id="search_producto"> 
-				</td>
+					<input type="text" id="search_producto">
+			</td>
 				<td><input type="text" name="cantidad" class="input input_numeric" > </td>
 				<td><input type="text" name="precio" class="input_numeric master-serials"> </td>
 				<td>
@@ -42,7 +42,7 @@
 </div>
 <div><br>
 	<div class="contenedor_producto" style="display:none"></div>
-	<div class="body-detail" >  
+	<div class="body-detail" >
 		@include('compras.detalle_body')
 	</div>
 </div>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class QueriesController extends \BaseController {
 
@@ -18,20 +18,20 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
 
-		
+
 		$factura = DB::table('printer')->select('impresora')
 		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
 
@@ -46,9 +46,9 @@ class QueriesController extends \BaseController {
 
 	public function DtVentasPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaVentas('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaVentas('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaVentas(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -59,7 +59,7 @@ class QueriesController extends \BaseController {
 		$table = 'ventas';
 
 		$columns = array(
-			"ventas.created_at as fecha", 
+			"ventas.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"clientes.nombre as cliente",
 			"total",
@@ -71,7 +71,7 @@ class QueriesController extends \BaseController {
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","ventas.total",'ventas.created_at');
 		$where = "DATE_FORMAT(ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(ventas.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(ventas.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
@@ -94,19 +94,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.comprasPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
@@ -115,9 +115,9 @@ class QueriesController extends \BaseController {
 
 	public function DtComprasPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaCompras('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaCompras('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaCompras(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -146,7 +146,7 @@ class QueriesController extends \BaseController {
 
 		$where = "DATE_FORMAT(compras.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(compras.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(compras.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
@@ -169,19 +169,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		$comprobante = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
@@ -193,9 +193,9 @@ class QueriesController extends \BaseController {
 
 	public function DtDescargasPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaDescargas('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaDescargas('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaDescargas(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -216,7 +216,7 @@ class QueriesController extends \BaseController {
 		$Search_columns = array("users.nombre","users.apellido","descargas.id",'descargas.created_at');
 		$where = "DATE_FORMAT(descargas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(descargas.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(descargas.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
@@ -240,19 +240,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.egresosPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
@@ -261,9 +261,9 @@ class QueriesController extends \BaseController {
 
 	public function DtEgresosPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaEgresos('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaEgresos('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaEgresos(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -286,14 +286,14 @@ class QueriesController extends \BaseController {
 			'egresos.created_at','detalle_egresos.monto');
 		$where = "DATE_FORMAT(detalle_egresos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(detalle_egresos.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
 		}
 
 		$where .= " AND egresos.tienda_id = ".Auth::user()->tienda_id ;
-		$Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id) 
+		$Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id)
         JOIN users ON (users.id = egresos.user_id)
         JOIN tiendas ON (tiendas.id = egresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_egresos.metodo_pago_id)";
@@ -312,19 +312,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.gastosPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
@@ -333,9 +333,9 @@ class QueriesController extends \BaseController {
 
 	public function DtGastosPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaGastos('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaGastos('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaGastos(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -358,14 +358,14 @@ class QueriesController extends \BaseController {
 			'gastos.created_at','detalle_gastos.monto');
 		$where = "DATE_FORMAT(detalle_gastos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(detalle_gastos.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
 		}
 
 		$where .= " AND gastos.tienda_id = ".Auth::user()->tienda_id ;
-		$Join = "JOIN gastos ON (gastos.id = detalle_gastos.gasto_id) 
+		$Join = "JOIN gastos ON (gastos.id = detalle_gastos.gasto_id)
         JOIN users ON (users.id = gastos.user_id)
         JOIN tiendas ON (tiendas.id = gastos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_gastos.metodo_pago_id)";
@@ -384,19 +384,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.soportePorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
@@ -405,9 +405,9 @@ class QueriesController extends \BaseController {
 
 	public function DtSoportePorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaSoporte('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaSoporte('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaSoporte(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -431,14 +431,14 @@ class QueriesController extends \BaseController {
 
 		$where = "DATE_FORMAT(detalle_soporte.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(detalle_soporte.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
 		}
 
 		$where .= " AND soporte.tienda_id = ".Auth::user()->tienda_id ;
-		$Join = "JOIN soporte ON (soporte.id = detalle_soporte.soporte_id) 
+		$Join = "JOIN soporte ON (soporte.id = detalle_soporte.soporte_id)
         JOIN users ON (users.id = soporte.user_id)
         JOIN tiendas ON (tiendas.id = soporte.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_soporte.metodo_pago_id)";
@@ -457,19 +457,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.adelantosPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
@@ -478,9 +478,9 @@ class QueriesController extends \BaseController {
 
 	public function DtAdelantosPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaAdelantos('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaAdelantos('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaAdelantos(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -488,33 +488,35 @@ class QueriesController extends \BaseController {
 
 	public function consultaAdelantos($formato , $fecha_inicial = null , $fecha_final = null)
 	{
-		$table = 'detalle_adelantos';
+		$table = 'notas_creditos';
 
 		$columns = array(
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-            "adelantos.created_at as fecha",
-            "detalle_adelantos.descripcion as detalle_descripcion",
-            'monto',
-            "metodo_pago.descripcion as metodo_descripcion"
+            "notas_creditos.created_at as fecha",
+			"notas_creditos.nota as nota",
+            "notas_creditos.tipo as tipo",
+            "IF(tipo = 'Adelanto',
+	        (select sum(monto) from adelanto_nota_credito where nota_credito_id = notas_creditos.id ),
+	        (select sum(monto) from devolucion_nota_credito where nota_credito_id = notas_creditos.id ))
+	        as monto_foraneo",
+			"notas_creditos.estado as estado"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion","detalle_adelantos.descripcion",
-			'adelantos.created_at','detalle_adelantos.monto');
+		$Search_columns = array("tipo", "nota", "notas_creditos.created_at", "users.nombre", "users.apellido");
 
-		$where = "DATE_FORMAT(detalle_adelantos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
+		$where = "DATE_FORMAT(notas_creditos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
-			$where  = "DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
-			$where .= " AND DATE_FORMAT(detalle_adelantos.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
+			$where  = "DATE_FORMAT(notas_creditos.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
+			$where .= " AND DATE_FORMAT(notas_creditos.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
 		}
 
-		$where .= " AND adelantos.tienda_id = ".Auth::user()->tienda_id ;
-		$Join = "JOIN adelantos ON (adelantos.id = detalle_adelantos.adelanto_id) 
-        JOIN users ON (users.id = adelantos.user_id)
-        JOIN tiendas ON (tiendas.id = adelantos.tienda_id)
-        JOIN metodo_pago ON (metodo_pago.id = detalle_adelantos.metodo_pago_id)";
+		$where .= " AND notas_creditos.tienda_id = ".Auth::user()->tienda_id ;
+		$where .= " AND (select sum(monto) from adelanto_nota_credito where nota_credito_id = notas_creditos.id ) > 0 ";
+		$where .= " OR (select sum(monto) from devolucion_nota_credito where nota_credito_id = notas_creditos.id ) > 0 ";
+
+		$Join = "JOIN users ON (users.id = notas_creditos.user_id)";
 
 		return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}
@@ -530,19 +532,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.ingresosPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
@@ -551,9 +553,9 @@ class QueriesController extends \BaseController {
 
 	public function DtIngresosPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaIngresos('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaIngresos('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaIngresos(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -577,14 +579,14 @@ class QueriesController extends \BaseController {
 
 		$where = "DATE_FORMAT(detalle_ingresos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(detalle_ingresos.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
 		}
 
 		$where .= " AND ingresos.tienda_id = ".Auth::user()->tienda_id ;
-		$Join = "JOIN ingresos ON (ingresos.id = detalle_ingresos.ingreso_id) 
+		$Join = "JOIN ingresos ON (ingresos.id = detalle_ingresos.ingreso_id)
         JOIN users ON (users.id = ingresos.user_id)
         JOIN tiendas ON (tiendas.id = ingresos.tienda_id)
         JOIN metodo_pago ON (metodo_pago.id = detalle_ingresos.metodo_pago_id)";
@@ -603,19 +605,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		$comprobante = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
@@ -627,9 +629,9 @@ class QueriesController extends \BaseController {
 
 	public function DtAbonosProveedoresPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaAbonosProveedores('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaAbonosProveedores('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaAbonosProveedores(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -653,7 +655,7 @@ class QueriesController extends \BaseController {
 
 		$where = "DATE_FORMAT(abonos_compras.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
@@ -679,19 +681,19 @@ class QueriesController extends \BaseController {
 		$fecha_final ='now()';
 
 		if (Input::has('fecha_inicial')) {
-			$fecha_inicial = Input::get('fecha_inicial'); 
+			$fecha_inicial = Input::get('fecha_inicial');
 			$fecha_final = Input::get('fecha_final');
 			$consulta = 'fechas';
 		}
 
 		else if ($consulta == 'dia') {
-			$fecha_inicial ='now()'; 
+			$fecha_inicial ='now()';
 		}
 
 		else {
 			$fecha_inicial = Carbon::now()->startOfMonth();
 		}
-		
+
 		$comprobante = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
@@ -703,9 +705,9 @@ class QueriesController extends \BaseController {
 
 	public function DtAbonosClientesPorFecha($consulta)
 	{
-		if ($consulta == 'dia') 
+		if ($consulta == 'dia')
 			echo $this->consultaAbonosClientes('%Y-%m-%d');
-		else if ($consulta == 'mes') 
+		else if ($consulta == 'mes')
 			echo $this->consultaAbonosClientes('%Y-%m');
 		else if ($consulta == 'fechas')
 			echo $this->consultaAbonosClientes(null, Input::get('fecha_inicial'), Input::get('fecha_final'));
@@ -726,10 +728,10 @@ class QueriesController extends \BaseController {
 		$Search_columns = array("users.nombre","users.apellido",
 			"metodo_pago.descripcion", 'clientes.nombre',
 			 'abonos_ventas.created_at','abonos_ventas.monto');
-		
+
 		$where = "DATE_FORMAT(abonos_ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
-		if ($fecha_inicial != null && $fecha_final != null) 
+		if ($fecha_inicial != null && $fecha_final != null)
 		{
 			$where  = "DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
 			$where .= " AND DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";

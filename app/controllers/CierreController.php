@@ -26,6 +26,7 @@ class CierreController extends \BaseController {
 
         $corte_realizado = Cierre::with('user')->where('tienda_id','=',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")->first();
+
         return View::make('cierre.getCierreDia',compact('data','fecha','dataDetalle','corte_realizado', 'titulo'));
     }
 
@@ -40,6 +41,7 @@ class CierreController extends \BaseController {
         $fecha = 'current_date';
         $data = $this->resumen_movimientos($fecha);
         $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+
         $corte_realizado = Cierre::with('user')->where('tienda_id','=',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(cierre_diario.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->first();
 
@@ -535,13 +537,12 @@ class CierreController extends \BaseController {
 
         $data = $this->resumen_movimientos('current_date');
 
-        $efectivo = $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo']
-        - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
+        $efectivo = $data['adelanto_notas_creditos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['devolucion_notas_creditos']['efectivo'] - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['adelantos']['cheque'] + $data['ingresos']['cheque'];
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['adelantos']['tarjeta'] + $data['ingresos']['tarjeta'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['adelanto_notas_creditos']['cheque'] + $data['ingresos']['cheque'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'] + $data['ingresos']['tarjeta'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['adelantos']['deposito'] + $data['ingresos']['deposito'];
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['adelanto_notas_creditos']['deposito'] + $data['ingresos']['deposito'];
 
         $movimientos = array(
             'efectivo' => $efectivo,
@@ -565,7 +566,7 @@ class CierreController extends \BaseController {
     public function resumen_movimientos($fecha)
     {
         $data = [];
-        $data['pagos_ventas']             =   $this->_query('pagos_ventas', 'venta', 'monto', $fecha);
+        $data['pagos_ventas']             =   $this->Vquery('pagos_ventas', 'venta', 'monto', $fecha);
         $data['abonos_ventas']            =   $this->query('abonos_ventas', 'monto', $fecha);
         $data['soporte']                  =   $this->__query('detalle_soporte', 'soporte', 'monto', $fecha);
         $data['adelantos']                =   $this->_query('detalle_adelantos', 'adelanto', 'monto', $fecha);
@@ -621,6 +622,27 @@ class CierreController extends \BaseController {
 
         return $this->llenar_arreglo($Query);
     }
+
+    // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en plural
+    public function Vquery( $tabla ,$tabla_master, $campo , $fecha )
+    {
+        $fecha_enviar = "'{$fecha}'";
+
+        if ($fecha == 'current_date')
+            $fecha_enviar = 'current_date';
+
+        $Query = DB::table('metodo_pago')
+        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->join($tabla,"{$tabla}.metodo_pago_id" , "=", "metodo_pago.id")
+        ->join("{$tabla_master}s","{$tabla_master}s.id" , "=", "{$tabla}.{$tabla_master}_id")
+        ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
+        ->where("{$tabla_master}s.tienda_id", '=', Auth::user()->tienda_id)
+        ->where("{$tabla_master}s.abono", '=', 0)
+        ->groupBy('metodo_pago.id')->get();
+
+        return $this->llenar_arreglo($Query);
+    }
+
     //nombre de la tabla que tiene el campo esta en singular
     public function __query( $tabla ,$tabla_master, $campo , $fecha )
     {

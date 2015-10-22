@@ -152,6 +152,7 @@ function guardarClienteNuevoNotaCredito(e) {
     }).done(function(data) {
         if (data.success == true) {
             $('#cliente_nota').val(data.info.nombre+' '+data.info.direccion);
+            $('.cliente_informacion').html(data.info.nombre+' '+data.info.direccion);
             $('#cliente_id_nota').val(data.info.id);
             $('.notaNotaCredito').focus();
             $('.formCrearCliente').attr('status', 0);
@@ -175,6 +176,7 @@ function guardarClienteActualizadoNotaCredito(e) {
     }).done(function(data) {
         if (data.success == true) {
             $('#cliente_nota').val(data.info.nombre+' '+data.info.direccion);
+            $('.cliente_informacion').html(data.info.nombre+' '+data.info.direccion);
             $('#cliente_id_nota').val(data.info.id);
             $('.notaNotaCredito').focus();
             $('.formActualizarCliente').attr('status', 0);
@@ -273,3 +275,28 @@ function eliminarNotaDeCretidoAdelanto(nota_credito_id) {
         }
     });
 };
+
+function eliminarNotaCredito(e, estado, nota_credito_id) {
+    if (estado === 0) {
+        $.confirm({
+            confirm: function(){
+                $.ajax({
+                    type: "POST",
+                    url: 'user/notaDeCredito/eliminarNotaCredito',
+                    data:{nota_credito_id: nota_credito_id},
+                }).done(function(data) {
+                    if (data.success == true)
+                    {
+                        $(e).closest('tr').hide();
+                        $('.bs-modal').modal('hide');
+                        return msg.success('Nota de Credito Eliminada..', 'Listo!');
+                    }
+                    msg.warning(data, 'Advertencia!');
+                });
+            }
+        });
+    }
+    else {
+        msg.warning('No se puede Eliminar porque ya fue utilizada...!', 'Advertencia!');
+    }
+}
