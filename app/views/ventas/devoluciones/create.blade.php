@@ -33,7 +33,6 @@
     <div class="master-detail-body"></div>
 </div>
  
- <pre> @{{ $data | json }}</pre>
 </div>
 
 <script type="text/javascript">

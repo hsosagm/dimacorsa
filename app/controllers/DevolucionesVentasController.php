@@ -156,9 +156,27 @@ class DevolucionesVentasController extends \BaseController {
         }
     }
 
+    public function getPaymentForm()
+    {
+        $venta = Venta::find(Input::get('venta_id'));
+        return  View::make('ventas.devoluciones.paymentForm', compact('venta', 'descuento_sobre_saldo', 'monto'));
+    }
+
+	public function eliminarDevolucion()
+	{
+		$delete = Devolucion::destroy(Input::get('devolucion_id'));
+
+		if ($delete) {
+			return Response::json(array(
+				'success' => true
+            ));
+		}
+
+		return 'Huvo un error al tratar de eliminar';
+	}
+
 	public function finalizarDevolucion()
 	{
-		return json_encode(Input::all());
 		$descuento_sobre_saldo = Input::get('descuento_sobre_saldo');
 		$monto_a_devolver      = Input::get('monto_a_devolver');
 		$devolucion_id         = Input::get('devolucion_id');
@@ -196,32 +214,59 @@ class DevolucionesVentasController extends \BaseController {
 			}
 		}
 
-return json_encode(Input::all());
+		$devolucion_detalle = DevolucionDetalle::whereDevolucionId($devolucion_id)->get();
 
-            // $Existencia = Existencia::where('producto_id', $dv->producto_id)
-            // ->where('tienda_id', Auth::user()->tienda_id)->first();
+		foreach ($devolucion_detalle as $key => $devolucion)
+		{
+            $Existencia = Existencia::where('producto_id', $devolucion->producto_id)
+            ->where('tienda_id', Input::get('tienda_id'))->first();
 
-            // $Existencia->existencia = $Existencia->existencia + $dv->cantidad;
-            // $Existencia->save();
-	}
+            $Existencia->existencia = $Existencia->existencia + $devolucion->cantidad;
+            $Existencia->save();
 
-	public function eliminarDevolucion()
-	{
-		$delete = Devolucion::destroy(Input::get('devolucion_id'));
-
-		if ($delete) {
-			return Response::json(array(
-				'success' => true
-            ));
 		}
 
-		return 'Huvo un error al tratar de eliminar';
-	}
+	    $venta = Venta::find(Input::get('venta_id'));
 
-    public function getPaymentForm()
-    {
-        $venta = Venta::find(Input::get('venta_id'));
-        return  View::make('ventas.devoluciones.paymentForm', compact('venta', 'descuento_sobre_saldo', 'monto'));
-    }
+        if ($venta->total == Input::get('totalDevolucion'))
+        {
+        	DetalleVenta::whereVentaId(Input::get('venta_id'))->delete();
+        	$venta->total = 0;
+        	$venta->saldo = 0;
+        	$venta->canceled = 1;
+        	$venta->save();
+        }
+        else
+        {
+        	$venta->total = $venta->total - Input::get('totalDevolucion');
+
+		    if( Input::get('totalDevolucion') >= $venta->saldo )
+		        $venta->saldo = 0;
+		    else
+		        $venta->saldo = $venta->saldo - Input::get('totalDevolucion');
+
+        	$venta->save();
+
+			foreach ($devolucion_detalle as $key => $devolucion)
+			{
+	            $detalle_venta = DetalleVenta::where('venta_id', Input::get('venta_id'))
+	            ->where('producto_id', $devolucion->producto_id)->first();
+
+	            if ($detalle_venta->cantidad == $devolucion->cantidad)
+	            {
+	            	$detalle_venta->delete();
+	            }
+	            else
+	            {
+		            $detalle_venta->cantidad = $detalle_venta->cantidad - $devolucion->cantidad;
+		            $detalle_venta->save();
+	            }
+			}
+        }
+
+		return Response::json(array(
+			'success' => true
+		));
+	}
 
 }

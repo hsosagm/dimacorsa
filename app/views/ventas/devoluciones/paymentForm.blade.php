@@ -135,13 +135,12 @@
                     	venta_id: devoluciones.venta.id
                     },
                 }).done(function(data) {
-                	console.log(data);
-                    // if (data.success == true) {
-                    //     devoluciones.producto = data.values;
-                    //     $("input[name='cantidad']").val("");
-                    //     return $("input[name='cantidad']").focus();
-                    // };
-                    // msg.warning(data);
+                    if (data.success == true) {
+                        devoluciones.close();
+                        devPaymentForm.close();
+                        return msg.success('Devolucion ingresada..!', 'Listo!');;
+                    };
+                    msg.warning(data);
                 });
         	}
         }
