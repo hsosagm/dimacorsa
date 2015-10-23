@@ -43,6 +43,7 @@
 
         data: {
             venta: {{ $venta }},
+            beforeEditCache: null,
             devolucion_id: '',
             devolucion: [],
             producto: [],
@@ -52,11 +53,23 @@
 
         watch: {
             'detalleTable': function () {
-                var sum = 0;
+                var sum = 0
                 for (var i = this.detalleTable.length - 1; i >= 0; i--) {
-                    sum += parseFloat(this.detalleTable[i]["total"]);
+                    sum += parseFloat(this.detalleTable[i]["total"])
                 }
-                this.totalDevolucion = sum;
+                this.totalDevolucion = sum
+            }
+        },
+
+        filters: {
+            cleanNumber: {
+                read: function(val) {
+                    return  parseInt(val)
+                },
+                write: function(val, oldVal) {
+                    var number = +val.replace(/[^\d.]/g, '')
+                    return isNaN(number) ? 0 : number
+                }
             }
         },
 
@@ -135,6 +148,37 @@
                 });
             },
 
+        editItem: function (t) {
+            this.beforeEditCache = t.target.textContent;
+            $(t.target).closest('td').hide();
+            $(t.target).closest('td').next('td').show();
+            $(t.target).closest('td').next('td').find('input').focus().select();
+        },
+
+        cancelEdit: function (that, t) {
+            that.dt.cantidad = this.beforeEditCache;
+            $(t.target).closest('td').hide();
+            $(t.target).closest('td').prev('td').show();
+        },
+
+        doneEdit: function (that) {
+            if (!that.dt.cantidad)
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: 'user/ventas/devoluciones/UpdateDetalle',
+                data: { id: that.dt.id, cantidad: that.dt.cantidad, producto_id: that.dt.producto_id, venta_id: this.venta.id, devolucion_id: this.devolucion_id },
+                success: function (data) {
+                    if (data.success == true)
+                    {
+                        devoluciones.detalleTable = data.detalle
+                        return msg.success('Cantidad actualizada', 'Listo!')
+                    }
+                    msg.warning(data, 'Advertencia!')
+                }
+            })
+        },
             removeItem: function (index, id) {
                 $.confirm({
                     confirm: function() {
@@ -179,18 +223,20 @@
                 });
             },
 
-            getFormMetodoPagoNotaDeCredito: function(venta_id)
+
+            getPaymentForm: function()
             {
                 $.ajax({
                     type: 'GET',
-                    url: 'user/notaDeCredito/getFormMetodoPagoNotaDeCredito',
-                    data: { venta_id: venta_id, monto: dv.totalMontoDevolucion },
+                    url: 'user/ventas/devoluciones/getPaymentForm',
+                    data: { venta_id: this.venta.id, totalDevolucion: this.totalDevolucion },
                 }).done(function(data) {
                     $('.modal-body').html(data);
                     $('.modal-title').text( 'Nota de credito' );
                     $('.bs-modal').modal('show');
                 });
             }
+
         }
     });
 

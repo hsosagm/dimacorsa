@@ -15,4 +15,9 @@ class NotaCredito extends \BaseModel {
     {
         return $this->belongsTo('Cliente');
     }
+
+    public function tienda()
+    {
+        return $this->belongsTo('Tienda');
+    }
 }

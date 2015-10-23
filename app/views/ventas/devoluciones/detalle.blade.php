@@ -20,12 +20,11 @@
 
 	<div v-if="producto.id" class="col-md-6">
 		<div class="row master-precios col-md-12">
+			<label class="col-md-12" v-html="producto.descripcion"></label>
 			<label class="col-md-3">Precio venta:</label>
 			<label class="col-md-3" v-html="producto.precio | currency ''"></label>
 			<label class="col-md-3">Cantidad vendida:</label>
 			<label class="col-md-3" v-html="producto.cantidad"></label>
-			<label class="col-md-3">Descripcion:</label>
-			<label class="col-md-9" v-html="producto.descripcion"></label>
 		</div>
 		<div class="row master-descripcion">
 			<div class="col-md-11 descripcion"> </div>
@@ -49,22 +48,17 @@
 		    <tr v-repeat="dt: detalleTable" v-class="editing : this == editedTodo">
                 <td width="10%" class="view" v-text="dt.cantidad" v-on="dblclick: editItem"></td>
                 <td width="10%" class="detail-input-edit">
-                    <input field="cantidad" type="text" v-model="dt.cantidad" class="input_numeric" 
-                        v-on="keyup : doneEdit(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
+                    <input field="cantidad" type="text" v-model="dt.cantidad | cleanNumber" class="input_numeric" 
+                        v-on="keyup : doneEdit(this) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
                 </td>
                 <td width="70%"> @{{ dt.descripcion }} </td>
 
-                <td v-on="dblclick: editItem" style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency }}</td>
-                <td width="10%" class="detail-input-edit">
-                    <input field="precio" type="text" v-model="dt.precio" class="input_numeric" 
-                        v-on="keyup : doneEdit(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
-                </td>
-
-                <td width="10%" style="text-align:right; padding-right: 20px !important;"> @{{ dt.total | currency '' }} </td>
-                <td width="5%" >
+                <td style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency '' }}</td>
+                <td width="10%" style="text-align:right; padding-right: 20px !important;">@{{ dt.total | currency '' }} </td>
+                <td width="5%">
                 	<i  v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"> </i>
                 </td>
-                <td width="5%" >
+                <td width="5%">
                 	<i class="fa fa-barcode fg-theme"  v-on="click: ingresarSeriesDetalleVenta(this, dt.id) " ></i>
                 </td>
             </tr>
@@ -87,7 +81,7 @@
 	<div class="row">
 		<div align="right">
 			<i v-on="click: eliminarDevolucion" class="fa fa-trash-o fa-lg icon-delete"></i>
-			<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$devolucion_id}} );"></i>
+			<i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
 		</div>
 	</div>
 </div>

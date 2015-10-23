@@ -90,7 +90,6 @@
         Route::group(array('prefix' => 'notaDeCredito'), function()
         {
             Route::get('getFormSeleccionarTipoDeNotaDeCredito', 'NotaCreditoController@getFormSeleccionarTipoDeNotaDeCredito');
-            Route::get('getFormMetodoPagoNotaDeCredito', 'NotaCreditoController@getFormMetodoPagoNotaDeCredito');
             Route::get('create'     , 'NotaCreditoController@create' );
             Route::post('create'    ,'NotaCreditoController@create'  );
             Route::post('deleteAdelanto' ,'NotaCreditoController@deleteAdelanto'  );
@@ -257,6 +256,9 @@
                 Route::post('postDevolucionDetalle'        , 'DevolucionesVentasController@postDevolucionDetalle');
                 Route::post('removeItem'        , 'DevolucionesVentasController@removeItem');
                 Route::post('eliminarDevolucion'        , 'DevolucionesVentasController@eliminarDevolucion');
+                Route::post('UpdateDetalle'        , 'DevolucionesVentasController@UpdateDetalle');
+                Route::get('getPaymentForm'        , 'DevolucionesVentasController@getPaymentForm');
+                Route::post('finalizarDevolucion'        , 'DevolucionesVentasController@finalizarDevolucion');
 
                 Route::get('getCheckCantidadDevolucion'        , 'VentasController@getCheckCantidadDevolucion');
                 Route::get('getVentasParaDevoluciones'         , 'VentasController@getVentasParaDevoluciones');

@@ -141,13 +141,68 @@ class DevolucionesVentasController extends \BaseController {
 	    return false;
     }
 
+    public function UpdateDetalle()
+    {
+		if ($this->check_cantidad_vendida())
+			return "La cantidad que esta ingresando es mayor a la cantidad vendida..";
+
+        $update = DevolucionDetalle::find(Input::get('id'))->update(array('cantidad' => Input::get('cantidad')));
+
+        if ($update) {
+        	return Response::json(array(
+				'success' => true,
+				'detalle' => $this->getDevolucionesDetalle()
+        	));
+        }
+    }
+
 	public function finalizarDevolucion()
 	{
-            $Existencia = Existencia::where('producto_id', $dv->producto_id)
-            ->where('tienda_id', Auth::user()->tienda_id)->first();
+		return json_encode(Input::all());
+		$descuento_sobre_saldo = Input::get('descuento_sobre_saldo');
+		$monto_a_devolver      = Input::get('monto_a_devolver');
+		$devolucion_id         = Input::get('devolucion_id');
 
-            $Existencia->existencia = $Existencia->existencia + $dv->cantidad;
-            $Existencia->save();
+		if ($descuento_sobre_saldo > 0) {
+			$dp = new DevolucionPago;
+			$dp->devolucion_id = $devolucion_id;
+			$dp->metodo_pago_id = 7;
+			$dp->monto = $descuento_sobre_saldo;
+			$dp->save();
+		}
+
+		if ($monto_a_devolver > 0) {
+			if (Input::get('devolucion_opcion') == 'pagoCaja') {
+				$dp = new DevolucionPago;
+				$dp->devolucion_id = $devolucion_id;
+				$dp->metodo_pago_id = Input::get('mp_devolucion');
+				$dp->monto = $monto_a_devolver;
+				$dp->save();
+			} else {
+				$dp = new DevolucionPago;
+				$dp->devolucion_id = $devolucion_id;
+				$dp->metodo_pago_id = 6;
+				$dp->monto = $monto_a_devolver;
+				$dp->save();
+
+				$nc = new NotaCredito;
+				$nc->cliente_id = Input::get('cliente_id');
+				$nc->tienda_id = Input::get('tienda_id');
+				$nc->user_id = Auth::user()->id;
+				$nc->tipo = 'devolucion';
+				$nc->tipo_id = $devolucion_id;
+				$nc->monto = $monto_a_devolver;
+				$nc->save();
+			}
+		}
+
+return json_encode(Input::all());
+
+            // $Existencia = Existencia::where('producto_id', $dv->producto_id)
+            // ->where('tienda_id', Auth::user()->tienda_id)->first();
+
+            // $Existencia->existencia = $Existencia->existencia + $dv->cantidad;
+            // $Existencia->save();
 	}
 
 	public function eliminarDevolucion()
@@ -162,5 +217,11 @@ class DevolucionesVentasController extends \BaseController {
 
 		return 'Huvo un error al tratar de eliminar';
 	}
+
+    public function getPaymentForm()
+    {
+        $venta = Venta::find(Input::get('venta_id'));
+        return  View::make('ventas.devoluciones.paymentForm', compact('venta', 'descuento_sobre_saldo', 'monto'));
+    }
 
 }
