@@ -136,8 +136,12 @@
                     },
                 }).done(function(data) {
                     if (data.success == true) {
-                        devoluciones.close();
-                        devPaymentForm.close();
+                    	$('.panel-title').text('');
+                    	$(".forms").html("");
+                    	$(".form-panel").hide();
+	                    $('.modal-body').html('');
+	                    $('.modal-title').text('');
+	                    $('.bs-modal').modal('hide');
                         return msg.success('Devolucion ingresada..!', 'Listo!');;
                     };
                     msg.warning(data);

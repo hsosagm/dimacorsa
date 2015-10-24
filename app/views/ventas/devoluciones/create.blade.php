@@ -171,6 +171,7 @@
                 success: function (data) {
                     if (data.success == true)
                     {
+            // e.targetVM.name;
                         devoluciones.detalleTable = data.detalle
                         return msg.success('Cantidad actualizada', 'Listo!')
                     }
