@@ -8,7 +8,7 @@ class BaseModel extends Eloquent   {
 
     public function _create($data = null)
     {
-        if ($data == null) 
+        if ($data == null)
         {
             $data = Input::all();
         }
@@ -94,7 +94,7 @@ class BaseModel extends Eloquent   {
 
     public function create_master($data = null)
     {
-        if ($data == null) 
+        if ($data == null)
         {
             $data = Input::all();
         }
@@ -145,7 +145,7 @@ class BaseModel extends Eloquent   {
         $values = array_map('ucfirst', $values);
 
         $query = Producto::find(Input::get('producto_id'));
-        
+
         $values['ganancias'] = $values['precio'] - ( $query->p_costo / 100);
         $class::create($values);
         return 'success';

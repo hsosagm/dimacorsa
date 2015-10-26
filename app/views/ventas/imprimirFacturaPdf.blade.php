@@ -16,6 +16,7 @@
         <td colspan="4" height="20"></td>
     </tr>
 </table>
+
 <table width="100%" style="font-size:12px;">
     <tr style="text-align:center;">
         <td width="8%"></td>
@@ -43,6 +44,7 @@
         <td colspan="4" height="{{$espacio}}"></td>
     </tr>
 </table>
+
 <table style="font-size:12px;" width="100%">
     <tr>
         <td colspan="2"></td>
@@ -75,6 +77,7 @@
         <td colspan="4" height="20"></td>
     </tr>
 </table>
+
 <table width="100%" style="font-size:12px;">
     <tr style="text-align:center;">
         <td width="8%"></td>
@@ -102,6 +105,7 @@
         <td colspan="4" height="{{$espacio}}"></td>
     </tr>
 </table>
+
 <table style="font-size:12px;" width="100%">
     <tr>
         <td colspan="2"></td>

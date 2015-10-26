@@ -30,7 +30,7 @@
             {"sClass": "width5 icons center",                           "sTitle": "",            "aTargets": [6],
                 "orderable": false,
                 "mRender": function(data, type, full) {
-                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar" onclick="eliminarNotaCredito(this,'+full[5]+','+full.DT_RowId+')"></i> ';
+                    return ' <i class="fa fa-trash-o btn-link theme-c" title="Eliminar" onclick="eliminarNotaCredito(this, '+full[5]+', '+full.DT_RowId+')"></i> ';
                 }
             },
         ],

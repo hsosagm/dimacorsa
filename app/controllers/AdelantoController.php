@@ -2,7 +2,11 @@
 
 class AdelantoController extends \BaseController {
 
-    public function __construct(Table $table)
+    public function create()
+    {
+        
+    }
+    /*public function __construct(Table $table)
     {
         $this->table = $table;
     }
@@ -61,5 +65,5 @@ class AdelantoController extends \BaseController {
         }
 
         return 'Huvo un error al tratar de eliminar';
-    }
+    } */
 }

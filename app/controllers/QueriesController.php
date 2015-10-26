@@ -493,12 +493,9 @@ class QueriesController extends \BaseController {
 		$columns = array(
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "notas_creditos.created_at as fecha",
-			"notas_creditos.nota as nota",
+			"notas_creditos.updated_at as fecha2",
             "notas_creditos.tipo as tipo",
-            "IF(tipo = 'Adelanto',
-	        (select sum(monto) from adelanto_nota_credito where nota_credito_id = notas_creditos.id ),
-	        (select sum(monto) from devolucion_nota_credito where nota_credito_id = notas_creditos.id ))
-	        as monto_foraneo",
+            "notas_creditos.monto as monto",
 			"notas_creditos.estado as estado"
 		);
 
@@ -513,8 +510,6 @@ class QueriesController extends \BaseController {
 		}
 
 		$where .= " AND notas_creditos.tienda_id = ".Auth::user()->tienda_id ;
-		$where .= " AND (select sum(monto) from adelanto_nota_credito where nota_credito_id = notas_creditos.id ) > 0 ";
-		$where .= " OR (select sum(monto) from devolucion_nota_credito where nota_credito_id = notas_creditos.id ) > 0 ";
 
 		$Join = "JOIN users ON (users.id = notas_creditos.user_id)";
 

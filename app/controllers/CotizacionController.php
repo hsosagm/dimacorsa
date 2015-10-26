@@ -26,27 +26,27 @@ class CotizacionController extends \BaseController {
 		return View::make('cotizaciones.create');
 	}
 
+	public function EditarCotizacion()
+	{
+		$cotizacion = Cotizacion::with('cliente', 'detalle_cotizacion')->find(Input::get('cotizacion_id'));
+
+		$detalle = $this->getCotizacionDetalle();
+
+		$detalle = json_encode($detalle);
+
+		$cotizacion_id = $cotizacion->id;
+
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('cotizaciones.edit', compact('cotizacion', 'detalle', 'cotizacion_id'))->render()
+        ));
+	}
+
 	public function detalle()
 	{
 		if (Input::has('_token'))
 		{
 			Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
-
-            if (Auth::user()->hasRole("Admin"))
-            {
-            	$producto = Producto::find(Input::get('producto_id'));
-            	if ((@$producto->p_publico * 0.90) > Input::get('precio')) {
-            		return 'no puede hacer mas descuento que el autorizado';
-            	}
-            }
-
-            else if (Auth::user()->hasRole("User"))
-            {
-            	$producto = Producto::find(Input::get('producto_id'));
-            	if ((@$producto->p_publico * 0.95) > Input::get('precio')) {
-            		return 'no puede hacer mas descuento que el autorizado';
-            	}
-            }
 
 			$query = new DetalleCotizacion;
 
@@ -71,6 +71,12 @@ class CotizacionController extends \BaseController {
 			$detalle = $this->getCotizacionDetalle();
 
 			$detalle = json_encode($detalle);
+
+			$totalCotizacion = DetalleCotizacion::select(DB::raw('sum(precio * cantidad) as total'))->first();
+
+			$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
+			$cotizacion->total = $totalCotizacion->total;
+			$cotizacion->save();
 
 			return Response::json(array(
 				'success' => true,
@@ -196,5 +202,75 @@ class CotizacionController extends \BaseController {
 			'mensaje' => 'Correo Enviado a '.$cotizacion->cliente->email
 		));
 
+	}
+
+	public function getCotizaciones($value='')
+	{
+		 return View::make('cotizaciones.getContizaciones')->render();
+	}
+
+	public function getMisCotizaciones($value='')
+	{
+		return View::make('cotizaciones.getMisCotizaciones')->render();
+	}
+
+	public function DtCotizaciones()
+    {
+		$table = 'cotizaciones';
+
+		$columns = array(
+			"cotizaciones.created_at as fecha",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"clientes.nombre as cliente",
+			"(select sum(precio * cantidad) from detalle_cotizaciones where cotizacion_id = cotizaciones.id) as total",
+		);
+
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","cotizaciones.total",'cotizaciones.created_at');
+
+		$where = "cotizaciones.tienda_id = ".Auth::user()->tienda_id ;
+
+		$Join = "JOIN users ON (users.id = cotizaciones.user_id) JOIN clientes ON (clientes.id = cotizaciones.cliente_id)";
+
+		return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+    }
+
+	public function DtMisCotizaciones()
+    {
+		$table = 'cotizaciones';
+
+		$columns = array(
+			"cotizaciones.created_at as fecha",
+			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+			"clientes.nombre as cliente",
+			"(select sum(precio * cantidad) from detalle_cotizaciones where cotizacion_id = cotizaciones.id) as total",
+		);
+
+		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","cotizaciones.total",'cotizaciones.created_at');
+
+		$where = "cotizaciones.tienda_id = ".Auth::user()->tienda_id ;
+		$where .= " AND cotizaciones.user_id = ".Auth::user()->id ;
+
+		$Join = "JOIN users ON (users.id = cotizaciones.user_id) JOIN clientes ON (clientes.id = cotizaciones.cliente_id)";
+
+		return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+    }
+
+	public function getDetalleCotizacion()
+	{
+		$detalle = DB::table('detalle_cotizaciones')
+        ->select(array(
+        	'detalle_cotizaciones.id',
+        	'cotizacion_id', 'producto_id',
+        	'cantidad',
+        	'precio',
+			'descripcion',
+        	DB::raw('cantidad * precio AS total') ))
+        ->where('cotizacion_id', Input::get('cotizacion_id'))
+        ->get();
+
+		return Response::json(array(
+			'success' => true,
+			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle'))->render()
+        ));
 	}
 }

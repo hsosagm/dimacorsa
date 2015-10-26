@@ -68,3 +68,87 @@ function ImprimirCotizacion(e, cotizacion_id, opcion) {
         msg.warning(data,'Advertencia..!');
     });
 };
+
+function getCotizaciones(e){
+	$.get( "user/cotizaciones/getCotizaciones", function( data ) {
+		makeTable(data, ' ', 'Cotizaciones');
+	});
+};
+
+function getMisCotizaciones(e){
+	$.get( "user/cotizaciones/getMisCotizaciones", function( data ) {
+		makeTable(data, ' ', 'Cotizaciones');
+	});
+};
+
+function showDetalleCotizacion(e) {
+
+    if ($(e).hasClass("hide_detail"))
+    {
+        $(e).removeClass('hide_detail');
+        $('.subtable').hide();
+    }
+    else
+    {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length )
+        {
+            $('.subtable').fadeOut('slow', function(){
+                getDetalleCotizacion(e);
+            })
+        }
+        else
+        {
+            getDetalleCotizacion(e);
+        }
+    }
+};
+
+
+function getDetalleCotizacion(e) {
+
+    $id = $(e).closest('tr').attr('id');
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=7><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: 'GET',
+        url: "user/cotizaciones/getDetalleCotizacion",
+        data: { cotizacion_id: $id},
+        success: function (data) {
+
+            if (data.success == true)
+            {
+                $('.grid_detalle_factura').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                $(e).addClass('hide_detail');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+};
+
+function EditarCotizacion(e, cotizacion_id) {
+    $.ajax({
+        type: "GET",
+        url: "user/cotizaciones/EditarCotizacion",
+        data: { cotizacion_id: cotizacion_id},
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            $('.panel-title').text('Formulario Cotizaciones');
+            $(".forms").html(data.view);
+            $(".dt-container").hide();
+            $(".dt-container-cierre").hide();
+            return $(".form-panel").show();
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+}

@@ -146,8 +146,7 @@ class CajaController extends \BaseController
         $data['ingresos']                 =   $this->_query('detalle_ingresos','ingreso','monto',$datos);
         $data['egresos']                  =   $this->_query('detalle_egresos','egreso','monto',$datos);
         $data['gastos']                   =   $this->_query('detalle_gastos','gasto','monto',$datos);
-        $data['adelanto_notas_creditos']  =   $this->___query('adelanto_nota_credito','notas_creditos','nota_credito','monto',$datos);
-        $data['devolucion_notas_creditos']=   $this->___query('devolucion_nota_credito','notas_creditos','nota_credito','monto',$datos);
+		$data['notas_creditos']           =   $this->query('notas_creditos','monto', $datos);
 
         return $data;
     }
@@ -207,22 +206,6 @@ class CajaController extends \BaseController
         ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
-        ->whereRaw("DATE_FORMAT({$tabla_master}.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
-        ->whereRaw("DATE_FORMAT({$tabla_master}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
-        ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
-        ->where("{$tabla_master}.caja_id", '=' , $data['caja_id'])
-        ->groupBy('metodo_pago.id')->get();
-
-        return $this->llenar_arreglo($Query);
-    }
-
-    //funcion cuando la tabla master tiene nombre separados y tambien su foranea
-    public function ___query( $tabla ,$tabla_master, $foranea ,$campo , $data )
-    {
-        $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
-        ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-        ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$foranea}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
         ->whereRaw("DATE_FORMAT({$tabla_master}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
         ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
@@ -297,13 +280,14 @@ class CajaController extends \BaseController
 
         $data = $this->resumen_movimientos($datos);
 
-        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
+        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo']
+		 - $data['gastos']['efectivo'] - $data['egresos']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto_notas_creditos']['cheque'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
 
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto_notas_creditos']['deposito'];
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'];
 
         $movimientos = array(
             'efectivo' => $efectivo,
@@ -401,7 +385,7 @@ class CajaController extends \BaseController
 		$monto = Input::get('monto');
 
 		$pdf = PDF::loadView('cajas.retirarDineroDeCajaPdf',compact('caja', 'efectivo', 'monto'));
-		
+
 		return $pdf->stream('DineroCaja');
 	}
 
@@ -451,13 +435,14 @@ class CajaController extends \BaseController
 
         $data = $this->resumen_movimientos($datos);
 
-        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
+        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo']
+		- $data['gastos']['efectivo'] - $data['egresos']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto_notas_creditos']['cheque'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
 
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto_notas_creditos']['deposito'];
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'];
 
 		$user = User::find($caja->user_id);
 

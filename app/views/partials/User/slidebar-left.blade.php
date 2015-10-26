@@ -23,6 +23,7 @@
             <ul>
                 <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
                 <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this,'dia')">Mis Ventas del Dia</a></li>
+                <li><a href="javascript:void(0);" onclick="getMisCotizaciones(this)">Mis Cotizaciones</a></li>
                 @if(count($caja))
                     <li><a href="javascript:void(0);" onclick="VentasSinFinalizar(this)">Ventas sin Finalizar</a></li>
                 @endif
@@ -41,7 +42,7 @@
                     <li><a href="javascript:void(0);" onclick="f_gastos(this)">Gastos</a></li>
                     <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
                     <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
-                    <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li>
+                    {{-- <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li> --}}
 
                 </ul>
             </li>

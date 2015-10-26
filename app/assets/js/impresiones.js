@@ -36,7 +36,7 @@ function ImprimirAbonoCliente(e , id, impresora) {
 
 function ImprimirGarantia(e, id, impresora) {
     if ($.trim($(e).closest('tr').attr('anulada')) == 'true') {
-        return msg.warning('no puedes imprimir garantia porque la factura fue anulada..', 'Advertencia!')
+        return msg.warning('No puedes imprimir garantia porque la factura fue anulada..', 'Advertencia!')
     }
 
     $(e).attr('disabled','disabled');
@@ -46,7 +46,7 @@ function ImprimirGarantia(e, id, impresora) {
 
 function printInvoice(e, id, impresora) {
     if ($.trim($(e).closest('tr').attr('anulada')) == 'true') {
-        return msg.warning('no puedes imprimir garantia porque la factura fue anulada..', 'Advertencia!')
+        return msg.warning('No puedes imprimir garantia porque la factura fue anulada..', 'Advertencia!')
     }
 
     $(e).attr('disabled','disabled');
