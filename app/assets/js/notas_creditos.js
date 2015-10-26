@@ -38,48 +38,6 @@ function postFormSeleccionarTipoDeNotaDeCredito() {
     });
 };
 
-
-function getConsultarNotasDeCreditoCliente(e, cliente_id){
-	$.ajax({
-		type: "GET",
-		url: 'user/notaDeCredito/getConsultarNotasDeCreditoCliente',
-		data:{cliente_id: 32},
-	}).done(function(data) {
-		if (data.success == true)
-		{
-            clean_panel();
-        	$('#graph_container').show();
-            $('#graph_container').html(data.view);
-            notasCreditosVue.tabla.adelanto = data.dataAdelanto;
-            notasCreditosVue.tabla.adelanto = data.dataAdelanto;
-            notasCreditosVue.venta_id = data.venta_id;
-            notasCreditosVue.cliente_id = data.cliente_id;
-            notasCreditosVue.restanteVenta = data.restanteVenta;
-
-			return $("#graph_container").css( "zIndex", 1200);
-		}
-		msg.warning(data, 'Advertencia!');
-	});
-};
-
-function EliminarDetalleNotaCreditoAdelanto(e, adelanto_nota_credito_id) {
-    $(e).prop('disabled', true)
-
-    $.ajax({
-        type: "POST",
-        url: 'user/notaDeCredito/eliminarDetalle',
-        data:{adelanto_nota_credito_id: adelanto_nota_credito_id},
-    }).done(function(data) {
-        if (data.success == true)
-        {
-            msg.success('Detalle Eliminado..', 'Listo!');
-            return $('.body-detail').html(data.table);
-        }
-        msg.warning(data, 'Advertencia!');
-        $(e).prop('disabled', false)
-    });
-};
-
 function crearClienteNotaCredito() {
     if ($('.formCrearCliente').attr('status') == 0) {
         $('.formCrearCliente').attr('status', 1);
@@ -117,30 +75,6 @@ function actualizarClienteNotaCredito(e, opcion) {
         return $('.formCrearCliente').slideUp('slow');
     }
     msg.warning('Seleccione un cliente para modificar..', 'Advertencia!');
-};
-
-function ingresarAdelantoMetodoDePago(e) {
-    $(e).attr('disabled','disabled');
-    var form = $('#adelantoMetodoDePagoForm');
-    if (form.attr('status') == 0) {
-        form.attr('status', '1');
-
-        $.ajax({
-            type: form.attr('method'),
-            url:  form.attr('action'),
-            data: form.serialize(),
-        }).done(function(data) {
-            if (data.success == true) {
-                $('.body-detail').html(data.table);
-                form.trigger('reset');
-                form.attr('status', '0');
-                return msg.success(form.data('success'), 'Listo!');
-            }
-            msg.warning(data, 'Advertencia!');
-            $(e).removeAttr('disabled');
-            form.attr('status', '0');
-        });
-    }
 };
 
 function guardarClienteNuevoNotaCredito(e) {
@@ -192,112 +126,6 @@ function guardarClienteActualizadoNotaCredito(e) {
     });
 };
 
-function guardarClienteNuevoDetalleNotaCredito(e) {
-    $(e).prop('disabled', true)
-
-    $.ajax({
-        type: "POST",
-        url: '/user/cliente/create',
-        data: $('#formCrearCliente').serialize(),
-    }).done(function(data) {
-        if (data.success == true) {
-            var nombre = data.info.nombre+' '+data.info.direccion;
-            $('#cliente_nota').val(nombre);
-            $('#cliente_id_nota').val(data.info.id);
-            $('.formCrearCliente').attr('status', 0);
-            $('.formCrearCliente').slideUp('slow');
-            $('.formCrearCliente').trigger('reset');
-
-            $.ajax({
-                type: "POST",
-                url: '/user/notaDeCredito/updateClienteId',
-                data: {cliente_id: data.info.id , nota_credito_id: $("input[name='nota_credito_id']").val() },
-            }).done(function(data) {
-                if (data.success == true) {
-					$(".infoCliente").html(nombre);
-                }
-            });
-            return msg.success('Cliente Guardado..', 'Listo!');
-        }
-        msg.warning(data, 'Advertencia!');
-        $(e).prop('disabled', false)
-    });
-};
-
-function guardarClienteActualizadoDetalleNotaCredito(e) {
-    $(e).prop('disabled', true)
-    $.ajax({
-        type: "POST",
-        url: '/user/cliente/edit',
-        data: $('#formEditCliente').serialize(),
-    }).done(function(data) {
-        if (data.success == true) {
-            var nombre = data.info.nombre+' '+data.info.direccion;
-            $('#cliente_nota').val(nombre);
-            $('#cliente_id_nota').val(data.info.id);
-            $('.formActualizarCliente').attr('status', 0);
-            $('.formActualizarCliente').slideUp('slow');
-            $('.formActualizarCliente').trigger('reset');
-
-            $.ajax({
-                type: "POST",
-                url: '/user/notaDeCredito/updateClienteId',
-                data: {cliente_id: data.info.id , nota_credito_id: $("input[name='nota_credito_id']").val() },
-            }).done(function(data) {
-                if (data.success == true) {
-					$(".infoCliente").html(nombre);
-                }
-            });
-
-            msg.success('Cliente Actualizado..', 'Listo!');
-            return data.info;
-        }
-        msg.warning(data, 'Advertencia!');
-        $(e).prop('disabled', false)
-        return data;
-    });
-};
-
-function eliminarNotaDeCretidoAdelanto(nota_credito_id) {
-    $.confirm({
-        confirm: function(){
-            $.ajax({
-                type: "POST",
-                url: 'user/notaDeCredito/deleteAdelanto',
-                data:{nota_credito_id: nota_credito_id},
-            }).done(function(data) {
-                if (data.success == true)
-                {
-                    $('.bs-modal').modal('hide');
-                    return msg.success('Adelanto Eliminado..', 'Listo!');
-                }
-                msg.warning(data, 'Advertencia!');
-            });
-        }
-    });
-};
-
-function eliminarNotaCredito(e, estado, nota_credito_id) {
-    if (estado === 0) {
-        $.confirm({
-            confirm: function(){
-                $.ajax({
-                    type: "POST",
-                    url: 'user/notaDeCredito/eliminarNotaCredito',
-                    data:{nota_credito_id: nota_credito_id},
-                }).done(function(data) {
-                    if (data.success == true)
-                    {
-                        $(e).closest('tr').hide();
-                        $('.bs-modal').modal('hide');
-                        return msg.success('Nota de Credito Eliminada..', 'Listo!');
-                    }
-                    msg.warning(data, 'Advertencia!');
-                });
-            }
-        });
-    }
-    else {
-        msg.warning('No se puede Eliminar porque ya fue utilizada...!', 'Advertencia!');
-    }
+function eliminarNotaCredito() {
+    
 }

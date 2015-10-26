@@ -231,7 +231,8 @@ class CierreController extends \BaseController {
     public function consultaDetalleOperaciones($fecha , $metodo_pago_id)
     {
         $depositosPagosVentas = PagosVenta::with('venta')->where('metodo_pago_id',$metodo_pago_id)
-        ->join('ventas','ventas.id','=','venta_id')->where('tienda_id',Auth::user()->tienda_id)
+        ->join('ventas','ventas.id','=','venta_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
 
         $depositosAbonosVentas = AbonosVenta::with('user')->where('metodo_pago_id',$metodo_pago_id)
@@ -264,7 +265,8 @@ class CierreController extends \BaseController {
         ->whereRaw("DATE_FORMAT(egresos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
 
         $depositosPagosCompras = PagosCompra::with('compra')->where('metodo_pago_id',$metodo_pago_id)
-        ->join('compras','compras.id','=','compra_id')->where('tienda_id',Auth::user()->tienda_id)
+        ->join('compras','compras.id','=','compra_id')
+        ->where('tienda_id',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
 
         $depositoAbonosCompras = AbonosCompra::with('user')->where('metodo_pago_id',$metodo_pago_id)
@@ -537,12 +539,12 @@ class CierreController extends \BaseController {
 
         $data = $this->resumen_movimientos('current_date');
 
-        $efectivo = $data['adelanto_notas_creditos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['devolucion_notas_creditos']['efectivo'] - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
+        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['adelanto_notas_creditos']['cheque'] + $data['ingresos']['cheque'];
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['adelanto_notas_creditos']['tarjeta'] + $data['ingresos']['tarjeta'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['adelanto_notas_creditos']['deposito'] + $data['ingresos']['deposito'];
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] +  $data['ingresos']['deposito'];
 
         $movimientos = array(
             'efectivo' => $efectivo,
@@ -575,8 +577,7 @@ class CierreController extends \BaseController {
         $data['gastos']                   =   $this->_query('detalle_gastos', 'gasto', 'monto', $fecha);
         $data['abonos_compras']           =   $this->query('abonos_compras', 'monto', $fecha);
         $data['pagos_compras']            =   $this->_query('pagos_compras', 'compra', 'monto', $fecha);
-        $data['adelanto_notas_creditos']  =   $this->___query('adelanto_nota_credito', 'notas_creditos', 'nota_credito', 'monto', $fecha);
-        $data['devolucion_notas_creditos']=   $this->___query('devolucion_nota_credito', 'notas_creditos', 'nota_credito', 'monto', $fecha);
+        $data['notas_creditos']           =   $this->query('notas_creditos','monto', $fecha);
         $data['resultados']               =   array();
 
         return $data;
@@ -662,24 +663,6 @@ class CierreController extends \BaseController {
         return $this->llenar_arreglo($Query);
     }
 
-    //funcion cuando la tabla master tiene nombre separados y tambien su foranea
-    public function ___query( $tabla ,$tabla_master, $foranea ,$campo , $fecha )
-    {
-        $fecha_enviar = "'{$fecha}'";
-
-        if ($fecha == 'current_date')
-            $fecha_enviar = 'current_date';
-
-        $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
-        ->join($tabla,"{$tabla}.metodo_pago_id" , "=", "metodo_pago.id")
-        ->join("{$tabla_master}","{$tabla_master}.id", "=", "{$tabla}.{$foranea}_id")
-        ->whereRaw("DATE_FORMAT({$tabla_master}.updated_at, '%Y-%m-%d') =  DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
-        ->where("{$tabla_master}.tienda_id", '=', Auth::user()->tienda_id)
-        ->groupBy('metodo_pago.id')->get();
-
-        return $this->llenar_arreglo($Query);
-    }
     /*********************************************************************************************************************************
         Fin de Funciones para generar la consulta agrupandolos por el metodo de pago
     **********************************************************************************************************************************/

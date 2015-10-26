@@ -1,9 +1,6 @@
 <div>
-
-{{ Form::open(array('v-on="submit: generarVenta"','class' => "form-generarVenta")) }}
-    
+    {{ Form::open(array('v-on="submit: generarVenta"','class' => "form-generarVenta")) }}
     <input type="hidden" name="cliente_id" v-model="cliente.id" >
-
     <div class="row">
         <div class="col-md-6 master-detail-info">
             <table class="master-table">

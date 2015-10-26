@@ -33,7 +33,7 @@
 
 
     Route::get('ImprimirCotizacion/{op}/{id}' , 'CotizacionController@ImprimirCotizacion' );
-    Route::get('imprimirNotaDeCretidoAdelanto', 'NotaCreditoController@imprimirNotaDeCretidoAdelanto' );
+    Route::get('imprimirNotaDeCretido', 'NotaCreditoController@imprimirNotaDeCretido' );
     Route::get('retirarDineroDeCajaPdf'       , 'CajaController@retirarDineroDeCajaPdf' );
     Route::get('imprimirCorteCaja/{id}'       , 'CajaController@imprimirCorteCaja' );
 
@@ -92,7 +92,7 @@
             Route::get('getFormSeleccionarTipoDeNotaDeCredito', 'NotaCreditoController@getFormSeleccionarTipoDeNotaDeCredito');
             Route::get('create'     , 'NotaCreditoController@create' );
             Route::post('create'    ,'NotaCreditoController@create'  );
-            Route::post('deleteAdelanto' ,'NotaCreditoController@deleteAdelanto'  );
+            Route::post('eliminarNotaDeCretido' ,'NotaCreditoController@eliminarNotaDeCretido'  );
             Route::post('eliminarNotaCredito' ,'NotaCreditoController@eliminarNotaCredito'  );
             Route::post('detalle'   ,'NotaCreditoController@detalle' );
             Route::post('updateClienteId','NotaCreditoController@updateClienteId' );
@@ -279,6 +279,12 @@
             Route::get('ingresarProductoRapido'  , 'CotizacionController@ingresarProductoRapido' );
             Route::post('ingresarProductoRapido' , 'CotizacionController@ingresarProductoRapido' );
             Route::post('EliminarCotizacion'     , 'CotizacionController@EliminarCotizacion' );
+            Route::get('getCotizaciones'         , 'CotizacionController@getCotizaciones' );
+            Route::get('getMisCotizaciones'      , 'CotizacionController@getMisCotizaciones' );
+            Route::get('DtCotizaciones'          , 'CotizacionController@DtCotizaciones' );
+            Route::get('DtMisCotizaciones'       , 'CotizacionController@DtMisCotizaciones' );
+            Route::get('getDetalleCotizacion'    , 'CotizacionController@getDetalleCotizacion' );
+            Route::get('EditarCotizacion'        , 'CotizacionController@EditarCotizacion' );
         });
 
         Route::group(array('prefix' => 'cajas'),function()
@@ -664,7 +670,7 @@
 Route::get('/test', function()
 {
     /* tablas a Eliminar
-    
+
         DROP TABLE  adelanto_nota_credito;
         DROP TABLE  detalle_devolucion_nota_credito;
         DROP TABLE  devolucion_nota_credito;

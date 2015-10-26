@@ -1,5 +1,5 @@
 <div class="master-detail-body">
-	{{ Form::open(array('data-remote-md', 'data-success' => 'Nota de Credito  Generada' ,"onsubmit"=>" return false")) }}
+	{{ Form::open(array('data-remote', 'data-success' => 'Nota de Credito  Generada' ,"onsubmit"=>" return false")) }}
 
 	<input type="hidden" name="cliente_id" id="cliente_id_nota">
 
@@ -23,7 +23,15 @@
 		</h4>
 	</div>
 	<div class="modal-footer">
-		<input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
+
+	</div>
+
+	<div class="form-footer" >
+		<div class="row">
+			<div class="col-md-6" align="right">
+				<input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
+			</div>
+		</div>
 	</div>
 
 	{{ Form::close() }}

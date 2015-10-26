@@ -111,7 +111,7 @@
     </div>
 </div>
 <div v-show="x == 1" id="container">
-	@include('notas_creditos.consultas.notasDeCreditoCliente')
+	{{-- aqui se colocara el listado de  notas de credito  --}}
 </div>
 <div  v-show="x == 2" id="container2"> </div>
 <pre class="right" style="padding-right:25px">
