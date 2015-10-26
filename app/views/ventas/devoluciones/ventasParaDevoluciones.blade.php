@@ -1,15 +1,13 @@
-
-<div v-show="x > 0" class="panel_heading">
-    <div v-show="x == 1" id="table_length2" class="pull-left"></div>
+<div class="panel_heading">
+    <div id="table_length2" class="pull-left"></div>
 
     <div class="pull-right">
-        <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
         <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
     </div>
 </div>
-<div v-show="x == 1" id="inventarioContainer" style="min-width: 310px; height: 400px; margin: 0 auto">
 
-    <div style="height: 60px; border: 1px solid #D6D6D6">
+<div style="min-width: 310px; height: 400px; margin: 0 auto">
+    <div style="height: 60px; border: 1px solid #D6D6D6; background: #E9E9E9">
         <h4 style="text-align:center">Devolucion parcial o total de ventas</h4>
     </div>
 
@@ -21,11 +19,9 @@
         </tbody>
     </table>
 </div>
-
-<div v-show="x == 2" id="returnDiv"></div>
-
  
 <script type="text/javascript">
+
     $(document).ready(function() {
         $("#iSearch").val("");
         $("#iSearch").unbind();
@@ -33,7 +29,6 @@
 
         setTimeout(function() {
             $('#example_length').prependTo("#table_length2");
-            dv.x = 1;
             $('#iSearch').keyup(function(){
                 $('#example').dataTable().fnFilter( $(this).val() );
             })
@@ -58,8 +53,7 @@
 
                     "mRender": function( data, type, full ) {
                         $v  = '<i onclick="showSalesDetail(this)" title="Ver detalle" class="fa fa-plus-square show_detail" style="color:#527DB5"></i>';
-                        $v += '<i onclick="returnSale('+full.DT_RowId+')" title="Abrir para devolucion" class="fa fa-check" style="padding-left:15px; color:#52A954"></i>';
-                        $v += '<i title="Eliminar venta completa" class="fa fa-close" style="padding-left:15px; color:#FF7676"></i>';
+                        $v += '<i onclick="returnSale('+full.DT_RowId+')" title="Abrir para devolucion" class="fa fa-check" style="padding-left:20px; color:#52A954"></i>';
                         return $v;
                     }
 
@@ -80,10 +74,23 @@
         });
     });
 
+    var dv = new Vue({
+
+        el: '#graph_container',
+
+        methods: {
+            close: function()
+            {
+                $('#graph_container').hide()
+            }
+        }
+    });
+
+
     function returnSale(venta_id) {
         $.ajax({
             type: "GET",
-            url: 'user/ventas/devoluciones/getVentaConDetalleParaDevolucion',
+            url: 'user/ventas/devoluciones/createDevolucion',
             data: { venta_id: venta_id },
         }).done(function(data) {
             if (data.success == true)
@@ -96,4 +103,5 @@
             msg.warning(data, 'Advertencia!');
         });
     };
+
 </script>

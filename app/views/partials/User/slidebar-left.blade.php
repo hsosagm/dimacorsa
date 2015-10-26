@@ -21,10 +21,11 @@
                 <span class="plus"></span>
             </a>
             <ul>
-                <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al Credito </a></li>
-                <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this,'dia')">Mis Ventas del Dia</a></li>
+                <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al credito </a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this,'dia')">Mis ventas del dia</a></li>
+                <li><a href="javascript:void(0);" onclick="misDevolucionesDelDia()">Mis devoluciones del dia</a></li>
                 @if(count($caja))
-                    <li><a href="javascript:void(0);" onclick="VentasSinFinalizar(this)">Ventas sin Finalizar</a></li>
+                    <li><a href="javascript:void(0);" onclick="VentasSinFinalizar(this)">Ventas sin finalizar</a></li>
                 @endif
                 <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Serie</a></li>
             </ul>

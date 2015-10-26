@@ -250,8 +250,8 @@
 
             Route::group(array('prefix' => 'devoluciones'),function()
             {
-                Route::get('getVentaConDetalleParaDevolucion'  , 'DevolucionesVentasController@getVentaConDetalleParaDevolucion');
-                Route::post('getVentaConDetalleParaDevolucion'  , 'DevolucionesVentasController@getVentaConDetalleParaDevolucion');
+                Route::get('createDevolucion'  , 'DevolucionesVentasController@createDevolucion');
+                Route::post('createDevolucion'  , 'DevolucionesVentasController@createDevolucion');
                 Route::get('findProducto'        , 'DevolucionesVentasController@findProducto');
                 Route::post('postDevolucionDetalle'        , 'DevolucionesVentasController@postDevolucionDetalle');
                 Route::post('removeItem'        , 'DevolucionesVentasController@removeItem');
@@ -259,11 +259,12 @@
                 Route::post('UpdateDetalle'        , 'DevolucionesVentasController@UpdateDetalle');
                 Route::get('getPaymentForm'        , 'DevolucionesVentasController@getPaymentForm');
                 Route::post('finalizarDevolucion'        , 'DevolucionesVentasController@finalizarDevolucion');
-
-                Route::get('getCheckCantidadDevolucion'        , 'VentasController@getCheckCantidadDevolucion');
-                Route::get('getVentasParaDevoluciones'         , 'VentasController@getVentasParaDevoluciones');
-                Route::get('DT_ventasParaDevoluciones'         , 'VentasController@DT_ventasParaDevoluciones');
-                Route::post('postDevolucionParcial'            , 'VentasController@postDevolucionParcial');
+                Route::get('getVentasParaDevoluciones'         , 'DevolucionesVentasController@getVentasParaDevoluciones');
+                Route::get('DT_ventasParaDevoluciones'         , 'DevolucionesVentasController@DT_ventasParaDevoluciones');
+                Route::get('misDevolucionesDelDia'         , 'DevolucionesVentasController@misDevolucionesDelDia');
+                Route::get('misDevolucionesDelDia_dt'         , 'DevolucionesVentasController@misDevolucionesDelDia_dt');
+                Route::get('getDevolucionesDetail'         , 'DevolucionesVentasController@getDevolucionesDetail');
+                Route::get('openDevolucion'         , 'DevolucionesVentasController@openDevolucion');
             });
 
         });

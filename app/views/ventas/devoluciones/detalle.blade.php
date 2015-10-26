@@ -27,7 +27,7 @@
 			<label class="col-md-3" v-html="producto.cantidad"></label>
 		</div>
 		<div class="row master-descripcion">
-			<div class="col-md-11 descripcion"> </div>
+			<div class="col-md-11 descripcion"></div>
 		</div>
 	</div>
 </div>
@@ -51,12 +51,12 @@
                     <input field="cantidad" type="text" v-model="dt.cantidad | cleanNumber" class="input_numeric" 
                         v-on="keyup : doneEdit(this) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
                 </td>
-                <td width="70%"> @{{ dt.descripcion }} </td>
+                <td width="70%">@{{ dt.descripcion }}</td>
 
                 <td style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency '' }}</td>
-                <td width="10%" style="text-align:right; padding-right: 20px !important;">@{{ dt.total | currency '' }} </td>
+                <td width="10%" style="text-align:right; padding-right: 20px !important;">@{{ dt.total | currency '' }}</td>
                 <td width="5%">
-                	<i  v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"> </i>
+                	<i v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"></i>
                 </td>
                 <td width="5%">
                 	<i class="fa fa-barcode fg-theme"  v-on="click: ingresarSeriesDetalleVenta(this, dt.id) " ></i>
@@ -68,7 +68,7 @@
 			<tr>
 			    <td>
 					<div class="row" style="font-size:13px !important">
-						<div class="col-md-8" >  Total a devolver </div>
+						<div class="col-md-8">Total a devolver</div>
 						<div class="col-md-4" v-html="totalDevolucion | currency ''" class="td_total_text" style="text-align:right; padding-right:50px;"></div>
 					</div>
 			    </td>
@@ -85,7 +85,6 @@
 		</div>
 	</div>
 </div>
-
 
 <script>
 	devoluciones.devolucion_id = {{ $devolucion_id }};
