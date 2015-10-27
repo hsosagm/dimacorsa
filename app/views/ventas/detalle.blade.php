@@ -1,32 +1,28 @@
 <?php  $caja = Caja::whereUserId(Auth::user()->id)->get();  ?>
 <div class="row">
-
 	<div class="col-md-6">
 		{{ Form::open(array('url' => '/user/ventas/detalle', 'data-remote-md-d', 'data-success' => 'Producto Ingresado', 'status' => '0')) }}
-		{{ Form::hidden('producto_id') }}
-		{{ Form::hidden('venta_id', $venta_id) }}
-		{{ Form::hidden('ganancias', 0) }}
-		<table class="master-table">
-			<tr>
-				<td>Codigo:</td>
-				<td>Cantidad:</td>
-				<td>Precio:</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="text" id="search_producto">
-					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
-				</td>
-				<td><input class="input input_numeric" type="text" name="cantidad"></td>
-				<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
-				<td>
-					<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
-				</td>
-			</tr>
-		</table>
+			{{ Form::hidden('producto_id') }}
+			{{ Form::hidden('venta_id', $venta_id) }}
+			{{ Form::hidden('ganancias', 0) }}
+			<table class="master-table">
+				<tr>
+					<td>Codigo:</td>
+					<td>Cantidad:</td>
+					<td>Precio:</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="search_producto">
+						<i class="fa fa-search btn-link theme-c" id="md-search"></i>
+					</td>
+					<td><input class="input input_numeric" type="text" name="cantidad"></td>
+					<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
+					<td><i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i></td>
+				</tr>
+			</table>
 		{{ Form::close() }}
 	</div>
-
 	<div class="col-md-6">
 		<div class="row master-precios">
 			<div class="col-md-4 precio-publico" style="text-align:left;"> </div>
@@ -36,7 +32,6 @@
 			<div class="col-md-11 descripcion"> </div>
 		</div>
 	</div>
-
 </div>
 
 <div class="body-detail">
@@ -45,11 +40,7 @@
 
 <div class="form-footer" >
 	<div class="row">
-		<div class="col-md-6">
-			@if(count($caja))
-				{{-- <i class="fa fa-print fa-lg icon-print" onclick="getModalImprimirVenta(this, {{$venta_id}} );"></i> --}}
-			@endif
-		</div>
+		<div class="col-md-6"></div>
 		<div class="col-md-6" align="right">
 			<i class="fa fa-trash-o fa-lg icon-delete" onclick="RemoveSale();"></i>
 			@if(count($caja))
@@ -60,8 +51,6 @@
 		</div>
 	</div>
 </div>
-</div>
-
 
 <script>
 	app.venta_id = {{ $venta_id }};

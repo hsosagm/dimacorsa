@@ -1,5 +1,4 @@
 <div class="row">
-
 	<div class="col-md-6">
 		{{ Form::open(array('url' => '/user/cotizaciones/detalle', 'data-remote-md-d', 'data-success' => 'Producto Ingresado', 'status' => '0')) }}
 		{{ Form::hidden('producto_id') }}
@@ -35,8 +34,6 @@
 			<div class="col-md-11 descripcion"> </div>
 		</div>
 	</div>
-
-
 </div>
 
 <div class="form_producto_rapido" status="0"> </div>
@@ -56,8 +53,6 @@
 		</div>
 	</div>
 </div>
-</div>
-
 
 <script>
 	app.cotizacion_id = {{ $cotizacion_id }};

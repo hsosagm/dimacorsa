@@ -190,11 +190,14 @@
 
         Route::group(array('prefix' => 'adelantos'), function()
         {
-            Route::get('create'                    , 'AdelantoController@create');
-            Route::post('delete'                   , 'AdelantoController@delete');
-            Route::post('create'                   , 'AdelantoController@create');
-            Route::post('delete_detail'            , 'AdelantoController@delete_detail');
-            Route::post('delete_master'            , 'AdelantoController@delete_master');
+            Route::get('create'                  , 'AdelantoController@create' );
+            Route::post('create'                 , 'AdelantoController@create' );
+            Route::post('detalle'                , 'AdelantoController@detalle');
+            Route::post('removeItemAdelanto'     , 'AdelantoController@removeItemAdelanto' );
+            Route::post('updateClienteId'        , 'AdelantoController@updateClienteId' );
+            Route::get('ingresarProductoRapido'  , 'AdelantoController@ingresarProductoRapido' );
+            Route::post('ingresarProductoRapido' , 'AdelantoController@ingresarProductoRapido' );
+            Route::post('EliminarAdelanto'       , 'AdelantoController@EliminarAdelanto' );
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -675,6 +678,8 @@ Route::get('/test', function()
         DROP TABLE  detalle_devolucion_nota_credito;
         DROP TABLE  devolucion_nota_credito;
         DROP TABLE  notas_creditos;
+        DROP TABLE  detalle_adelantos;
+        DROP TABLE  adelantos;
     */
 });
 
