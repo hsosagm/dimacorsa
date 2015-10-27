@@ -31,7 +31,6 @@ Route::filter('csrf', function()
 	}
 });
 
-
 Event::listen('eloquent.updated: Compra', function(Compra $model){
     if ($model->completed == 1 && $model->kardex == 0)
     {
