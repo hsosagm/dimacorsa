@@ -53,8 +53,6 @@
 		</div>
 	</div>
 </div>
-</div>
-
 
 <script>
 	app.cotizacion_id = {{ $cotizacion_id }};

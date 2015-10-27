@@ -12,7 +12,7 @@ class AdelantosTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('adelelantos', function(Blueprint $table)
+		Schema::create('adelantos', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('cliente_id')->unsigned();

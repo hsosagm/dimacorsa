@@ -42,6 +42,7 @@
                     <li><a href="javascript:void(0);" onclick="f_gastos(this)">Gastos</a></li>
                     <li><a href="javascript:void(0);" onclick="f_egreso(this)">Egresos</a></li>
                     <li><a href="javascript:void(0);" onclick="f_ingreso(this)">Ingresos</a></li>
+                    <li><a href="javascript:void(0);" onclick="f_adelanto(this)">Adelanto</a></li>
                     {{-- <li><a href="javascript:void(0);" onclick="getFormSeleccionarTipoDeNotaDeCredito()">Generar nota de credito</a></li> --}}
 
                 </ul>

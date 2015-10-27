@@ -12,6 +12,7 @@ var app = new Vue({
         detalleTable: [],
         totalVenta: 0,
         totalCotizacion: 0,
+        totalAdelanto: 0,
         editedTodo: null,
         cotizacion_id: 0,
     },
@@ -31,7 +32,8 @@ var app = new Vue({
                 sum += parseFloat(this.detalleTable[i]["total"]);
             }
             this.totalVenta = sum;
-            this.totalCotizacion = sum
+            this.totalCotizacion = sum;
+            this.totalAdelanto = sum;
         }
     },
 
@@ -145,10 +147,8 @@ var app = new Vue({
         },
 
         generarVenta: function(e) {
-
             var form = $(".form-generarVenta");
             $('button[type=submit]', form).prop('disabled', true);
-
             $.ajax({  
                 type: form.attr('method'),
                 url: form.attr('action'),
@@ -157,16 +157,12 @@ var app = new Vue({
                     if (data.success == true)
                     {
                         $('form .footer').hide();
-
                         $('.master-detail-body').slideUp('slow',function() {
-
                             $('.master-detail-body').html(data.detalle);
-
                             $('.master-detail-body').slideDown('slow', function() {
                                 $('#search_producto').focus();
                             });
                         });
-
                         return msg.success('Venta generada', 'Listo!');
                     }
 
@@ -177,16 +173,13 @@ var app = new Vue({
                     $('button[type=submit]', form).prop('disabled', false);
                 }
             });
-
             e.preventDefault();
         },
 
 
         generarCotizacion: function(e) {
-
             var form = $(".form-generarCotizacion");
             $('button[type=submit]', form).prop('disabled', true);
-
             $.ajax({  
                 type: form.attr('method'),
                 url: form.attr('action'),
@@ -195,19 +188,14 @@ var app = new Vue({
                     if (data.success == true)
                     {
                         $('form .footer').hide();
-
                         $('.master-detail-body').slideUp('slow',function() {
-
                             $('.master-detail-body').html(data.detalle);
-
                             $('.master-detail-body').slideDown('slow', function() {
                                 $('#search_producto').focus();
                             });
                         });
-
                         return msg.success('Cotizacion generada', 'Listo!');
                     }
-
                     msg.warning(data, 'Advertencia!');
                     $('button[type=submit]', form).prop('disabled', false);
                 },
@@ -215,7 +203,34 @@ var app = new Vue({
                     $('button[type=submit]', form).prop('disabled', false);
                 }
             });
+            e.preventDefault();
+        },
 
+        generarAdelanto: function(e) {
+            var form = $(".form-generarAdelanto");
+            $('button[type=submit]', form).prop('disabled', true);
+            $.ajax({  
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (data) {
+                    if (data.success == true) {
+                        $('form .footer').hide();
+                        $('.master-detail-body').slideUp('slow',function() {
+                            $('.master-detail-body').html(data.detalle);
+                            $('.master-detail-body').slideDown('slow', function() {
+                                $('#search_producto').focus();
+                            });
+                        });
+                        return msg.success('Cotizacion generada', 'Listo!');
+                    }
+                    msg.warning(data, 'Advertencia!');
+                    $('button[type=submit]', form).prop('disabled', false);
+                },
+                error: function(errors) {
+                    $('button[type=submit]', form).prop('disabled', false);
+                }
+            });
             e.preventDefault();
         },
 
