@@ -713,3 +713,22 @@ Route::get('timetest', function()
     return $end -$start;
 });
 */
+
+
+Route::get('clear', function()
+{
+    $ventas = DB::table('ventas')->take(40000)->skip(0)->get(array('id'));
+
+    $contador = 0;
+
+    foreach ($ventas as $key => $v) {
+        $dt = DetalleVenta::whereVentaId($v->id)->get(array('id'));
+
+        if (!count($dt)) {
+           $contador++;
+           Venta::find($v->id)->delete();
+        }
+    }
+
+    return $contador;
+});

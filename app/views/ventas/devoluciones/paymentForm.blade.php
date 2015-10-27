@@ -143,7 +143,7 @@
 	                    $('.modal-body').html('')
 	                    $('.modal-title').text('')
 	                    $('.bs-modal').modal('hide')
-                        return msg.success('Devolucion ingresada..!', 'Listo!')
+                        return msg.success('Devolucion generada..!', 'Listo!')
                     }
                     msg.warning(data)
                 })

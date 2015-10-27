@@ -124,6 +124,7 @@
 <script type="text/javascript">
 
     var devoluciones = new Vue({
+
         el: '#devoluciones',
 
         data: {
@@ -237,36 +238,37 @@
                 })
             },
 
-        editItem: function (t) {
-            this.beforeEditCache = t.target.textContent
-            $(t.target).closest('td').hide()
-            $(t.target).closest('td').next('td').show()
-            $(t.target).closest('td').next('td').find('input').focus().select()
-        },
+            editItem: function (t) {
+                this.beforeEditCache = t.target.textContent
+                $(t.target).closest('td').hide()
+                $(t.target).closest('td').next('td').show()
+                $(t.target).closest('td').next('td').find('input').focus().select()
+            },
 
-        cancelEdit: function (that, t) {
-            that.dt.cantidad = this.beforeEditCache
-            $(t.target).closest('td').hide()
-            $(t.target).closest('td').prev('td').show()
-        },
+            cancelEdit: function (that, t) {
+                that.dt.cantidad = this.beforeEditCache
+                $(t.target).closest('td').hide()
+                $(t.target).closest('td').prev('td').show()
+            },
 
-        doneEdit: function (that) {
-            if (!that.dt.cantidad) return
+            doneEdit: function (that) {
+                if (!that.dt.cantidad) return
 
-            $.ajax({
-                type: 'POST',
-                url: 'user/ventas/devoluciones/UpdateDetalle',
-                data: { id: that.dt.id, cantidad: that.dt.cantidad, producto_id: that.dt.producto_id, venta_id: this.venta.id, devolucion_id: this.devolucion_id },
-                success: function (data) {
-                    if (data.success == true)
-                    {
-                        devoluciones.detalleTable = data.detalle
-                        return msg.success('Cantidad actualizada', 'Listo!')
+                $.ajax({
+                    type: 'POST',
+                    url: 'user/ventas/devoluciones/UpdateDetalle',
+                    data: { id: that.dt.id, cantidad: that.dt.cantidad, producto_id: that.dt.producto_id, venta_id: this.venta.id, devolucion_id: this.devolucion_id },
+                    success: function (data) {
+                        if (data.success == true)
+                        {
+                            devoluciones.detalleTable = data.detalle
+                            return msg.success('Cantidad actualizada', 'Listo!')
+                        }
+                        msg.warning(data, 'Advertencia!')
                     }
-                    msg.warning(data, 'Advertencia!')
-                }
-            })
-        },
+                })
+            },
+
             removeItem: function (index, id) {
                 $.confirm({
                     confirm: function() {
@@ -311,7 +313,6 @@
                 })
             },
 
-
             getPaymentForm: function()
             {
                 $.ajax({
@@ -328,7 +329,6 @@
                     msg.warning('Debe ingresar algun producto para continuar', 'Advertencia!')
                 })
             }
-
         }
     });
 
@@ -339,4 +339,5 @@
     };
 
     $('.numeric').autoNumeric({ mDec:0, mRound:'S', vMin: '0', vMax: '999999', lZero: 'deny', mNum:10});
+
 </script>

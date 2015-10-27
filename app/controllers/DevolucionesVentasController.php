@@ -24,7 +24,8 @@ class DevolucionesVentasController extends \BaseController {
 
         $Search_columns = array("users.nombre", "users.apellido", "clientes.nombre", "ventas.total", "ventas.created_at");
         $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
-        $where = "ventas.tienda_id = ".Auth::user()->tienda_id;
+        $where = "ventas.canceled = 0";
+        $where .= " AND ventas.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Search_columns, $Join, $where);
 	}
