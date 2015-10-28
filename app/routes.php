@@ -289,6 +289,7 @@
             Route::get('DtMisCotizaciones'       , 'CotizacionController@DtMisCotizaciones' );
             Route::get('getDetalleCotizacion'    , 'CotizacionController@getDetalleCotizacion' );
             Route::get('EditarCotizacion'        , 'CotizacionController@EditarCotizacion' );
+            Route::post('UpdateDetalle'          , 'CotizacionController@UpdateDetalle' );
         });
 
         Route::group(array('prefix' => 'cajas'),function()

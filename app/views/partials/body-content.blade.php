@@ -9,7 +9,7 @@
 
 	<!-- FORMS -->
 	<div id="forms" class="form-container col-md-10">
-		<div class="panel form-h form-panel shadow">
+		<div class="panel form-h form-panel shadow" id="formsContainerVue">
 			<div align="right">
 				<div class="panel-heading custom-form">
 					<div class="pull-left"> <h3 class="panel-title"></h3> </div>

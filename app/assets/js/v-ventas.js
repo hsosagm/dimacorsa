@@ -1,6 +1,6 @@
 var app = new Vue({
 
-    el: 'body',
+    el: '#formsContainerVue',
 
     data: {
 
@@ -16,7 +16,7 @@ var app = new Vue({
         editedTodo: null,
         cotizacion_id: 0,
     },
- 
+
     computed: {
 
         FullName: function () {
@@ -58,12 +58,17 @@ var app = new Vue({
             this.beforeEditCache = t.target.textContent;
             $(t.target).closest('td').hide();
             $(t.target).closest('td').next('td').show();
+            $(t.target).closest('td').next('td').find('input').focus().select()
         },
 
         cancelEdit: function (that, t) {
             if ( t.target.getAttribute('field') == 'cantidad') {
                 that.dt.cantidad = this.beforeEditCache;
-            } else {
+            }
+            else if ( t.target.getAttribute('field') == 'descripcion') {
+                that.dt.descripcion = this.beforeEditCache;
+            }
+            else {
                 that.dt.precio = this.beforeEditCache;
             }
 
@@ -77,6 +82,24 @@ var app = new Vue({
                 type: 'POST',
                 url: 'user/ventas/UpdateDetalle',
                 data: { values: e.dt, venta_id: e.dt.venta_id, oldvalue: this.beforeEditCache, field: t.target.getAttribute('field') },
+                success: function (data) {
+                    if (data.success == true)
+                    {
+                        $('.body-detail').html(data.table);
+                        app.$compile(app.$el);
+                        return msg.success('Producto actualizado', 'Listo!');
+                    }
+                    msg.warning(data, 'Advertencia!');
+                }
+            });
+        },
+
+        doneEditCotizacion: function (e, t) {
+            e.dt.cantidad = parseInt(e.dt.cantidad);
+            $.ajax({
+                type: 'POST',
+                url: 'user/cotizaciones/UpdateDetalle',
+                data: { values: e.dt, cotizacion_id: e.dt.cotizacion_id, oldvalue: this.beforeEditCache, field: t.target.getAttribute('field') },
                 success: function (data) {
                     if (data.success == true)
                     {
@@ -149,7 +172,7 @@ var app = new Vue({
         generarVenta: function(e) {
             var form = $(".form-generarVenta");
             $('button[type=submit]', form).prop('disabled', true);
-            $.ajax({  
+            $.ajax({
                 type: form.attr('method'),
                 url: form.attr('action'),
                 data: form.serialize(),
@@ -180,7 +203,7 @@ var app = new Vue({
         generarCotizacion: function(e) {
             var form = $(".form-generarCotizacion");
             $('button[type=submit]', form).prop('disabled', true);
-            $.ajax({  
+            $.ajax({
                 type: form.attr('method'),
                 url: form.attr('action'),
                 data: form.serialize(),
@@ -209,7 +232,7 @@ var app = new Vue({
         generarAdelanto: function(e) {
             var form = $(".form-generarAdelanto");
             $('button[type=submit]', form).prop('disabled', true);
-            $.ajax({  
+            $.ajax({
                 type: form.attr('method'),
                 url: form.attr('action'),
                 data: form.serialize(),
@@ -240,7 +263,7 @@ var app = new Vue({
             var form = $(e.target).closest("form");
             $('input[type=submit]', form).prop('disabled', true);
 
-            $.ajax({  
+            $.ajax({
                 type: form.attr('method'),
                 url: form.attr('action'),
                 data: form.serialize(),
@@ -272,7 +295,7 @@ var app = new Vue({
             var form = $(e.target).closest("form");
             $('input[type=submit]', form).prop('disabled', true);
 
-            $.ajax({  
+            $.ajax({
                 type: form.attr('method'),
                 url: form.attr('action'),
                 data: form.serialize(),
@@ -360,3 +383,5 @@ function ventas_compile() {
         app.$compile(app.$el);
     });
 }
+
+ventas_compile();

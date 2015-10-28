@@ -228,9 +228,15 @@ class ConsultasCierreController extends \BaseController {
             "total",
             "saldo",
             "completed"
-            );
+        );
 
-        $Search_columns = array("users.nombre","users.apellido","clientes.nombre",'total','saldo');
+        $Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"clientes.nombre",
+			'total',
+			'saldo'
+		);
 
         $Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 

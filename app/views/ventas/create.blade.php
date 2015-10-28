@@ -41,11 +41,11 @@
     {{ Form::close() }}
 
     <div class="CustomerForm" v-if="showNewCustomerForm" v-transition>
-        @@include('controles.crearCliente')
+        @include('controles.crearCliente')
     </div>
 
     <div class="CustomerForm" v-if="showEditCustomerForm" v-transition>
-        @@include('controles.actualizarClienteVue')
+        @include('controles.actualizarClienteVue')
     </div>
 
     <div class="master-detail">
@@ -54,4 +54,4 @@
 
 </div>
 
-@@include('controles.scriptBuscarClienteVue')
+@include('controles.scriptBuscarClienteVue')

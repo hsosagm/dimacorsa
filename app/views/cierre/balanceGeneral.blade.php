@@ -92,11 +92,14 @@ function graph_container_compile() {
 
 
 <div class="panel_heading master-table short_calendar ">
-        <tr>
-            <td>Fecha:</td>
-            <td><input type="text" id="fechaCierre" data-value="{{$data['fecha_input']}}" name="start"></td>
-            <i class="glyphicon glyphicon-repeat fg-theme" style="cursor:pointer" v-on="click: cierreDelMesPorFecha"></i>
-        </tr>
+    <div v-show="x == 2" id="table_length3" class="pull-left"></div>
+
+    <div v-show="x == 1" id="table_length3" class="pull-left">
+        Fecha:
+        <input type="text" id="fechaCierre" data-value="{{$data['fecha_input']}}" name="start">
+        <i class="glyphicon glyphicon-repeat fg-theme" style="cursor:pointer" v-on="click: cierreDelMesPorFecha"></i>
+    </div>
+
     <div class="pull-right">
         <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
         <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>

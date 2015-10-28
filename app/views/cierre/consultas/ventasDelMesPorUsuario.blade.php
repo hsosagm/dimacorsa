@@ -8,20 +8,19 @@
     </table>
 <script>
 $(document).ready(function() {
-
     $("#iSearch").val("");
     $("#iSearch").unbind();
-    $("#table_length").html("");
+    $("#table_length3").html("");
 
     setTimeout(function() {
-        $('#example_length').prependTo("#table_length");
+        $('#example_length').prependTo("#table_length3");
         if ( "{{$grafica}}" != "true") {
             graph_container.x = 2;
         }
         else{
              graph_container.x = 3;
         }
-        
+
         $('#iSearch').keyup(function(){
             $('#example').dataTable().fnFilter( $(this).val() );
         })
@@ -36,7 +35,7 @@ $(document).ready(function() {
             "infoEmpty": "No hay archivos disponibles",
             "infoFiltered": "- ( filtrado de _MAX_ archivos )"
         },
-        
+
         "aoColumnDefs": [
             {"sClass": "width15",                                        "sTitle": "Fecha",   "aTargets": [0]},
             {"sClass": "width25",                                        "sTitle": "Vendedor","aTargets": [1]},
@@ -59,10 +58,10 @@ $(document).ready(function() {
             });
         },
 
-        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
             if ( aData[5] == 0){
                 jQuery(nRow).addClass('red');
-            }               
+            }
         },
 
         "bJQueryUI": false,

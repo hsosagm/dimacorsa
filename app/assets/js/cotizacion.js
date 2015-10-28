@@ -4,11 +4,13 @@ function f_coti_op() {
         url: "user/cotizaciones/create",
         type: "GET"
     }).done(function(data) {
-        $('.panel-title').text('Formulario Cotizacion');
-        $(".forms").html(data);
-        ocultar_capas();
-        $(".form-panel").show();
-        $('#cliente').focus();
+        if (data.success == true) {
+            $('.panel-title').text('Formulario Cotizacion');
+            $(".forms").html(data.view);
+            ocultar_capas();
+            $(".form-panel").show();
+            $('#cliente').focus();
+        }
     });
 };
 
@@ -34,9 +36,9 @@ function ingresarProductoRapido(e, cotizacion_id) {
     });
 };
 
-function  EliminarCotizacion(e, cotizacion_id){
+function  EliminarCotizacion(e, cotizacion_id) {
     $.confirm({
-        confirm: function(){
+        confirm: function() {
             $(e).prop('disabled', true);
             $.ajax({
                 url: "user/cotizaciones/EliminarCotizacion",
@@ -69,45 +71,37 @@ function ImprimirCotizacion(e, cotizacion_id, opcion) {
     });
 };
 
-function getCotizaciones(e){
+function getCotizaciones(e) {
 	$.get( "user/cotizaciones/getCotizaciones", function( data ) {
 		makeTable(data, ' ', 'Cotizaciones');
 	});
 };
 
-function getMisCotizaciones(e){
+function getMisCotizaciones(e) {
 	$.get( "user/cotizaciones/getMisCotizaciones", function( data ) {
 		makeTable(data, ' ', 'Cotizaciones');
 	});
 };
 
 function showDetalleCotizacion(e) {
-
-    if ($(e).hasClass("hide_detail"))
-    {
+    if ($(e).hasClass("hide_detail")) {
         $(e).removeClass('hide_detail');
         $('.subtable').hide();
     }
-    else
-    {
+    else {
         $('.hide_detail').removeClass('hide_detail');
-
-        if ( $( ".subtable" ).length )
-        {
+        if ( $( ".subtable" ).length ) {
             $('.subtable').fadeOut('slow', function(){
                 getDetalleCotizacion(e);
             })
         }
-        else
-        {
+        else {
             getDetalleCotizacion(e);
         }
     }
 };
 
-
 function getDetalleCotizacion(e) {
-
     $id = $(e).closest('tr').attr('id');
     $('.subtable').remove();
     var nTr = $(e).parents('tr')[0];
@@ -118,20 +112,14 @@ function getDetalleCotizacion(e) {
     $.ajax({
         type: 'GET',
         url: "user/cotizaciones/getDetalleCotizacion",
-        data: { cotizacion_id: $id},
-        success: function (data) {
-
-            if (data.success == true)
-            {
-                $('.grid_detalle_factura').html(data.table);
-                $(nTr).next('.subtable').fadeIn('slow');
-                $(e).addClass('hide_detail');
-            }
-            else
-            {
-                msg.warning(data, 'Advertencia!');
-            }
+        data: {cotizacion_id: $id},
+    }).done(function(data) {
+        if (data.success == true) {
+            $('.grid_detalle_factura').html(data.table);
+            $(nTr).next('.subtable').fadeIn('slow');
+            return $(e).addClass('hide_detail');
         }
+        msg.warning(data, 'Advertencia!');
     });
 };
 
@@ -151,4 +139,4 @@ function EditarCotizacion(e, cotizacion_id) {
         }
         msg.warning(data, 'Advertencia!');
     });
-}
+};
