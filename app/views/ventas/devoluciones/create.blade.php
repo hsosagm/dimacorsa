@@ -64,6 +64,7 @@
                 read: function(val) {
                     return  parseInt(val)
                 },
+
                 write: function(val, oldVal) {
                     var number = +val.replace(/[^\d.]/g, '')
                     return isNaN(number) ? 0 : number
@@ -161,34 +162,35 @@
                 $.ajax({
                     type: 'POST',
                     url: 'user/ventas/devoluciones/UpdateDetalle',
-                    data: { id: that.dt.id, cantidad: that.dt.cantidad, producto_id: that.dt.producto_id, venta_id: this.venta.id, devolucion_id: this.devolucion_id },
-                    success: function (data) {
-                        if (data.success == true)
-                        {
-                            devoluciones.detalleTable = data.detalle
-                            return msg.success('Cantidad actualizada', 'Listo!')
-                        }
-                        msg.warning(data, 'Advertencia!')
+                    data: { id: that.dt.id, cantidad: that.dt.cantidad, producto_id: that.dt.producto_id, venta_id: this.venta.id,
+                        devolucion_id: this.devolucion_id },
+                }).done(function(data) {
+                    if (data.success == true)
+                    {
+                        devoluciones.detalleTable = data.detalle
+                        return msg.success('Cantidad actualizada', 'Listo!')
                     }
+                    msg.warning(data, 'Advertencia!')
                 })
             },
 
             removeItem: function (index, id) {
                 $.confirm({
-                    confirm: function() {
+                    confirm: function()
+                    {
                         var token = $("input[name=_token]").val()
+
                         $.ajax({
                             type: 'POST',
                             url: 'user/ventas/devoluciones/removeItem',
                             data: { id: id, _token: token },
-                            success: function (data) {                                
-                                if (data.success == true)
-                                {
-                                    devoluciones.detalleTable.$remove(index)
-                                    return msg.success('Se ha eliminado el producto de la devolucion', 'Listo!')
-                                }
-                                msg.warning(data, 'Advertencia!')
+                        }).done(function(data) {
+                            if (data.success == true)
+                            {
+                                devoluciones.detalleTable.$remove(index)
+                                return msg.success('Se ha eliminado el producto de la devolucion', 'Listo!')
                             }
+                            msg.warning(data, 'Advertencia!')
                         })
                     }
                 })
