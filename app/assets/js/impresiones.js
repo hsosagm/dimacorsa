@@ -64,7 +64,7 @@ function printDocument(impresora, url, id) {
             if (printer !== null) {
 
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: url,
                     data: { id: id },
                     success: function (data, text) {
