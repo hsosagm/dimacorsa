@@ -814,7 +814,10 @@ class CierreController extends \BaseController {
             "sum(detalle_ventas.precio * detalle_ventas.cantidad ) as monto_total"
             );
 
-        $Searchable = array("productos.descripcion");
+        $Searchable = array(
+            "productos.descripcion",
+            "productos.p_publico"
+        );
 
         $Join  = " JOIN detalle_ventas ON (producto_id = productos.id) ";
         $Join .= " JOIN ventas ON (ventas.id = venta_id) ";
@@ -841,9 +844,14 @@ class CierreController extends \BaseController {
             "detalle_gastos.descripcion as detalle_descripcion",
             'monto',
             "metodo_pago.descripcion as metodo_descripcion"
-            );
+        );
 
-        $Searchable = array("users.nombre","users.apellido");
+        $Searchable = array(
+            "users.nombre",
+            "users.apellido",
+            "detalle_gastos.descripcion",
+            "monto"
+        );
 
         $where = "DATE_FORMAT(gastos.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
         $where .= ' AND gastos.tienda_id = '.Auth::user()->tienda_id;
@@ -872,9 +880,14 @@ class CierreController extends \BaseController {
             "detalle_soporte.descripcion as detalle_descripcion",
             'monto',
             "metodo_pago.descripcion as metodo_descripcion"
-            );
+        );
 
-        $Searchable = array("users.nombre","users.apellido");
+        $Searchable = array(
+            "users.nombre",
+            "users.apellido",
+            "detalle_soporte.descripcion",
+            "monto"
+        );
 
         $where = "DATE_FORMAT(soporte.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m')";
         $where .= ' AND soporte.tienda_id = '.Auth::user()->tienda_id;
@@ -897,12 +910,17 @@ class CierreController extends \BaseController {
             "detalle_ventas.cantidad  as cantidad",
             "productos.descripcion  as descripcion",
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-            "CONCAT_WS(' ',clientes.nombre,clientes.apellido) as cliente",
+            "CONCAT_WS(' ',clientes.nombre) as cliente",
             "detalle_ventas.ganancias as ganancias",
             "detalle_ventas.precio as precio"
             );
 
-        $Search_columns = array("users.nombre","users.apellido","venta.created_at","productos.descripcion");
+        $Search_columns = array(
+            "users.nombre",
+            "users.apellido",
+            "venta.created_at",
+            "productos.descripcion",
+            "cliente.nombre");
 
         $Join  = "JOIN ventas ON (detalle_ventas.venta_id = ventas.id) ";
         $Join .= "JOIN productos ON (productos.id = detalle_ventas.producto_id) ";

@@ -6,7 +6,7 @@
         <td class="center" width="10%">Totales</td>
     </tr>
 	<tbody >
-        @php($deuda = 0;)
+        @php($deuda = 0)
 		@foreach($detalle as $q)
 		    @php($deuda = $deuda + $q->total)
 	        <tr>

@@ -12,26 +12,25 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        
-        
             $("#iSearch").val("");
             $("#iSearch").unbind();
-            $("#table_length").html("");
+            $("#table_length3").html("");
 
             setTimeout(function() {
-                $('#example_length').prependTo("#table_length");
+                $('#example_length').prependTo("#table_length3");
+
                 if ( "{{$grafica}}" != "true") {
                     graph_container.x = 2;
                 }
                 else{
                      graph_container.x = 3;
                 }
-               
+
                 $('#iSearch').keyup(function(){
                     $('#example').dataTable().fnFilter( $(this).val() );
                 })
             }, 300);
-        
+
 
         $('#example').dataTable({
 
@@ -42,7 +41,7 @@
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
-            
+
             "aoColumnDefs": [
             {"sClass": "mod_codigo hover width5",                          "sTitle": "Cantidad",              "aTargets": [0]},
             {"sClass": "mod_codigo hover widthL",                           "sTitle": "Descripcion",         "aTargets": [1]},

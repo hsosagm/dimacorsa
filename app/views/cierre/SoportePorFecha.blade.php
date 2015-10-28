@@ -10,27 +10,27 @@
 
 <script>
 $(document).ready(function() {
-    
-     
+
+
     $("#iSearch").val("");
     $("#iSearch").unbind();
-    $("#table_length").html("");
+    $("#table_length3").html("");
 
     setTimeout(function() {
-        $('#example_length').prependTo("#table_length");
+        $('#example_length').prependTo("#table_length3");
         if ( "{{$grafica}}" != "true") {
             graph_container.x = 2;
         }
         else{
              graph_container.x = 3;
         }
-        
+
         $('#iSearch').keyup(function(){
             $('#example').dataTable().fnFilter( $(this).val() );
         })
     }, 300);
-        
-    
+
+
     $('#example').dataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ archivos por pagina",

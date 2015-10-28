@@ -321,4 +321,38 @@ class CotizacionController extends \BaseController {
 			'table'   => View::make('cotizaciones.detalle_body', compact('detalle'))->render()
         ));
 	}
+
+    /* seccion para convertir la cotizacion en venta */
+
+    public function abrirVentaGenerada($venta_id)
+	{
+		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+		$detalle = $this->getDetalleVentas();
+		$detalle = json_encode($detalle);
+		$venta_id = $venta->id;
+
+		return Response::json(array(
+			'success' => true,
+			'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle', 'venta_id'))->render()
+        ));
+	}
+
+    public function getDetalleVentas()
+	{
+		$detalle = DB::table('detalle_ventas')
+        ->select(array(
+        	'detalle_ventas.id',
+        	'venta_id',
+            'producto_id',
+        	'cantidad',
+        	'precio',
+        	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion'),
+            DB::raw('cantidad * precio AS total')))
+        ->where('venta_id', Input::get('venta_id'))
+        ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get();
+
+        return $detalle;
+	}
 }

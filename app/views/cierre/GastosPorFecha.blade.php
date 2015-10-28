@@ -11,13 +11,12 @@
 <script>
 
 $(document).ready(function() {
-    
-     $("#iSearch").val("");
+    $("#iSearch").val("");
     $("#iSearch").unbind();
-    $("#table_length").html("");
+    $("#table_length3").html("");
 
     setTimeout(function() {
-        $('#example_length').prependTo("#table_length");
+        $('#example_length').prependTo("#table_length3");
         if ( "{{$grafica}}" != "true") {
             graph_container.x = 2;
         }
