@@ -5,7 +5,7 @@
                 <label class="col-md-3" >Venta ID:</label>
                 <label class="col-md-9" >@{{ venta.id }}</label>
                 <label class="col-md-3" >Total devolucion:</label>
-                <label class="col-md-9" >@{{ totalDevolucion | currency ' ' }}</label>
+                <label class="col-md-9" >@{{ totalDevolucion | currency ' '}}</label>
             </div>
 
             <div class="col-md-6" style="font-size:12px">
