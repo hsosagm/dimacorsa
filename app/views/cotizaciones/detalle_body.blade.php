@@ -12,7 +12,7 @@
 	    </thead>
 
 		<tbody>
-			<tr v-repeat="dt: detalleTable" v-class="editing : this == editedTodo">
+			<tr v-repeat="dt: detalleTable" v-class="editing : this == editedTodo" class="@{{(dt.producto_id == 0)? 'red':''}}">
                 <td width="10%" class="view" v-text="dt.cantidad" v-on="dblclick: editItem"></td>
                 <td width="10%" class="detail-input-edit">
                     <input field="cantidad" type="text" v-model="dt.cantidad" class="input_numeric"

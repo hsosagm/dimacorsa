@@ -9,7 +9,7 @@
         @php($deuda = 0)
 		@foreach($detalle as $q)
 			@php($deuda = $deuda + $q->total);
-	        <tr>
+	        <tr class="{{($q->producto_id == 0)? 'red':''}}">
 	            <td width="10%"> {{ $q->cantidad }} </td>
 	            <td width="70%"> {{ $q->descripcion }} </td>
 	            <td class="right" width="10%"> {{ f_num::get($q->precio) }} </td>
