@@ -17,6 +17,7 @@ function postFormSeleccionarTipoDeNotaDeCredito() {
         }).done(function(data) {
             if (data.success == true)
             {
+                $(".form-panel").hide();
                 $('.bs-modal').modal('hide');
                 clean_panel();
                 $('#graph_container').show();

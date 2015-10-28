@@ -100,14 +100,18 @@ App::singleton('Pusher', function($app) {
     return new Pusher( $keys['public'], $keys['secret'], $keys['app_id']);
 });
 
-
 App::error(function(Illuminate\Session\TokenMismatchException $exception, $code)
 {
 	return Response::json('Token invalido !', 403);
 });
 
-
 App::error(function(Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $exception)
 {
     return Response::json('La direccion requerida no se encuentra! [404]', 404);
+});
+
+Blade::extend(function($view, $compiler)
+{
+	$pattern = $compiler->createMatcher('php');
+	return preg_replace($pattern, '$1<?php $2; ?>', $view);
 });
