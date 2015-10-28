@@ -1,6 +1,6 @@
 var app = new Vue({
 
-    el: 'body',
+    el: '#formsContainerVue',
 
     data: {
 
@@ -383,3 +383,5 @@ function ventas_compile() {
         app.$compile(app.$el);
     });
 }
+
+ventas_compile();
