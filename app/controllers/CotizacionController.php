@@ -23,7 +23,10 @@ class CotizacionController extends \BaseController {
             ));
 		}
 
-		return View::make('cotizaciones.create');
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('cotizaciones.create')->render()
+		));
 	}
 
 	public function EditarCotizacion()
@@ -59,19 +62,13 @@ class CotizacionController extends \BaseController {
 			}
 
 			else
-			{
 				$data['producto_id'] = 0;
-			}
 
-			if ( !$query->_create($data))
-			{
+			if (!$query->_create($data))
 				return $query->errors();
-			}
 
 			$detalle = $this->getCotizacionDetalle();
-
 			$detalle = json_encode($detalle);
-
 			$totalCotizacion = DetalleCotizacion::select(DB::raw('sum(precio * cantidad) as total'))->first();
 
 			$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
@@ -92,11 +89,12 @@ class CotizacionController extends \BaseController {
 		$detalle = DB::table('detalle_cotizaciones')
         ->select(array(
         	'detalle_cotizaciones.id',
-        	'cotizacion_id', 'producto_id',
+        	'cotizacion_id',
+			'producto_id',
         	'cantidad',
         	'precio',
-        	DB::raw('detalle_cotizaciones.descripcion AS descripcion,
-			cantidad * precio AS total')))
+			'detalle_cotizaciones.descripcion AS descripcion',
+        	DB::raw('cantidad * precio AS total')))
         ->where('cotizacion_id', Input::get('cotizacion_id'))
         ->get();
 
@@ -142,10 +140,9 @@ class CotizacionController extends \BaseController {
 
 			$query = new DetalleCotizacion;
 
-			if ( !$query->_create())
-			{
+			if (!$query->_create())
 				return $query->errors();
-			}
+
 
 			$detalle = $this->getCotizacionDetalle();
 
@@ -166,6 +163,7 @@ class CotizacionController extends \BaseController {
 	public function EliminarCotizacion()
 	{
 		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
+
 		if($cotizacion->delete()){
 			return Response::json(array(
 				'success' => true
@@ -180,7 +178,8 @@ class CotizacionController extends \BaseController {
 		$cotizacion = Cotizacion::with('cliente', 'detalle_cotizacion')->find($id);
 		$tienda = Tienda::find(Auth::user()->tienda_id);
 
-		if (trim($op) == 'pdf') {
+		if (trim($op) == 'pdf')
+		{
 			$pdf = PDF::loadView('cotizaciones.exportPdf',  array('cotizacion' => $cotizacion, 'tienda' => $tienda));
 			return $pdf->stream('cotizacion-'.$id);
 		}
@@ -188,7 +187,7 @@ class CotizacionController extends \BaseController {
 		$emails = array($cotizacion->cliente->email);
 
 		if (!filter_var($cotizacion->cliente->email, FILTER_VALIDATE_EMAIL))
-			return 'el cliente ingresado no tiene Correo Electronico Valido...!';
+			return 'El cliente ingresado no tiene correo electronico valido...!';
 
 		Mail::queue('emails.mensaje', array('asunto' => 'Cotizacion'), function($message) use($emails, $cotizacion, $tienda)
 		{
@@ -270,7 +269,57 @@ class CotizacionController extends \BaseController {
 
 		return Response::json(array(
 			'success' => true,
-			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle'))->render()
+			'table'   => View::make('cotizaciones.DT_detalle_cotizacion', compact('detalle'))->render()
+        ));
+	}
+
+	public function UpdateDetalle()
+	{
+		if ( Input::get('field') == 'precio' ) {
+			$precio = str_replace(',', '', Input::get('values.precio'));
+			$precio = preg_replace('/\s{2,}/', ' ', $precio);
+
+			DetalleCotizacion::find( Input::get('values.id') )
+			->update(array('precio' => Input::get('values.precio')));
+
+			$detalle = $this->getCotizacionDetalle();
+			$detalle = json_encode($detalle);
+
+			return Response::json( array(
+				'success' => true,
+				'table'   => View::make('cotizaciones.detalle_body', compact('detalle'))->render()
+	        ));
+		}
+
+		if ( Input::get('field') == 'descripcion' ) {
+			$precio = str_replace(',', '', Input::get('values.descripcion'));
+			$precio = preg_replace('/\s{2,}/', ' ', $precio);
+
+			DetalleCotizacion::find( Input::get('values.id') )
+			->update(array('descripcion' => Input::get('values.descripcion')));
+
+			$detalle = $this->getCotizacionDetalle();
+			$detalle = json_encode($detalle);
+
+			return Response::json( array(
+				'success' => true,
+				'table'   => View::make('cotizaciones.detalle_body', compact('detalle'))->render()
+	        ));
+		}
+
+		if ( Input::get('values.cantidad') < 1 ) {
+			return 'La cantidad deve ser mayor a 0';
+		}
+
+		DetalleCotizacion::find( Input::get('values.id') )
+		->update(array('cantidad' => Input::get('values.cantidad')));
+
+		$detalle = $this->getCotizacionDetalle();
+		$detalle = json_encode($detalle);
+
+		return Response::json( array(
+			'success' => true,
+			'table'   => View::make('cotizaciones.detalle_body', compact('detalle'))->render()
         ));
 	}
 }
