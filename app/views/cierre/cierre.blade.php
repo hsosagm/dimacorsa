@@ -153,7 +153,7 @@
 
             dif_tarjeta: {
                 get: function() {
-                    return this.tarjeta - this.movimientos.tarjeta 
+                    return this.tarjeta - this.movimientos.tarjeta
                 }
             },
 
@@ -208,10 +208,10 @@
                     url: form.attr('action'),
                     data: form.serialize(),
                     success: function (data) {
-                        if (data.success == true)
+                        if (data.success == true) {
                             msg.success('Cierre realizado correctamente', 'Listo!');
                             return $('.bs-modal').modal('hide');
-                            
+                        }
                         msg.warning(data, 'Advertencia!');
                         $('input[type=submit]', form).prop('disabled', false);
                     }
@@ -221,5 +221,5 @@
     });
 
     $('.numeric').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
-    
+
 </script>

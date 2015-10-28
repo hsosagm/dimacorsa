@@ -1,7 +1,7 @@
 <div id="pagosventa">
-    
+
     {{ Form::open(array('url' => '/user/ventas/ModalSalesPayments', 'data-remote-sales-payment')) }}
-        
+
         {{ Form::hidden('venta_id', Input::get('venta_id')) }}
 
         <div class="row" style="margin-left:10px">
@@ -10,9 +10,9 @@
             <div v-show="vuelto" class="col-md-4"><p class="btn-success" style="padding-left:10px">Su vuelto es: @{{ vuelto | currency ' ' }}</p></div>
         </div>
         <div class="row" style="margin-left:20px; width:90%">
-            <div class="col-md-4"><p>Monto</p></div> 
-            <div class="col-md-4"><p>Metodo</p></div> 
-            <div class="col-md-4"><p></p></div> 
+            <div class="col-md-4"><p>Monto</p></div>
+            <div class="col-md-4"><p>Metodo</p></div>
+            <div class="col-md-4"><p></p></div>
         </div>
         <div class="row" style="margin-top:10px; margin-left:20px; width:90%">
             <div class="col-md-4"><input class="form-control numeric" type="text" value="{{ $resta_abonar }}" name="monto"></div>

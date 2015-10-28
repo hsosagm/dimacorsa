@@ -1,27 +1,27 @@
 <div class="row">
 	<div class="col-md-6">
 		{{ Form::open(array('url' => '/user/cotizaciones/detalle', 'data-remote-md-d', 'data-success' => 'Producto Ingresado', 'status' => '0')) }}
-		{{ Form::hidden('producto_id') }}
-		{{ Form::hidden('cotizacion_id', $cotizacion_id) }}
-		<table class="master-table">
-			<tr>
-				<td>Codigo:</td>
-				<td>Cantidad:</td>
-				<td>Precio:</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="text" id="search_producto">
-					<i class="fa fa-search btn-link theme-c" id="md-search"></i>
-				</td>
-				<td><input class="input input_numeric" type="text" name="cantidad"></td>
-				<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
-				<td>
-					<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
-					<i onclick="ingresarProductoRapido(this, {{$cotizacion_id}})" class="fg-theme" style="padding-left:10px; cursor:pointer;"><strong>PR</strong></i>
-				</td>
-			</tr>
-		</table>
+			{{ Form::hidden('producto_id') }}
+			{{ Form::hidden('cotizacion_id', $cotizacion_id) }}
+			<table class="master-table">
+				<tr>
+					<td>Codigo:</td>
+					<td>Cantidad:</td>
+					<td>Precio:</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="search_producto">
+						<i class="fa fa-search btn-link theme-c" id="md-search"></i>
+					</td>
+					<td><input class="input input_numeric" type="text" name="cantidad"></td>
+					<td><input class="input_numeric" id="precio-publico" type="text" name="precio"></td>
+					<td>
+						<i onclick="ingresarProductoAlDetalle(this)" class="fa fa-check fg-theme"></i>
+						<i onclick="ingresarProductoRapido(this, {{$cotizacion_id}})" class="fg-theme" style="padding-left:10px; cursor:pointer;"><strong>PR</strong></i>
+					</td>
+				</tr>
+			</table>
 		{{ Form::close() }}
 	</div>
 
@@ -50,6 +50,9 @@
 		</div>
 		<div class="col-md-6" align="right">
 			<i class="fa fa-trash-o fa-lg icon-delete" onclick="EliminarCotizacion(this, {{$cotizacion_id}});"></i>
+			@if(@$convertir == 'true')
+				<i class="fa fa-paper-plane-o fa-lg icon-success" onclick=""></i>
+			@endif
 		</div>
 	</div>
 </div>
