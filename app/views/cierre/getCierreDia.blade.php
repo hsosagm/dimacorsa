@@ -266,7 +266,7 @@
 			@endif
 		</div>
 		<div class="col-md-1" align="right" >
-			<i class="fa fa-chevron-down btn-link theme-c" v-on="click: $('.detalle_cierre_footer').slideToggle()"> </i>
+			<i class="fa fa-chevron-down btn-link theme-c" onclick="$('.detalle_cierre_footer').slideToggle()"> </i>
 			&nbsp;&nbsp;
 		</div>
     </div>

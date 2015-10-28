@@ -244,11 +244,6 @@ class CierreController extends \BaseController {
         ->where('tienda_id',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
 
-        $depositosAdelanto = DetalleAdelanto::with('adelanto')->where('metodo_pago_id',$metodo_pago_id)
-        ->join('adelantos','adelantos.id','=','adelanto_id')
-        ->where('tienda_id',Auth::user()->tienda_id)
-        ->whereRaw("DATE_FORMAT(adelantos.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha}, '%Y-%m-%d')")->get();
-
         $depositosIngreso = DetalleIngreso::with('ingreso')->where('metodo_pago_id',$metodo_pago_id)
         ->join('ingresos','ingresos.id','=','ingreso_id')
         ->where('tienda_id',Auth::user()->tienda_id)
@@ -276,7 +271,6 @@ class CierreController extends \BaseController {
         $depositosDetalle['pagosVentas'] = $depositosPagosVentas;
         $depositosDetalle['abonosVentas'] = $depositosAbonosVentas;
         $depositosDetalle['soporte'] = $depositosSoporte;
-        $depositosDetalle['adelantos'] = $depositosAdelanto;
         $depositosDetalle['ingresos'] = $depositosIngreso;
         $depositosDetalle['gastos'] = $depositosGasto;
         $depositosDetalle['egresos'] = $depositosEgreso;
@@ -571,7 +565,6 @@ class CierreController extends \BaseController {
         $data['pagos_ventas']             =   $this->Vquery('pagos_ventas', 'venta', 'monto', $fecha);
         $data['abonos_ventas']            =   $this->query('abonos_ventas', 'monto', $fecha);
         $data['soporte']                  =   $this->__query('detalle_soporte', 'soporte', 'monto', $fecha);
-        $data['adelantos']                =   $this->_query('detalle_adelantos', 'adelanto', 'monto', $fecha);
         $data['ingresos']                 =   $this->_query('detalle_ingresos', 'ingreso', 'monto', $fecha);
         $data['egresos']                  =   $this->_query('detalle_egresos', 'egreso', 'monto', $fecha);
         $data['gastos']                   =   $this->_query('detalle_gastos', 'gasto', 'monto', $fecha);
@@ -754,7 +747,7 @@ class CierreController extends \BaseController {
 
     public function CierresDelMes_dt()
     {
-        $fecha_enviar = "'".Input::get('fecha')."'";
+        $fecha_enviar = "current_date";
 
         if (Input::get('fecha') == 'current_date')
             $fecha_enviar = 'current_date';
