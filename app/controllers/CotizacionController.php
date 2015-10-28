@@ -143,7 +143,6 @@ class CotizacionController extends \BaseController {
 			if (!$query->_create())
 				return $query->errors();
 
-
 			$detalle = $this->getCotizacionDetalle();
 
 			$detalle = json_encode($detalle);
