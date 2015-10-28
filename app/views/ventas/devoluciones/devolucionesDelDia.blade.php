@@ -22,7 +22,8 @@
                 {"sClass": "width5 icons center", "orderable": false,             "sTitle": "",        "aTargets": [4],
                     "mRender": function(  data, type, full ) {
                         $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="getDevolucionesDetail(this)" class="fa fa-plus-square show_detail font14">';
-                        $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openDevolucion(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                        $v += '<a href="javascript:void(0);" title="Abrir devolucion" onclick="openDevolucion(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                        $v += '<a href="javascript:void(0);" title="Eliminar devolucion" onclick="deleteDevolucion(this)" class="fa fa-trash-o font14" style="padding-left:10px">';
                         return $v;
                     }
                 }

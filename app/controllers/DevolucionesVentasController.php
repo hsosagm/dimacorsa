@@ -214,7 +214,7 @@ class DevolucionesVentasController extends \BaseController {
 		$devolucion_id         = Input::get('devolucion_id');
 		$totalDevolucion       = Input::get('totalDevolucion');
 
-		Devolucion::find($devolucion_id)->update(array('total' => $totalDevolucion));
+		Devolucion::find($devolucion_id)->update(array('total' => $totalDevolucion, 'completed' => 1));
 
 		if ($descuento_sobre_saldo > 0) {
 			$dp = new DevolucionPago;
@@ -353,6 +353,20 @@ class DevolucionesVentasController extends \BaseController {
 			'success' => true,
 			'table' => View::make('ventas.devoluciones.unfinishedDevoluciones', compact('venta', 'devolucion_id', 'detalle'))->render()
         ));
+	}
+
+	public function deleteDevolucion()
+	{
+		$devolucion = Devolucion::find(Input::get('devolucion_id'));
+
+        if ($devolucion->completed)
+            return 'No puede eliminar la devolucion porque ya fue finalizada...!';
+
+        if ($devolucion->delete()) {
+			return Response::json(array(
+				'success' => true
+	        ));
+        }
 	}
 
 }
