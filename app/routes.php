@@ -268,6 +268,7 @@
                 Route::get('misDevolucionesDelDia_dt'         , 'DevolucionesVentasController@misDevolucionesDelDia_dt');
                 Route::get('getDevolucionesDetail'         , 'DevolucionesVentasController@getDevolucionesDetail');
                 Route::get('openDevolucion'         , 'DevolucionesVentasController@openDevolucion');
+                Route::post('deleteDevolucion'         , 'DevolucionesVentasController@deleteDevolucion');
             });
 
         });

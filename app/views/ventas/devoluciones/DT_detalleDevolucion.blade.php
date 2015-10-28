@@ -7,7 +7,6 @@
     </tr>
 
 	<tbody>
-
 	    @php($deuda = 0)
 
 		@foreach($detalle as $q)
