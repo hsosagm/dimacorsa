@@ -21,7 +21,7 @@
                     <input field="descripcion" type="text" v-model="dt.descripcion" style="width: 100% !important;"
                         v-on="keyup : doneEditCotizacion(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
                 </td>
-                <td v-on="dblclick: editItem" style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency }}</td>
+                <td v-on="dblclick: editItem" style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency '' }}</td>
                 <td width="10%" class="detail-input-edit">
                     <input field="precio" type="text" v-model="dt.precio" class="input_numeric"
                         v-on="keyup : doneEditCotizacion(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">

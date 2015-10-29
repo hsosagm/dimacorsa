@@ -66,7 +66,7 @@ function convertirCotizacionAVenta(e, cotizacion_id) {
                 data: {cotizacion_id: cotizacion_id},
             }).done(function(data) {
                 if (!data.success == true)
-                    msg.warning(data, 'Advertencia!');
+                    return msg.warning(data, 'Advertencia!');
 
                     $(".forms").html("");
                     $('.panel-title').text('Formulario Ventas');

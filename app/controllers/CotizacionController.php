@@ -332,6 +332,22 @@ class CotizacionController extends \BaseController {
 			return 'La cotizacion no contiene ningun producto que este en el inventario..!';
 
 		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
+		$validador = 0;
+		foreach ($detalleCotizacion as $dt)
+		{
+			$producto = Producto::find($dt->producto_id);
+			if ($producto->id != '')
+			{
+				$existencia = Existencia::whereTiendaId($cotizacion->tienda_id)
+				->whereProductoId($producto->id)->first();
+
+				if ($existencia->existencia < $dt->cantidad)
+				{
+					return 'La cantidad ['.$dt->cantidad.'] del producto '.$producto->descripcion.'
+					exede la existencia ['.$existencia->existencia.'] actual..!';
+				}
+			}
+		}
 
 		$venta = new Venta();
 		$venta->user_id = $cotizacion->user_id;
