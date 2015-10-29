@@ -332,7 +332,7 @@ class CotizacionController extends \BaseController {
 			return 'La cotizacion no contiene ningun producto que este en el inventario..!';
 
 		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
-		$validador = 0;
+		
 		foreach ($detalleCotizacion as $dt)
 		{
 			$producto = Producto::find($dt->producto_id);
