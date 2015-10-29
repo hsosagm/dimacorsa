@@ -1,5 +1,4 @@
 @if (count(@$detalle) > 0)
-
 	<table width="100%">
 	    <thead >
 	        <tr>
@@ -10,7 +9,6 @@
 	            <th width="5%"></th>
 	        </tr>
 	    </thead>
-
 		<tbody>
 			<tr v-repeat="dt: detalleTable" v-class="editing : this == editedTodo" class="@{{(dt.producto_id == 0)? 'red':''}}">
                 <td width="10%" class="view" v-text="dt.cantidad" v-on="dblclick: editItem"></td>
@@ -34,7 +32,6 @@
                 </td>
             </tr>
 		</tbody>
-
 		<tfoot width="100%">
 			<tr>
 			    <td>
@@ -49,5 +46,4 @@
 	<script type="text/javascript">
 	    app.detalleTable = {{ $detalle }};
 	</script>
-
 @endif

@@ -275,21 +275,22 @@
 
         Route::group(array('prefix' => 'cotizaciones'),function()
         {
-            Route::get('create'                  , 'CotizacionController@create' );
-            Route::post('create'                 , 'CotizacionController@create' );
-            Route::post('detalle'                , 'CotizacionController@detalle');
-            Route::post('removeItemCotizacion'   , 'CotizacionController@removeItemCotizacion' );
-            Route::post('updateClienteId'        , 'CotizacionController@updateClienteId' );
-            Route::get('ingresarProductoRapido'  , 'CotizacionController@ingresarProductoRapido' );
-            Route::post('ingresarProductoRapido' , 'CotizacionController@ingresarProductoRapido' );
-            Route::post('EliminarCotizacion'     , 'CotizacionController@EliminarCotizacion' );
-            Route::get('getCotizaciones'         , 'CotizacionController@getCotizaciones' );
-            Route::get('getMisCotizaciones'      , 'CotizacionController@getMisCotizaciones' );
-            Route::get('DtCotizaciones'          , 'CotizacionController@DtCotizaciones' );
-            Route::get('DtMisCotizaciones'       , 'CotizacionController@DtMisCotizaciones' );
-            Route::get('getDetalleCotizacion'    , 'CotizacionController@getDetalleCotizacion' );
-            Route::get('EditarCotizacion'        , 'CotizacionController@EditarCotizacion' );
-            Route::post('UpdateDetalle'          , 'CotizacionController@UpdateDetalle' );
+            Route::get('create'                     , 'CotizacionController@create' );
+            Route::post('create'                    , 'CotizacionController@create' );
+            Route::post('detalle'                   , 'CotizacionController@detalle');
+            Route::post('removeItemCotizacion'      , 'CotizacionController@removeItemCotizacion' );
+            Route::post('updateClienteId'           , 'CotizacionController@updateClienteId' );
+            Route::get('ingresarProductoRapido'     , 'CotizacionController@ingresarProductoRapido' );
+            Route::post('ingresarProductoRapido'    , 'CotizacionController@ingresarProductoRapido' );
+            Route::post('EliminarCotizacion'        , 'CotizacionController@EliminarCotizacion' );
+            Route::get('getCotizaciones'            , 'CotizacionController@getCotizaciones' );
+            Route::get('getMisCotizaciones'         , 'CotizacionController@getMisCotizaciones' );
+            Route::get('DtCotizaciones'             , 'CotizacionController@DtCotizaciones' );
+            Route::get('DtMisCotizaciones'          , 'CotizacionController@DtMisCotizaciones' );
+            Route::get('getDetalleCotizacion'       , 'CotizacionController@getDetalleCotizacion' );
+            Route::get('EditarCotizacion'           , 'CotizacionController@EditarCotizacion' );
+            Route::post('UpdateDetalle'             , 'CotizacionController@UpdateDetalle' );
+            Route::post('convertirCotizacionAVenta' , 'CotizacionController@convertirCotizacionAVenta' );
         });
 
         Route::group(array('prefix' => 'cajas'),function()

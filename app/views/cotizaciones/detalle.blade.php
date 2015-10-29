@@ -51,7 +51,7 @@
 		<div class="col-md-6" align="right">
 			<i class="fa fa-trash-o fa-lg icon-delete" onclick="EliminarCotizacion(this, {{$cotizacion_id}});"></i>
 			@if(@$convertir == 'true')
-				<i class="fa fa-paper-plane-o fa-lg icon-success" onclick=""></i>
+				<i class="fa fa-paper-plane-o fa-lg icon-success" onclick="convertirCotizacionAVenta(this, {{$cotizacion_id}})"></i>
 			@endif
 		</div>
 	</div>

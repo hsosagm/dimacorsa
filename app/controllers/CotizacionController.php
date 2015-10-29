@@ -323,21 +323,63 @@ class CotizacionController extends \BaseController {
 	}
 
     /* seccion para convertir la cotizacion en venta */
+	public function convertirCotizacionAVenta()
+	{
+		$detalleCotizacion = DetalleCotizacion::whereCotizacionId(Input::get('cotizacion_id'))
+		->where('producto_id', '!=', 0)->get();
+
+		if(!count($detalleCotizacion))
+			return 'La cotizacion no contiene ningun producto que este en el inventario..!';
+
+		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
+
+		$venta = new Venta();
+		$venta->user_id = $cotizacion->user_id;
+		$venta->tienda_id = $cotizacion->tienda_id;
+		$venta->cliente_id = $cotizacion->cliente_id;
+
+		if ($venta->save())
+		{
+			$venta_id = $venta->id;
+
+			foreach ($detalleCotizacion as $dt)
+			{
+				$producto = Producto::find($dt->producto_id);
+
+				if ($producto->id != '')
+				{
+					$detalleVenta = new DetalleVenta;
+					$detalleVenta->venta_id = $venta_id;
+					$detalleVenta->producto_id = $producto->id;
+					$detalleVenta->precio = $dt->precio;
+					$detalleVenta->cantidad = $dt->cantidad;
+					$detalleVenta->ganancias = $dt->precio - ($producto->p_costo / 100);
+					$detalleVenta->save();
+				}
+			}
+
+			$cotizacion->delete();
+
+			return $this->abrirVentaGenerada($venta_id);
+		}
+
+		return 'Ocurrio un error al hacer la operacion intente de nuevo...!';
+	}
 
     public function abrirVentaGenerada($venta_id)
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
-		$detalle = $this->getDetalleVentas();
+		$detalle = $this->getDetalleVentas($venta_id);
 		$detalle = json_encode($detalle);
 		$venta_id = $venta->id;
 
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle', 'venta_id'))->render()
+			'view' => View::make('ventas.unfinishedSale', compact('venta', 'detalle', 'venta_id'))->render()
         ));
 	}
 
-    public function getDetalleVentas()
+    public function getDetalleVentas($venta_id)
 	{
 		$detalle = DB::table('detalle_ventas')
         ->select(array(
@@ -348,7 +390,7 @@ class CotizacionController extends \BaseController {
         	'precio',
         	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion'),
             DB::raw('cantidad * precio AS total')))
-        ->where('venta_id', Input::get('venta_id'))
+        ->whereVentaId($venta_id)
         ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();

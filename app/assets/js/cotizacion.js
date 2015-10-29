@@ -56,6 +56,31 @@ function  EliminarCotizacion(e, cotizacion_id) {
     });
 };
 
+function convertirCotizacionAVenta(e, cotizacion_id) {
+    $.confirm({
+        confirm: function() {
+            $(e).prop('disabled', true);
+            $.ajax({
+                url: "user/cotizaciones/convertirCotizacionAVenta",
+                type: "POST",
+                data: {cotizacion_id: cotizacion_id},
+            }).done(function(data) {
+                if (!data.success == true)
+                    msg.warning(data, 'Advertencia!');
+
+                    $(".forms").html("");
+                    $('.panel-title').text('Formulario Ventas');
+                    $(".forms").html(data.view);
+                    $(".dt-container").hide();
+                    $(".dt-container-cierre").hide();
+                    $(".form-panel").show();
+                    msg.success('Venta Generada', 'Listo!')
+
+            });
+        }
+    });
+}
+
 function ImprimirCotizacion(e, cotizacion_id, opcion) {
     if ($.trim(opcion) == 'pdf')
         return window.open('ImprimirCotizacion/'+opcion+'/'+cotizacion_id ,'_blank');
