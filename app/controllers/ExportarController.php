@@ -2,6 +2,37 @@
 
 class ExportarController extends \BaseController {
 
+    public function exportarInventarioActual($tipo)
+    {
+        $tienda_id = Auth::user()->tienda_id;
+
+        $productos = DB::table('productos')
+            ->select(DB::raw("
+                productos.codigo as codigo,
+                CONCAT_WS(' ', descripcion, marcas.nombre) as descripcion,
+                ROUND(p_costo/100,2) as p_costo,
+                p_publico,
+                existencias.existencia as existencia,
+                productos.existencia as existencia_total"))
+            ->join('marcas', 'marca_id', '=', 'marcas.id')
+            ->join('existencias', 'productos.id', '=', 'existencias.producto_id')
+            ->where('tienda_id', '=', $tienda_id)
+            ->where('productos.existencia', '>', 0)
+            ->get();
+
+        $data['productos'] = $productos;
+        $data['orientacion'] = "portrait";
+        $data['tipo'] = $tipo;
+        $data['titulo'] = "inventarioActual-".Carbon::now();
+
+        if ($tipo == 'pdf')
+            $data['orientacion'] = "landscape";
+
+        $vista = "exportarInventarioActual";
+
+        return $this->exportarExel($data, $vista);
+    }
+
     public function exportarEstadoDeCuentaDeClientes($tipo)
     {
         $tienda_id = Auth::user()->tienda_id;
@@ -28,12 +59,12 @@ class ExportarController extends \BaseController {
             ->get();
 
         $data['ventas'] = $ventas;
-        $data['orientacion'] = "landscape";
+        $data['orientacion'] = "portrait";
         $data['tipo'] = $tipo;
         $data['titulo'] = "Ventas_Pendientes_de_Pago_Clientes_".Carbon::now();
 
         if ($tipo == 'pdf')
-            $data['orientacion'] = "portrait";
+            $data['orientacion'] = "landscape";
 
         $vista = "exportarEstadoDeCuentaDeClientes";
 
@@ -155,4 +186,6 @@ class ExportarController extends \BaseController {
 
         })->export($data['tipo']);
     }
+
+
 }

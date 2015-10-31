@@ -5,31 +5,31 @@ class ConsultasCierreController extends \BaseController {
 	public function ConsultasPorMetodoDePago($model)
 	{
 		if($model == 'Ventas')
-			return $this->consultasPagos('venta','showSalesDetail');
+			return $this->consultasPagos('venta', 'showSalesDetail', true);
 
-		else if($model == 'PagosCompras')
-			return $this->consultasPagos('compra','showPurchasesDetail');
+		if($model == 'PagosCompras')
+			return $this->consultasPagos('compra', 'showPurchasesDetail');
 
-		else if ($model == 'AbonosVentas')
+		if ($model == 'AbonosVentas')
 			return $this->consultasAbonos('ventas' , 'verDetalleAbonosClietes');
 
-		else if ($model == 'AbonosCompras')
+		if ($model == 'AbonosCompras')
 			return $this->consultasAbonos('compras' , 'showPaymentsDetail');
 
-		else if (trim($model) == 'AdelantosNotasCreditos')
+		if (trim($model) == 'AdelantosNotasCreditos')
 			return $this->consultasNotaCredito('adelanto');
 
-	    else if (trim($model) == 'DevolucionNotasCreditos')
+	    if (trim($model) == 'DevolucionNotasCreditos')
 	    	return $this->consultasNotaCredito('devolucion');
 
-		else if ($model == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
+		if ($model == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
 			return $this->OperacionesConsultas(strtolower(rtrim($model, 's')));
 
 		else
 			return 'No se envio ninguna peticion';
 	}
 
-	public function consultasPagos($_table, $linkDetalle)
+	public function consultasPagos($_table, $linkDetalle, $columAbono = false)
 	{
 		$fecha = "'".Input::get('fecha')."'";
 		$columna = '';
@@ -53,7 +53,7 @@ class ConsultasCierreController extends \BaseController {
             "pagos_{$_table}s.monto as pago"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido");
+		$Search_columns = array("users.nombre","users.apellido", $columna);
 
 		$Join  = "JOIN pagos_{$_table}s ON (pagos_{$_table}s.{$_table}_id = {$_table}s.id) ";
 		$Join .= "JOIN metodo_pago ON (pagos_{$_table}s.metodo_pago_id = metodo_pago.id) ";
@@ -66,8 +66,11 @@ class ConsultasCierreController extends \BaseController {
 
 		$where  = " {$_table}s.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND {$_table}s.completed =  1 ";
-		$where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
+		$where .= " AND DATE_FORMAT({$_table}s.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
+
+		if ($columAbono == true)
+			$where .= " AND {$_table}s.abono = 0";
 
 		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
 
@@ -114,7 +117,7 @@ class ConsultasCierreController extends \BaseController {
 
 
 		$where  = " abonos_{$_table}.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND DATE_FORMAT(abonos_{$_table}.updated_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
+		$where .= " AND DATE_FORMAT(abonos_{$_table}.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 
 		$abonos = SST::get($table, $columns, $Search_columns, $Join, $where );
@@ -155,7 +158,7 @@ class ConsultasCierreController extends \BaseController {
 		$Join .= "JOIN users ON (users.id = {$table_s}.user_id) ";
 
 		$where  = " {$table_s}.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND DATE_FORMAT({$table_s}.updated_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
+		$where .= " AND DATE_FORMAT({$table_s}.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 
 		$operaciones = SST::get($table, $columns, $Search_columns, $Join, $where );
@@ -180,19 +183,19 @@ class ConsultasCierreController extends \BaseController {
 		$columns = array(
 			"notas_creditos.id",
         	"{$_table}_nota_credito.monto as total",
-        	"DATE_FORMAT(notas_creditos.updated_at, '%Y-%m-%d') as fecha",
+        	"DATE_FORMAT(notas_creditos.created_at, '%Y-%m-%d') as fecha",
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "notas_creditos.nota as  descripcion"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","notas_creditos.updated_at");
+		$Search_columns = array("users.nombre","users.apellido","notas_creditos.created_at");
 
 		$Join  = "JOIN {$_table}_nota_credito ON (notas_creditos.id = {$_table}_nota_credito.nota_credito_id) ";
 		$Join .= "JOIN metodo_pago ON ({$_table}_nota_credito.metodo_pago_id = metodo_pago.id) ";
 		$Join .= "JOIN users ON (users.id = notas_creditos.user_id) ";
 
 		$where  = " notas_creditos.tienda_id = ".Auth::user()->tienda_id;
-        $where .= " AND DATE_FORMAT(notas_creditos.updated_at, '%Y-%m-%d') =  DATE_FORMAT({$fecha}, '%Y-%m-%d')";
+        $where .= " AND DATE_FORMAT(notas_creditos.created_at, '%Y-%m-%d') =  DATE_FORMAT({$fecha}, '%Y-%m-%d')";
         $where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 
 		$notasCreditos = SST::get($table, $columns, $Search_columns, $Join, $where );

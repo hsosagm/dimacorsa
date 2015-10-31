@@ -17,7 +17,7 @@
                         v-on="keyup : doneEdit(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
                 </td>
                 <td width="70%"> @{{ dt.descripcion }} </td>
-                <td v-on="dblclick: editItem" style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency }}</td>
+                <td v-on="dblclick: editItem" style="text-align:right; padding-right: 20px !important;" width="10%">@{{ dt.precio | currency '' }}</td>
                 <td width="10%" class="detail-input-edit">
                     <input field="precio" type="text" v-model="dt.precio" class="input_numeric"
                         v-on="keyup : doneEdit(this, $event) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">

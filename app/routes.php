@@ -331,6 +331,7 @@
             Route::post('edit'                   , 'CajaController@edit');
             Route::get('asignar'                 , 'CajaController@asignar');
             Route::get('asignarDt'               , 'CajaController@asignarDt');
+            Route::post('desAsignarDt'           , 'CajaController@desAsignarDt');
             Route::post('asignar'                , 'CajaController@asignar');
             Route::post('asignarDt'              , 'CajaController@asignarDt');
             Route::get('getConsultarCajas'       , 'CajaController@getConsultarCajas');
@@ -356,6 +357,7 @@
             Route::get('exportarEstadoDeCuentaPorCliente/{tipo}'   , 'ExportarController@exportarEstadoDeCuentaPorCliente');
             Route::get('exportarVentasPendientesPorUsuario/{tipo}' , 'ExportarController@exportarVentasPendientesPorUsuario');
             Route::get('exportarVentasPendientesDeUsuarios/{tipo}' , 'ExportarController@exportarVentasPendientesDeUsuarios');
+            Route::get('exportarInventarioActual/{tipo}'           , 'ExportarController@exportarInventarioActual');
         });
 
 
@@ -513,6 +515,8 @@
             Route::get('getCompraConDetalle'                , 'CompraController@getCompraConDetalle');
             Route::post('ingresarSeriesDetalleCompra'       , 'CompraController@ingresarSeriesDetalleCompra');
             Route::get('getActualizarDetalleCompra'         , 'CompraController@getActualizarDetalleCompra');
+            Route::get('getActualizarPagosCompraFinalizada' , 'CompraController@getActualizarPagosCompraFinalizada');
+            Route::post('actualizarPagosCompraFinalizada'   , 'CompraController@actualizarPagosCompraFinalizada');
 
             Route::group(array('prefix' => 'payments'),function()
             {
@@ -675,8 +679,78 @@
 
 Route::get('/test', function()
 {
-    /* tablas a Eliminar
+        $informe = DB::table('informe_general_diario')
+            ->select('inversion','cuentas_cobrar','cuentas_pagar')
+            ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
 
+        $ventas = DB::table("ventas")
+            ->select(DB::raw("sum((detalle_ventas.precio - detalle_ventas.ganancias) * detalle_ventas.cantidad) as total"))
+            ->join("detalle_ventas", "venta_id", "=", "ventas.id")
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
+
+        $compras = DB::table("compras")
+            ->select(DB::raw("sum(detalle_compras.precio * detalle_compras.cantidad) as total"))
+            ->join("detalle_compras", "compra_id", "=", "compras.id")
+            ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
+
+        $descargas = DB::table("descargas")
+            ->select(DB::raw("sum(detalle_descargas.precio * detalle_descargas.cantidad) as total"))
+            ->join("detalle_descargas", "descarga_id", "=", "descargas.id")
+            ->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
+
+        $traslados = DB::table("traslados")
+            ->select(DB::raw("sum(detalle_traslados.precio * detalle_traslados.cantidad) as total"))
+            ->join("detalle_traslados", "traslado_id", "=", "traslados.id")
+            ->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
+
+        $abonos_ventas = DB::table("abonos_ventas")
+            ->select(DB::raw("sum(detalle_abonos_ventas.monto) as total"))
+            ->join("detalle_abonos_ventas", "abonos_ventas_id", "=", "abonos_ventas.id")
+            ->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
+
+        $abonos_compras = DB::table("abonos_compras")
+            ->select(DB::raw("sum(detalle_abonos_compra.monto) as total"))
+            ->join("detalle_abonos_compra", "abonos_compra_id", "=", "abonos_compras.id")
+            ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->first();
+
+        $compras_credito =  DB::table("compras")
+            ->select(DB::raw("sum(pagos_compras.monto) as total"))
+            ->join("pagos_compras", "compra_id", "=", "compras.id")
+            ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->whereMetodoPagoId(2)
+            ->first();
+
+        $ventas_credito =  DB::table("ventas")
+            ->select(DB::raw("sum(pagos_ventas.monto) as total"))
+            ->join("pagos_ventas", "venta_id", "=", "ventas.id")
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+            ->whereMetodoPagoId(2)
+            ->first();
+
+            $data["inversionActual"] = $informe->inversion;
+            $data["cuentasCobrarActual"] =  $informe->cuentas_cobrar;
+            $data["cuentasPagarActual"] =  $informe->cuentas_pagar;
+            $data["ventas"] = $ventas->total;
+            $data["compras"] = $compras->total;
+            $data["descargas"] = $descargas->total;
+            $data["traslados"] = $traslados->total;
+            $data["abonos_ventas"] = $abonos_ventas->total;
+            $data["abonos_compras"] = $abonos_compras->total;
+            $data["compras_credito"] = $compras_credito->total;
+            $data["ventas_credito"] = $ventas_credito->total;
+
+        $pdf = PDF::loadView('cierre.resumenGeneralDiario',  array('data' => $data))->setOrientation('landscape');
+
+        return $pdf->stream();
+
+    /* tablas a Eliminar
         DROP TABLE  adelanto_nota_credito;
         DROP TABLE  detalle_devolucion_nota_credito;
         DROP TABLE  devolucion_nota_credito;

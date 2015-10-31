@@ -36,7 +36,6 @@ function CierreDelDiaPorFecha(e) {
         type: "GET",
         url: 'admin/cierre/CierreDelDiaPorFecha',
         data: { fecha:$fecha },
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
             clean_panel();
             $('#graph_container').show();
@@ -51,7 +50,6 @@ function CierreDelMesPorFecha() {
         type: "GET",
         url: 'admin/cierre/CierreDelMesPorFecha',
         data: { fecha:fecha },
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
            	$('.dt-container-cierre').html(data);
             $('.dt-container').hide();
@@ -61,17 +59,18 @@ function CierreDelMesPorFecha() {
 };
 
 function CierresDelMes() {
-	fecha = $(".datepicker .calendar .days .selected").attr('date');
-
     $.ajax({
         type: "GET",
         url: 'admin/cierre/CierresDelMes',
-        data: { fecha:fecha },
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data, text) {
-			 makeTable(data, '', '');
-        }
-    });
+	}).done(function(data) {
+		if (data.success == true)
+		{
+			clean_panel();
+			$('#graph_container').show();
+			return $('#graph_container').html(data.view);
+		}
+		msg.warning(data, 'Advertencia!');
+	});
 };
 
 function VerDetalleDelCierreDelDia(e) {
@@ -171,7 +170,6 @@ function VentasDelMesCierre(e,fecha) {
         type: "GET",
         url: 'admin/cierre/VentasDelMes',
         data: { fecha:fecha },
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
             makeTable(data, '', '');
         }
@@ -183,7 +181,6 @@ function SoporteDelMesCierre(e,fecha) {
         type: "GET",
         url: 'admin/cierre/SoportePorFecha',
         data: { fecha:fecha  },
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
             makeTable(data, '', '');
         }
@@ -195,7 +192,6 @@ function GastosDelMesCierre(e,fecha) {
         type: "GET",
         url: 'admin/cierre/GastosPorFecha',
         data: { fecha:fecha },
-        contentType: 'application/x-www-form-urlencoded',
         success: function (data, text) {
             makeTable(data, '', '');
         }
@@ -228,7 +224,7 @@ function getDetalleDeVentasPorProducto(e , page , sSearch) {
     $('.subtable').remove();
     var nTr = $(e).parents('tr')[0];
     $(e).addClass('hide_detail');
-    $(nTr).after("<tr class='subtable'> <td colspan=8><div class='grid_detalle_factura'></div></td></tr>");
+    $(nTr).after("<tr class='subtable'> <td colspan=9><div class='grid_detalle_factura'></div></td></tr>");
     $('.subtable').addClass('hide_detail');
 
     $.ajax({

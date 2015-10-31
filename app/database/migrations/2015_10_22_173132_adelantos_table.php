@@ -63,7 +63,9 @@ class AdelantosTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('adelantos_pagos');
+		Schema::drop('adelantos_detalle');
+		Schema::drop('adelantos');
 	}
 
 }

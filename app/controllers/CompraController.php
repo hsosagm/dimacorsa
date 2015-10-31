@@ -622,4 +622,20 @@ class CompraController extends \BaseController {
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
 	}
+
+	public function getActualizarPagosCompraFinalizada()
+	{
+		$compra = Compra::find(Input::get('compra_id'));
+		$metodo_pago = MetodoPago::select('id','descripcion')->where('id', '<=', 5)->get();
+
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('compras.ActualizarPagosCompraFinalizada', compact('compra', 'metodo_pago'))->render()
+		));
+	}
+
+	public function actualizarPagosCompraFinalizada()
+	{
+		# code...
+	}
 }

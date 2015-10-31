@@ -81,6 +81,17 @@ class CajaController extends \BaseController
 		));
 	}
 
+	public function desAsignarDt()
+	{
+		$caja = Caja::find(Input::get('caja_id'));
+		$caja->user_id = 0;
+		$caja->save();
+
+		return Response::json(array(
+			'success' => true,
+		));
+	}
+	
 	//funcion para editar solo el nombre de la caja
 	public function edit()
     {
@@ -381,7 +392,7 @@ class CajaController extends \BaseController
 		$data = $this->resumen_movimientos($datos);
 
 		$efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'];
-		
+
 		$monto = Input::get('monto');
 
 		$pdf = PDF::loadView('cajas.retirarDineroDeCajaPdf',compact('caja', 'efectivo', 'monto'));

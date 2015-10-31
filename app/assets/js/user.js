@@ -72,6 +72,7 @@ function _update_profile(e,element) {
         data: form.serialize(),
         success: function (data) {
             if (data == 'success') {
+                $('#example').dataTable().fnStandingRedraw();
                 msg.success(form.data('success'), 'Listo!');
             }
             else {
@@ -103,6 +104,7 @@ function add_user_group(element) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
+            
             $("#modal-body-profile").html(data);
             active_tab_roles();
         }

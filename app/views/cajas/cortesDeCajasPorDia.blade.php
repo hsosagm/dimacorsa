@@ -102,12 +102,11 @@
 </script>
 
 <div class="panel_heading master-table short_calendar" >
-    <tr>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha:</td>
-        <td><input type="text" id="fechaCierresCaja" data-value="now" name="start"></td>
-        <i class="glyphicon glyphicon-repeat fg-theme" style="cursor:pointer" v-on="click: cierreDeCajaPorFecha"></i>
-    </tr>
 	<div v-show="x == 1" id="table_length2" class="pull-left"></div>
+	<div v-show="x == 1" class="pull-left" style="margin-left:20px">
+		Fecha:<input type="text" id="fechaCierresCaja" data-value="now" name="start">
+        <i class="glyphicon glyphicon-repeat fg-theme" style="cursor:pointer" v-on="click: cierreDeCajaPorFecha"></i>
+	</div>
     <div class="pull-right">
         <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
         <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
@@ -144,7 +143,7 @@
         },
         onClose: function(element) { }
     });
-	
+
     var picker_start = $start.pickadate('picker')
 
     $(document).ready(function() {
