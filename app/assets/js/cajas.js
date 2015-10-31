@@ -80,6 +80,29 @@ function asignarDt() {
 	});
 };
 
+function desAsignarDt () {
+    $caja_id  = $('.dataTable tbody .row_selected').attr('id');
+    $.confirm({
+        text: "Esta seguro que desea liberar la caja?",
+        title: "Confirmacion",
+        confirm: function(){
+            $.ajax({
+        		type: "POST",
+        		url: 'admin/cajas/desAsignarDt',
+                data: {caja_id: $caja_id},
+        	}).done(function(data) {
+        		if (data.success == true)
+        		{
+                    $('#example').dataTable().fnStandingRedraw();
+                    return msg.success('Caja liberada..!', 'Listo.!!');
+        		}
+        		msg.warning(data, 'Advertencia!');
+        	});
+        }
+    });
+}
+
+
 function retirarEfectivoDeCaja() {
     $.ajax({
 		type: "GET",

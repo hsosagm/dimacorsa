@@ -559,3 +559,18 @@ function guardarSeriesDetalleCompra(e, detalle_compra_id) {
         msg.warning(data, 'Advertencia!');
     });
 };
+
+function getActualizarPagosCompraFinalizada(e, compra_id) {
+    $.ajax({
+        url: "admin/compras/getActualizarPagosCompraFinalizada",
+        type: "GET",
+        data:{compra_id: compra_id},
+    }).done(function(data) {
+        if (data.success != true)
+            return msg.warning(data, 'Advertencia!');
+
+        $('.modal-body').html(data.view);
+        $('.modal-title').text('Actualizar pagos compra');
+        $('.bs-modal').modal('show');
+    });
+}

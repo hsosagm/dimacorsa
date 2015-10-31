@@ -81,6 +81,17 @@ class CajaController extends \BaseController
 		));
 	}
 
+	public function desAsignarDt()
+	{
+		$caja = Caja::find(Input::get('caja_id'));
+		$caja->user_id = 0;
+		$caja->save();
+
+		return Response::json(array(
+			'success' => true,
+		));
+	}
+	
 	//funcion para editar solo el nombre de la caja
 	public function edit()
     {
@@ -142,7 +153,6 @@ class CajaController extends \BaseController
         $data['pagos_ventas']             =   $this->Vquery('pagos_ventas','venta','monto',$datos);
         $data['abonos_ventas']            =   $this->query('abonos_ventas','monto',$datos);
         $data['soporte']                  =   $this->__query('detalle_soporte','soporte','monto',$datos);
-        $data['adelantos']                =   $this->_query('detalle_adelantos','adelanto','monto',$datos);
         $data['ingresos']                 =   $this->_query('detalle_ingresos','ingreso','monto',$datos);
         $data['egresos']                  =   $this->_query('detalle_egresos','egreso','monto',$datos);
         $data['gastos']                   =   $this->_query('detalle_gastos','gasto','monto',$datos);
@@ -381,7 +391,8 @@ class CajaController extends \BaseController
 
 		$data = $this->resumen_movimientos($datos);
 
-		$efectivo = $data['adelantos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto_notas_creditos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion_notas_creditos']['efectivo'];
+		$efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'];
+
 		$monto = Input::get('monto');
 
 		$pdf = PDF::loadView('cajas.retirarDineroDeCajaPdf',compact('caja', 'efectivo', 'monto'));

@@ -1,4 +1,4 @@
-<table>
+<table width="70%">
 	<tr style="background-color: #FFFFFF;">
 		<td height="30" colspan="5" align="center">
 			<h1>Reporte general de estado de cuenta de Clientes</h1>
@@ -22,7 +22,7 @@
 			<td>{{ $dt->direccion }}</td>
 			<td align="right">{{ $dt->total }}</td>
 			<td align="right">{{ $dt->saldo_total }}</td>
-			<td align="right">{{ $dt->saldo_vencido }} <?php ($i == 0)? $i=1:$i=0; ?> </td>    
+			<td align="right">{{ $dt->saldo_vencido }} <?php ($i == 0)? $i=1:$i=0; ?> </td>
 		</tr>
 	@endforeach
 </table>

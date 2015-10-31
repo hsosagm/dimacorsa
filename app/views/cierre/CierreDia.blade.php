@@ -69,8 +69,10 @@
 			<strong >{{ strtoupper(@$titulo['fecha']) }}</strong>
         </div>
         <div class="pull-right">
+			@if(@$corte_realizado != null)
         		<i  class="fa fa-file-excel-o fa-2" onclick="ExportarCierreDelDia('xls','{{$fecha}}')"> </i>
         		<i class="fa fa-file-pdf-o fa-2"onclick="ExportarCierreDelDia('pdf','{{$fecha}}')"> </i>
+			@endif
          </div>
         <div class="clearfix"></div>
     </div>

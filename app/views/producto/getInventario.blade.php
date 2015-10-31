@@ -1,4 +1,4 @@
-@if( Auth::user()->ability(array('Admin', 'Owner'), array())) 
+@if( Auth::user()->ability(array('Admin', 'Owner'), array()))
     <?php $access = 1;  ?>
 
     <script>
@@ -7,7 +7,7 @@
             column.visible( !column.visible() );
         }
     </script>
-    
+
 @else
     <?php $access = 0;  ?>
 @endif
@@ -30,6 +30,10 @@
     </div>
     <div class="pull-right">
         <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
+        @if($access == 1)
+            <i class="fa fa-file-excel-o fa-lg" v-on="click: exportarInventarioActual('xlsx')"> </i>
+            {{-- <i class="fa fa-file-pdf-o fa-lg" v-on="click: exportarInventarioActual('pdf')"> </i> --}}
+        @endif
         <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
     </div>
 </div>
@@ -43,7 +47,7 @@
     </table>
 </div>
 <div v-show="x == 2" id="kardexContainer"></div>
- 
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#iSearch").val("");
@@ -149,6 +153,11 @@
                         return graph_container_compile();
                 });
 
+            },
+
+            exportarInventarioActual: function(tipo)
+            {
+                window.open('admin/exportar/exportarInventarioActual/'+tipo ,'_blank');
             },
 
             exportarKardexExcel: function(e, producto_id, fecha_inicial, fecha_final)

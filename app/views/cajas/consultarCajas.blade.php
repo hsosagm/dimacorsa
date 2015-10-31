@@ -23,6 +23,7 @@ $(document).ready(function() {
             $( ".DTTT" ).html("");
             $( ".DTTT" ).append('<button id="_create" class="btn btngrey " >Crear</button>');
             $( ".DTTT" ).append('<button class="btn btngrey btn_edit" disabled onclick="asignarDt()">Asignar</button>');
+            $( ".DTTT" ).append('<button class="btn btngrey btn_edit" disabled onclick="desAsignarDt()">DesAsignar</button>');
             $( ".DTTT" ).append('<button class="btn btngrey btn_edit"  id="_edit" disabled>Editar</button>');
             $("td[class*='formato_precio']").each(function() {
                 $(this).html(formato_precio($(this).html()));
