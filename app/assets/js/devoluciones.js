@@ -56,12 +56,12 @@ function ajaxDetalleDevolucion(e)
     });
 };
 
-function openDevolucion(e)
+function openDevolucion(id)
 {
     $.ajax({
         type: "GET",
         url: "user/ventas/devoluciones/openDevolucion",
-        data: { devolucion_id: $(e).closest('tr').attr('id') },
+        data: { devolucion_id: id },
     }).done(function(data) {
         if (!data.success == true)
             return msg.warning(data, 'Advertencia!');
@@ -73,7 +73,7 @@ function openDevolucion(e)
     });
 };
 
-function deleteDevolucion(e)
+function deleteDevolucion(id)
 {
     $.confirm({
         confirm: function()
@@ -81,7 +81,7 @@ function deleteDevolucion(e)
 		    $.ajax({
 		        type: "POST",
 		        url: "user/ventas/devoluciones/deleteDevolucion",
-		        data: { devolucion_id: $(e).closest('tr').attr('id') },
+		        data: { devolucion_id: id },
 		    }).done(function(data) {
 		        if (!data.success == true)
 		            return msg.warning(data, 'Advertencia!');

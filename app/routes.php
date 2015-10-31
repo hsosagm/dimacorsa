@@ -269,6 +269,7 @@
                 Route::get('getDevolucionesDetail'         , 'DevolucionesVentasController@getDevolucionesDetail');
                 Route::get('openDevolucion'         , 'DevolucionesVentasController@openDevolucion');
                 Route::post('deleteDevolucion'         , 'DevolucionesVentasController@deleteDevolucion');
+                Route::get('getSerialsForm'         , 'DevolucionesVentasController@getSerialsForm');
             });
 
         });
