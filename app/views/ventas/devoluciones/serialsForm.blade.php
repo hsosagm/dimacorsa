@@ -43,7 +43,7 @@
 		el: '#serialsForm',
 
 		data: {
-			serials: {{ $serials }} ? {{ $serials }} : []
+			serials: {{ $serials }} ? {{ $serials }} : [] //array()
 		},
 
 		ready: function()
