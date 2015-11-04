@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div v-show="!devolucion.id" class="form-footer footer" align="right">
+        <div v-if="!devolucion_id" class="form-footer footer" align="right">
               <button type="submit" class="btn theme-button inputGuardarVenta">Enviar!</button>
         </div>
 
@@ -91,7 +91,7 @@
                                 <i v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"></i>
                             </td>
                             <td width="5%">
-                                <i class="fa fa-barcode fg-theme"  v-on="click: ingresarSeriesDetalleVenta(this, dt.id) " ></i>
+                                <i class="fa fa-barcode fg-theme"  v-on="click: getSerialsForm(dt.serials, $index)"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -119,7 +119,10 @@
             </div>
         </div>
     </div>
+<pre>@{{ $data | json }}</pre>
+
 </div>
+
 
 <script type="text/javascript">
 
@@ -131,7 +134,6 @@
             venta: {{ $venta }},
             beforeEditCache: null,
             devolucion_id: {{ $devolucion_id }},
-            devolucion: [],
             producto: [],
             detalleTable: {{ $detalle }},
             totalDevolucion: 0
@@ -311,6 +313,24 @@
                         })
                     }
                 })
+            },
+
+            getSerialsForm: function(serials, index) {
+                if (this.detalleTable[index].serials == null)
+                    this.detalleTable[index].serials = []
+
+                $.ajax({
+                    type: "GET",
+                    url: 'user/ventas/devoluciones/getSerialsForm',
+                    data: {serials: serials, serial_index: index},
+                }).done(function(data) {
+                    if (!data.success == true)
+                        msg.warning(data, 'Advertencia!');
+
+                    $('.modal-body').html(data.view);
+                    $('.modal-title').text('Ingresar Series');
+                    $('.bs-modal').modal('show');
+                });
             },
 
             getPaymentForm: function()

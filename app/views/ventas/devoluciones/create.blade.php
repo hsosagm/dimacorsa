@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div v-show="!devolucion.id" class="form-footer footer" align="right">
+        <div v-if="!devolucion_id" class="form-footer footer" align="right">
               <button type="submit" class="btn theme-button inputGuardarVenta">Enviar!</button>
         </div>
 
@@ -31,6 +31,8 @@
     <div class="master-detail">
         <div class="master-detail-body"></div>
     </div>
+
+    <pre>@{{ $data | json }}</pre>
 </div>
 
 <script type="text/javascript">
@@ -43,7 +45,6 @@
             venta: {{ $venta }},
             beforeEditCache: null,
             devolucion_id: '',
-            devolucion: [],
             producto: [],
             detalleTable: [],
             totalDevolucion: 0
@@ -87,8 +88,6 @@
                 }).done(function(data) {
                     if (data.success == true)
                     {
-                        $('form .footer').hide()
-
                         $('.master-detail-body').slideUp('slow',function() {
                             $('.master-detail-body').html(data.detalle)
                             $('.master-detail-body').slideDown('slow', function() {
@@ -217,6 +216,24 @@
                         })
                     }
                 })
+            },
+
+            getSerialsForm: function(serials, index) {
+                if (this.detalleTable[index].serials == null)
+                    this.detalleTable[index].serials = []
+
+                $.ajax({
+                    type: "GET",
+                    url: 'user/ventas/devoluciones/getSerialsForm',
+                    data: {serials: serials, serial_index: index},
+                }).done(function(data) {
+                    if (!data.success == true)
+                        msg.warning(data, 'Advertencia!');
+                    
+                    $('.modal-body').html(data.view);
+                    $('.modal-title').text('Ingresar Series');
+                    $('.bs-modal').modal('show');
+                });
             },
 
             getPaymentForm: function()

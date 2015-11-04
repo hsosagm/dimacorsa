@@ -209,12 +209,54 @@ class DevolucionesVentasController extends \BaseController {
 
 	public function finalizarDevolucion()
 	{
+		// return json_encode(Input::all()); 
+		//sacar de venta cliente_id tienda_id
+
+		// sacar devolucion_id de detalleTable al actualizar los seriales
+
 		$descuento_sobre_saldo = Input::get('descuento_sobre_saldo');
 		$monto_a_devolver      = Input::get('monto_a_devolver');
 		$devolucion_id         = Input::get('devolucion_id');
 		$totalDevolucion       = Input::get('totalDevolucion');
+		$detalleTable       = Input::get('detalleTable');
 
-		Devolucion::find($devolucion_id)->update(array('total' => $totalDevolucion, 'completed' => 1));
+		// No actualizo en linea (->update) para poder sacar el venta_id de $devolucion despues
+		$devolucion = Devolucion::find($devolucion_id)->first();
+		$devolucion->total = $totalDevolucion;
+		$devolucion->completed = 1;
+		$devolucion->save();
+
+		foreach ($detalleTable as $key => $dt) {
+			// $dt['serials'];
+			$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
+
+			$arr = array('11111', '22222', '33333', '44444', '55555');
+
+			$arr = implode(",",$arr);
+
+			$arr = explode(",",$arr);
+
+			foreach ($arr as $key => $v) {
+				return $v;
+			}
+
+			return;
+
+			$unserialize = unserialize($serializedArr);
+
+			foreach ($unserialize as $key => $v) {
+				return $v;
+			}
+
+			return  $serializedArr;
+
+			foreach ($dt['serials'] as $key => $value) {
+				echo $value;
+			}
+		}
+
+		return;
+
 
 		if ($descuento_sobre_saldo > 0) {
 			$dp = new DevolucionPago;
@@ -285,7 +327,7 @@ class DevolucionesVentasController extends \BaseController {
 	            ->where('producto_id', $devolucion->producto_id)->first();
 
 	            if ($detalle_venta->cantidad == $devolucion->cantidad) {
-	            	$detalle_venta->delete();
+	            	$detalle_venta->delete();// ?
 	            } else {
 		            $detalle_venta->cantidad = $detalle_venta->cantidad - $devolucion->cantidad;
 		            $detalle_venta->save();
@@ -367,6 +409,17 @@ class DevolucionesVentasController extends \BaseController {
 				'success' => true
 	        ));
         }
+	}
+
+	public function getSerialsForm()
+	{
+		$serials = json_encode(Input::get('serials'));
+		$serial_index = Input::get('serial_index'); // El index del producto que se esta modificando para actualizar los seriales
+
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('ventas.devoluciones.serialsForm', compact('serials', 'serial_index'))->render()
+		));
 	}
 
 }

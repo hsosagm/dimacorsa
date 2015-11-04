@@ -129,10 +129,10 @@
                     type: 'POST',
                     url: 'user/ventas/devoluciones/finalizarDevolucion',
                     data: { 
-                    	devolucion_id: devoluciones.devolucion_id, descuento_sobre_saldo: dss, monto_a_devolver: monto_a_devolver,
-                    	devolucion_opcion: devolucion_opcion, mp_devolucion: mp_devolucion, cliente_id: devoluciones.venta.cliente_id,
-                    	tienda_id: devoluciones.venta.tienda_id, totalDevolucion: devoluciones.totalDevolucion,
-                    	venta_id: devoluciones.venta.id
+                    	devolucion_id:devoluciones.devolucion_id, descuento_sobre_saldo: dss, monto_a_devolver: monto_a_devolver,
+                    	devolucion_opcion: devolucion_opcion, mp_devolucion: mp_devolucion,
+                    	totalDevolucion: devoluciones.totalDevolucion,
+                    	detalleTable: devoluciones.detalleTable
                     },
                 }).done(function(data) {
                     if (data.success == true)

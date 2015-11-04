@@ -59,7 +59,7 @@
                 	<i v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"></i>
                 </td>
                 <td width="5%">
-                	<i class="fa fa-barcode fg-theme"  v-on="click: ingresarSeriesDetalleVenta(this, dt.id) " ></i>
+                	<i class="fa fa-barcode fg-theme"  v-on="click: getSerialsForm(dt.serials, $index)"></i>
                 </td>
             </tr>
 		</tbody>
