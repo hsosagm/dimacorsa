@@ -18,7 +18,7 @@
             <div class="col-md-3">
                 <select name="notificacion" class="form-control">
                     <option value="CierreDia">Cierre del dia</option>
-                    <option value="CierreMes">Cierre del mes</option>
+                    <option value="InformeGeneral">Informe General</option>
                 </select>
             </div>
             <div class="col-md-1">
