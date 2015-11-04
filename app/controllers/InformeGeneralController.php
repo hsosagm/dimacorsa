@@ -128,13 +128,11 @@ class InformeGeneralController extends \BaseController {
 
     public function getInformeKardexConsulta($current_date = false, $tienda_id = 0)
     {
-        if ($current_date == true)
-        {
+        if ($current_date == true) {
             $fecha =  "current_date";
             $tienda_id = $tienda_id;
         }
-        else
-        {
+        else {
             $informe = InformeGeneral::find(Input::get('informe_id'));
             $fecha =  "'".$informe->created_at."'";
             $tienda_id = Auth::user()->tienda_id;
@@ -175,13 +173,11 @@ class InformeGeneralController extends \BaseController {
 
     public function getConsultaPorProducto($current_date = false, $tienda_id = 0)
     {
-        if ($current_date == true)
-        {
+        if ($current_date == true) {
             $fecha =  "current_date";
             $tienda_id = $tienda_id;
         }
-        else
-        {
+        else {
             $informe = InformeGeneral::find(Input::get('informe_id'));
             $fecha =  "'".$informe->created_at."'";
             $tienda_id = Auth::user()->tienda_id;

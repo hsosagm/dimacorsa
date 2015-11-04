@@ -625,7 +625,7 @@
             Route::get('productos_serverside', 'LogsController@productos_serverside');
             Route::get('usuarios'            , 'LogsController@usuarios' );
             Route::get('usuarios_serverside' , 'LogsController@usuarios_serverside' );
-        });
+        }); 
 
         Route::group(array('prefix' => 'user'), function()
         {

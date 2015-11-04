@@ -171,11 +171,6 @@ function informeContainerVueCompile() {
 
 <div v-show="x == 2" id="container_consultas"></div>
 
-<style media="screen">
-    .center { text-align: center;}
-    .right { text-align: right;}
-</style>
-
 <script type="text/javascript">
     $('#informes').dataTable();
     $("#table_length3").html("");

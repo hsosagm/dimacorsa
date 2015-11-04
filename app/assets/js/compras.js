@@ -109,9 +109,8 @@ function SaveEditPurchaseItemDetails(e,element) {
                 msg.success('Detalle Actualizado..!', 'Listo!');
                 $('.body-detail').html(data.table);
             }
-            else {
+            else
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
     e.preventDefault();
@@ -165,9 +164,8 @@ function DeletePurchaseInitial(element) {
                         f_com_op();
                         msg.success('Compra Eliminada..!', 'Listo!');
                     }
-                    else {
+                    else
                         msg.warning(data, 'Advertencia!');
-                    }
                 }
             });
         }
@@ -186,9 +184,8 @@ function ModalPurchasePayment(element) {
                 $('.modal-title').text('Ingresar Pagos');
                 $('.bs-modal').modal('show');
             }
-            else {
+            else
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
 };
@@ -208,9 +205,8 @@ function SavePurchasePayment(e,element) {
                 $('.modal-title').text('Ingresar Pagos');
                 $('.bs-modal').modal('show');
             }
-            else {
+            else
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
 
@@ -222,7 +218,6 @@ function SavePurchasePayment(e,element) {
 function DeletePurchasePaymentItem(id , compra_id)
 {
     var url = "admin/compras/DeletePurchasePaymentItem";
-
     $.ajax({
         type: 'POST',
         url: url,
@@ -234,9 +229,8 @@ function DeletePurchasePaymentItem(id , compra_id)
                 $('.modal-title').text('Ingresar Pagos');
                 $('.bs-modal').modal('show');
             }
-            else {
+            else
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
 };
@@ -244,7 +238,6 @@ function DeletePurchasePaymentItem(id , compra_id)
 function FinishInitialPurchase(element,compra_id)
 {
     $(element).prop("disabled", true);
-
     $.ajax({
         type: 'POST',
         url: 'admin/compras/FinishInitialPurchase',
@@ -334,9 +327,8 @@ function VerFacturaDeCompra(e) {
                 $(".dt-container-cierre").hide();
                 $(".form-panel").show();
             }
-            else {
+            else
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
 };
@@ -355,9 +347,8 @@ function showPurchasesDetail(e) {
                 getPurchaseDetail(e);
             })
         }
-        else {
+        else
             getPurchaseDetail(e);
-        }
     }
 };
 
@@ -380,9 +371,8 @@ function getPurchaseDetail(e) {
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
-            else {
+            else
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
 };
@@ -432,9 +422,8 @@ function CreditPurchases(e) {
                     })
                 }, 300);
             }
-            else {
+            else
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
-            }
         }
     });
 };
@@ -452,9 +441,8 @@ function showPaymentsDetail(e){
                 getPaymentsDetail(e);
             })
         }
-        else {
+        else
             getPaymentsDetail(e);
-        }
     }
 };
 
@@ -477,9 +465,8 @@ function getPaymentsDetail(e) {
                 $(nTr).next('.subtable').fadeIn('slow');
                 $(e).addClass('hide_detail');
             }
-            else {
+            else
                 msg.warning(data, 'Advertencia!');
-            }
         }
     });
 };
