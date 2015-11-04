@@ -4,15 +4,18 @@ class InformeGeneralController extends \BaseController {
 
     public function procesarInformeDelDia($tienda_id)
     {
-        $this->guardarInformeDelDia($tienda_id);
-        $this->enviarInformeDelDia($tienda_id);
+        $data ['guardado'] = $this->guardarInformeDelDia($tienda_id);
+        $data ['enviado'] = $this->enviarInformeDelDia($tienda_id);
+
+        return json_encode($data);
     }
 
     public function guardarInformeDelDia($tienda_id)
     {
-        $informe = InformeGeneral::whereTiendaId($tienda_id)
-        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT({$fecha_query}, '%Y-%m-%d')")
-        ->get();
+        $fecha = InformeGeneral::select(DB::raw('max(created_at) as fecha'))
+        ->whereTiendaId(1)->first();
+
+        $informe = InformeGeneral::select('id')->whereCreatedAt($fecha->fecha)->first();
 
         $data = $this->resumenInformeGeneral($informe->id);
 
@@ -26,6 +29,7 @@ class InformeGeneralController extends \BaseController {
         $newInforme->cuentas_pagar = $cuentas_pagar;
         $newInforme->save();
 
+        return "Informe general guardado con exito..!";
     }
 
     public function enviarInformeDelDia($tienda_id)
@@ -67,7 +71,9 @@ class InformeGeneralController extends \BaseController {
             $message->attachData($pdfKardex->output(), Carbon::now()."-kardex.pdf");
         });
 
-        echo 'Correo enviado con exito...!';
+        $datos['mensaje'] = 'Mensajes enviados con exito';
+        $datos['correos'] = $emails;
+        return $datos;
     }
 
     public function verInformePdf()
@@ -98,7 +104,8 @@ class InformeGeneralController extends \BaseController {
 
     public function getDetalleInformeGeneral()
     {
-        $data = $this->resumenInformeGeneral(Input::get('informe_id'));
+        $informe = InformeGeneral::find(Input::get('informe_id'));
+        $data = $this->resumenInformeGeneral(Input::get('informe_id'), $informe->created_at);
 
         return Response::json(array(
             "success" => true,
@@ -188,7 +195,7 @@ class InformeGeneralController extends \BaseController {
         return $detalle_ventas;
     }
 
-    public function resumenInformeGeneral($informe_id)
+    public function resumenInformeGeneral($informe_id, $fecha = 'current_date')
     {
         $informe = DB::table('informe_general_diario')->find($informe_id);
 
@@ -200,7 +207,6 @@ class InformeGeneralController extends \BaseController {
         $selectAbonosCompra = "sum(detalle_abonos_compra.monto)";
         $selectVentaCredito = "sum(pagos_ventas.monto)";
         $selectCompraCredito = "sum(pagos_compras.monto)";
-        $fecha = $informe->created_at;
 
         $ventas = $this->sumTotalEntidadesConRelacion('ventas', 'detalle_ventas', 'venta_id', $selectVenta, $fecha);
         $compras = $this->sumTotalEntidadesConRelacion('compras', 'detalle_compras', 'compra_id', $selectCompra, $fecha);
