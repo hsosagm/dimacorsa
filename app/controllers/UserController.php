@@ -73,9 +73,10 @@ class UserController extends Controller {
 		{
 			$cantidad_usuarios = User::where('status','=',1)->count();
 			$tienda = Tienda::find(Auth::user()->tienda_id);
+
 			if (Input::get('status') == 1) {
 				if ($cantidad_usuarios >= $tienda->limite_usuarios)
-					return "no puede crear mas usuarios porque exede la cantidad de usuarios pagados...!";
+					return "No puede activar mas usuarios porque exede la cantidad de usuarios pagados...!";
 			}
 
 			$user = $this->user->find(Input::get('id'));
