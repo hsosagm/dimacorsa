@@ -625,7 +625,7 @@
             Route::get('productos_serverside', 'LogsController@productos_serverside');
             Route::get('usuarios'            , 'LogsController@usuarios' );
             Route::get('usuarios_serverside' , 'LogsController@usuarios_serverside' );
-        }); 
+        });
 
         Route::group(array('prefix' => 'user'), function()
         {
@@ -693,12 +693,10 @@ Route::get('/test', function()
     $result =  implode(",", $resultado);
     return $result;
     */
-    /*
     //para el guardado y envio de correo de informe general diario
     $envio = new InformeGeneralController();
     $tienda_id = 1;
     return $envio->procesarInformeDelDia($tienda_id);
-    */
 
     /* tablas a Eliminar
         DROP TABLE  adelanto_nota_credito;
