@@ -452,3 +452,25 @@ function enviarVentaACaja(e, venta_id) {
         $(e).prop("disabled", false);
     });
 };
+
+
+function eliminarAbonoVentaDt(e, abonos_ventas_id) {
+    $.confirm({
+        text: "Esta seguro de eliminar el abono?",
+        title: "Confirmacion",
+        confirm: function(){
+            $(e).prop("disabled", true);
+            $.ajax({
+                type: "POST",
+                url: 'user/ventas/payments/eliminarAbonoVenta',
+                data: {  abonos_ventas_id: abonos_ventas_id  },
+            }).done(function(data) {
+                if (data == 'success')
+                    return msg.success('Abonos Eliminados', 'Listo!');
+
+                msg.warning(data, 'Advertencia!');
+                $(e).prop('disabled', false);
+            });
+        }
+    });
+}
