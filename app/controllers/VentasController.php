@@ -483,7 +483,7 @@ class VentasController extends \BaseController {
 
     	if(count($venta->detalle_venta)>0){
     		$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta' => $venta, 'tienda' => $tienda))
-    		->save("pdf/".Input::get('id').Auth::user()->id.'v.pdf');
+    		->save("pdf/".Input::get('id').Auth::user()->id.'v.pdf')->setPaper('letter');
 
             return Response::json(array(
                 'success' => true,
@@ -502,7 +502,7 @@ class VentasController extends \BaseController {
     	if(count($venta->detalle_venta)>0){
 			$pdf = PDF::loadView('ventas.imprimirFacturaPdf',  array('venta' => $venta))
 			->setPaper('letter')
-			->save("pdf/".Input::get('id').Auth::user()->id.'vf.pdf');
+			->save("pdf/".Input::get('id').Auth::user()->id.'vf.pdf')->setPaper('letter');
 
             return Response::json(array(
                 'success' => true,
@@ -521,7 +521,7 @@ class VentasController extends \BaseController {
 		$tienda = Tienda::find(Auth::user()->tienda_id);
 
     	if(count($venta->detalle_venta) > 0){
-			$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta' => $venta, 'tienda' => $tienda));
+			$pdf = PDF::loadView('ventas.ImprimirGarantia',  array('venta' => $venta, 'tienda' => $tienda))->setPaper('letter');
 			return $pdf->stream();
     	}
 

@@ -19,7 +19,7 @@
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
-            
+
             "aoColumnDefs": [
             {"sClass": "mod_codigo hover width25",                       "sTitle": "Cliente",      "aTargets": [0]},
             {"sClass": "mod_codigo hover widthM",                       "sTitle": "Usuario",      "aTargets": [1]},
@@ -31,8 +31,9 @@
                 "orderable": false,
                 "mRender": function(data, type, full) {
                     $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleAbonosClietes(this)"></i>';
-                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoCliente(this, '+full.DT_RowId+', '+"'"+'{{@$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px">';
-                    
+                    $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoCliente(this, '+full.DT_RowId+', '+"'"+'{{@$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px"></a>';
+					$v += '<a href="javascript:void(0);" title="Eliminar Abono" onClick="eliminarAbonoVentaDt(this,'+full.DT_RowId+')" class="fa fa-trash-o font14" style="padding-left:5px"></a>';
+
                     return $v;
                 }
             },
@@ -55,13 +56,13 @@
 
 });
 
-$('input[name="fecha_inicial"]').pickadate({ 
+$('input[name="fecha_inicial"]').pickadate({
   max: true,
   selectYears: true,
   selectMonths: true
 });
 
-$('input[name="fecha_final"]').pickadate({ 
+$('input[name="fecha_final"]').pickadate({
   max: true,
   selectYears: true,
   selectMonths: true

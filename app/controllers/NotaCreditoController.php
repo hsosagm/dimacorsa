@@ -1,6 +1,6 @@
 <?php
 class NotaCreditoController extends \BaseController {
-    
+
     public function create()
     {
         if (Input::has('_token'))
@@ -28,7 +28,7 @@ class NotaCreditoController extends \BaseController {
     public function imprimirNotaDeCretido()
     {
         $notaCredito = NotaCredito::with('cliente', 'user')->find(Input::get('nota_credito_id'));
-        $pdf = PDF::loadView('notas_creditos.comprobanteAdelanto',  array('notaCredito' => $notaCredito));
+        $pdf = PDF::loadView('notas_creditos.comprobanteAdelanto',  array('notaCredito' => $notaCredito))->setPaper('letter');
         return $pdf->stream('Adelanto_Nota_De_Credito_'.$notaCredito->id);
     }
 }

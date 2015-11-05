@@ -61,9 +61,9 @@ class InformeGeneralController extends \BaseController {
         Mail::queue('emails.mensaje', array('asunto' => 'Informe General Diario'), function($message)
         use($data, $kardex, $detalle_ventas, $tienda_titulo, $emails)
         {
-            $pdfInforme = PDF::loadView('informes.resumenInformeGeneralPdf',  array('data' => $data))->setOrientation('landscape');
-            $pdfVentas = PDF::loadView('informes.informePorProducto',  array('detalle_ventas' => $detalle_ventas))->setOrientation('landscape');
-            $pdfKardex = PDF::loadView('informes.kardexInformeDelDia',  array('kardex' => $kardex))->setOrientation('landscape');
+            $pdfInforme = PDF::loadView('informes.resumenInformeGeneralPdf',  array('data' => $data))->setOrientation('landscape')->setPaper('letter');
+            $pdfVentas = PDF::loadView('informes.informePorProducto',  array('detalle_ventas' => $detalle_ventas))->setOrientation('landscape')->setPaper('letter');
+            $pdfKardex = PDF::loadView('informes.kardexInformeDelDia',  array('kardex' => $kardex))->setOrientation('landscape')->setPaper('letter');
 
             $message->to($emails)->subject('Notificacion Informe General '.$tienda_titulo);
             $message->attachData($pdfInforme->output(), Carbon::now()."-informe.pdf");

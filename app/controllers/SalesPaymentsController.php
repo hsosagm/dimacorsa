@@ -236,7 +236,7 @@ class SalesPaymentsController extends \BaseController {
 
         $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta',  array(
             'detalle' => $detalle, 'abonos_venta' => $abonos_venta, 'saldo' => $saldo))
-        ->save("pdf/".Input::get('id').Auth::user()->id.'ac.pdf');
+        ->save("pdf/".Input::get('id').Auth::user()->id.'ac.pdf')->setPaper('letter');
 
         return Response::json(array(
             'success' => true,
@@ -252,7 +252,7 @@ class SalesPaymentsController extends \BaseController {
 
         $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
 
-        $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta', array('detalle' => $detalle, 'abonos_venta' => $abonos_venta, 'saldo' => $saldo));
+        $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta', array('detalle' => $detalle, 'abonos_venta' => $abonos_venta, 'saldo' => $saldo))->setPaper('letter');
 
         return $pdf->stream();
     }

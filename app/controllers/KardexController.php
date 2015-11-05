@@ -65,7 +65,7 @@ class KardexController extends \BaseController {
         $producto = Producto::find(Input::get('producto_id'));
 
         if (trim($tipo) == 'pdf') {
-            $pdf = PDF::loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto,  'tipo' =>  $tipo))->setPaper('letter')->setOrientation('landscape');
+            $pdf = PDF::loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto,  'tipo' =>  $tipo))->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
             return $pdf->stream('Kardex.pdf');
         }
 

@@ -272,7 +272,7 @@ class ProveedorController extends BaseController {
 
         $pdf = PDF::loadView('proveedor.ImprimirAbono',  array(
             'detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo))
-        ->save("pdf/".Input::get('id').Auth::user()->id.'ap.pdf');
+        ->save("pdf/".Input::get('id').Auth::user()->id.'ap.pdf')->setPaper('letter');
 
         return Response::json(array(
             'success' => true,
@@ -289,7 +289,7 @@ class ProveedorController extends BaseController {
 
         $abono = AbonosCompra::with('proveedor','user','metodoPago')->find(Input::get('id'));
         $saldo = Compra::where('proveedor_id', '=' , $abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
-        $pdf = PDF::loadView('proveedor.ImprimirAbono', array('detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo));
+        $pdf = PDF::loadView('proveedor.ImprimirAbono', array('detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo))->setPaper('letter');
 
         return $pdf->stream();
     }
