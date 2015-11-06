@@ -64,3 +64,19 @@ function inventario() {
         makeTable(data, 'admin/productos/', 'Producto');
     });
 };
+
+function getStockMinimo()
+{
+    $.ajax({
+        url: "admin/inventario/getStockMinimo",
+        type: "GET"
+    }).done(function(data) {
+        if (data.success) {
+            clean_panel();
+            $('#graph_container').show();
+            return $('#graph_container').html(data.table);
+        }
+
+        return msg.warning(data, 'Advertencia!');
+    });
+}

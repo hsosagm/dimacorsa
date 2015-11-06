@@ -438,9 +438,10 @@
 
         Route::group(array('prefix' => 'inventario'), function()
         {
-            Route::get('/'               , 'InventarioController@getInventario' );
-            Route::get('dt_getInventario', 'InventarioController@dt_getInventario' );
+            Route::get('/'                , 'InventarioController@getInventario' );
+            Route::get('dt_getInventario' , 'InventarioController@dt_getInventario' );
             Route::post('setExistencia'   , 'InventarioController@setExistencia' );
+            Route::get('getStockMinimo'  , 'InventarioController@getStockMinimo' );
         });
 
         Route::group(array('prefix' => 'productos'), function()

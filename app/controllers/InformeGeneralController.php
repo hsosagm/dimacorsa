@@ -218,7 +218,7 @@ class InformeGeneralController extends \BaseController {
         $data["ventas_credito"] = $ventas_credito;
 
         return $data;
-    };
+    }
 
     /*
         Funcion para procesar la suma del detalle o de pagos de una tabla

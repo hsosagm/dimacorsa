@@ -62,7 +62,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Existencia Minima: </div>
 		<div class="col-md-7 select_sub_categorias">
-			{{ Form::input('text', 'stock_minimo', '0', array('class' => 'form-control')) }} 
+			{{ Form::input('text', 'stock_minimo', $producto->stock_minimo , array('class' => 'form-control')) }} 
 		</div>
 		<div class="col-md-1"></div>
 	</div>
