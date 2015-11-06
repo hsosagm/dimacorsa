@@ -128,7 +128,7 @@
                 $.ajax({
                     type: 'POST',
                     url: 'user/ventas/devoluciones/finalizarDevolucion',
-                    data: { 
+                    data: {
                     	devolucion_id:devoluciones.devolucion_id, descuento_sobre_saldo: dss, monto_a_devolver: monto_a_devolver,
                     	devolucion_opcion: devolucion_opcion, mp_devolucion: mp_devolucion,
                     	totalDevolucion: devoluciones.totalDevolucion,

@@ -270,6 +270,7 @@
                 Route::get('openDevolucion'         , 'DevolucionesVentasController@openDevolucion');
                 Route::post('deleteDevolucion'         , 'DevolucionesVentasController@deleteDevolucion');
                 Route::get('getSerialsForm'         , 'DevolucionesVentasController@getSerialsForm');
+                Route::post('post_detalle_devolulcion_serie'         , 'DevolucionesVentasController@post_detalle_devolulcion_serie');
             });
 
         });

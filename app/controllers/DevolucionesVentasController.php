@@ -140,6 +140,12 @@ class DevolucionesVentasController extends \BaseController {
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
 
+        foreach ($detalle as $dt) {
+        	if ($dt->serials) {
+        		$dt->serials = explode(',', $dt->serials);
+        	}
+        }
+
         return $detalle;
 	}
 
@@ -209,54 +215,51 @@ class DevolucionesVentasController extends \BaseController {
 
 	public function finalizarDevolucion()
 	{
-		// return json_encode(Input::all()); 
-		//sacar de venta cliente_id tienda_id
 
-		// sacar devolucion_id de detalleTable al actualizar los seriales
+    // $array1    = array("1", "3", "5", "7");
+    // $array2    = array( "5", "1", "8", '2');
+    // $resultado = array_diff($array1, $array2);
+    // $result =  implode(",", $resultado);
+    // return $result;
 
 		$descuento_sobre_saldo = Input::get('descuento_sobre_saldo');
 		$monto_a_devolver      = Input::get('monto_a_devolver');
 		$devolucion_id         = Input::get('devolucion_id');
 		$totalDevolucion       = Input::get('totalDevolucion');
-		$detalleTable       = Input::get('detalleTable');
+		$detalleTable          = Input::get('detalleTable');
 
-		// No actualizo en linea (->update) para poder sacar el venta_id de $devolucion despues
-		$devolucion = Devolucion::find($devolucion_id)->first();
+		$devolucion = Devolucion::find($devolucion_id);
 		$devolucion->total = $totalDevolucion;
 		$devolucion->completed = 1;
 		$devolucion->save();
 
-		foreach ($detalleTable as $key => $dt) {
-			// $dt['serials'];
-			$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
+		foreach ($detalleTable as $key => $dt)
+		{
+			if(!empty($dt['serials']))
+			{
+				$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
+				$dd = DevolucionDetalle::whereDevolucionId($devolucion_id)->whereProductoId($dt['producto_id'])->first();
+				$serials = implode(",", $dt['serials']);
+				$dd->serials = $serials;
+				$dd->save();
+                
+                if ( !empty($dv->serials) )
+                {
+	                $dv_serials = explode(",", $dv->serials);
 
-			$arr = array('11111', '22222', '33333', '44444', '55555');
+					foreach ($dt['serials'] as $serie)
+					{
+	                    if (($key = array_search($serie, $dv_serials)) !== false)
+	                    {
+						    unset($dv_serials[$key]);
+						}
+					}
 
-			$arr = implode(",",$arr);
-
-			$arr = explode(",",$arr);
-
-			foreach ($arr as $key => $v) {
-				return $v;
-			}
-
-			return;
-
-			$unserialize = unserialize($serializedArr);
-
-			foreach ($unserialize as $key => $v) {
-				return $v;
-			}
-
-			return  $serializedArr;
-
-			foreach ($dt['serials'] as $key => $value) {
-				echo $value;
+				    $dv->serials = implode(",", array_values($dv_serials));
+				    $dv->save();
+                }
 			}
 		}
-
-		return;
-
 
 		if ($descuento_sobre_saldo > 0) {
 			$dp = new DevolucionPago;
@@ -265,6 +268,8 @@ class DevolucionesVentasController extends \BaseController {
 			$dp->monto = $descuento_sobre_saldo;
 			$dp->save();
 		}
+
+		$venta = Venta::find($devolucion->venta_id);
 
 		if ($monto_a_devolver > 0) {
 			if (Input::get('devolucion_opcion') == 'pagoCaja') {
@@ -281,8 +286,8 @@ class DevolucionesVentasController extends \BaseController {
 				$dp->save();
 
 				$nc = new NotaCredito;
-				$nc->cliente_id = Input::get('cliente_id');
-				$nc->tienda_id = Input::get('tienda_id');
+				$nc->cliente_id = $venta->cliente_id;
+				$nc->tienda_id = $venta->tienda_id;
 				$nc->user_id = Auth::user()->id;
 				$nc->tipo = 'devolucion';
 				$nc->tipo_id = $devolucion_id;
@@ -293,18 +298,16 @@ class DevolucionesVentasController extends \BaseController {
 
 		$devolucion_detalle = DevolucionDetalle::whereDevolucionId($devolucion_id)->get();
 
-		foreach ($devolucion_detalle as $key => $devolucion)
+		foreach ($devolucion_detalle as $key => $dd)
 		{
-            $Existencia = Existencia::whereProductoId($devolucion->producto_id)->whereTiendaId(Input::get('tienda_id'))->first();
-            $Existencia->existencia = $Existencia->existencia + $devolucion->cantidad;
+            $Existencia = Existencia::whereProductoId($dd->producto_id)->whereTiendaId($venta->tienda_id)->first();
+            $Existencia->existencia = $Existencia->existencia + $dd->cantidad;
             $Existencia->save();
 		}
 
-	    $venta = Venta::find(Input::get('venta_id'));
-
         if ($venta->total == $totalDevolucion)
         {
-        	DetalleVenta::whereVentaId(Input::get('venta_id'))->delete();
+        	DetalleVenta::whereVentaId($devolucion->venta_id)->delete();
         	$venta->total = 0;
         	$venta->saldo = 0;
         	$venta->canceled = 1;
@@ -321,16 +324,17 @@ class DevolucionesVentasController extends \BaseController {
 
         	$venta->save();
 
-			foreach ($devolucion_detalle as $key => $devolucion)
+			foreach ($devolucion_detalle as $dd)
 			{
-	            $detalle_venta = DetalleVenta::where('venta_id', Input::get('venta_id'))
-	            ->where('producto_id', $devolucion->producto_id)->first();
+	            $dv = DetalleVenta::where('venta_id', $devolucion->venta_id)
+	            ->where('producto_id', $dd->producto_id)->first();
 
-	            if ($detalle_venta->cantidad == $devolucion->cantidad) {
-	            	$detalle_venta->delete();// ?
-	            } else {
-		            $detalle_venta->cantidad = $detalle_venta->cantidad - $devolucion->cantidad;
-		            $detalle_venta->save();
+                if ($dv->cantidad == $dd->cantidad) {
+	            	$dv->delete();
+	            }
+	            else {
+		            $dv->cantidad = $dv->cantidad - $dd->cantidad;
+		            $dv->save();
 	            }
 			}
         }
@@ -420,6 +424,21 @@ class DevolucionesVentasController extends \BaseController {
 			'success' => true,
 			'view' => View::make('ventas.devoluciones.serialsForm', compact('serials', 'serial_index'))->render()
 		));
+	}
+
+	public function post_detalle_devolulcion_serie()
+	{
+		$dd = DevolucionDetalle::find(Input::get('devolucion_detalle_id'));
+
+		if ($dd->serials)
+			$dd->serials = $dd->serials .','.Input::get('serie');
+
+		else 
+			$dd->serials = '55555';
+
+		$dd->save();
+
+		return $dd->serials;
 	}
 
 }

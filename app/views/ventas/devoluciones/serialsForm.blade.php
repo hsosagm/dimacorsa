@@ -57,13 +57,24 @@
 
 			pushSerial: function(e)
 			{
-				$serie = $('#input_serie').val()
+				var serie = $('#input_serie').val()
 
-				if (!$serie) return
+				if (!serie) return
 
-				this.serials.push($serie)
-				devoluciones.detalleTable[{{$serial_index}}].serials.push($serie)
-				$('#input_serie').val("")
+                $.ajax({
+                    type: 'POST',
+                    url: 'user/ventas/devoluciones/post_detalle_devolulcion_serie',
+                    data: { devolucion_detalle_id: devoluciones.detalleTable[{{$serial_index}}].id, serie:serie },
+                }).done(function(data) {
+                	return console.log(data)
+
+                    if (!data.success == true)
+                    	return msg.warning(data)
+
+					this.serials.push(serie)
+					devoluciones.detalleTable[{{$serial_index}}].serials.push(serie)
+					$('#input_serie').val("")
+                })
 			},
 
 			removeSerial: function(index)
