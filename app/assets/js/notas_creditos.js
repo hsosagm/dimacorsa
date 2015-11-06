@@ -127,5 +127,24 @@ function guardarClienteActualizadoNotaCredito(e) {
 };
 
 function eliminarNotaCredito() {
-    
+
+}
+
+
+function getConsultarNotasDeCreditoCliente() {
+    var venta_id = 30395;
+    var cliente_id = 9011;
+
+    $.ajax({
+        type: "GET",
+        url: 'user/notaDeCredito/getConsultarNotasDeCreditoCliente',
+        data: { venta_id: venta_id, cliente_id: cliente_id },
+    }).done(function(data) {
+        if (data.success) {
+            $('#graph_container').html(data.table);
+            return $('#graph_container').show();
+        }
+
+        msg.warning(data, 'Advertencia!');
+    });
 }

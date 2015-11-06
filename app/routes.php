@@ -22,7 +22,7 @@
     Route::post('ImprimirAbonoCliente'     , 'SalesPaymentsController@imprimirAbonoVenta');
     Route::post('ImprimirAbonoProveedor'   , 'ProveedorController@ImprimirAbono' );
     Route::post('imprimirFacturaBond'      , 'VentasController@imprimirFacturaBond' );
-
+ 
     //rutas para mostrar el pdf cuando no carga el plugin
     Route::get('ImprimirGarantiaPdf'       , 'VentasController@ImprimirGarantiaPdf');
     Route::get('ImprimirDescargaPdf'       , 'DescargaController@ImprimirDescargaPdf');
