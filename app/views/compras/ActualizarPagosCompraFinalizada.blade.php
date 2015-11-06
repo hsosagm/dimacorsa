@@ -1,7 +1,6 @@
 <div id="actualizarPagosContainer">
     <div class="cuerpoPagos" style="height:380px">
-        <div class="row">
-        </div>
+
 
         <div class="row">
             <div class="col-md-1"></div>
@@ -18,19 +17,29 @@
             </div>
         </div>
 
-        <br><br>
+        <br>
+        <div class="row" style="margin-left:10px">
+            <div class="col-md-4">Total: @{{ compra.total | currency ''}}</div>
+            <div class="col-md-4">Abonado: @{{ totalAbonado | currency ''}}</div>
+            <div class="col-md-4">Restante: @{{ saldoRestante | currency '' }} </div>
+        </div>
+        <br>
 
         <table class="table table-responsive" style="margin:15px; width:95%;">
             <thead>
                 <tr>
                     <th class="center">Metodo de pago</th>
                     <th class="center">Monto</th>
+                    <th class="center"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-repeat="dp: detallePagos">
                     <td> @{{ dp.descripcion }} </td>
                     <td class="right"> @{{ dp.monto | currency '' }}</td>
+                    <td class="right">
+                        <i class="fa fa-trash-o fa-lg icon-delete" v-on="click: eliminarPago($index)"></i>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -38,11 +47,9 @@
     <div class="row">
         <div class="col-md-10"></div>
         <div class="col-md-2" v-show="(saldoRestante == 0)">
-            <i class="fa fa-check fa-lg icon-success"></i>
+            <i class="fa fa-check fa-lg icon-success" v-on="click: submitPagosCompras()"></i>
         </div>
     </div>
-</div>
-
 <br>
 
 <script>
@@ -68,6 +75,7 @@
 
             saldoRestante: 0,
 
+            totalAbonado: 0
 	    },
 
 	    methods: {
@@ -79,8 +87,8 @@
                         'descripcion': this.buscarDescripcion(),
                         'monto': this.form.monto,
                     };
-                    this.saldoRestante -= this.form.monto;
                     this.detallePagos.push(data);
+                    this.calcularTotales();
                     this.resetForm();
                 }
             },
@@ -112,8 +120,9 @@
                     return true;
             },
 
-            eliminarPago: function() {
-
+            eliminarPago: function(index) {
+                this.detallePagos.$remove(index);
+                this.calcularTotales();
             },
 
             asignarMetodo: function(metodo_pago_id, descripcion) {
@@ -126,10 +135,33 @@
                 this.form.monto = this.saldoRestante;
             },
 
-            guardarCambios: function() {
+            calcularTotales: function() {
+                var sum = 0
+                for (var i = this.detallePagos.length - 1; i >= 0; i--) {
+                    sum += parseFloat(this.detallePagos[i]["monto"])
+                }
 
+                this.totalAbonado = sum;
+                this.saldoRestante = this.compra.total - sum;
+            },
+
+            submitPagosCompras: function() {
+                $.ajax({
+                    url: "admin/compras/actualizarPagosCompraFinalizada",
+                    type: "POST",
+                    data: {
+                        pagos: actualizarPagosContainer.detallePagos ,
+                        compra: actualizarPagosContainer.compra
+                    },
+                }).done(function(data) {
+                    if (data.success == true) {
+                        $('.bs-modal').modal('hide');
+                        return msg.success('Pagos actualizados con exito...','!Listo');
+                    }
+
+                    msg.warning(data,'!Advertencia');
+                });
             }
-
 	    }
 	});
 
