@@ -31,7 +31,7 @@
 </table>
 
 <br>
-<div style="height:770px">
+<div style="height:710px">
     <table width="100%">
         <tr style="background:rgba(199, 199, 199, 0.21);">
     		<td colspan="4" style="border-bottom:1px solid #444444; "></td>

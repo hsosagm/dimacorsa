@@ -656,6 +656,22 @@ class CompraController extends \BaseController {
 
 	public function actualizarPagosCompraFinalizada()
 	{
+		PagosCompra::whereCompraId(Input::get('compra.id'))->delete();
+		$credito = 0 ;
+		foreach (Input::get('pagos') as $dp) {
+			$pagos = new PagosCompra;
+			$pagos->compra_id = Input::get('compra.id');
+			$pagos->monto = $dp['monto'];
+			$pagos->metodo_pago_id = $dp['metodo_pago_id'];
+			$pagos->save();
+			if($dp['metodo_pago_id'] == 2)
+				$credito =  $dp['monto'];
+		}
 
+		DB::table('compras')->where('id', Input::get('compra.id'))->update(array('saldo' => $credito));
+
+		return Response::json(array(
+			'success' => true
+		));
 	}
 }

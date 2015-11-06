@@ -7,20 +7,15 @@
 
 	        x: 1,
 
-            tabla: {
-                adelanto: [] ,
-                devolucion: [] ,
-            },
+			datos: {{ json_encode($data) }},
 
             envio: {
                 notas:[]
             },
 
-			venta_id: 0,
-			cliente_id: 0,
-			metodo_pago_id: 6,
-			restanteVenta: 0,
-			total: 0,
+			total: "",
+
+			restanteVenta: {{ $data['saldo_restante'] }},
 
 	    },
 
@@ -34,7 +29,7 @@
 	            $('#graph_container').hide();
 	        },
 
-            agregarNota: function(event, id_nota, id_foraneo, monto)
+            agregarNota: function(event, id_nota,  monto)
             {
                 if ( $(event.target).is(':checked') )
                 {
@@ -43,7 +38,7 @@
 						return $(event.target).prop('checked', false);
 					}
 
-                    this.envio.notas.push({ id_nota: id_nota, id_foraneo: id_foraneo, monto: monto });
+                    this.envio.notas.push({ id_nota: id_nota, monto: monto });
                     this.total += parseFloat(monto);
                 }
                 else
@@ -60,31 +55,23 @@
 
             eviarNotasDeCredito: function()
             {
-                $.ajax({
-            		type: "POST",
-            		url: 'user/ventas/pagoConNotasDeCredito',
-                    data: {
-						datos: notasCreditosVue.envio.notas,
-						venta_id: notasCreditosVue.venta_id,
-						cliente_id: notasCreditosVue.cliente_id,
-						total: notasCreditosVue.total,
-						metodo_pago_id: notasCreditosVue.metodo_pago_id
-					},
-            	}).done(function(data) {
-            		if (data.success == true)
-            		{
-						$.each( data.datos, function( key, value ) {
-						  	console.log(value.id_nota + '-' + value.id_foraneo  + '-' + value.monto);
-						});
-						console.log("-----------------------------------------------------");
-						console.log('venta_id: '+ data.venta_id);
-						console.log('cliente_id: '+ data.cliente_id);
-						console.log('total: '+ data.total);
-						console.log('metodo_pago_id: '+ data.metodo_pago_id);
-            			return;
-            		}
-            		msg.warning(data, 'Advertencia!');
-            	});
+                // $.ajax({
+            	// 	type: "POST",
+            	// 	url: 'user/ventas/pagoConNotasDeCredito',
+                //     data: {
+				// 		datos: notasCreditosVue.envio.notas,
+				// 		venta_id: notasCreditosVue.datos.venta_id,
+				// 		cliente_id: notasCreditosVue.datos.cliente_id,
+				// 		total: notasCreditosVue.total,
+				// 		metodo_pago_id: 6
+				// 	},
+            	// }).done(function(data) {
+            	// 	if (data.success == true)
+            	// 	{
+            	// 		return;
+            	// 	}
+            	// 	msg.warning(data, 'Advertencia!');
+            	// });
             },
 
 			verificarMonto: function(event, monto)
@@ -111,9 +98,15 @@
     </div>
 </div>
 <div v-show="x == 1" id="container">
-	{{-- aqui se colocara el listado de  notas de credito  --}}
+	@include('notas_creditos.notasCreditosTable')
 </div>
 <div  v-show="x == 2" id="container2"> </div>
 <pre class="right" style="padding-right:25px">
     <button v-on="click: eviarNotasDeCredito" v-show="total" class="btn bg-theme btn-info">Agregar</button>
+</pre>
+
+<pre>
+	@{{ datos | json }}
+	@{{ total | json }}
+	@{{ restanteVenta | json }}
 </pre>

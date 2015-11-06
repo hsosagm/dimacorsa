@@ -59,4 +59,27 @@ class InventarioController extends Controller {
 		}
     }
 
+    public function getStockMinimo()
+    {
+        $stockMinimo = Producto::select(
+            DB::raw('productos.id as producto_id'),
+            DB::raw('productos.descripcion as descripcion'),
+            DB::raw('marcas.nombre as marca'),
+            DB::raw('categorias.nombre as categoria'),
+            DB::raw('existencias.existencia as existencia')
+        )
+        ->whereRaw('existencias.existencia <= stock_minimo')
+        ->join('existencias', 'producto_id', '=', 'productos.id')
+        ->join('marcas', 'marca_id', '=', 'marcas.id')
+        ->join('categorias', 'categoria_id', '=', 'categorias.id')
+        ->where('stock_minimo', '!=', 0)
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->get();
+
+        return  Response::json(array(
+            'success' => true,
+            'table' => View::make('producto.stockMinimo', compact('stockMinimo'))->render()
+        ));
+    }
+
 }

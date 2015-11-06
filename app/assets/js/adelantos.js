@@ -9,7 +9,7 @@ $(function() {
         $('.bs-modal').modal('show');
     });
 };*/
-
+ 
 function f_adelanto() {
     $.ajax({
         url: "user/adelantos/create",

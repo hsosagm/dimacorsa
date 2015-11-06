@@ -150,7 +150,7 @@ class DescargaController extends BaseController {
 
         if(count($descarga->detalle_descarga)>0)
         {
-            $pdf = PDF::loadView('descargas.imprimir',  array('descarga'=>$descarga))->save("pdf/".Input::get('id').Auth::user()->id.'d.pdf');
+            $pdf = PDF::loadView('descargas.imprimir',  array('descarga'=>$descarga))->save("pdf/".Input::get('id').Auth::user()->id.'d.pdf')->setPaper('letter');
 
             return Response::json(array(
                 'success' => true,
@@ -167,7 +167,7 @@ class DescargaController extends BaseController {
 
         if(count($descarga->detalle_descarga)>0)
         {
-            $pdf = PDF::loadView('descargas.imprimir',  array('descarga'=>$descarga));
+            $pdf = PDF::loadView('descargas.imprimir',  array('descarga'=>$descarga))->setPaper('letter');
             return $pdf->stream();
         }
         else

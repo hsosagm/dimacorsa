@@ -22,7 +22,7 @@
     Route::post('ImprimirAbonoCliente'     , 'SalesPaymentsController@imprimirAbonoVenta');
     Route::post('ImprimirAbonoProveedor'   , 'ProveedorController@ImprimirAbono' );
     Route::post('imprimirFacturaBond'      , 'VentasController@imprimirFacturaBond' );
-
+ 
     //rutas para mostrar el pdf cuando no carga el plugin
     Route::get('ImprimirGarantiaPdf'       , 'VentasController@ImprimirGarantiaPdf');
     Route::get('ImprimirDescargaPdf'       , 'DescargaController@ImprimirDescargaPdf');
@@ -440,9 +440,10 @@
 
         Route::group(array('prefix' => 'inventario'), function()
         {
-            Route::get('/'               , 'InventarioController@getInventario' );
-            Route::get('dt_getInventario', 'InventarioController@dt_getInventario' );
+            Route::get('/'                , 'InventarioController@getInventario' );
+            Route::get('dt_getInventario' , 'InventarioController@dt_getInventario' );
             Route::post('setExistencia'   , 'InventarioController@setExistencia' );
+            Route::get('getStockMinimo'  , 'InventarioController@getStockMinimo' );
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -687,6 +688,7 @@
 
 Route::get('/test', function()
 {
+
     /*
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");
@@ -695,11 +697,12 @@ Route::get('/test', function()
     $result =  implode(",", $resultado);
     return $result;
     */
+    /*
     //para el guardado y envio de correo de informe general diario
     $envio = new InformeGeneralController();
     $tienda_id = 1;
     return $envio->procesarInformeDelDia($tienda_id);
-
+    */
     /* tablas a Eliminar
         DROP TABLE  adelanto_nota_credito;
         DROP TABLE  detalle_devolucion_nota_credito;

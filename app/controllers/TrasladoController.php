@@ -330,7 +330,7 @@ class TrasladoController extends \BaseController {
         {
 
             $pdf = PDF::loadView('traslado.imprimir',  array('traslado'=>$traslado , 'tienda' => $tienda))
-            ->save("pdf/".Input::get('id').Auth::user()->id.'t.pdf');
+            ->save("pdf/".Input::get('id').Auth::user()->id.'t.pdf')->setPaper('letter');
 
             return Response::json(array(
                 'success' => true,
@@ -352,7 +352,7 @@ class TrasladoController extends \BaseController {
 
         if(count($traslado->detalle_traslado)>0)
         {
-            $pdf = PDF::loadView('traslado.imprimir',  array('traslado'=>$traslado , 'tienda' => $tienda));
+            $pdf = PDF::loadView('traslado.imprimir',  array('traslado'=>$traslado , 'tienda' => $tienda))->setPaper('letter');
             return $pdf->stream();
         }
         else

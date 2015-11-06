@@ -169,7 +169,7 @@ class CotizacionController extends \BaseController {
 
 		if (trim($op) == 'pdf')
 		{
-			$pdf = PDF::loadView('cotizaciones.exportPdf',  array('cotizacion' => $cotizacion, 'tienda' => $tienda));
+			$pdf = PDF::loadView('cotizaciones.exportPdf',  array('cotizacion' => $cotizacion, 'tienda' => $tienda))->setPaper('letter');
 			return $pdf->stream('cotizacion-'.$id);
 		}
 
