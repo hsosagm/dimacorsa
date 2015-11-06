@@ -361,7 +361,6 @@
     $('.numeric').autoNumeric({ mDec:0, mRound:'S', vMin: '0', vMax: '999999', lZero: 'deny', mNum:10});
 
     function md_search2() {
-        alert(1);
         $.get( "user/productos/md_search", function( data ) {
            makeTable(data, '', 'Inventario');
            $('#iSearch').focus();
