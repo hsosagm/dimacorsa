@@ -9,8 +9,6 @@
 		</div>
 	</div>
 
-	<br>
-
 	<div class="serial-detalle">
 		<table class="SerialTable">
 			<thead>
@@ -19,21 +17,15 @@
 			</thead>
 			<tbody>
 	            <tr v-repeat="serial: serials">
-	                <td width="10%" class="view" v-on="dblclick: editItem">@{{ serial }}</td>
+	                <td width="10%" class="view">@{{ serial }}</td>
 
 	                <td width="5%">
-	                    <i v-on="click: removeSerial($index)" class="fa fa-trash-o pointer btn-link theme-c"></i>
+	                    <i v-on="click: removeSerial($index, serial)" class="fa fa-trash-o pointer btn-link theme-c"></i>
 	                </td>
 	            </tr>
 			</tbody>
 		</table>
 	</div>
-
-	<div class="modal-footer">
-		<i class="fa fa-check fg-theme"></i>
-	</div>
-
-	<pre>@{{ $data | json  }}</pre>
 </div>
 
 <script type="text/javascript">
@@ -49,7 +41,7 @@
 		ready: function()
 		{
 			setTimeout(function(){
-				$('#input_serie').focus();
+				$('#input_serie').focus()
 			},1000)
 		},
 
@@ -57,6 +49,7 @@
 
 			pushSerial: function(e)
 			{
+				var that = this
 				var serie = $('#input_serie').val()
 
 				if (!serie) return
@@ -66,26 +59,29 @@
                     url: 'user/ventas/devoluciones/post_detalle_devolulcion_serie',
                     data: { devolucion_detalle_id: devoluciones.detalleTable[{{$serial_index}}].id, serie:serie },
                 }).done(function(data) {
-                	return console.log(data)
-
                     if (!data.success == true)
                     	return msg.warning(data)
 
-					this.serials.push(serie)
+					that.serials.push(serie)
 					devoluciones.detalleTable[{{$serial_index}}].serials.push(serie)
 					$('#input_serie').val("")
                 })
 			},
 
-			removeSerial: function(index)
+			removeSerial: function(index, serie)
 			{
-				this.serials.$remove(index)
-				devoluciones.detalleTable[{{$serial_index}}].serials.$remove(index)
-			},
+				var that = this;
+                $.ajax({
+                    type: 'POST',
+                    url: 'user/ventas/devoluciones/post_detalle_devolulcion_serie_delete',
+                    data: { devolucion_detalle_id: devoluciones.detalleTable[{{$serial_index}}].id, serie:serie },
+                }).done(function(data) {
+                    if (!data.success == true)
+                    	return msg.warning(data)
 
-			editItem: function()
-			{
-
+					that.serials.$remove(index)
+					devoluciones.detalleTable[{{$serial_index}}].serials.$remove(index)
+                })
 			}
 		}
 	});

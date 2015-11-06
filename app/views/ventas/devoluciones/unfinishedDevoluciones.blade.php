@@ -40,7 +40,7 @@
                         <tr>
                             <td>
                                 <input type="text" v-on="keyup: findProducto | key 'enter'" name="producto">
-                                <i class="fa fa-search btn-link theme-c" id="md-search" style="margin-left:10px"></i>
+                                <i class="fa fa-search btn-link theme-c" onclick="md_search2()" style="margin-left:10px"></i>
                             </td>
                             <td>
                                 <input v-on="keyup: postDevolucionDetalle | key 'enter'" class="numeric" type="text" name="cantidad">
@@ -359,5 +359,14 @@
     };
 
     $('.numeric').autoNumeric({ mDec:0, mRound:'S', vMin: '0', vMax: '999999', lZero: 'deny', mNum:10});
+
+    function md_search2() {
+        alert(1);
+        $.get( "user/productos/md_search", function( data ) {
+           makeTable(data, '', 'Inventario');
+           $('#iSearch').focus();
+           $('#example').addClass('tableSelected');
+        });
+    };
 
 </script>
