@@ -91,7 +91,7 @@ class CajaController extends \BaseController
 			'success' => true,
 		));
 	}
-	
+
 	//funcion para editar solo el nombre de la caja
 	public function edit()
     {
@@ -156,7 +156,6 @@ class CajaController extends \BaseController
         $data['ingresos']                 =   $this->_query('detalle_ingresos','ingreso','monto',$datos);
         $data['egresos']                  =   $this->_query('detalle_egresos','egreso','monto',$datos);
         $data['gastos']                   =   $this->_query('detalle_gastos','gasto','monto',$datos);
-		$data['notas_creditos']           =   $this->query('notas_creditos','monto', $datos);
 
         return $data;
     }

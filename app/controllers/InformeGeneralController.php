@@ -4,8 +4,8 @@ class InformeGeneralController extends \BaseController {
 
     public function procesarInformeDelDia($tienda_id)
     {
-        $data ['guardado'] = $this->guardarInformeDelDia($tienda_id);
-        $data ['enviado'] = $this->enviarInformeDelDia($tienda_id);
+        $data['guardado'] = $this->guardarInformeDelDia($tienda_id);
+        $data['enviado'] = $this->enviarInformeDelDia($tienda_id);
 
         return json_encode($data);
     }
@@ -13,11 +13,11 @@ class InformeGeneralController extends \BaseController {
     public function guardarInformeDelDia($tienda_id)
     {
         $fecha = InformeGeneral::select(DB::raw('max(created_at) as fecha'))
-        ->whereTiendaId(1)->first();
+        ->whereTiendaId($tienda_id)->first();
 
         $informe = InformeGeneral::select('id')->whereCreatedAt($fecha->fecha)->first();
 
-        $data = $this->resumenInformeGeneral($informe->id);
+        $data = $this->resumenInformeGeneral($informe->id, $tienda_id);
 
         $inversion = ($data['inversionActual'] + $data['compras']) - ($data['ventas'] + $data['descargas'] + $data['traslados']);
         $cuentas_cobrar = ($data['cuentasCobrarActual'] + $data['ventas_credito']) - ($data['abonos_ventas']);
@@ -56,7 +56,7 @@ class InformeGeneralController extends \BaseController {
         $tienda_titulo = $tienda->nombre;
         $detalle_ventas = $this->getConsultaPorProducto(true, $tienda_id);
         $kardex = $this->getInformeKardexConsulta(true, $tienda_id);
-        $data = $this->resumenInformeGeneral($informe->id);
+        $data = $this->resumenInformeGeneral($informe->id, $tienda_id);
 
         Mail::queue('emails.mensaje', array('asunto' => 'Informe General Diario'), function($message)
         use($data, $kardex, $detalle_ventas, $tienda_titulo, $emails)
@@ -74,15 +74,6 @@ class InformeGeneralController extends \BaseController {
         $datos['mensaje'] = 'Mensajes enviados con exito';
         $datos['correos'] = $emails;
         return $datos;
-    }
-
-    public function verInformePdf()
-    {
-        $data = $this->resumenInformeGeneral(Input::get('informe_id'));
-
-        $pdf = PDF::loadView('informes.resumenInformeGeneralPdf',  array('data' => $data))->setOrientation('landscape');
-
-        return $pdf->stream();
     }
 
     public function verInformeTabla()
@@ -128,22 +119,21 @@ class InformeGeneralController extends \BaseController {
 
     public function getInformeKardexConsulta($current_date = false, $tienda_id = 0)
     {
-        if ($current_date == true)
-        {
+        if ($current_date) {
             $fecha =  "current_date";
             $tienda_id = $tienda_id;
         }
-        else
-        {
+        else {
             $informe = InformeGeneral::find(Input::get('informe_id'));
             $fecha =  "'".$informe->created_at."'";
             $tienda_id = Auth::user()->tienda_id;
         }
 
         $kardex = DB::table('kardex')
-        ->select("kardex.created_at as fecha",
-            DB::raw("productos.descripcion as producto"),
-            DB::raw("kardex_transaccion.nombre as transaccion"),
+        ->select(
+            "kardex.created_at as fecha",
+            "productos.descripcion as producto",
+            "kardex_transaccion.nombre as transaccion",
             "kardex.evento as evento",
             "kardex.cantidad as cantidad",
             "kardex.existencia as existencia",
@@ -175,13 +165,11 @@ class InformeGeneralController extends \BaseController {
 
     public function getConsultaPorProducto($current_date = false, $tienda_id = 0)
     {
-        if ($current_date == true)
-        {
+        if ($current_date) {
             $fecha =  "current_date";
             $tienda_id = $tienda_id;
         }
-        else
-        {
+        else {
             $informe = InformeGeneral::find(Input::get('informe_id'));
             $fecha =  "'".$informe->created_at."'";
             $tienda_id = Auth::user()->tienda_id;
@@ -195,7 +183,7 @@ class InformeGeneralController extends \BaseController {
         return $detalle_ventas;
     }
 
-    public function resumenInformeGeneral($informe_id, $fecha = 'current_date')
+    public function resumenInformeGeneral($informe_id, $fecha = 'current_date', $tienda_id = 0)
     {
         $informe = DB::table('informe_general_diario')->find($informe_id);
 
@@ -208,14 +196,14 @@ class InformeGeneralController extends \BaseController {
         $selectVentaCredito = "sum(pagos_ventas.monto)";
         $selectCompraCredito = "sum(pagos_compras.monto)";
 
-        $ventas = $this->sumTotalEntidadesConRelacion('ventas', 'detalle_ventas', 'venta_id', $selectVenta, $fecha);
-        $compras = $this->sumTotalEntidadesConRelacion('compras', 'detalle_compras', 'compra_id', $selectCompra, $fecha);
-        $descargas = $this->sumTotalEntidadesConRelacion('descargas', 'detalle_descargas', 'descarga_id', $selectDescarga, $fecha);
-        $traslados = $this->sumTotalEntidadesConRelacion('traslados', 'detalle_traslados', 'traslado_id', $selectTraslado, $fecha);
-        $abonos_ventas = $this->sumTotalEntidadesConRelacion('abonos_ventas', 'detalle_abonos_ventas', 'abonos_ventas_id', $selectAbonosVenta, $fecha);
-        $abonos_compras = $this->sumTotalEntidadesConRelacion('abonos_compras', 'detalle_abonos_compra', 'abonos_compra_id', $selectAbonosCompra, $fecha);
-        $compras_credito = $compras = $this->sumTotalEntidadesConRelacion('compras', 'pagos_compras', 'compra_id', $selectCompraCredito, $fecha, true);
-        $ventas_credito =  $this->sumTotalEntidadesConRelacion('ventas', 'pagos_ventas', 'venta_id', $selectVentaCredito, $fecha, true);
+        $ventas = $this->sumTotalEntidadesConRelacion('ventas', 'detalle_ventas', 'venta_id', $selectVenta, $fecha, $tienda_id);
+        $compras = $this->sumTotalEntidadesConRelacion('compras', 'detalle_compras', 'compra_id', $selectCompra, $fecha, $tienda_id);
+        $descargas = $this->sumTotalEntidadesConRelacion('descargas', 'detalle_descargas', 'descarga_id', $selectDescarga, $fecha, $tienda_id);
+        $traslados = $this->sumTotalEntidadesConRelacion('traslados', 'detalle_traslados', 'traslado_id', $selectTraslado, $fecha, $tienda_id);
+        $abonos_ventas = $this->sumTotalEntidadesConRelacion('abonos_ventas', 'detalle_abonos_ventas', 'abonos_ventas_id', $selectAbonosVenta, $fecha, $tienda_id);
+        $abonos_compras = $this->sumTotalEntidadesConRelacion('abonos_compras', 'detalle_abonos_compra', 'abonos_compra_id', $selectAbonosCompra, $fecha, $tienda_id);
+        $compras_credito = $compras = $this->sumTotalEntidadesConRelacion('compras', 'pagos_compras', 'compra_id', $selectCompraCredito, $fecha, $tienda_id, true);
+        $ventas_credito =  $this->sumTotalEntidadesConRelacion('ventas', 'pagos_ventas', 'venta_id', $selectVentaCredito, $fecha, $tienda_id,true);
 
         $data["inversionActual"] = $informe->inversion;
         $data["cuentasCobrarActual"] =  $informe->cuentas_cobrar;
@@ -230,22 +218,40 @@ class InformeGeneralController extends \BaseController {
         $data["ventas_credito"] = $ventas_credito;
 
         return $data;
-    }
+    };
 
-    public function sumTotalEntidadesConRelacion($entidadPadre, $entidadHijo, $llaveForanea, $select, $fecha, $credito = false)
+    /*
+        Funcion para procesar la suma del detalle o de pagos de una tabla
+        Devuelve una variable con el total de la suma
+        Detalle (compras, ventas, traslados o descargas)
+        Pagos a credito (total ventas o compras al credito)
+        Abonos (abonos compras y abonos ventas) para cuentas por cobrar y cuentas por pagar
+        **** Variables ****
+        $tabla_maestro (puede ser ventas, compras, abonos_ventas, abonos_compras, descargas, traslados)
+        $tabla_detalle (para el detalle de ventas,compras,abonos_ventas,abonos_compras, descargas, traslados o para los pagos ventas y pagos compras))
+        $llaveForanea ()
+        $select (son los campos que se sumaran el la consulta)
+        $tienda_id ()
+        $credito (es para los pagos al credito de compras y ventas)
+    */
+
+    public function sumTotalEntidadesConRelacion($tabla_maestro, $tabla_detalle, $llaveForanea, $select, $fecha, $tienda_id, $credito = false)
     {
         $fecha_query = "'".$fecha."'";
+
+        if($tienda_id == 0)
+            $tienda_id = Auth::user()->tienda_id;
 
         if ($fecha == "current_date")
             $fecha_query = $fecha;
 
-        $entidad = DB::table("{$entidadPadre}")
-            ->select(DB::raw("{$select} as total "))
-            ->join("{$entidadHijo}", "{$llaveForanea}", "=", "{$entidadPadre}.id")
-            ->whereRaw("DATE_FORMAT({$entidadPadre}.created_at, '%Y-%m-%d') = DATE_FORMAT({$fecha_query}, '%Y-%m-%d')")
-            ->whereTiendaId(Auth::user()->tienda_id);
+        $entidad = DB::table("{$tabla_maestro}")
+        ->select(DB::raw("{$select} as total "))
+        ->join("{$tabla_detalle}", "{$llaveForanea}", "=", "{$tabla_maestro}.id")
+        ->whereRaw("DATE_FORMAT({$tabla_maestro}.created_at, '%Y-%m-%d') = DATE_FORMAT({$fecha_query}, '%Y-%m-%d')")
+        ->whereTiendaId($tienda_id);
 
-        if ($credito == true)
+        if ($credito)
             $entidad = $entidad->whereMetodoPagoId(2)->first();
 
         else

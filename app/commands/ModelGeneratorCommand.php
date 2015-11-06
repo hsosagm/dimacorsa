@@ -40,7 +40,7 @@ class ModelGeneratorCommand extends Command {
         $this->info( "Todo generado con exito" );
 	}
 
-    
+
     protected function callModel($resource)
     {
         $modelName = $this->getModelName($resource);
@@ -108,7 +108,7 @@ class ModelGeneratorCommand extends Command {
     {
         $names = array_keys($columns);
 
-        return array_diff($names, array('id', 'created_at', 'updated_at', 'deleted_at', 'password'));
+        return array_diff($names, array('id', 'created_at', 'updated_at', 'password'));
     }
 
 
@@ -135,7 +135,7 @@ class ModelGeneratorCommand extends Command {
     protected function getControllerName($resource)
     {
         return ucwords(camel_case($resource)) . 'Controller';
-    }    
+    }
 
 
 	protected function getArguments()
@@ -171,7 +171,7 @@ class ModelGeneratorCommand extends Command {
 
         $buffer=$file->get($path);
 
-        if ( !Str::contains( $buffer, $append) ) {       
+        if ( !Str::contains( $buffer, $append) ) {
             $this->file->append($path, "\n\n".$append);
         }
     }

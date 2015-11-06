@@ -570,7 +570,6 @@ class CierreController extends \BaseController {
         $data['gastos']                   =   $this->_query('detalle_gastos', 'gasto', 'monto', $fecha);
         $data['abonos_compras']           =   $this->query('abonos_compras', 'monto', $fecha);
         $data['pagos_compras']            =   $this->_query('pagos_compras', 'compra', 'monto', $fecha);
-        $data['notas_creditos']           =   $this->query('notas_creditos','monto', $fecha);
         $data['resultados']               =   array();
 
         return $data;

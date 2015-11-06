@@ -10,8 +10,7 @@ class CotizacionController extends \BaseController {
 
 			$data = Input::all();
 
-			if (!$cotizacion->create_master($data))
-			{
+			if (!$cotizacion->create_master($data)) {
 				return $cotizacion->errors();
 			}
 
@@ -108,11 +107,7 @@ class CotizacionController extends \BaseController {
 		$delete = DetalleCotizacion::destroy(Input::get('id'));
 
 		if ($delete)
-		{
-			return Response::json(array(
-				'success' => true
-            ));
-		}
+			return Response::json(array( 'success' => true ));
 
 		return 'Huvo un error al tratar de eliminar';
 	}
@@ -126,9 +121,7 @@ class CotizacionController extends \BaseController {
 		if (!$venta)
 			return false;
 
-		return Response::json(array(
-			'success' => true
-        ));
+		return Response::json(array( 'success' => true ));
 	}
 
 	public function ingresarProductoRapido()
@@ -163,11 +156,8 @@ class CotizacionController extends \BaseController {
 	{
 		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
 
-		if($cotizacion->delete()){
-			return Response::json(array(
-				'success' => true
-	        ));
-		}
+		if($cotizacion->delete())
+			return Response::json(array( 'success' => true ));
 
 		return 'error al tratar e eliminar';
 	}
@@ -245,7 +235,7 @@ class CotizacionController extends \BaseController {
 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","cotizaciones.total",'cotizaciones.created_at');
 
-		$where = "cotizaciones.tienda_id = ".Auth::user()->tienda_id ;
+		$where  = "cotizaciones.tienda_id = ".Auth::user()->tienda_id ;
 		$where .= " AND cotizaciones.user_id = ".Auth::user()->id ;
 
 		$Join = "JOIN users ON (users.id = cotizaciones.user_id) JOIN clientes ON (clientes.id = cotizaciones.cliente_id)";
@@ -332,7 +322,7 @@ class CotizacionController extends \BaseController {
 			return 'La cotizacion no contiene ningun producto que este en el inventario..!';
 
 		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
-		
+
 		foreach ($detalleCotizacion as $dt)
 		{
 			$producto = Producto::find($dt->producto_id);

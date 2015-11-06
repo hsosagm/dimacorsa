@@ -694,12 +694,10 @@ Route::get('/test', function()
     $result =  implode(",", $resultado);
     return $result;
     */
-    /*
     //para el guardado y envio de correo de informe general diario
     $envio = new InformeGeneralController();
     $tienda_id = 1;
     return $envio->procesarInformeDelDia($tienda_id);
-    */
 
     /* tablas a Eliminar
         DROP TABLE  adelanto_nota_credito;

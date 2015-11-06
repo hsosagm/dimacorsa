@@ -104,12 +104,12 @@
                 url: "getDetalleInformeGeneral",
                 data: {informe_id: informe_id},
             }).done(function(data) {
-                if (data.success == true) {
-                    $(".grid_detalle_informe").html(data.table);
-                    $(nTr).next(".subtable").fadeIn("slow");
-                    return $(e.target).addClass("hide_detail");
-                }
-                msg.warning(data, "Advertencia!");
+                if (!data.success)
+                    return msg.warning(data, "Advertencia!");
+
+                $(".grid_detalle_informe").html(data.table);
+                $(nTr).next(".subtable").fadeIn("slow");
+                $(e.target).addClass("hide_detail");
             });
         }
    }
@@ -170,11 +170,6 @@ function informeContainerVueCompile() {
 </div>
 
 <div v-show="x == 2" id="container_consultas"></div>
-
-<style media="screen">
-    .center { text-align: center;}
-    .right { text-align: right;}
-</style>
 
 <script type="text/javascript">
     $('#informes').dataTable();

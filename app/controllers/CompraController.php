@@ -9,22 +9,19 @@ class CompraController extends \BaseController {
 			$compra = new Compra;
 
 			if (!$compra->create_master())
-			{
 				return $compra->errors();
-			}
 
 			$id = $compra->get_id();
-
 			$compra = Compra::find($id);
 			$proveedor = Proveedor::find($compra->proveedor_id);
-			$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
+			$contacto = ProveedorContacto::whereProveedorId($proveedor->id)->first();
 			$saldo = $this->TotalCreditoProveedor($proveedor->id);
 
 			return Response::json(array(
-				'success' => true,
-				'detalle' => View::make('compras.detalle',compact("id"))->render(),
-				'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
-				));
+				'success'  => true,
+				'detalle'  => View::make('compras.detalle', compact("id"))->render(),
+				'info_head'=> View::make('compras.info_compra',compact('compra', 'proveedor', 'contacto', 'saldo'))->render()
+			));
 		}
 
 		return View::make('compras.create');
@@ -35,24 +32,20 @@ class CompraController extends \BaseController {
 		$compra = Compra::find(Input::get('id'));
 
 		if($compra->completed == 1)
-		{
 			return 'La factura no se puede abri porque ya esta finalizada...';
-		}
 
 		$id = Input::get('id');
 		$proveedor = Proveedor::find($compra->proveedor_id);
-		$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
+		$contacto = ProveedorContacto::whereProveedorId($proveedor->id)->first();
 		$saldo = $this->TotalCreditoProveedor($proveedor->id);
 		$detalle = $this->TablePurchaseDetailsEdit($id);
 		$codigoBarra = DB::table('printer')->select('impresora')
-		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
+		->whereTiendaId(Auth::user()->tienda_id)->whereNombre('codigoBarra')->first();
 
 		return Response::json(array(
 			'success' => true,
-			'form' => View::make('compras.edit',compact('id','compra','proveedor','contacto','saldo',"detalle","codigoBarra"))->render()
-			));
-
-
+			'form' => View::make('compras.edit', compact('id', 'compra', 'proveedor', 'contacto', 'saldo', "detalle", "codigoBarra"))->render()
+		));
 	}
 
 	public function OpenModalPurchaseInfo()
@@ -66,24 +59,22 @@ class CompraController extends \BaseController {
 			{
 				$compra = Compra::find($id);
 				$proveedor = Proveedor::find($compra->proveedor_id);
-				$contacto = ProveedorContacto::where('proveedor_id','=',$proveedor->id)->first();
+				$contacto = ProveedorContacto::whereProveedorId($proveedor->id)->first();
 				$saldo = $this->TotalCreditoProveedor($proveedor->id);
 
 				return Response::json(array(
 					'success' => true,
-					'info_head' => View::make('compras.info_compra',compact('compra','proveedor','contacto','saldo'))->render()
-					));
+					'info_head' => View::make('compras.info_compra', compact('compra', 'proveedor', 'contacto', 'saldo'))->render()
+				));
 			}
 			else
-			{
 				return $compra->errors();
-			}
 		}
 
 		$compra = Compra::find(Input::get('id'));
 		$proveedor = Proveedor::find($compra->proveedor_id);
 
-		return View::make('compras.edit_info',compact('compra','proveedor'))->render();
+		return View::make('compras.edit_info', compact('compra', 'proveedor'))->render();
 	}
 
 	public function DeletePurchaseDetailsItem()
@@ -104,32 +95,29 @@ class CompraController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
-			$codigo = DetalleCompra::where('compra_id','=',Input::get("compra_id"))
-			->where('producto_id','=',Input::get("producto_id"))->get();
+			$codigo = DetalleCompra::whereCompraId(Input::get("compra_id"))
+			->whereProductoId(Input::get("producto_id"))->get();
 
 			if($codigo != "[]")
-			{
 				return "El codigo ya ha sido ingresado..";
-			}
 
 			$query = new DetalleCompra;
 
 			if (!$query->_create())
-			{
 				return $query->errors();
-			}
-
 
 			$codigoBarra = DB::table('printer')->select('impresora')
-			->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
+			->whereTiendaId(Auth::user()->tienda_id)->whereNombre('codigoBarra')->first();
+
 			$detalle = $this->TablePurchaseDetails();
 			$producto = Producto::find(Input::get('producto_id'));
-			$p_costo  = ProcesarCompra::getPrecio((Input::get('precio')*100),Input::get('cantidad'),$producto->p_costo,$producto->existencia);
+			$p_costo  = ProcesarCompra::getPrecio((Input::get('precio')*100), Input::get('cantidad'), $producto->p_costo, $producto->existencia);
+
 			return Response::json(array(
 				'success' => true,
 				'p_costo' => 'Precio Costo: '.($p_costo/100),
-				'table'   => View::make('compras.detalle_body', compact("detalle","codigoBarra"))->render(),
-				));
+				'table'   => View::make('compras.detalle_body', compact("detalle", "codigoBarra"))->render(),
+			));
 		}
 
 		return false;
@@ -150,8 +138,13 @@ class CompraController extends \BaseController {
 
 	public function FinishInitialPurchase()
 	{
-		$credito = PagosCompra::join('metodo_pago','pagos_compras.metodo_pago_id','=','metodo_pago.id')
-		->where('descripcion','=','Credito')->where('compra_id','=',Input::get('compra_id'))->first();
+		$compra = Compra::find(Input::get('compra_id'));
+
+		if ($compra->completed == 1)
+			return 'Esta compra ya ha sido finalizada...!';
+
+		$credito = PagosCompra::join('metodo_pago', 'pagos_compras.metodo_pago_id', '=','metodo_pago.id')
+		->whereDescripcion('Credito')->whereCompraId(Input::get('compra_id'))->first();
 
 		$total_compra = $this->TotalPurchase();
 
@@ -183,20 +176,23 @@ class CompraController extends \BaseController {
 			$pagos = new PagosCompra;
 
 			if (!$pagos->_create())
-			{
 				$pagos->errors();
-			}
 
 			return	$this->PurchasePaymentDetail();
 		}
 
-		$detalle_compra = DetalleCompra::where('compra_id','=', Input::get('compra_id'))
+		$compras = Compra::find(Input::get('compra_id'));
+
+		if ($compras->completed == 1)
+			return 'La compra ya fue finalizada..!';
+
+		$detalle_compra = DetalleCompra::whereCompraId(Input::get('compra_id'))
 		->first(array(DB::Raw('sum(cantidad * precio) as total')));
 
 		if (!count($detalle_compra))
 			return 'no a ingresado productos a la factura...!';
 
-		$pagos = PagosCompra::where('compra_id','=',Input::get('compra_id'));
+		$pagos = PagosCompra::whereCompraId(Input::get('compra_id'));
 		$pagos->delete();
 
 		$total_compra = number_format($detalle_compra->total, 2, '.', '');
@@ -204,7 +200,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'detalle' => View::make('compras.payment',compact('total_compra'))->render()
-			));
+		));
 	}
 
 	public function PurchasePaymentDetail()
@@ -216,7 +212,7 @@ class CompraController extends \BaseController {
 		return Response::json( array(
 			'success' => true,
 			'detalle' => View::make('compras.payment',compact('total_pagos','total_compra','det_pagos'))->render()
-			));
+		));
 	}
 
 	//funcion para eliminar un detalle de pago
@@ -234,16 +230,14 @@ class CompraController extends \BaseController {
 
 		$validaciones = array(
 			Input::get('dato') => array('required','numeric','min:1')
-			);
+		);
 
 		$validator = Validator::make($datos, $validaciones);
 
 		if ( $validator->fails() )
-		{
 			return $validator->messages()->first();
-		}
 
-		$procesar = ProcesarCompra::EditarDetalleCompra(Input::get('detalle_id'),Input::get('tipo_dato'),Input::get('dato'));
+		$procesar = ProcesarCompra::EditarDetalleCompra(Input::get('detalle_id'), Input::get('tipo_dato'), Input::get('dato'));
 		$compra_detalle = DetalleCompra::find(Input::get('detalle_id'));
 
 		$detalle = $this->TablePurchaseDetailsEdit($compra_detalle->compra_id);
@@ -251,7 +245,7 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => $procesar,
 			'table'   => View::make('compras.detalle_body', compact("detalle"))->render()
-			));
+		));
 	}
 
 	//funcion para verificar si ya se ingreso un pago con ese metodo
@@ -267,7 +261,7 @@ class CompraController extends \BaseController {
 	public function TotalPurchase()
 	{
 		$total = DetalleCompra::select(DB::Raw('sum(cantidad * precio) as total'))
-		->where('compra_id','=', Input::get('compra_id'))->first();
+		->whereCompraId(Input::get('compra_id'))->first();
 
 		return $total->total;
 	}
@@ -283,9 +277,9 @@ class CompraController extends \BaseController {
 	public function TotalCreditoProveedor($proveedor_id)
 	{
 		$total = Compra::select(DB::Raw('sum(saldo) as total'))
-		->where('proveedor_id','=', $proveedor_id)
-		->where('tienda_id','=', Auth::user()->tienda_id)
-		->where('saldo','>', 0 )->first();
+		->whereProveedorId($proveedor_id)
+		->whereTiendaId(Auth::user()->tienda_id)
+		->where('saldo', '>', 0)->first();
 
 		return $total->total;
 	}
@@ -293,8 +287,15 @@ class CompraController extends \BaseController {
 	public function TablePurchaseDetails()
 	{
 		$query = DB::table('detalle_compras')
-		->select(array('detalle_compras.id as id','compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-		->where('compra_id', Input::get("compra_id"))
+		->select(array(
+			'detalle_compras.id as id',
+			'compra_id',
+			'producto_id',
+			'cantidad',
+			'precio',
+			DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total')
+		))
+		->whereCompraId(Input::get("compra_id"))
 		->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
 		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
 		->get();
@@ -305,8 +306,15 @@ class CompraController extends \BaseController {
 	public function TablePurchaseDetailsEdit($compra_id)
 	{
 		$query = DB::table('detalle_compras')
-		->select(array('detalle_compras.id as id','compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-		->where('compra_id', $compra_id)
+		->select(array(
+			'detalle_compras.id as id',
+			'compra_id',
+			'producto_id',
+			'cantidad',
+			'precio',
+			DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total')
+		))
+		->whereCompraId($compra_id)
 		->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
 		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
 		->get();
@@ -317,7 +325,7 @@ class CompraController extends \BaseController {
 
 	public function TableDetailsPayments()
 	{
-		$pagos = PagosCompra::where('compra_id','=', Input::get('compra_id'))->get();
+		$pagos = PagosCompra::whereCompraId(Input::get('compra_id'))->get();
 
 		return $pagos;
 	}
@@ -325,8 +333,15 @@ class CompraController extends \BaseController {
 	public function showPurchaseDetail()
 	{
 		$detalle = DB::table('detalle_compras')
-		->select(array('detalle_compras.id', 'compra_id', 'producto_id', 'cantidad', 'precio', DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
-		->where('compra_id', Input::get('id'))
+		->select(array(
+			'detalle_compras.id',
+			'compra_id',
+			'producto_id',
+			'cantidad',
+			'precio',
+			DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total')
+		))
+		->whereCompraId(Input::get('id'))
 		->join('productos', 'detalle_compras.producto_id', '=', 'productos.id')
 		->join('marcas', 'productos.marca_id', '=', 'marcas.id')
 		->get();
@@ -336,36 +351,40 @@ class CompraController extends \BaseController {
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.DT_detalle_compra', compact('detalle', 'deuda'))->render()
-			));
+		));
 	}
 
 	public function showPaymentsDetail()
 	{
 		$detalle = DB::table('detalle_abonos_compra')
-		->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
+		->select(
+			'compra_id',
+			'total',
+			'monto',
+			DB::raw('detalle_abonos_compra.created_at as fecha')
+		)
 		->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
-		->where('abonos_compra_id','=', Input::get('id'))->get();
+		->whereAbonosCompraId(Input::get('id'))->get();
 
 		$deuda = 0;
 
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.DT_detalle_abono', compact('detalle', 'deuda'))->render()
-			));
+		));
 	}
 
 	public function getActualizarDetalleCompra()
 	{
 		$codigoBarra = DB::table('printer')->select('impresora')
-		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','codigoBarra')->first();
+		->whereTiendaId(Auth::user()->tienda_id)->whereNombre('codigoBarra')->first();
 
 		$detalle = $this->TablePurchaseDetails();
 
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.detalle_body', compact("detalle","codigoBarra"))->render(),
-			));
-
+		));
 	}
 
 	public function ingresarSeriesDetalleCompra()
@@ -533,7 +552,7 @@ class CompraController extends \BaseController {
 			"compras.total as total",
 			"compras.saldo as saldo",
 			"DATEDIFF(current_date,fecha_documento) as dias"
-			);
+		);
 
 		$Search_columns = array("users.nombre","users.apellido","venta.created_at","compras.factura");
 
@@ -608,7 +627,8 @@ class CompraController extends \BaseController {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
 			"metodo_pago.descripcion as metodo_descripcion",
-			'abonos_compras.monto as total','observaciones');
+			'abonos_compras.monto as total','observaciones'
+		);
 
 		$Searchable = array("users.nombre","users.apellido",);
 
@@ -636,6 +656,6 @@ class CompraController extends \BaseController {
 
 	public function actualizarPagosCompraFinalizada()
 	{
-		# code...
+
 	}
 }
