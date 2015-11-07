@@ -215,13 +215,6 @@ class DevolucionesVentasController extends \BaseController {
 
 	public function finalizarDevolucion()
 	{
-
-    // $array1    = array("1", "3", "5", "7");
-    // $array2    = array( "5", "1", "8", '2');
-    // $resultado = array_diff($array1, $array2);
-    // $result =  implode(",", $resultado);
-    // return $result;
-
 		$descuento_sobre_saldo = Input::get('descuento_sobre_saldo');
 		$monto_a_devolver      = Input::get('monto_a_devolver');
 		$devolucion_id         = Input::get('devolucion_id');
@@ -233,32 +226,11 @@ class DevolucionesVentasController extends \BaseController {
 		$devolucion->completed = 1;
 		$devolucion->save();
 
-		foreach ($detalleTable as $key => $dt)
+		foreach ($detalleTable as $dt)
 		{
-			if(!empty($dt['serials']))
-			{
-				$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
-				$dd = DevolucionDetalle::whereDevolucionId($devolucion_id)->whereProductoId($dt['producto_id'])->first();
-				$serials = implode(",", $dt['serials']);
-				$dd->serials = $serials;
-				$dd->save();
-                
-                if ( !empty($dv->serials) )
-                {
-	                $dv_serials = explode(",", $dv->serials);
-
-					foreach ($dt['serials'] as $serie)
-					{
-	                    if (($key = array_search($serie, $dv_serials)) !== false)
-	                    {
-						    unset($dv_serials[$key]);
-						}
-					}
-
-				    $dv->serials = implode(",", array_values($dv_serials));
-				    $dv->save();
-                }
-			}
+			$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
+			$dv->serials = implode(",", array_diff( explode(",", $dv->serials), $dt['serials'] ));
+            $dv->save();
 		}
 
 		if ($descuento_sobre_saldo > 0) {
@@ -434,11 +406,25 @@ class DevolucionesVentasController extends \BaseController {
 			$dd->serials = $dd->serials .','.Input::get('serie');
 
 		else 
-			$dd->serials = '55555';
+			$dd->serials = Input::get('serie');
 
 		$dd->save();
 
-		return $dd->serials;
+		return Response::json(array(
+			'success' => true
+		));
+	}
+
+	public function post_detalle_devolulcion_serie_delete()
+	{
+		$dd = DevolucionDetalle::find(Input::get('devolucion_detalle_id'));
+
+	    $dd->serials = implode(",", array_diff(explode(",", $dd->serials), array(Input::get('serie'))));
+	    $dd->save();
+
+		return Response::json(array(
+			'success' => true
+		));
 	}
 
 }
