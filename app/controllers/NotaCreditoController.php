@@ -32,7 +32,7 @@ class NotaCreditoController extends \BaseController {
     }
 
     public function getConsultarNotasDeCreditoCliente()
-    {
+    { 
         $notasCreditos = NotaCredito::select(
             DB::raw('notas_creditos.id as id'),
             DB::raw("CONCAT_WS(' ', nombre, apellido) as usuario"),
@@ -50,8 +50,8 @@ class NotaCreditoController extends \BaseController {
         $data['total_venta'] = $totalVenta->total;
         $data['total_pago'] = $totalPago->total;
         $data['saldo_restante'] = ($totalVenta->total - $totalPago->total);
-        $data['cliente_id'] = Input::get('cliente_id');
-        $data['venta_id'] = Input::get('venta_id');
+        $data['enviar']['cliente_id'] = Input::get('cliente_id');
+        $data['enviar']['venta_id'] = Input::get('venta_id');
 
         return Response::json(array(
             'success' => true,

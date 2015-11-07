@@ -18,7 +18,7 @@
 				</div>
 			</div>
 		</form>
-	</div>
+	</div> 
 
 	<div class="modal-footer">
 		<button class="btn btn-default" data-dismiss="modal">Cerrar</button>

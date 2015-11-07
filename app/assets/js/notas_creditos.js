@@ -8,7 +8,7 @@ function getFormSeleccionarTipoDeNotaDeCredito() {
         $('.bs-modal').modal('show');
     });
 };
-
+ 
 function postFormSeleccionarTipoDeNotaDeCredito() {
     if ( $('input[name="nota_credito"]:checked').val() == 'notaDeCreditoPorDevolucion' ) {
         $.ajax({

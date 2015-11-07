@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<br>
+	<br> 
 	<div class="row">
 		<h4>
 			<label class="col-md-12 cliente_informacion center"></label>
