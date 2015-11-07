@@ -55,7 +55,7 @@ function printInvoice(e, id, impresora) {
 };
 
 
-function printDocument(impresora, url, id) {
+/*function printDocument(impresora, url, id) {
     if (isLoaded()) {
         qz.findPrinter(impresora);
         window['qzDoneFinding'] = function() {
@@ -98,8 +98,11 @@ function printDocument(impresora, url, id) {
     else {
         window.open(url+'Pdf?id='+id ,'_blank');
     }
-};
+};*/
 
+function printDocument(impresora, url, id) {
+    window.open(url+'Pdf?id='+id ,'_blank');
+};
 
 function imprimirCodigoBarras(e, id, impresora) {
     $(e).prop('disabled', true);
