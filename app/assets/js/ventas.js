@@ -442,8 +442,7 @@ function enviarVentaACaja(e, venta_id) {
         url: 'user/ventas/enviarVentaACaja',
         data: { venta_id: venta_id },
     }).done(function(data) {
-        if (data.success == true)
-        {
+        if (data.success == true) {
             $('.bs-modal').modal('hide');
             msg.success('Venta Enviada..', 'Listo!');
             return $(".form-panel").hide();

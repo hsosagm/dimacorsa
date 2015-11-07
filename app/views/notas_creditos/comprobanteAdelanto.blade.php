@@ -10,7 +10,7 @@
         <td colspan="4">
             Usuario: {{ $notaCredito->user->nombre.' '.$notaCredito->user->apellido }}
         </td>
-    </tr>
+    </tr> 
     <tr>
         <td colspan="4">
             Cliente : {{ $notaCredito->cliente->nombre }} , {{ $notaCredito->cliente->direccion }}

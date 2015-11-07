@@ -7,7 +7,7 @@
 <div id="nota_credito">
 
 @if( $venta->saldo > 0 )
-
+ 
 	<div class="form-group">
 		<div style="padding-left:12px">
 			<div>
@@ -53,7 +53,7 @@
 			<div style="padding-left:12px">
 				<div class="rdio rdio-theme circle">
 					<input value="agregarNotaAlCliente" id="radio-type-rounded" type="radio" name="nota_credito_opcion" checked>
-					<label style="margin-left:10px" for="radio-type-rounded">Mantener la nota de credito al cliente para <br> 
+					<label style="margin-left:10px" for="radio-type-rounded">Mantener la nota de credito al cliente para <br>
 					usarse en futuras compras</label>
 				</div>
 
@@ -62,7 +62,7 @@
 					<label style="margin-left:10px" for="radio-type-rounded2">Pago de caja (caja 1)</label>
 				</div>
 			</div>
-		</form> 
+		</form>
 	</div>
 
 	<table v-show="pago_caja">
@@ -72,7 +72,7 @@
 			</td>
 			<td>
 				<div class="form-group">
-					<form> 
+					<form>
 						<div style="padding-left:12px">
 							<div class="rdio rdio-theme circle">
 								<input value="1" id="radio-type-3" type="radio" name="mp_nota_credito_caja" checked>
@@ -88,7 +88,7 @@
 								<label style="margin-left:10px" for="radio-type-5">Deposito</label>
 							</div>
 						</div>
-					</form> 
+					</form>
 				</div>
 			</td>
 		</tr>

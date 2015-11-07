@@ -3,7 +3,6 @@ var app = new Vue({
     el: '#formsContainerVue',
 
     data: {
-
         cliente: [],
         venta_id: 0,
         showNewCustomerForm: false,

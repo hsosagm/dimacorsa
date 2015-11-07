@@ -55,23 +55,20 @@
 
             eviarNotasDeCredito: function()
             {
-                // $.ajax({
-            	// 	type: "POST",
-            	// 	url: 'user/ventas/pagoConNotasDeCredito',
-                //     data: {
-				// 		datos: notasCreditosVue.envio.notas,
-				// 		venta_id: notasCreditosVue.datos.venta_id,
-				// 		cliente_id: notasCreditosVue.datos.cliente_id,
-				// 		total: notasCreditosVue.total,
-				// 		metodo_pago_id: 6
-				// 	},
-            	// }).done(function(data) {
-            	// 	if (data.success == true)
-            	// 	{
-            	// 		return;
-            	// 	}
-            	// 	msg.warning(data, 'Advertencia!');
-            	// });
+                $.ajax({
+            		type: "POST",
+            		url: 'user/ventas/pagoConNotasDeCredito',
+                    data: {
+						notas_creditos: notasCreditosVue.envio.notas,
+						info: notasCreditosVue.datos.enviar
+					},
+            	}).done(function(data) {
+            		if (data.success == true)
+            		{
+            			return;
+            		}
+            		msg.warning(data, 'Advertencia!');
+            	});
             },
 
 			verificarMonto: function(event, monto)
