@@ -1,6 +1,6 @@
 <table style="font-size:12px;">
     <tr>
-        <td colspan="4" height="50"></td>
+        <td colspan="4" height="40"></td>
     </tr>
     <tr>
         <td colspan="4">
@@ -47,7 +47,10 @@
 
 <table style="font-size:12px;" width="100%">
     <tr>
-        <td colspan="2"></td>
+        <td colspan="2">
+            @php($convertir = new Convertidor)
+            {{ $convertir->ConvertirALetras($total) }}
+        </td>
         <td>Total:</td>
         <td class="right"> {{f_num::get($total)}} </td>
     </tr>
@@ -108,7 +111,7 @@
 
 <table style="font-size:12px;" width="100%">
     <tr>
-        <td colspan="2"></td>
+        <td colspan="2"> {{ $convertir->ConvertirALetras($total) }} </td>
         <td>Total:</td>
         <td class="right"> {{f_num::get($total)}} </td>
     </tr>
