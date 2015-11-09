@@ -8,7 +8,7 @@
         <td align="right">Traslados</td>
         <td align="right">Total</td>
     </tr>
-
+ 
     <tr>
         <td>Inversion</td>
         <td align="right"> {{f_num::get($data['inversionActual'])}} </td>
