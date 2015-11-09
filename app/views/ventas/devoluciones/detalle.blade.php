@@ -8,7 +8,7 @@
 			<tr>
 				<td>
 					<input type="text" v-on="keyup: findProducto | key 'enter'" name="producto">
-					<i class="fa fa-search btn-link theme-c" id="md-search" style="margin-left:10px"></i>
+					<i class="fa fa-search btn-link theme-c" v-on="click: get_table_productos_para_devolucion()" style="margin-left:10px"></i>
 				</td>
 				<td>
 				    <input v-on="keyup: postDevolucionDetalle | key 'enter'" class="numeric" type="text" name="cantidad">

@@ -272,6 +272,8 @@
                 Route::get('getSerialsForm'         , 'DevolucionesVentasController@getSerialsForm');
                 Route::post('post_detalle_devolulcion_serie'         , 'DevolucionesVentasController@post_detalle_devolulcion_serie');
                 Route::post('post_detalle_devolulcion_serie_delete'         , 'DevolucionesVentasController@post_detalle_devolulcion_serie_delete');
+                Route::get('table_productos_para_devolucion'         , 'DevolucionesVentasController@table_productos_para_devolucion');
+                Route::get('productos_para_devolucion_DT'         , 'DevolucionesVentasController@productos_para_devolucion_DT');
             });
 
         });

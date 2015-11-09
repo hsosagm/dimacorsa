@@ -228,9 +228,16 @@ class DevolucionesVentasController extends \BaseController {
 
 		foreach ($detalleTable as $dt)
 		{
-			$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
-			$dv->serials = implode(",", array_diff( explode(",", $dv->serials), $dt['serials'] ));
-            $dv->save();
+			if ($dt['serials'])
+			{
+				$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
+				
+				if ($dv->serials)
+				{
+					$dv->serials = implode(",", array_diff( explode(",", $dv->serials), $dt['serials'] ));
+		            $dv->save();
+				}
+			}
 		}
 
 		if ($descuento_sobre_saldo > 0) {
@@ -426,5 +433,32 @@ class DevolucionesVentasController extends \BaseController {
 			'success' => true
 		));
 	}
+
+    public function table_productos_para_devolucion()
+    {
+    	$venta_id = Input::get('venta_id');
+
+        return View::make('ventas.devoluciones.table_productos_para_devolucion', compact('venta_id'));
+    }
+
+    public function productos_para_devolucion_DT()
+    {
+       $table = 'detalle_ventas';
+
+        $columns = array(
+        	'codigo',
+        	'marcas.nombre as marca',
+        	'descripcion',
+        	'cantidad',
+        	'precio',
+        	'cantidad * precio as total'
+        );
+
+        $Searchable = array("descripcion");
+        $Join = 'JOIN productos ON detalle_ventas.producto_id = productos.id  JOIN  marcas ON productos.marca_id = marcas.id';
+        $where = "detalle_ventas.venta_id = ".Input::get('venta_id');
+
+        echo TableSearch::get($table, $columns, $Searchable, $Join, $where);
+    }
 
 }

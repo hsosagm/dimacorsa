@@ -25,7 +25,6 @@
         <div v-if="!devolucion_id" class="form-footer footer" align="right">
               <button type="submit" class="btn theme-button inputGuardarVenta">Enviar!</button>
         </div>
-
     {{ Form::close() }}
 
     <div class="master-detail">
@@ -40,7 +39,7 @@
                         <tr>
                             <td>
                                 <input type="text" v-on="keyup: findProducto | key 'enter'" name="producto">
-                                <i class="fa fa-search btn-link theme-c" onclick="md_search2()" style="margin-left:10px"></i>
+                                <i class="fa fa-search btn-link theme-c" v-on="click: get_table_productos_para_devolucion()" style="margin-left:10px"></i>
                             </td>
                             <td>
                                 <input v-on="keyup: postDevolucionDetalle | key 'enter'" class="numeric" type="text" name="cantidad">
@@ -119,8 +118,6 @@
             </div>
         </div>
     </div>
-<pre>@{{ $data | json }}</pre>
-
 </div>
 
 
@@ -340,13 +337,25 @@
                     url: 'user/ventas/devoluciones/getPaymentForm',
                     data: { venta_id: this.venta.id, totalDevolucion: this.totalDevolucion, devolucion_id: devoluciones.devolucion_id },
                 }).done(function(data) {
-                    if (data.success == true) {
-                        $('.modal-body').html(data.detalle)
-                        $('.modal-title').text('Nota de credito')
-                        $('.bs-modal').modal('show')
-                        return
-                    }
-                    msg.warning('Debe ingresar algun producto para continuar', 'Advertencia!')
+                    if (!data.success == true)
+                        return msg.warning('Debe ingresar algun producto para continuar', 'Advertencia!')
+
+                    $('.modal-body').html(data.detalle)
+                    $('.modal-title').text('Nota de credito')
+                    $('.bs-modal').modal('show')
+                })
+            },
+
+            get_table_productos_para_devolucion: function()
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: 'user/ventas/devoluciones/table_productos_para_devolucion',
+                    data: { venta_id: this.venta.id },
+                }).done(function(data) {
+                   makeTable(data, '', 'Inventario')
+                   $('#iSearch').focus()
+                   $('#example').addClass('tableSelected')
                 })
             }
         }
@@ -360,12 +369,23 @@
 
     $('.numeric').autoNumeric({ mDec:0, mRound:'S', vMin: '0', vMax: '999999', lZero: 'deny', mNum:10});
 
-    function md_search2() {
-        $.get( "user/productos/md_search", function( data ) {
-           makeTable(data, '', 'Inventario');
-           $('#iSearch').focus();
-           $('#example').addClass('tableSelected');
+    function add_producto_to_devolucion() {
+        var codigo = $('.dataTable tbody .row_selected td:first-child').text();
+        $("input[name='producto']").val(codigo);
+        $(".dt-container").hide();
+
+        $.ajax({
+            type: 'GET',
+            url: 'user/ventas/devoluciones/findProducto',
+            data: { venta_id: devoluciones.venta.id, codigo: codigo },
+        }).done(function(data) {
+            if (!data.success == true)
+                return msg.warning(data);
+
+            devoluciones.producto = data.values;
+            $("input[name='cantidad']").val("");
+            $("input[name='cantidad']").focus();
         });
-    };
+    }
 
 </script>

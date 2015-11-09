@@ -31,8 +31,6 @@
     <div class="master-detail">
         <div class="master-detail-body"></div>
     </div>
-
-    <pre>@{{ $data | json }}</pre>
 </div>
 
 <script type="text/javascript">
@@ -74,7 +72,6 @@
         },
 
         methods: {
-
             generarDevolucion: function(e)
             {
                 var form = $(".form-generarDevolucion")
@@ -251,6 +248,19 @@
                     }
                     msg.warning('Debe ingresar algun producto para continuar', 'Advertencia!')
                 })
+            },
+
+            get_table_productos_para_devolucion: function()
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: 'user/ventas/devoluciones/table_productos_para_devolucion',
+                    data: { venta_id: this.venta.id },
+                }).done(function(data) {
+                   makeTable(data, '', 'Inventario')
+                   $('#iSearch').focus()
+                   $('#example').addClass('tableSelected')
+                })
             }
         }
     });
@@ -260,5 +270,24 @@
             devoluciones.$compile(devoluciones.$el);
         });
     };
+
+    function add_producto_to_devolucion() {
+        var codigo = $('.dataTable tbody .row_selected td:first-child').text();
+        $("input[name='producto']").val(codigo);
+        $(".dt-container").hide();
+
+        $.ajax({
+            type: 'GET',
+            url: 'user/ventas/devoluciones/findProducto',
+            data: { venta_id: devoluciones.venta.id, codigo: codigo },
+        }).done(function(data) {
+            if (!data.success == true)
+                return msg.warning(data);
+
+            devoluciones.producto = data.values;
+            $("input[name='cantidad']").val("");
+            $("input[name='cantidad']").focus();
+        });
+    }
 
 </script>
