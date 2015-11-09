@@ -14,6 +14,9 @@ class InformeGeneralDiario extends Migration {
 			$table->decimal('inversion', 8, 2);
 			$table->decimal('cuentas_cobrar', 8, 2);
 			$table->decimal('cuentas_pagar', 8, 2);
+			$table->decimal('real_inversion', 8, 2);
+			$table->decimal('real_cuentas_cobrar', 8, 2);
+			$table->decimal('real_cuentas_pagar', 8, 2)
 			$table->timestamps();
 
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');

@@ -9,8 +9,10 @@
 
         contenedor:{
             titulo:"INFORMES DIARIOS",
-            tituloPrincipal:  "INFORMES DIARIOS"
-        }
+            tituloPrincipal:  "INFORME DIARIO "
+        },
+
+        arrayFechas: {{ json_encode($arrayFechas) }}
     },
 
     methods: {
@@ -48,10 +50,7 @@
                 data: {informe_id: informe_id},
             }).done(function(data) {
                 if (data.success == true) {
-        	        $('#container_consultas').html(data.table);
-                    informeContainerVueCompile();
-                    informeContainerVue.x = 2;
-                    informeContainerVue.contenedor.titulo = data.titulo;
+        	        $('#informePorProducto').html(data.table);;
                     return;
                 }
                 msg.warning(data, "Advertencia!");
@@ -65,10 +64,7 @@
                 data: {informe_id: informe_id},
             }).done(function(data) {
                 if (data.success == true) {
-        	        $('#container_consultas').html(data.table);
-                    informeContainerVueCompile();
-                    informeContainerVue.x = 2;
-                    informeContainerVue.contenedor.titulo = data.titulo;
+        	        $('#kardexInformeDelDia').html(data.table);
                     return;
                 }
                 msg.warning(data, "Advertencia!");
@@ -111,6 +107,22 @@
                 $(nTr).next(".subtable").fadeIn("slow");
                 $(e.target).addClass("hide_detail");
             });
+        },
+
+        viewInformeDelDia: function(informe_id, fecha) {
+            this.contenedor.titulo = this.contenedor.tituloPrincipal+" DE "+fecha;
+            $.ajax({
+                type: "GET",
+                url: "getDetalleInformeGeneral",
+                data: {informe_id: informe_id},
+            }).done(function(data) {
+                if (!data.success)
+                    return msg.warning(data, "Advertencia!");
+
+                $("#detalleInformeTable").html(data.table);
+                informeContainerVue.getInformePorProducto(this, informe_id);
+                informeContainerVue.getKardexInformeDelDia(this, informe_id);
+            });
         }
    }
 });
@@ -143,38 +155,61 @@ function informeContainerVueCompile() {
 </div>
 
 <div v-show="x == 1" id="container">
-    <table width="100%" class="table table-theme" id="informes">
-        <thead>
-            <th class="center" width="23%">Fecha</th>
-            <th class="center" width="23%">Inversion</th>
-            <th class="center" width="23%">Ctas. X Pagar</th>
-            <th class="center" width="23%">Ctas. X Cobrar</th>
-            <th class="center" width="8%"></th>
-        </thead>
-        <tbody>
-            @foreach($informes as $if)
-                <tr>
-                    <td class="center"> {{ $if->created_at }} </td>
-                    <td class="right"> {{ f_num::get($if->inversion) }} </td>
-                    <td class="right"> {{ f_num::get($if->cuentas_pagar) }} </td>
-                    <td class="right"> {{ f_num::get($if->cuentas_cobrar) }} </td>
-                    <td class="center">
-                        <i class="fa fa-plus-square" style="margin-left:5px" v-on="click: verDetalleInformeGeneral($event, {{ $if->id }})"></i>
-                        <i class="fa fa-search" title="ventas" style="margin-left:10px" v-on="click: getInformePorProducto(this, {{ $if->id }})"></i>
-                        <i class="fa fa-list" title="kardex" style="margin-left:10px" v-on="click: getKardexInformeDelDia(this, {{ $if->id }})"></i>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-md-2" style="padding-right: 1px !important">
+            <div class="list-group scrolling"
+                style="max-height:500px !important; min-height:677px !important;
+                background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
+                <a href="#" class="list-group-item" v-repeat="fh: arrayFechas"  v-on="click: viewInformeDelDia(fh.id, fh.fecha)">
+                    @{{ fh.fecha }}
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10" style="padding-left: 1px !important min-height:500px !important;"  >
+    		<div  class="panel panel-tab rounded shadow">
+    			<div class="panel-heading no-padding">
+    				<ul class="impresoras nav nav-tabs nav-pills">
+    					<li class="active" width="33%">
+    						<a aria-expanded="true" href="#detalleInformeTable" data-toggle="tab">
+    							<i class="fa fa-list-alt"></i> <span>Informe</span>
+    						</a>
+    					</li>
+    					<li width="33%">
+    						<a aria-expanded="false" href="#informePorProducto" data-toggle="tab">
+    							<i class="fa fa-list-alt"></i> <span>Ventas</span>
+    						</a>
+    					</li>
+    					<li width="33%">
+    						<a aria-expanded="false" href="#kardexInformeDelDia" data-toggle="tab">
+    							<i class="fa fa-list-alt"></i> <span>Kardex</span>
+    						</a>
+    					</li>
+    				</ul>
+    			</div>
+
+    			<div class="tab-content divFormPayments">
+
+    				<div class="tab-pane fade inner-all active in" id="detalleInformeTable" style="min-height: 597px ! important;" >
+    					@include('informes.detalleInformeGeneral')
+    				</div>
+
+    				<div class="tab-pane fade inner-all" id="informePorProducto" style="min-height: 597px ! important;" >
+                        {{-- @include('informes.informePorProducto') --}}
+    				</div>
+
+    				<div class="tab-pane fade inner-all" id="kardexInformeDelDia" style="min-height: 597px ! important;" >
+                        {{-- @include('informes.kardexInformeDelDia') --}}
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
 </div>
 
 <div v-show="x == 2" id="container_consultas"></div>
 
 <script type="text/javascript">
-    $('#informes').dataTable();
-    $("#table_length3").html("");
-    $('#informes_length').prependTo("#table_length3");
+
 
     var counter = 2;
 
