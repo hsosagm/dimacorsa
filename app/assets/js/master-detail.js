@@ -5,7 +5,7 @@ $(function() {
 });
 
 function _add_producto_md() {
-    codigo = $('.dataTable tbody .row_selected td:first-child').text();
+    var codigo = $('.dataTable tbody .row_selected td:first-child').text();
     $("#search_producto").val(codigo);
     $(".dt-container").hide();
     search_producto_dt();
@@ -38,7 +38,7 @@ function search_producto(e, element) {
 };
 
 function search_producto_dt() {
-	element = $("#search_producto");
+	var element = $("#search_producto");
     $.ajax({
         type: 'POST',
         url: 'user/productos/find',
