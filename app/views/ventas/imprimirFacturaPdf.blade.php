@@ -28,10 +28,10 @@
         @foreach($venta->detalle_venta as $key => $dt)
             <tr>
                 <td>  {{ $dt->cantidad }} </td>
-                <td>  {{ $dt->producto->descripcion}} {{ $dt->producto->marca->nombre}} </td>
+                <td>  {{ $dt->producto->descripcion }} {{ $dt->producto->marca->nombre }} </td>
                 <td class="right"> {{ f_num::get($dt->precio) }} </td>
                 <td class="right">
-                    {{ f_num::get($dt->cantidad * $dt->precio)}}
+                    {{ f_num::get($dt->cantidad * $dt->precio) }}
                     <?php
                         $total = $total +($dt->cantidad * $dt->precio);
                         $espacio = $espacio - 13;
@@ -41,7 +41,7 @@
         @endforeach
     </tbody>
     <tr>
-        <td colspan="4" height="{{$espacio}}"></td>
+        <td colspan="4" height="{{ $espacio }}"></td>
     </tr>
 </table>
 
@@ -52,7 +52,7 @@
             {{ $convertir->ConvertirALetras($total) }}
         </td>
         <td>Total:</td>
-        <td class="right"> {{f_num::get($total)}} </td>
+        <td class="right"> {{ f_num::get($total) }} </td>
     </tr>
 </table>
 
@@ -113,7 +113,7 @@
     <tr>
         <td colspan="2"> {{ $convertir->ConvertirALetras($total) }} </td>
         <td>Total:</td>
-        <td class="right"> {{f_num::get($total)}} </td>
+        <td class="right"> {{ f_num::get($total) }} </td>
     </tr>
 </table>
 
