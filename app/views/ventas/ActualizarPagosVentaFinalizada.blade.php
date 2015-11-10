@@ -1,7 +1,5 @@
 <div id="actualizarPagosContainer">
     <div class="cuerpoPagos" style="height:380px">
-
-
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-4">
@@ -19,7 +17,7 @@
 
         <br>
         <div class="row" style="margin-left:10px">
-            <div class="col-md-4">Total: @{{ compra.total | currency ''}}</div>
+            <div class="col-md-4">Total: @{{ venta.total | currency ''}}</div>
             <div class="col-md-4">Abonado: @{{ totalAbonado | currency ''}}</div>
             <div class="col-md-4">Restante: @{{ saldoRestante | currency '' }} </div>
         </div>
@@ -65,7 +63,7 @@
                 monto: "",
             },
 
-            compra: [],
+            venta: [],
 
             metodo_pago: [],
 
@@ -142,16 +140,16 @@
                 }
 
                 this.totalAbonado = sum;
-                this.saldoRestante = this.compra.total - sum;
+                this.saldoRestante = this.venta.total - sum;
             },
 
             submitPagosCompras: function() {
                 $.ajax({
-                    url: "admin/compras/actualizarPagosCompraFinalizada",
+                    url: "user/ventas/actualizarPagosVentaFinalizada",
                     type: "POST",
                     data: {
                         pagos: actualizarPagosContainer.detallePagos ,
-                        compra: actualizarPagosContainer.compra
+                        venta: actualizarPagosContainer.venta
                     },
                 }).done(function(data) {
                     if (data.success == true) {
@@ -171,9 +169,9 @@
 	    });
 	}
 
-    actualizarPagosContainer.compra = {{ json_encode($compra) }};
+    actualizarPagosContainer.venta = {{ json_encode($venta) }};
     actualizarPagosContainer.metodo_pago = {{ json_encode($metodo_pago) }};
-    actualizarPagosContainer.saldoRestante = {{ $compra->total }};
-    actualizarPagosContainer.form.monto = {{ $compra->total }};
+    actualizarPagosContainer.saldoRestante = {{ $venta->total }};
+    actualizarPagosContainer.form.monto = {{ $venta->total }};
 
 </script>

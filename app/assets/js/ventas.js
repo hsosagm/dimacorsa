@@ -473,3 +473,18 @@ function eliminarAbonoVentaDt(e, abonos_ventas_id) {
         }
     });
 }
+
+function getActualizarPagosCompraFinalizada(e, venta_id) {
+    $.ajax({
+        url: "user/ventas/getActualizarPagosVentaFinalizada",
+        type: "GET",
+        data:{venta_id: venta_id},
+    }).done(function(data) {
+        if (data.success != true)
+            return msg.warning(data, 'Advertencia!');
+
+        $('.modal-body').html(data.view);
+        $('.modal-title').text('Actualizar pagos Venta');
+        $('.bs-modal').modal('show');
+    });
+}

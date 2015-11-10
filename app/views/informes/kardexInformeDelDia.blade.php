@@ -4,7 +4,9 @@
             <input type="text" name="name" id="iSearchKardex">
         </div>
 </div>
+
 <br>
+
 <table width="100%" class="table table-theme table-striped" id="informeKardex">
     <thead>
         <tr>

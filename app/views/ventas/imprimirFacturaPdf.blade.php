@@ -7,6 +7,8 @@
             Cliente: {{ $venta->cliente->nombre }}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Nit: {{ $venta->cliente->nit }}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Fecha: {{ Carbon::now() }}
          </td>
     </tr>
     <tr>
@@ -71,6 +73,8 @@
             Cliente: {{ $venta->cliente->nombre }}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Nit: {{ $venta->cliente->nit }}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Fecha: {{ Carbon::now() }}
          </td>
     </tr>
     <tr>

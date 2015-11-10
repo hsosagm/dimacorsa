@@ -5,7 +5,7 @@ class InformeGeneralController extends \BaseController {
     public function procesarInformeDelDia($tienda_id)
     {
         $data['guardado'] = $this->guardarInformeDelDia($tienda_id);
-        $data['enviado'] = $this->enviarInformeDelDia($tienda_id);
+        //$data['enviado'] = $this->enviarInformeDelDia($tienda_id);
 
         return json_encode($data);
     }
@@ -15,18 +15,30 @@ class InformeGeneralController extends \BaseController {
         $fecha = InformeGeneral::select(DB::raw('max(created_at) as fecha'))
         ->whereTiendaId($tienda_id)->first();
 
-        $informe = InformeGeneral::select('id')->whereCreatedAt($fecha->fecha)->first();
+        $informe = InformeGeneral::select('id')->whereCreatedAt($fecha->fecha)->first();;
 
-        $data = $this->resumenInformeGeneral($informe->id, $tienda_id);
+        $inversion = $informe->real_inversion;
+        $cuentas_cobrar = $informe->real_cuentas_cobrar;
+        $cuentas_pagar = $informe->real_cuentas_pagar;
 
-        $inversion = ($data['inversionActual'] + $data['compras']) - ($data['ventas'] + $data['descargas'] + $data['traslados']);
-        $cuentas_cobrar = ($data['cuentasCobrarActual'] + $data['ventas_credito']) - ($data['abonos_ventas']);
-        $cuentas_pagar = ($data['cuentasPagarActual'] + $data['compras_credito']) - ($data['abonos_compras']);
+        $real_cuentas_pagar = Compra::where('tienda_id','=',$tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
+
+        $real_cuentas_cobrar = Venta::where('tienda_id','=',$tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
+
+        $real_inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
+        ->where('tienda_id','=',$tienda_id)
+        ->where('existencias.existencia','>', 0)
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
         $newInforme = new InformeGeneral;
         $newInforme->inversion = $inversion;
         $newInforme->cuentas_cobrar = $cuentas_cobrar;
         $newInforme->cuentas_pagar = $cuentas_pagar;
+        $newInforme->real_inversion = $real_inversion;
+        $newInforme->real_cuentas_cobrar = $real_cuentas_cobrar;
+        $newInforme->real_cuentas_pagar = $real_cuentas_pagar;
         $newInforme->save();
 
         return "Informe general guardado con exito..!";
