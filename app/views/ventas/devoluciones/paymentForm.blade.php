@@ -59,7 +59,7 @@
 
 					<div class="rdio rdio-theme circle">
 						<input value="pagoCaja" id="radio-type-rounded2" type="radio" name="devolucion_opcion">
-						<label style="margin-left:10px" for="radio-type-rounded2">Pago de caja (caja 1)</label>
+						<label style="margin-left:10px" for="radio-type-rounded2">Pago de caja</label>
 					</div>
 				</div>
 			</form> 
