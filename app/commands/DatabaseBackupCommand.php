@@ -10,11 +10,6 @@ class DatabaseBackupCommand extends Command {
 
 	protected $description = 'Buckup all databases.';
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function fire()
 	{
         $this->info( "Todo generado con exito" );
