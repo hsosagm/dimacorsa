@@ -12,6 +12,8 @@ class DatabaseBackupCommand extends Command {
 
 	public function fire()
 	{
-        $this->info( "Todo generado con exito" );
+	    Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message) {
+	        $message->to(array('intelpcventas@hotmail.com'))->subject('probando');
+	    });
 	}
 }
