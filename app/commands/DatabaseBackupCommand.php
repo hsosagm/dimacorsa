@@ -14,6 +14,7 @@ class DatabaseBackupCommand extends Command {
 	{
 	    Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message) {
 	        $message->to(array('intelpcventas@hotmail.com'))->subject('probando');
+	        $message->attach("/home/forge/default/sql.sql");
 	    });
 	}
 }
