@@ -101,9 +101,3 @@
 <pre class="right" style="padding-right:25px">
     <button v-on="click: eviarNotasDeCredito" v-show="total" class="btn bg-theme btn-info">Agregar</button>
 </pre>
-
-<pre>
-	@{{ datos | json }}
-	@{{ total | json }}
-	@{{ restanteVenta | json }}
-</pre>
