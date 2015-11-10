@@ -1,9 +1,12 @@
 <div class="row">
-        <div  id="ventas_legth2" class="pull-left"></div>
-        <div  class="pull-left" padding-left="20px">
-            <input type="text" name="name" id="iSearchVentas">
-        </div>
+    <div  id="ventas_legth2" class="pull-left"></div>
+    <div  class="pull-left" padding-left="20px">
+        <input type="text" name="name" id="iSearchVentas">
+    </div>
 </div>
+
+<br>
+
 <table class="table table-theme" id="informeVentas" width="100%">
     <thead>
         <tr>
