@@ -8,7 +8,7 @@ function getFormSeleccionarTipoDeNotaDeCredito() {
         $('.bs-modal').modal('show');
     });
 };
- 
+
 function postFormSeleccionarTipoDeNotaDeCredito() {
     if ( $('input[name="nota_credito"]:checked').val() == 'notaDeCreditoPorDevolucion' ) {
         $.ajax({
@@ -131,10 +131,7 @@ function eliminarNotaCredito() {
 }
 
 
-function getConsultarNotasDeCreditoCliente() {
-    var venta_id = 30395;
-    var cliente_id = 9011;
-
+function getConsultarNotasDeCreditoCliente(cliente_id, venta_id) {
     $.ajax({
         type: "GET",
         url: 'user/notaDeCredito/getConsultarNotasDeCreditoCliente',
@@ -142,6 +139,7 @@ function getConsultarNotasDeCreditoCliente() {
     }).done(function(data) {
         if (data.success) {
             $('#graph_container').html(data.table);
+            $("#graph_container").css( "zIndex", 1500);
             return $('#graph_container').show();
         }
 

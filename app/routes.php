@@ -692,6 +692,11 @@
 
 Route::get('/test', function()
 {
+    Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message) {
+        $message->to(array('leonel.madrid@hotmail.com'))->subject('probando');
+        $message->attach("/home/nelug/sql.sql");
+    });
+
 
     /*
     //para quitar elementos iguales
