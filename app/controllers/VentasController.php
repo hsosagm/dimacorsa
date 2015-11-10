@@ -875,4 +875,37 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	public function getActualizarPagosVentaFinalizada()
+	{
+		$venta = Venta::find(Input::get('venta_id'));
+		$metodo_pago = MetodoPago::select('id','descripcion')->where('id', '<=', 5)->get();
+
+		return Response::json(array(
+			'success' => true,
+			'view' => View::make('ventas.ActualizarPagosVentaFinalizada', compact('venta', 'metodo_pago'))->render()
+		));
+	}
+
+	public function actualizarPagosVentaFinalizada()
+	{
+		PagosVenta::whereVentaId(Input::get('venta.id'))->delete();
+		$credito = 0 ;
+
+		foreach (Input::get('pagos') as $dp) {
+			$pagos = new PagosVenta;
+			$pagos->venta_id = Input::get('venta.id');
+			$pagos->monto = $dp['monto'];
+			$pagos->metodo_pago_id = $dp['metodo_pago_id'];
+			$pagos->save();
+			if($dp['metodo_pago_id'] == 2)
+				$credito =  $dp['monto'];
+		}
+
+		DB::table('ventas')->where('id', Input::get('venta.id'))->update(array('saldo' => $credito));
+
+		return Response::json(array(
+			'success' => true
+		));
+	}
+
 }

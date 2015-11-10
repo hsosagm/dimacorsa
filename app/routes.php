@@ -22,7 +22,7 @@
     Route::post('ImprimirAbonoCliente'     , 'SalesPaymentsController@imprimirAbonoVenta');
     Route::post('ImprimirAbonoProveedor'   , 'ProveedorController@ImprimirAbono' );
     Route::post('imprimirFacturaBond'      , 'VentasController@imprimirFacturaBond' );
- 
+
     //rutas para mostrar el pdf cuando no carga el plugin
     Route::get('ImprimirGarantiaPdf'       , 'VentasController@ImprimirGarantiaPdf');
     Route::get('ImprimirDescargaPdf'       , 'DescargaController@ImprimirDescargaPdf');
@@ -240,6 +240,8 @@
             Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');
             Route::get('getDetalleVentasPendientesPorUsuario'   , 'VentasController@getDetalleVentasPendientesPorUsuario');
             Route::post('pagoConNotasDeCredito'                 , 'VentasController@pagoConNotasDeCredito');
+            Route::get('getActualizarPagosVentaFinalizada'      , 'VentasController@getActualizarPagosVentaFinalizada');
+            Route::post('actualizarPagosVentaFinalizada'        , 'VentasController@actualizarPagosVentaFinalizada');
 
             Route::group(array('prefix' => 'payments'),function()
             {
