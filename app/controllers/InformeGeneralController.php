@@ -83,13 +83,22 @@ class InformeGeneralController extends \BaseController {
         if (Input::get("fecha") == "current_date")
             $fecha_query = Input::get("fecha");
 
-        $informes = InformeGeneral::whereTiendaId(Auth::user()->tienda_id)
+        $fecha = InformeGeneral::select(DB::raw('min(created_at) as fecha'))
+        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
+        ->whereTiendaId(Auth::user()->tienda_id)->first();
+
+        $informe = InformeGeneral::select('id')->whereCreatedAt(@$fecha->fecha)->first();
+
+        $data = $this->resumenInformeGeneral(@$informe->id, Auth::user()->tienda_id);
+
+        $arrayFechas = InformeGeneral::select(DB::raw('id, current_date as fecha'))
+            ->whereTiendaId(Auth::user()->tienda_id)
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
             ->get();
 
         return Response::json(array(
             'success' => true,
-            'view' => View::make('informes.resumenInformeGeneralTabla', compact('informes'))->render()
+            'view' => View::make('informes.resumenInformeGeneralTabla', compact('informes', 'data','arrayFechas'))->render()
         ));
     }
 
@@ -205,9 +214,13 @@ class InformeGeneralController extends \BaseController {
         $compras_credito = $compras = $this->sumTotalEntidadesConRelacion('compras', 'pagos_compras', 'compra_id', $selectCompraCredito, $fecha, $tienda_id, true);
         $ventas_credito =  $this->sumTotalEntidadesConRelacion('ventas', 'pagos_ventas', 'venta_id', $selectVentaCredito, $fecha, $tienda_id,true);
 
-        $data["inversionActual"] = $informe->inversion;
-        $data["cuentasCobrarActual"] =  $informe->cuentas_cobrar;
-        $data["cuentasPagarActual"] =  $informe->cuentas_pagar;
+        $data["inversionActual"] = @$informe->inversion;
+        $data["cuentasCobrarActual"] =  @$informe->cuentas_cobrar;
+        $data["cuentasPagarActual"] =  @$informe->cuentas_pagar;
+        $data["inversionReal"] = @$informe->real_inversion;
+        $data["cuentasCobrarReal"] =  @$informe->real_cuentas_cobrar;
+        $data["cuentasPagarReal"] =  @$informe->real_cuentas_pagar;
+
         $data["ventas"] = $ventas;
         $data["compras"] = $compras;
         $data["descargas"] = $descargas;

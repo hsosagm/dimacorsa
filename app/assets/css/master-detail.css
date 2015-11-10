@@ -59,7 +59,7 @@
 .search-proveedor-info {
 	font-size: 10px;
 }
- 
+
 .body-detail{
 	font-size: 10px;
 	line-height: 100%;
@@ -73,6 +73,11 @@
 
 .body-detail table tbody {
     height:160px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.scrolling{
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -125,7 +130,7 @@
 	font: bold !important;
 	font-size: 10px;
 	height: 0px;
-} 
+}
 
 .master-detail-info tr td input {
 	height: 20px;

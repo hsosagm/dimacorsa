@@ -1,3 +1,9 @@
+<div class="row">
+        <div  id="ventas_legth2" class="pull-left"></div>
+        <div  class="pull-left" padding-left="20px">
+            <input type="text" name="name" id="iSearchVentas">
+        </div>
+</div>
 <table class="table table-theme" id="informeVentas" width="100%">
     <thead>
         <tr>
@@ -24,13 +30,13 @@
 </table>
 
 <script type="text/javascript">
-    $("#iSearch").val("");
-    $("#iSearch").unbind();
-    $("#table_length4").html("");
+    $("#iSearchVentas").val("");
+    $("#iSearchVentas").unbind();
+    $("#ventas_legth2").html("");
     $('#informeVentas').dataTable();
     setTimeout(function() {
-        $('#informeVentas_length').prependTo("#table_length4");
-        $('#iSearch').keyup(function(){
+        $('#informeVentas_length').prependTo("#ventas_legth2");
+        $('#iSearchVentas').keyup(function(){
             $('#informeVentas').dataTable().fnFilter( $(this).val() );
         })
     }, 300);
