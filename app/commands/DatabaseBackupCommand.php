@@ -8,7 +8,7 @@ class DatabaseBackupCommand extends Command {
 
 	protected $name = 'backup:db';
 
-	protected $description = 'Backup all databases.';
+	protected $description = 'Backup database.';
 
 	public function fire()
 	{
