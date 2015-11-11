@@ -13,7 +13,7 @@
                 notas:[]
             },
 
-			total: "",
+			total: 0.00,
 
 			restanteVenta: {{ $data['saldo_restante'] }},
 
@@ -65,7 +65,8 @@
             	}).done(function(data) {
             		if (data.success == true)
             		{
-            			return;
+						msg.success('Pago ingresado', 'Listo!');
+	                    return $('.modal-body').html(data.detalle);
             		}
             		msg.warning(data, 'Advertencia!');
             	});
@@ -94,6 +95,9 @@
         <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
     </div>
 </div>
+<pre style="margin: 0px 0px 0px !important;" class="row">
+	<label class="col-md-4">Saldo restante: @{{ restanteVenta - total | currency ' ' }}</label> <label class="col-md-4">Total: @{{ total | currency ' ' }}</label>
+</pre>
 <div v-show="x == 1" id="container">
 	@include('notas_creditos.notasCreditosTable')
 </div>

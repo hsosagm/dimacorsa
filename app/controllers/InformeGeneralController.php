@@ -4,10 +4,7 @@ class InformeGeneralController extends \BaseController {
 
     public function procesarInformeDelDia($tienda_id)
     {
-        $data['guardado'] = $this->guardarInformeDelDia($tienda_id);
-        //$data['enviado'] = $this->enviarInformeDelDia($tienda_id);
-
-        return json_encode($data);
+        return $this->guardarInformeDelDia($tienda_id);
     }
 
     public function guardarInformeDelDia($tienda_id)
@@ -15,49 +12,51 @@ class InformeGeneralController extends \BaseController {
         $fecha = InformeGeneral::select(DB::raw('max(created_at) as fecha'))
         ->whereTiendaId($tienda_id)->first();
 
-        $informe = InformeGeneral::select('id')->whereCreatedAt($fecha->fecha)->first();;
+        $informe = InformeGeneral::select('id')->whereCreatedAt($fecha->fecha)->first();
 
-        $inversion = $informe->real_inversion;
-        $cuentas_cobrar = $informe->real_cuentas_cobrar;
-        $cuentas_pagar = $informe->real_cuentas_pagar;
+        $data = $this->resumenInformeGeneral($informe->id, $tienda_id);
 
-        $real_cuentas_pagar = Compra::where('tienda_id','=',$tienda_id)
+        $inversion_esp = ($data['inversionActual'] + $data['compras']) - ($data['ventas'] + $data['descargas'] + $data['traslados']);
+        $cuentas_cobrar_esp = ($data['cuentasCobrarActual'] + $data['ventas_credito']) - ($data['abonos_ventas']);
+        $cuentas_pagar_esp = ($data['cuentasPagarActual'] + $data['compras_credito']) - ($data['abonos_compras']);
+
+        $cuentas_pagar = Compra::where('tienda_id', '=', $tienda_id)
         ->first(array(DB::raw('sum(saldo) as total')));
 
-        $real_cuentas_cobrar = Venta::where('tienda_id','=',$tienda_id)
+        $cuentas_cobrar = Venta::where('tienda_id', '=', $tienda_id)
         ->first(array(DB::raw('sum(saldo) as total')));
 
-        $real_inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
-        ->where('tienda_id','=',$tienda_id)
-        ->where('existencias.existencia','>', 0)
+        $inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
+        ->where('tienda_id', '=', $tienda_id)
+        ->where('existencias.existencia', '>', 0)
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
         $newInforme = new InformeGeneral;
-        $newInforme->inversion = $inversion;
-        $newInforme->cuentas_cobrar = $cuentas_cobrar;
-        $newInforme->cuentas_pagar = $cuentas_pagar;
-        $newInforme->real_inversion = $real_inversion;
-        $newInforme->real_cuentas_cobrar = $real_cuentas_cobrar;
-        $newInforme->real_cuentas_pagar = $real_cuentas_pagar;
+        $newInforme->tienda_id = $tienda_id;
+        $newInforme->inversion = $inversion->total;
+        $newInforme->cuentas_cobrar = $cuentas_cobrar->total;
+        $newInforme->cuentas_pagar = $cuentas_pagar->total;
         $newInforme->save();
+
+        if(floatval($inversion_esp) != floatval($inversion->total))
+            $this->enviarInformeDelDia($tienda_id, $data);
+
+        else if(floatval($cuentas_cobrar_esp) != floatval($cuentas_cobrar->total))
+            $this->enviarInformeDelDia($tienda_id, $data);
+
+        else if(floatval($cuentas_pagar_esp)!= floatval($cuentas_pagar->total))
+            $this->enviarInformeDelDia($tienda_id, $data);
 
         return "Informe general guardado con exito..!";
     }
 
-    public function enviarInformeDelDia($tienda_id)
+    public function enviarInformeDelDia($tienda_id, $data)
     {
         $correos = DB::table('notificaciones')->select('correo')->whereTiendaId($tienda_id)
         ->where('notificacion','InformeGeneral')->get();
 
         if (!count($correos))
             return 'No hay correos asignados a esta notificacion..!';
-
-        $fecha = InformeGeneral::select(DB::raw('max(created_at) as fecha'))
-        ->whereTiendaId($tienda_id)->first();
-
-        $informe = InformeGeneral::whereTiendaId($tienda_id)
-        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT('{$fecha->fecha}', '%Y-%m-%d')")
-        ->first();
 
         $tienda = Tienda::find($tienda_id);
 
@@ -68,7 +67,6 @@ class InformeGeneralController extends \BaseController {
         $tienda_titulo = $tienda->nombre;
         $detalle_ventas = $this->getConsultaPorProducto(true, $tienda_id);
         $kardex = $this->getInformeKardexConsulta(true, $tienda_id);
-        $data = $this->resumenInformeGeneral($informe->id, $tienda_id);
 
         Mail::queue('emails.mensaje', array('asunto' => 'Informe General Diario'), function($message)
         use($data, $kardex, $detalle_ventas, $tienda_titulo, $emails)
@@ -207,6 +205,7 @@ class InformeGeneralController extends \BaseController {
     public function resumenInformeGeneral($informe_id, $fecha = 'current_date', $tienda_id = 0)
     {
         $informe = DB::table('informe_general_diario')->find($informe_id);
+        $informe_old = DB::table('informe_general_diario')->where('id', '<', $informe_id)->orderBy('id','desc')->first();
 
         $selectVenta = "sum((detalle_ventas.precio - detalle_ventas.ganancias) * detalle_ventas.cantidad)";
         $selectCompra = "sum(detalle_compras.precio * detalle_compras.cantidad)";
@@ -226,12 +225,12 @@ class InformeGeneralController extends \BaseController {
         $compras_credito = $compras = $this->sumTotalEntidadesConRelacion('compras', 'pagos_compras', 'compra_id', $selectCompraCredito, $fecha, $tienda_id, true);
         $ventas_credito =  $this->sumTotalEntidadesConRelacion('ventas', 'pagos_ventas', 'venta_id', $selectVentaCredito, $fecha, $tienda_id,true);
 
-        $data["inversionActual"] = @$informe->inversion;
-        $data["cuentasCobrarActual"] =  @$informe->cuentas_cobrar;
-        $data["cuentasPagarActual"] =  @$informe->cuentas_pagar;
-        $data["inversionReal"] = @$informe->real_inversion;
-        $data["cuentasCobrarReal"] =  @$informe->real_cuentas_cobrar;
-        $data["cuentasPagarReal"] =  @$informe->real_cuentas_pagar;
+        $data["inversionActual"] = @$informe_old->inversion;
+        $data["cuentasCobrarActual"] =  @$informe_old->cuentas_cobrar;
+        $data["cuentasPagarActual"] =  @$informe_old->cuentas_pagar;
+        $data["inversionReal"] = @$informe->inversion;
+        $data["cuentasCobrarReal"] =  @$informe->cuentas_cobrar;
+        $data["cuentasPagarReal"] =  @$informe->cuentas_pagar;
 
         $data["ventas"] = $ventas;
         $data["compras"] = $compras;

@@ -692,12 +692,11 @@
 
 Route::get('/test', function()
 {
-    Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message) {
-        $message->to(array('leonel.madrid@hotmail.com'))->subject('probando');
-        $message->attach("/home/nelug/sql.sql");
-    });
-
-
+    $guardar = new  InformeGeneralController;
+    $guardar->procesarInformeDelDia(1);
+    echo "<br><br><br>";
+    $informe_old = DB::table('informe_general_diario')->where('id', '<', 5)->orderBy('id','desc')->first();
+    return json_encode($informe_old);
     /*
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");

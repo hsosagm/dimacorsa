@@ -7,7 +7,7 @@ class CierreController extends \BaseController {
         $fecha = Input::get('fecha');
         $fecha_enviar = "'{$fecha}'";
 
-        if ($fecha == 'current_date')
+        if ($fecha == 'current_date') 
         {
             $fecha_enviar = 'current_date';
             $dt = Carbon::now();

@@ -186,7 +186,8 @@ class CajaController extends \BaseController
         ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
 		->where("{$tabla_master}s.tienda_id", '=' , Auth::user()->tienda_id)
 		->where("{$tabla_master}s.caja_id", '=' , $data['caja_id'])
-        ->where("{$tabla_master}s.abono", '=' , 0)
+		->where("{$tabla_master}s.abono", '=' , 0)
+        ->where("{$tabla_master}s.canceled", '=' , 0)
         ->groupBy('metodo_pago.id')->get();
 
         return $this->llenar_arreglo($Query);

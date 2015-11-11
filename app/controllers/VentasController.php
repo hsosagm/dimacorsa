@@ -259,9 +259,45 @@ class VentasController extends \BaseController {
 	public function pagoConNotasDeCredito()
 	{
 
-		return  Response::json(array(
+		return json_encode(Input::get('notas_creditos'));
+		$vuelto = 0;
+		$monto = str_replace(',', '', Input::get('monto'));
+		$TotalVenta = $this->getTotalVenta();
+		$resta_abonar = $TotalVenta - $this->getTotalPagado();
+
+		if ($monto > $resta_abonar)
+		{
+			Input::merge(array('monto' => $resta_abonar));
+			$vuelto = $monto - $resta_abonar;
+			$resta_abonar = 0;
+
+		} else {
+			$resta_abonar = $resta_abonar - $monto;
+			Input::merge(array('monto' => $monto));
+		}
+
+		$pv = new PagosVenta;
+
+		if (!$pv->_create())
+		{
+			return $pv->errors();
+		}
+
+		$factura = DB::table('printer')->select('impresora')
+		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
+
+		$garantia = DB::table('printer')->select('impresora')
+		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','garantia')->first();
+
+		$venta = Venta::find(Input::get('venta_id'));
+
+		$cliente_id = $venta->cliente_id;
+
+		$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
+
+		return Response::json(array(
 			'success' => true,
-			'datos' => Input::get('datos')
+			'detalle' => View::make('ventas.payments', compact('pv', 'TotalVenta', 'resta_abonar', 'vuelto', 'factura', 'garantia', 'cliente_id'))->render()
 		));
 	}
 

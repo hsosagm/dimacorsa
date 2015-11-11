@@ -5,7 +5,7 @@ class ConsultasCajaController extends \BaseController {
 	public function ConsultasPorMetodoDePago($model)
 	{
 		if(trim($model) == 'Ventas')
-			return $this->consultasPagos('venta', 'showSalesDetail');
+			return $this->consultasPagos('venta', 'showSalesDetail', true);
 
 		if (trim($model) == 'AbonosVentas')
 			return $this->consultasAbonos('ventas', 'verDetalleAbonosClietes');
@@ -26,7 +26,7 @@ class ConsultasCajaController extends \BaseController {
 			return 'No se envio ninguna peticion';
 	}
 
-	public function consultasPagos($_table, $linkDetalle)
+	public function consultasPagos($_table, $linkDetalle, $columAbono = false)
 	{
         $fecha_inicial = "'".Input::get('fecha_inicial')."'";
 		$fecha_final = "'".Input::get('fecha_final')."'";
@@ -64,6 +64,9 @@ class ConsultasCajaController extends \BaseController {
         $where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT({$fecha_final}, '%Y-%m-%d %H:%i:%s')";
         $where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 		$where .= " AND {$table}.caja_id = ".Input::get('caja_id');
+
+		if ($columAbono == true)
+			$where .= " AND {$_table}s.abono = 0";
 
 		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
 
