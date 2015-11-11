@@ -33,7 +33,8 @@ class NotaCreditoController extends \BaseController {
 
     public function getConsultarNotasDeCreditoCliente()
     {
-        $pagos = PagosVenta::whereMetodoPagoId(6)->first();
+        $pagos = PagosVenta::whereMetodoPagoId(6)
+        ->whereVentaId(Input::get('venta_id'))->first();
 
         if ($pagos != "")
             return 'Ya has ingresado notas de credito en la venta..!';
@@ -43,7 +44,8 @@ class NotaCreditoController extends \BaseController {
             DB::raw("CONCAT_WS(' ', nombre, apellido) as usuario"),
             'monto')
         ->join('users', 'user_id', '=', 'users.id')
-        ->whereClienteId(Input::get('cliente_id'))->get();
+        ->whereClienteId(Input::get('cliente_id'))
+        ->whereEstado(0)->get();
 
         if (!count($notasCreditos))
             return 'No tienes notas de credito para asignar..!';

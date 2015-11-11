@@ -60,13 +60,18 @@
             		url: 'user/ventas/pagoConNotasDeCredito',
                     data: {
 						notas_creditos: notasCreditosVue.envio.notas,
-						info: notasCreditosVue.datos.enviar
+						venta_id: notasCreditosVue.datos.enviar.venta_id,
+						cliente_id: notasCreditosVue.datos.enviar.cliente_id
 					},
             	}).done(function(data) {
             		if (data.success == true)
             		{
 						msg.success('Pago ingresado', 'Listo!');
-	                    return $('.modal-body').html(data.detalle);
+						$('#graph_container').hide();
+						$('#graph_container').html("");
+						$('.modal-body').html("");
+	                    $('.modal-body').html(data.detalle);
+						return;
             		}
             		msg.warning(data, 'Advertencia!');
             	});

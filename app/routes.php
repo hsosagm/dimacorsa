@@ -693,7 +693,7 @@
 Route::get('/test', function()
 {
     $guardar = new  InformeGeneralController;
-    $guardar->procesarInformeDelDia(1);
+    $guardar->procesarInformeDelDia();
     echo "<br><br><br>";
     $informe_old = DB::table('informe_general_diario')->where('id', '<', 5)->orderBy('id','desc')->first();
     return json_encode($informe_old);

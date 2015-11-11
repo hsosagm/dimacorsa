@@ -27,5 +27,8 @@ class DatabaseBackupCommand extends Command {
             $message->to(array('hsosagm@gmail.com'))->subject('backup');
             $message->attach($restore_file);
         });
+
+		$procesarInforme = new  InformeGeneralController;
+	    $procesarInforme->procesarInformeDelDia();
 	}
 }

@@ -258,30 +258,27 @@ class VentasController extends \BaseController {
 
 	public function pagoConNotasDeCredito()
 	{
+		$monto = 0;
+		foreach (Input::get('notas_creditos')  as $nc) {
+			$monto += floatval($nc['monto']);
+			$notasCreditos = NotaCredito::find($nc['id_nota']);
+			$notasCreditos->venta_id = Input::get('venta_id');
+			$notasCreditos->save();
+		}
 
-		return json_encode(Input::get('notas_creditos'));
 		$vuelto = 0;
-		$monto = str_replace(',', '', Input::get('monto'));
+
 		$TotalVenta = $this->getTotalVenta();
 		$resta_abonar = $TotalVenta - $this->getTotalPagado();
 
-		if ($monto > $resta_abonar)
-		{
-			Input::merge(array('monto' => $resta_abonar));
-			$vuelto = $monto - $resta_abonar;
-			$resta_abonar = 0;
+		$resta_abonar = $resta_abonar - $monto;
 
-		} else {
-			$resta_abonar = $resta_abonar - $monto;
-			Input::merge(array('monto' => $monto));
-		}
 
 		$pv = new PagosVenta;
-
-		if (!$pv->_create())
-		{
-			return $pv->errors();
-		}
+		$pv->monto = $monto;
+		$pv->venta_id = Input::get('venta_id');
+		$pv->metodo_pago_id = 6;
+		$pv->save();
 
 		$factura = DB::table('printer')->select('impresora')
 		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
@@ -387,6 +384,20 @@ class VentasController extends \BaseController {
         else {
             $saldo = $credit->monto;
         }
+
+		$notasCredito = PagosVenta::where('venta_id', Input::get('venta_id'))
+        ->where('metodo_pago_id', 6)
+        ->first(array(DB::raw('monto')));
+
+		if ($notasCredito->monto != "") {
+            $notasDeCredito = NotaCredito::whereVentaId(Input::get('venta_id'))->get();
+			foreach ($notasDeCredito as $nc) {
+				$nota = NotaCredito::find($nc->id);
+				$nota->estado = 1;
+				$nota->save();
+			}
+        }
+
         $total = DetalleVenta::where('venta_id','=',Input::get('venta_id'))->first(array(DB::raw('sum(cantidad * precio) as total')));
 		$caja = Caja::whereUserId(Auth::user()->id)->first();
 

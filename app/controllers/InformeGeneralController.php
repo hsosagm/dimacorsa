@@ -2,9 +2,36 @@
 
 class InformeGeneralController extends \BaseController {
 
-    public function procesarInformeDelDia($tienda_id)
+    public function procesarInformeDelDia()
     {
-        return $this->guardarInformeDelDia($tienda_id);
+        $tiendas = Tienda::all();
+
+        foreach ($tiendas as $tienda) {
+            if (InformeGeneral::whereTiendaId($tienda->id)->first() == "")
+                $this->datosIniciales($tienda->id);
+            else
+                $this->guardarInformeDelDia($tienda->id);
+        }
+    }
+
+    public function datosIniciales($tienda_id)
+    {
+        $cuentas_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        $cuentas_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        $inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
+        ->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+
+        $newInforme = new InformeGeneral;
+        $newInforme->tienda_id = $tienda_id;
+        $newInforme->inversion = $inversion->total;
+        $newInforme->cuentas_cobrar = $cuentas_cobrar->total;
+        $newInforme->cuentas_pagar = $cuentas_pagar->total;
+        $newInforme->save();
+
+        echo "Datos iniciales guardados tienda ".$tienda_id."<br>";
     }
 
     public function guardarInformeDelDia($tienda_id)
@@ -20,15 +47,12 @@ class InformeGeneralController extends \BaseController {
         $cuentas_cobrar_esp = ($data['cuentasCobrarActual'] + $data['ventas_credito']) - ($data['abonos_ventas']);
         $cuentas_pagar_esp = ($data['cuentasPagarActual'] + $data['compras_credito']) - ($data['abonos_compras']);
 
-        $cuentas_pagar = Compra::where('tienda_id', '=', $tienda_id)
-        ->first(array(DB::raw('sum(saldo) as total')));
+        $cuentas_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
 
-        $cuentas_cobrar = Venta::where('tienda_id', '=', $tienda_id)
-        ->first(array(DB::raw('sum(saldo) as total')));
+        $cuentas_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
 
         $inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
-        ->where('tienda_id', '=', $tienda_id)
-        ->where('existencias.existencia', '>', 0)
+        ->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
         $newInforme = new InformeGeneral;
@@ -47,7 +71,7 @@ class InformeGeneralController extends \BaseController {
         else if(floatval($cuentas_pagar_esp)!= floatval($cuentas_pagar->total))
             $this->enviarInformeDelDia($tienda_id, $data);
 
-        return "Informe general guardado con exito..!";
+        echo "Informe general guardado con exito tienda {$tienda_id}..! <br>";
     }
 
     public function enviarInformeDelDia($tienda_id, $data)
@@ -56,34 +80,39 @@ class InformeGeneralController extends \BaseController {
         ->where('notificacion','InformeGeneral')->get();
 
         if (!count($correos))
-            return 'No hay correos asignados a esta notificacion..!';
-
-        $tienda = Tienda::find($tienda_id);
-
-        foreach ($correos as $val) {
-            $emails [] = $val->correo;
-        }
-
-        $tienda_titulo = $tienda->nombre;
-        $detalle_ventas = $this->getConsultaPorProducto(true, $tienda_id);
-        $kardex = $this->getInformeKardexConsulta(true, $tienda_id);
-
-        Mail::queue('emails.mensaje', array('asunto' => 'Informe General Diario'), function($message)
-        use($data, $kardex, $detalle_ventas, $tienda_titulo, $emails)
         {
-            $pdfInforme = PDF::loadView('informes.resumenInformeGeneralPdf',  array('data' => $data))->setOrientation('landscape')->setPaper('letter');
-            $pdfVentas = PDF::loadView('informes.informePorProducto',  array('detalle_ventas' => $detalle_ventas))->setOrientation('landscape')->setPaper('letter');
-            $pdfKardex = PDF::loadView('informes.kardexInformeDelDia',  array('kardex' => $kardex))->setOrientation('landscape')->setPaper('letter');
+            echo "No hay correos asignados a esta notificacion tienda {$tienda_id}..!<br>";
+        }
+        else
+        {
+            $tienda = Tienda::find($tienda_id);
 
-            $message->to($emails)->subject('Notificacion Informe General '.$tienda_titulo);
-            $message->attachData($pdfInforme->output(), Carbon::now()."-informe.pdf");
-            $message->attachData($pdfVentas->output(), Carbon::now()."-ventas.pdf");
-            $message->attachData($pdfKardex->output(), Carbon::now()."-kardex.pdf");
-        });
+            foreach ($correos as $val) {
+                $emails [] = $val->correo;
+            }
 
-        $datos['mensaje'] = 'Mensajes enviados con exito';
-        $datos['correos'] = $emails;
-        return $datos;
+            $tienda_titulo = $tienda->nombre;
+            $detalle_ventas = $this->getConsultaPorProducto(true, $tienda_id);
+            $kardex = $this->getInformeKardexConsulta(true, $tienda_id);
+
+            Mail::queue('emails.mensaje', array('asunto' => 'Informe General Diario'), function($message)
+            use($data, $kardex, $detalle_ventas, $tienda_titulo, $emails)
+            {
+                $pdfInforme = PDF::loadView('informes.resumenInformeGeneralPdf',  array('data' => $data))->setOrientation('landscape')->setPaper('letter');
+                $pdfVentas = PDF::loadView('informes.informePorProducto',  array('detalle_ventas' => $detalle_ventas))->setOrientation('landscape')->setPaper('letter');
+                $pdfKardex = PDF::loadView('informes.kardexInformeDelDia',  array('kardex' => $kardex))->setOrientation('landscape')->setPaper('letter');
+
+                $message->to($emails)->subject('Notificacion Informe General '.$tienda_titulo);
+                $message->attachData($pdfInforme->output(), Carbon::now()."-informe.pdf");
+                $message->attachData($pdfVentas->output(), Carbon::now()."-ventas.pdf");
+                $message->attachData($pdfKardex->output(), Carbon::now()."-kardex.pdf");
+            });
+
+            $datos['mensaje'] = 'Mensajes enviados con exito';
+            $datos['correos'] = $emails;
+
+            echo json_encode($datos);
+        }
     }
 
     public function verInformeTabla()
@@ -95,14 +124,14 @@ class InformeGeneralController extends \BaseController {
 
         $fecha = InformeGeneral::select(DB::raw('min(created_at) as fecha'))
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
-        ->whereTiendaId(Auth::user()->tienda_id)->first();
+        ->whereTiendaId(@Auth::user()->tienda_id)->first();
 
         $informe = InformeGeneral::select('id')->whereCreatedAt(@$fecha->fecha)->first();
 
-        $data = $this->resumenInformeGeneral(@$informe->id, Auth::user()->tienda_id);
+        $data = $this->resumenInformeGeneral(@$informe->id, @Auth::user()->tienda_id);
 
         $arrayFechas = InformeGeneral::select(DB::raw('id, current_date as fecha'))
-            ->whereTiendaId(Auth::user()->tienda_id)
+            ->whereTiendaId(@Auth::user()->tienda_id)
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
             ->get();
 
@@ -145,7 +174,7 @@ class InformeGeneralController extends \BaseController {
         else {
             $informe = InformeGeneral::find(Input::get('informe_id'));
             $fecha =  "'".$informe->created_at."'";
-            $tienda_id = Auth::user()->tienda_id;
+            $tienda_id = @Auth::user()->tienda_id;
         }
 
         $kardex = DB::table('kardex')
@@ -191,7 +220,7 @@ class InformeGeneralController extends \BaseController {
         else {
             $informe = InformeGeneral::find(Input::get('informe_id'));
             $fecha =  "'".$informe->created_at."'";
-            $tienda_id = Auth::user()->tienda_id;
+            $tienda_id = @Auth::user()->tienda_id;
         }
 
         $detalle_ventas = DetalleVenta::with('producto')
@@ -264,7 +293,7 @@ class InformeGeneralController extends \BaseController {
         $fecha_query = "'".$fecha."'";
 
         if($tienda_id == 0)
-            $tienda_id = Auth::user()->tienda_id;
+            $tienda_id = @Auth::user()->tienda_id;
 
         if ($fecha == "current_date")
             $fecha_query = $fecha;
