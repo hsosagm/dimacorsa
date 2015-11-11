@@ -11,7 +11,7 @@ class InformeGeneralDiario extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('tienda_id')->unsigned();
-			$table->decimal('inversion', 8, 2);
+			$table->decimal('inversion', 8, 2); // 10,2
 			$table->decimal('cuentas_cobrar', 8, 2);
 			$table->decimal('cuentas_pagar', 8, 2);
 			$table->decimal('real_inversion', 8, 2);

@@ -692,12 +692,10 @@
 
 Route::get('/test', function()
 {
-if(function_exists('exec')) {
-echo "exec function is enabled";
-}
-else {
-echo "exec is not enabled";
-}
+    Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message) {
+        $message->to(array('leonel.madrid@hotmail.com'))->subject('probando');
+        $message->attach("/home/nelug/sql.sql");
+    });
 
 
     /*
