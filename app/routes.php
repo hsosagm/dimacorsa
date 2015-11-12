@@ -697,11 +697,9 @@
 
 Route::get('/test', function()
 {
-    $guardar = new  InformeGeneralController;
-    $guardar->procesarInformeDelDia();
-    echo "<br><br><br>";
-    $informe_old = DB::table('informe_general_diario')->where('id', '<', 5)->orderBy('id','desc')->first();
-    return json_encode($informe_old);
+    // $info = new InformeGeneralController;
+    // return $info->procesarInformeDelDia();
+
     /*
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");
