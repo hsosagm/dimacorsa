@@ -2,10 +2,12 @@
     {{ Form::open(array('v-on="submit: generarDevolucion"', 'class' => "form-generarDevolucion")) }}
         <div class="row">
             <div class="col-md-6" style="font-size:12px">
-                <label class="col-md-3" >Venta ID:</label>
-                <label class="col-md-9" >@{{ venta.id }}</label>
-                <label class="col-md-3" >Total devolucion:</label>
-                <label class="col-md-9" >@{{ totalDevolucion | currency ' ' }}</label>
+                <label v-if="!devolucion_id" class="col-md-3" >Observaciones:</label>
+                <textarea v-if="!devolucion_id" class="form-control" v-model="observaciones" rows="3"></textarea>
+                <label v-if="devolucion_id" class="col-md-3" >Venta ID:</label>
+                <label v-if="devolucion_id" class="col-md-9" >@{{ venta.id }}</label>
+                <label v-if="devolucion_id" class="col-md-3" >Total devolucion:</label>
+                <label v-if="devolucion_id" class="col-md-9" >@{{ totalDevolucion | currency ' ' }}</label>
             </div>
 
             <div class="col-md-6" style="font-size:12px">
@@ -45,7 +47,8 @@
             devolucion_id: '',
             producto: [],
             detalleTable: [],
-            totalDevolucion: 0
+            totalDevolucion: 0,
+            observaciones: ""
         },
 
         watch: {
@@ -81,7 +84,7 @@
                 $.ajax({
                     type: form.attr('method'),
                     url: form.attr('action'),
-                    data: { cliente_id: this.venta.cliente.id, tienda_id: this.venta.tienda_id, venta_id: this.venta.id, _token: token },
+                    data: { cliente_id: this.venta.cliente.id, tienda_id: this.venta.tienda_id, venta_id: this.venta.id, _token: token, observaciones: this.observaciones },
                 }).done(function(data) {
                     if (data.success == true)
                     {

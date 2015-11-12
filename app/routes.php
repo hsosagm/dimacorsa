@@ -267,7 +267,7 @@
                 Route::get('getVentasParaDevoluciones'         , 'DevolucionesVentasController@getVentasParaDevoluciones');
                 Route::get('DT_ventasParaDevoluciones'         , 'DevolucionesVentasController@DT_ventasParaDevoluciones');
                 Route::get('misDevolucionesDelDia'         , 'DevolucionesVentasController@misDevolucionesDelDia');
-                Route::get('misDevolucionesDelDia_dt'         , 'DevolucionesVentasController@misDevolucionesDelDia_dt');
+                Route::get('devoluciones_DT'         , 'DevolucionesVentasController@devoluciones_DT');
                 Route::get('getDevolucionesDetail'         , 'DevolucionesVentasController@getDevolucionesDetail');
                 Route::get('openDevolucion'         , 'DevolucionesVentasController@openDevolucion');
                 Route::post('deleteDevolucion'         , 'DevolucionesVentasController@deleteDevolucion');
@@ -401,6 +401,11 @@
             Route::get('DtAdelantosPorFecha/{consulta}'          , 'QueriesController@DtAdelantosPorFecha'  );
             Route::get('getIngresosPorFecha/{consulta}'          , 'QueriesController@getIngresosPorFecha'  );
             Route::get('DtIngresosPorFecha/{consulta}'           , 'QueriesController@DtIngresosPorFecha'   );
+
+            Route::group(array('prefix' => 'devoluciones'),function()
+            {
+                Route::get('/', 'DevolucionesVentasController@devoluciones');
+            });
         });
 
         Route::group(array('prefix' => 'cierre'),function()

@@ -23,7 +23,7 @@
                     "mRender": function(  data, type, full ) {
                         $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="getDevolucionesDetail(this)" class="fa fa-plus-square show_detail font14">';
                         $v += '<a href="javascript:void(0);" title="Abrir devolucion" onclick="openDevolucion('+full.DT_RowId+')" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
-                        $v += '<a href="javascript:void(0);" title="Eliminar devolucion" onclick="deleteDevolucion('+full.DT_RowId+')" class="fa fa-trash-o font14" style="padding-left:10px">';
+                        $v += '<a href="javascript:void(0);" title="Eliminar devolucion" onclick="deleteDevolucion(this, '+full.DT_RowId+')" class="fa fa-trash-o font14" style="padding-left:10px">';
                         return $v;
                     }
                 }
@@ -42,10 +42,14 @@
                 }
             },
 
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "where", "value": "{{$where}}" });
+            },
+
             "bJQueryUI": false,
             "bProcessing": true,
             "bServerSide": true,
-            "sAjaxSource": "user/ventas/devoluciones/misDevolucionesDelDia_dt",
+            "sAjaxSource": "user/ventas/devoluciones/devoluciones_DT",
         });
 
     });

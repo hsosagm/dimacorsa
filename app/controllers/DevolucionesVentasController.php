@@ -323,15 +323,31 @@ class DevolucionesVentasController extends \BaseController {
 		));
 	}
 
+    public function devoluciones()
+    {
+		$where = "devoluciones.tienda_id = ".Auth::user()->tienda_id;
+
+		return $this->devolucionesTableResponse($where);
+    }
+
     public function misDevolucionesDelDia()
+    {
+		$where  = "DATE_FORMAT(devoluciones.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')";
+		$where .= " AND users.id = ".Auth::user()->id;
+		$where .= " AND devoluciones.tienda_id = ".Auth::user()->tienda_id;
+
+		return $this->devolucionesTableResponse($where);
+    }
+
+    public function devolucionesTableResponse($where)
     {
 		return Response::json(array(
 			'success' => true,
-			'table'   => View::make('ventas.devoluciones.devolucionesDelDia')->render()
+			'table'   => View::make('ventas.devoluciones.devoluciones', compact('where'))->render()
 		));
     }
 
-	public function misDevolucionesDelDia_dt()
+	public function devoluciones_DT()
 	{
 		$table = 'devoluciones';
 
@@ -344,9 +360,7 @@ class DevolucionesVentasController extends \BaseController {
 
 		$Search_columns = array("users.nombre", "users.apellido", "clientes.nombre");
 		$Join = "JOIN users ON (users.id = devoluciones.user_id) JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
-		$where = "DATE_FORMAT(devoluciones.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')";
-		$where .= " AND users.id = ".Auth::user()->id;
-		$where .= " AND devoluciones.tienda_id = ".Auth::user()->tienda_id;
+		$where = Input::get('where');
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}

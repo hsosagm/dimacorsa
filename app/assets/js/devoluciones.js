@@ -1,3 +1,16 @@
+function devolucionesDelDia()
+{
+    $.ajax({
+        type: "GET",
+        url: 'admin/queries/devoluciones',
+    }).done(function(data) {
+        if (!data.success == true)
+            return msg.warning(data, 'Advertencia!');
+
+        makeTable(data.table, '', 'Devoluciones');
+    });
+};
+
 function misDevolucionesDelDia()
 {
     $.ajax({
@@ -31,7 +44,6 @@ function getDevolucionesDetail(e)
     }
 };
 
-
 function ajaxDetalleDevolucion(e)
 {
     var id = $(e).closest('tr').attr('id');
@@ -52,7 +64,6 @@ function ajaxDetalleDevolucion(e)
         $('.grid_detalle_factura').html(data.table);
         $(nTr).next('.subtable').fadeIn('slow');
         $(e).addClass('hide_detail');
-        return;
     });
 };
 
@@ -69,11 +80,11 @@ function openDevolucion(id)
         ocultar_capas();
         $('.panel-title').text('Formulario Devoluciones');
         $(".forms").html(data.table);
-        return $(".form-panel").show();
+        $(".form-panel").show();
     });
 };
 
-function deleteDevolucion(id)
+function deleteDevolucion(element, id)
 {
     $.confirm({
         confirm: function()
@@ -86,7 +97,8 @@ function deleteDevolucion(id)
 		        if (!data.success == true)
 		            return msg.warning(data, 'Advertencia!');
 
-		        return msg.success('Devolucion eliminada', 'Success!');
+                $(element).closest('tr').hide();
+                msg.success('Devolucion eliminada', 'Success!');
 		    });
         }
     });

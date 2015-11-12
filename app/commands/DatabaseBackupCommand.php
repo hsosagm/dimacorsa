@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 class DatabaseBackupCommand extends Command {
 
 	protected $name = 'backup:db';
-
 	protected $description = 'Backup database.';
 
 	public function fire()
