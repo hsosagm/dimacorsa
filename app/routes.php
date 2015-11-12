@@ -692,6 +692,8 @@
 
 Route::get('/test', function()
 {
+    $informe = new InformeGeneralController;
+    return json_encode($informe->resumenInformeGeneralPrueba());
     /*
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");

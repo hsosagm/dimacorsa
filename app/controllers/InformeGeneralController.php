@@ -246,6 +246,7 @@ class InformeGeneralController extends \BaseController {
             $tienda_id = Auth::user()->tienda_id;
 
         $informe = DB::table('informe_general_diario')->find($informe_id);
+
         $informe_old = DB::table('informe_general_diario')->whereTiendaId($tienda_id)
         ->where('id', '<', $informe_id)->orderBy('id','desc')->first();
 
@@ -285,6 +286,58 @@ class InformeGeneralController extends \BaseController {
 
         return $data;
     }
+
+    public function resumenInformeGeneralPrueba()
+    {
+        $tienda_id = Auth::user()->tienda_id;
+
+        $cuentas_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        $cuentas_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+
+        $inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
+        ->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+
+        $informe_old = InformeGeneral::orderBy('id', 'desc')->first(); ;
+
+        $selectVenta = "sum((detalle_ventas.precio - detalle_ventas.ganancias) * detalle_ventas.cantidad)";
+        $selectCompra = "sum(detalle_compras.precio * detalle_compras.cantidad)";
+        $selectDescarga = "sum(detalle_descargas.precio * detalle_descargas.cantidad)";
+        $selectTraslado = "sum(detalle_traslados.precio * detalle_traslados.cantidad)";
+        $selectAbonosVenta = "sum(detalle_abonos_ventas.monto)";
+        $selectAbonosCompra = "sum(detalle_abonos_compra.monto)";
+        $selectVentaCredito = "sum(pagos_ventas.monto)";
+        $selectCompraCredito = "sum(pagos_compras.monto)";
+
+        $ventas = $this->sumTotalEntidadesConRelacion('ventas', 'detalle_ventas', 'venta_id', $selectVenta, 'current_date', $tienda_id);
+        $compras = $this->sumTotalEntidadesConRelacion('compras', 'detalle_compras', 'compra_id', $selectCompra, 'current_date', $tienda_id);
+        $descargas = $this->sumTotalEntidadesConRelacion('descargas', 'detalle_descargas', 'descarga_id', $selectDescarga, 'current_date', $tienda_id);
+        $traslados = $this->sumTotalEntidadesConRelacion('traslados', 'detalle_traslados', 'traslado_id', $selectTraslado, 'current_date', $tienda_id);
+        $abonos_ventas = $this->sumTotalEntidadesConRelacion('abonos_ventas', 'detalle_abonos_ventas', 'abonos_ventas_id', $selectAbonosVenta, 'current_date', $tienda_id);
+        $abonos_compras = $this->sumTotalEntidadesConRelacion('abonos_compras', 'detalle_abonos_compra', 'abonos_compra_id', $selectAbonosCompra, 'current_date', $tienda_id);
+        $compras_credito = $this->sumTotalEntidadesConRelacion('compras', 'pagos_compras', 'compra_id', $selectCompraCredito, 'current_date', $tienda_id, true);
+        $ventas_credito =  $this->sumTotalEntidadesConRelacion('ventas', 'pagos_ventas', 'venta_id', $selectVentaCredito, 'current_date', $tienda_id,true);
+
+        $data["inversionActual"] = @$informe_old->inversion;
+        $data["cuentasCobrarActual"] =  @$informe_old->cuentas_cobrar;
+        $data["cuentasPagarActual"] =  @$informe_old->cuentas_pagar;
+        $data["inversionReal"] = @$inversion->total;
+        $data["cuentasCobrarReal"] =  @$cuentas_cobrar->total;
+        $data["cuentasPagarReal"] =  @$cuentas_pagar->total;
+
+        $data["ventas"] = $ventas;
+        $data["compras"] = $compras;
+        $data["descargas"] = $descargas;
+        $data["traslados"] = $traslados;
+        $data["abonos_ventas"] = $abonos_ventas;
+        $data["abonos_compras"] = $abonos_compras;
+        $data["compras_credito"] = $compras_credito;
+        $data["ventas_credito"] = $ventas_credito;
+
+        return $data;
+    }
+
 
     /*
         Funcion para procesar la suma del detalle o de pagos de una tabla
