@@ -122,13 +122,10 @@ class InformeGeneralController extends \BaseController {
         if (Input::get("fecha") == "current_date")
             $fecha_query = Input::get("fecha");
 
-        $fecha = InformeGeneral::select(DB::raw('min(created_at) as fecha'))
-        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
-        ->whereTiendaId(Auth::user()->tienda_id)->first();
+        $informeGeneral = InformeGeneral::select('id')
+        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")->first();
 
-        $informe = InformeGeneral::select('id')->whereCreatedAt(@$fecha->fecha)->first();
-
-        $data = $this->resumenInformeGeneral(@$informe->id, Auth::user()->tienda_id);
+        $data = $this->resumenInformeGeneral(@$informeGeneral->id, Auth::user()->tienda_id);
 
         $arrayFechas = InformeGeneral::select(DB::raw('id, current_date as fecha'))
             ->whereTiendaId(Auth::user()->tienda_id)
@@ -143,8 +140,8 @@ class InformeGeneralController extends \BaseController {
 
     public function getDetalleInformeGeneral()
     {
-        $informe = InformeGeneral::find(Input::get('informe_id'));
-        $data = $this->resumenInformeGeneral(Input::get('informe_id'), $informe->created_at);
+        $informeGeneral = InformeGeneral::find(Input::get('informe_id'));
+        $data = $this->resumenInformeGeneral(Input::get('informe_id'), $informeGeneral->created_at);
 
         return Response::json(array(
             "success" => true,
@@ -155,16 +152,20 @@ class InformeGeneralController extends \BaseController {
 
     public function getKardexInformeDelDia()
     {
-        $informe = InformeGeneral::find(Input::get('informe_id'));
+        $informeGeneral = InformeGeneral::find(Input::get('informe_id'));
         $kardex = $this->getInformeKardexConsulta();
 
         return Response::json(array(
-            "titulo" => "INFORME DE KARDEX DEL ".substr($informe->created_at, 0, 10),
+            "titulo" => "INFORME DE KARDEX DEL ".substr($informeGeneral->created_at, 0, 10),
             "success" => true,
             "table" => View::make('informes.kardexInformeDelDia', compact('kardex'))->render()
         ));
     }
 
+    /*
+        $tienda_id = 0
+        es para cuando se consulta desde la aplicacion el kardex respectivos de la tienda en la que el usuario esta logueado
+    */
     public function getInformeKardexConsulta($current_date = false, $tienda_id = 0)
     {
         if ($current_date) {
@@ -172,8 +173,8 @@ class InformeGeneralController extends \BaseController {
             $tienda_id = $tienda_id;
         }
         else {
-            $informe = InformeGeneral::find(Input::get('informe_id'));
-            $fecha =  "'".$informe->created_at."'";
+            $informeGeneral = InformeGeneral::find(Input::get('informe_id'));
+            $fecha =  "'".$informeGeneral->created_at."'";
             $tienda_id = @Auth::user()->tienda_id;
         }
 
@@ -200,17 +201,21 @@ class InformeGeneralController extends \BaseController {
 
     public function getInformePorProducto()
     {
-        $informe = InformeGeneral::find(Input::get('informe_id'));
+        $informeGeneral = InformeGeneral::find(Input::get('informe_id'));
 
         $detalle_ventas = $this->getConsultaPorProducto();
 
         return Response::json(array(
-            "titulo" => "INFORME DE VENTAS DEL ".substr($informe->created_at, 0, 10),
+            "titulo" => "INFORME DE VENTAS DEL ".substr($informeGeneral->created_at, 0, 10),
             "success" => true,
             "table" => View::make('informes.informePorProducto', compact('detalle_ventas'))->render()
         ));
     }
 
+    /*
+        $tienda_id = 0
+        es para cuando se consulta desde la aplicacion los detalle de ventas respectivos de la tienda en la que el usuario esta logueado
+    */
     public function getConsultaPorProducto($current_date = false, $tienda_id = 0)
     {
         if ($current_date) {
@@ -218,8 +223,8 @@ class InformeGeneralController extends \BaseController {
             $tienda_id = $tienda_id;
         }
         else {
-            $informe = InformeGeneral::find(Input::get('informe_id'));
-            $fecha =  "'".$informe->created_at."'";
+            $informeGeneral = InformeGeneral::find(Input::get('informe_id'));
+            $fecha =  "'".$informeGeneral->created_at."'";
             $tienda_id = @Auth::user()->tienda_id;
         }
 
@@ -231,6 +236,10 @@ class InformeGeneralController extends \BaseController {
         return $detalle_ventas;
     }
 
+    /*
+        $tienda_id = 0
+        es para cuando se consulta desde la aplicacion los informes respectivos de la tienda en la que el usuario esta logueado
+    */
     public function resumenInformeGeneral($informe_id, $fecha = 'current_date', $tienda_id = 0)
     {
         if ($tienda_id == 0)
