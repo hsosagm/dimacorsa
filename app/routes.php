@@ -693,10 +693,11 @@
 Route::get('/test', function()
 {
     $ventas = Venta::select(
-    DB::raw('sum((precio - ganancias) * cantidad) as total')
+        DB::raw('sum((precio - ganancias) * cantidad) as total')
     )
     ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
-    ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")->get();
+    ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->whereTiendaId(1)->get();
 
     return json_encode($ventas);
     /*
