@@ -699,7 +699,17 @@ Route::get('/test', function()
     ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
     ->whereTiendaId(1)->get();
 
-    return json_encode($ventas);
+    $compras = Venta::select(
+        DB::raw('sum(precio * cantidad) as total')
+    )
+    ->join('detalle_compras', 'compra_id', '=', 'compras.id')
+    ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->whereTiendaId(1)->get();
+
+    $data['ventas'] = $vaentas->total;
+    $data['compras'] = $compras->total;
+
+    return json_encode($data);
     /*
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");
