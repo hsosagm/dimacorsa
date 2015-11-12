@@ -233,8 +233,12 @@ class InformeGeneralController extends \BaseController {
 
     public function resumenInformeGeneral($informe_id, $fecha = 'current_date', $tienda_id = 0)
     {
+        if ($tienda_id == 0)
+            $tienda_id = Auth::user()->tienda_id;
+
         $informe = DB::table('informe_general_diario')->find($informe_id);
-        $informe_old = DB::table('informe_general_diario')->where('id', '<', $informe_id)->orderBy('id','desc')->first();
+        $informe_old = DB::table('informe_general_diario')->whereTiendaId($tienda_id)
+        ->where('id', '<', $informe_id)->orderBy('id','desc')->first();
 
         $selectVenta = "sum((detalle_ventas.precio - detalle_ventas.ganancias) * detalle_ventas.cantidad)";
         $selectCompra = "sum(detalle_compras.precio * detalle_compras.cantidad)";

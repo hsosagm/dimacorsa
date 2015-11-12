@@ -389,7 +389,7 @@ class VentasController extends \BaseController {
         ->where('metodo_pago_id', 6)
         ->first(array(DB::raw('monto')));
 
-		if ($notasCredito->monto != "") {
+		if (@$notasCredito->monto != "") {
             $notasDeCredito = NotaCredito::whereVentaId(Input::get('venta_id'))->get();
 			foreach ($notasDeCredito as $nc) {
 				$nota = NotaCredito::find($nc->id);
