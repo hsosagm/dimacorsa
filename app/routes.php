@@ -692,8 +692,8 @@
 
 Route::get('/test', function()
 {
-    $info = new InformeGeneralController;
-    return $info->procesarInformeDelDia();
+    // $info = new InformeGeneralController;
+    // return $info->procesarInformeDelDia();
 
     /*
     //para quitar elementos iguales
