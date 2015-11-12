@@ -22,12 +22,12 @@ class DatabaseBackupCommand extends Command {
 
         exec($cmd);
 
+		$procesarInforme = new  InformeGeneralController;
+	    $procesarInforme->procesarInformeDelDia();
+
         Mail::queue('emails.mensaje', array('asunto' => 'Copia de base de datos'), function($message) use($restore_file) {
             $message->to(array('hsosagm@gmail.com'))->subject('backup');
             $message->attach($restore_file);
         });
-
-		$procesarInforme = new  InformeGeneralController;
-	    $procesarInforme->procesarInformeDelDia();
 	}
 }

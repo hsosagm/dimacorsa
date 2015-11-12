@@ -160,7 +160,7 @@ function informeContainerVueCompile() {
             <div class="list-group scrolling"
                 style="max-height:500px !important; min-height:677px !important;
                 background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
-                <a href="#" class="list-group-item" v-repeat="fh: arrayFechas"  v-on="click: viewInformeDelDia(fh.id, fh.fecha)">
+                <a href="javascript:void(0)" class="list-group-item" v-repeat="fh: arrayFechas"  v-on="click: viewInformeDelDia(fh.id, fh.fecha)">
                     @{{ fh.fecha }}
                 </a>
             </div>
