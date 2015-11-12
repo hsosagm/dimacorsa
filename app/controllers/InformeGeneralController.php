@@ -127,7 +127,7 @@ class InformeGeneralController extends \BaseController {
 
         $data = $this->resumenInformeGeneral(@$informeGeneral->id, Auth::user()->tienda_id);
 
-        $arrayFechas = InformeGeneral::select(DB::raw('id, current_date as fecha'))
+        $arrayFechas = InformeGeneral::select(DB::raw('id, created_at as fecha'))
             ->whereTiendaId(Auth::user()->tienda_id)
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
             ->get();
