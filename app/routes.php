@@ -704,6 +704,7 @@ Route::get('/test', function()
     )
     ->join('detalle_compras', 'compra_id', '=', 'compras.id')
     ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->whereCompleted(1)
     ->whereTiendaId(1)->get();
 
     $descargas = Descarga::select(
