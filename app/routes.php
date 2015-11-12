@@ -692,41 +692,9 @@
 
 Route::get('/test', function()
 {
-    $ventas = Venta::select(
-        DB::raw('sum((precio - ganancias) * cantidad) as total')
-    )
-    ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
-    ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-    ->whereTiendaId(1)->get();
+    $info = new InformeGeneralController;
+    return $info->procesarInformeDelDia();
 
-    $compras = Compra::select(
-        DB::raw('sum(precio * cantidad) as total')
-    )
-    ->join('detalle_compras', 'compra_id', '=', 'compras.id')
-    ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-    ->whereCompleted(1)
-    ->whereTiendaId(1)->get();
-
-    $descargas = Descarga::select(
-        DB::raw('sum(precio * cantidad) as total')
-    )
-    ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
-    ->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-    ->whereTiendaId(1)->get();
-
-    $traslados = Traslado::select(
-        DB::raw('sum(precio * cantidad) as total')
-    )
-    ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
-    ->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-    ->whereTiendaId(1)->get();
-
-    $data['ventas'] = $ventas;
-    $data['compras'] = $compras;
-    $data['descargas'] = $descargas;
-    $data['traslados'] = $traslados;
-
-    return json_encode($data);
     /*
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");
