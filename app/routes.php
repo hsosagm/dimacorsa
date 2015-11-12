@@ -706,8 +706,24 @@ Route::get('/test', function()
     ->whereRaw("DATE_FORMAT(compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
     ->whereTiendaId(1)->get();
 
+    $descargas = Descarga::select(
+        DB::raw('sum(precio * cantidad) as total')
+    )
+    ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
+    ->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->whereTiendaId(1)->get();
+
+    $traslados = Traslado::select(
+        DB::raw('sum(precio * cantidad) as total')
+    )
+    ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
+    ->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->whereTiendaId(1)->get();
+
     $data['ventas'] = $ventas;
     $data['compras'] = $compras;
+    $data['descargas'] = $descargas;
+    $data['traslados'] = $traslados;
 
     return json_encode($data);
     /*
