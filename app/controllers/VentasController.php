@@ -705,9 +705,10 @@ class VentasController extends \BaseController {
 
 	public function UpdateDetalle()
 	{
-		$this->recalcularPrecioCosto(Input::get('values.id'));
+
 
 		if ( Input::get('field') == 'precio' ) {
+			// $this->recalcularPrecioCosto(Input::get('values.id'));
 			$precio = str_replace(',', '', Input::get('values.precio'));
 			$precio = preg_replace('/\s{2,}/', ' ', $precio);
 	        $query = Producto::find(Input::get('values.producto_id'));
