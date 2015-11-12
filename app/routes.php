@@ -692,8 +692,9 @@
 
 Route::get('/test', function()
 {
-    $informe = new InformeGeneralController;
-    return json_encode($informe->resumenInformeGeneralPrueba());
+    $ventas = Venta::whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")->get();
+
+    return json_encode($ventas);
     /*
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");
