@@ -677,8 +677,36 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	public function recalcularPrecioCosto($detalle_venta_id)
+	{
+		$detalleVenta = DetalleVenta::find($detalle_venta_id);
+		$precioCostoDetalleVenta = ($detalleVenta->precio - $detalleVenta->ganancias) * 100;
+
+		$producto = Producto::find($detalleVenta->producto_id);
+
+		$totalDetalle = $precioCostoDetalleVenta * $detalleVenta->cantidad;
+		$totalInventario = $producto->existencia * $producto->p_costo;
+
+		$existenciaNueva = $detalleVenta->cantidad + $producto->existencia;
+		$totalInventarioNuevo = $totalDetalle + $totalInventario;
+
+		$precioCostoNuevo = $totalInventarioNuevo / $existenciaNueva;
+
+		$producto->p_costo = $precioCostoNuevo;
+		$producto->save();
+
+		$existenciaTienda = Existencia::whereProductoId($detalleVenta->producto_id)
+		->whereTiendaId(Auth::user()->tienda_id)->first();
+
+		$existenciaTienda->existencia += $detalleVenta->cantidad;
+
+		$existenciaTienda->save();
+	}
+
 	public function UpdateDetalle()
 	{
+		$this->recalcularPrecioCosto(Input::get('values.id'));
+
 		if ( Input::get('field') == 'precio' ) {
 			$precio = str_replace(',', '', Input::get('values.precio'));
 			$precio = preg_replace('/\s{2,}/', ' ', $precio);
