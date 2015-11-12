@@ -7,10 +7,13 @@ class InformeGeneralController extends \BaseController {
         $tiendas = Tienda::all();
 
         foreach ($tiendas as $tienda) {
-            if (InformeGeneral::whereTiendaId($tienda->id)->first() == "")
+            $informeGeneral = InformeGeneral::whereTiendaId($tienda->id)
+            ->whereRaw("id = (select max(id) from informe_general_diario)")->first();
+
+            if ($informeGeneral == "")
                 $this->datosIniciales($tienda->id);
             else
-                $this->guardarInformeDelDia($tienda->id);
+                $this->guardarInformeDelDia($informeGeneral, $tienda->id);
         }
     }
 
@@ -34,14 +37,9 @@ class InformeGeneralController extends \BaseController {
         echo "Datos iniciales guardados tienda ".$tienda_id."<br>";
     }
 
-    public function guardarInformeDelDia($tienda_id)
+    public function guardarInformeDelDia($informeGeneral, $tienda_id)
     {
-        $fecha = InformeGeneral::select(DB::raw('max(created_at) as fecha'))
-        ->whereTiendaId($tienda_id)->first();
-
-        $informe = InformeGeneral::select('id')->whereCreatedAt($fecha->fecha)->first();
-
-        $data = $this->resumenInformeGeneral($informe->id, $tienda_id);
+        $data = $this->resumenInformeGeneral($informeGeneral->id, $tienda_id);
 
         $inversion_esp = ($data['inversionActual'] + $data['compras']) - ($data['ventas'] + $data['descargas'] + $data['traslados']);
         $cuentas_cobrar_esp = ($data['cuentasCobrarActual'] + $data['ventas_credito']) - ($data['abonos_ventas']);
@@ -76,8 +74,10 @@ class InformeGeneralController extends \BaseController {
 
     public function enviarInformeDelDia($tienda_id, $data)
     {
-        $correos = DB::table('notificaciones')->select('correo')->whereTiendaId($tienda_id)
-        ->where('notificacion','InformeGeneral')->get();
+        $correos = DB::table('notificaciones')
+        ->select('correo')
+        ->whereTiendaId($tienda_id)
+        ->whereNotificacion('InformeGeneral')->get();
 
         if (!count($correos))
         {
@@ -124,14 +124,14 @@ class InformeGeneralController extends \BaseController {
 
         $fecha = InformeGeneral::select(DB::raw('min(created_at) as fecha'))
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
-        ->whereTiendaId(@Auth::user()->tienda_id)->first();
+        ->whereTiendaId(Auth::user()->tienda_id)->first();
 
         $informe = InformeGeneral::select('id')->whereCreatedAt(@$fecha->fecha)->first();
 
-        $data = $this->resumenInformeGeneral(@$informe->id, @Auth::user()->tienda_id);
+        $data = $this->resumenInformeGeneral(@$informe->id, Auth::user()->tienda_id);
 
         $arrayFechas = InformeGeneral::select(DB::raw('id, current_date as fecha'))
-            ->whereTiendaId(@Auth::user()->tienda_id)
+            ->whereTiendaId(Auth::user()->tienda_id)
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
             ->get();
 
