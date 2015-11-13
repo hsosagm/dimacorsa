@@ -10,16 +10,12 @@
                 <div v-show="vuelto" class="col-md-4"><p class="btn-success" style="padding-left:10px">Su vuelto es: @{{ vuelto | currency ' ' }}</p></div>
             </div>
             <div class="row" style="margin-left:20px; width:90%">
-                <div class="col-md-4"><p>Monto</p></div>
-                <div class="col-md-4"><p>Metodo</p></div>
-                <div class="col-md-4"><p></p></div>
+                <div class="col-md-5"><p>Monto</p></div>
+                <div class="col-md-7"><p>Metodo</p></div>
             </div>
             <div class="row" style="margin-top:10px; margin-left:20px; width:90%">
-                <div class="col-md-4"><input class="form-control numeric" type="text" value="{{ $resta_abonar }}" name="monto"></div>
-                <div class="col-md-4">{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',6)->where('id','!=',7)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}</div>
-                <div class="col-md-4">
-
-                </div>
+                <div class="col-md-5"><input class="form-control numeric" type="text" value="{{ $resta_abonar }}" name="monto"></div>
+                <div class="col-md-7">{{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',6)->where('id','!=',7)->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}</div>
             </div>
 
             <div style="height:150px">

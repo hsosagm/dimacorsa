@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<br> 
+	<br>
 	<div class="row">
 		<h4>
 			<label class="col-md-12 cliente_informacion center"></label>
@@ -28,7 +28,7 @@
 
 	<div class="form-footer" >
 		<div class="row">
-			<div class="col-md-6" align="right">
+			<div class="col-md-12" align="right">
 				<input class="btn theme-button" type="submit" value="Enviar!" autocomplete="off">
 			</div>
 		</div>

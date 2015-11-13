@@ -20,9 +20,11 @@
             <td> @{{ nc.fecha }} </td>
             <td class="right"> @{{ nc.monto }} </td>
             <td>
-                <div class="ckbox ckbox-success" v-show="verificarMonto($event, nc.monto)">
-                    <input id="chk-@{{nc.id}}" type="checkbox" v-on="click:agregarNota($event, nc.id, nc.monto)">
-                    <label for="chk-@{{nc.id}}"></label>
+                <div class="ckbox ckbox-success">
+					<fieldset @{{ (verificarMonto($event, nc.monto))? "":"disabled" }}>
+	                    <input id="chk-@{{nc.id}}" type="checkbox" v-on="click:agregarNota($event, nc.id, nc.monto)">
+	                    <label for="chk-@{{nc.id}}"></label>
+					</fieldset>
                 </div>
             </td>
         </tr>
