@@ -8,7 +8,7 @@
         <li onclick="getMasterQueries(this)"><a href="javascript:void(0);">Consultas Generales</a></li>
         <li onclick="getTrasladosEnviados(this)"><a href="javascript:void(0);">Traslados Enviados</a></li>
         <li onclick="getTrasladosRecibidos(this)"><a href="javascript:void(0);">Traslados Recibidos</a></li>
-        <li> <a href="javascript:void(0)" onclick="getInformeGeneralTabla();">Informes del mes</a> </li>
+        <li> <a href="javascript:void(0)" onclick="getTableInformeGeneral();">Informes general</a> </li>
         <li onclick="getStockMinimo(this)"><a href="javascript:void(0);">Stock minimo</a></li>
         <li onclick="getCotizaciones(this)"><a href="javascript:void(0);">Cotizaciones</a></li>
         <li onclick="devolucionesDelDia()"><a href="javascript:void(0);">Devoluciones</a></li>

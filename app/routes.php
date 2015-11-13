@@ -322,6 +322,15 @@
 
     Route::group(array('prefix' => 'admin'), function()
     {
+        Route::group(array('prefix' => 'informeGeneral'), function()
+        {
+            Route::get('getTableInformeGeneral', 'InformeGeneralController@getTableInformeGeneral');
+            Route::get('tableInformeGeneral_DT', 'InformeGeneralController@tableInformeGeneral_DT');
+            Route::get('getInformeInversion'   , 'InformeGeneralController@getInformeInversion');
+            Route::get('getInformeCuentasPorPagar'   , 'InformeGeneralController@getInformeCuentasPorPagar');
+            Route::get('getInformeCuentasPorCobrar'   , 'InformeGeneralController@getInformeCuentasPorCobrar');
+        });
+
         Route::get('users/buscar', 'UserController@buscar');
 
         Route::group(array('prefix' => 'vista'),function()

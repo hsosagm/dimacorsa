@@ -2,6 +2,92 @@
 
 class InformeGeneralController extends \BaseController {
 
+    public function getTableInformeGeneral()
+    {
+        return Response::json(array(
+            'success'=> true,
+            'table' => View::make('informes.tableInformeGeneral')->render()
+        ));
+    }
+
+    public function tableInformeGeneral_DT()
+    {
+        $table = 'informe_general';
+
+        $columns = array(
+            "created_at as fecha",
+            "diferencia_inversion as inversion",
+            "diferencia_cobrar as cobrar",
+            "diferencia_pagar as pagar",
+        );
+
+        $Search_columns = array("diferencia_inversion");
+        $Join = null;
+        $where = "informe_general.tienda_id = ".Auth::user()->tienda_id;
+
+        echo TableSearch::get($table, $columns, $Search_columns, $Join, $where);
+    }
+
+    public function getInformeInversion()
+    {
+        $infInv = $this->informeInversion();
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('informes.DT_detalleInformeInventario', compact('infInv'))->render()
+        ));
+    }
+
+    public function informeInversion()
+    {
+        return DB::table('informe_inversion')
+        ->select(array('ventas', 'compras', 'descargas', 'traslados', 'esperado', 'real'))
+        ->where('informe_general_id', Input::get('informe_general_id'))->first();
+    }
+
+    public function getInformeCuentasPorPagar()
+    {
+        $infInv = $this->informeCuentasPorPagar();
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('informes.DT_detalleInformeCuentasPorPagar', compact('infInv'))->render()
+        ));
+    }
+
+    public function informeCuentasPorPagar()
+    {
+        return DB::table('informe_cuentas_por_pagar')
+        ->select(array('creditos', 'abonos', 'esperado', 'real'))
+        ->where('informe_general_id', Input::get('informe_general_id'))->first();
+    }
+
+    public function getInformeCuentasPorCobrar()
+    {
+        $infInv = $this->informeCuentasPorCobrar();
+
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('informes.DT_detalleInformeCuentasPorCobrar', compact('infInv'))->render()
+        ));
+    }
+
+    public function informeCuentasPorCobrar()
+    {
+        return DB::table('informe_cuentas_por_cobrar')
+        ->select(array('creditos', 'abonos', 'esperado', 'real'))
+        ->where('informe_general_id', Input::get('informe_general_id'))->first();
+    }
+
+
+
+
+
+
+
+
+
+
     public function procesarInformeDelDia()
     {
         $tiendas = Tienda::all();
