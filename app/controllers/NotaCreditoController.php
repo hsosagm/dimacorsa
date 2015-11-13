@@ -41,14 +41,17 @@ class NotaCreditoController extends \BaseController {
 
         $notasCreditos = NotaCredito::select(
             DB::raw('notas_creditos.id as id'),
-            DB::raw("CONCAT_WS(' ', nombre, apellido) as usuario"),
+            DB::raw("notas_creditos.created_at as fecha"),
             'monto')
-        ->join('users', 'user_id', '=', 'users.id')
         ->whereClienteId(Input::get('cliente_id'))
         ->whereEstado(0)->get();
 
         if (!count($notasCreditos))
             return 'No tienes notas de credito para asignar..!';
+
+        NotaCredito::whereClienteId(Input::get('cliente_id'))
+        ->whereEstado(0)->whereVentaId(Input::get('venta_id'))
+        ->update(array('venta_id' => null));
 
         $totalVenta = DetalleVenta::select(DB::raw('sum(precio * cantidad) as total'))
         ->whereVentaId(Input::get('venta_id'))->first();

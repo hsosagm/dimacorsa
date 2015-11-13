@@ -1,112 +1,38 @@
 <script>
-	var notasCreditosVue = new Vue({
-
-	    el: '#graph_container',
-
-	    data: {
-
-	        x: 1,
-
-			datos: {{ json_encode($data) }},
-
-            envio: {
-                notas:[]
-            },
-
-			total: 0.00,
-
-			restanteVenta: {{ $data['saldo_restante'] }},
-
-	    },
-
-	    methods: {
-
-	        reset: function() {
-	            notasCreditosVue.x = notasCreditosVue.x - 1;
-	        },
-
-	        close: function() {
-	            $('#graph_container').hide();
-	        },
-
-            agregarNota: function(event, id_nota,  monto)
-            {
-                if ( $(event.target).is(':checked') )
-                {
-					var restante = this.restanteVenta - this.total;
-					if(restante < monto){
-						return $(event.target).prop('checked', false);
-					}
-
-                    this.envio.notas.push({ id_nota: id_nota, monto: monto });
-                    this.total += parseFloat(monto);
-                }
-                else
-                {
-                    this.envio.notas.forEach(function(q, index)
-                    {
-                        if( id_nota === q.id_nota) {
-                            notasCreditosVue.envio.notas.$remove(index);
-                            notasCreditosVue.total -= parseFloat(monto);
-                        }
-                    });
-                }
-            },
-
-            eviarNotasDeCredito: function()
-            {
-                $.ajax({
-            		type: "POST",
-            		url: 'user/ventas/pagoConNotasDeCredito',
-                    data: {
-						notas_creditos: notasCreditosVue.envio.notas,
-						venta_id: notasCreditosVue.datos.enviar.venta_id,
-						cliente_id: notasCreditosVue.datos.enviar.cliente_id
-					},
-            	}).done(function(data) {
-            		if (data.success == true)
-            		{
-						msg.success('Pago ingresado', 'Listo!');
-						$('#graph_container').hide();
-						$('#graph_container').html("");
-						$('.modal-body').html("");
-	                    $('.modal-body').html(data.detalle);
-						return;
-            		}
-            		msg.warning(data, 'Advertencia!');
-            	});
-            },
-
-			verificarMonto: function(event, monto)
-			{
-				 if ( monto > this.restanteVenta )
-					return false;
-
-				return true;
-			}
-	    }
-    });
-
-    function graph_container_compile() {
-	    notasCreditosVue.$nextTick(function() {
-	        notasCreditosVue.$compile(graph_container.$el);
-	    });
-	}
+	pagosventa.datos = {{ json_encode($data) }};
+	pagosventa.restanteVenta = {{ $data['saldo_restante'] }};
 </script>
 
-<div class="panel_heading">
-    <div class="pull-right">
-        <button v-show="x > 1" v-on="click: reset" class="btn" title="Regresar"><i class="fa fa-reply"></i></button>
-        <button v-on="click: close" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
-    </div>
+<div style="margin: 0px 0px 0px !important;" class="row">
+	<label class="col-md-6">Saldo restante: @{{ restanteVenta - total | currency ' ' }}</label> <label class="col-md-6">Total: @{{ total | currency ' ' }}</label>
 </div>
-<pre style="margin: 0px 0px 0px !important;" class="row">
-	<label class="col-md-4">Saldo restante: @{{ restanteVenta - total | currency ' ' }}</label> <label class="col-md-4">Total: @{{ total | currency ' ' }}</label>
-</pre>
-<div v-show="x == 1" id="container">
-	@include('notas_creditos.notasCreditosTable')
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="scrolling">
+        <tr v-repeat="nc: datos.notas">
+            <td> @{{ nc.fecha }} </td>
+            <td class="right"> @{{ nc.monto }} </td>
+            <td>
+                <div class="ckbox ckbox-success" v-show="verificarMonto($event, nc.monto)">
+                    <input id="chk-@{{nc.id}}" type="checkbox" v-on="click:agregarNota($event, nc.id, nc.monto)">
+                    <label for="chk-@{{nc.id}}"></label>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="modal-footer">
+	<div class="left col-md-6">
+		<button v-on="click: reset" class="btn btn-warning">Cancelar</button>
+	</div>
+	<div class="right col-md-6">
+		<button v-on="click: eviarNotasDeCredito"  v-show="total" class="btn bg-theme btn-info">Agregar</button>
+	</div>
 </div>
-<div  v-show="x == 2" id="container2"> </div>
-<pre class="right" style="padding-right:25px">
-    <button v-on="click: eviarNotasDeCredito" v-show="total" class="btn bg-theme btn-info">Agregar</button>
-</pre>
