@@ -125,10 +125,10 @@ class InformeGeneralController extends \BaseController {
         $informeGeneral = InformeGeneral::select('id')
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")->first();
 
-        $data = $this->resumenInformeGeneral(@$informeGeneral->id, Auth::user()->tienda_id);
+        $data = $this->resumenInformeGeneral(@$informeGeneral->id, @Auth::user()->tienda_id);
 
         $arrayFechas = InformeGeneral::select(DB::raw('id, created_at as fecha'))
-            ->whereTiendaId(Auth::user()->tienda_id)
+            ->whereTiendaId(@Auth::user()->tienda_id)
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT({$fecha_query}, '%Y-%m')")
             ->get();
 
@@ -243,7 +243,7 @@ class InformeGeneralController extends \BaseController {
     public function resumenInformeGeneral($informe_id, $fecha = 'current_date', $tienda_id = 0)
     {
         if ($tienda_id == 0)
-            $tienda_id = Auth::user()->tienda_id;
+            $tienda_id = @Auth::user()->tienda_id;
 
         $informe = DB::table('informe_general_diario')->find($informe_id);
 
