@@ -71,6 +71,18 @@
         <tr>
     		<td colspan="4" style="border-bottom:1px solid #444444; "></td>
     	</tr>
+		<tr>
+    		<td colspan="4" style="height: 100px"></td>
+    	</tr>
+		<tr>
+			<td colspan="4" align="center">______________________________________________</td>
+    	</tr>
+		<tr>
+			<td colspan="4" align="center"> {{ Auth::user()->nombre.' '.Auth::user()->apellido }} </td>
+    	</tr>
+		<tr>
+			<td colspan="4" align="center"> {{ Auth::user()->email }} </td>
+    	</tr>
     </table>
 </div>
 <table width="100%">
