@@ -491,15 +491,22 @@ class QueriesController extends \BaseController {
 		$table = 'notas_creditos';
 
 		$columns = array(
+			"notas_creditos.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
-            "notas_creditos.created_at as fecha",
-			"notas_creditos.updated_at as fecha2",
-            "notas_creditos.tipo as tipo",
-            "notas_creditos.monto as monto",
+			"clientes.nombre as cliente",
+         	"notas_creditos.tipo as tipo",
+         	"notas_creditos.monto as monto",
 			"notas_creditos.estado as estado"
 		);
 
-		$Search_columns = array("tipo", "nota", "notas_creditos.created_at", "users.nombre", "users.apellido");
+		$Search_columns = array(
+			"tipo",
+			"clientes.nombre",
+			"notas_creditos.created_at",
+			"notas_creditos.monto",
+			"users.nombre",
+			"users.apellido"
+		);
 
 		$where = "DATE_FORMAT(notas_creditos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
@@ -511,7 +518,8 @@ class QueriesController extends \BaseController {
 
 		$where .= " AND notas_creditos.tienda_id = ".Auth::user()->tienda_id ;
 
-		$Join = "JOIN users ON (users.id = notas_creditos.user_id)";
+		$Join  = "JOIN users ON (users.id = notas_creditos.user_id)";
+		$Join .= " JOIN clientes ON (clientes.id = notas_creditos.cliente_id)";
 
 		return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 	}

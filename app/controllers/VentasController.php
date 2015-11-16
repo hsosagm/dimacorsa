@@ -8,7 +8,7 @@ class VentasController extends \BaseController {
 		{
 			$venta = new Venta;
 
-			$data = Input::all();
+			$data = Input::all(); 
 
 			if (!$venta->create_master($data))
 			{
