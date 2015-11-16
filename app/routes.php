@@ -700,22 +700,7 @@
 
 Route::get('/test', function()
 {
-   $precio_costo = 23.35;
-   $existencia = 200;
-
-   $precio_costo2 = 23.35;
-   $existencia2 = 1;
-
-
-   $total1 = $precio_costo * $existencia;
-   $total2 = $precio_costo2 * $existencia2;
-   $total_existencia = $existencia + $existencia2;
-
-   $total = $total1 + $total2;
-
-   $precio = $toal \ $total_existencia;
-
-   echo $precio;
+   
    //  $info = new InformeGeneralController;
    //  return $info->procesarInformeDelDia();
 
