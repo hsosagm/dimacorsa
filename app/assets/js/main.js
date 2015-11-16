@@ -23,6 +23,7 @@ $(document).ajaxSend(function(event, jqXHR, ajaxSettings, thrownError ) {
 $(document).ajaxSuccess(function() {
     $('#loader').hide();
     ajaxStatus = 0;
+    $('#example').attr('width', '100%');
 });
 
 $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
