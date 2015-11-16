@@ -82,17 +82,25 @@ class InformeGeneralController extends \BaseController {
 
     public function procesarInformeDelDia()
     {
-        $tiendas = Tienda::all();
+/*        $tiendas = Tienda::all();
 
         foreach ($tiendas as $tienda) {
             $informeGeneral = DB::table('informe_general')->whereTiendaId($tienda->id)
             ->whereRaw("id = (select max(id) from informe_general where tienda_id = {$tienda->id})")->first();
 
-            if ($informeGeneral == null)
-                $this->datosIniciales($tienda->id);
-            else
+            if ($informeGeneral)
                 $this->guardarInformeDelDia($informeGeneral, $tienda->id);
-        }
+            else
+                $this->datosIniciales($tienda->id);
+        }*/
+
+        $informeGeneral = DB::table('informe_general')->whereTiendaId(1)
+        ->whereRaw("id = (select max(id) from informe_general where tienda_id = 1)")->first();
+
+        if ($informeGeneral)
+            $this->guardarInformeDelDia($informeGeneral, 1);
+        else
+            $this->datosIniciales(1);
     }
 
     public function datosIniciales($tienda_id)
