@@ -82,7 +82,7 @@ class InformeGeneralController extends \BaseController {
 
     public function procesarInformeDelDia()
     {
-/*        $tiendas = Tienda::all();
+/*       $tiendas = Tienda::all();
 
         foreach ($tiendas as $tienda) {
             $informeGeneral = DB::table('informe_general')->whereTiendaId($tienda->id)
@@ -117,7 +117,9 @@ class InformeGeneralController extends \BaseController {
             'tienda_id' => $tienda_id,
             'diferencia_inversion' => 0.00,
             'diferencia_cobrar' => 0.00,
-            'diferencia_pagar' => 0.00
+            'diferencia_pagar' => 0.00,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
 
         $ventas = DB::table('ventas')->whereTiendaId($tienda_id)
@@ -146,7 +148,9 @@ class InformeGeneralController extends \BaseController {
             "descargas" => floatval($descargas->total),
             "traslados" => floatval($traslados->total),
             "esperado" => floatval((($compras->total) - ($ventas->total + $descargas->total + $traslados->total))),
-            "real" => floatval($informe_inversion->total)
+            "real" => floatval($informe_inversion->total),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
 
         $creditosVentas = DB::table('ventas')->whereTiendaId($tienda_id)
@@ -163,7 +167,9 @@ class InformeGeneralController extends \BaseController {
             "creditos" => floatval($creditosVentas->total),
             "abonos" => floatval($abonosVentas->total),
             "esperado" => floatval(($creditosVentas->total - $abonosVentas->total)),
-            "real" => floatval($informe_cuentas_por_cobrar->total)
+            "real" => floatval($informe_cuentas_por_cobrar->total),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
 
         $abonosCompras = DB::table('abonos_compras')->whereTiendaId($tienda_id)
@@ -180,7 +186,9 @@ class InformeGeneralController extends \BaseController {
             "creditos" => floatval($creditosCompras->total),
             "abonos" => floatval($abonosCompras->total),
             "esperado" => floatval(($creditosCompras->total - $abonosCompras->total)),
-            "real" => floatval($informe_cuentas_por_pagar->total)
+            "real" => floatval($informe_cuentas_por_pagar->total),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
 
         echo "Datos iniciales guardados tienda ".$tienda_id."<br>";
@@ -200,7 +208,9 @@ class InformeGeneralController extends \BaseController {
             'tienda_id' => $tienda_id,
             'diferencia_inversion' => 0.00,
             'diferencia_cobrar' => 0.00,
-            'diferencia_pagar' => 0.00
+            'diferencia_pagar' => 0.00,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
 
         //inicio de consultas para sacar el calculo para el informe_inversion
@@ -237,7 +247,9 @@ class InformeGeneralController extends \BaseController {
             "descargas" => floatval($descargas->total),
             "traslados" => floatval($traslados->total),
             "esperado" => $informe_inversion_esperado,
-            "real" => $informe_inversion_real
+            "real" => $informe_inversion_real,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
         //fin de consultas para informe inersion
 
@@ -263,7 +275,9 @@ class InformeGeneralController extends \BaseController {
             "creditos" => floatval($creditosVentas->total),
             "abonos" => floatval($abonosVentas->total),
             "esperado" => $informe_cuentas_por_cobrar_esperado,
-            "real" => $informe_cuentas_por_cobrar_real
+            "real" => $informe_cuentas_por_cobrar_real,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
         //fin de consultas para informe_cuentas_por_cobrar
 
@@ -289,7 +303,9 @@ class InformeGeneralController extends \BaseController {
             "creditos" => floatval($creditosCompras->total),
             "abonos" => floatval($abonosCompras->total),
             "esperado" => $informe_cuentas_por_pagar_esperado,
-            "real" => $informe_cuentas_por_pagar_real
+            "real" => $informe_cuentas_por_pagar_real,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ));
         //fin de consultas para informe_cuentas_por_pagar
 
