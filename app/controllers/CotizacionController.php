@@ -56,8 +56,8 @@ class CotizacionController extends \BaseController {
 
 			if (Input::get('producto_id') > 0)
 			{
-				$producto = Producto::find(Input::get('producto_id'));
-				$data['descripcion'] = $producto->descripcion;
+				$producto = Producto::with('marca')->find(Input::get('producto_id'));
+				$data['descripcion'] = $producto->descripcion.' ['.$producto->marca->nombre.']';
 			}
 
 			else
