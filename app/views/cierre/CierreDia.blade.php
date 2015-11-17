@@ -16,7 +16,7 @@
 	        close: function() {
 	            $('#graph_container').hide();
 	        },
-
+ 
 	    	getAsignarInfoEnviar: function($v_model ,$v_metodo){
 	            cierre_model= $v_model;
 	            cierre_metodo_pago_id = $v_metodo;

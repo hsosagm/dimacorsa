@@ -650,11 +650,6 @@
             Route::get('usuarios_serverside' , 'LogsController@usuarios_serverside' );
         });
 
-        Route::get('user/test', function()
-        {
-            return View::make('queries.notasDeCreditoPorFechaa')->render();
-        });
-
         Route::group(array('prefix' => 'user'), function()
         {
             Route::get('create'      , 'UserController@create');

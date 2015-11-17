@@ -14,7 +14,7 @@
             <label>Efectivo</label>
         </div>
     </div>
-
+ 
 
     <div class="form-group">
         <div class="col-sm-3">

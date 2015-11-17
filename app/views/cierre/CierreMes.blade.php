@@ -15,7 +15,7 @@
 					<td width="20%" style="text-align: center;">
 						<i style="cursor:pointer; font-style: normal;" v-on="click: getVentasDelMes(this,'{{$fecha}}')" >Ventas</i>
 						<i class="fa fa-search btn-link" v-on="click: getVentasDelMes(this,'{{$fecha}}')"></i>
-					</td>
+					</td> 
 					<td width="20%" style="text-align: center;" >Utilidades</td>
 					<td width="20%" style="text-align: center;" >
 						<i style="cursor:pointer; font-style: normal;" v-on="click: getSoporteDelMes(this,'{{$fecha}}')">Soporte</i>
