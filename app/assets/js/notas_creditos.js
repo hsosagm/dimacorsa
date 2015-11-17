@@ -145,7 +145,7 @@ function eliminarNotaDeCredito(e, nota_credito_id) {
             });
         }
     });
-}
+};
 
 
 function getConsultarNotasDeCreditoCliente(cliente_id, venta_id) {
@@ -162,4 +162,4 @@ function getConsultarNotasDeCreditoCliente(cliente_id, venta_id) {
 
         msg.warning(data, 'Advertencia!');
     });
-}
+};

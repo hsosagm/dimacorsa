@@ -13,7 +13,7 @@
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
-            
+
             "aoColumnDefs": [
                 {"sClass": "widthM",                                  "sTitle": "Fecha",   "aTargets": [0]},
                 {"sClass": "widthM",                                  "sTitle": "Usuario", "aTargets": [1]},
@@ -23,7 +23,8 @@
                     "mRender": function(  data, type, full ) {
                         $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="getDevolucionesDetail(this)" class="fa fa-plus-square show_detail font14">';
                         $v += '<a href="javascript:void(0);" title="Abrir devolucion" onclick="openDevolucion('+full.DT_RowId+')" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
-                        $v += '<a href="javascript:void(0);" title="Eliminar devolucion" onclick="deleteDevolucion(this, '+full.DT_RowId+')" class="fa fa-trash-o font14" style="padding-left:10px">';
+                        $v += '<a href="javascript:void(0);" title="Imprimir Constancia" onclick="printDevolucion('+full.DT_RowId+')" class="fa fa-print font14" style="padding-left:10px">';
+                        $v += '<a href="javascript:void(0);" title="Eliminar devolucion" onclick="deleteDevolucion(this, '+full.DT_RowId+')" class="fa fa-trash-o icon-delete" style="padding-left:10px">';
                         return $v;
                     }
                 }
@@ -36,7 +37,7 @@
                 });
             },
 
-            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                 if ( aData[2] == 0){
                     jQuery(nRow).addClass('red');
                 }

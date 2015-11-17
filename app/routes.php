@@ -36,6 +36,7 @@
     Route::get('imprimirNotaDeCretido'        , 'NotaCreditoController@imprimirNotaDeCretido' );
     Route::get('retirarDineroDeCajaPdf'       , 'CajaController@retirarDineroDeCajaPdf' );
     Route::get('imprimirCorteCaja/{id}'       , 'CajaController@imprimirCorteCaja' );
+    Route::get('printDevolucion'              , 'DevolucionesVentasController@printDevolucion' );
 
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
@@ -255,27 +256,27 @@
 
             Route::group(array('prefix' => 'devoluciones'),function()
             {
-                Route::get('createDevolucion'  , 'DevolucionesVentasController@createDevolucion');
-                Route::post('createDevolucion'  , 'DevolucionesVentasController@createDevolucion');
-                Route::get('findProducto'        , 'DevolucionesVentasController@findProducto');
-                Route::post('postDevolucionDetalle'        , 'DevolucionesVentasController@postDevolucionDetalle');
-                Route::post('removeItem'        , 'DevolucionesVentasController@removeItem');
-                Route::post('eliminarDevolucion'        , 'DevolucionesVentasController@eliminarDevolucion');
-                Route::post('UpdateDetalle'        , 'DevolucionesVentasController@UpdateDetalle');
-                Route::get('getPaymentForm'        , 'DevolucionesVentasController@getPaymentForm');
-                Route::post('finalizarDevolucion'        , 'DevolucionesVentasController@finalizarDevolucion');
-                Route::get('getVentasParaDevoluciones'         , 'DevolucionesVentasController@getVentasParaDevoluciones');
-                Route::get('DT_ventasParaDevoluciones'         , 'DevolucionesVentasController@DT_ventasParaDevoluciones');
-                Route::get('misDevolucionesDelDia'         , 'DevolucionesVentasController@misDevolucionesDelDia');
-                Route::get('devoluciones_DT'         , 'DevolucionesVentasController@devoluciones_DT');
-                Route::get('getDevolucionesDetail'         , 'DevolucionesVentasController@getDevolucionesDetail');
-                Route::get('openDevolucion'         , 'DevolucionesVentasController@openDevolucion');
-                Route::post('deleteDevolucion'         , 'DevolucionesVentasController@deleteDevolucion');
-                Route::get('getSerialsForm'         , 'DevolucionesVentasController@getSerialsForm');
-                Route::post('post_detalle_devolulcion_serie'         , 'DevolucionesVentasController@post_detalle_devolulcion_serie');
-                Route::post('post_detalle_devolulcion_serie_delete'         , 'DevolucionesVentasController@post_detalle_devolulcion_serie_delete');
-                Route::get('table_productos_para_devolucion'         , 'DevolucionesVentasController@table_productos_para_devolucion');
-                Route::get('productos_para_devolucion_DT'         , 'DevolucionesVentasController@productos_para_devolucion_DT');
+                Route::get('createDevolucion'       , 'DevolucionesVentasController@createDevolucion');
+                Route::post('createDevolucion'      , 'DevolucionesVentasController@createDevolucion');
+                Route::get('findProducto'           , 'DevolucionesVentasController@findProducto');
+                Route::post('postDevolucionDetalle' , 'DevolucionesVentasController@postDevolucionDetalle');
+                Route::post('removeItem'            , 'DevolucionesVentasController@removeItem');
+                Route::post('eliminarDevolucion'    , 'DevolucionesVentasController@eliminarDevolucion');
+                Route::post('UpdateDetalle'         , 'DevolucionesVentasController@UpdateDetalle');
+                Route::get('getPaymentForm'         , 'DevolucionesVentasController@getPaymentForm');
+                Route::post('finalizarDevolucion'       , 'DevolucionesVentasController@finalizarDevolucion');
+                Route::get('getVentasParaDevoluciones'  , 'DevolucionesVentasController@getVentasParaDevoluciones');
+                Route::get('DT_ventasParaDevoluciones'  , 'DevolucionesVentasController@DT_ventasParaDevoluciones');
+                Route::get('misDevolucionesDelDia'      , 'DevolucionesVentasController@misDevolucionesDelDia');
+                Route::get('devoluciones_DT'            , 'DevolucionesVentasController@devoluciones_DT');
+                Route::get('getDevolucionesDetail'      , 'DevolucionesVentasController@getDevolucionesDetail');
+                Route::get('openDevolucion'             , 'DevolucionesVentasController@openDevolucion');
+                Route::post('deleteDevolucion'          , 'DevolucionesVentasController@deleteDevolucion');
+                Route::get('getSerialsForm'             , 'DevolucionesVentasController@getSerialsForm');
+                Route::post('post_detalle_devolulcion_serie'        , 'DevolucionesVentasController@post_detalle_devolulcion_serie');
+                Route::post('post_detalle_devolulcion_serie_delete' , 'DevolucionesVentasController@post_detalle_devolulcion_serie_delete');
+                Route::get('table_productos_para_devolucion'        , 'DevolucionesVentasController@table_productos_para_devolucion');
+                Route::get('productos_para_devolucion_DT'           , 'DevolucionesVentasController@productos_para_devolucion_DT');
             });
 
         });

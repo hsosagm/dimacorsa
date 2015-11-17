@@ -1,3 +1,6 @@
+function printDevolucion(id) {
+    window.open('printDevolucion?devolucion_id='+id,'_blank');
+};
 
 function ExportarCierreDelMes(tipo,fecha_completa) {
     $fecha = fecha_completa.substring(0, 10);

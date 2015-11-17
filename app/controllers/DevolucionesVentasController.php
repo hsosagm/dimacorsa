@@ -129,7 +129,7 @@ class DevolucionesVentasController extends \BaseController {
 		$detalle = DB::table('devoluciones_detalle')
         ->select(array(
         	'devoluciones_detalle.id',
-        	'devolucion_id', 
+        	'devolucion_id',
         	'producto_id',
         	'cantidad',
         	'precio',
@@ -231,7 +231,7 @@ class DevolucionesVentasController extends \BaseController {
 			if ($dt['serials'])
 			{
 				$dv = DetalleVenta::whereVentaId($devolucion->venta_id)->whereProductoId($dt['producto_id'])->first();
-				
+
 				if ($dv->serials)
 				{
 					$dv->serials = implode(",", array_diff( explode(",", $dv->serials), $dt['serials'] ));
@@ -426,7 +426,7 @@ class DevolucionesVentasController extends \BaseController {
 		if ($dd->serials)
 			$dd->serials = $dd->serials .','.Input::get('serie');
 
-		else 
+		else
 			$dd->serials = Input::get('serie');
 
 		$dd->save();
@@ -474,5 +474,14 @@ class DevolucionesVentasController extends \BaseController {
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where);
     }
+
+	public function printDevolucion()
+	{
+		$devolucion = Devolucion::with('devolucion_detalle', 'devolucion_pagos', 'cliente')
+		->find(Input::get('devolucion_id'));
+
+		$pdf = PDF::loadView('ventas.devoluciones.printDevolucion',  array('devolucion' => $devolucion))->setPaper('letter');
+		return $pdf->stream('Devolucion');
+	}
 
 }

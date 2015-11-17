@@ -10,4 +10,9 @@ class DevolucionPago extends \BaseModel {
 	{
 		return $this->belongsTo('Devolucion');
 	}
+
+	public function metodoPago()
+    {
+        return $this->belongsTo('MetodoPago', 'metodo_pago_id');
+    }
 }
