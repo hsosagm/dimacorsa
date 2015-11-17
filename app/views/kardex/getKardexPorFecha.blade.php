@@ -7,7 +7,7 @@
                 <td class="col-md-4">Fecha inicial:</td>
                 <td class="col-md-6"><input type="text"  name="fecha_inicial" data-value="{{$fecha_inicial}}"></td>
                 <td class="col-md-2"></td>
-            </tr> 
+            </tr>
             <tr class="col-md-5">
                 <td class="col-md-4">Fecha final:</td>
                 <td class="col-md-6"><input type="text"  name="fecha_final" data-value="{{$fecha_final}}"></td>
@@ -17,7 +17,7 @@
                 <td><button class="btn btn-theme" type="submit" > Actualizar !</button></td>
             </tr>
             <tr class="col-md-1">
-            </tr> 
+            </tr>
         </table>
         {{Form::close()}}
     </div>
@@ -41,13 +41,13 @@
 
     setTimeout(function(){
         $("#iSearch").focus();
-        $('#dataTableKardex_length').hide();        
+        $('#dataTableKardex_length').hide();
         oTable = $('#dataTableKardex').dataTable();
         $('#iSearch').keyup(function(){
             oTable.fnFilter( $(this).val() );
         })
     }, 300);
-    
+
     $(document).ready(function() {
         $('#dataTableKardex').dataTable({
             "language": {
@@ -59,7 +59,7 @@
             },
             "aoColumnDefs": [
             {"sClass": "width15",                         "sTitle": "Fecha",                "aTargets": [0]},
-            {"sClass": "width25",                         "sTitle": "Usuario",              "aTargets": [1]},
+            {"sClass": "width25",                         "sTitle": "Tienda/Usuario",       "aTargets": [1]},
             {"sClass": "width10",                         "sTitle": "Transaccion",          "aTargets": [2]},
             {"sClass": "width10 ",                        "sTitle": "Evento",               "aTargets": [3]},
             {"sClass": "width5  ",                        "sTitle": "Cantidad",             "aTargets": [4]},
@@ -85,12 +85,12 @@
             },
         });
 });
-$('input[name="fecha_inicial"]').pickadate({ 
+$('input[name="fecha_inicial"]').pickadate({
   max: true,
   selectYears: true,
   selectMonths: true
 });
-$('input[name="fecha_final"]').pickadate({ 
+$('input[name="fecha_final"]').pickadate({
   max: true,
   selectYears: true,
   selectMonths: true

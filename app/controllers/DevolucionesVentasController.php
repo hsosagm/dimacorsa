@@ -81,11 +81,11 @@ class DevolucionesVentasController extends \BaseController {
         return array(
             'success' => true,
             'values' => array(
-					        'id' => $dv->producto_id,
-					        'descripcion' => $producto->descripcion,
-					        'cantidad'    => $dv->cantidad,
-					        'precio'      => $dv->precio
-            	        )
+		        'id' => $dv->producto_id,
+		        'descripcion' => $producto->descripcion,
+		        'cantidad'    => $dv->cantidad,
+		        'precio'      => $dv->precio
+	        )
         );
     }
 

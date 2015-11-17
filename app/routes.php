@@ -728,6 +728,7 @@ Route::get('/test', function()
         DROP TABLE  notas_creditos;
         DROP TABLE  detalle_adelantos;
         DROP TABLE  adelantos;
+        DROP TABLE  informe_general_diario;
     */
 });
 
