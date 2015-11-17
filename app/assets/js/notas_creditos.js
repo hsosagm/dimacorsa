@@ -126,8 +126,25 @@ function guardarClienteActualizadoNotaCredito(e) {
     });
 };
 
-function eliminarNotaCredito() {
+function eliminarNotaDeCredito(e, nota_credito_id) {
+    $.confirm({
+		text: "Esta seguro que desea eliminar la nota de credito?",
+		title: "Confirmacion",
+		confirm: function(){
+            $.ajax({
+                type: "POST",
+                url: 'admin/notaDeCredito/eliminarNotaDeCredito',
+                data: { nota_credito_id: nota_credito_id },
+            }).done(function(data) {
+                if (data.success) {
+                    $('#example').dataTable().fnStandingRedraw();
+                    return msg.success('Nota de credito eliminado con exito..', 'Listo!');
+                }
 
+                msg.warning(data, 'Advertencia!');
+            });
+        }
+    });
 }
 
 

@@ -331,6 +331,8 @@
             Route::get('getInformeCuentasPorCobrar'   , 'InformeGeneralController@getInformeCuentasPorCobrar');
         });
 
+
+        Route::post('notaDeCredito/eliminarNotaDeCredito', 'NotaCreditoController@elminiarNotaDecredito');
         Route::get('users/buscar', 'UserController@buscar');
 
         Route::group(array('prefix' => 'vista'),function()
@@ -406,8 +408,8 @@
             Route::get('DtSoportePorFecha/{consulta}'            , 'QueriesController@DtSoportePorFecha'   );
             Route::get('getAbonosClientesPorFecha/{consulta}'    , 'QueriesController@getAbonosClientesPorFecha');
             Route::get('DtAbonosClientesPorFecha/{consulta}'     , 'QueriesController@DtAbonosClientesPorFecha' );
-            Route::get('getAdelantosPorFecha/{consulta}'         , 'QueriesController@getAdelantosPorFecha' );
-            Route::get('DtAdelantosPorFecha/{consulta}'          , 'QueriesController@DtAdelantosPorFecha'  );
+            Route::get('getNotasDeCreditoPorFecha/{consulta}'    , 'QueriesController@getNotasDeCreditoPorFecha' );
+            Route::get('DtNotasDeCreditoPorFecha/{consulta}'     , 'QueriesController@DtNotasDeCreditoPorFecha'  );
             Route::get('getIngresosPorFecha/{consulta}'          , 'QueriesController@getIngresosPorFecha'  );
             Route::get('DtIngresosPorFecha/{consulta}'           , 'QueriesController@DtIngresosPorFecha'   );
 
@@ -648,6 +650,11 @@
             Route::get('usuarios_serverside' , 'LogsController@usuarios_serverside' );
         });
 
+        Route::get('user/test', function()
+        {
+            return View::make('queries.notasDeCreditoPorFechaa')->render();
+        });
+
         Route::group(array('prefix' => 'user'), function()
         {
             Route::get('create'      , 'UserController@create');
@@ -700,7 +707,7 @@
 
 Route::get('/test', function()
 {
-   
+
    //  $info = new InformeGeneralController;
    //  return $info->procesarInformeDelDia();
 

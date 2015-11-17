@@ -31,6 +31,18 @@ class NotaCreditoController extends \BaseController {
         return $pdf->stream('Adelanto_Nota_De_Credito_'.$notaCredito->id);
     }
 
+    public function elminiarNotaDecredito()
+    {
+        $notaDeCredito = NotaCredito::find(intval(Input::get('nota_credito_id')));
+
+        if ($notaDeCredito->estado == 1) {
+            return 'No se puede eliminar por que ya fue utilizada en una venta...';
+        }
+
+        if(NotaCredito::destroy(Input::get('nota_credito_id')))
+            return Response::json(array('success' => true));
+    }
+
     public function getConsultarNotasDeCreditoCliente()
     {
         $pagos = PagosVenta::whereMetodoPagoId(6)
