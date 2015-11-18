@@ -13,7 +13,8 @@
 					<th width="12%" style="text-align:center"> Credito</th>
 					<th width="12%" style="text-align:center"> Cheque</th>
 					<th width="12%" style="text-align:center"> Tarjeta</th>
-					<th width="12%" style="text-align:center"> Deposito</th>
+                    <th width="12%" style="text-align:center"> Deposito</th>
+					<th width="12%" style="text-align:center"> Notas C.</th>
 					<th width="12%" style="text-align:center"> Totales</th>
 				</tr>
 			</thead>
@@ -32,15 +33,19 @@
 					 	{{ f_num::get($data['pagos_ventas']['tarjeta']) }}
 					</td>
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('Ventas',5);">
-					 	{{ f_num::get($data['pagos_ventas']['deposito'])}} </td>
-					<td align="right" class="right      "> {{ f_num::get($data['pagos_ventas']['total']) }} </td>
+					 	{{ f_num::get($data['pagos_ventas']['deposito'])}}
+                    </td>
+                    <td class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',6);">
+					 	{{ f_num::get($data['pagos_ventas']['notaCredito']) }}
+					</td>
+					<td align="right" class="right"> {{ f_num::get($data['pagos_ventas']['total']) }} </td>
 				</tr>
 				<tr>
 					<td>Abonos</td>
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('AbonosVentas',1);">
 						{{ f_num::get($data['abonos_ventas']['efectivo'])}}
 					</td>
-					<td align="right" class="right"> 		 {{ f_num::get($data['abonos_ventas']['credito'])}} </td>
+					<td align="right" class="right">{{ f_num::get($data['abonos_ventas']['credito'])}} </td>
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('AbonosVentas',3);">
 						{{ f_num::get($data['abonos_ventas']['cheque'])}}
 					</td>
@@ -50,7 +55,8 @@
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('AbonosVentas',5);">
 						{{ f_num::get($data['abonos_ventas']['deposito'])}}
 					</td>
-					<td align="right" class="right"> 		 {{ f_num::get($data['abonos_ventas']['total'])  }} </td>
+                    <td class="right">0.00</td>
+					<td align="right" class="right">{{ f_num::get($data['abonos_ventas']['total'])  }} </td>
 				</tr>
 				<tr>
 					<td>Soporte</td>
@@ -69,7 +75,8 @@
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('Soporte',5);">
 					    {{ f_num::get($data['soporte']['deposito'])}}
 					</td>
-					<td align="right" class="right"> 		 {{ f_num::get($data['soporte']['total'])  }} </td>
+                    <td class="right">0.00</td>
+					<td align="right" class="right">{{ f_num::get($data['soporte']['total'])  }} </td>
 				</tr>
 				<tr>
 					<td>Ingresos</td>
@@ -88,6 +95,7 @@
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('Ingresos',5);">
 					   {{ f_num::get($data['ingresos']['deposito'])}}
 					</td>
+                    <td class="right">0.00</td>
 					<td align="right" class="right      "> {{ f_num::get($data['ingresos']['total'])   }} </td>
 				</tr>
 				<tr>
@@ -107,6 +115,7 @@
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('Gastos',5);">
 						 {{  f_num::get($data['gastos']['deposito'])}}
 					 </td>
+                     <td class="right">0.00</td>
 					<td align="right" class="right      "> {{  f_num::get($data['gastos']['total'])  }} </td>
 				</tr>
 				<tr>
@@ -126,6 +135,7 @@
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('Egresos',5);">
 						{{  f_num::get($data['egresos']['deposito'])}}
 					</td>
+                    <td class="right">0.00</td>
 					<td align="right" class="right      "> {{ f_num::get($data['egresos']['total'])   }} </td>
 				</tr>
 				<tr>
@@ -145,6 +155,7 @@
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('PagosCompras',5);">
 					   {{  f_num::get($data['pagos_compras']['deposito'])}}
 					</td>
+                    <td class="right">0.00</td>
 					<td align="right" class="right      "> {{ f_num::get($data['pagos_compras']['total'])   }} </td>
 				</tr>
 				<tr>
@@ -164,6 +175,7 @@
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('AbonosCompras',5);">
 						{{  f_num::get($data['abonos_compras']['deposito'])}}
 					</td>
+                    <td class="right">0.00</td>
 					<td align="right" class="right      "> {{ f_num::get($data['abonos_compras']['total'])  }} </td>
 				</tr>
 			</tbody>
@@ -198,10 +210,11 @@
 					<th align="right" class="right" style="padding-right: 10px !important;">
 						<?php
 							$total_deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'];
-                            
+
 							echo f_num::get($total_deposito);
 						 ?>
 					</th>
+                    <th></th>
 					<th></th>
 				</tr>
 				@if(@$corte_realizado != null)
@@ -231,6 +244,7 @@
 						<th align="right" class="right" style="padding-right: 10px !important;">
 							{{ f_num::get(@$corte_realizado->deposito - $total_deposito) }}
 						</th>
+                        <th></th>
 						<th></th>
 					</tr>
 					<tr style="border-bottom: 1px solid;">
@@ -240,6 +254,7 @@
 						<th align="right" class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->cheque)}}</th>
 						<th align="right" class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->tarjeta)}}</th>
 						<th align="right" class="right" style="padding-right: 10px !important;">{{f_num::get(@$corte_realizado->deposito)}}</th>
+                        <th></th>
 						<th></th>
 					</tr>
 
