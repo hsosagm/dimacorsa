@@ -15,13 +15,10 @@ class InformeGeneral extends Migration {
 		Schema::create('informe_general', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('tienda_id')->unsigned();
 			$table->decimal('diferencia_inversion', 10, 2);
 			$table->decimal('diferencia_cobrar', 10, 2);
 			$table->decimal('diferencia_pagar', 10, 2);
 			$table->timestamps();
-
-			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 		});
 
 		Schema::create('informe_inversion', function(Blueprint $table)
