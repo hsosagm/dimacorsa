@@ -34,7 +34,7 @@
 					</td>
 					<td align="right" class="right hover" onclick="asignarInfoEnviar('Ventas',5);">
 					 	{{ f_num::get($data['pagos_ventas']['deposito'])}}
-                    </td>
+                    </td> 
                     <td align="right" class="right hover" v-on="click: getAsignarInfoEnviar('Ventas',6);">
 					 	{{ f_num::get($data['pagos_ventas']['notaCredito']) }}
 					</td>
