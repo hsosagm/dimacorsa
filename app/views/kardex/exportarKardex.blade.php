@@ -32,7 +32,7 @@
 <table width="97%">
 	<tr style="background-color: #D5D5D5;">
 		<td align="center" width="18%"> <strong>Fecha </strong> </td>
-		<td align="center" width="15%"> <strong>Usuario </strong> </td>
+		<td align="center" width="15%"> <strong>Tienda/Usuario </strong> </td>
 		<td align="center" width="10%"> <strong>Transaccion </strong> </td>
 		<td align="center" width="8%"> <strong>Evento </strong> </td>
 		<td align="center" width="5%"> <strong>Cantidad </strong> </td>

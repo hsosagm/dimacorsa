@@ -13,7 +13,7 @@
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
-            
+
             "aoColumnDefs": [
                 {"sClass": "widthM",                                  "sTitle": "Fecha",   "aTargets": [0]},
                 {"sClass": "widthM",                                  "sTitle": "Dif. Inversion", "aTargets": [1]},

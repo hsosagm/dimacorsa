@@ -6,14 +6,19 @@ class Devolucion extends \BaseModel {
 
 	protected $table = 'devoluciones';
 
-    public function detalle_devolucion()
+    public function devolucion_detalle()
     {
-        return $this->hasMany('DetalleDevolucion');
+        return $this->hasMany('DevolucionDetalle');
+    }
+
+	public function devolucion_pagos()
+    {
+        return $this->hasMany('DevolucionPago');
     }
 
     public function cliente()
     {
-        return $this->belongsTo('Cliente');    
+        return $this->belongsTo('Cliente');
     }
 
     public function user()

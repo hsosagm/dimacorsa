@@ -36,6 +36,7 @@
     Route::get('imprimirNotaDeCretido'        , 'NotaCreditoController@imprimirNotaDeCretido' );
     Route::get('retirarDineroDeCajaPdf'       , 'CajaController@retirarDineroDeCajaPdf' );
     Route::get('imprimirCorteCaja/{id}'       , 'CajaController@imprimirCorteCaja' );
+    Route::get('printDevolucion'              , 'DevolucionesVentasController@printDevolucion' );
 
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
@@ -255,27 +256,27 @@
 
             Route::group(array('prefix' => 'devoluciones'),function()
             {
-                Route::get('createDevolucion'  , 'DevolucionesVentasController@createDevolucion');
-                Route::post('createDevolucion'  , 'DevolucionesVentasController@createDevolucion');
-                Route::get('findProducto'        , 'DevolucionesVentasController@findProducto');
-                Route::post('postDevolucionDetalle'        , 'DevolucionesVentasController@postDevolucionDetalle');
-                Route::post('removeItem'        , 'DevolucionesVentasController@removeItem');
-                Route::post('eliminarDevolucion'        , 'DevolucionesVentasController@eliminarDevolucion');
-                Route::post('UpdateDetalle'        , 'DevolucionesVentasController@UpdateDetalle');
-                Route::get('getPaymentForm'        , 'DevolucionesVentasController@getPaymentForm');
-                Route::post('finalizarDevolucion'        , 'DevolucionesVentasController@finalizarDevolucion');
-                Route::get('getVentasParaDevoluciones'         , 'DevolucionesVentasController@getVentasParaDevoluciones');
-                Route::get('DT_ventasParaDevoluciones'         , 'DevolucionesVentasController@DT_ventasParaDevoluciones');
-                Route::get('misDevolucionesDelDia'         , 'DevolucionesVentasController@misDevolucionesDelDia');
-                Route::get('devoluciones_DT'         , 'DevolucionesVentasController@devoluciones_DT');
-                Route::get('getDevolucionesDetail'         , 'DevolucionesVentasController@getDevolucionesDetail');
-                Route::get('openDevolucion'         , 'DevolucionesVentasController@openDevolucion');
-                Route::post('deleteDevolucion'         , 'DevolucionesVentasController@deleteDevolucion');
-                Route::get('getSerialsForm'         , 'DevolucionesVentasController@getSerialsForm');
-                Route::post('post_detalle_devolulcion_serie'         , 'DevolucionesVentasController@post_detalle_devolulcion_serie');
-                Route::post('post_detalle_devolulcion_serie_delete'         , 'DevolucionesVentasController@post_detalle_devolulcion_serie_delete');
-                Route::get('table_productos_para_devolucion'         , 'DevolucionesVentasController@table_productos_para_devolucion');
-                Route::get('productos_para_devolucion_DT'         , 'DevolucionesVentasController@productos_para_devolucion_DT');
+                Route::get('createDevolucion'       , 'DevolucionesVentasController@createDevolucion');
+                Route::post('createDevolucion'      , 'DevolucionesVentasController@createDevolucion');
+                Route::get('findProducto'           , 'DevolucionesVentasController@findProducto');
+                Route::post('postDevolucionDetalle' , 'DevolucionesVentasController@postDevolucionDetalle');
+                Route::post('removeItem'            , 'DevolucionesVentasController@removeItem');
+                Route::post('eliminarDevolucion'    , 'DevolucionesVentasController@eliminarDevolucion');
+                Route::post('UpdateDetalle'         , 'DevolucionesVentasController@UpdateDetalle');
+                Route::get('getPaymentForm'         , 'DevolucionesVentasController@getPaymentForm');
+                Route::post('finalizarDevolucion'       , 'DevolucionesVentasController@finalizarDevolucion');
+                Route::get('getVentasParaDevoluciones'  , 'DevolucionesVentasController@getVentasParaDevoluciones');
+                Route::get('DT_ventasParaDevoluciones'  , 'DevolucionesVentasController@DT_ventasParaDevoluciones');
+                Route::get('misDevolucionesDelDia'      , 'DevolucionesVentasController@misDevolucionesDelDia');
+                Route::get('devoluciones_DT'            , 'DevolucionesVentasController@devoluciones_DT');
+                Route::get('getDevolucionesDetail'      , 'DevolucionesVentasController@getDevolucionesDetail');
+                Route::get('openDevolucion'             , 'DevolucionesVentasController@openDevolucion');
+                Route::post('deleteDevolucion'          , 'DevolucionesVentasController@deleteDevolucion');
+                Route::get('getSerialsForm'             , 'DevolucionesVentasController@getSerialsForm');
+                Route::post('post_detalle_devolulcion_serie'        , 'DevolucionesVentasController@post_detalle_devolulcion_serie');
+                Route::post('post_detalle_devolulcion_serie_delete' , 'DevolucionesVentasController@post_detalle_devolulcion_serie_delete');
+                Route::get('table_productos_para_devolucion'        , 'DevolucionesVentasController@table_productos_para_devolucion');
+                Route::get('productos_para_devolucion_DT'           , 'DevolucionesVentasController@productos_para_devolucion_DT');
             });
 
         });
@@ -331,6 +332,8 @@
             Route::get('getInformeCuentasPorCobrar'   , 'InformeGeneralController@getInformeCuentasPorCobrar');
         });
 
+
+        Route::post('notaDeCredito/eliminarNotaDeCredito', 'NotaCreditoController@elminiarNotaDecredito');
         Route::get('users/buscar', 'UserController@buscar');
 
         Route::group(array('prefix' => 'vista'),function()
@@ -406,8 +409,8 @@
             Route::get('DtSoportePorFecha/{consulta}'            , 'QueriesController@DtSoportePorFecha'   );
             Route::get('getAbonosClientesPorFecha/{consulta}'    , 'QueriesController@getAbonosClientesPorFecha');
             Route::get('DtAbonosClientesPorFecha/{consulta}'     , 'QueriesController@DtAbonosClientesPorFecha' );
-            Route::get('getAdelantosPorFecha/{consulta}'         , 'QueriesController@getAdelantosPorFecha' );
-            Route::get('DtAdelantosPorFecha/{consulta}'          , 'QueriesController@DtAdelantosPorFecha'  );
+            Route::get('getNotasDeCreditoPorFecha/{consulta}'    , 'QueriesController@getNotasDeCreditoPorFecha' );
+            Route::get('DtNotasDeCreditoPorFecha/{consulta}'     , 'QueriesController@DtNotasDeCreditoPorFecha'  );
             Route::get('getIngresosPorFecha/{consulta}'          , 'QueriesController@getIngresosPorFecha'  );
             Route::get('DtIngresosPorFecha/{consulta}'           , 'QueriesController@DtIngresosPorFecha'   );
 
@@ -698,18 +701,14 @@
 
     });
 
-    Route::get('verInformePdf' , 'InformeGeneralController@verInformePdf');
-    Route::get('verInformeTabla' , 'InformeGeneralController@verInformeTabla');
-    Route::get('getDetalleInformeGeneral' , 'InformeGeneralController@getDetalleInformeGeneral');
-    Route::get('getInformePorProducto' , 'InformeGeneralController@getInformePorProducto');
-    Route::get('getKardexInformeDelDia' , 'InformeGeneralController@getKardexInformeDelDia');
-
 Route::get('/test', function()
 {
+    return View::make('informes.detalleInformeGeneral');
+
     // $info = new InformeGeneralController;
     // return $info->procesarInformeDelDia();
 
-    /*
+    /*33102
     //para quitar elementos iguales
     $array1    = array("1", "3", "5", "7");
     $array2    = array( "5", "1", "8", '2');
@@ -730,6 +729,7 @@ Route::get('/test', function()
         DROP TABLE  notas_creditos;
         DROP TABLE  detalle_adelantos;
         DROP TABLE  adelantos;
+        DROP TABLE  informe_general_diario;
     */
 
     $ventas = DB::table('ventas')->whereTiendaId(1)

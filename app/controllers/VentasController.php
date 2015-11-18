@@ -8,7 +8,7 @@ class VentasController extends \BaseController {
 		{
 			$venta = new Venta;
 
-			$data = Input::all();
+			$data = Input::all(); 
 
 			if (!$venta->create_master($data))
 			{
@@ -110,7 +110,10 @@ class VentasController extends \BaseController {
 		if ($destroy)
 		{
 			foreach ($detalle_venta as $dv) {
-				$this->recalcularPrecioCosto($dv->id, $dv);
+				$q = Existencia::where('producto_id', $dv->producto_id )
+	            ->where('tienda_id', Auth::user()->tienda_id)->first();
+            $q->existencia = $q->existencia + $dv->cantidad;
+            $q->save();
 			}
 
 			return Response::json(array(
@@ -129,7 +132,10 @@ class VentasController extends \BaseController {
 
 		if ($delete)
 		{
-         $this->recalcularPrecioCosto($dv->id, $dv);
+			$Existencia = Existencia::where('producto_id', $dv->producto_id)
+         ->where('tienda_id', Auth::user()->tienda_id)->first();
+         $Existencia->existencia = $Existencia->existencia + $dv->cantidad;
+         $Existencia->save();
 
 			return Response::json(array(
 				'success' => true
@@ -700,22 +706,14 @@ class VentasController extends \BaseController {
 	public function UpdateDetalle()
 	{
 		if ( Input::get('field') == 'precio' ) {
-			$this->recalcularPrecioCosto(Input::get('values.id'));
+
 			$precio = str_replace(',', '', Input::get('values.precio'));
 			$precio = preg_replace('/\s{2,}/', ' ', $precio);
-	        $query = Producto::find(Input::get('values.producto_id'));
-	        $ganancias = $precio - ( $query->p_costo / 100);
+         $query = Producto::find(Input::get('values.producto_id'));
+         $ganancias = $precio - ( $query->p_costo / 100);
 
-			$detalleVenta = DetalleVenta::find( Input::get('values.id') );
-			$detalleVenta->precio = Input::get('values.precio');
-			$detalleVenta->ganancias = $ganancias;
-
-			$existencia= Existencia::whereProductoId($query->id)
-			->whereTiendaId(Auth::user()->tienda_id)->first();
-			$existencia->existencia -= $detalleVenta->cantidad;
-			$existencia->save();
-
-			$detalleVenta->save();
+			DetalleVenta::find( Input::get('values.id') )
+			->update(array('precio' => Input::get('values.precio'), 'ganancias' => $ganancias ));
 
 			return $this->returnDetail();
 		}
@@ -724,9 +722,7 @@ class VentasController extends \BaseController {
 			return 'La cantidad deve ser mayor a 0';
 		}
 
-		$this->recalcularPrecioCosto(Input::get('values.id'));
-
-		$cantidad =  Input::get('values.cantidad');
+		$cantidad =  Input::get('values.cantidad') - Input::get('oldvalue');
 
 		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), $cantidad );
 
@@ -734,14 +730,8 @@ class VentasController extends \BaseController {
 			return "La cantidad que esta ingresando es mayor a la existencia..";
 		}
 
-		$detalleVenta = DetalleVenta::find(Input::get('values.id'));
-
-		$producto = Producto::find(Input::get('values.producto_id'));
-		$ganancias = $detalleVenta->precio - ($producto->p_costo / 100);
-
-		$detalleVenta->ganancias = $ganancias;
-		$detalleVenta->cantidad = $cantidad;
-		$detalleVenta->save();
+		DetalleVenta::find( Input::get('values.id') )
+		->update(array('cantidad' => Input::get('values.cantidad')));
 
 		Existencia::where('producto_id', Input::get('values.producto_id'))
 		->where('tienda_id', Auth::user()->tienda_id)

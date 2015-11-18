@@ -17,7 +17,7 @@
         close: function() {
             $('#graph_container').hide();
         },
-
+ 
         getVentasDelMes: function (e,fecha) {
             $.ajax({
                 type: "GET",

@@ -228,12 +228,13 @@ class CajaController extends \BaseController
     public function llenar_arreglo($Query)
     {
         $arreglo_ordenado = array(
-            'efectivo'=>"0.00",
-            'credito' =>"0.00",
-            'cheque'  =>"0.00",
-            'tarjeta' =>"0.00",
-            'deposito'=>"0.00",
-            'total'   =>"0.00"
+            'efectivo'    =>"0.00",
+            'credito'     =>"0.00",
+            'cheque'      =>"0.00",
+            'tarjeta'     =>"0.00",
+            'deposito'    =>"0.00",
+			'notaCredito' =>"0.00",
+            'total'       =>"0.00"
         );
 
         foreach ($Query as $key => $val)
@@ -252,6 +253,9 @@ class CajaController extends \BaseController
 
             if($val->descripcion == 'Deposito')
                 $arreglo_ordenado['deposito'] = $val->total;
+				
+			if($val->descripcion == 'Nota de credito')
+                $arreglo_ordenado['notaCredito'] = $val->total;
 
             $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }

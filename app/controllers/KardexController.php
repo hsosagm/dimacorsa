@@ -8,7 +8,7 @@ class KardexController extends \BaseController {
 
         $columns = array(
             "kardex.created_at as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "CONCAT_WS(' / ',tiendas.nombre,users.nombre) as usuario",
             "kardex_transaccion.nombre as nombre",
             "evento",
             "cantidad",
@@ -19,7 +19,8 @@ class KardexController extends \BaseController {
 
         $Search_columns = array("evento" , "cantidad" , 'existencia' ,'costo');
 
-        $Join = "JOIN users ON (users.id = kardex.user_id) ";
+		$Join = " JOIN users ON (users.id = kardex.user_id) ";
+        $Join .= " JOIN tiendas ON (tiendas.id = kardex.tienda_id) ";
         $Join .= "JOIN kardex_transaccion ON (kardex_transaccion.id = kardex_transaccion_id) ";
 
         $where = " DATE_FORMAT(kardex.created_at, '%Y-%m') = DATE_FORMAT(current_date, '%Y-%m') ";
@@ -30,7 +31,6 @@ class KardexController extends \BaseController {
             $where .= " AND DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('".Input::get('fecha_final')."', '%Y-%m-%d')";
         }
 
-        $where .= " AND kardex.tienda_id =".Auth::user()->tienda_id;
         $where .= " AND kardex.producto_id =".Input::get('producto_id');
         $where .= " ORDER BY kardex.created_at";
 
@@ -49,14 +49,14 @@ class KardexController extends \BaseController {
     {
         $kardex = DB::table('kardex')
         ->select("kardex.created_at as fecha",
-            DB::raw("CONCAT_WS(' ',users.nombre,users.apellido) as usuario"),
+            DB::raw("CONCAT_WS(' / ',tiendas.nombre,users.nombre) as usuario"),
             DB::raw("kardex_transaccion.nombre as transaccion"),
             "evento","cantidad", "existencia", "costo", "costo_promedio",
             DB::raw("(costo * cantidad) as total_movimiento"),
             DB::raw("(costo_promedio * existencia) as total_acumulado"))
         ->join('users','users.id','=','kardex.user_id')
+		->join('tiendas','tiendas.id','=','kardex.tienda_id')
         ->join('kardex_transaccion','kardex_transaccion.id','=','kardex.kardex_transaccion_id')
-        ->where('kardex.tienda_id','=',Auth::user()->tienda_id)
         ->where('producto_id','=',Input::get('producto_id'))
         ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') >= DATE_FORMAT('".Input::get('fecha_inicial')."', '%Y-%m-%d')")
         ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('".Input::get('fecha_final')."', '%Y-%m-%d')")
@@ -123,7 +123,7 @@ class KardexController extends \BaseController {
 
          $columns = array(
             "kardex.created_at as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "CONCAT_WS(' / ',tiendas.nombre,users.nombre) as usuario",
             "kardex_transaccion.nombre as nombre",
             "evento",
             "cantidad",
@@ -145,10 +145,10 @@ class KardexController extends \BaseController {
             $where .= " AND DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
         }
 
-        $where .= " AND kardex.tienda_id =".Auth::user()->tienda_id;
         $where .= " AND kardex.producto_id =".Input::get('producto_id');
 
-        $Join = "JOIN users ON (users.id = kardex.user_id) ";
+		$Join = "JOIN users ON (users.id = kardex.user_id) ";
+        $Join .= "JOIN tiendas ON (tiendas.id = kardex.tienda_id) ";
         $Join .= "JOIN kardex_transaccion ON (kardex_transaccion.id = kardex_transaccion_id) ";
 
         return TableSearch::get($table, $columns, $Search_columns, $Join, $where );

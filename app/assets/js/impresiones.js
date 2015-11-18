@@ -1,9 +1,12 @@
+function printDevolucion(id) {
+    window.open('printDevolucion?devolucion_id='+id,'_blank');
+};
 
 function ExportarCierreDelMes(tipo,fecha_completa) {
     $fecha = fecha_completa.substring(0, 10);
     window.open('admin/cierre/ExportarCierreDelMes/'+tipo+'/'+$fecha ,'_blank');
 };
-
+ 
 function ExportarCierreDelDiaPdf(e) {
     $fecha_completa = $(e).closest('tr').find("td").eq(3).html();
     $fecha = $fecha_completa.substring(0, 10);

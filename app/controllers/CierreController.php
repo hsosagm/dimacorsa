@@ -7,7 +7,7 @@ class CierreController extends \BaseController {
         $fecha = Input::get('fecha');
         $fecha_enviar = "'{$fecha}'";
 
-        if ($fecha == 'current_date') 
+        if ($fecha == 'current_date')
         {
             $fecha_enviar = 'current_date';
             $dt = Carbon::now();
@@ -289,13 +289,14 @@ class CierreController extends \BaseController {
     public function llenar_arreglo($Query)
     {
         $arreglo_ordenado = array(
-            'titulo'  => '',
-            'efectivo'=>"0.00",
-            'credito' =>"0.00",
-            'cheque'  =>"0.00",
-            'tarjeta' =>"0.00",
-            'deposito'=>"0.00",
-            'total'   =>"0.00"
+            'titulo'      => '',
+            'efectivo'    =>"0.00",
+            'credito'     =>"0.00",
+            'cheque'      =>"0.00",
+            'tarjeta'     =>"0.00",
+            'deposito'    =>"0.00",
+            'notaCredito' =>"0.00",
+            'total'       =>"0.00"
         );
 
         foreach ($Query as $key => $val)
@@ -312,9 +313,11 @@ class CierreController extends \BaseController {
             if($val->descripcion == 'Tarjeta')
                 $arreglo_ordenado['tarjeta'] = $val->total;
 
-            if($val->descripcion == 'Deposito'){
+            if($val->descripcion == 'Deposito')
                 $arreglo_ordenado['deposito'] = $val->total;
-            }
+
+            if($val->descripcion == 'Nota de credito')
+                $arreglo_ordenado['notaCredito'] = $val->total;
 
             $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
@@ -473,6 +476,10 @@ class CierreController extends \BaseController {
         ->groupBy('users.id','users.nombre','users.apellido')
         ->get();
 
+        $notas_creditos = DB::table('notas_creditos')
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->whereEstado(0)->first(array(DB::raw('sum(monto) as total')));
+
         $date = Carbon::now();
 
         $fecha_env = Venta::first();
@@ -487,6 +494,7 @@ class CierreController extends \BaseController {
         }
 
         $data['dia_inicio'] = $fecha_env;
+        $data['notas_creditos'] = $notas_creditos->total;
         $data['total_ventas'] = f_num::get($ventas->total   );
         $data['total_ganancias'] = f_num::get($ganancias->total);
         $data['total_soporte'] = f_num::get($soporte->total  );
@@ -709,6 +717,10 @@ class CierreController extends \BaseController {
         ->groupBy('users.id','users.nombre','users.apellido')
         ->get();
 
+        $notas_creditos = DB::table('notas_creditos')
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->whereEstado(0)->first(array(DB::raw('sum(monto) as total')));
+
         $date = Carbon::createFromFormat('Y-m-d', "{$fecha}");
 
         $fecha_env = Venta::first();
@@ -720,6 +732,7 @@ class CierreController extends \BaseController {
         }
 
         $data['dia_inicio'] =  $fecha_env;
+        $data['notas_creditos'] =  $notas_creditos->total;
         $data['total_ventas'] = f_num::get($ventas->total   );
         $data['total_ganancias'] = f_num::get($ganancias->total);
         $data['total_soporte'] = f_num::get($soporte->total  );

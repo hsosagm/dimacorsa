@@ -44,12 +44,19 @@ class InventarioController extends Controller {
 
 		if ( $existencia )
 		{
+            $cantidad_ajuste = Input::get('cantidad') - $existencia->existencia;
+            $producto_id = $existencia->producto_id;
+
             $existencia->ajuste =  Input::get('cantidad') - $existencia->existencia;
             $existencia->existencia_real = Input::get('cantidad');
             $existencia->existencia = Input::get('cantidad');
             $existencia->status = 1;
             $existencia->user_id = Auth::user()->id;
             $existencia->save();
+
+            if ($cantidad_ajuste != 0) {
+                $this->setKardex($existencia->id, $producto_id, $cantidad_ajuste);
+            }
 
 	        return Response::json(array('success' => true ));
 		}
@@ -66,6 +73,7 @@ class InventarioController extends Controller {
             DB::raw('productos.descripcion as descripcion'),
             DB::raw('marcas.nombre as marca'),
             DB::raw('categorias.nombre as categoria'),
+            DB::raw('productos.stock_minimo as existencia_minima'),
             DB::raw('existencias.existencia as existencia')
         )
         ->whereRaw('existencias.existencia <= stock_minimo')
@@ -82,4 +90,32 @@ class InventarioController extends Controller {
         ));
     }
 
+    public function setKardex($transaccion_id, $producto_id, $cantidad)
+    {
+
+        $existencia = Existencia::whereProductoId($producto_id)->first(array(DB::raw('sum(existencia) as total')));
+        $producto = Producto::find($producto_id);
+
+        $kardex = new Kardex;
+        $kardex->tienda_id = Auth::user()->tienda_id;
+        $kardex->user_id = Auth::user()->id;
+        $kardex->kardex_accion_id = 2;
+        $kardex->producto_id = $producto_id;
+        $kardex->kardex_transaccion_id = 6;
+        $kardex->transaccion_id = $transaccion_id;
+
+        if($cantidad > 0) {
+            $kardex->evento = 'ingreso';
+            $kardex->cantidad = $cantidad;
+        }
+        else {
+            $kardex->evento = 'salida';
+            $kardex->cantidad = ($cantidad * -1);
+        }
+
+        $kardex->existencia = $existencia->total;
+        $kardex->costo = ($producto->p_costo/100);
+        $kardex->costo_promedio = ($producto->p_costo/100);
+        $kardex->save();
+    }
 }
