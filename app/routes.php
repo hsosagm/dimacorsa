@@ -731,6 +731,13 @@ Route::get('/test', function()
         DROP TABLE  detalle_adelantos;
         DROP TABLE  adelantos;
     */
+
+    $ventas = DB::table('ventas')->whereTiendaId(1)
+    ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
+    ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
+
+    return $ventas->total;
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

@@ -73,10 +73,10 @@ class InformeGeneral extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('informe_general');
 		Schema::drop('informe_inversion');
 		Schema::drop('informe_cuentas_por_cobrar');
 		Schema::drop('informe_cuentas_por_pagar');
+		Schema::drop('informe_general');
 	}
 
 }
