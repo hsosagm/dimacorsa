@@ -1,74 +1,72 @@
 <?php
-$tienda_id = 1;
+    $tienda_id = 1;
 
-$informe_general_anterior = DB::table('informe_general')->whereTiendaId(1)
-->whereRaw("id = (select max(id) from informe_general where tienda_id = 1)")->first();
+    $informe_general_anterior = DB::table('informe_general')->whereTiendaId(1)
+    ->whereRaw("id = (select max(id) from informe_general where tienda_id = 1)")->first();
 
-$informe_cuentas_por_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+    $informe_cuentas_por_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+    $informe_cuentas_por_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+    $informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
+    ->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
+    ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
-$informe_cuentas_por_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+    $ventas = DB::table('ventas')->whereTiendaId($tienda_id)
+    ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
+    ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
 
-$informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
-->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
-->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+    $compras = DB::table('compras')->whereTiendaId($tienda_id)
+    ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum(total) as total')));
 
-$ventas = DB::table('ventas')->whereTiendaId($tienda_id)
-->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
-->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
+    $descargas = DB::table('descargas')->whereTiendaId($tienda_id)
+    ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
+    ->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
-$compras = DB::table('compras')->whereTiendaId($tienda_id)
-->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum(total) as total')));
+    $traslados = DB::table('traslados')->whereTiendaId($tienda_id)
+    ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
+    ->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
-$descargas = DB::table('descargas')->whereTiendaId($tienda_id)
-->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
-->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum(precio * cantidad) as total')));
+    $real_informe_inversion = DB::table('informe_inversion')
+    ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-$traslados = DB::table('traslados')->whereTiendaId($tienda_id)
-->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
-->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum(precio * cantidad) as total')));
+    $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total) - ($ventas->total + $descargas->total + $traslados->total)));
+    $informe_inversion_real = floatval($informe_inversion->total);
+    $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
 
-$real_informe_inversion = DB::table('informe_inversion')
-->whereInformeGeneralId($informe_general_anterior->id)->first();
+    $creditosVentas = DB::table('ventas')->whereTiendaId($tienda_id)
+    ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum(saldo) as total')));
 
-$informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total) - ($ventas->total + $descargas->total + $traslados->total)));
-$informe_inversion_real = floatval($informe_inversion->total);
-$diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
+    $abonosVentas = DB::table('abonos_ventas')->whereTiendaId($tienda_id)
+    ->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
+    ->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
 
-$creditosVentas = DB::table('ventas')->whereTiendaId($tienda_id)
-->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum(saldo) as total')));
+    $real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
+    ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-$abonosVentas = DB::table('abonos_ventas')->whereTiendaId($tienda_id)
-->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
-->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
+    $informe_cuentas_por_cobrar_esperado = floatval(($real_informe_cuentas_por_cobrar->real + $creditosVentas->total) - $abonosVentas->total);
+    $informe_cuentas_por_cobrar_real = floatval($informe_cuentas_por_cobrar->total);
+    $diferencia_cobrar = $informe_cuentas_por_cobrar_real - $informe_cuentas_por_cobrar_esperado;
 
-$real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
-->whereInformeGeneralId($informe_general_anterior->id)->first();
+    $abonosCompras = DB::table('abonos_compras')->whereTiendaId($tienda_id)
+    ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
+    ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
 
-$informe_cuentas_por_cobrar_esperado = floatval(($real_informe_cuentas_por_cobrar->real + $creditosVentas->total) - $abonosVentas->total);
-$informe_cuentas_por_cobrar_real = floatval($informe_cuentas_por_cobrar->total);
-$diferencia_cobrar = $informe_cuentas_por_cobrar_real - $informe_cuentas_por_cobrar_esperado;
+    $creditosCompras = DB::table('compras')->whereTiendaId($tienda_id)
+    ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->first(array(DB::raw('sum(saldo) as total')));
 
-$abonosCompras = DB::table('abonos_compras')->whereTiendaId($tienda_id)
-->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
-->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
+    $real_informe_cuentas_por_pagar = DB::table('informe_cuentas_por_pagar')
+    ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-$creditosCompras = DB::table('compras')->whereTiendaId($tienda_id)
-->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-->first(array(DB::raw('sum(saldo) as total')));
-
-$real_informe_cuentas_por_pagar = DB::table('informe_cuentas_por_pagar')
-->whereInformeGeneralId($informe_general_anterior->id)->first();
-
-$informe_cuentas_por_pagar_esperado = floatval(($real_informe_cuentas_por_pagar->real + $creditosCompras->total) - $abonosCompras->total);
-$informe_cuentas_por_pagar_real = floatval($informe_cuentas_por_pagar->total);
-$diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar_esperado;
+    $informe_cuentas_por_pagar_esperado = floatval(($real_informe_cuentas_por_pagar->real + $creditosCompras->total) - $abonosCompras->total);
+    $informe_cuentas_por_pagar_real = floatval($informe_cuentas_por_pagar->total);
+    $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar_esperado;
 ?>
 <table width="100%" class="DT_table_div">
     <tr>
@@ -82,7 +80,6 @@ $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar
         <td align="right">Real</td>
         <td align="right">Diferancia</td>
     </tr>
-
     <tr>
         <td>Inversion</td>
         <td align="right"> {{ $informe_inversion_real }} </td>
@@ -94,9 +91,7 @@ $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar
         <td align="right"> {{f_num::get($informe_inversion->total )}}</td>
         <td align="right">{{f_num::get($diferencia_inversion)}}</td>
     </tr>
-
     <tr> <td colspan="8" height="50"></td> </tr>
-
     <tr>
         <td align="right"></td>
         <td align="right"></td>
@@ -107,7 +102,6 @@ $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar
         <td align="right"></td>
         <td align="right"></td>
     </tr>
-
     <tr>
         <td>Cuentas por cobrar</td>
         <td align="right"> {{f_num::get($informe_cuentas_por_cobrar_real)}} </td>
@@ -118,9 +112,7 @@ $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar
         <td align="right"> {{f_num::get($informe_cuentas_por_cobrar->total)}} </td>
         <td align="right"> {{f_num::get($diferencia_cobrar)}} </td>
     </tr>
-
     <tr> <td colspan="8" height="50"> </td> </tr>
-
     <tr>
         <td align="right"></td>
         <td align="right"></td>
@@ -130,7 +122,6 @@ $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar
         <td align="right"></td>
         <td align="right"></td>
     </tr>
-
     <tr>
         <td>Cuentas por pagar</td>
         <td align="right"> {{f_num::get($informe_cuentas_por_pagar_real)}} </td>
