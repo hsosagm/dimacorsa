@@ -703,9 +703,10 @@
 
 Route::get('/test', function()
 {
+    return View::make('informes.detalleInformeGeneral');
 
-   //  $info = new InformeGeneralController;
-   //  return $info->procesarInformeDelDia();
+    // $info = new InformeGeneralController;
+    // return $info->procesarInformeDelDia();
 
     /*33102
     //para quitar elementos iguales
