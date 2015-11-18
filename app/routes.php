@@ -701,44 +701,41 @@
 
     });
 
-Route::get('/test', function()
-{
-    // return View::make('informes.detalleInformeGeneral');
-    //
-    // $info = new InformeGeneralController;
-    // return $info->procesarInformeDelDia();
+    Route::get('/informeGeneral/actual', function()
+    {
+        return View::make('informes.detalleInformeGeneral');
+    });
 
-    /*33102
-    //para quitar elementos iguales
-    $array1    = array("1", "3", "5", "7");
-    $array2    = array( "5", "1", "8", '2');
-    $resultado = array_diff($array1, $array2);
-    $result =  implode(",", $resultado);
-    return $result;
-    */
-    /*
-    //para el guardado y envio de correo de informe general diario
-    $envio = new InformeGeneralController();
-    $tienda_id = 1;
-    return $envio->procesarInformeDelDia($tienda_id);
-    */
-    /* tablas a Eliminar
-        DROP TABLE  adelanto_nota_credito;
-        DROP TABLE  detalle_devolucion_nota_credito;
-        DROP TABLE  devolucion_nota_credito;
-        DROP TABLE  notas_creditos;
-        DROP TABLE  detalle_adelantos;
-        DROP TABLE  adelantos;
-        DROP TABLE  informe_general_diario;
-    */
+    Route::get('/test', function()
+    {
+        //
+        // $info = new InformeGeneralController;
+        // return $info->procesarInformeDelDia();
 
-    $creditosCompras = DB::table('compras')
-    ->join('pagos_compras', 'compra_id', '=', 'compras.id')
-    ->whereRaw("DATE(compras.created_at) = CURDATE()")
-    ->whereMetodoPagoId(2)
-    ->first(array(DB::raw('sum(monto) as total')));
-    return $creditosCompras->total;
-});
+        /*33102
+        //para quitar elementos iguales
+        $array1    = array("1", "3", "5", "7");
+        $array2    = array( "5", "1", "8", '2');
+        $resultado = array_diff($array1, $array2);
+        $result =  implode(",", $resultado);
+        return $result;
+        */
+        /*
+        //para el guardado y envio de correo de informe general diario
+        $envio = new InformeGeneralController();
+        $tienda_id = 1;
+        return $envio->procesarInformeDelDia($tienda_id);
+        */
+        /* tablas a Eliminar
+            DROP TABLE  adelanto_nota_credito;
+            DROP TABLE  detalle_devolucion_nota_credito;
+            DROP TABLE  devolucion_nota_credito;
+            DROP TABLE  notas_creditos;
+            DROP TABLE  detalle_adelantos;
+            DROP TABLE  adelantos;
+            DROP TABLE  informe_general_diario;
+        */
+    });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
