@@ -1,32 +1,26 @@
 <?php
-    $tienda_id = 1;
+    $informe_general_anterior = DB::table('informe_general')
+    ->whereRaw("id = (select max(id) from informe_general)")->first();
 
-    $informe_general_anterior = DB::table('informe_general')->whereTiendaId(1)
-    ->whereRaw("id = (select max(id) from informe_general where tienda_id = 1)")->first();
-
-    $informe_cuentas_por_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
-    $informe_cuentas_por_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+    $informe_cuentas_por_pagar = Compra::first(array(DB::raw('sum(saldo) as total')));
+    $informe_cuentas_por_cobrar = Venta::first(array(DB::raw('sum(saldo) as total')));
     $informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
-    ->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
+    ->where('existencias.existencia', '>', 0)
     ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
-    $ventas = DB::table('ventas')->whereTiendaId($tienda_id)
-    ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
-    ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    $ventas = DB::table('ventas')->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
+    ->whereRaw("DATE(ventas.created_at) = CURDATE()")
     ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
 
-    $compras = DB::table('compras')->whereTiendaId($tienda_id)
-    ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    $compras = DB::table('compras')->whereRaw("DATE(created_at) = CURDATE()")
     ->first(array(DB::raw('sum(total) as total')));
 
-    $descargas = DB::table('descargas')->whereTiendaId($tienda_id)
-    ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
-    ->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    $descargas = DB::table('descargas')->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
+    ->whereRaw("DATE(descargas.created_at) = CURDATE()")
     ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
-    $traslados = DB::table('traslados')->whereTiendaId($tienda_id)
-    ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
-    ->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    $traslados = DB::table('traslados')->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
+    ->whereRaw("DATE(traslados.created_at) = CURDATE()")
     ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
     $real_informe_inversion = DB::table('informe_inversion')
@@ -36,13 +30,13 @@
     $informe_inversion_real = floatval($informe_inversion->total);
     $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
 
-    $creditosVentas = DB::table('ventas')->whereTiendaId($tienda_id)
-    ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    $creditosVentas = DB::table('ventas')
+    ->whereRaw("DATE(created_at) = CURDATE()")
     ->first(array(DB::raw('sum(saldo) as total')));
 
-    $abonosVentas = DB::table('abonos_ventas')->whereTiendaId($tienda_id)
+    $abonosVentas = DB::table('abonos_ventas')
     ->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
-    ->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->whereRaw("DATE(abonos_ventas.created_at) = CURDATE()")
     ->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
 
     $real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
@@ -52,13 +46,13 @@
     $informe_cuentas_por_cobrar_real = floatval($informe_cuentas_por_cobrar->total);
     $diferencia_cobrar = $informe_cuentas_por_cobrar_real - $informe_cuentas_por_cobrar_esperado;
 
-    $abonosCompras = DB::table('abonos_compras')->whereTiendaId($tienda_id)
+    $abonosCompras = DB::table('abonos_compras')
     ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
-    ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    ->whereRaw("DATE(abonos_compras.created_at) = CURDATE()")
     ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
 
-    $creditosCompras = DB::table('compras')->whereTiendaId($tienda_id)
-    ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
+    $creditosCompras = DB::table('compras')
+    ->whereRaw("DATE(created_at) = CURDATE()")
     ->first(array(DB::raw('sum(saldo) as total')));
 
     $real_informe_cuentas_por_pagar = DB::table('informe_cuentas_por_pagar')

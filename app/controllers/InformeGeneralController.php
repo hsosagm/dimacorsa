@@ -23,7 +23,7 @@ class InformeGeneralController extends \BaseController {
 
         $Search_columns = array("diferencia_inversion");
         $Join = null;
-        $where = "informe_general.tienda_id = ".Auth::user()->tienda_id;
+        $where = null;
 
         echo TableSearch::get($table, $columns, $Search_columns, $Join, $where);
     }
@@ -82,64 +82,79 @@ class InformeGeneralController extends \BaseController {
 
     public function procesarInformeDelDia()
     {
-/*       $tiendas = Tienda::all();
-
-        foreach ($tiendas as $tienda) {
-            $informeGeneral = DB::table('informe_general')->whereTiendaId($tienda->id)
-            ->whereRaw("id = (select max(id) from informe_general where tienda_id = {$tienda->id})")->first();
-
-            if ($informeGeneral)
-                $this->guardarInformeDelDia($informeGeneral, $tienda->id);
-            else
-                $this->datosIniciales($tienda->id);
-        }*/
-
-        $informeGeneral = DB::table('informe_general')->whereTiendaId(1)
-        ->whereRaw("id = (select max(id) from informe_general where tienda_id = 1)")->first();
+        $informeGeneral = DB::table('informe_general')
+        ->whereRaw("id = (select max(id) from informe_general)")->first();
 
         if ($informeGeneral)
-            $this->guardarInformeDelDia($informeGeneral, 1);
+            $this->guardarInformeDelDia($informeGeneral);
         else
-            $this->datosIniciales(1);
+            $this->datosIniciales();
     }
 
-    public function datosIniciales($tienda_id)
+    public function datosIniciales()
     {
-        $informe_cuentas_por_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+        //consultas de lo real del sistema
+        $informe_cuentas_por_pagar = Compra::first(array(DB::raw('sum(saldo) as total')));
 
-        $informe_cuentas_por_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+        $informe_cuentas_por_cobrar = Venta::first(array(DB::raw('sum(saldo) as total')));
 
         $informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
-        ->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
+        ->where('existencias.existencia', '>', 0)
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
+        //inversion
+        $ventas = DB::table('ventas')
+        ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
+        ->whereRaw("DATE(ventas.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
+
+        $compras = DB::table('compras')
+        ->join('detalle_compras', 'compra_id', '=', 'compras.id')
+        ->whereRaw("DATE(compras.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
+        $descargas = DB::table('descargas')
+        ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
+        ->whereRaw("DATE(descargas.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
+        $traslados = DB::table('traslados')
+        ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
+        ->whereRaw("DATE(traslados.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
+        //cuentas por cobrar
+        $creditosVentas = DB::table('ventas')
+        ->join('pagos_ventas', 'venta_id', '=', 'ventas.id')
+        ->whereRaw("DATE(ventas.created_at) = CURDATE()")
+        ->whereMetodoPagoId(2)
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        $abonosVentas = DB::table('abonos_ventas')
+        ->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
+        ->whereRaw("DATE(abonos_ventas.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
+
+        //cuentas por pagar
+        $abonosCompras = DB::table('abonos_compras')
+        ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
+        ->whereRaw("DATE(abonos_compras.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
+
+        $creditosCompras = DB::table('compras')
+        ->join('pagos_compras', 'compra_id', '=', 'compras.id')
+        ->whereRaw("DATE(compras.created_at) = CURDATE()")
+        ->whereMetodoPagoId(2)
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        //insertando informacion del dia
         $informe_general_id = DB::table('informe_general')->insertGetId(array(
-            'tienda_id' => $tienda_id,
             'diferencia_inversion' => 0.00,
             'diferencia_cobrar' => 0.00,
             'diferencia_pagar' => 0.00,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ));
-
-        $ventas = DB::table('ventas')->whereTiendaId($tienda_id)
-        ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
-        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
-
-        $compras = DB::table('compras')->whereTiendaId($tienda_id)
-        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum(total) as total')));
-
-        $descargas = DB::table('descargas')->whereTiendaId($tienda_id)
-        ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
-        ->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum(precio * cantidad) as total')));
-
-        $traslados = DB::table('traslados')->whereTiendaId($tienda_id)
-        ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
-        ->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
         DB::table('informe_inversion')->insert(array(
             "informe_general_id" => $informe_general_id,
@@ -153,15 +168,6 @@ class InformeGeneralController extends \BaseController {
             'updated_at' => Carbon::now()
         ));
 
-        $creditosVentas = DB::table('ventas')->whereTiendaId($tienda_id)
-        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum(saldo) as total')));
-
-        $abonosVentas = DB::table('abonos_ventas')->whereTiendaId($tienda_id)
-        ->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
-        ->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
-
         DB::table('informe_cuentas_por_cobrar')->insert(array(
             "informe_general_id" => $informe_general_id,
             "creditos" => floatval($creditosVentas->total),
@@ -171,15 +177,6 @@ class InformeGeneralController extends \BaseController {
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ));
-
-        $abonosCompras = DB::table('abonos_compras')->whereTiendaId($tienda_id)
-        ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
-        ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
-
-        $creditosCompras = DB::table('compras')->whereTiendaId($tienda_id)
-        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-        ->first(array(DB::raw('sum(saldo) as total')));
 
         DB::table('informe_cuentas_por_pagar')->insert(array(
             "informe_general_id" => $informe_general_id,
@@ -191,17 +188,155 @@ class InformeGeneralController extends \BaseController {
             'updated_at' => Carbon::now()
         ));
 
-        echo "Datos iniciales guardados tienda ".$tienda_id."<br>";
+        echo "Datos iniciales guardados tienda";
     }
 
-    public function guardarInformeDelDia($informe_general_anterior, $tienda_id)
+    public function guardarInformeDelDia($informe_general_anterior)
     {
-        $informe_cuentas_por_pagar = Compra::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+        //consultas de lo real del sistema
+        $informe_cuentas_por_pagar = Compra::first(array(DB::raw('sum(saldo) as total')));
 
-        $informe_cuentas_por_cobrar = Venta::whereTiendaId($tienda_id)->first(array(DB::raw('sum(saldo) as total')));
+        $informe_cuentas_por_cobrar = Venta::first(array(DB::raw('sum(saldo) as total')));
 
         $informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
-        ->whereTiendaId($tienda_id)->where('existencias.existencia', '>', 0)
+        ->where('existencias.existencia', '>', 0)
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+
+        //inversion
+        $ventas = DB::table('ventas')
+        ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
+        ->whereRaw("DATE(ventas.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
+
+        $compras = DB::table('compras')
+        ->join('detalle_compras', 'compra_id', '=', 'compras.id')
+        ->whereRaw("DATE(compras.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
+        $descargas = DB::table('descargas')
+        ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
+        ->whereRaw("DATE(descargas.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
+        $traslados = DB::table('traslados')
+        ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
+        ->whereRaw("DATE(traslados.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
+        $real_informe_inversion = DB::table('informe_inversion')
+        ->whereInformeGeneralId($informe_general_anterior->id)->first();
+
+        $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total) - ($ventas->total + $descargas->total + $traslados->total)));
+        $informe_inversion_real = floatval($informe_inversion->total);
+        $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
+
+        //cuentas por cobrar
+        $creditosVentas = DB::table('ventas')
+        ->join('pagos_ventas', 'venta_id', '=', 'ventas.id')
+        ->whereRaw("DATE(ventas.created_at) = CURDATE()")
+        ->whereMetodoPagoId(2)
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        $abonosVentas = DB::table('abonos_ventas')
+        ->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
+        ->whereRaw("DATE(abonos_ventas.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
+
+        $real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
+        ->whereInformeGeneralId($informe_general_anterior->id)->first();
+
+        $informe_cuentas_por_cobrar_esperado = floatval(($real_informe_cuentas_por_cobrar->real + $creditosVentas->total) - $abonosVentas->total);
+        $informe_cuentas_por_cobrar_real = floatval($informe_cuentas_por_cobrar->total);
+        $diferencia_cobrar = $informe_cuentas_por_cobrar_real - $informe_cuentas_por_cobrar_esperado;
+
+        //cuentas por pagar
+        $abonosCompras = DB::table('abonos_compras')
+        ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
+        ->whereRaw("DATE(abonos_compras.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
+
+        $creditosCompras = DB::table('compras')
+        ->join('pagos_compras', 'compra_id', '=', 'compras.id')
+        ->whereRaw("DATE(compras.created_at) = CURDATE()")
+        ->whereMetodoPagoId(2)
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        $real_informe_cuentas_por_pagar = DB::table('informe_cuentas_por_pagar')
+        ->whereInformeGeneralId($informe_general_anterior->id)->first();
+
+        $informe_cuentas_por_pagar_esperado = floatval(($real_informe_cuentas_por_pagar->real + $creditosCompras->total) - $abonosCompras->total);
+        $informe_cuentas_por_pagar_real = floatval($informe_cuentas_por_pagar->total);
+        $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar_esperado;
+
+        //insertando informacion del dia
+        $informe_general_id = DB::table('informe_general')->insertGetId(array(
+            'diferencia_inversion' => 0.00,
+            'diferencia_cobrar' => 0.00,
+            'diferencia_pagar' => 0.00,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ));
+
+        DB::table('informe_inversion')->insert(array(
+            "informe_general_id" => $informe_general_id,
+            "ventas" => floatval($ventas->total),
+            "compras" => floatval($compras->total),
+            "descargas" => floatval($descargas->total),
+            "traslados" => floatval($traslados->total),
+            "esperado" => $informe_inversion_esperado,
+            "real" => $informe_inversion_real,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ));
+
+        DB::table('informe_cuentas_por_cobrar')->insert(array(
+            "informe_general_id" => $informe_general_id,
+            "creditos" => floatval($creditosVentas->total),
+            "abonos" => floatval($abonosVentas->total),
+            "esperado" => $informe_cuentas_por_cobrar_esperado,
+            "real" => $informe_cuentas_por_cobrar_real,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ));
+
+        DB::table('informe_cuentas_por_pagar')->insert(array(
+            "informe_general_id" => $informe_general_id,
+            "creditos" => floatval($creditosCompras->total),
+            "abonos" => floatval($abonosCompras->total),
+            "esperado" => floatval(($creditosCompras->total - $abonosCompras->total)),
+            "real" => floatval($informe_cuentas_por_pagar->total),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ));
+
+        DB::table('informe_cuentas_por_pagar')->insert(array(
+            "informe_general_id" => $informe_general_id,
+            "creditos" => floatval($creditosCompras->total),
+            "abonos" => floatval($abonosCompras->total),
+            "esperado" => $informe_cuentas_por_pagar_esperado,
+            "real" => $informe_cuentas_por_pagar_real,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ));
+
+        $informe_general_id = DB::table('informe_general')->whereId($informe_general_id)
+        ->update(array(
+            'diferencia_inversion' => $diferencia_inversion,
+            'diferencia_cobrar' => $diferencia_cobrar,
+            'diferencia_pagar' => $diferencia_pagar
+        ));
+
+        echo "Informe general almacenado con exito...";
+    }
+
+    public function guardarInformeDelDia_old($informe_general_anterior)
+    {
+        $informe_cuentas_por_pagar = Compra::first(array(DB::raw('sum(saldo) as total')));
+
+        $informe_cuentas_por_cobrar = Venta::first(array(DB::raw('sum(saldo) as total')));
+
+        $informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
+        ->where('existencias.existencia', '>', 0)
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
         $informe_general_id = DB::table('informe_general')->insertGetId(array(
@@ -214,21 +349,21 @@ class InformeGeneralController extends \BaseController {
         ));
 
         //inicio de consultas para sacar el calculo para el informe_inversion
-        $ventas = DB::table('ventas')->whereTiendaId($tienda_id)
+        $ventas = DB::table('ventas')
         ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
 
-        $compras = DB::table('compras')->whereTiendaId($tienda_id)
+        $compras = DB::table('compras')
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum(total) as total')));
 
-        $descargas = DB::table('descargas')->whereTiendaId($tienda_id)
+        $descargas = DB::table('descargas')
         ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
         ->whereRaw("DATE_FORMAT(descargas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
-        $traslados = DB::table('traslados')->whereTiendaId($tienda_id)
+        $traslados = DB::table('traslados')
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE_FORMAT(traslados.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
@@ -254,11 +389,11 @@ class InformeGeneralController extends \BaseController {
         //fin de consultas para informe inersion
 
         //inicio de consultas para sacar el calculo para el informe_cuentas_por_cobrar
-        $creditosVentas = DB::table('ventas')->whereTiendaId($tienda_id)
+        $creditosVentas = DB::table('ventas')
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum(saldo) as total')));
 
-        $abonosVentas = DB::table('abonos_ventas')->whereTiendaId($tienda_id)
+        $abonosVentas = DB::table('abonos_ventas')
         ->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
         ->whereRaw("DATE_FORMAT(abonos_ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
@@ -282,12 +417,12 @@ class InformeGeneralController extends \BaseController {
         //fin de consultas para informe_cuentas_por_cobrar
 
         //inicio de consultas para sacar el calculo para el informe_cuentas_por_pagar
-        $abonosCompras = DB::table('abonos_compras')->whereTiendaId($tienda_id)
+        $abonosCompras = DB::table('abonos_compras')
         ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
         ->whereRaw("DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
 
-        $creditosCompras = DB::table('compras')->whereTiendaId($tienda_id)
+        $creditosCompras = DB::table('compras')
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
         ->first(array(DB::raw('sum(saldo) as total')));
 
