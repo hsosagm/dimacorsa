@@ -703,8 +703,8 @@
 
 Route::get('/test', function()
 {
-    return View::make('informes.detalleInformeGeneral');
-
+    // return View::make('informes.detalleInformeGeneral');
+    //
     // $info = new InformeGeneralController;
     // return $info->procesarInformeDelDia();
 
@@ -732,12 +732,12 @@ Route::get('/test', function()
         DROP TABLE  informe_general_diario;
     */
 
-    $ventas = DB::table('ventas')->whereTiendaId(1)
-    ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
-    ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d') = DATE_FORMAT(current_date, '%Y-%m-%d')")
-    ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
-
-    return $ventas->total;
+    $creditosCompras = DB::table('compras')
+    ->join('pagos_compras', 'compra_id', '=', 'compras.id')
+    ->whereRaw("DATE(compras.created_at) = CURDATE()")
+    ->whereMetodoPagoId(2)
+    ->first(array(DB::raw('sum(monto) as total')));
+    return $creditosCompras->total;
 });
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
