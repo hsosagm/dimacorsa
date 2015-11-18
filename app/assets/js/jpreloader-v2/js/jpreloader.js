@@ -24,7 +24,7 @@
 		showPercentage: true,
 		autoClose: true,
 		closeBtnText: 'Start!',
-		onetimeLoad: false,
+		onetimeLoad: true,
 		debugMode: false,
 		splashFunction: function() {}
 	}
