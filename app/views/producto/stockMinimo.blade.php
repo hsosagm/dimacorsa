@@ -14,6 +14,7 @@
             <th>Marca</th>
             <th>Categoria</th>
             <th>Existencia</th>
+            <th>Exist. Minima</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,7 @@
                 <td> {{ $sm->marca }} </td>
                 <td> {{ $sm->categoria }} </td>
                 <td> {{ $sm->existencia }} </td>
+                <td> {{ $sm->existencia_minima }} </td>
             </tr>
         @endforeach
     </tbody>

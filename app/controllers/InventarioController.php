@@ -73,6 +73,7 @@ class InventarioController extends Controller {
             DB::raw('productos.descripcion as descripcion'),
             DB::raw('marcas.nombre as marca'),
             DB::raw('categorias.nombre as categoria'),
+            DB::raw('productos.stock_minimo as existencia_minima'),
             DB::raw('existencias.existencia as existencia')
         )
         ->whereRaw('existencias.existencia <= stock_minimo')
@@ -111,7 +112,7 @@ class InventarioController extends Controller {
             $kardex->evento = 'salida';
             $kardex->cantidad = ($cantidad * -1);
         }
-        
+
         $kardex->existencia = $existencia->total;
         $kardex->costo = ($producto->p_costo/100);
         $kardex->costo_promedio = ($producto->p_costo/100);
