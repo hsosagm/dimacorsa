@@ -82,7 +82,7 @@
     </tr>
     <tr>
         <td>Inversion</td>
-        <td align="right"> {{ $informe_inversion_real }} </td>
+        <td align="right"> {{ $real_informe_inversion->real }} </td>
         <td align="right"> {{f_num::get($ventas->total)}} </td>
         <td align="right"> {{f_num::get($compras->total)}} </td>
         <td align="right"> {{f_num::get($descargas->total)}} </td>
@@ -104,7 +104,7 @@
     </tr>
     <tr>
         <td>Cuentas por cobrar</td>
-        <td align="right"> {{f_num::get($informe_cuentas_por_cobrar_real)}} </td>
+        <td align="right"> {{f_num::get($real_informe_cuentas_por_cobrar->real)}} </td>
         <td align="right"> {{f_num::get($creditosVentas->total)}} </td>
         <td align="right"> {{f_num::get($abonosVentas->total)}} </td>
         <td align="right" colspan="2"></td>
@@ -124,7 +124,7 @@
     </tr>
     <tr>
         <td>Cuentas por pagar</td>
-        <td align="right"> {{f_num::get($informe_cuentas_por_pagar_real)}} </td>
+        <td align="right"> {{f_num::get($real_informe_cuentas_por_pagar->real)}} </td>
         <td align="right"> {{f_num::get($creditosCompras->total)}} </td>
         <td align="right"> {{f_num::get($abonosCompras->total)}} </td>
         <td align="right" colspan="2"></td>
