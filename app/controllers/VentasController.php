@@ -432,11 +432,8 @@ class VentasController extends \BaseController {
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
 
-		if(!Auth::user()->hasRole("Admin") && !Auth::user()->hasRole("Owner"))
-		{
-			if ($venta->completed == 1)
-				return json_encode('La venta no se puede abrir porque ya fue finalizada');
-		}
+		if ($venta->completed == 1)
+			return json_encode('La venta no se puede abrir porque ya fue finalizada');
 
 		if ($venta->completed == 1)
 			$venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));

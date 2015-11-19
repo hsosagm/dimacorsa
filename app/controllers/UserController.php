@@ -28,12 +28,19 @@ class UserController extends Controller {
 			"email",
 			"users.status as estado");
 
-		$Searchable = array("username","nombre","apellido","email","tiendas.nombre","status");
+		$Searchable = array("username","users.nombre","users.apellido","users.email","tiendas.nombre");
 
-		$join =  " JOIN assigned_roles ON (assigned_roles.user_id = users.id)";
+		$join =  " LEFT JOIN assigned_roles ON (assigned_roles.user_id = users.id)";
 		$join .= " JOIN tiendas ON (users.tienda_id = tiendas.id)";
 
-		echo TableSearch::get($table, $columns, $Searchable, $join);
+		if (Auth::user()->hasRole("Admin"))
+			$where = " role_id != 1";
+
+		if (Auth::user()->hasRole("Owner"))
+			$where = null;
+
+
+		echo TableSearch::get($table, $columns, $Searchable, $join, $where);
 	}
 
 	public function buscar()
