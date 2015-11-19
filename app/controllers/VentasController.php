@@ -196,16 +196,18 @@ class VentasController extends \BaseController {
             $vuelto = 0;
             $monto = str_replace(',', '', Input::get('monto'));
             $TotalVenta = $this->getTotalVenta();
-	        $resta_abonar = $TotalVenta - $this->getTotalPagado();
+	        $resta_abonar = round(floatval($TotalVenta) - floatval($this->getTotalPagado()), 4);
 
             if ($monto > $resta_abonar)
             {
             	Input::merge(array('monto' => $resta_abonar));
-            	$vuelto = $monto - $resta_abonar;
+            	$vuelto = floatval($monto) - floatval($resta_abonar);
             	$resta_abonar = 0;
 
-            } else {
-            	$resta_abonar = $resta_abonar - $monto;
+            } 
+            else 
+            {
+            	$resta_abonar = round(floatval($resta_abonar) - floatval($monto), 4);
             	Input::merge(array('monto' => $monto));
             }
 
