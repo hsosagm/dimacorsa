@@ -1,4 +1,6 @@
 <?php
+        $informe_general_anterior = DB::table('informe_general')
+        ->whereRaw("id = (select max(id) from informe_general)")->first();
     //consultas de lo real del sistema
         $informe_cuentas_por_pagar = Compra::first(array(DB::raw('sum(saldo) as total')));
 
