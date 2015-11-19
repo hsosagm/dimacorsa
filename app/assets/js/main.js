@@ -308,9 +308,71 @@ function _delete_dt(e) {
 
 function _print(e)
 {
-    var impresora = $(e).attr('impresora');
-    var id = $('.dataTable tbody .row_selected').attr('id');
-    imprimirCodigoBarras(e, id, impresora)
+    if (isLoaded()) {
+        qz.findPrinter();
+        window['qzDoneFinding'] = function() {
+            var printer = qz.getPrinter();
+            
+            if (printer !== null) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "admin/barcode/print_code",
+                    data: { id: $('.dataTable tbody .row_selected').attr('id') },
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (data, text)
+                    {
+                        if (data["success"] == true)
+                        {
+                            // $("#barcode").barcode(
+                            //     data["codigo"],
+                            //     data["tipo"],
+                            //     { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"] }
+                            // );
+
+                            $("#barcode").show();
+
+                            $("#barcode").JsBarcode(
+                                data["codigo"] , 
+                                {
+                                    width:  2,
+                                    height: 100,
+                                    backgroundColor:"#ffffff",
+                                    format: "CODE128",
+                                    displayValue: true,
+                                    fontSize: 16
+                                }
+                            );
+
+                            html2canvas($("#barcode"), {
+                                onrendered: function(canvas) {
+                                    var myImage = canvas.toDataURL("image/png");
+                                    if (notReady()) { return; }
+                                    qz.setPaperSize("62mm", "18mm");  // barcode
+                                    qz.setOrientation("portrait");
+                                    qz.setAutoSize(true);
+                                    qz.appendImage(myImage);
+                                    window['qzDoneAppending'] = function() {
+                                        qz.printPS();
+                                        $("#barcode").hide();
+                                        window['qzDoneAppending'] = null;
+                                    };
+                                }
+                            });
+                        }
+                        else
+                        {
+                            msg.warning('Hubo un error', 'Advertencia!')
+                        }
+                    }
+                });
+            }
+            else {
+                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
+            }
+            window['qzDoneFinding'] = null;
+        };
+    }
 };
 
 function makeTable($data, $url, $title) {
