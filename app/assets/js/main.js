@@ -368,7 +368,7 @@ function _print(e)
                 });
             }
             else {
-                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
+                msg.error('La impresora  no se encuentra', 'Error!');
             }
             window['qzDoneFinding'] = null;
         };
