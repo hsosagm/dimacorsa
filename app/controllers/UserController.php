@@ -23,15 +23,17 @@ class UserController extends Controller {
 
 		$columns = array(
 			"username",
-			"nombre",
-			"apellido",
+			"CONCAT_WS(' ', users.nombre, users.apellido) as usuario",
+			"tiendas.nombre as tienda",
 			"email",
-			"tienda_id",
-			"status");
+			"users.status as estado");
 
-		$Searchable = array("username","nombre","apellido","email","tienda_id","status");
+		$Searchable = array("username","nombre","apellido","email","tiendas.nombre","status");
 
-		echo TableSearch::get($table, $columns, $Searchable);
+		$join =  " JOIN assigned_roles ON (assigned_roles.user_id = users.id)";
+		$join .= " JOIN tiendas ON (users.tienda_id = tiendas.id)";
+
+		echo TableSearch::get($table, $columns, $Searchable, $join);
 	}
 
 	public function buscar()

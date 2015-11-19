@@ -313,7 +313,7 @@ class VentasController extends \BaseController {
 	{
 		$pv = PagosVenta::with('metodo_pago')->where('venta_id', Input::get('venta_id'))->get();
 		$TotalVenta = $this->getTotalVenta();
-        $resta_abonar = $TotalVenta - $this->getTotalPagado();
+        $resta_abonar = floatval($TotalVenta) - floatval($this->getTotalPagado());
         $vuelto = 0;
 
         $factura = DB::table('printer')->select('impresora')

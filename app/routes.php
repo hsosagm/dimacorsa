@@ -708,6 +708,12 @@
 
     Route::get('/test', function()
     {
+        echo json_encode('1500');
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo json_encode(floatval('1500'));
+
         //
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();

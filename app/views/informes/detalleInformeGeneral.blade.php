@@ -76,7 +76,7 @@
     </tr>
     <tr>
         <td>Inversion</td>
-        <td align="right"> {{ $real_informe_inversion->real }} </td>
+        <td align="right"> {{f_num::get($real_informe_inversion->real)}} </td>
         <td align="right"> {{f_num::get($ventas->total)}} </td>
         <td align="right"> {{f_num::get($compras->total)}} </td>
         <td align="right"> {{f_num::get($descargas->total)}} </td>
