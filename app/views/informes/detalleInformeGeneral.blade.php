@@ -7,7 +7,6 @@
         $informe_cuentas_por_cobrar = Venta::first(array(DB::raw('sum(saldo) as total')));
 
         $informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
-        ->where('existencias.existencia', '>', 0)
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
         //inversion
