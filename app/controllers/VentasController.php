@@ -121,7 +121,7 @@ class VentasController extends \BaseController {
             ));
 		}
 
-		return 'Huvo un error al tratar de eliminar';
+		return 'Hubo un error al tratar de eliminar';
 	}
 
 	public function RemoveSaleItem()
@@ -142,7 +142,7 @@ class VentasController extends \BaseController {
             ));
 		}
 
-		return 'Huvo un error al tratar de eliminar';
+		return 'Hubo un error al tratar de eliminar';
 	}
 
 
@@ -367,7 +367,7 @@ class VentasController extends \BaseController {
 		if ($venta->save())
 			return Response::json(array( 'success' => true ));
 
-		return 'Huvo un error intentelo de nuevo';
+		return 'Hubo un error intentelo de nuevo';
 	}
 
 	public function FinalizeSale()
@@ -409,7 +409,7 @@ class VentasController extends \BaseController {
 			return Response::json(array( 'success' => true ));
 		}
 
-		return 'Huvo un error intentelo de nuevo';
+		return 'Hubo un error intentelo de nuevo';
 	}
 
 
