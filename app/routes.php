@@ -127,30 +127,32 @@
 
         Route::group(array('prefix' => 'cliente'), function()
         {
-            Route::get('search'                , 'ClienteController@search');
-            Route::get('getInfo'               , 'ClienteController@getInfo');
-            Route::post('delete'               , 'ClienteController@delete');
-            Route::get('index'                 , 'ClienteController@index');
-            Route::get('create'                , 'ClienteController@create');
-            Route::post('create'               , 'ClienteController@create');
-            Route::post('edit'                 , 'ClienteController@edit');
-            Route::get('_edit'                 , 'ClienteController@_edit');
-            Route::get('info'                  , 'ClienteController@info'  );
-            Route::post('contacto_create'      , 'ClienteController@contacto_create');
-            Route::post('contacto_delete'      , 'ClienteController@contacto_delete');
-            Route::get('contacto_nuevo'        , 'ClienteController@contacto_nuevo' );
-            Route::post('contacto_update'      , 'ClienteController@contacto_update');
-            Route::post('contacto_info'        , 'ClienteController@contacto_info'  );
-            Route::get('salesByCustomer'       , 'ClienteController@salesByCustomer');
-            Route::get('DT_salesByCustomer'    , 'ClienteController@DT_salesByCustomer');
-            Route::get('creditSalesByCustomer' , 'ClienteController@creditSalesByCustomer');
-            Route::get('getInfoCliente'        , 'ClienteController@getInfoCliente');
-            Route::get('getHistorialAbonos'    , 'ClienteController@getHistorialAbonos');
-            Route::get('getHistorialPagos'     , 'ClienteController@getHistorialPagos');
-            Route::get('clientes'              , 'ClienteController@clientes');
-            Route::post('crearCliente'         , 'ClienteController@crearCliente');
-            Route::post('actualizarCliente'    , 'ClienteController@actualizarCliente');
-            Route::post('eliminarCliente'      , 'ClienteController@eliminarCliente');
+            Route::get('search'                   , 'ClienteController@search');
+            Route::get('getInfo'                  , 'ClienteController@getInfo');
+            Route::post('delete'                  , 'ClienteController@delete');
+            Route::get('index'                    , 'ClienteController@index');
+            Route::get('create'                   , 'ClienteController@create');
+            Route::post('create'                  , 'ClienteController@create');
+            Route::post('edit'                    , 'ClienteController@edit');
+            Route::get('_edit'                    , 'ClienteController@_edit');
+            Route::get('info'                     , 'ClienteController@info'  );
+            Route::post('contacto_create'         , 'ClienteController@contacto_create');
+            Route::post('contacto_delete'         , 'ClienteController@contacto_delete');
+            Route::get('contacto_nuevo'           , 'ClienteController@contacto_nuevo' );
+            Route::post('contacto_update'         , 'ClienteController@contacto_update');
+            Route::post('contacto_info'           , 'ClienteController@contacto_info'  );
+            Route::get('salesByCustomer'          , 'ClienteController@salesByCustomer');
+            Route::get('devolutionsByCustomer'    , 'ClienteController@devolutionsByCustomer');
+            Route::get('DT_salesByCustomer'       , 'ClienteController@DT_salesByCustomer');
+            Route::get('DT_devolutionsByCustomer' , 'ClienteController@DT_devolutionsByCustomer');
+            Route::get('creditSalesByCustomer'    , 'ClienteController@creditSalesByCustomer');
+            Route::get('getInfoCliente'           , 'ClienteController@getInfoCliente');
+            Route::get('getHistorialAbonos'       , 'ClienteController@getHistorialAbonos');
+            Route::get('getHistorialPagos'        , 'ClienteController@getHistorialPagos');
+            Route::get('clientes'                 , 'ClienteController@clientes');
+            Route::post('crearCliente'            , 'ClienteController@crearCliente');
+            Route::post('actualizarCliente'       , 'ClienteController@actualizarCliente');
+            Route::post('eliminarCliente'         , 'ClienteController@eliminarCliente');
         });
 
         Route::group(array('prefix' => 'soporte'), function()

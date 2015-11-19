@@ -239,6 +239,18 @@ var vm = new Vue({
 		},
 
 
+		devolutionsByCustomer: function() {
+			$.get( "/user/cliente/devolutionsByCustomer", function( data ) {
+				if (data.success == true)
+				{
+					vm.formPayments = false;
+					return vm.proccesDataTable(data.table);
+				}
+				msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+			});
+		},
+
+
 		creditSalesByCustomer: function() {
 			$.ajax({
 				type: 'GET',

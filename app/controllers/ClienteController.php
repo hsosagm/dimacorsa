@@ -268,8 +268,8 @@ class ClienteController extends \BaseController {
         ));
     }
 
-    function DT_salesByCustomer() {
-
+    function DT_salesByCustomer()
+    {
         $table = 'ventas';
 
         $columns = array(
@@ -285,6 +285,32 @@ class ClienteController extends \BaseController {
         $Join = "JOIN users ON (users.id = ventas.user_id)";
 
         $where = "ventas.cliente_id = ". Input::get('cliente_id');
+
+        echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+    }
+
+    public function devolutionsByCustomer()
+    {
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('ventas.cliente.devolutionsByCustomer')->render()
+        ));
+    }
+
+    function DT_devolutionsByCustomer()
+    {
+        $table = 'devoluciones';
+
+        $columns = array(
+            "CONCAT_WS(' ', users.nombre, users.apellido) as usuario",
+            "devoluciones.created_at as fecha",
+            "clientes.nombre as cliente",
+            "total"
+        );
+
+        $Search_columns = array("users.nombre", "users.apellido", "clientes.nombre");
+        $Join = "JOIN users ON (users.id = devoluciones.user_id) JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
+        $where = "devoluciones.cliente_id = ".Input::get('cliente_id');
 
         echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
