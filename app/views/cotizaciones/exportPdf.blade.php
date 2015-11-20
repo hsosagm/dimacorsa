@@ -14,7 +14,9 @@
 	</tr>
     <tr>
 		<td> Direccion : </td>
-		<td colspan="3"> {{ $cotizacion->cliente->direccion }}  Fecha: {{ $cotizacion->created_at }} </td>
+		<td> {{ $cotizacion->cliente->direccion }} </td>
+        <td> Fecha : </td>
+        <td> {{ $cotizacion->created_at }}  </td>
 	</tr>
 	<tr>
 		<td colspan="4" style="border-bottom:1px solid #444444; "></td>
