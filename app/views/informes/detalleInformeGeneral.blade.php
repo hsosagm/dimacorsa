@@ -33,7 +33,7 @@
         $real_informe_inversion = DB::table('informe_inversion')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-        $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total) - ($ventas->total + $descargas->total + $traslados->total)));
+        $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total) - ($ventas->total + $descargas->total)));
         $informe_inversion_real = floatval($informe_inversion->total);
         $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
 
