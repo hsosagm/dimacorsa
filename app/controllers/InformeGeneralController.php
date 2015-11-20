@@ -303,8 +303,8 @@ class InformeGeneralController extends \BaseController {
             "informe_general_id" => $informe_general_id,
             "creditos" => floatval($creditosCompras->total),
             "abonos" => floatval($abonosCompras->total),
-            "esperado" => floatval(($creditosCompras->total - $abonosCompras->total)),
-            "real" => floatval($informe_cuentas_por_pagar->total),
+            "esperado" => floatval($informe_cuentas_por_pagar_esperado),
+            "real" => floatval($informe_cuentas_por_pagar_real),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ));
