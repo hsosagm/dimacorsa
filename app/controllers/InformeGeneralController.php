@@ -158,11 +158,11 @@ class InformeGeneralController extends \BaseController {
 
         DB::table('informe_inversion')->insert(array(
             "informe_general_id" => $informe_general_id,
-            "ventas" => floatval($ventas->total),
-            "compras" => floatval($compras->total),
-            "descargas" => floatval($descargas->total),
-            "traslados" => floatval($traslados->total),
-            "esperado" => floatval((($compras->total) - ($ventas->total + $descargas->total + $traslados->total))),
+            "ventas" => 0.00,
+            "compras" => 0.00,
+            "descargas" => 0.00,
+            "traslados" => 0.00,
+            "esperado" => floatval($informe_inversion->total),
             "real" => floatval($informe_inversion->total),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -170,9 +170,9 @@ class InformeGeneralController extends \BaseController {
 
         DB::table('informe_cuentas_por_cobrar')->insert(array(
             "informe_general_id" => $informe_general_id,
-            "creditos" => floatval($creditosVentas->total),
-            "abonos" => floatval($abonosVentas->total),
-            "esperado" => floatval(($creditosVentas->total - $abonosVentas->total)),
+            "creditos" => 0.00,
+            "abonos" => 0.00,
+            "esperado" => floatval($informe_cuentas_por_cobrar->total),
             "real" => floatval($informe_cuentas_por_cobrar->total),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -180,9 +180,9 @@ class InformeGeneralController extends \BaseController {
 
         DB::table('informe_cuentas_por_pagar')->insert(array(
             "informe_general_id" => $informe_general_id,
-            "creditos" => floatval($creditosCompras->total),
-            "abonos" => floatval($abonosCompras->total),
-            "esperado" => floatval(($creditosCompras->total - $abonosCompras->total)),
+            "creditos" => 0.00,
+            "abonos" => 0.00,
+            "esperado" => floatval($informe_cuentas_por_pagar->total),
             "real" => floatval($informe_cuentas_por_pagar->total),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
