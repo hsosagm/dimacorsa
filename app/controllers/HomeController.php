@@ -13,7 +13,7 @@ class HomeController extends \BaseController {
             'username'  => strtolower(Input::get('username')),
             'password'  => Input::get('password'),
             'status' => 1
-        );
+            );
 
         $rememberMe = Input::get('rememberme');
 
@@ -29,7 +29,7 @@ class HomeController extends \BaseController {
             if ($user->status == 2)
             {
                return 'usuario inactivo..'; // inactive user
-            }
+           }
             return 'password incorrecto...'; // incorrect password
         }
 
@@ -42,7 +42,7 @@ class HomeController extends \BaseController {
             'username'  => strtolower(Input::get('username')),
             'password'  => Input::get('password'),
             'status' => 1
-        );
+            );
 
         $rememberMe = Input::get('rememberme');
 
@@ -58,12 +58,21 @@ class HomeController extends \BaseController {
             if ($user->status == 2)
             {
                return 0; // inactive user
-            }
+           }
 
             return 2; // incorrect password
         }
 
         return 1; // incorrect username
+    }
+
+    public function setCambiarDeUsuarioAutenticado()
+    {
+        Auth::loginUsingId(Input::get('user_id'));
+        
+        return Response::json(array(
+            'success' => true
+        ));
     }
 
     public function index()

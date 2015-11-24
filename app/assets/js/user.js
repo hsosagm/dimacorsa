@@ -104,13 +104,12 @@ function add_user_group(element) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            
+
             $("#modal-body-profile").html(data);
             active_tab_roles();
         }
     });
 };
-
 
 function remove_role(e, element) {
     e.preventDefault();
@@ -129,9 +128,27 @@ function remove_role(e, element) {
 };
 
 function active_tab_roles() {
-   $("#tab-perfil-role").addClass('active');
-   $("#tab-perfil-user").removeClass('active');
-   $("#tab-informacion").removeClass('tab-pane fade active in');
-   $("#tab-roles").addClass('tab-pane fade active in');
-   $("#tab-informacion").addClass('tab-pane fade');
+    $("#tab-perfil-role").addClass('active');
+    $("#tab-perfil-user").removeClass('active');
+    $("#tab-informacion").removeClass('tab-pane fade active in');
+    $("#tab-roles").addClass('tab-pane fade active in');
+    $("#tab-informacion").addClass('tab-pane fade');
+};
+
+function setCambiarDeUsuarioAutenticado(e, user_id) {
+    $(e).prop('disabled', true);
+
+    $.ajax({
+        type: "POST",
+        url: 'setCambiarDeUsuarioAutenticado',
+        data: { user_id: user_id },
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            window.location.reload();
+            return $(e).prop('disabled', false);
+        }
+
+        msg.warning(data, 'Advertencia!');
+    });
 };
