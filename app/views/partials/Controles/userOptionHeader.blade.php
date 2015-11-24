@@ -19,19 +19,8 @@
     </a>
     <ul class="dropdown-menu animated flipInX">
         <li><a id="profile" href="javascript:void(0)"><i class="fa fa-user"></i>Editar Perfil Actual</a></li>
-        @foreach($users as $user)
-            <li>
-                <a href="javascript:void(0)" onclick="setCambiarDeUsuarioAutenticado(this, {{$user->id}})">
-                    <i class="fa fa-user"></i>
-
-                    @php($nombre = explode(' ',$user->nombre))
-                    @php($apellido = explode(' ',$user->apellido))
-
-                    {{ $nombre[0] .' '. $apellido[0] }}
-                </a>
-            </li>    
-        @endforeach
-        {{-- <li> <a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li> --}}
+       
+        <li> <a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li> 
     </ul>
 </li>
 
