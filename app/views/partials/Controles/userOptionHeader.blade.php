@@ -24,6 +24,3 @@
     </ul>
 </li>
 
-<li class="dropdown navbar-message">
-    <a href="logout" title="Salir"><i class="fa fa-power-off" style="color:#FF0000"></i></a>
-</li>
