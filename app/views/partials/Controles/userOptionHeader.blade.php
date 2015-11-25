@@ -19,8 +19,22 @@
     </a>
     <ul class="dropdown-menu animated flipInX">
         <li><a id="profile" href="javascript:void(0)"><i class="fa fa-user"></i>Editar Perfil Actual</a></li>
-       
-        <li> <a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li> 
-    </ul>
+        @foreach($users as $user)
+            @if($user->hasRole('User') && !$user->hasRole('Admin') && !$user->hasRole('Owner'))
+                <li>
+                    <a href="javascript:void(0)" onclick="setCambiarDeUsuarioAutenticado(this, {{$user->id}})">
+                        <i class="fa fa-user"></i>
+                        @php($nombre = explode(' ',$user->nombre))
+                        @php($apellido = explode(' ',$user->apellido))
+                        {{ $nombre[0] .' '. $apellido[0] }}
+                    </a>
+                </li>   
+            @endif 
+        @endforeach
+        {{-- <li> <a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li> --}}
+    </ul> 
 </li>
 
+<li class="dropdown navbar-message">
+    <a href="logout" title="Salir"><i class="fa fa-power-off" style="color:#FF0000"></i></a>
+</li>

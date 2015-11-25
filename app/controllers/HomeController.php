@@ -68,6 +68,9 @@ class HomeController extends \BaseController {
 
     public function setCambiarDeUsuarioAutenticado()
     {
+        if(User::find(Input::get('user_id'))->hasRole("Owner") || User::find(Input::get('user_id'))->hasRole("Admin"))
+            return 'Permiso negado..';
+
         Auth::loginUsingId(Input::get('user_id'));
         
         return Response::json(array(
