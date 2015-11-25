@@ -712,11 +712,10 @@
 
     Route::get('/test', function()
     {       
-        //
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
 
-        /*33102
+        /*
         //para quitar elementos iguales
         $array1    = array("1", "3", "5", "7");
         $array2    = array( "5", "1", "8", '2');
@@ -735,9 +734,10 @@
             DROP TABLE  detalle_devolucion_nota_credito;
             DROP TABLE  devolucion_nota_credito;
             DROP TABLE  notas_creditos;
-            DROP TABLE  detalle_adelantos;
-            DROP TABLE  adelantos;
             DROP TABLE  informe_general_diario;
+            DROP TABLE  detalle_adelantos;
+            #revisar si es la tabla anterior de adelantos
+            #DROP TABLE  adelantos; 
         */
     });
 
