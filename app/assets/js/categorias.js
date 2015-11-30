@@ -10,7 +10,7 @@ function new_categoria() {
 		$('.modal-title-categorias').text('Crear Categorias');
 		$('.bs-modal-categorias').modal('show');
 	});
-};
+}; 
 
 function categoria_edit(e , categoria_id) {
 	$.ajax({

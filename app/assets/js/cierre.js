@@ -9,7 +9,7 @@ function CierreDelDia() {
         $('#graph_container').html(data);
 	});
 };
-
+ 
 function CierreDelMes() {
 	$.get( "admin/cierre/CierreDelMes", function( data ) {
 		clean_panel();
