@@ -52,9 +52,6 @@
         $real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-        $real_informe_cuentas_por_cobrar->monto = 401322.72;
-        $real_informe_cuentas_por_cobrar->save();
-
         $informe_cuentas_por_cobrar_esperado = floatval(($real_informe_cuentas_por_cobrar->real + $creditosVentas->total) - $abonosVentas->total);
         $informe_cuentas_por_cobrar_real = floatval($informe_cuentas_por_cobrar->total);
         $diferencia_cobrar = $informe_cuentas_por_cobrar_real - $informe_cuentas_por_cobrar_esperado;
