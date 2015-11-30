@@ -73,7 +73,7 @@
                 <td class="right"> {{ f_num::get($data['soporte']['total']) }} </td>
             </tr>
             <tr>
-                <td>Ingresos</td>
+                <td>Ingresos</td> 
                 <td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos', 1);">
                    {{ f_num::get($data['ingresos']['efectivo']) }}
                 </td>

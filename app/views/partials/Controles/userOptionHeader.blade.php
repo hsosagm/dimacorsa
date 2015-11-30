@@ -1,4 +1,3 @@
-
 <li class="dropdown navbar-profile">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <span class="meta">
@@ -7,12 +6,10 @@
                 <?php
                     $user_nombre = explode(' ',Auth::user()->nombre);
                     $user_apellido = explode(' ',Auth::user()->apellido);
-                   
                     echo $user_nombre[0].' '.$user_apellido[0];
                 ?>
                 <span class="caret"></span> 
             </span>
-  
         </span>
     </a>
     <ul class="dropdown-menu animated flipInX">

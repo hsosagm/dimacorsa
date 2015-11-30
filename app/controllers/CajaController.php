@@ -243,7 +243,7 @@ class CajaController extends \BaseController
 			'notaCredito' =>"0.00",
             'total'       =>"0.00"
         );
-
+ 
         foreach ($Query as $key => $val)
         {
             if($val->id == 1)

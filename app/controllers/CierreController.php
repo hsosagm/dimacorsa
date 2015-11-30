@@ -297,7 +297,7 @@ class CierreController extends \BaseController {
             'deposito'    =>"0.00",
             'notaCredito' =>"0.00",
             'total'       =>"0.00"
-        );
+        ); 
 
         foreach ($Query as $key => $val)
         {

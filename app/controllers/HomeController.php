@@ -43,7 +43,6 @@ class HomeController extends \BaseController {
             'password'  => Input::get('password'),
             'status' => 1
             );
-
         $rememberMe = Input::get('rememberme');
 
         if(Auth::attempt($credentials, $rememberMe))

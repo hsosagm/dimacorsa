@@ -714,7 +714,6 @@
     {       
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
-        
         /*
             //para quitar elementos iguales
             $array1    = array("1", "3", "5", "7");

@@ -1,4 +1,3 @@
-
 <li class="dropdown navbar-profile">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <span class="meta">
@@ -7,14 +6,11 @@
                 <?php
                     $user_nombre = explode(' ',Auth::user()->nombre);
                     $user_apellido = explode(' ',Auth::user()->apellido);
-                   
                     $users = User::whereStatus(1)->whereTiendaId(Auth::user()->tienda_id)->get();
-
                     echo $user_nombre[0].' '.$user_apellido[0];
                 ?>
                 <span class="caret"></span> 
             </span>
-
         </span>
     </a>
     <ul class="dropdown-menu animated flipInX">
@@ -31,10 +27,8 @@
                 </li>   
             @endif 
         @endforeach
-        {{-- <li> <a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li> --}}
     </ul> 
 </li>
-
 <li class="dropdown navbar-message">
     <a href="logout" title="Salir"><i class="fa fa-power-off" style="color:#FF0000"></i></a>
 </li>
