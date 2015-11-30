@@ -166,7 +166,7 @@
 					   {{ f_num::get($data['ingresos']['tarjeta'] )}}
 					</td> 
 					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos',5);">
-					   {{ f_num::get($data['ingresos']['deposito'])}}
+					   {{ f_num::get($data['ingresos']['deposito'])}} 
 					</td>
 					<td class="right">0.00</td>
 					<td class="right"> {{ f_num::get($data['ingresos']['total'])   }} </td>

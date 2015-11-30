@@ -37,7 +37,7 @@
         $informe_inversion_real = floatval($informe_inversion->total);
         $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
 
-        //cuentas por cobrar
+        //cuentas por cobrar 
         $creditosVentas = DB::table('ventas')
         ->join('pagos_ventas', 'venta_id', '=', 'ventas.id')
         ->whereRaw("DATE(ventas.created_at) = CURDATE()")
