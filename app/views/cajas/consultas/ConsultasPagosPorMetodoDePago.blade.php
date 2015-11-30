@@ -18,9 +18,9 @@
 			<tbody style="cursor: default;">
 				@foreach($pagos as $q)
 					<tr id="{{ $q->id }}">
-						<td                width="17%"> {{ $q->fecha }} </td>
-						<td 			   width="13%"> {{ $q->usuario }} </td>
-						<td                width="40%"> {{ $q->nombre_extra }} </td>
+						<td width="17%"> {{ $q->fecha }} </td>
+						<td width="13%"> {{ $q->usuario }} </td>
+						<td width="40%"> {{ $q->nombre_extra }} </td>
 						<td class="right"  width="9%"> {{ f_num::get($q->total) }} </td>
 						<td class="right"  width="9%"> {{ f_num::get($q->pago) }}</td>
 						<td class="widthS center font14"  width="12%">
