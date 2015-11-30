@@ -25,7 +25,7 @@ class ConsultasCajaController extends \BaseController {
 		else
 			return 'No se envio ninguna peticion';
 	}
-
+ 
 	public function consultasPagos($_table, $linkDetalle, $columAbono = false)
 	{
         $fecha_inicial = "'".Input::get('fecha_inicial')."'";
