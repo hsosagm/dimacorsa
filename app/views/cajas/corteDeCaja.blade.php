@@ -15,7 +15,6 @@
         </div>
     </div>
 
-
     <div class="form-group">
         <div class="col-sm-3">
             <label>Efectivo: </label>
