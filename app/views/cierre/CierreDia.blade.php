@@ -182,13 +182,13 @@
 	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 3);">
 	                   {{ f_num::get($data['devolucion']['cheque']) }}
 	                </td>
-	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 4);">
+	                <td class="right hover">
 	                   {{ f_num::get($data['devolucion']['tarjeta']) }}
 	                </td>
 	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 5);">
 	                   {{ f_num::get($data['devolucion']['deposito']) }}
 	                </td>
-	                <td class="right hover">
+	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 6);">
 	                    {{ f_num::get($data['devolucion']['notaCredito']) }}
 	                </td>
 	                <td class="right"> {{ f_num::get($data['devolucion']['total'])  }} </td>

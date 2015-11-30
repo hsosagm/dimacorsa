@@ -75,6 +75,9 @@
         $informe_cuentas_por_pagar_real = floatval($informe_cuentas_por_pagar->total);
         $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar_esperado;
 
+        $dtv = DetalleVenta::whereVentaId(34362)->get();
+
+        echo json_encode($dtv);
 ?>
 <table width="100%" class="DT_table_div">
     <tr>
