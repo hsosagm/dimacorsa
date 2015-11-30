@@ -164,7 +164,7 @@
 					</td>
 					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos',4);">
 					   {{ f_num::get($data['ingresos']['tarjeta'] )}}
-					</td>
+					</td> 
 					<td class="right hover" v-on="click: getAsignarInfoEnviar('Ingresos',5);">
 					   {{ f_num::get($data['ingresos']['deposito'])}}
 					</td>
