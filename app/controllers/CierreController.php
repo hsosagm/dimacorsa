@@ -323,15 +323,8 @@ class CierreController extends \BaseController {
                 $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
 
-        /*
-        48552
-        48554
-        48556
-        48557
-        */
+        Venta::find(34362)->update(array('total' => 260,'saldo' => 260));
 
-        DetalleVenta::find(48554)->update(array('cantidad' => 2));
-        DetalleVenta::destroy(48557);
         return $arreglo_ordenado;
     }
 
