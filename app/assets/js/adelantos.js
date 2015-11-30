@@ -1,7 +1,7 @@
 $(function() {
     $(document).on('click', '#delete_adelanto', function(){ delete_adelanto(this); });
 });
-
+ 
 /*function f_adelanto() {
     $.get( "user/adelantos/create", function( data ) {
         $('.modal-body').html(data);

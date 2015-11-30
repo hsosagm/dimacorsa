@@ -19,7 +19,7 @@ function getMovimientosDeCaja() {
 		msg.warning(data, 'Advertencia!');
 	});
 };
-
+ 
 function corteDeCaja() {
 	$.get( "user/cajas/corteDeCaja", function( data ) {
     	if ( data.success == true ) {
