@@ -712,10 +712,6 @@
 
     Route::get('/test', function()
     {     
-
-
-        DB::table('clientes')->whereNit('CONSUMIDOR FINA')->update(array('nit'=>'C/F')); 
-        DB::table('clientes')->whereNit('Consumidor fina')->update(array('nit'=>'C/F')); 
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
