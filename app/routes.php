@@ -711,7 +711,10 @@
     });
 
     Route::get('/test', function()
-    {       
+    {     
+
+
+        DB::table('clientes')->whereNit('CONSUMIDORFINAL')->update(array('nit'=>'C/F')); 
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
