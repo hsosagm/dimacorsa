@@ -330,7 +330,8 @@ class CierreController extends \BaseController {
         48557
         */
 
-        $dt = DetalleVenta::find(48552)->update(array('cantidad' => 4));
+        DetalleVenta::find(48554)->update(array('cantidad' => 2));
+        DetalleVenta::destroy(48557);
         return $arreglo_ordenado;
     }
 
