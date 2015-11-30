@@ -188,9 +188,10 @@
                     <th class="right"> {{ f_num::get(@$cierre_caja->tarjeta - $total_tarjeta) }} </th>
                     <th class="right"> {{ f_num::get(@$cierre_caja->deposito - $total_deposito) }} </th>
                     <th></th>
+                    <th></th>
                 </tr>
                 <tr>
-                    <td colspan="7" class="center">
+                    <td colspan="8" class="center">
                         *** Corte Realizado por {{ @$cierre_caja->user->nombre.' '.@$cierre_caja->user->apellido }} ***
                         <br>
                         - del {{ @$cierre_caja->fecha_inicial }} al {{ @$cierre_caja->fecha_final }} -

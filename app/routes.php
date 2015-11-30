@@ -714,14 +714,14 @@
     {       
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
-
+        
         /*
-        //para quitar elementos iguales
-        $array1    = array("1", "3", "5", "7");
-        $array2    = array( "5", "1", "8", '2');
-        $resultado = array_diff($array1, $array2);
-        $result =  implode(",", $resultado);
-        return $result;
+            //para quitar elementos iguales
+            $array1    = array("1", "3", "5", "7");
+            $array2    = array( "5", "1", "8", '2');
+            $resultado = array_diff($array1, $array2);
+            $result =  implode(",", $resultado);
+            return $result;
         */
         /*
         //para el guardado y envio de correo de informe general diario
