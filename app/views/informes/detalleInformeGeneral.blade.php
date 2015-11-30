@@ -52,7 +52,7 @@
         $real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-        DB::table('informe_cuentas_por_cobrar')->whereInformeGeneralId($informe_general_anterior->id)->update(array('real' => 401322.72));
+        echo json_encode(DB::table('informe_cuentas_por_cobrar')->whereInformeGeneralId($informe_general_anterior->id)->get());
 
         $informe_cuentas_por_cobrar_esperado = floatval(($real_informe_cuentas_por_cobrar->real + $creditosVentas->total) - $abonosVentas->total);
         $informe_cuentas_por_cobrar_real = floatval($informe_cuentas_por_cobrar->total);
