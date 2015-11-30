@@ -39,8 +39,11 @@ class UserController extends Controller {
 		if (Auth::user()->hasRole("Owner"))
 			$where = null;
 
+			$GroupBy = " Group By username ";
 
-		echo TableSearch::get($table, $columns, $Searchable, $join, $where);
+
+
+		echo TableSearch::get($table, $columns, $Searchable, $join, $where, $GroupBy);
 	}
 
 	public function buscar()

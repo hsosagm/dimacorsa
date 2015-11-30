@@ -2,7 +2,7 @@
 
 class TableSearch {
 
-    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null ) {
+    public static function get($table, $columns, $Search_columns, $sJoin = null, $where = null, $groupBy = "" ) {
 
         $sLimit = "";
 
@@ -79,7 +79,7 @@ class TableSearch {
 
 
         $productos = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
-                     $table.id as id  FROM $table $sJoin $sWhere $sOrder $sLimit") ;
+                     $table.id as id  FROM $table $sJoin $sWhere $groupBy $sOrder $sLimit") ;
 
         $Found_Rows = DB::select('SELECT FOUND_ROWS() as num_rows');
 
