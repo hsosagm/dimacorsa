@@ -318,11 +318,19 @@ class CierreController extends \BaseController {
 
             if($val->id == 6)
                 $arreglo_ordenado['notaCredito'] = $val->total;
-            
+
             if($val->id != 7)
                 $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
 
+        /*
+        48552
+        48554
+        48556
+        48557
+        */
+
+        $dt = DetalleVenta::find(48552)->update(array('cantidad' => 4));
         return $arreglo_ordenado;
     }
 
