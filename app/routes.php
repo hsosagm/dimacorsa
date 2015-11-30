@@ -715,6 +715,7 @@
 
 
         DB::table('clientes')->whereNit('Consumidor')->update(array('nit'=>'C/F')); 
+        DB::table('clientes')->where('LOWER(TRIM(nit))','=','consumidor')->update(array('nit'=>'C/F')); 
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
