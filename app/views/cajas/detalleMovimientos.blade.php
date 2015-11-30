@@ -93,6 +93,28 @@
                 <td class="right"> {{ f_num::get($data['ingresos']['total'])  }} </td>
             </tr>
             <tr>
+                <td>Devoluciones</td>
+                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 1);">
+                   ({{ f_num::get($data['devolucion']['efectivo']) }})
+                </td>
+                <td class="right">
+                    {{ f_num::get($data['devolucion']['credito']) }}
+                </td>
+                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 3);">
+                   {{ f_num::get($data['devolucion']['cheque']) }}
+                </td>
+                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 4);">
+                   {{ f_num::get($data['devolucion']['tarjeta']) }}
+                </td>
+                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 5);">
+                   {{ f_num::get($data['devolucion']['deposito']) }}
+                </td>
+                <td class="right hover">
+                    {{ f_num::get($data['devolucion']['notaCredito']) }}
+                </td>
+                <td class="right"> {{ f_num::get($data['devolucion']['total'])  }} </td>
+            </tr>
+            <tr>
                 <td>Gastos</td>
                 <td class="right hover" v-on="click: getAsignarInfoEnviar('Gastos', 1);">
                     ({{ f_num::get(($data['gastos']['efectivo'] == 0) ?  '0.00':$data['gastos']['efectivo']) }})
@@ -138,7 +160,7 @@
                 <th class="left">Efectivo esperado</th>
                 <th class="right">
                     <?php
-                        $caja_negativos =  $data['egresos']['efectivo'] + $data['gastos']['efectivo'];
+                        $caja_negativos =  $data['egresos']['efectivo'] + $data['gastos']['efectivo'] + $data['devolucion']['efectivo'];
                         $caja_positivos = $data['ingresos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
                         $caja =  $caja_positivos - $caja_negativos;
 

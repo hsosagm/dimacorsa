@@ -150,12 +150,13 @@ class CajaController extends \BaseController
     public function resumen_movimientos($datos)
     {
         $data = [];
-        $data['pagos_ventas']             =   $this->Vquery('pagos_ventas','venta','monto',$datos);
-        $data['abonos_ventas']            =   $this->query('abonos_ventas','monto',$datos);
-        $data['soporte']                  =   $this->__query('detalle_soporte','soporte','monto',$datos);
-        $data['ingresos']                 =   $this->_query('detalle_ingresos','ingreso','monto',$datos);
-        $data['egresos']                  =   $this->_query('detalle_egresos','egreso','monto',$datos);
-        $data['gastos']                   =   $this->_query('detalle_gastos','gasto','monto',$datos);
+        $data['pagos_ventas']             =   $this->Vquery('pagos_ventas', 'venta', 'monto',$datos);
+        $data['abonos_ventas']            =   $this->query('abonos_ventas', 'monto', $datos);
+        $data['soporte']                  =   $this->__query('detalle_soporte', 'soporte', 'monto',$datos);
+        $data['ingresos']                 =   $this->_query('detalle_ingresos', 'ingreso', 'monto',$datos);
+        $data['egresos']                  =   $this->_query('detalle_egresos', 'egreso', 'monto',$datos);
+        $data['gastos']                   =   $this->_query('detalle_gastos', 'gasto', 'monto', $datos);
+        $data['devolucion']               =   $this->__query('devoluciones_pagos', 'devoluciones','monto', $datos);
 
         return $data;
     }
@@ -164,7 +165,7 @@ class CajaController extends \BaseController
     public function query( $tabla , $campo , $data )
     {
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->whereRaw("DATE_FORMAT({$tabla}.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
         ->whereRaw("DATE_FORMAT({$tabla}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
@@ -179,7 +180,7 @@ class CajaController extends \BaseController
     public function Vquery( $tabla ,$tabla_master, $campo , $data )
     {
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
@@ -197,7 +198,7 @@ class CajaController extends \BaseController
     public function _query( $tabla ,$tabla_master, $campo , $data )
     {
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
         ->join("{$tabla_master}s","{$tabla_master}s.id" , "=" , "{$tabla}.{$tabla_master}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
@@ -212,10 +213,16 @@ class CajaController extends \BaseController
     // funcion cuando la tabla no tiene el campo tienda id y  el nombre de la tabla que tiene el campo esta en singular
     public function __query( $tabla ,$tabla_master, $campo , $data )
     {
+        $tabla_master_id = $tabla_master;
+
+        if ($tabla_master == 'devoluciones') 
+            $tabla_master_id = substr($tabla_master, 0, -2);
+        
+
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=" , "metodo_pago.id")
-        ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master}_id")
+        ->join("{$tabla_master}","{$tabla_master}.id" , "=" , "{$tabla}.{$tabla_master_id}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$data['fecha_inicial']}', '%Y-%m-%d %H:%i:%s')")
         ->whereRaw("DATE_FORMAT({$tabla_master}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
         ->where("{$tabla_master}.tienda_id", '=' , Auth::user()->tienda_id)
@@ -239,25 +246,26 @@ class CajaController extends \BaseController
 
         foreach ($Query as $key => $val)
         {
-            if($val->descripcion == 'Efectivo')
+            if($val->id == 1)
                 $arreglo_ordenado['efectivo'] = $val->total;
 
-            if($val->descripcion == 'Credito')
+            if($val->id == 2)
                 $arreglo_ordenado['credito'] = $val->total;
 
-            if($val->descripcion == 'Cheque')
+            if($val->id == 3)
                 $arreglo_ordenado['cheque'] = $val->total;
 
-            if($val->descripcion == 'Tarjeta')
+            if($val->id == 4)
                 $arreglo_ordenado['tarjeta'] = $val->total;
 
-            if($val->descripcion == 'Deposito')
+            if($val->id == 5)
                 $arreglo_ordenado['deposito'] = $val->total;
 				
-			if($val->descripcion == 'Nota de credito')
+			if($val->id == 6)
                 $arreglo_ordenado['notaCredito'] = $val->total;
 
-            $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
+            if($val->id != 7)
+                $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
 
         return $arreglo_ordenado;

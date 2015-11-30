@@ -301,25 +301,26 @@ class CierreController extends \BaseController {
 
         foreach ($Query as $key => $val)
         {
-            if($val->descripcion == 'Efectivo')
+            if($val->id == 1)
                 $arreglo_ordenado['efectivo'] = $val->total;
 
-            if($val->descripcion == 'Credito')
+            if($val->id == 2)
                 $arreglo_ordenado['credito'] = $val->total;
 
-            if($val->descripcion == 'Cheque')
+            if($val->id == 3)
                 $arreglo_ordenado['cheque'] = $val->total;
 
-            if($val->descripcion == 'Tarjeta')
+            if($val->id == 4)
                 $arreglo_ordenado['tarjeta'] = $val->total;
 
-            if($val->descripcion == 'Deposito')
+            if($val->id == 5)
                 $arreglo_ordenado['deposito'] = $val->total;
 
-            if($val->descripcion == 'Nota de credito')
+            if($val->id == 6)
                 $arreglo_ordenado['notaCredito'] = $val->total;
-
-            $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
+            
+            if($val->id != 7)
+                $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
 
         return $arreglo_ordenado;
@@ -578,6 +579,7 @@ class CierreController extends \BaseController {
         $data['gastos']                   =   $this->_query('detalle_gastos', 'gasto', 'monto', $fecha);
         $data['abonos_compras']           =   $this->query('abonos_compras', 'monto', $fecha);
         $data['pagos_compras']            =   $this->_query('pagos_compras', 'compra', 'monto', $fecha);
+        $data['devolucion']               =   $this->__query('devoluciones_pagos', 'devoluciones','monto', $fecha);
         $data['resultados']               =   array();
 
         return $data;
@@ -596,7 +598,7 @@ class CierreController extends \BaseController {
             $fecha_enviar = 'current_date';
 
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=", "metodo_pago.id")
         ->whereRaw("DATE_FORMAT({$tabla}.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
         ->where("{$tabla}.tienda_id", '=' , Auth::user()->tienda_id)
@@ -614,7 +616,7 @@ class CierreController extends \BaseController {
             $fecha_enviar = 'current_date';
 
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=", "metodo_pago.id")
         ->join("{$tabla_master}s","{$tabla_master}s.id" , "=", "{$tabla}.{$tabla_master}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}s.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
@@ -633,7 +635,7 @@ class CierreController extends \BaseController {
             $fecha_enviar = 'current_date';
 
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=", "metodo_pago.id")
         ->join("{$tabla_master}s","{$tabla_master}s.id" , "=", "{$tabla}.{$tabla_master}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}s.created_at, '%Y-%m-%d')= DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
@@ -646,16 +648,21 @@ class CierreController extends \BaseController {
 
     //nombre de la tabla que tiene el campo esta en singular
     public function __query( $tabla ,$tabla_master, $campo , $fecha )
-    {
+    {   
+        $tabla_master_id = $tabla_master;
+
+        if ($tabla_master == 'devoluciones') 
+            $tabla_master_id = substr($tabla_master, 0, -2);
+
         $fecha_enviar = "'{$fecha}'";
 
         if ($fecha == 'current_date')
             $fecha_enviar = 'current_date';
 
         $Query = DB::table('metodo_pago')
-        ->select(DB::raw("metodo_pago.descripcion as descripcion, sum({$campo}) as total"))
+        ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
         ->join($tabla,"{$tabla}.metodo_pago_id" , "=", "metodo_pago.id")
-        ->join("{$tabla_master}","{$tabla_master}.id", "=", "{$tabla}.{$tabla_master}_id")
+        ->join("{$tabla_master}","{$tabla_master}.id", "=", "{$tabla}.{$tabla_master_id}_id")
         ->whereRaw("DATE_FORMAT({$tabla_master}.created_at, '%Y-%m-%d') = DATE_FORMAT({$fecha_enviar}, '%Y-%m-%d')")
         ->where("{$tabla_master}.tienda_id", '=', Auth::user()->tienda_id)
         ->groupBy('metodo_pago.id')->get();
