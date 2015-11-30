@@ -22,7 +22,7 @@ function cliente_contacto_view_info(element) {
             $('.contactos-body-'+$id).slideToggle('slow',function() {
                 $('.contactos-body-'+$id).html(data);
             });
-        }
+        } 
     });
 };
 
