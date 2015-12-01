@@ -682,40 +682,39 @@ class CierreController extends \BaseController {
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(total) as total')));
 
-        $ganancias =  DB::table('users')
+        $ganancias =  DB::table('ventas')
         ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
-        ->join('ventas','ventas.user_id','=','users.id')
         ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
-        ->where('users.tienda_id','=',Auth::user()->tienda_id)
+        ->whereTiendaId(Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
-        ->orderBy('total', 'DESC')->first();
+        ->first();
 
         $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
-        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereTiendaId(Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(monto) as total')));
 
         $gastos = Gasto::join('detalle_gastos','detalle_gastos.gasto_id','=','gastos.id')
-        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereTiendaId(Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(monto) as total')));
 
-        $compras = Compra::where('tienda_id','=',Auth::user()->tienda_id)
+        $compras = Compra::whereTiendaId(Auth::user()->tienda_id)
         ->first(array(DB::raw('sum(saldo) as total')));
 
-        $ventas_c = Venta::where('tienda_id','=',Auth::user()->tienda_id)
+        $ventas_c = Venta::whereTiendaId(Auth::user()->tienda_id)
         ->first(array(DB::raw('sum(saldo) as total')));
 
         $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
-        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereTiendaId(Auth::user()->tienda_id)
         ->where('existencias.existencia','>', 0)
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
-        $ventas_usuarios =  DB::table('users')
+        $ventas_usuarios =  DB::table('ventas')
         ->select(DB::raw('users.id, users.nombre, users.apellido,
             sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
             sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
-        ->join('ventas','ventas.user_id','=','users.id')
+        ->join('users','ventas.user_id','=','users.id')
         ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
         ->where('users.tienda_id','=',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
