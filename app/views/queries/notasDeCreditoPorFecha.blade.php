@@ -24,9 +24,9 @@
             {"sClass": "mod_codigo hover width20",                      "sTitle": "Fecha",       "aTargets": [0]},
             {"sClass": "mod_codigo hover width30",                      "sTitle": "Usuario",     "aTargets": [1]},
             {"sClass": "mod_codigo hover width30",                      "sTitle": "Cliente",     "aTargets": [2]},
-            {"sClass": "mod_codigo hover right width5 ", 				"sTitle": "tipo",        "aTargets": [3]},
+            {"sClass": "mod_codigo hover right width5 ", 				        "sTitle": "tipo",        "aTargets": [3]},
             {"sClass": "mod_codigo hover width5 formato_precio right",  "sTitle": "Monto.",      "aTargets": [4]},
-			{"sClass": "widthS", "bVisible": false,                     "sTitle": "estado",      "aTargets": [5]},
+			      {"sClass": "widthS", "bVisible": false,                     "sTitle": "estado",      "aTargets": [5]},
             {"sClass": "width5 icons center",                           "sTitle": "",            "aTargets": [6],
                 "orderable": false,
                 "mRender": function(data, type, full) {
