@@ -338,7 +338,7 @@ class CierreController extends \BaseController {
         ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
         ->join('ventas','ventas.user_id','=','users.id')
         ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
-        ->where('users.tienda_id','=',Auth::user()->tienda_id)->where('users.status','=',1)
+        ->where('users.tienda_id','=',Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->orderBy('total', 'DESC')->first();
 
