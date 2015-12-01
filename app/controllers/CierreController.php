@@ -494,8 +494,6 @@ class CierreController extends \BaseController {
             $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
         }
 
-        PagosVenta::whereVentaId(34362)->update(array('monto'=>260.00));
-
         $data['dia_inicio'] = $fecha_env;
         $data['notas_creditos'] = $notas_creditos->total;
         $data['total_ventas'] = f_num::get($ventas->total   );
