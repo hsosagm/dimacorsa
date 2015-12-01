@@ -712,9 +712,6 @@
 
     Route::get('/test', function()
     {     
-        //echo json_encode(Producto::find(1000088));
-        //echo json_encode(Existencia::whereProductoId(1000088)->get());
-        //Existencia::whereTiendaId(1)->update(array('existencia_real'=>null, 'ajuste' => null, 'status' => 0, 'user_id' => null));
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
@@ -797,7 +794,3 @@ Route::get('clear', function()
 
     return $contador;
 });
-
-/*
-
-*/
