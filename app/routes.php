@@ -706,7 +706,7 @@
     });
 
     Route::get('/informeGeneral/actual', function()
-    {
+    { 
         return View::make('informes.detalleInformeGeneral');
     });
 

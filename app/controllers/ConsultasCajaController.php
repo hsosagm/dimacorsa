@@ -22,7 +22,7 @@ class ConsultasCajaController extends \BaseController {
 		if (trim($model) == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
 			return $this->OperacionesConsultas(strtolower(rtrim($model, 's')));
 
-		else
+		else 
 			return 'No se envio ninguna peticion';
 	}
  

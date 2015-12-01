@@ -3,7 +3,7 @@
 class CierreController extends \BaseController {
 
     public function getCierreDelDia()
-    {
+    { 
         $fecha = Input::get('fecha');
         $fecha_enviar = "'{$fecha}'";
 

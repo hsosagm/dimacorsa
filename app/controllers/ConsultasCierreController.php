@@ -1,7 +1,7 @@
 <?php
 
 class ConsultasCierreController extends \BaseController {
-
+ 
 	public function ConsultasPorMetodoDePago($model)
 	{
 		if($model == 'Ventas')
@@ -28,7 +28,7 @@ class ConsultasCierreController extends \BaseController {
 		else
 			return 'No se envio ninguna peticion';
 	}
-
+ 
 	public function consultasPagos($_table, $linkDetalle, $columAbono = false)
 	{
 		$fecha = "'".Input::get('fecha')."'";
