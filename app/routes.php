@@ -713,7 +713,6 @@
     Route::get('/test', function()
     {     
 
-        Venta::find(34635)->update(array('abono'=>1));
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
