@@ -712,7 +712,7 @@
 
     Route::get('/test', function()
     {     
-        Existencia::whereTiendaId(1)->update(array('existencia_real'=>null, 'ajuste' => null, 'status' => 0, 'user_id' => null));
+        //Existencia::whereTiendaId(1)->update(array('existencia_real'=>null, 'ajuste' => null, 'status' => 0, 'user_id' => null));
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
