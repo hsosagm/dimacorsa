@@ -713,6 +713,7 @@
     Route::get('/test', function()
     {     
         echo json_encode(Producto::find(1005585));
+        echo json_encode(Existencia::whereProductoId(1005585));
         //Existencia::whereTiendaId(1)->update(array('existencia_real'=>null, 'ajuste' => null, 'status' => 0, 'user_id' => null));
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
