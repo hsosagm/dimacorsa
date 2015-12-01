@@ -790,7 +790,7 @@ Route::get('clear', function()
            $contador++;
            Venta::find($v->id)->delete();
         }
-    }
+    } 
 
     return $contador;
 });

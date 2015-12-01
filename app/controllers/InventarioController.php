@@ -5,7 +5,7 @@ class InventarioController extends Controller {
     public function getInventario()
     {
         return View::make('inventario.inventario');
-    }
+    } 
 
     public function dt_getInventario()
     {
