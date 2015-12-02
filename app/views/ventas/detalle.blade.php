@@ -11,7 +11,7 @@
 					<td>Cantidad:</td>
 					<td>Precio:</td>
 				</tr>
-				<tr>
+				<tr> 
 					<td>
 						<input type="text" id="search_producto">
 						<i class="fa fa-search btn-link theme-c" id="md-search"></i>

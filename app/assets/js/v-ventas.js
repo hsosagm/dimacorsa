@@ -86,6 +86,8 @@ var app = new Vue({
                     {
                         $('.body-detail').html(data.table);
                         app.$compile(app.$el);
+                        $("#search_producto").focus();
+                        
                         return msg.success('Producto actualizado', 'Listo!');
                     }
                     msg.warning(data, 'Advertencia!');

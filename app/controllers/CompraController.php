@@ -563,7 +563,7 @@ class CompraController extends \BaseController {
 		$where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
 
 		$detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
-
+		
 		return Response::json(array(
 			'success' => true,
 			'table'   => View::make('compras.getComprasPendientesPorProveedor', compact('detalle'))->render()

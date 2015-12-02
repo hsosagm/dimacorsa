@@ -8,7 +8,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-</div>
+</div> 
 
 <table class="DT_table_div" width="100%">
 	<tr class="DT_table_div_detail">
@@ -44,4 +44,3 @@
 		</tr>
 	</tfoot>
 </table>
-

@@ -489,7 +489,7 @@ class CierreController extends \BaseController {
         {
             $fecha_env = Carbon::now();
         }
-        else 
+        else  
         {
             $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
         }
