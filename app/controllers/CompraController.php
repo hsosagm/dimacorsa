@@ -559,7 +559,7 @@ class CompraController extends \BaseController {
 		$Join = "JOIN users ON (users.id = compras.user_id) ";
 
 		$where  = " compras.tienda_id = ".Auth::user()->tienda_id;
-		$where  = " compras.saldo > 0 ";
+		$where .= " AND compras.saldo > 0 ";
 		$where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
 
 		$detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
