@@ -713,7 +713,7 @@
     Route::get('/test', function()
     {     
 
-        json_encode(Kardex::find(1000));
+        json_encode(Kardex::all()->get());
 
 
         // $info = new InformeGeneralController;
