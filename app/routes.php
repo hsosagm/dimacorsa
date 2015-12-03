@@ -713,9 +713,9 @@
     Route::get('/test', function()
     {     
 
-        return app_path();
+        json_encode(Kardex::find(1000));
 
-        exec('cd /home/forge/hsystemas.com/ && php artisan migrate');
+
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
