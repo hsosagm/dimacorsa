@@ -717,6 +717,9 @@
         DB::table('detalle_compras')
         ->whereCompraId(3466)
         ->update(array('serials'=>$series));
+
+        echo json_encode(DB::table('detalle_compras')
+        ->whereCompraId(3466)->get());
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
