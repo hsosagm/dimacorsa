@@ -14,22 +14,18 @@
         ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
         ->whereRaw("DATE(ventas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
-
         $compras = DB::table('compras')
         ->join('detalle_compras', 'compra_id', '=', 'compras.id')
         ->whereRaw("DATE(compras.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
-
         $descargas = DB::table('descargas')
         ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
         ->whereRaw("DATE(descargas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
-
         $traslados = DB::table('traslados')
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE(traslados.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
-
         $real_informe_inversion = DB::table('informe_inversion')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
