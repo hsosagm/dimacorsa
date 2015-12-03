@@ -712,10 +712,6 @@
 
     Route::get('/test', function()
     {     
-
-       return json_encode(Kardex::all());
-
-
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
