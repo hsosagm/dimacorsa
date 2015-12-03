@@ -43,12 +43,10 @@
         ->whereRaw("DATE(ventas.created_at) = CURDATE()")
         ->whereMetodoPagoId(2)
         ->first(array(DB::raw('sum(monto) as total')));
-
         $abonosVentas = DB::table('abonos_ventas')
         ->join('detalle_abonos_ventas', 'abonos_ventas_id', '=', 'abonos_ventas.id')
         ->whereRaw("DATE(abonos_ventas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(detalle_abonos_ventas.monto) as total')));
-
         $real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
@@ -61,7 +59,7 @@
         ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
         ->whereRaw("DATE(abonos_compras.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
-
+ 
         $creditosCompras = DB::table('compras')
         ->join('pagos_compras', 'compra_id', '=', 'compras.id')
         ->whereRaw("DATE(compras.created_at) = CURDATE()")
@@ -74,7 +72,6 @@
         $informe_cuentas_por_pagar_esperado = floatval(($real_informe_cuentas_por_pagar->real + $creditosCompras->total) - $abonosCompras->total);
         $informe_cuentas_por_pagar_real = floatval($informe_cuentas_por_pagar->total);
         $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar_esperado;
-
 ?>
 <table width="100%" class="DT_table_div">
     <tr>
