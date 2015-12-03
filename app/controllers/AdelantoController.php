@@ -8,7 +8,7 @@ class AdelantoController extends \BaseController {
         {
             $adelanto = new Adelanto;
             $caja = Caja::whereUserId(Auth::user()->id)->first();
-
+ 
             $data = Input::all();
             $data['caja_id'] = $caja->id;
 
