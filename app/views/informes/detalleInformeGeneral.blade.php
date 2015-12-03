@@ -74,6 +74,8 @@
         $informe_cuentas_por_pagar_esperado = floatval(($real_informe_cuentas_por_pagar->real + $creditosCompras->total) - $abonosCompras->total);
         $informe_cuentas_por_pagar_real = floatval($informe_cuentas_por_pagar->total);
         $diferencia_pagar = $informe_cuentas_por_pagar_real - $informe_cuentas_por_pagar_esperado;
+        DB::table('informe_cuentas_por_cobrar')->whereInformeGeneralId($informe_general_anterior->id)->first()->update(array('real'=>  398169.72));
+        Venta::find(33948)->update(array("saldo"=> 0.00));
 
 ?>
 <table width="100%" class="DT_table_div">
