@@ -25,7 +25,7 @@ class ExistenciaTiendaKardex extends Migration {
 	 */
 	public function down()
 	{
-		//
+
 	}
 
 }
