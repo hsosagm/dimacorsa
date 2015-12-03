@@ -26,7 +26,7 @@
         <i class="fa fa-file-pdf-o fa-lg" v-on="click: exportarKardexPdf($event, {{@$producto_id}}, '{{$fecha_inicial}}', '{{$fecha_final}}')"> </i>
     </div>
 </div>
-
+ 
 <table class="dt-table table-striped table-theme" id="dataTableKardex">
     <tbody style="background: #ffffff;">
         <tr>

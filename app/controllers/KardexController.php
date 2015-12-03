@@ -14,7 +14,7 @@ class KardexController extends \BaseController {
             "cantidad",
             "existencia",
             "costo",
-            "costo_promedio"
+            "costo_promedio" 
         );
 
         $Search_columns = array("evento" , "cantidad" , 'existencia' ,'costo');
