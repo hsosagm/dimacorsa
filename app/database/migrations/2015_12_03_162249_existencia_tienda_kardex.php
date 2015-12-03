@@ -14,7 +14,7 @@ class ExistenciaTiendaKardex extends Migration {
 	{
 		Schema::table('kardex', function($table)
 		{
-		    $table->integer('venta_id')->nullable();
+		    $table->integer('exisntencia_tienda')->nullable();
 		});
 	}
 
