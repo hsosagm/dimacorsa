@@ -712,6 +712,8 @@
 
     Route::get('/test', function()
     {     
+
+        return app_path();
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
