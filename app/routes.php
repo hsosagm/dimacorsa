@@ -714,6 +714,8 @@
     {     
 
         return app_path();
+
+        exec('cd /home/forge/hsystemas.com/ && php artisan migrate');
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
