@@ -19,7 +19,7 @@ class CreateKardex extends Migration {
 			$table->increments('id');
 			$table->string('nombre');
 			$table->timestamps();
-		});
+		}); 
 
 		Schema::create('kardex', function(Blueprint $table)
 		{
