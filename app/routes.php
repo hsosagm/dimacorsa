@@ -712,8 +712,6 @@
 
     Route::get('/test', function()
     {     
-        $series = "2730974001107,2730974001113,2730974001111,2730974001114,2730974001110,2730974001103,2730974001109,2730974001118,2730974001112,2730974001652,2730974001119,2730974001102,2730974001115,2730974001650,2730974001104,2730976001293,2730976001290,2730976001300,2730976001291,2730976001464,2730976001474,2730976001478,2730976001463,2730976001466,2730976001468,2730976001467,2730976001473,2730976001479,2730976001470,2730976001469,27309760030978000659,2730978000106,2730978000105,2730978000651,2730976001286,2730976002028,27309760020390481,2730978000497,2730978000495,2730978000498,2730978000494,2730978000488,2730978000500,2730978000491";
-
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
@@ -742,57 +740,57 @@
         */
     });         
 
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-Route::get('clearcached',  function(){
-    $url = 'http://localhost:4000/cached';
-    App::make('http_cache.store')->purge($url);
+    Route::get('clearcached',  function(){
+        $url = 'http://localhost:4000/cached';
+        App::make('http_cache.store')->purge($url);
 
-    return 1;
+        return 1;
 
-});
+    });
 
-Route::get('cached', array('after' => 'cache:30', function() {
-    $query =  DetalleVenta::where('id', '>=', 1)->take(25000)->get();
+    Route::get('cached', array('after' => 'cache:30', function() {
+        $query =  DetalleVenta::where('id', '>=', 1)->take(25000)->get();
 
-    $total = 0;
-    foreach ($query as $q) {
-        $total = $total + ($q->cantidad * $q->precio);
-    }
-
-    return $total;
-}));
-
-/*
-Route::get('timetest', function()
-{
-    $start = date('Y/m/d H:i:s');
-    $start = round(microtime(true) * 1000);
-
-    $cliente = Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
-
-    $end = date('Y/m/d H:i:s');
-    $end = round(microtime(true) * 1000);
-
-    return $end -$start;
-});
-*/
-
-
-Route::get('clear', function()
-{
-    $ventas = DB::table('ventas')->take(40000)->skip(0)->get(array('id'));
-
-    $contador = 0;
-
-    foreach ($ventas as $key => $v) {
-        $dt = DetalleVenta::whereVentaId($v->id)->get(array('id'));
-
-        if (!count($dt)) {
-           $contador++;
-           Venta::find($v->id)->delete();
+        $total = 0;
+        foreach ($query as $q) {
+            $total = $total + ($q->cantidad * $q->precio);
         }
-    } 
 
-    return $contador;
-});
+        return $total;
+    }));
+
+    /*
+    Route::get('timetest', function()
+    {
+        $start = date('Y/m/d H:i:s');
+        $start = round(microtime(true) * 1000);
+
+        $cliente = Autocomplete::get('clientes', array('id', 'nombre', 'apellido'));
+
+        $end = date('Y/m/d H:i:s');
+        $end = round(microtime(true) * 1000);
+
+        return $end -$start;
+    });
+    */
+
+
+    Route::get('clear', function()
+    {
+        $ventas = DB::table('ventas')->take(40000)->skip(0)->get(array('id'));
+
+        $contador = 0;
+
+        foreach ($ventas as $key => $v) {
+            $dt = DetalleVenta::whereVentaId($v->id)->get(array('id'));
+
+            if (!count($dt)) {
+               $contador++;
+               Venta::find($v->id)->delete();
+            }
+        } 
+
+        return $contador;
+    });
