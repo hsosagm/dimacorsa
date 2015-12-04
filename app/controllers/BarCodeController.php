@@ -39,7 +39,7 @@ class BarCodeController extends \BaseController {
             'ancho'   => $ancho,
             'alto'    => $estilo->alto,
             'letra'   => $estilo->letra
-            );
+        );
 
         return Response::json($data);
     }

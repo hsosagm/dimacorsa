@@ -243,7 +243,7 @@ function FinishInitialPurchase(element,compra_id)
         url: 'admin/compras/FinishInitialPurchase',
         data: { compra_id: compra_id ,nota: $("input[name='nota']").val() },
         success: function (data) {
-            if (data == 'success') {
+            if ($.trim(data) == 'success'){
                 f_com_op();
                 msg.success('Compra Finalizada..!', 'Listo!');
                 $('.bs-modal').modal('hide');
