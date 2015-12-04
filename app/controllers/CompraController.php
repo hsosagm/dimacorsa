@@ -150,7 +150,7 @@ class CompraController extends \BaseController {
 
 		ProcesarCompra::set(Input::get('compra_id'),"nota", @$credito->monto, $total_compra);
 
-		return 'success';
+		return 'success'; 
 	}
 
 	public function OpenModalPurchaseItemSerials()
