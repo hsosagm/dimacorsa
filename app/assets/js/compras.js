@@ -160,7 +160,7 @@ function DeletePurchaseInitial(element) {
                 url: 'admin/compras/DeletePurchaseInitial',
                 data: { id: compra_id },
                 success: function (data) {
-                    if (data == 'success') {
+                    if ($.trim(data) == 'success') {
                         f_com_op();
                         msg.success('Compra Eliminada..!', 'Listo!');
                     }

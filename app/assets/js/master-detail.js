@@ -74,7 +74,7 @@ function DeleteDetalle(element) {
                 url: url,
                 data: { id: id },
                 success: function (data) {
-                    if (data == "success") {
+                    if ($.trim(data) == "success") {
                         msg.success('Eliminado', 'Listo!');
                         $(element).closest('tr').hide();
                     }
