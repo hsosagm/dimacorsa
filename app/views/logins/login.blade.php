@@ -99,7 +99,6 @@
 
         </div>
 
-        <script src="login/assets/components/bower/jquery-cookie/jquery.cookie.js"></script>
         <script src="login/assets/components/bower/bootstrap/js/bootstrap.min.js"></script>
         <script src="login/assets/js/jpreloader-v2/js/jpreloader.min.js"></script>
         <script src="login/assets/components/bower/jquery.easing/js/jquery.easing.js"></script>
