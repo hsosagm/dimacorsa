@@ -21,27 +21,27 @@
 
             {{ Form::open(array('data-remote-up','data-success' => 'Perfil Actualizado','url' => 'user/profile', 'method' =>'post', 'role'=>'form', 'class' => 'form-horizontal all')) }}
 
-            {{ Form::_select('tienda_id', Tienda::lists('nombre', 'id'),@$user->tienda_id) }}
+            {{ Form::_select('tienda_id', Tienda::lists('nombre', 'id'),$user->tienda_id) }}
 
-            {{ Form::hidden('id', @$user->id) }}
+            {{ Form::hidden('id', $user->id) }}
 
-            {{ Form::_text('username', @$user->username) }}
+            {{ Form::_text('username', $user->username) }}
 
-            {{ Form::_text('nombre', @$user->nombre) }}
+            {{ Form::_text('nombre', $user->nombre) }}
 
-            {{ Form::_text('apellido', @$user->apellido) }}
+            {{ Form::_text('apellido', $user->apellido) }}
 
-            {{ Form::_text('email', @$user->email) }}
+            {{ Form::_text('email', $user->email) }}
 
             {{ Form::_password('password') }}
 
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
-                    Activo: {{Form::radio('status', 1, true) }}
+                    Activo: {{Form::radio('status', 1, ($user->status == 1)? true:false) }}
                 </div>
                 <div class="col-md-6">
-                    Inactivo: {{Form::radio('status', 2, false) }}
+                    Inactivo: {{Form::radio('status', 2, ($user->status == 2)? true:false) }}
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
                     <span id="add_user_group" class="form-button glyphicon glyphicon-plus-sign pointer"></span>
                 </span>
                 {{ Form::select('role_id', $no_assigned, '3', array('class'=>'form-control group_id')) }}
-                {{ Form::hidden('user_id', @$user->id) }}
+                {{ Form::hidden('user_id', $user->id) }}
             </div>
         </div>  
         {{ Form::close() }}

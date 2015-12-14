@@ -71,7 +71,7 @@ function _update_profile(e,element) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            if (data == 'success') {
+            if ($.trim(data) == 'success') {
                 $('#example').dataTable().fnStandingRedraw();
                 msg.success(form.data('success'), 'Listo!');
             }
