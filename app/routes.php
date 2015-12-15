@@ -712,6 +712,9 @@
 
     Route::get('/test', function()
     {     
+
+        DB::table('ventas')->whereId(34333)->update(array('updated_at' => '2015-11-27 05:37:10'));
+        DB::table('detalle_ventas')->whereVentaId(34333)->update(array('updated_at' => '2015-11-27 05:37:10'));
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
