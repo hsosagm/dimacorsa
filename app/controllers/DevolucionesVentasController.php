@@ -234,8 +234,8 @@ class DevolucionesVentasController extends \BaseController {
 
 				if ($dv->serials)
 				{
-					$dv->serials = implode(",", array_diff( explode(",", $dv->serials), $dt['serials'] ));
-		            $dv->save();
+					DB::table('detalle_ventas')->whereId($dv->id)
+					->update(array('serials' => implode(",", array_diff( explode(",", $dv->serials), $dt['serials'] )) ));
 				}
 			}
 		}
@@ -287,21 +287,23 @@ class DevolucionesVentasController extends \BaseController {
         if ($venta->total == $totalDevolucion)
         {
         	DetalleVenta::whereVentaId($devolucion->venta_id)->delete();
-        	$venta->total = 0;
-        	$venta->saldo = 0;
-        	$venta->canceled = 1;
-        	$venta->save();
+
+        	DB::table('ventas')->whereId($venta->id)
+        	->update(array('total' => 0, 'saldo' => 0, 'canceled' => 1));
         }
         else
         {
-        	$venta->total = $venta->total - $totalDevolucion;
+
+        	$venta_total = $venta->total - $totalDevolucion;
+        	$venta_saldo = 0;
 
 		    if( $totalDevolucion >= $venta->saldo )
-		        $venta->saldo = 0;
+		        $venta_saldo = 0;
 		    else
-		        $venta->saldo = $venta->saldo - $totalDevolucion;
+		        $venta_saldo = $venta->saldo - $totalDevolucion;
 
-        	$venta->save();
+        	DB::table('ventas')->whereId($venta->id)
+        	->update(array('total' => $venta_total, 'saldo' => $venta_saldo));
 
 			foreach ($devolucion_detalle as $dd)
 			{
@@ -312,8 +314,8 @@ class DevolucionesVentasController extends \BaseController {
 	            	$dv->delete();
 	            }
 	            else {
-		            $dv->cantidad = $dv->cantidad - $dd->cantidad;
-		            $dv->save();
+		            DB::table('detalle_ventas')->whereId($dv->id)
+        			->update(array('cantidad' => $dv->cantidad - $dd->cantidad));
 	            }
 			}
         }
