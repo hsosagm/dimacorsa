@@ -35,7 +35,7 @@
 						return $v;
 					}
 				}
-			],
+			], 
 			"fnDrawCallback": function( oSettings ) {
 				$( ".DTTT" ).html("");
 				$("td[class*='formato_precio']").each(function() {

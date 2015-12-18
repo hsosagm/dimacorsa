@@ -13,7 +13,7 @@
     Route::get('/{img}.ico', function(){ return "";});
     Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
     /******************************************************************************/
-
+ 
     /******************************************************************************/
     //rutas para imprimr con el plugin qzprint
     Route::post('ImprimirGarantia'         , 'VentasController@ImprimirGarantia');
