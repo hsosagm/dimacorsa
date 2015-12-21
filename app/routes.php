@@ -52,7 +52,7 @@
     Route::post('logIn', 'HomeController@validate_phone');
     Route::get('logout', 'HomeController@logout');
     Route::post('index', 'HomeController@validate');
-    
+
     Route::post('setCambiarDeUsuarioAutenticado', 'HomeController@setCambiarDeUsuarioAutenticado');
 
     Route::get('proveedor', function()

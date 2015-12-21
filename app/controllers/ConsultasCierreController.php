@@ -76,7 +76,7 @@ class ConsultasCierreController extends \BaseController {
 
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
-        return Response::json(array(
+        return Response::json(array( 
 			'success' => true,
 			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos','metodo_pago','linkDetalle'))->render()
         ));

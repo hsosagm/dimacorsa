@@ -32,7 +32,9 @@
 						$v += '<i title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o fg-theme" style="padding-left:10px"></i>';
 						$v += '<i onclick="printInvoice(this, '+full.DT_RowId+', '+"'"+'{{@$factura->impresora}}'+"'"+')" class="fa fa-print fg-theme" style="padding-left:10px"></i>';
 						$v += '<i title="Imprimir Garantia" onclick="ImprimirGarantia(this, '+full.DT_RowId+', '+"'"+'{{@$garantia->impresora}}'+"'"+')" class="fa fa-file-o fg-theme" style="padding-left:10px"></i>';
+						$v += '<i title="Cambiar Pagos" onclick="getActualizarPagosVentaFinalizada(this, '+full.DT_RowId+')" class="fa fa-paypal fg-theme" style="padding-left:10px"></i>';
 						return $v;
+
 					}
 				}
 			], 

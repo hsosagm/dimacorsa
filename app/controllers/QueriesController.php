@@ -2,13 +2,13 @@
 
 class QueriesController extends \BaseController {
 
-	public function getMasterQueries()
+	public function getMasterQueries() 
 	{
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.masterQueries')->render()
         ));
-	}
+	} 
 
 	/*******************************************************************
 	Inicio Consultas de Ventas
