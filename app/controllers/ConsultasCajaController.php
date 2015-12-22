@@ -196,7 +196,7 @@ class ConsultasCajaController extends \BaseController {
 		$where .= " AND devoluciones.caja_id = ".Input::get('caja_id');
 
 		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
-		$linkDetalle = "";
+		$linkDetalle = "getDevolucionesDetail";
 
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 

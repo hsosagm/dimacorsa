@@ -27,7 +27,9 @@
                         $v += '<a href="javascript:void(0);" title="Eliminar devolucion" onclick="deleteDevolucion(this, '+full.DT_RowId+')" class="fa fa-trash-o icon-delete" style="padding-left:10px">';
                         return $v;
                     }
-                }
+                },
+                {"sClass": "width5 icons center", "orderable": false, "sTitle": "", "mRender": function() { } },
+                
             ],
 
             "fnDrawCallback": function( oSettings ) {

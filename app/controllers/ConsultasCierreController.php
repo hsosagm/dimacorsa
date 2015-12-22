@@ -204,8 +204,8 @@ class ConsultasCierreController extends \BaseController {
 
 		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
-		$linkDetalle = "";
-
+		$linkDetalle = "getDevolucionesDetail";
+ 
         return Response::json(array( 
 			'success' => true,
 			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos','metodo_pago','linkDetalle'))->render()
