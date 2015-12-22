@@ -430,9 +430,10 @@ class CajaController extends \BaseController
 
         $data = $this->resumen_movimientos($datos);
 
-	    $pdf = PDF::loadView('cajas.detalleMovimientos', compact('data', 'datos', 'cierre_caja'));
-
-	    return $pdf->stream('Caja');
+	    $pdf = PDF::loadView('cajas.detalleMovimientos', compact('data', 'datos', 'cierre_caja')); 
+        //$pdf->download("corete_caja_{$cierre_caja->fecha_inicial}__{$cierre_caja->fecha_final}_CajaId_{$cierre_caja->caja_id}.pdf");
+	    
+        return $pdf->stream('Caja');
 	}
 
 	public function resumenDeActividadActualDeCajas()

@@ -15,7 +15,7 @@ class PurchasePaymentsController extends \BaseController {
 
         return 'success';
 	}
-
+ 
 	public function formPayment()
 	{
 		$saldo_vencido = $this->OverdueBalance();

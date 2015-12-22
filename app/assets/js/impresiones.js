@@ -103,11 +103,10 @@ function printDocument(impresora, url, id) {
     }
 };
 
-
 function imprimirCodigoBarras(e, id, impresora) {
     $(e).prop('disabled', true);
     if (isLoaded()) {
-        qz.findPrinter(impresora);
+        qz.findPrinter();
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
             if (printer !== null) {
@@ -156,7 +155,7 @@ function imprimirCodigoBarras(e, id, impresora) {
                 });
             }
             else {
-                msg.error('La impresora "'+p+'" no se encuentra', 'Error!');
+                msg.error('La impresora  no se encuentra', 'Error!');
                 $(e).prop('disabled', false);
             }
             window['qzDoneFinding'] = null;

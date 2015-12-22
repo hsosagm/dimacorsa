@@ -281,7 +281,7 @@ class DevolucionesVentasController extends \BaseController {
 		{
             $Existencia = Existencia::whereProductoId($dd->producto_id)->whereTiendaId($venta->tienda_id)->first();
             $Existencia->existencia = $Existencia->existencia + $dd->cantidad;
-            $Existencia->save();
+            $Existencia->save(); 
 		}
 
         if ($venta->total == $totalDevolucion)
