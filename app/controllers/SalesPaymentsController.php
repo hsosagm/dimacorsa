@@ -203,7 +203,7 @@ class SalesPaymentsController extends \BaseController {
 
         return $query;
     }
-
+ 
      //funcion para eliminar el abono
     public function eliminarAbonoVenta()
     {

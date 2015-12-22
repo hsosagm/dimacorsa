@@ -180,7 +180,7 @@ class ConsultasCierreController extends \BaseController {
             $fecha = 'current_date';
 
 		$table = "devoluciones";
-
+ 
 		$columns = array(
 			"devoluciones.id",
         	"devoluciones.total as total",

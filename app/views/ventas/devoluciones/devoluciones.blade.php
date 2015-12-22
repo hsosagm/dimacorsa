@@ -28,8 +28,7 @@
                         return $v;
                     }
                 },
-                {"sClass": "width5 icons center", "orderable": false, "sTitle": "", "mRender": function() { } },
-                
+                {"sClass": "width5 icons center", "orderable": false, "sTitle": "", "mRender": function() {} },
             ],
 
             "fnDrawCallback": function( oSettings ) {

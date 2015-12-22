@@ -1001,7 +1001,7 @@ class VentasController extends \BaseController {
 			'success' => true,
 			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas'))->render(),
         ));
-	}
+	} 
 
 	public function getActualizarPagosVentaFinalizada()
 	{
