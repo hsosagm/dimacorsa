@@ -65,7 +65,6 @@ function printDocument(impresora, url, id) {
             var printer = qz.getPrinter();
 
             if (printer !== null) {
-
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -94,6 +93,7 @@ function printDocument(impresora, url, id) {
             }
             else {
                 msg.error('La impresora no se encuentra', 'Error!');
+                window.open(url+'Pdf?id='+id ,'_blank');
             }
             window['qzDoneFinding'] = null;
         };

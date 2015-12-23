@@ -528,15 +528,19 @@ class CierreController extends \BaseController {
                 ));
         }
 
+        $cajas = new CajaController;
+        $cajaEstado = $cajas->getEstadoDeCajas();
+
+        if ($cajaEstado ==  false) {
+            return 'una de las cajas no tiene datos a "0"';
+        }
+
         $query = Cierre::where(DB::raw('DATE(created_at)'), '=', DATE('Y-m-d'))
         ->where('tienda_id', Auth::user()->tienda_id)
         ->first();
 
         if (count($query))
-            return Response::json(array(
-                'success' => false,
-                'user' => $query->user->nombre. " " . $query->user->apellido
-                ));
+            return 'El cierre ya ha sido realizado por '.$query->user->nombre. " " . $query->user->apellido;
 
         $data = $this->resumen_movimientos('current_date');
 

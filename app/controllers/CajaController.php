@@ -129,6 +129,26 @@ class CajaController extends \BaseController
         ));
     }
 
+    public function getEstadoDeCajas() {
+        $caja = Caja::whereTiendaId(Auth::user()->tienda_id)->get(array('id', 'nombre', 'user_id'));
+        $data = array();
+
+        foreach ($caja as $dt) 
+        {
+            $data[] = $this->detalleResumenDeActividadDeCajas($dt);
+        }
+
+        foreach ($data as $dt) 
+        {
+            if (floatval($dt['efectivo']) > 0 || floatval($dt['cheque']) > 0 || floatval($dt['tarjeta']) > 0 || floatval($dt['deposito']) > 0) 
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 	//funcion para ver los movimientos de caja desde la tabla cortes de caja
     public function getMovimientosDeCajaDt()
     {
