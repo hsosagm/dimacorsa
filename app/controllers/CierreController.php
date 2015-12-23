@@ -276,7 +276,7 @@ class CierreController extends \BaseController {
         $depositosDetalle['egresos'] = $depositosEgreso;
         $depositosDetalle['pagosCompras'] = $depositosPagosCompras;
         $depositosDetalle['abonosCompras'] = $depositoAbonosCompras;
-
+ 
         return $depositosDetalle;
     }
     /*fin consulta para todo lo que se hiso con deposito o cheque en el dia*/
@@ -323,13 +323,11 @@ class CierreController extends \BaseController {
                 $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
 
-        Venta::find(34362)->update(array('total' => 260,'saldo' => 260));
-
         return $arreglo_ordenado;
     }
 
     public function ExportarCierreDelMes($tipo,$fecha)
-    {
+    { 
         $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(total) as total')));

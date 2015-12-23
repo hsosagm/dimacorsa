@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-
+ 
         proccess_table('Devoluciones');
 
         $('#example').dataTable({

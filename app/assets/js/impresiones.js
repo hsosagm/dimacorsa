@@ -102,7 +102,7 @@ function printDocument(impresora, url, id) {
         window.open(url+'Pdf?id='+id ,'_blank');
     }
 };
-
+ 
 function imprimirCodigoBarras(e, id, impresora) {
     $(e).prop('disabled', true);
     if (isLoaded()) {
