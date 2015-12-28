@@ -18,7 +18,7 @@
             <th>Total</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody> 
         @foreach($detalle_ventas as $dt)
             <tr>
                 <td> {{ $dt->created_at }} </td>

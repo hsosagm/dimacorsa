@@ -544,7 +544,7 @@ class CierreController extends \BaseController {
 
         $data = $this->resumen_movimientos('current_date');
 
-        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
+        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'] - $data['devolucion']['efectivo'];
 
         $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
         $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];

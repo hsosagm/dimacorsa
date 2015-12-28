@@ -323,7 +323,7 @@ class CajaController extends \BaseController
         $data = $this->resumen_movimientos($datos);
 
         $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo']
-		 - $data['gastos']['efectivo'] - $data['egresos']['efectivo'];
+		 - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion']['efectivo'];
 
         $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
 
