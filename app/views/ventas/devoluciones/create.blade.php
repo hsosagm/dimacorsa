@@ -127,9 +127,14 @@
                 $.ajax({
                     type: 'POST',
                     url: 'user/ventas/devoluciones/postDevolucionDetalle',
-                    data: { venta_id: this.venta.id, devolucion_id: this.devolucion_id, producto_id: this.producto.id,
-                    cantidad: $("input[name=cantidad]").val(), 
-                        precio: this.producto.precio },
+                    data: { 
+                        venta_id: this.venta.id, 
+                        devolucion_id: this.devolucion_id, 
+                        producto_id: this.producto.id,
+                        cantidad: $("input[name=cantidad]").val(), 
+                        ganancias: this.producto.ganancias ,
+                        precio: this.producto.precio ,
+                    },
                 }).done(function(data) {
                     if (data.success == true) {
                         $("input[name=cantidad]").val('')

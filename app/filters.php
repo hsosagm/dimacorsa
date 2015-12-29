@@ -214,7 +214,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $existencia = Existencia::whereProductoId($dt->producto_id)->first(array(DB::raw('sum(existencia) as total')));
             $exisntencia_tienda = Existencia::whereProductoId($dt->producto_id)->whereTiendaId(Auth::user()->tienda_id)->first();
 
-            $kardex = new Kardex;
+            $kardex = new Kardex; 
             $kardex->tienda_id = Auth::user()->tienda_id;
             $kardex->user_id = Auth::user()->id;
             $kardex->kardex_accion_id = 2;
@@ -225,7 +225,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $kardex->cantidad = $dt->cantidad;
             $kardex->existencia = $existencia->total;
             $kardex->exisntencia_tienda = $exisntencia_tienda->existencia;
-            $kardex->costo = $dt->precio;
+            $kardex->costo = ($dt->precio - $dt->ganancias);
             $kardex->costo_promedio = ($dt->producto->p_costo/100);
             $kardex->save();
         }

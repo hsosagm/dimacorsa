@@ -84,7 +84,8 @@ class DevolucionesVentasController extends \BaseController {
 		        'id' => $dv->producto_id,
 		        'descripcion' => $producto->descripcion,
 		        'cantidad'    => $dv->cantidad,
-		        'precio'      => $dv->precio
+		        'precio'      => $dv->precio,
+		        'ganancias'   => $dv->ganancias
 	        )
         );
     }
@@ -133,6 +134,7 @@ class DevolucionesVentasController extends \BaseController {
         	'producto_id',
         	'cantidad',
         	'precio',
+        	'ganancias',
         	'serials',
         	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
         ->where('devolucion_id', Input::get('devolucion_id'))
@@ -370,12 +372,10 @@ class DevolucionesVentasController extends \BaseController {
 	public function getDevolucionesDetail()
 	{
 		$detalle = $this->getDevolucionesDetalle();
-
-		return Response::json(array(
-			'success' => true,
-			'table'   => View::make('ventas.devoluciones.DT_detalleDevolucion', compact('detalle'))->render()
-        ));
-	}
+ 
+        return Response::json(array(             'success' => true,
+'table'   => View::make('ventas.devoluciones.DT_detalleDevolucion',
+compact('detalle'))->render()         ));      }
 
 	public function openDevolucion()
 	{

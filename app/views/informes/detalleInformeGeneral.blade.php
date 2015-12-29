@@ -14,22 +14,45 @@
         ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
         ->whereRaw("DATE(ventas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
+        
+        $devoluciones = DB::table('devoluciones')
+        ->join('devoluciones_detalle', 'devolucion_id', '=', 'devoluciones.id')
+        ->whereRaw("DATE(devoluciones.created_at) = CURDATE()")
+        ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
+
+        $devolucionesSobreSaldo = DB::table('devoluciones')
+        ->join('devoluciones_detalle', 'devoluciones_detalle.devolucion_id', '=', 'devoluciones.id')
+        ->join('devoluciones_pagos', 'devoluciones_pagos.devolucion_id', '=', 'devoluciones.id')
+        ->whereRaw("DATE(devoluciones.created_at) = CURDATE()")
+        ->whereMetodoPagoId(7)
+        ->first(array(DB::raw('sum(precio *cantidad) as total')));
+
         $compras = DB::table('compras')
         ->join('detalle_compras', 'compra_id', '=', 'compras.id')
         ->whereRaw("DATE(compras.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
+        
         $descargas = DB::table('descargas')
         ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
         ->whereRaw("DATE(descargas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
-        $traslados = DB::table('traslados')
+
+        $trasladosE = DB::table('traslados')
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE(traslados.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
+        $trasladosR = DB::table('traslados')
+        ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
+        ->whereRaw("DATE(traslados.created_at) = CURDATE()")
+        ->whereRaw("recibido = 1")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')));
+
         $real_informe_inversion = DB::table('informe_inversion')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-        $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total) - ($ventas->total + $descargas->total)));
+        $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total + $trasladosR->total + $devoluciones->total) - ($ventas->total + $descargas->total + $trasladosE->total)));
+
         $informe_inversion_real = floatval($informe_inversion->total);
         $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
 
@@ -46,7 +69,7 @@
         $real_informe_cuentas_por_cobrar = DB::table('informe_cuentas_por_cobrar')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-        $informe_cuentas_por_cobrar_esperado = floatval(($real_informe_cuentas_por_cobrar->real + $creditosVentas->total) - $abonosVentas->total);
+        $informe_cuentas_por_cobrar_esperado = floatval(($real_informe_cuentas_por_cobrar->real + $creditosVentas->total) - ($abonosVentas->total + $devolucionesSobreSaldo->total ));
         $informe_cuentas_por_cobrar_real = floatval($informe_cuentas_por_cobrar->total);
         $diferencia_cobrar = $informe_cuentas_por_cobrar_real - $informe_cuentas_por_cobrar_esperado;
 
@@ -76,8 +99,10 @@
         <td align="right"></td>
         <td align="right">Ventas</td>
         <td align="right">Compras</td>
+        <td align="right">Devoluciones</td>
         <td align="right">Descargas</td>
-        <td align="right">Traslados</td>
+        <td align="right">Traslados E.</td>
+        <td align="right">Traslados R.</td>
         <td align="right">Esperado</td>
         <td align="right">Real</td>
         <td align="right">Diferancia</td>
@@ -87,11 +112,13 @@
         <td align="right"> {{f_num::get($real_informe_inversion->real)}} </td>
         <td align="right"> {{f_num::get($ventas->total)}} </td>
         <td align="right"> {{f_num::get($compras->total)}} </td>
+        <td align="right"> {{f_num::get($devoluciones->total)}} </td>
         <td align="right"> {{f_num::get($descargas->total)}} </td>
-        <td align="right"> {{f_num::get($traslados->total)}} </td>
+        <td align="right"> {{f_num::get($trasladosE->total)}} </td>
+        <td align="right"> {{f_num::get($trasladosR->total)}} </td>
         <td align="right"> {{f_num::get($informe_inversion_esperado)}} </td>
         <td align="right"> {{f_num::get($informe_inversion->total )}}</td>
-        <td align="right">{{f_num::get($diferencia_inversion)}}</td>
+        <td align="right"> {{f_num::get($diferencia_inversion)}} </td>
     </tr>
     <tr> <td colspan="8" height="50"></td> </tr>
     <tr>
@@ -99,6 +126,8 @@
         <td align="right"></td>
         <td align="right">Creditos</td>
         <td align="right">Abonos</td>
+        <td align="right">Devoluciones</td>
+        <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
         <td align="right"></td>
@@ -109,7 +138,8 @@
         <td align="right"> {{f_num::get($real_informe_cuentas_por_cobrar->real)}} </td>
         <td align="right"> {{f_num::get($creditosVentas->total)}} </td>
         <td align="right"> {{f_num::get($abonosVentas->total)}} </td>
-        <td align="right" colspan="2"></td>
+        <td align="right"> {{f_num::get($devolucionesSobreSaldo->total)}} </td>
+        <td align="right" colspan="3"></td>
         <td align="right"> {{f_num::get($informe_cuentas_por_cobrar_esperado)}} </td>
         <td align="right"> {{f_num::get($informe_cuentas_por_cobrar->total)}} </td>
         <td align="right"> {{f_num::get($diferencia_cobrar)}} </td>
@@ -120,7 +150,7 @@
         <td align="right"></td>
         <td align="right">Creditos</td>
         <td align="right">Abonos</td>
-        <td align="right" colspan="2"></td>
+        <td align="right" colspan="4"></td>
         <td align="right"></td>
         <td align="right"></td>
     </tr>
@@ -129,7 +159,7 @@
         <td align="right"> {{f_num::get($real_informe_cuentas_por_pagar->real)}} </td>
         <td align="right"> {{f_num::get($creditosCompras->total)}} </td>
         <td align="right"> {{f_num::get($abonosCompras->total)}} </td>
-        <td align="right" colspan="2"></td>
+        <td align="right" colspan="4"></td>
         <td align="right"> {{f_num::get($informe_cuentas_por_pagar_esperado) }} </td>
         <td align="right">{{f_num::get($informe_cuentas_por_pagar->total)}}</td>
         <td align="right">{{f_num::get($diferencia_pagar)}}</td>

@@ -218,15 +218,22 @@ class InformeGeneralController extends \BaseController {
         ->whereRaw("DATE(descargas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
-        $traslados = DB::table('traslados')
+        $trasladosE = DB::table('traslados')
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE(traslados.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
 
+        $trasladosR = DB::table('traslados')
+        ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
+        ->whereRaw("DATE(traslados.created_at) = CURDATE()")
+        ->whereRaw("recibido = 1")
+        ->first(array(DB::raw('sum(precio * cantidad) as total')))
+
         $real_informe_inversion = DB::table('informe_inversion')
         ->whereInformeGeneralId($informe_general_anterior->id)->first();
 
-        $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total) - ($ventas->total + $descargas->total)));
+        $informe_inversion_esperado =  floatval((($real_informe_inversion->real + $compras->total + $trasladosR->total) - ($ventas->total + $descargas->total + $trasladosE->total)));
+        
         $informe_inversion_real = floatval($informe_inversion->total);
         $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
 
