@@ -712,7 +712,6 @@
 
     Route::get('/test', function()
     {     
-
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
@@ -795,3 +794,4 @@
 
         return $contador;
     });
+ 

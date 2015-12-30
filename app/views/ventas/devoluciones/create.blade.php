@@ -98,7 +98,7 @@
                     }
                     msg.warning(data, 'Advertencia!')
                     $('button[type=submit]', form).prop('disabled', false)
-                })
+                }) 
 
                 e.preventDefault()
             },

@@ -10,7 +10,7 @@
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
 
         //inversion
-        $ventas = DB::table('ventas')
+        $ventas = DB::table('ventas') 
         ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
         ->whereRaw("DATE(ventas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));

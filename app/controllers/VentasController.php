@@ -25,7 +25,7 @@ class VentasController extends \BaseController {
 
 		return View::make('ventas.create');
 	}
-
+ 
 
 	public function detalle()
 	{

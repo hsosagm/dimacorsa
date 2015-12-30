@@ -18,7 +18,7 @@ class DevolucionesVentasController extends \BaseController {
 			"ventas.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre, users.apellido) as usuario",
 			"clientes.nombre as cliente",
-			"total",
+			"total", 
 			"saldo"
 		);
 
@@ -88,7 +88,7 @@ class DevolucionesVentasController extends \BaseController {
 		        'ganancias'   => $dv->ganancias
 	        )
         );
-    }
+    } 
 
     public function postDevolucionDetalle()
     {
@@ -147,7 +147,7 @@ class DevolucionesVentasController extends \BaseController {
         		$dt->serials = explode(',', $dt->serials);
         	}
         }
-
+ 
         return $detalle;
 	}
 
@@ -224,10 +224,7 @@ class DevolucionesVentasController extends \BaseController {
 		$detalleTable          = Input::get('detalleTable');
 
 		$devolucion = Devolucion::find($devolucion_id);
-		$devolucion->total = $totalDevolucion;
-		$devolucion->completed = 1;
-		$devolucion->save();
-
+		
 		foreach ($detalleTable as $dt)
 		{
 			if ($dt['serials'])
@@ -275,16 +272,19 @@ class DevolucionesVentasController extends \BaseController {
 				$nc->monto = $monto_a_devolver;
 				$nc->save();
 			}
-		}
+		} 
 
 		$devolucion_detalle = DevolucionDetalle::whereDevolucionId($devolucion_id)->get();
 
-		foreach ($devolucion_detalle as $key => $dd)
+		foreach ($devolucion_detalle as $dd)
 		{
-            $Existencia = Existencia::whereProductoId($dd->producto_id)->whereTiendaId($venta->tienda_id)->first();
-            $Existencia->existencia = $Existencia->existencia + $dd->cantidad;
-            $Existencia->save(); 
+            $this->recalcularPrecioCosto($dd);
 		}
+
+		
+		$devolucion->total = $totalDevolucion;
+		$devolucion->completed = 1;
+		$devolucion->save();
 
         if ($venta->total == $totalDevolucion)
         {
@@ -373,9 +373,11 @@ class DevolucionesVentasController extends \BaseController {
 	{
 		$detalle = $this->getDevolucionesDetalle();
  
-        return Response::json(array(             'success' => true,
-'table'   => View::make('ventas.devoluciones.DT_detalleDevolucion',
-compact('detalle'))->render()         ));      }
+        return Response::json(array(
+        	'success' => true,
+        	'table'   => View::make('ventas.devoluciones.DT_detalleDevolucion',compact('detalle'))->render())
+        );
+    }
 
 	public function openDevolucion()
 	{
@@ -486,4 +488,30 @@ compact('detalle'))->render()         ));      }
 		return $pdf->stream('Devolucion');
 	}
 
+	public function recalcularPrecioCosto($DevolucionDetalle)
+	{
+		$precioCostoDevolucionDetalle = ($DevolucionDetalle->precio - $DevolucionDetalle->ganancias) * 100;
+
+		$producto = Producto::find($DevolucionDetalle->producto_id);
+
+		$totalDetalle = $precioCostoDevolucionDetalle * $DevolucionDetalle->cantidad;
+		$totalInventario = $producto->existencia * $producto->p_costo;
+
+		$existenciaNueva = $DevolucionDetalle->cantidad + $producto->existencia;
+		$totalInventarioNuevo = $totalDetalle + $totalInventario;
+
+		$precioCostoNuevo = $totalInventarioNuevo / $existenciaNueva;
+
+		$producto->p_costo = $precioCostoNuevo;
+		$producto->save();
+
+		$existenciaTienda = Existencia::whereProductoId($DevolucionDetalle->producto_id)
+		->whereTiendaId(Auth::user()->tienda_id)->first();
+
+		$existenciaTienda->existencia += $DevolucionDetalle->cantidad;
+
+		$existenciaTienda->save();
+	}
+
 }
+	

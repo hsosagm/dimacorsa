@@ -233,7 +233,7 @@ class InformeGeneralController extends \BaseController {
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE(traslados.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
-
+ 
         $trasladosR = DB::table('traslados')
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE(traslados.created_at) = CURDATE()")

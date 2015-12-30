@@ -222,7 +222,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $kardex->kardex_transaccion_id = 5;
             $kardex->transaccion_id = $dt->devolucion_id;
             $kardex->evento = 'ingreso';
-            $kardex->cantidad = $dt->cantidad;
+            $kardex->cantidad = $dt->cantidad; 
             $kardex->existencia = $existencia->total;
             $kardex->exisntencia_tienda = $exisntencia_tienda->existencia;
             $kardex->costo = ($dt->precio - $dt->ganancias);
