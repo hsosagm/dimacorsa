@@ -713,8 +713,6 @@
     Route::get('/test', function()
     {     
 
-        $procesarInforme = new  InformeGeneralController;
-        $procesarInforme->procesarInformeDelDia();
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*
