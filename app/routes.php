@@ -776,7 +776,6 @@
     });
     */
 
-
     Route::get('clear', function()
     {
         $ventas = DB::table('ventas')->take(40000)->skip(0)->get(array('id'));

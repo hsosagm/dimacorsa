@@ -224,7 +224,7 @@ class DevolucionesVentasController extends \BaseController {
 		$detalleTable          = Input::get('detalleTable');
 
 		$devolucion = Devolucion::find($devolucion_id);
-		
+		 
 		foreach ($detalleTable as $dt)
 		{
 			if ($dt['serials'])
@@ -280,7 +280,6 @@ class DevolucionesVentasController extends \BaseController {
 		{
             $this->recalcularPrecioCosto($dd);
 		}
-
 		
 		$devolucion->total = $totalDevolucion;
 		$devolucion->completed = 1;

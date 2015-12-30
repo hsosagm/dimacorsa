@@ -676,7 +676,7 @@ class VentasController extends \BaseController {
         ));
 	}
 
-	public function recalcularPrecioCosto($detalle_venta_id, $detalleVenta = null)
+ 	public function recalcularPrecioCosto($detalle_venta_id, $detalleVenta = null)
 	{
 		if($detalleVenta == null)
 			$detalleVenta = DetalleVenta::find($detalle_venta_id);

@@ -230,7 +230,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $kardex->save();
         }
     }
-});
+}); 
 /*************************************************************************
     FIN DE EVENTOS PARA KARDEX
 *************************************************************************/
@@ -250,7 +250,7 @@ Entrust::routeNeedsRole( 'pos'         , array('Owner','Admin') , Redirect::to('
 Entrust::routeNeedsRole( 'owner/users' , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/user/*', array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 
-/**Propietario**/
+/**Propietario**/ 
 Entrust::routeNeedsRole( 'owner/chart/*'  , array('Owner') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/soporte/*', array('Owner') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/gastos/*' , array('Owner') , '<script>window.location.reload();</script>', false );
