@@ -139,6 +139,7 @@ class ProductoController extends Controller {
 
         $Join = 'JOIN marcas ON productos.marca_id = marcas.id  Join  existencias ON productos.id = existencias.producto_id ';
         $where = "tienda_id = ".Auth::user()->tienda_id;
+        // $where = "existencias.existencia > 0 AND existencias.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
     }

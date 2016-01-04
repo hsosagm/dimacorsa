@@ -794,3 +794,15 @@
 
         return $contador;
     });
+
+Route::get('exercise', function() {
+
+function welcome($names) {
+
+    return $names;
+
+}
+
+return welcome('Dayle', 'James', 'Andrea', 'Ben', 'Mateusz');
+
+});

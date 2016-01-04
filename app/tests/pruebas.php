@@ -1,5 +1,7 @@
 <?php
 
+echo get_class( Auth::getFacadeRoot() ); // echos Illuminate\Auth\AuthManager
+
 Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 
 $min = Carbon::createFromFormat('Y-m-d h:i:s', Soporte::first()->created_at);
