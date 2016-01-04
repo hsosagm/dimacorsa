@@ -729,21 +729,25 @@ class VentasController extends \BaseController {
 		if ( Input::get('values.cantidad') < 1 ) {
 			return 'La cantidad deve ser mayor a 0';
 		}
-		$this->recalcularPrecioCosto(Input::get('values.id'));
+		
+		$serarchCantidad = DetalleVenta::find(Input::get('values.id'));
 
-		$cantidad =  Input::get('values.cantidad');
+		$cantidad =  (Input::get('values.cantidad') - $serarchCantidad->cantidad);
 		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), $cantidad );
 
 		if ($nueva_existencia === false) {
 			return "La cantidad que esta ingresando es mayor a la existencia..";
 		}
 
+		$this->recalcularPrecioCosto(Input::get('values.id'));
+		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), Input::get('values.cantidad') );
+
 		$detalleVenta = DetalleVenta::find(Input::get('values.id'));
 		$producto = Producto::find(Input::get('values.producto_id'));
 
 		$ganancias = $detalleVenta->precio - ($producto->p_costo / 100);
 		$detalleVenta->ganancias = $ganancias;
-		$detalleVenta->cantidad = $cantidad;
+		$detalleVenta->cantidad = Input::get('values.cantidad');
 		$detalleVenta->save();
 
 		Existencia::where('producto_id', Input::get('values.producto_id'))
@@ -997,7 +1001,7 @@ class VentasController extends \BaseController {
 			'success' => true,
 			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas'))->render(),
         ));
-	}
+	} 
 
 	public function getActualizarPagosVentaFinalizada()
 	{

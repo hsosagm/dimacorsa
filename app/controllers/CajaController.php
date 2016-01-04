@@ -129,6 +129,26 @@ class CajaController extends \BaseController
         ));
     }
 
+    public function getEstadoDeCajas() {
+        $caja = Caja::whereTiendaId(Auth::user()->tienda_id)->get(array('id', 'nombre', 'user_id'));
+        $data = array();
+
+        foreach ($caja as $dt) 
+        {
+            $data[] = $this->detalleResumenDeActividadDeCajas($dt);
+        }
+
+        foreach ($data as $dt) 
+        {
+            if (floatval($dt['efectivo']) > 0 || floatval($dt['cheque']) > 0 || floatval($dt['tarjeta']) > 0 || floatval($dt['deposito']) > 0) 
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 	//funcion para ver los movimientos de caja desde la tabla cortes de caja
     public function getMovimientosDeCajaDt()
     {
@@ -303,7 +323,7 @@ class CajaController extends \BaseController
         $data = $this->resumen_movimientos($datos);
 
         $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo']
-		 - $data['gastos']['efectivo'] - $data['egresos']['efectivo'];
+		 - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion']['efectivo'];
 
         $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
 
@@ -430,9 +450,10 @@ class CajaController extends \BaseController
 
         $data = $this->resumen_movimientos($datos);
 
-	    $pdf = PDF::loadView('cajas.detalleMovimientos', compact('data', 'datos', 'cierre_caja'));
-
-	    return $pdf->stream('Caja');
+	    $pdf = PDF::loadView('cajas.detalleMovimientos', compact('data', 'datos', 'cierre_caja')); 
+        //$pdf->download("corete_caja_{$cierre_caja->fecha_inicial}__{$cierre_caja->fecha_final}_CajaId_{$cierre_caja->caja_id}.pdf");
+	    
+        return $pdf->stream('Caja');
 	}
 
 	public function resumenDeActividadActualDeCajas()

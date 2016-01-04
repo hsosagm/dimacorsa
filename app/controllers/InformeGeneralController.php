@@ -7,7 +7,7 @@ class InformeGeneralController extends \BaseController {
         return Response::json(array(
             'success'=> true,
             'table' => View::make('informes.tableInformeGeneral')->render()
-        ));
+        )); 
     }
 
     public function tableInformeGeneral_DT()
@@ -17,8 +17,8 @@ class InformeGeneralController extends \BaseController {
         $columns = array(
             "created_at as fecha",
             "diferencia_inversion as inversion",
-            "diferencia_cobrar as cobrar",
             "diferencia_pagar as pagar",
+            "diferencia_cobrar as cobrar",
         );
 
         $Search_columns = array("diferencia_inversion");

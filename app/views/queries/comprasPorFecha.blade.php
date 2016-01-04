@@ -9,7 +9,7 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-
+ 
         $('#example').dataTable({
 
             "language": {
@@ -31,10 +31,11 @@
             {"sClass": "widthS", "bVisible": false,                           "sTitle": "Completed",   "aTargets": [7]},
             {"sClass": "widthS icons center",   "sTitle": "",   "aTargets": [8],
                 "orderable": false,
-                "mRender": function() {
+                "mRender": function(data, type, full ) {
                    $v  = '<i class="fa fa-plus-square btn-link theme-c"  title="Ver detalle" onClick="showPurchasesDetail(this)"></i> ';
-                   $v += '<a href="javascript:void(0);" title="Abrir compra" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                   $v += '<a href="javascript:void(0);" title="Abrir compra" onclick="VerFacturaDeCompra(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px"></a>';
 
+                   $v += '<i title="Cambiar Pagos" onclick="getActualizarPagosCompraFinalizada(this, '+full.DT_RowId+')" class="fa fa-paypal fg-theme" style="padding-left:10px"></i>';
                     return  $v;
                 }
             }, 

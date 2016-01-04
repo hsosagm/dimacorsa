@@ -4,7 +4,7 @@
     Route::when('user/*' , 'auth');
     Route::when('admin/*', 'auth');
     Route::when('owner/*', 'auth');
-
+ 
     /******************************************************************************
     rutas para evitar los errores de las imagenes no encontradas
     ******************************************************************************/
@@ -13,7 +13,7 @@
     Route::get('/{img}.ico', function(){ return "";});
     Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
     /******************************************************************************/
-
+ 
     /******************************************************************************/
     //rutas para imprimr con el plugin qzprint
     Route::post('ImprimirGarantia'         , 'VentasController@ImprimirGarantia');
@@ -52,7 +52,7 @@
     Route::post('logIn', 'HomeController@validate_phone');
     Route::get('logout', 'HomeController@logout');
     Route::post('index', 'HomeController@validate');
-    
+
     Route::post('setCambiarDeUsuarioAutenticado', 'HomeController@setCambiarDeUsuarioAutenticado');
 
     Route::get('proveedor', function()

@@ -40,18 +40,14 @@ class SalesPaymentsController extends \BaseController {
 				{
 				    $monto = $monto - $venta->saldo;
 				    $detalleAbono->monto = $venta->saldo;
-					$venta->saldo = 0;
-				    $venta->abono = 1;
+                    DB::table('ventas')->whereId($venta->id)->update(array('saldo' => 0));
 				    $detalleAbono->save();
-				    $venta->save();
 				}
 				else
 				{
 					$detalleAbono->monto = $monto;
-					$venta->saldo = $venta->saldo - $monto;
-					$venta->abono = 1;
+                    DB::table('ventas')->whereId($venta->id)->update( array('saldo' => ($venta->saldo - $monto)) );
 					$detalleAbono->save();
-					$venta->save();
 
 			        $detalle = $this->BalanceDetails($abonos_ventas_id);
                     $comprobante = DB::table('printer')->select('impresora')
@@ -63,15 +59,16 @@ class SalesPaymentsController extends \BaseController {
 			        ));
 				}
 			}
-			    $detalle = $this->BalanceDetails($abonos_ventas_id);
+			
+            $detalle = $this->BalanceDetails($abonos_ventas_id);
 
-                $comprobante = DB::table('printer')->select('impresora')
-                ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+            $comprobante = DB::table('printer')->select('impresora')
+            ->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
-		        return Response::json(array(
-		            'success' => true,
-		            'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id', 'comprobante'))->render()
-		        ));
+		    return Response::json(array(
+		       'success' => true,
+		       'detalle' => View::make('ventas.payments.paymentsDetails', compact("detalle", 'abonos_ventas_id', 'comprobante'))->render()
+		    ));
 		}
 
 		$cliente_id = Input::get('cliente_id');
@@ -179,9 +176,7 @@ class SalesPaymentsController extends \BaseController {
                 return $detalle->errors();
             }
 
-			$venta->saldo = 0.00 ;
-            $venta->abono = 1 ;
-            $venta->save();
+            DB::table('ventas')->whereId($venta->id)->update(array('saldo'=>0.00));
         }
 
         $abono = AbonosVenta::find($abonos_ventas_id);
@@ -208,7 +203,7 @@ class SalesPaymentsController extends \BaseController {
 
         return $query;
     }
-
+ 
      //funcion para eliminar el abono
     public function eliminarAbonoVenta()
     {
@@ -217,8 +212,7 @@ class SalesPaymentsController extends \BaseController {
         foreach ($detalle as $dt)
         {
             $venta = Venta::find($dt->venta_id);
-            $venta->saldo = $venta->saldo + $dt->monto ;
-            $venta->save();
+            DB::table('ventas')->whereId($venta->id)->update( array('saldo'=>($venta->saldo + $dt->monto)) );   
         }
 
         AbonosVenta::destroy(Input::get('abonos_ventas_id'));

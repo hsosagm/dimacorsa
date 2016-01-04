@@ -25,7 +25,7 @@ function cierre() {
 			$('.modal-title').text('Cierre del Dia');
 			return $('.bs-modal').modal('show');
     	};
-    	return msg.error('El cierre ya ha sido realizado por' + " " + data.user, 'Error!');
+    	return msg.warning(data, 'Advertencia!');
 	});
 };
 

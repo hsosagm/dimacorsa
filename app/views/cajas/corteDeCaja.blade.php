@@ -167,6 +167,7 @@
                     return this.efectivo + this.cheque + this.tarjeta + this.deposito
                 }
             },
+            
             total_diferencia: {
                 get: function() {
                     return this.dif_efectivo + this.dif_cheque + this.dif_tarjeta + this.dif_deposito
@@ -209,7 +210,7 @@
                     success: function (data) {
                         if (data.success == true) {
                             msg.success('Corte de Caja realizado correctamente', 'Listo!');
-                            window.open('imprimirCorteCaja/'+data.id  ,'_blank');
+                            window.open('imprimirCorteCaja/'+data.id  ,'_blank'); 
                             return $('.bs-modal').modal('hide');
                         }
                         msg.warning(data, 'Advertencia!');

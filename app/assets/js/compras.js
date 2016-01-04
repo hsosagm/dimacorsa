@@ -530,7 +530,7 @@ function eliminarSerialsDetalleCompra(e, serie) {
     $(e).closest('tr').hide();
     $("#serialsDetalleCompra").focus();
 };
-
+ 
 function guardarSeriesDetalleCompra(e, detalle_compra_id) {
     $(e).prop("disabled", true);
     $.ajax({

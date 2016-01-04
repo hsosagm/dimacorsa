@@ -276,7 +276,7 @@ class CierreController extends \BaseController {
         $depositosDetalle['egresos'] = $depositosEgreso;
         $depositosDetalle['pagosCompras'] = $depositosPagosCompras;
         $depositosDetalle['abonosCompras'] = $depositoAbonosCompras;
-
+ 
         return $depositosDetalle;
     }
     /*fin consulta para todo lo que se hiso con deposito o cheque en el dia*/
@@ -323,13 +323,11 @@ class CierreController extends \BaseController {
                 $arreglo_ordenado['total'] = $arreglo_ordenado['total'] + $val->total;
         }
 
-        Venta::find(34362)->update(array('total' => 260,'saldo' => 260));
-
         return $arreglo_ordenado;
     }
 
     public function ExportarCierreDelMes($tipo,$fecha)
-    {
+    { 
         $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(total) as total')));
@@ -530,19 +528,23 @@ class CierreController extends \BaseController {
                 ));
         }
 
+        $cajas = new CajaController;
+        $cajaEstado = $cajas->getEstadoDeCajas();
+
+        if ($cajaEstado ==  false) {
+            return 'una de las cajas no tiene datos a "0"';
+        }
+
         $query = Cierre::where(DB::raw('DATE(created_at)'), '=', DATE('Y-m-d'))
         ->where('tienda_id', Auth::user()->tienda_id)
         ->first();
 
         if (count($query))
-            return Response::json(array(
-                'success' => false,
-                'user' => $query->user->nombre. " " . $query->user->apellido
-                ));
+            return 'El cierre ya ha sido realizado por '.$query->user->nombre. " " . $query->user->apellido;
 
         $data = $this->resumen_movimientos('current_date');
 
-        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
+        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'] - $data['devolucion']['efectivo'];
 
         $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
         $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];

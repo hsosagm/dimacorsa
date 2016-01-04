@@ -6,7 +6,7 @@ class BarCodeController extends \BaseController {
     {
         if (Input::has('_token'))
         {
-
+ 
             $estilo = BarCode::find(1);
 
             if ( $estilo->_update() )

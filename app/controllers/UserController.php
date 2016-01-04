@@ -56,11 +56,13 @@ class UserController extends Controller {
 	{
 		if (Input::has('_token'))
 		{
-			if ($this->user->_create())
+			$data = input::all();
+			$data['status'] = 2;
+
+			if ($this->user->_create($data))
 			{
 				$tema = new Tema;
 				$tema->user_id = $this->user->get_id();
-				$tema->status = 2;
 				$tema->save();
 
 				$role = EntrustRole::find(3);

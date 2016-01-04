@@ -474,7 +474,7 @@ function eliminarAbonoVentaDt(e, abonos_ventas_id) {
     });
 }
 
-function getActualizarPagosCompraFinalizada(e, venta_id) {
+function getActualizarPagosVentaFinalizada(e, venta_id) {
     $.ajax({
         url: "user/ventas/getActualizarPagosVentaFinalizada",
         type: "GET",
