@@ -95,7 +95,8 @@
     </tr>
     <tr>
         <td colspan="4" style="text-align:center">
-            - {{ $tienda->direccion }} -
+            - {{ $tienda->direccion }} - <br>
+            - Cotizacion valida por los proximos 10 dias -
         </td>
     </tr>
 </table
