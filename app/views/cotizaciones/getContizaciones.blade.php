@@ -14,8 +14,8 @@
 			},
 
             "aoColumnDefs": [
-				{"sClass": "width5",                                       "sTitle": "No.",          "aTargets": [0]},
-				{"sClass": "width20",                                       "sTitle": "Fecha",        "aTargets": [1]},
+				{"sClass": "",		                                        "sTitle": "No.",          "aTargets": [0]},
+				{"sClass": "width25",                                       "sTitle": "Fecha",        "aTargets": [1]},
 				{"sClass": "width25",                                       "sTitle": "Usuario",      "aTargets": [2]},
 				{"sClass": "width30",                                       "sTitle": "Cliente",      "aTargets": [3]},
 				{"sClass": "width10 right formato_precio",                  "sTitle": "Total",        "aTargets": [4]},
