@@ -133,7 +133,7 @@ class ConsultasCajaController extends \BaseController {
         if ($_table == 'soporte')
         	$table_s = $_table;
 
-			$table = "{$table_s}";
+		$table = "{$table_s}";
 
 		$columns = array(
 			"{$table_s}.id",
@@ -197,7 +197,6 @@ class ConsultasCajaController extends \BaseController {
 
 		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
 		$linkDetalle = "getDevolucionesDetail";
-
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
         return Response::json(array(

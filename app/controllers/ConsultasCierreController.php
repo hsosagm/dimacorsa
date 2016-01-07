@@ -4,25 +4,25 @@ class ConsultasCierreController extends \BaseController {
  
 	public function ConsultasPorMetodoDePago($model)
 	{ 
-		if($model == 'Ventas')
+		if(trim($model) == 'Ventas')
 			return $this->consultasPagos('venta', 'showSalesDetail', true);
 
-		if($model == 'PagosCompras')
+		if(trim($model) == 'PagosCompras')
 			return $this->consultasPagos('compra', 'showPurchasesDetail');
 
-		if ($model == 'AbonosVentas')
+		if (trim($model) == 'AbonosVentas')
 			return $this->consultasAbonos('ventas', 'verDetalleAbonosClietes');
 
-		if ($model == 'AbonosCompras')
+		if (trim($model) == 'AbonosCompras')
 			return $this->consultasAbonos('compras', 'showPaymentsDetail');
 
-		if (trim($model) == 'AdelantosNotasCreditos')
+		if (trim($model) == 'Adelantos')
 			return $this->consultasNotaCredito('adelanto');
 
 	    if (trim($model) == 'Devolucion')
 	    	return $this->consultasDevolucion('devolucion');
 
-		if ($model == 'Soporte' || $model == 'Adelantos' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
+		if ($model == 'Soporte' || $model == 'Ingresos' || $model == 'Egresos' || $model == 'Gastos' )
 			return $this->OperacionesConsultas(strtolower(rtrim($model, 's')));
 
 		else
@@ -33,9 +33,7 @@ class ConsultasCierreController extends \BaseController {
 	{
 
 		$fecha = json_decode(Input::get('fecha'));
-
 		$columna = '';
-
 		$table = "{$_table}s";
 
 		if($_table == "compra")
@@ -63,8 +61,8 @@ class ConsultasCierreController extends \BaseController {
 		else 
 			$Join .= "JOIN clientes ON (clientes.id = {$_table}s.cliente_id)";
 		
-		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
-		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
 		$where  = " {$_table}s.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND {$_table}s.completed =  1 ";
@@ -76,7 +74,6 @@ class ConsultasCierreController extends \BaseController {
 			$where .= " AND {$_table}s.abono = 0";
 
 		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
-
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
         return Response::json(array(
@@ -88,7 +85,6 @@ class ConsultasCierreController extends \BaseController {
 	public function consultasAbonos($_table , $linkDetalle)
 	{
 		$fecha = json_decode(Input::get('fecha'));
-
         $columna = '';
 		$table = "abonos_{$_table}";
 
@@ -115,8 +111,8 @@ class ConsultasCierreController extends \BaseController {
 		else
 			$Join .= "JOIN clientes ON (clientes.id = abonos_{$_table}.cliente_id)";
   
-		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
-		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
 		$where  = " abonos_{$_table}.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
@@ -124,12 +120,11 @@ class ConsultasCierreController extends \BaseController {
         $where .= " AND DATE_FORMAT(abonos_{$_table}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
 
 		$abonos = SST::get($table, $columns, $Search_columns, $Join, $where );
-
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
         return Response::json(array(
 			'success' => true,
-			'table' => View::make('cierre.consultas.ConsultasAbonosPorMetodoDePago', compact('abonos','metodo_pago','linkDetalle'))->render()
+			'table' => View::make('cierre.consultas.ConsultasAbonosPorMetodoDePago', compact('abonos', 'metodo_pago', 'linkDetalle'))->render()
         ));
 	}
  
@@ -157,8 +152,8 @@ class ConsultasCierreController extends \BaseController {
 		$Join .= "JOIN metodo_pago ON (detalle_{$table_s}.metodo_pago_id = metodo_pago.id) ";
 		$Join .= "JOIN users ON (users.id = {$table_s}.user_id) ";
 
-		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
-		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
 		$where  = " {$table_s}.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
@@ -166,7 +161,6 @@ class ConsultasCierreController extends \BaseController {
         $where .= " AND DATE_FORMAT({$table_s}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
 
 		$operaciones = SST::get($table, $columns, $Search_columns, $Join, $where );
-
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
         return Response::json(array(
@@ -178,7 +172,6 @@ class ConsultasCierreController extends \BaseController {
 	public function consultasNotaCredito($_table)
 	{
 		$fecha = json_decode(Input::get('fecha'));
-
         $table = 'notas_creditos';
 
 		$columns = array(
@@ -211,7 +204,6 @@ class ConsultasCierreController extends \BaseController {
 	public function consultasDevolucion($linkDetalle)
 	{
 		$fecha = json_decode(Input::get('fecha'));
-
         $table = "devoluciones";
  
 		$columns = array(
@@ -230,8 +222,8 @@ class ConsultasCierreController extends \BaseController {
 		$Join .= "JOIN users ON (users.id = devoluciones.user_id) ";
 		$Join .= "JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
   
-		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
-		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
 		$where  = " devoluciones.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
@@ -244,7 +236,7 @@ class ConsultasCierreController extends \BaseController {
 
         return Response::json(array(
 			'success' => true,
-			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos','metodo_pago','linkDetalle'))->render()
+			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos', 'metodo_pago', 'linkDetalle'))->render()
         ));
 	}
 
