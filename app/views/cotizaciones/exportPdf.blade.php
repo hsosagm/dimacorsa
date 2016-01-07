@@ -33,7 +33,7 @@
 </table>
 
 <br>
-<div style="height:705px">
+<div style="height:570px">
     <table width="100%">
         <tr style="background:rgba(199, 199, 199, 0.21);">
     		<td colspan="4" style="border-bottom:1px solid #444444; "></td>
@@ -74,32 +74,43 @@
     		<td colspan="4" style="border-bottom:1px solid #444444; "></td>
     	</tr>
         <br>
-		<tr style="height: 100px">
-			<td colspan="4" align="center" style="height: 100px">
-                @if(file_exists("images/firmas/".Auth::user()->id.".png"))
-                        <img src="images/firmas/{{Auth::user()->id}}.png" height="125"  style="border-bottom:1px solid #444444; "/> 
-                        <img src="images/firmas/sello.png" height="125"  style="border-bottom:1px solid #444444; "/>
-                @endif
+		<tr>
+			<td colspan="4" align="center">
+                - Cotización valida por 10 días, precios sujetos a cambio sin previo aviso, sujeto a disponibilidad de producto -
             </td>
     	</tr>
-         @if(!file_exists("images/firmas/".Auth::user()->id.".png"))
-            <tr>
-                <td colspan="4" align="center">_____________________________________________</td>
-            </tr>
-         @endif
-		<tr>
-			<td colspan="4" align="center"> {{ Auth::user()->nombre.' '.Auth::user()->apellido }} </td>
-    	</tr>
-		<tr>
-			<td colspan="4" align="center"> {{ Auth::user()->email }} </td>
-    	</tr>
+         
     </table>
 </div>
 <table width="100%">
     <tr>
+        <td width="30%"></td>
+        <td align="center" style="height: 100px; border-bottom:1px solid #444444;" width="40%">
+            @if(file_exists("images/firmas/".Auth::user()->id.".png"))
+                <img src="images/firmas/{{Auth::user()->id}}.png" height="125" /> 
+            @endif
+        </td>
+        <td align="center">
+            @if(file_exists("images/firmas/".Auth::user()->id.".png"))
+                <img src="images/firmas/sello.png" height="125"/>
+            @endif
+        </td>
+    </tr>
+    @if(!file_exists("images/firmas/".Auth::user()->id.".png"))
+        <tr>
+            <td colspan="4" align="center">_____________________________________________</td>
+        </tr>
+    @endif
+    <tr>
+        <td colspan="4" align="center"> {{ Auth::user()->nombre.' '.Auth::user()->apellido }} </td>
+    </tr>
+    <tr>
+        <td colspan="4" align="center"> {{ Auth::user()->email }} </td>
+    </tr>
+    <tr>
         <td colspan="4" style="text-align:center">
             - {{ $tienda->direccion }} Telefono: {{ $tienda->telefono }} - <br>
-            - Cotización valida por 10 días, precios sujetos a cambio sin previo aviso, sujeto a disponibilidad de producto -
+           
         </td>
     </tr>
 </table
