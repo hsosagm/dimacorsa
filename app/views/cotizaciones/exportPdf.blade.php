@@ -78,7 +78,7 @@
     	</tr>
 		<tr>
 			<td colspan="4" align="center">
-            <img src="/images/firmas/{{$Auth::user()->id}}">
+            <img src="/images/firmas/{{Auth::user()->id}}">
             ______________________________________________
             </td>
     	</tr>
