@@ -77,7 +77,10 @@
     		<td colspan="4" style="height: 100px"></td>
     	</tr>
 		<tr>
-			<td colspan="4" align="center">______________________________________________</td>
+			<td colspan="4" align="center">
+            <img src="/images/firmas/{{$Auth::user()->id}}">
+            ______________________________________________
+            </td>
     	</tr>
 		<tr>
 			<td colspan="4" align="center"> {{ Auth::user()->nombre.' '.Auth::user()->apellido }} </td>
