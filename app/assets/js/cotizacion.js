@@ -55,9 +55,11 @@ function  EliminarCotizacion(e, cotizacion_id) {
         }
     });
 };
-
+ 
 function convertirCotizacionAVenta(e, cotizacion_id) {
     $.confirm({
+        text: "esta seguro que desea convertir la cotizacion en venta?",
+        title: "Confirmacion",
         confirm: function() {
             $(e).prop('disabled', true);
             $.ajax({
