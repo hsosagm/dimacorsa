@@ -90,13 +90,9 @@
 <table width="100%">
     <tr>
         <td colspan="4" style="text-align:center">
-        {{ $tienda->nombre }}  - Telefono: {{ $tienda->telefono }}
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" style="text-align:center">
-            - {{ $tienda->direccion }} - <br>
-            - Cotizacion valida por los proximos 10 dias -
+            - {{ $tienda->direccion }} Telefono: {{ $tienda->telefono }} - <br>
+            - Cotización valida por 10 días, precios sujetos a cambio sin previo aviso, sujeto a disponibilidad de producto -
         </td>
     </tr>
 </table
+ 
