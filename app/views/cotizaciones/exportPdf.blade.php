@@ -75,15 +75,18 @@
     	</tr>
         <br>
 		<tr style="height: 100px">
-			<td colspan="4" align="center">
+			<td colspan="4" align="center" style="height: 100px">
                 @if(file_exists("images/firmas/".Auth::user()->id.".png"))
-                        <img src="images/firmas/{{Auth::user()->id}}.png" height="100"  style="border-bottom:1px solid #444444; "/> 
-                        <img src="images/firmas/sello.png" height="100"  style="border-bottom:1px solid #444444; "/>
-                @else
-                    ____________________________________________________
+                        <img src="images/firmas/{{Auth::user()->id}}.png" height="125"  style="border-bottom:1px solid #444444; "/> 
+                        <img src="images/firmas/sello.png" height="125"  style="border-bottom:1px solid #444444; "/>
                 @endif
             </td>
     	</tr>
+         @if(!file_exists("images/firmas/".Auth::user()->id.".png"))
+            <tr>
+                <td colspan="4" align="center">_____________________________________________</td>
+            </tr>
+         @endif
 		<tr>
 			<td colspan="4" align="center"> {{ Auth::user()->nombre.' '.Auth::user()->apellido }} </td>
     	</tr>
