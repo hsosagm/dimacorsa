@@ -361,6 +361,12 @@ class CotizacionController extends \BaseController {
 					$detalleVenta->cantidad = $dt->cantidad;
 					$detalleVenta->ganancias = $dt->precio - ($producto->p_costo / 100);
 					$detalleVenta->save();
+
+					$existencia = Existencia::whereTiendaId($cotizacion->tienda_id)
+					->whereProductoId($producto->id)->first();
+
+					$existencia->existencia -= $dt->cantidad;
+					$existencia->save();
 				}
 			}
 
