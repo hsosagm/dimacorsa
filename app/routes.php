@@ -801,19 +801,17 @@
 
         return $contador;
     });
-<<<<<<< HEAD
- 
-=======
+
 
 Route::get('exercise', function() {
 
-function welcome($names) {
+    function welcome($names) {
 
-    return $names;
+        return $names;
 
-}
+    }
 
-return welcome('Dayle', 'James', 'Andrea', 'Ben', 'Mateusz');
+    return welcome('Dayle', 'James', 'Andrea', 'Ben', 'Mateusz');
 
 });
->>>>>>> 46700b9e028633ef37f09ae36bb129c207c497e2
+
