@@ -11,10 +11,10 @@ class ConsultasCierreController extends \BaseController {
 			return $this->consultasPagos('compra', 'showPurchasesDetail');
 
 		if ($model == 'AbonosVentas')
-			return $this->consultasAbonos('ventas' , 'verDetalleAbonosClietes');
+			return $this->consultasAbonos('ventas', 'verDetalleAbonosClietes');
 
 		if ($model == 'AbonosCompras')
-			return $this->consultasAbonos('compras' , 'showPaymentsDetail');
+			return $this->consultasAbonos('compras', 'showPaymentsDetail');
 
 		if (trim($model) == 'AdelantosNotasCreditos')
 			return $this->consultasNotaCredito('adelanto');
@@ -31,11 +31,10 @@ class ConsultasCierreController extends \BaseController {
  
 	public function consultasPagos($_table, $linkDetalle, $columAbono = false)
 	{
-		$fecha = "'".Input::get('fecha')."'";
-		$columna = '';
 
-        if (Input::get('fecha') == 'current_date')
-            $fecha = 'current_date';
+		$fecha = json_decode(Input::get('fecha'));
+
+		$columna = '';
 
 		$table = "{$_table}s";
 
@@ -43,7 +42,7 @@ class ConsultasCierreController extends \BaseController {
 			$columna = 'proveedores.nombre';
 		else
 			$columna = "clientes.nombre ";
-
+ 
 		$columns = array(
 			"{$_table}s.id",
         	"{$_table}s.total as total",
@@ -61,14 +60,18 @@ class ConsultasCierreController extends \BaseController {
 
 		if($_table == "compra")
 			$Join .= "JOIN proveedores ON (proveedores.id = {$_table}s.proveedor_id)";
-		else
+		else 
 			$Join .= "JOIN clientes ON (clientes.id = {$_table}s.cliente_id)";
+		
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
 
 		$where  = " {$_table}s.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND {$_table}s.completed =  1 ";
-		$where .= " AND DATE_FORMAT({$_table}s.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
-
+		$where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
+        $where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
+ 
 		if ($columAbono == true)
 			$where .= " AND {$_table}s.abono = 0";
 
@@ -76,18 +79,15 @@ class ConsultasCierreController extends \BaseController {
 
 		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
 
-        return Response::json(array( 
+        return Response::json(array(
 			'success' => true,
-			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos','metodo_pago','linkDetalle'))->render()
+			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos', 'metodo_pago', 'linkDetalle'))->render()
         ));
 	}
 
 	public function consultasAbonos($_table , $linkDetalle)
 	{
-		$fecha = "'".Input::get('fecha')."'";
-
-        if (Input::get('fecha') == 'current_date')
-            $fecha = 'current_date';
+		$fecha = json_decode(Input::get('fecha'));
 
         $columna = '';
 		$table = "abonos_{$_table}";
@@ -104,8 +104,8 @@ class ConsultasCierreController extends \BaseController {
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "{$columna} as nombre_extra"
 		);
-
-		$Search_columns = array("users.nombre","users.apellido","abonos_{$_table}.created_at");
+ 
+		$Search_columns = array("users.nombre","users.apellido", "abonos_{$_table}.created_at");
 
 		$Join  = "JOIN metodo_pago ON (abonos_{$_table}.metodo_pago_id = metodo_pago.id) ";
 		$Join .= "JOIN users ON (users.id = abonos_{$_table}.user_id) ";
@@ -114,11 +114,14 @@ class ConsultasCierreController extends \BaseController {
 			$Join .= "JOIN proveedores ON (proveedores.id = abonos_{$_table}.proveedor_id)";
 		else
 			$Join .= "JOIN clientes ON (clientes.id = abonos_{$_table}.cliente_id)";
-
+  
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
 
 		$where  = " abonos_{$_table}.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND DATE_FORMAT(abonos_{$_table}.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
+		$where .= " AND DATE_FORMAT(abonos_{$_table}.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
+        $where .= " AND DATE_FORMAT(abonos_{$_table}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
 
 		$abonos = SST::get($table, $columns, $Search_columns, $Join, $where );
 
@@ -129,19 +132,16 @@ class ConsultasCierreController extends \BaseController {
 			'table' => View::make('cierre.consultas.ConsultasAbonosPorMetodoDePago', compact('abonos','metodo_pago','linkDetalle'))->render()
         ));
 	}
-
+ 
 	public function OperacionesConsultas($_table)
 	{
-		$fecha = "'".Input::get('fecha')."'";
+		$fecha = json_decode(Input::get('fecha'));
 		$table_s = "{$_table}s";
-
-        if (Input::get('fecha') == 'current_date')
-            $fecha = 'current_date';
 
         if ($_table == 'soporte')
         	$table_s = $_table;
 
-			$table = "{$table_s}";
+		$table = "{$table_s}";
 
 		$columns = array(
 			"{$table_s}.id",
@@ -151,15 +151,19 @@ class ConsultasCierreController extends \BaseController {
             "detalle_{$table_s}.descripcion as  descripcion"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","abonos_ventas.created_at");
+		$Search_columns = array("users.nombre", "users.apellido", "abonos_ventas.created_at");
 
 		$Join  = "JOIN detalle_{$table_s} ON ({$table_s}.id = detalle_{$table_s}.{$_table}_id) ";
 		$Join .= "JOIN metodo_pago ON (detalle_{$table_s}.metodo_pago_id = metodo_pago.id) ";
 		$Join .= "JOIN users ON (users.id = {$table_s}.user_id) ";
 
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
+
 		$where  = " {$table_s}.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND DATE_FORMAT({$table_s}.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
+		$where .= " AND DATE_FORMAT({$table_s}.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
+        $where .= " AND DATE_FORMAT({$table_s}.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
 
 		$operaciones = SST::get($table, $columns, $Search_columns, $Join, $where );
 
@@ -167,58 +171,13 @@ class ConsultasCierreController extends \BaseController {
 
         return Response::json(array(
 			'success' => true,
-			'table' => View::make('cierre.consultas.OperacionesPorMetodoDePago', compact('operaciones','metodo_pago'))->render()
+			'table' => View::make('cierre.consultas.OperacionesPorMetodoDePago', compact('operaciones', 'metodo_pago'))->render()
         ));
 	}
-
-	public function consultasDevolucion($_table)
-	{
-		$fecha = "'".Input::get('fecha')."'";
-		$columna = '';
-
-        if (Input::get('fecha') == 'current_date')
-            $fecha = 'current_date';
-
-		$table = "devoluciones";
- 
-		$columns = array(
-			"devoluciones.id",
-        	"devoluciones.total as total",
-        	"DATE_FORMAT(devoluciones.updated_at, '%Y-%m-%d') as fecha",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-            "clientes.nombre as nombre_extra",
-            "devoluciones_pagos.monto as pago"
-		);
-
-		$Search_columns = array("users.nombre","users.apellido", $columna);
-
-		$Join  = "JOIN devoluciones_pagos ON (devoluciones_pagos.devolucion_id = devoluciones.id) ";
-		$Join .= "JOIN metodo_pago ON (devoluciones_pagos.metodo_pago_id = metodo_pago.id) ";
-		$Join .= "JOIN users ON (users.id = devoluciones.user_id) ";
-		$Join .= "JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
-
-		$where  = " devoluciones.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND devoluciones.completed =  1 ";
-		$where .= " AND DATE_FORMAT(devoluciones.created_at, '%Y-%m-%d')= DATE_FORMAT(".$fecha." , '%Y-%m-%d')";
-		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
-
-		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
-		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
-		$linkDetalle = "getDevolucionesDetail";
- 
-        return Response::json(array( 
-			'success' => true,
-			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos','metodo_pago','linkDetalle'))->render()
-        ));
-	}
-
 
 	public function consultasNotaCredito($_table)
 	{
-		$fecha = "'".Input::get('fecha')."'";
-
-        if (Input::get('fecha') == 'current_date')
-            $fecha = 'current_date';
+		$fecha = json_decode(Input::get('fecha'));
 
         $table = 'notas_creditos';
 
@@ -230,7 +189,7 @@ class ConsultasCierreController extends \BaseController {
             "notas_creditos.nota as  descripcion"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","notas_creditos.created_at");
+		$Search_columns = array("users.nombre", "users.apellido", "notas_creditos.created_at");
 
 		$Join  = "JOIN {$_table}_nota_credito ON (notas_creditos.id = {$_table}_nota_credito.nota_credito_id) ";
 		$Join .= "JOIN metodo_pago ON ({$_table}_nota_credito.metodo_pago_id = metodo_pago.id) ";
@@ -245,7 +204,47 @@ class ConsultasCierreController extends \BaseController {
 
         return Response::json(array(
 			'success' => true,
-			'table' => View::make('cierre.consultas.notaCreditoPorMetodoDePago', compact('notasCreditos','metodo_pago'))->render()
+			'table' => View::make('cierre.consultas.notaCreditoPorMetodoDePago', compact('notasCreditos', 'metodo_pago'))->render()
+        ));
+	}
+
+	public function consultasDevolucion($linkDetalle)
+	{
+		$fecha = json_decode(Input::get('fecha'));
+
+        $table = "devoluciones";
+ 
+		$columns = array(
+			"devoluciones.id",
+        	"devoluciones.total as total",
+        	"DATE_FORMAT(devoluciones.updated_at, '%Y-%m-%d') as fecha",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "clientes.nombre as nombre_extra",
+            "devoluciones_pagos.monto as pago"
+		);
+ 
+		$Search_columns = array("users.nombre","users.apellido");
+
+		$Join  = "JOIN devoluciones_pagos ON (devoluciones_pagos.devolucion_id = devoluciones.id) ";
+		$Join .= "JOIN metodo_pago ON (devoluciones_pagos.metodo_pago_id = metodo_pago.id) ";
+		$Join .= "JOIN users ON (users.id = devoluciones.user_id) ";
+		$Join .= "JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
+  
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final:$fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial:$fecha_inicial = $fecha->fecha_inicial->date;
+
+		$where  = " devoluciones.tienda_id = ".Auth::user()->tienda_id;
+		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
+		$where .= " AND DATE_FORMAT(devoluciones.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
+        $where .= " AND DATE_FORMAT(devoluciones.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
+
+		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
+		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
+		$linkDetalle = "getDevolucionesDetail";
+
+        return Response::json(array(
+			'success' => true,
+			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos','metodo_pago','linkDetalle'))->render()
         ));
 	}
 

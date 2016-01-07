@@ -712,6 +712,14 @@
 
     Route::get('/test', function()
     {     
+
+        $d_ventas = DB::table('detalle_ventas')
+        ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(created_at) as mes, YEAR(created_at) as year"))
+        ->where( DB::raw('MONTH(created_at)'), '=', 1 )
+        ->groupBy('year')
+        ->get();
+
+        return $d_ventas;
         // $info = new InformeGeneralController;
         // return $info->procesarInformeDelDia();
         /*

@@ -8,7 +8,7 @@
 	    },
 
 	    methods: {
-
+ 
 	        reset: function() {
 	            graph_container.x = graph_container.x - 1;
 	        },
@@ -500,5 +500,5 @@
 <div v-show="x == 3" id="cierres_dt"></div>
 
 <script>
-	cierre_fecha_enviar='{{$fecha}}';
+	cierre_fecha_enviar='{{json_encode($datos)}}';
 </script>

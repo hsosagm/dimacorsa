@@ -10,7 +10,7 @@
             $('#iSearch').keyup(function(){
                 $('#example').dataTable().fnFilter( $(this).val() );
             })
-        }, 300);
+        }, 300); 
         $('#example').dataTable({
             "language": {
                 "lengthMenu": "Mostrar _MENU_ archivos por pagina",
@@ -27,7 +27,8 @@
                 {"sClass": "width10 icons center",                          "sTitle": "",            "aTargets": [4],
                     "orderable": false,
                     "mRender": function() {
-                        return '<i class="fa fa-plus-square btn-link theme-c" onClick="VerDetalleDelCierreDelDia(this)"></i><a href="javascript:void(0);" title="Imprimir Cierre" onclick="ExportarCierreDelDiaPdf(this)" class="fa fa-file-pdf-o font14" style="padding-left:15px"><a href="javascript:void(0);" title="Ver Cierre" onclick="viewCierreDelDia(this)" class="fa fa-search font14" style="padding-left:10px">';
+                        return '<i class="fa fa-plus-square btn-link theme-c" onClick="VerDetalleDelCierreDelDia(this)"></i><a href="javascript:void(0);" title="Ver Cierre" onclick="viewCierreDelDia(event)" class="fa fa-search font14" style="padding-left:10px">';
+                        //<a href="javascript:void(0);" title="Imprimir Cierre" onclick="ExportarCierreDelDiaPdf(this)" class="fa fa-file-pdf-o font14" style="padding-left:15px">
                     }
                 },
             ],
@@ -43,88 +44,87 @@
 
     });
 
-	var graph_container = new Vue({
+    var graph_container = new Vue({
 
-	    el: '#graph_container',
+        el: '#graph_container',
 
-	    data: {
-	        x: 1,
-	    },
+        data: {
+            x: 1,
+        },
 
-	    methods: {
+        methods: {
 
-	        reset: function() {
-	            graph_container.x = graph_container.x - 1;
-	        },
+            reset: function() {
+                graph_container.x = graph_container.x - 1;
+            },
+ 
+            close: function() {
+                $('#graph_container').hide();
+            },
 
-	        close: function() {
-	            $('#graph_container').hide();
-	        },
+            getAsignarInfoEnviar: function($v_model ,$v_metodo){
+                cierre_model= $v_model;
+                cierre_metodo_pago_id = $v_metodo;
+                graph_container.getCierreConsultasPorMetodoDePago(1 , null);
+            },
 
-	    	getAsignarInfoEnviar: function($v_model ,$v_metodo){
-	            cierre_model= $v_model;
-	            cierre_metodo_pago_id = $v_metodo;
-	            graph_container.getCierreConsultasPorMetodoDePago(1 , null);
-	        },
+            getCierreConsultasPorMetodoDePago: function(page , sSearch) {
+                $.ajax({
+                    type: 'GET',
+                    url: "admin/cierre/consultas/ConsultasPorMetodoDePago/"+cierre_model+"?page=" + page,
+                    data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar, grafica:"_graficas" },
+                    success: function (data) {
+                        if (data.success == true) {
+                            graph_container.x = 3;
+                            $('#cierres_dt').html(data.table);
+                        }
+                        else {
+                            msg.warning(data, 'Advertencia!');
+                        }
+                    }
+                });
+            },
 
-	        getCierreConsultasPorMetodoDePago: function(page , sSearch) {
-	            $.ajax({
-	                type: 'GET',
-	                url: "admin/cierre/consultas/ConsultasPorMetodoDePago/"+cierre_model+"?page=" + page,
-	                data: {sSearch: sSearch , metodo_pago_id : cierre_metodo_pago_id , fecha: cierre_fecha_enviar, grafica:"_graficas" },
-	                success: function (data) {
-	                    if (data.success == true) {
-	                        graph_container.x = 3;
-	                        $('#cierres_dt').html(data.table);
-	                    }
-	                    else {
-	                        msg.warning(data, 'Advertencia!');
-	                    }
-	                }
-	            });
-	        },
-
-            getCierresDelMes: function()
+            getCierresDelMes: function(e)
             {
                 $fecha = $('#start_hidden').val();
 
                 $.ajax({
-            		type: "GET",
-            		url: 'admin/cierre/CierresDelMes',
+                    type: "GET",
+                    url: 'admin/cierre/CierresDelMes',
                     data: { fecha: $fecha },
-            	}).done(function(data) {
+                }).done(function(data) {
                     if (data.success == true)
-            		{
-            			clean_panel();
-            			$('#graph_container').show();
-            			return $('#graph_container').html(data.view);
-            		}
-            		msg.warning(data, 'Advertencia!');
-            	});
+                    {
+                        clean_panel();
+                        $('#graph_container').show();
+                        return $('#graph_container').html(data.view);
+                    }
+                    msg.warning(data, 'Advertencia!');
+                });
             }
-	    }
-	});
+        }
+    });
 
    function graph_container_compile() {
-	    graph_container.$nextTick(function() {
-	        graph_container.$compile(graph_container.$el);
-	    });
-	}
+        graph_container.$nextTick(function() {
+            graph_container.$compile(graph_container.$el);
+        });
+    }
 
-	$(document).on('click', '.pagination_cierre_graficas a', function (e) {
+    $(document).on('click', '.pagination_cierre_graficas a', function (e) {
         e.preventDefault();
         var page = $(this).attr('href').split('page=')[1];
         graph_container.getCierreConsultasPorMetodoDePago(page , null);
     });
 
     function viewCierreDelDia(e) {
-        $fecha_completa = $(e).closest('tr').find("td").eq(3).html();
-        $fecha = $fecha_completa.substring(0, 10);
+        $id = $(e.target).closest('tr').attr('id');
 
         $.ajax({
             type: "GET",
             url: 'admin/cierre/getCierreDelDia',
-            data: { fecha:$fecha , grafica: true},
+            data: { cierre_id_dt:$id , grafica: true},
             success: function (data) {
                 graph_container.x = 2;
                 $('#cierres').html(data);
