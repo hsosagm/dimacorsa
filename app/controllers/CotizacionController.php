@@ -207,6 +207,7 @@ class CotizacionController extends \BaseController {
 		$table = 'cotizaciones';
 
 		$columns = array(
+			"cotizaciones.id as numero",
 			"cotizaciones.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"clientes.nombre as cliente",
@@ -227,6 +228,7 @@ class CotizacionController extends \BaseController {
 		$table = 'cotizaciones';
 
 		$columns = array(
+			"cotizaciones.id as numero",
 			"cotizaciones.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
 			"clientes.nombre as cliente",

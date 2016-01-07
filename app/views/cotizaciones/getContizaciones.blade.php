@@ -14,11 +14,12 @@
 			},
 
             "aoColumnDefs": [
-				{"sClass": "width20",                                       "sTitle": "Fecha",        "aTargets": [0]},
-				{"sClass": "width30",                                       "sTitle": "Usuario",      "aTargets": [1]},
-				{"sClass": "width30",                                       "sTitle": "Cliente",      "aTargets": [2]},
-				{"sClass": "width10 right formato_precio",                  "sTitle": "Total",        "aTargets": [3]},
-				{"sClass": "width10 center font14", "orderable": false,     "sTitle": "",             "aTargets": [4],
+				{"sClass": "width10",                                       "sTitle": "No.",          "aTargets": [0]},
+				{"sClass": "width20",                                       "sTitle": "Fecha",        "aTargets": [1]},
+				{"sClass": "width25",                                       "sTitle": "Usuario",      "aTargets": [2]},
+				{"sClass": "width25",                                       "sTitle": "Cliente",      "aTargets": [3]},
+				{"sClass": "width10 right formato_precio",                  "sTitle": "Total",        "aTargets": [4]},
+				{"sClass": "width10 center font14", "orderable": false,     "sTitle": "",             "aTargets": [5],
 					"mRender": function( data, type, full ) {
 						$v  = '<i title="Ver detalle" onclick="showDetalleCotizacion(this)" class="fa fa-plus-square"></i>';
                         $v += '<i title="Editar Cotizacion" onclick="EditarCotizacion(this, '+full.DT_RowId+')" class="fa fa-pencil fg-theme" style="padding-left:10px"></i>';
