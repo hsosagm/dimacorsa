@@ -73,13 +73,15 @@
         <tr>
     		<td colspan="4" style="border-bottom:1px solid #444444; "></td>
     	</tr>
-		<tr>
-    		<td colspan="4" style="height: 100px"></td>
-    	</tr>
-		<tr>
+        <br>
+		<tr style="height: 100px">
 			<td colspan="4" align="center">
-            <img src="/images/firmas/{{Auth::user()->id}}">
-            ______________________________________________
+                @if(file_exists("images/firmas/".Auth::user()->id.".png"))
+                        <img src="images/firmas/{{Auth::user()->id}}.png" height="100"  style="border-bottom:1px solid #444444; "/> 
+                        <img src="images/firmas/sello.png" height="100"  style="border-bottom:1px solid #444444; "/>
+                @else
+                    ____________________________________________________
+                @endif
             </td>
     	</tr>
 		<tr>
