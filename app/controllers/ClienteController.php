@@ -278,7 +278,7 @@ class ClienteController extends \BaseController {
             "ventas.id as idventa",
             "total",
             "saldo"
-            );
+        );
 
         $Search_columns = array("users.nombre","users.apellido","ventas.id");
 

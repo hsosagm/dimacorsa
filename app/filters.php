@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 Route::filter('cache', function($route, $request, $response, $age=60){
     $response->setTtl($age);
