@@ -222,7 +222,7 @@ class ChartController extends \BaseController {
     {
         $d_ventas = DB::table('detalle_ventas')
         ->join('ventas', 'ventas.id', '=', 'venta_id')
-        ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(created_at) as mes, YEAR(created_at) as year"))
+        ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(ventas.created_at) as mes, YEAR(ventas.created_at) as year"))
         ->where( DB::raw('MONTH(ventas.created_at)'), '=', $mes )
         ->whereTiendaId(Auth::user()->tienda_id)
         ->groupBy('year')
