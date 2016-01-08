@@ -26,7 +26,8 @@
                 <td width="10%">Totales</td>
             </tr>
 
-            <?php $total = 0;  $serials = "";?>
+            @php($total = 0)
+            @php($serials = "")
 
             @foreach($venta->detalle_venta as $key => $dt)
                 <tr>
@@ -41,9 +42,7 @@
                     <td colspan="3"><strong>S/N:</strong> {{ $dt->serials }}</td>
                 </tr>
                 @endif
-                <?php
-                    $total = $total +($dt->cantidad * $dt->precio);
-                ?>
+                @php($total = $total + ($dt->cantidad * $dt->precio))
             @endforeach
             <tr>
                 <td colspan="2"></td>
