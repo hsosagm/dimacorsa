@@ -15,6 +15,7 @@
         <tr>
             <td colspan="4"> Nombre: {{ @$venta->cliente->nombre.' '.@$venta->cliente->apellido }}</td>
         </tr>
+
     </table>
     <div style="height:550px;">
         <table width="100%" style="font-size:11px;">
@@ -34,21 +35,20 @@
                     <td align="right"> {{ f_num::get($dt->precio) }} </td>
                     <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>
                 </tr>
+                @if ($dt->serials != null)
+                <tr>
+                    <td></td>
+                    <td colspan="3"><strong>S/N:</strong> {{ $dt->serials }}</td>
+                </tr>
+                @endif
                 <?php
                     $total = $total +($dt->cantidad * $dt->precio);
-                    if ($dt->serials != null )
-                        $serials .= $dt->serials." , ";
                 ?>
             @endforeach
             <tr>
                 <td colspan="2"></td>
                 <td>Total:</td>
                 <td align="right"> {{f_num::get($total)}} </td>
-            </tr>
-
-            <tr>
-                <td>Series</td>
-                <td colspan="3">{{$serials}} </td>
             </tr>
         </table>
     </div>
