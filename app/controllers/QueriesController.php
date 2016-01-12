@@ -68,7 +68,14 @@ class QueriesController extends \BaseController {
 			"canceled"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","clientes.nombre","ventas.total",'ventas.created_at');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"clientes.nombre",
+			"ventas.total",
+			'ventas.created_at'
+		);
+
 		$where = "DATE_FORMAT(ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null)
@@ -139,10 +146,14 @@ class QueriesController extends \BaseController {
 		);
 
 		$Search_columns = array(
-			"users.nombre","users.apellido",
-			"numero_documento","proveedores.nombre",
-			'compras.fecha_documento','compras.created_at',
-			'compras.total');
+			"users.nombre",
+			"users.apellido",
+			"numero_documento",
+			"proveedores.nombre",
+			'compras.fecha_documento',
+			'compras.created_at',
+			'compras.total'
+		);
 
 		$where = "DATE_FORMAT(compras.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
@@ -213,7 +224,13 @@ class QueriesController extends \BaseController {
             "descargas.status as estado"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","descargas.id",'descargas.created_at');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"descargas.id",
+			"descargas.created_at"
+		);
+
 		$where = "DATE_FORMAT(descargas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null)
@@ -281,9 +298,15 @@ class QueriesController extends \BaseController {
             "metodo_pago.descripcion as metodo_descripcion"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion","detalle_egresos.descripcion",
-			'egresos.created_at','detalle_egresos.monto');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"metodo_pago.descripcion",
+			"detalle_egresos.descripcion",
+			'egresos.created_at','
+			detalle_egresos.monto'
+		);
+
 		$where = "DATE_FORMAT(detalle_egresos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null)
@@ -293,6 +316,7 @@ class QueriesController extends \BaseController {
 		}
 
 		$where .= " AND egresos.tienda_id = ".Auth::user()->tienda_id ;
+
 		$Join = "JOIN egresos ON (egresos.id = detalle_egresos.egreso_id)
         JOIN users ON (users.id = egresos.user_id)
         JOIN tiendas ON (tiendas.id = egresos.tienda_id)
@@ -353,9 +377,15 @@ class QueriesController extends \BaseController {
             "metodo_pago.descripcion as metodo_descripcion"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion","detalle_gastos.descripcion",
-			'gastos.created_at','detalle_gastos.monto');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"metodo_pago.descripcion",
+			"detalle_gastos.descripcion",
+			'gastos.created_at',
+			'detalle_gastos.monto'
+		);
+
 		$where = "DATE_FORMAT(detalle_gastos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
 		if ($fecha_inicial != null && $fecha_final != null)
@@ -425,9 +455,14 @@ class QueriesController extends \BaseController {
             "metodo_pago.descripcion as metodo_descripcion"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion","detalle_soporte.descripcion",
-			'soporte.created_at','detalle_soporte.monto');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"metodo_pago.descripcion",
+			"detalle_soporte.descripcion",
+			"soporte.created_at",
+			"detalle_soporte.monto"
+		);
 
 		$where = "DATE_FORMAT(detalle_soporte.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
@@ -494,8 +529,8 @@ class QueriesController extends \BaseController {
 			"notas_creditos.created_at as fecha",
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"clientes.nombre as cliente",
-         "notas_creditos.tipo as tipo",
-         "notas_creditos.monto as monto",
+         	"notas_creditos.tipo as tipo",
+         	"notas_creditos.monto as monto",
 			"notas_creditos.estado as estado"
 		);
 
@@ -576,9 +611,14 @@ class QueriesController extends \BaseController {
             "metodo_pago.descripcion as metodo_descripcion"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion","detalle_ingresos.descripcion",
-			'ingresos.created_at','detalle_ingresos.monto');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"metodo_pago.descripcion",
+			"detalle_ingresos.descripcion",
+			'ingresos.created_at',
+			'detalle_ingresos.monto'
+		);
 
 		$where = "DATE_FORMAT(detalle_ingresos.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
@@ -652,9 +692,14 @@ class QueriesController extends \BaseController {
             'abonos_compras.monto as total','observaciones'
 		);
 
-		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion",'proveedores.nombre',
-			'abonos_compras.created_at','abonos_compras.monto');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"metodo_pago.descripcion",
+			"proveedores.nombre",
+			"abonos_compras.created_at",
+			"abonos_compras.monto"
+		);
 
 		$where = "DATE_FORMAT(abonos_compras.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 
@@ -728,9 +773,14 @@ class QueriesController extends \BaseController {
             'monto','observaciones'
         );
 
-		$Search_columns = array("users.nombre","users.apellido",
-			"metodo_pago.descripcion", 'clientes.nombre',
-			 'abonos_ventas.created_at','abonos_ventas.monto');
+		$Search_columns = array(
+			"users.nombre",
+			"users.apellido",
+			"metodo_pago.descripcion",
+			"clientes.nombre",
+			"abonos_ventas.created_at",
+			"abonos_ventas.monto"
+		);
 
 		$where = "DATE_FORMAT(abonos_ventas.created_at, '{$formato}') = DATE_FORMAT(current_date, '{$formato}')";
 

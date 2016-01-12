@@ -541,63 +541,71 @@ class CompraController extends \BaseController {
 
 	public function getComprasPendientesPorProveedor()
 	{
-		$table = 'compras';
+		if (Input::has('dt')) 
+		{
+			$table = "compras";
 
-		$columns = array(
-			"compras.id as id_compra",
-			"compras.numero_documento as factura",
-			"compras.created_at as fecha_ingreso",
-			"compras.fecha_documento as fecha_documento",
-			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-			"compras.total as total",
-			"compras.saldo as saldo",
-			"DATEDIFF(current_date,fecha_documento) as dias"
-		);
+			$columns = array(
+				"compras.numero_documento as factura",
+				"compras.created_at as fecha_ingreso",
+				"compras.fecha_documento as fecha_documento",
+				"CONCAT_WS(' ', users.nombre, users.apellido) as usuario",
+				"compras.total as total",
+				"compras.saldo as saldo",
+				"DATEDIFF(current_date, fecha_documento) as dias"
+			);
 
-		$Search_columns = array("users.nombre","users.apellido","venta.created_at","compras.factura");
+			$Search_columns = array(
+				"users.nombre",
+				"users.apellido",
+				"compras.created_at",
+				"compras.numero_documento",
+				"compras.total",
+				"compras.saldo"
+			);
 
-		$Join = "JOIN users ON (users.id = compras.user_id) ";
+			$Join = "JOIN users ON (users.id = compras.user_id) ";
+			$where  = " compras.tienda_id = ".Auth::user()->tienda_id;
+			$where .= " AND compras.saldo > 0 ";
+			$where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
 
-		$where  = " compras.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND compras.saldo > 0 ";
-		$where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
+			return TableSearch::get($table, $columns, $Search_columns, $Join ,$where);
+		}
 
-		$detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
-		
 		return Response::json(array(
-			'success' => true,
-			'table'   => View::make('compras.getComprasPendientesPorProveedor', compact('detalle'))->render()
+			"success" => true,
+			"table"   => View::make("compras.getComprasPendientesPorProveedor")->render()
 		));
 	}
 
 	public function getCompraConDetalle()
 	{
-		$compra = Compra::with('detalle_compra','proveedor')->find(Input::get('compra_id'));
+		$compra = Compra::with("detalle_compra", "proveedor")->find(Input::get("compra_id"));
 
 		return Response::json(array(
-			'success' => true,
-			'table' => View::make('compras.getCompraConDetalle', compact('compra'))->render()
+			"success" => true,
+			"table" => View::make("compras.getCompraConDetalle", compact("compra"))->render()
 		));
 	}
 
 	public function ShowTableHistoryPayment()
 	{
-		return View::make('compras.HistorialDePagos');
+		return View::make("compras.HistorialDePagos");
 	}
 
 	public function HistorialDePagos()
 	{
-		$table = 'pagos_compras';
+		$table = "pagos_compras";
 
 		$columns = array(
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"pagos_compras.created_at as fecha",
 			"compras.numero_documento as factura",
 			"metodo_pago.descripcion as metodo_descripcion",
-			'monto'
+			"monto"
 		);
 
-		$Searchable = array("users.nombre","users.apellido","compras.numero_documento");
+		$Searchable = array("users.nombre", "users.apellido", "compras.numero_documento");
 
 		$Join = "
 		JOIN compras ON (compras.id = pagos_compras.compra_id)
@@ -627,18 +635,24 @@ class CompraController extends \BaseController {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
 			"metodo_pago.descripcion as metodo_descripcion",
-			'abonos_compras.monto as total','observaciones'
+			'abonos_compras.monto as total',
+			'observaciones'
 		);
 
-		$Searchable = array("users.nombre","users.apellido",);
+		$Searchable = array(
+			"users.nombre", 
+			"users.apellido", 
+			"observaciones", 
+			"metodo_pago.descripcion",
+			"abonos_compras.monto"
+		);
 
-		$Join = "
-		JOIN users ON (users.id = abonos_compras.user_id)
-		JOIN tiendas ON (tiendas.id = abonos_compras.tienda_id)
-		JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)";
-
+		$Join  = " JOIN users ON (users.id = abonos_compras.user_id)";
+		$Join .= " JOIN tiendas ON (tiendas.id = abonos_compras.tienda_id)";
+		$Join .= " JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)";
+		
 		$where = " proveedor_id = ".Input::get('proveedor_id');
-		$where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;
+		$where.= " AND abonos_compras.tienda_id = ".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
 	}

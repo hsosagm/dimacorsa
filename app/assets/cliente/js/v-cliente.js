@@ -432,35 +432,10 @@ var vm = new Vue({
 		DetalleVentasPendientesPorUsuario: function(e, id) {
 			vm.user_id_creditos = id;
 
-			e = e.target;
-
-			if ($(e).hasClass("hide_detail"))  {
-				$(e).removeClass('hide_detail');
-				$('.subtable').fadeOut('slow');
-			} 
-			else {
-				$('.hide_detail').removeClass('hide_detail');
-				if ( $( ".subtable" ).length ) {
-					$('.subtable').fadeOut('slow', function(){
-						vm.getDetalleVentasPendientesPorUsuario(e, 1 , null);
-					})
-				}
-				else 
-					vm.getDetalleVentasPendientesPorUsuario(e, 1 , null);
-			}
-		},
-
-		getDetalleVentasPendientesPorUsuario: function(e , page, sSearch) {
-			$('.subtable').remove();
-			var nTr = $(e).parents('tr')[0];
-			$(e).addClass('hide_detail');
-			$(nTr).after("<tr class='subtable'> <td colspan=6><div class='grid_detalle_factura'></div></td></tr>");
-			$('.subtable').addClass('hide_detail');
-
 			$.ajax({
 				type: "GET",
-				url: "user/ventas/getDetalleVentasPendientesPorUsuario?page=" + page,
-				data: {user_id: vm.user_id_creditos , sSearch:sSearch},
+				url: "user/ventas/getDetalleVentasPendientesPorUsuario",
+				data: { user_id: vm.user_id_creditos },
 			}).done(function(data) {
 				if (data.success == true) {
 					vm.cliente_id = 0;
@@ -468,50 +443,22 @@ var vm = new Vue({
 					vm.saldo_total   = '';
 					vm.saldo_vencido = '';
 					vm.historialPagos = data.data;
-					vm.proccesDataTable(data.table);
-					$(nTr).next('.subtable').fadeIn('slow');
+					$('#main_container').hide();
+					$('#main_container').html(data.table);
 					compile();
-					return $(e).addClass('hide_detail');
+					return $('#main_container').show();
 				}
 				msg.warning(data, 'Advertencia!');
 			});
 		},
-
-
 
 		VentasPendientesPorCliente: function(e, id) {
 			vm.cliente_id_creditos = id;
 
-			e = e.target;
-
-			if ($(e).hasClass("hide_detail"))  {
-				$(e).removeClass('hide_detail');
-				$('.subtable').fadeOut('slow');
-			} 
-			else {
-				$('.hide_detail').removeClass('hide_detail');
-				if ( $( ".subtable" ).length ) {
-					$('.subtable').fadeOut('slow', function(){
-						vm.getVentasPendientesPorCliente(e, 1 , null);
-					})
-				}
-				else 
-					vm.getVentasPendientesPorCliente(e, 1 , null);
-			}
-		},
-
-
-		getVentasPendientesPorCliente: function(e , page, sSearch) {
-			$('.subtable').remove();
-			var nTr = $(e).parents('tr')[0];
-			$(e).addClass('hide_detail');
-			$(nTr).after("<tr class='subtable'> <td colspan=6><div class='grid_detalle_factura'></div></td></tr>");
-			$('.subtable').addClass('hide_detail');
-
 			$.ajax({
 				type: "GET",
-				url: "user/ventas/getVentasPendientesPorCliente?page=" + page,
-				data: {cliente_id: vm.cliente_id_creditos , sSearch:sSearch},
+				url: "user/ventas/getVentasPendientesPorCliente",
+				data: { cliente_id: vm.cliente_id_creditos },
 			}).done(function(data) {
 				if (data.success == true) {
 					vm.cliente_id = 0;
@@ -519,51 +466,13 @@ var vm = new Vue({
 					vm.saldo_total   = '';
 					vm.saldo_vencido = '';
 					vm.historialPagos = data.data;
-					vm.proccesDataTable(data.table);
-					$(nTr).next('.subtable').fadeIn('slow');
+					$('#main_container').hide();
+					$('#main_container').html(data.table);
 					compile();
-					return $(e).addClass('hide_detail');
+					return $('#main_container').show();
+
+
 				}
-				msg.warning(data, 'Advertencia!');
-			});
-		},
-
-
-		getDetalleVentasPendientesPorUsuarioPaginacion: function(page , sSearch) {
-			$.ajax({
-				type: "GET",
-				url: "user/ventas/getDetalleVentasPendientesPorUsuario?page=" + page,
-				data: {user_id: vm.user_id_creditos , sSearch:sSearch},
-			}).done(function(data) {
-				if (data.success == true) {
-					vm.cliente_id = 0;
-					vm.infoCliente   = '';
-					vm.saldo_total   = '';
-					vm.saldo_vencido = '';
-					vm.historialPagos = data.data;
-					return vm.proccesDataTable(data.table);
-				}
-
-				msg.warning(data, 'Advertencia!');
-			});
-		},
-
-
-		getVentasPendientesPorClientePaginacion: function(page , sSearch) {
-			$.ajax({
-				type: "GET",
-				url: "user/ventas/getVentasPendientesPorCliente?page=" + page,
-				data: {cliente_id: vm.cliente_id_creditos , sSearch:sSearch},
-			}).done(function(data) {
-				if (data.success == true) {
-					vm.cliente_id = 0;
-					vm.infoCliente   = '';
-					vm.saldo_total   = '';
-					vm.saldo_vencido = '';
-					vm.historialPagos = data.data;
-					return vm.proccesDataTable(data.table);
-				}
-
 				msg.warning(data, 'Advertencia!');
 			});
 		},

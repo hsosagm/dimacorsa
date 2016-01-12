@@ -64,7 +64,9 @@
 			},
 		});
     });
+
 	var position = $(this).index('input');
+	
 	$("input, select").eq(position+1).select();
 	$('input[name="fecha_inicial"]').pickadate({ 
 		max: true,

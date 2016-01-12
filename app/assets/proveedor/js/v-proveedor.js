@@ -391,22 +391,20 @@ var vm = new Vue({
 
 		ComprasPendientesPorProveedor: function(e, id) {
 		    vm.proveedor_id_creditos = id;
-		    if ($(e.target).hasClass("hide_detail"))  {
-		        $(e.target).removeClass('hide_detail');
-		        $('.subtable').fadeOut('slow');
-		    } 
-		    else {
-		        $('.hide_detail').removeClass('hide_detail');
-
-		        if ( $( ".subtable" ).length ) {
-		            $('.subtable').fadeOut('slow', function(){
-		                vm.getComprasPendientesPorProveedor(e.target, 1 , null);
-		            })
-		        }
-		        else {
-		            vm.getComprasPendientesPorProveedor(e.target, 1 , null);
-		        }
-		    }
+		    
+		    $.ajax({
+				type: "GET",
+				url: "admin/compras/getComprasPendientesPorProveedor",
+				data: { proveedor_id: vm.proveedor_id_creditos },
+			}).done(function(data) {
+				if (data.success == true) {
+					$('#main_container').hide();
+					$('#main_container').html(data.table);
+					compile();
+					return $('#main_container').show();
+				}
+				msg.warning(data, 'Advertencia!');
+			});
 		},
 
 	 	getComprasPendientesPorProveedor: function(e , page , sSearch) {

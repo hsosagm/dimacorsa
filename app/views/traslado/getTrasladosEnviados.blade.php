@@ -14,9 +14,9 @@
                 {"sClass": "mod_codigo hover width15",                       "sTitle": "Usuario",    "aTargets": [1]},
                 {"sClass": "mod_codigo hover width30",                       "sTitle": "Tienda",     "aTargets": [2]},
                 {"sClass": "mod_codigo hover width25",                       "sTitle": "Nota",       "aTargets": [3]},
-                {"sClass": "mod_codigo hover width10 right",                 "sTitle": "Total",      "aTargets": [4]},
+                {"sClass": "mod_codigo hover width10 right formato_precio",  "sTitle": "Total",      "aTargets": [4]},
                 {"bVisible": false,                                                                  "aTargets": [5]},
-                {"sClass": "width10 icons center",                            "sTitle": "",          "aTargets": [6],
+                {"sClass": "width10 icons center",                           "sTitle": "",          "aTargets": [6],
                     "orderable": false,
                     "mRender": function( data, type, full) {
                         $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="verDetalleTraslado(this, 1)"></i>';
@@ -29,6 +29,9 @@
             "order": [[ 5, "asc" ],[ 0, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
+                $("td[class*='formato_precio']").each(function() {
+                    $(this).html(formato_precio($(this).html()));
+                });
             },
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
                 if ( aData[5] == 0) {
@@ -46,3 +49,4 @@
         });
     });
 </script>
+ 

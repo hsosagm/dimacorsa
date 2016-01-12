@@ -79,7 +79,7 @@
     <div class="panel-body-cierre no-padding" id="table " style="border-bottom: double;">
 		<table width="100%" id="table table-responsive">
 			<thead class="cierre_head">
-				<tr>
+				<tr> 
 					<th width="30%" style="text-align:center"> Descripcion </th>
 					<th width="10%" style="text-align:center"> Efectivo </th>
 					<th width="10%" style="text-align:center"> Credito</th>

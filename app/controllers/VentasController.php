@@ -25,7 +25,7 @@ class VentasController extends \BaseController {
 
 		return View::make('ventas.create');
 	}
- 
+  
 
 	public function detalle()
 	{
@@ -906,64 +906,62 @@ class VentasController extends \BaseController {
 
 	public function getDetalleVentasPendientesPorUsuario()
 	{
-		$table = 'ventas';
+		if (Input::has('dt')) 
+		{
+			$table = 'ventas';
 
-        $columns = array(
-            "ventas.id as id_compra",
-            "ventas.created_at as fecha_ingreso",
-            "clientes.nombre as usuario",
-            "ventas.total as total",
-            "ventas.saldo as saldo",
-            "DATEDIFF(current_date,ventas.created_at) as dias"
-        );
+	        $columns = array(
+	            "ventas.created_at as fecha_ingreso",
+	            "clientes.nombre as cliente",
+	            "ventas.total as total",
+	            "ventas.saldo as saldo",
+	            "DATEDIFF(current_date,ventas.created_at) as dias"
+	        );
 
-        $Search_columns = array("users.nombre","users.apellido","venta.created_at","ventas.total" ,"ventas.saldo");
+	        $Search_columns = array("clientes.nombre","ventas.created_at","ventas.total" ,"ventas.saldo");
 
-        $Join = "JOIN clientes ON (clientes.id = ventas.cliente_id) ";
+	        $Join = "JOIN clientes ON (clientes.id = ventas.cliente_id) ";
 
-        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
-        $where  = " ventas.saldo > 0 ";
-        $where .= " AND ventas.user_id = ".Input::get('user_id');
+	        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
+	        $where  = " ventas.saldo > 0 ";
+	        $where .= " AND ventas.user_id = ".Input::get('user_id');
 
-        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
-
-        $id_pagination = 'pagination_ventas_por_usuario';
-
+			return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+		}
+		
         return Response::json(array(
             'success' => true,
-            'table'   => View::make('ventas.getVentasPendientesPorCliente', compact('detalle', 'id_pagination'))->render()
+            'table'   => View::make('ventas.getVentasPendientesPorUsuario')->render()
         ));
 
 	}
 
 	public function getVentasPendientesPorCliente()
 	{
-		$table = 'ventas';
+		if (Input::has('dt')) 
+		{
+			$table = 'ventas';
 
-        $columns = array(
-            "ventas.id as id_compra",
-            "ventas.created_at as fecha_ingreso",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-            "ventas.total as total",
-            "ventas.saldo as saldo",
-            "DATEDIFF(current_date,ventas.created_at) as dias"
-        );
+			$columns = array(
+				"ventas.created_at as fecha",
+				"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+				"total",
+				"saldo",
+				"DATEDIFF(current_date,ventas.created_at) as dias"
+			);
 
-        $Search_columns = array("users.nombre","users.apellido","venta.created_at","ventas.total" ,"ventas.saldo");
+			$Search_columns = array("users.nombre","users.apellido","ventas.total",'ventas.created_at');
+			$where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
+			$where .= " AND ventas.saldo > 0 AND ventas.cliente_id = ".Input::get('cliente_id');
+			$Join = " JOIN users ON (users.id = ventas.user_id) ";
 
-        $Join = "JOIN users ON (users.id = ventas.user_id) ";
+			return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 
-        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
-        $where  = " ventas.saldo > 0 ";
-        $where .= " AND ventas.cliente_id = ".Input::get('cliente_id');
-
-        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
-
-        $id_pagination = 'pagination_ventas_por_cliente';
+		}
 
         return Response::json(array(
             'success' => true,
-            'table'   => View::make('ventas.getVentasPendientesPorCliente', compact('detalle', 'id_pagination'))->render()
+            'table'   => View::make('ventas.getVentasPendientesPorCliente')->render()
         ));
 
 	}
@@ -997,9 +995,11 @@ class VentasController extends \BaseController {
             ->groupBy('users.id','users.nombre','users.apellido')
             ->get();
 
+        $cliente = "Usuario";
+
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas'))->render(),
+			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas', 'cliente'))->render(),
         ));
 	} 
 

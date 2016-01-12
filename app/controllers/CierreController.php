@@ -51,8 +51,9 @@ class CierreController extends \BaseController {
 
     public function enviarCorreoPDF($cierre_id)
     {
+        $cierre = Cierre::find($cierre_id);
         $dt = Carbon::now();
-        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
+        $fecha_titulo  = "CIERRE DIARIO DE {$cierre->fecha_inicia} AL {$cierre->fecha_final}";
         $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
 
         $tienda = Tienda::find(Auth::user()->tienda_id);
@@ -61,9 +62,11 @@ class CierreController extends \BaseController {
         $titulo ['tienda'] = $tienda_titulo;
         $titulo ['fecha']  = $fecha_titulo;
 
-        $fecha = 'current_date';
-        $data = $this->resumen_movimientos($fecha);
-        $dataDetalle = $this->resumenMovimientosDetallado($fecha);
+        $datos['fecha_inicial'] = $cierre->fecha_inicial;
+        $datos['fecha_final']   = $cierre->fecha_final;
+
+        $data = $this->resumen_movimientos($datos);
+        $dataDetalle = $this->resumenMovimientosDetallado($datos);
         $corte_realizado = Cierre::with('user')->find($cierre_id);
         $emails = array();
 
@@ -75,11 +78,11 @@ class CierreController extends \BaseController {
         }
 
         Mail::queue('emails.mensaje', array('asunto' => 'Cierre del Dia'), function($message)
-        use($fecha, $data, $dataDetalle, $corte_realizado, $emails, $titulo, $tienda_titulo)
+        use($datos, $data, $dataDetalle, $corte_realizado, $emails, $titulo, $tienda_titulo)
         {
             $pdf = PDF::loadView('cierre.ExportarCierreDelDia',  array(
                 'data' => $data,
-                'fecha' => $fecha,
+                'datos' => $datos,
                 'dataDetalle' => $dataDetalle ,
                 'corte_realizado' => $corte_realizado,
                 'titulo' => $titulo
@@ -544,11 +547,12 @@ class CierreController extends \BaseController {
             {
                 return $cierre->errors();
             }
-            //$this->enviarCorreoPDF($cierre->get_id());
+            $this->enviarCorreoPDF($cierre->get_id());
+            
             return Response::json(array(
                 'success' => true ,
                 'id' => $cierre->get_id()
-                ));
+            ));
         }
 
         $cajas = new CajaController;
@@ -564,7 +568,7 @@ class CierreController extends \BaseController {
 
         $data = $this->resumen_movimientos($datos);
 
-        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'];
+        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'] - $data['devolucion']['efectivo'];
 
         $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
         $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];

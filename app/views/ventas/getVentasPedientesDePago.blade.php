@@ -25,7 +25,6 @@
                     <th>Operaciones</th>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach($ventas as $q)
                     <tr id="{{$q->cliente_id}}" class="{{($q->saldo_vencido > 0)? 'red':''}}">
@@ -44,7 +43,6 @@
                     </tr>
                 @endforeach
             </tbody>
-
         </table>
     </div>
-</div>
+</div> 

@@ -7,11 +7,8 @@
 <table class="dt-table table-striped table-theme" id="example"></table>
 
 <script type="text/javascript">
-
     $(document).ready(function() {
-
         $('#example').dataTable({
-
             "language": {
                 "lengthMenu": "Mostrar _MENU_ archivos por pagina",
                 "zeroRecords": "No se encontro ningun archivo",
@@ -19,56 +16,53 @@
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
-
             "aoColumnDefs": [
-            {"sClass": "mod_codigo hover width20",                      "sTitle": "Fecha",       "aTargets": [0]},
-            {"sClass": "mod_codigo hover width30",                      "sTitle": "Usuario",     "aTargets": [1]},
-            {"sClass": "mod_codigo hover width30",                      "sTitle": "Cliente",     "aTargets": [2]},
-            {"sClass": "mod_codigo hover right width5 ", 				        "sTitle": "tipo",        "aTargets": [3]},
-            {"sClass": "mod_codigo hover width5 formato_precio right",  "sTitle": "Monto.",      "aTargets": [4]},
-			      {"sClass": "widthS", "bVisible": false,                     "sTitle": "estado",      "aTargets": [5]},
-            {"sClass": "width5 icons center",                           "sTitle": "",            "aTargets": [6],
-                "orderable": false,
-                "mRender": function(data, type, full) {
-                    return ' <i class="fa fa-trash-o icon-delete" title="Eliminar" onclick="eliminarNotaDeCredito(this,'+full.DT_RowId+')"></i> ';
-                }
+                {"sClass": "mod_codigo hover width20",                      "sTitle": "Fecha",       "aTargets": [0]},
+                {"sClass": "mod_codigo hover width30",                      "sTitle": "Usuario",     "aTargets": [1]},
+                {"sClass": "mod_codigo hover width30",                      "sTitle": "Cliente",     "aTargets": [2]},
+                {"sClass": "mod_codigo hover right width5 ", 				        "sTitle": "tipo",        "aTargets": [3]},
+                {"sClass": "mod_codigo hover width5 formato_precio right",  "sTitle": "Monto.",      "aTargets": [4]},
+    			{"sClass": "widthS", "bVisible": false,                     "sTitle": "estado",      "aTargets": [5]},
+                {"sClass": "width5 icons center",                           "sTitle": "",            "aTargets": [6],
+                    "orderable": false,
+                    "mRender": function(data, type, full) {
+                        return ' <i class="fa fa-trash-o icon-delete" title="Eliminar" onclick="eliminarNotaDeCredito(this,'+full.DT_RowId+')"></i> ';
+                    }
+                },
+            ],
+            "fnDrawCallback": function( oSettings ) {
+                $( ".DTTT" ).html("");
+                $("td[class*='formato_precio']").each(function() {
+                    $(this).html(formato_precio($(this).html()));
+                });
             },
-        ],
-        "fnDrawCallback": function( oSettings ) {
-            $( ".DTTT" ).html("");
-            $("td[class*='formato_precio']").each(function() {
-                $(this).html(formato_precio($(this).html()));
-            });
-        },
-		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-			if ( aData[5] == 0){
-				jQuery(nRow).addClass('blue');
-			}
-		},
-        "bJQueryUI": false,
-        "bProcessing": true,
-        "bServerSide": true,
-        "sAjaxSource": "admin/queries/DtNotasDeCreditoPorFecha/{{$consulta}}",
-        "fnServerParams": function (aoData) {
-           aoData.push({ "name": "fecha_inicial", "value": "{{$fecha_inicial}}" });
-           aoData.push({ "name": "fecha_final",  "value": "{{$fecha_final}}" });
-       },
-   });
+    		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+    			if ( aData[5] == 0){
+    				jQuery(nRow).addClass('blue');
+    			}
+    		},
+            "bJQueryUI": false,
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "admin/queries/DtNotasDeCreditoPorFecha/{{$consulta}}",
+            "fnServerParams": function (aoData) {
+               aoData.push({ "name": "fecha_inicial", "value": "{{$fecha_inicial}}" });
+               aoData.push({ "name": "fecha_final",  "value": "{{$fecha_final}}" });
+           },
+       });
+    });
 
-});
+    $('input[name="fecha_inicial"]').pickadate({
+      max: true,
+      selectYears: true,
+      selectMonths: true
+    });
 
-$('input[name="fecha_inicial"]').pickadate({
-  max: true,
-  selectYears: true,
-  selectMonths: true
-});
+    $('input[name="fecha_final"]').pickadate({
+      max: true,
+      selectYears: true,
+      selectMonths: true
+    });
 
-$('input[name="fecha_final"]').pickadate({
-  max: true,
-  selectYears: true,
-  selectMonths: true
-});
-
-$('[data-action=collapse_head]').find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
-
+    $('[data-action=collapse_head]').find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
 </script>
