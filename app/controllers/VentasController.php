@@ -904,7 +904,7 @@ class VentasController extends \BaseController {
         ));
 	}
 
-	public function getDetalleVentasPendientesPorUsuario()
+	public function getDetalleVentasPendientesPorUsuario() 
 	{
 		if (Input::has('dt')) 
 		{
@@ -916,7 +916,7 @@ class VentasController extends \BaseController {
 	            "ventas.total as total",
 	            "ventas.saldo as saldo",
 	            "DATEDIFF(current_date,ventas.created_at) as dias"
-	        );
+	        ); 
 
 	        $Search_columns = array("clientes.nombre","ventas.created_at","ventas.total" ,"ventas.saldo");
 

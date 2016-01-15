@@ -359,6 +359,7 @@ class CompraController extends \BaseController {
 		$detalle = DB::table('detalle_abonos_compra')
 		->select(
 			'compra_id',
+			'numero_documento',
 			'total',
 			'monto',
 			DB::raw('detalle_abonos_compra.created_at as fecha')

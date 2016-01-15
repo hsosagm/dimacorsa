@@ -3,7 +3,7 @@
 class ConsultasCajaController extends \BaseController {
 
 	public function ConsultasPorMetodoDePago($model)
-	{
+	{ 
 		if(trim($model) == 'Ventas')
 			return $this->consultasPagos('venta', 'showSalesDetail', true);
 
@@ -180,7 +180,7 @@ class ConsultasCajaController extends \BaseController {
             "clientes.nombre as nombre_extra",
             "devoluciones_pagos.monto as pago"
 		);
-
+ 
 		$Search_columns = array("users.nombre","users.apellido");
 
 		$Join  = "JOIN devoluciones_pagos ON (devoluciones_pagos.devolucion_id = devoluciones.id) ";

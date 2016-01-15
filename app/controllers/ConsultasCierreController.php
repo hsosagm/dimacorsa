@@ -65,9 +65,9 @@ class ConsultasCierreController extends \BaseController {
 		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
 		$where  = " {$_table}s.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND {$_table}s.completed =  1 ";
+		$where .= " AND {$_table}s.completed = 1";
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
-		$where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
+		$where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') > DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
         $where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
  
 		if ($columAbono == true)
@@ -103,13 +103,13 @@ class ConsultasCierreController extends \BaseController {
  
 		$Search_columns = array("users.nombre","users.apellido", "abonos_{$_table}.created_at");
 
-		$Join  = "JOIN metodo_pago ON (abonos_{$_table}.metodo_pago_id = metodo_pago.id) ";
-		$Join .= "JOIN users ON (users.id = abonos_{$_table}.user_id) ";
+		$Join  = " JOIN metodo_pago ON (abonos_{$_table}.metodo_pago_id = metodo_pago.id)";
+		$Join .= " JOIN users ON (users.id = abonos_{$_table}.user_id)";
 
 		if($_table == "compras")
-			$Join .= "JOIN proveedores ON (proveedores.id = abonos_{$_table}.proveedor_id)";
+			$Join .= " JOIN proveedores ON (proveedores.id = abonos_{$_table}.proveedor_id)";
 		else
-			$Join .= "JOIN clientes ON (clientes.id = abonos_{$_table}.cliente_id)";
+			$Join .= " JOIN clientes ON (clientes.id = abonos_{$_table}.cliente_id)";
   
 		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
 		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
@@ -215,12 +215,15 @@ class ConsultasCierreController extends \BaseController {
             "devoluciones_pagos.monto as pago"
 		);
  
-		$Search_columns = array("users.nombre","users.apellido");
+		$Search_columns = array(
+			"users.nombre",
+			 "users.apellido"
+		);
 
-		$Join  = "JOIN devoluciones_pagos ON (devoluciones_pagos.devolucion_id = devoluciones.id) ";
-		$Join .= "JOIN metodo_pago ON (devoluciones_pagos.metodo_pago_id = metodo_pago.id) ";
-		$Join .= "JOIN users ON (users.id = devoluciones.user_id) ";
-		$Join .= "JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
+		$Join  = " JOIN devoluciones_pagos ON (devoluciones_pagos.devolucion_id = devoluciones.id)";
+		$Join .= " JOIN metodo_pago ON (devoluciones_pagos.metodo_pago_id = metodo_pago.id)";
+		$Join .= " JOIN users ON (users.id = devoluciones.user_id)";
+		$Join .= " JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
   
 		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
 		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;

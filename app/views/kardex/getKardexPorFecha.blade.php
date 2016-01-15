@@ -38,7 +38,7 @@
             <td style="font-size: 14px; color:#1b7be2;" colspan="7" class="dataTables_empty">Cargando datos del servidor...</td>
         </tr>
     </tbody>
-</table>
+</table> 
 <script type="text/javascript">
 
     $("#iSearch").val("");

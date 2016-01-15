@@ -1,7 +1,7 @@
 <table class="DT_table_div" width="100%">
 
     <tr class="DT_table_div_detail">
-        	<td align="center">No. Compra</td>
+        	<td align="center">No. Documento</td>
 			<td align="center">Total</td>
 			<td align="center">Monto Abonado </td>
 			<td align="center">Saldo Anterior</td>
@@ -29,7 +29,7 @@
 		        $saldo = f_num::get(($saldo_ant - $dt->monto));
 	        ?>
 		<tr>
-			<td>{{$dt->compra_id}}</td>
+			<td>{{$dt->numero_documento}}</td>
 			<td class="right">{{$total}}</td>
 			<td class="right">{{$monto}}</td>
 			<td class="right">{{$saldo_anterior}}</td>

@@ -51,7 +51,7 @@ Route::filter('csrf', function()
 *************************************************************************/
 Event::listen('eloquent.updated: Compra', function(Compra $model){
     if ($model->completed == 1 && $model->kardex == 0)
-    {
+    { 
         $compra = Compra::find($model->id);
         $compra->kardex = 1 ;
         $compra->save();

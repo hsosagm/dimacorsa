@@ -1,7 +1,7 @@
 <?php
 
 class CajaController extends \BaseController
-{
+{ 
 	//funcion para crear cajas pero antes de crear verificar si la tienda ya creo las cantidad de cajas disponibles
 	public function create()
     {
@@ -127,7 +127,7 @@ class CajaController extends \BaseController
             'success' => true,
             'view' => View::make('cajas.movimientosDeCaja', compact('data','datos'))->render()
         ));
-    }
+    } 
 
     public function getEstadoDeCajas() {
         $caja = Caja::whereTiendaId(Auth::user()->tienda_id)->get(array('id', 'nombre', 'user_id'));

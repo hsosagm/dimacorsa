@@ -17,7 +17,7 @@
 	        </tr>
 	    </tbody>
 	</table>
-</div>
+</div> 
 
 <script type="text/javascript">
     $("#iSearch").val("");
