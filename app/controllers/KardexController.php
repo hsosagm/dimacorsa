@@ -47,25 +47,37 @@ class KardexController extends \BaseController {
     *******************************************************************/
     public function exportarKardex($tipo)
     {
+        $existencia = "existencia";
+
+        if (Input::get('tienda_id') > 0) 
+            $existencia .= "_tienda";
+
         $kardex = DB::table('kardex')
         ->select("kardex.created_at as fecha",
             DB::raw("CONCAT_WS(' / ',tiendas.nombre,users.nombre) as usuario"),
             DB::raw("kardex_transaccion.nombre as transaccion"),
-            "evento","cantidad", "existencia", "costo", "costo_promedio",
+            "evento",
+            "cantidad",
+            "{$existencia} as existencia",
+            "costo",
+            "costo_promedio",
             DB::raw("(costo * cantidad) as total_movimiento"),
-            DB::raw("(costo_promedio * existencia) as total_acumulado"))
+            DB::raw("(costo_promedio * {$existencia}) as total_acumulado"))
         ->join('users','users.id','=','kardex.user_id')
 		->join('tiendas','tiendas.id','=','kardex.tienda_id')
         ->join('kardex_transaccion','kardex_transaccion.id','=','kardex.kardex_transaccion_id')
         ->where('producto_id','=',Input::get('producto_id'))
         ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') >= DATE_FORMAT('".Input::get('fecha_inicial')."', '%Y-%m-%d')")
-        ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('".Input::get('fecha_final')."', '%Y-%m-%d')")
-        ->get();
+        ->whereRaw("DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('".Input::get('fecha_final')."', '%Y-%m-%d')");
+
+        if (Input::get('tienda_id') > 0) 
+            $kardex->where("kardex.tienda_id", "=", Input::get('tienda_id'));
+        
 
         $producto = Producto::find(Input::get('producto_id'));
 
         if (trim($tipo) == 'pdf') {
-            $pdf = PDF::loadView('kardex.exportarKardex', array('kardex' => $kardex, 'producto' => $producto,  'tipo' =>  $tipo))->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+            $pdf = PDF::loadView('kardex.exportarKardex', array('kardex' => $kardex->orderBy('kardex.created_at')->get(), 'producto' => $producto,  'tipo' =>  $tipo))->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
             return $pdf->stream('Kardex.pdf');
         }
 

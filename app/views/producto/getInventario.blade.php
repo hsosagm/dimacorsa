@@ -149,7 +149,7 @@
                 }).done(function(data) {
                         $('#kardexContainer').html("");
                         graph_container.x = 2;
-                        $('#kardexContainer').html(data);
+                        $('#kardexContainer').html(data); 
                         return graph_container_compile();
                 });
 
@@ -162,12 +162,12 @@
 
             exportarKardexExcel: function(e, producto_id, fecha_inicial, fecha_final)
             {
-                window.open('admin/kardex/exportarKardex/xls?producto_id='+producto_id+'&fecha_inicial='+fecha_inicial+'&fecha_final='+fecha_final ,'_blank');
+                window.open('admin/kardex/exportarKardex/xls?producto_id='+producto_id+'&fecha_inicial='+fecha_inicial+'&fecha_final='+fecha_final+'&tienda_id='+$("#kardexTiendaId").val() ,'_blank');
             },
 
             exportarKardexPdf: function(e, producto_id, fecha_inicial, fecha_final)
             {
-                window.open('admin/kardex/exportarKardex/pdf?producto_id='+producto_id+'&fecha_inicial='+fecha_inicial+'&fecha_final='+fecha_final);
+                window.open('admin/kardex/exportarKardex/pdf?producto_id='+producto_id+'&fecha_inicial='+fecha_inicial+'&fecha_final='+fecha_final+'&tienda_id='+$("#kardexTiendaId").val());
             }
         }
     });

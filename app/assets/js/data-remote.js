@@ -98,7 +98,7 @@ $(document).on('submit', 'form[data-remote-cat]', function(e) {
                 $('.categorias-detail').html(data.lista);
                 $("input[name='"+data.input+"']").val(data.id);
                 $("#buscar"+data.model).val(data.nombre)
-                nombre.val('');
+                return nombre.val('');
             }
             return msg.warning(data, 'Advertencia!');
         }
