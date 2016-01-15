@@ -68,7 +68,7 @@
 		<td colspan="5" style="{{$brtdBottom}}"></td>
 	</tr>
 	<tr class="">
-		<th>No. Compra</th>
+		<th>No. Documento</th>
 		<th>Total</th>
 		<th>Monto Abonado </th>
 		<th>Saldo Anterior</th>
@@ -76,24 +76,24 @@
 	</tr>
 	@foreach($detalle as $key => $dt)
 	<?php
-	$total = f_num::get($dt->total);
-	$monto = f_num::get($dt->monto);
+		$total = f_num::get($dt->total);
+		$monto = f_num::get($dt->monto);
 
-	$abonos = DetalleAbonosCompra::select(DB::raw('sum(monto) as total'))
-	->where('compra_id','=',$dt->compra_id)
-	->where('created_at','<',$dt->fecha)->first();
+		$abonos = DetalleAbonosCompra::select(DB::raw('sum(monto) as total'))
+		->whereCompraId($dt->compra_id)
+		->where('created_at','<',$dt->fecha)->first();
 
-	$pagos = PagosCompra::select(DB::raw('sum(monto) as total'))
-	->where('compra_id','=',$dt->compra_id)
-	->where('metodo_pago_id','!=', 2)
-	->where('created_at','<',$dt->fecha)->first();
+		$pagos = PagosCompra::select(DB::raw('sum(monto) as total'))
+		->whereCompraId($dt->compra_id)
+		->where('metodo_pago_id','!=', 2)
+		->where('created_at','<',$dt->fecha)->first();
 
-	$saldo_ant = $dt->total - ($abonos->total + $pagos->total);
-	$saldo_anterior = f_num::get($saldo_ant);
-	$saldo =  f_num::get(($saldo_ant - $dt->monto));
+		$saldo_ant = $dt->total - ($abonos->total + $pagos->total);
+		$saldo_anterior = f_num::get($saldo_ant);
+		$saldo = f_num::get(($saldo_ant - $dt->monto));
 	?>
 	<tr>
-		<td>{{$dt->compra_id}}</td>
+		<td>{{$dt->numero_documento}}</td>
 		<td class="right">{{$total}}</td>
 		<td class="right">{{$monto}}</td>
 		<td class="right">{{$saldo_anterior}}</td>

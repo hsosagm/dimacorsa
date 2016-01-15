@@ -16,11 +16,11 @@
 		        $monto = f_num::get($dt->monto);
 		        
 		        $abonos = DetalleAbonosCompra::select(DB::raw('sum(monto) as total'))
-		        ->where('compra_id','=',$dt->compra_id)
+		        ->whereCompraId($dt->compra_id)
 		        ->where('created_at','<',$dt->fecha)->first();
 
 		        $pagos = PagosCompra::select(DB::raw('sum(monto) as total'))
-		        ->where('compra_id','=',$dt->compra_id)
+		        ->whereCompraId($dt->compra_id)
 		        ->where('metodo_pago_id','!=', 2)
 		        ->where('created_at','<',$dt->fecha)->first();
 
