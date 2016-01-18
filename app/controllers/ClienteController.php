@@ -106,7 +106,7 @@ class ClienteController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'view' =>  View::make('cliente.create')->render()
-            ));
+        ));
     }
 
     public function actualizarCliente()
@@ -118,7 +118,7 @@ class ClienteController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'view' =>  View::make('cliente.actualizarCliente',compact('cliente' , 'contactos'))->render()
-            ));
+        ));
     }
 
     public function eliminarCliente()
@@ -164,7 +164,7 @@ class ClienteController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'lista' => $lista
-            ));
+        ));
 
     }
 
@@ -188,7 +188,7 @@ class ClienteController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'lista' => $lista
-            ));
+        ));
 
     }
 
@@ -208,13 +208,13 @@ class ClienteController extends \BaseController {
 
             return Response::json(array(
                 'success' => true,
-                 'lista' => $lista
-                 ));
+                'lista' => $lista
+            ));
         }
 
         $contacto = ClienteContacto::find(Input::get('id'));
 
-       return View::make('cliente.contacto_edit',compact('contacto'));
+        return View::make('cliente.contacto_edit',compact('contacto'));
 
     }
 
@@ -431,6 +431,36 @@ class ClienteController extends \BaseController {
             'data'    => $abonosVentas,
             'table'   => View::make('ventas.historialAbonos', compact('comprobante'))->render()
         ));
+    }
+
+    public function estadoDeCuenta()
+    {
+        $ventas = Venta::whereClienteId(Input::get('cliente_id'))->with('user')->where("saldo", ">", "0")->get();
+        $cliente = Cliente::find(Input::get('cliente_id'));
+        
+        if (Input::has("pdf")) 
+        {
+            $pdf = PDF::loadView('cliente.export.estadoDeCuenta', array('ventas' => $ventas, 'cliente' => $cliente))
+            ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+
+            return $pdf->stream('Kardex.pdf');
+        }
+
+        Excel::create('ESTADO_DE_CUENTA', function($excel) use($ventas, $cliente)
+        {
+            $excel->setTitle('ESTADO DE CUENTA');
+            $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
+            ->setCompany('Click Chiquimula');
+            $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
+            $excel->setSubject('Click');
+
+            $excel->sheet('datos', function($hoja) use($ventas, $cliente)
+            {
+                $hoja->setOrientation('landscape');
+                $hoja->loadView('cliente.export.estadoDeCuenta', array('ventas' => $ventas, 'cliente' => $cliente));
+            });
+
+        })->export("xls");
     }
 
 }

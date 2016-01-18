@@ -587,6 +587,14 @@ var vm = new Vue({
 
 		exportarVentasPendientesPorUsuario: function(tipo, user_id) {
 			window.open('admin/exportar/exportarVentasPendientesPorUsuario/'+tipo+'?user_id='+user_id ,'_blank');
+		},
+
+		estadoDeCuenta: function(pdf) {
+			if(pdf == true)
+				window.open('user/cliente/estadoDeCuenta?pdf=true&cliente_id='+vm.cliente_id, '_blank');
+
+			if(pdf == false)
+				window.open('user/cliente/estadoDeCuenta?cliente_id='+vm.cliente_id, '_blank');
 		}
 	}
 });

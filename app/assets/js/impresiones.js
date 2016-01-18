@@ -110,7 +110,7 @@ function imprimirCodigoBarras(e, id, impresora) {
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
             if (printer !== null) {
-
+ 
                 $.ajax({
                     type: "POST",
                     url: "admin/barcode/print_code",
@@ -137,6 +137,7 @@ function imprimirCodigoBarras(e, id, impresora) {
                                     qz.setPaperSize("62mm", "18mm");  // barcode
                                     qz.setOrientation("portrait");
                                     qz.setAutoSize(true);
+                                    //qz.setCopies(3);
                                     qz.appendImage(myImage);
                                     window['qzDoneAppending'] = function() {
                                         qz.printPS();

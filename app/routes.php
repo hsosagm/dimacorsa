@@ -155,6 +155,7 @@
             Route::post('crearCliente'            , 'ClienteController@crearCliente');
             Route::post('actualizarCliente'       , 'ClienteController@actualizarCliente');
             Route::post('eliminarCliente'         , 'ClienteController@eliminarCliente');
+            Route::get('estadoDeCuenta'           , 'ClienteController@estadoDeCuenta');
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -711,23 +712,7 @@
     });
 
     Route::get('/test', function()
-    {     
-        // $info = new InformeGeneralController;
-        // return $info->procesarInformeDelDia();
-        /*
-            //para quitar elementos iguales
-            $array1    = array("1", "3", "5", "7");
-            $array2    = array( "5", "1", "8", '2');
-            $resultado = array_diff($array1, $array2);
-            $result =  implode(",", $resultado);
-            return $result;
-        */
-        /*
-        //para el guardado y envio de correo de informe general diario
-        $envio = new InformeGeneralController();
-        $tienda_id = 1;
-        return $envio->procesarInformeDelDia($tienda_id);
-        */
+    {   
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;
             DROP TABLE  detalle_devolucion_nota_credito;
