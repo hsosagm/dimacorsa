@@ -156,6 +156,7 @@
             Route::post('actualizarCliente'       , 'ClienteController@actualizarCliente');
             Route::post('eliminarCliente'         , 'ClienteController@eliminarCliente');
             Route::get('estadoDeCuenta'           , 'ClienteController@estadoDeCuenta');
+            Route::get('enviarEstadoDeCuenta'     , 'ClienteController@enviarEstadoDeCuenta');
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -714,7 +715,6 @@
 
     Route::get('/test', function()
     {  
-
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;
             DROP TABLE  detalle_devolucion_nota_credito;

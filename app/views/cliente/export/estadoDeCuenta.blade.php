@@ -1,17 +1,21 @@
-<table width="100%">
+
+
+<table width="100%" style="">
 	<tr>
-		<td colspan="5" height="15">
+		<td colspan="7" height="15">
+			<img src="images/logo.jpg" width="auto" height="50"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="7" height="15">
 			<strong>DEPARTAMENTO DE CREDITOS Y COBROS</strong>
 		</td>
-		<td colspan="2" rowspan="5">
-			<img src="images/logo.jpg" width="auto"  height="120"/> 
-		</td>
 	</tr>
 	<tr>
-		<td colspan="5" height="15"> </td>
+		<td colspan="7" height="10"> </td>
 	</tr>
 	<tr>
-		<td colspan="5" height="15"> 
+		<td colspan="7" height="15"> 
 			<strong>
 				ESTADO DE CUENTA AL 
 				<span style="color:#FB1212"> {{ Carbon::now()->day; }} </span> DE 
@@ -23,12 +27,12 @@
 		</td>
 	</tr>
 	<tr>
-		<td  colspan="5" height="15">
+		<td  colspan="7" height="15">
 			<strong>CLIENTE: <span style="color:#FB1212"> {{ strtoupper($cliente->nombre) }} </span>  
 		</td>
 	</tr>
 	<tr>
-		<td colspan="5" height="15">
+		<td colspan="7" height="15">
 			<strong>DIRECCION: {{ strtoupper($cliente->direccion) }}</strong>
 		</td>
 	</tr>

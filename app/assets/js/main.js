@@ -61,7 +61,8 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     }
 
     $('#loader').hide();
-    $('[type=submit]').prop('disabled', false);
+    $('input[type=submit]').prop('disabled', false);
+    $('button[type=submit]').prop('disabled', false);
 
 });
 

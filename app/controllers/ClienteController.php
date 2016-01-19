@@ -463,4 +463,51 @@ class ClienteController extends \BaseController {
         })->export("xls");
     }
 
+    public function enviarEstadoDeCuenta()
+    {
+        $cliente_id = Input::get('cliente_id');
+
+        $ventas = Venta::whereClienteId($cliente_id)->with('user')->where("saldo", ">", "0")->get();
+        $cliente = Cliente::find($cliente_id);
+        $emails [] = "leonel.madrid@hotmail.com";
+
+        Mail::queue('emails.mensaje', array('asunto' => 'ESTADO DE CUENTA A LA FECHA '.Carbon::now()), function($message)
+        use($emails, $ventas, $cliente, $cliente_id)
+        {
+            $pdf = PDF::loadView('cliente.export.estadoDeCuenta', array('ventas' => $ventas, 'cliente' => $cliente))
+            ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+
+            $excel = Excel::create("ESTADO_DE_CUENTA_CLIENTE_{$cliente_id}", function($excel) use($ventas, $cliente)
+            {
+                $excel->setTitle('ESTADO DE CUENTA CLIENTE');
+                $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
+                ->setCompany('Click Chiquimula');
+                $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
+                $excel->setSubject('Click');
+
+                $excel->sheet('datos', function($hoja) use($ventas, $cliente)
+                {
+                    $hoja->setOrientation('landscape');
+                    $hoja->loadView('cliente.export.estadoDeCuenta', array('ventas' => $ventas, 'cliente' => $cliente));
+                })->store('xls');
+
+            });
+            
+            $message->to($emails)->subject('ESTADO DE CUENTA A LA FECHA '.Carbon::now());
+            $message->attachData($pdf->output(), "ESTADO_DE_CUENTA_CLIENTE.pdf");
+            $message->attach(storage_path()."/exports/ESTADO_DE_CUENTA_CLIENTE_{$cliente_id}.xls");
+        });
+
+
+        $file = storage_path()."/exports/ESTADO_DE_CUENTA_CLIENTE_{$cliente_id}.xls";
+        if (is_file($file)) {
+            chmod($file,0777);
+            if(!unlink($file)){ }
+        }
+
+        return Response::json([
+            "success" => true
+        ]);
+    }
+
 }

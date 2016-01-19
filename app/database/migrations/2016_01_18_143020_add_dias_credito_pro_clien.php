@@ -9,12 +9,12 @@ class AddDiasCreditoProClien extends Migration {
 	{
 		Schema::table('proveedores', function($table)
 		{
-		    $table->integer('dias_credito')->default(0);
+		    $table->integer('dias_credito')->default(30);
 		});
 
 		Schema::table('clientes', function($table)
 		{
-		    $table->integer('dias_credito')->default(0);
+		    $table->integer('dias_credito')->default(30);
 		});
 	}
 
