@@ -6,7 +6,7 @@ class ProveedorController extends BaseController {
     {
         return Autocomplete::get('proveedores', array('id', 'nombre','direccion','direccion'),'direccion');
     }
-
+ 
     public function create()
     {
         if (Input::has('_token'))
@@ -321,5 +321,35 @@ class ProveedorController extends BaseController {
             'saldo_total'   => $data['saldo_total'],
             'saldo_vencido' => $data['saldo_vencido']
         ));
+    }
+
+    public function estadoDeCuenta()
+    {
+        $compras = Compra::whereProveedorId(Input::get('proveedor_id'))->with("user")->where("saldo", ">", "0")->get();
+        $proveedor = Proveedor::find(Input::get('proveedor_id'));
+
+        if (Input::has("pdf")) 
+        {
+            $pdf = PDF::loadView('proveedor.export.estadoDeCuenta', array('compras' => $compras, 'proveedor' => $proveedor))
+            ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+
+            return $pdf->stream('Kardex.pdf');
+        }
+
+        Excel::create('ESTADO_DE_CUENTA_PROVEEDOR', function($excel) use($compras, $proveedor)
+        {
+            $excel->setTitle('ESTADO DE CUENTA PROVEEDOR');
+            $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
+            ->setCompany('Click Chiquimula');
+            $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
+            $excel->setSubject('Click');
+
+            $excel->sheet('datos', function($hoja) use($compras, $proveedor)
+            {
+                $hoja->setOrientation('landscape');
+                $hoja->loadView('proveedor.export.estadoDeCuenta', array('compras' => $compras, 'proveedor' => $proveedor));
+            });
+
+        })->export("xls");
     }
 }

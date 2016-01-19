@@ -446,9 +446,9 @@ class ClienteController extends \BaseController {
             return $pdf->stream('Kardex.pdf');
         }
 
-        Excel::create('ESTADO_DE_CUENTA', function($excel) use($ventas, $cliente)
+        Excel::create('ESTADO_DE_CUENTA_CLIENTE', function($excel) use($ventas, $cliente)
         {
-            $excel->setTitle('ESTADO DE CUENTA');
+            $excel->setTitle('ESTADO DE CUENTA CLIENTE');
             $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
             ->setCompany('Click Chiquimula');
             $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');

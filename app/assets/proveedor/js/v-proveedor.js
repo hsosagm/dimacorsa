@@ -9,7 +9,7 @@ var vm = new Vue({
     	divAbonosPorSeleccion: '',
     	infoProveedor: '',
     	saldo_total: '',
-    	saldo_vencido: '',
+    	saldo_vencido: '', 
     	saldoParcial: '',
     	monto: '',
     	proveedor_id_creditos: 0,
@@ -531,6 +531,14 @@ var vm = new Vue({
 			$('#main_container').hide();
 			vm.showFilter = false;
 			vm.formPayments = false;
+		},
+
+		estadoDeCuenta: function(pdf) {
+			if(pdf == true)
+				window.open('admin/proveedor/estadoDeCuenta?pdf=true&proveedor_id='+vm.proveedor_id, '_blank');
+
+			if(pdf == false)
+				window.open('admin/proveedor/estadoDeCuenta?proveedor_id='+vm.proveedor_id, '_blank');
 		}
 
     }

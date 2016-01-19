@@ -507,6 +507,7 @@
             Route::post('crearProveedor'             , 'ProveedorController@create');
             Route::post('actualizarProveedor'        , 'ProveedorController@edit');
             Route::post('eliminarProveedor'          , 'ProveedorController@delete');
+            Route::get('estadoDeCuenta'              , 'ProveedorController@estadoDeCuenta');
         });
 
 
@@ -713,6 +714,12 @@
 
     Route::get('/test', function()
     {   
+
+        $compras = Compra::whereProveedorId(Input::get('proveedor_id'))->with("user")->where("saldo", ">", "0")->get();
+        $proveedor = Proveedor::find(Input::get('proveedor_id'));
+
+        return View::make("proveedor.export.estadoDeCuenta", compact("compras", "proveedor"));
+
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;
             DROP TABLE  detalle_devolucion_nota_credito;
