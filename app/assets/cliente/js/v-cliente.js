@@ -7,7 +7,7 @@ var vm = new Vue({
 		customer_search: '',
 		PanelBody: false,
 		tableDetail: '',
-		cliente_id: 0,
+		cliente_id: 0, 
 		divAbonosPorSeleccion: '',
 		infoCliente: '',
 		saldo_total: '',

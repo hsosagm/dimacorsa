@@ -713,12 +713,7 @@
     });
 
     Route::get('/test', function()
-    {   
-
-        $compras = Compra::whereProveedorId(Input::get('proveedor_id'))->with("user")->where("saldo", ">", "0")->get();
-        $proveedor = Proveedor::find(Input::get('proveedor_id'));
-
-        return View::make("proveedor.export.estadoDeCuenta", compact("compras", "proveedor"));
+    {  
 
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;
