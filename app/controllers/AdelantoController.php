@@ -2,30 +2,40 @@
 
 class AdelantoController extends \BaseController {
 
-   public function create()
+    public function create()
     {
-        if (Input::has('_token'))
-        {
-            $adelanto = new Adelanto;
-            $caja = Caja::whereUserId(Auth::user()->id)->first();
- 
-            $data = Input::all();
-            $data['caja_id'] = $caja->id;
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
 
-            if (!$adelanto->create_master($data))
-            {
-                return $adelanto->errors();
-            }
+        $adelanto = new Adelanto;
+        $adelanto->cliente_id = Input::get('cliente_id');
+        $adelanto->total = Input::get('totalAdelanto');
+        $adelanto->descripcion = Input::get('descripcion');
+        $adelanto->completed = 1;
+        $adelanto->user_id = Auth::user()->id;
+        $adelanto->tienda_id = Auth::user()->tienda_id;
+        $adelanto->caja_id = $caja->id;
+        $adelanto->save();
 
-            $adelanto_id = $adelanto->get_id();
+        $adelanto_id = $adelanto->id;
+        
+        $nc = new NotaCredito;
+        $nc->cliente_id =Input::get('cliente_id');
+        $nc->tienda_id = Auth::user()->tienda_id;
+        $nc->user_id = Auth::user()->id;
+        $nc->tipo = 'adelanto';
+        $nc->tipo_id = $adelanto_id;
+        $nc->monto = Input::get('totalAdelanto');
+        $nc->save();        
 
-            return Response::json(array(
-                'success' => true,
-                'detalle' => View::make('adelantos.detalle', compact('adelanto_id'))->render()
-            ));
+        foreach (Input::get("detallePagos") as $dp) {
+            $adelantoPago = new AdelantoPago;
+            $adelantoPago->adelanto_id = $adelanto_id;
+            $adelantoPago->monto = $dp["monto"];
+            $adelantoPago->metodo_pago_id = $dp["metodo_pago_id"];
+            $adelantoPago->save();
         }
 
-        return View::make('adelantos.create');
+        return Response::json(["success" => true ]);
     }
 
     public function detalle()

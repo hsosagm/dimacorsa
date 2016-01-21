@@ -17,7 +17,7 @@ class ConsultasCierreController extends \BaseController {
 			return $this->consultasAbonos('compras', 'showPaymentsDetail');
 
 		if (trim($model) == 'Adelantos')
-			return $this->consultasNotaCredito('adelanto');
+        	return $this->consultasAdelantos('adelantos');;
 
 	    if (trim($model) == 'Devolucion')
 	    	return $this->consultasDevolucion('devolucion');
@@ -240,6 +240,47 @@ class ConsultasCierreController extends \BaseController {
         return Response::json(array(
 			'success' => true,
 			'table' => View::make('cierre.consultas.ConsultasPagosPorMetodoDePago', compact('pagos', 'metodo_pago', 'linkDetalle'))->render()
+        ));
+	}
+
+	public function consultasAdelantos($_table)
+	{
+        $fecha = json_decode(Input::get('fecha'));
+
+		$table = "adelantos";
+
+		$columns = array(
+			"adelantos.id as id",
+			"adelantos.descripcion as descripcion",
+        	"adelantos.total as total",
+        	"DATE_FORMAT(adelantos.updated_at, '%Y-%m-%d') as fecha",
+            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+            "clientes.nombre as cliente",
+            "adelantos_pagos.monto as pago"
+		);
+ 
+		$Search_columns = array("users.nombre","users.apellido");
+
+		$Join  = "JOIN adelantos_pagos ON (adelantos_pagos.adelanto_id = adelantos.id) ";
+		$Join .= "JOIN metodo_pago ON (adelantos_pagos.metodo_pago_id = metodo_pago.id) ";
+		$Join .= "JOIN users ON (users.id = adelantos.user_id) ";
+		$Join .= "JOIN clientes ON (clientes.id = adelantos.cliente_id)";
+
+		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
+		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
+
+		$where  = " adelantos.tienda_id = ".Auth::user()->tienda_id;
+        $where .= " AND DATE_FORMAT(adelantos.updated_at, '%Y-%m-%d %H:%i:%s') >  DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
+        $where .= " AND DATE_FORMAT(adelantos.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
+        $where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
+
+		$pagos = SST::get($table, $columns, $Search_columns, $Join, $where );
+
+		$metodo_pago = MetodoPago::find(Input::get('metodo_pago_id'));
+
+        return Response::json(array(
+			'success' => true,
+			'table' => View::make('cajas.consultas.ConsultasAdelantosPagosPorMetodoDePago', compact('pagos','metodo_pago'))->render()
         ));
 	}
 

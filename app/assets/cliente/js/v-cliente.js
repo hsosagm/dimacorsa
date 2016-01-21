@@ -595,6 +595,25 @@ var vm = new Vue({
 
 			if(pdf == false)
 				window.open('user/cliente/estadoDeCuenta?cliente_id='+vm.cliente_id, '_blank');
+		}, 
+
+		enviarEstadoDeCuenta: function() {
+			$.confirm({
+				text: "Seguro que desea enviar el estado de cuenta?",
+				title: "Confirmacion",
+				confirm: function(){
+					$.ajax({
+						type: "POST",
+						url: 'user/cliente/enviarEstadoDeCuenta',
+						data: {cliente_id: vm.cliente_id},
+					}).done(function(data) {
+						if (data.success == true)
+							return msg.success('Correo enviado con exito..', 'Listo!')
+							 
+						msg.warning(data, 'Advertencia!');
+					});
+				}
+			});
 		}
 	}
 });

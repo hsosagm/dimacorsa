@@ -1,8 +1,8 @@
 <?php
 
-class AdelantoDetalle extends \BaseModel {
+class AdelantoPago extends \BaseModel {
 
-	protected $table = 'adelantos_detalle';
+	protected $table = 'adelantos_pagos';
 
 	protected $guarded = array('id');
 

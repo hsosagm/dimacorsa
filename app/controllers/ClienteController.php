@@ -470,7 +470,7 @@ class ClienteController extends \BaseController {
         $ventas = Venta::whereClienteId($cliente_id)->with('user')->where("saldo", ">", "0")->get();
         $cliente = Cliente::find($cliente_id);
         $emails [] = "leonel.madrid@hotmail.com";
-
+        $_ENV["MAIL_NAME"] = "ESTADO_DE_CUENTA";
         Mail::queue('emails.mensaje', array('asunto' => 'ESTADO DE CUENTA A LA FECHA '.Carbon::now()), function($message)
         use($emails, $ventas, $cliente, $cliente_id)
         {
@@ -496,6 +496,7 @@ class ClienteController extends \BaseController {
             $message->to($emails)->subject('ESTADO DE CUENTA A LA FECHA '.Carbon::now());
             $message->attachData($pdf->output(), "ESTADO_DE_CUENTA_CLIENTE.pdf");
             $message->attach(storage_path()."/exports/ESTADO_DE_CUENTA_CLIENTE_{$cliente_id}.xls");
+
         });
 
 

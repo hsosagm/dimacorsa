@@ -156,7 +156,7 @@
             Route::post('actualizarCliente'       , 'ClienteController@actualizarCliente');
             Route::post('eliminarCliente'         , 'ClienteController@eliminarCliente');
             Route::get('estadoDeCuenta'           , 'ClienteController@estadoDeCuenta');
-            Route::get('enviarEstadoDeCuenta'     , 'ClienteController@enviarEstadoDeCuenta');
+            Route::post('enviarEstadoDeCuenta'    , 'ClienteController@enviarEstadoDeCuenta');
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -197,7 +197,7 @@
 
         Route::group(array('prefix' => 'adelantos'), function()
         {
-            Route::get('create'                  , 'AdelantoController@create' );
+            //Route::get('create'                  , 'AdelantoController@create' );
             Route::post('create'                 , 'AdelantoController@create' );
             Route::post('detalle'                , 'AdelantoController@detalle');
             Route::post('removeItemAdelanto'     , 'AdelantoController@removeItemAdelanto' );
@@ -715,6 +715,7 @@
 
     Route::get('/test', function()
     {  
+
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;
             DROP TABLE  detalle_devolucion_nota_credito;

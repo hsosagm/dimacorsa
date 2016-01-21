@@ -567,12 +567,13 @@ class CierreController extends \BaseController {
 
         $data = $this->resumen_movimientos($datos);
 
-        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'] - $data['devolucion']['efectivo'];
+        $efectivo =  $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo']  - $data['pagos_compras']['efectivo'] - $data['abonos_compras']['efectivo'] - $data['devolucion']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto']['cheque'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] +  $data['ingresos']['deposito'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto']['tarjeta'];
+
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto']['deposito'];
 
         $movimientos = array(
             'efectivo' => $efectivo,
@@ -606,6 +607,7 @@ class CierreController extends \BaseController {
         $data['abonos_compras']  =   $this->query('abonos_compras', 'monto', $fecha);
         $data['pagos_compras']   =   $this->_query('pagos_compras', 'compra', 'monto', $fecha);
         $data['devolucion']      =   $this->__query('devoluciones_pagos', 'devoluciones','monto', $fecha);
+        $data['adelanto']        =   $this->__query('adelantos_pagos', 'adelantos','monto', $fecha);
         $data['resultados']      =   array();
 
         return $data;
@@ -668,6 +670,9 @@ class CierreController extends \BaseController {
 
         if ($tabla_master == 'devoluciones') 
             $tabla_master_id = substr($tabla_master, 0, -2);
+
+        if ($tabla_master == 'adelantos') 
+            $tabla_master_id = substr($tabla_master, 0, -1);
 
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))

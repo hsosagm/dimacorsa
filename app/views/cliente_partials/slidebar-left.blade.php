@@ -73,6 +73,7 @@
             <ul>
                 <li><a v-on="click: estadoDeCuenta(false)" href="javascript:void(0);">Exportar Excel</a></li>
                 <li><a v-on="click: estadoDeCuenta(true)" href="javascript:void(0);">Exportar PDF</a></li>
+                <li><a v-on="click: enviarEstadoDeCuenta()" href="javascript:void(0);">Enviar Correo</a></li>
             </ul>
         </li>
 

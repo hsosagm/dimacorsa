@@ -171,7 +171,29 @@
 					<td class="right">0.00</td>
 					<td class="right"> {{ f_num::get($data['ingresos']['total'])   }} </td>
 				</tr>
-				 <tr> 
+				<tr> 
+	                <td>Adelantos</td>
+	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos', 1);">
+	                   {{ f_num::get($data['adelanto']['efectivo']) }}
+	                </td>
+	                <td class="right">
+	                    {{ f_num::get($data['adelanto']['credito']) }}
+	                </td>
+	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos', 3);">
+	                   {{ f_num::get($data['adelanto']['cheque']) }}
+	                </td>
+	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos', 4);">
+	                   {{ f_num::get($data['adelanto']['tarjeta']) }}
+	                </td>
+	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Adelantos', 5);">
+	                   {{ f_num::get($data['adelanto']['deposito']) }}
+	                </td>
+	                <td class="right">
+	                    {{ f_num::get($data['adelanto']['notaCredito']) }}
+	                </td>
+	                <td class="right"> {{ f_num::get($data['adelanto']['total'])  }} </td>
+	            </tr>
+	            <tr> 
 	                <td>Devoluciones</td>
 	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 1);">
 	                   ({{ f_num::get($data['devolucion']['efectivo']) }})
@@ -182,7 +204,7 @@
 	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 3);">
 	                   {{ f_num::get($data['devolucion']['cheque']) }}
 	                </td>
-	                <td class="right hover">
+	                <td class="right">
 	                   {{ f_num::get($data['devolucion']['tarjeta']) }}
 	                </td>
 	                <td class="right hover" v-on="click: getAsignarInfoEnviar('Devolucion', 5);">
@@ -283,7 +305,7 @@
 						<?php
 							$caja_negativos = $data['abonos_compras']['efectivo'] + $data['pagos_compras']['efectivo'] + $data['egresos']['efectivo'] + $data['gastos']['efectivo'] + $data['devolucion']['efectivo'];
 
-							$caja_positivos = $data['ingresos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'];
+							$caja_positivos = $data['ingresos']['efectivo'] + $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['adelanto']['efectivo'];
 
 							$caja =  $caja_positivos - $caja_negativos;
 							$total_caja = f_num::get($caja);
@@ -293,19 +315,19 @@
 					<th></th>
 					<th class="right" style="padding-right: 10px !important;">
 						<?php
-							$total_cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
+							$total_cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto']['cheque'];
 							echo f_num::get($total_cheque);
 						 ?>
 					</th>
 					<th class="right" style="padding-right: 10px !important;">
 						<?php
-							$total_tarjeta =  $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];
+							$total_tarjeta =  $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto']['tarjeta'];
 							echo f_num::get($total_tarjeta);
 						 ?>
 					</th>
 					<th class="right" style="padding-right: 10px !important;">
 						<?php
-							$total_deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'];
+							$total_deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto']['deposito'];
 
 							echo f_num::get($total_deposito);
 						 ?>
