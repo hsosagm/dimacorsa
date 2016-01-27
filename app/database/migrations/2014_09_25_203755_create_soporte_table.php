@@ -48,6 +48,14 @@ class CreateSoporteTable extends Migration {
 			$table->foreign('soporte_id')->references('id')->on('soporte')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');
 		});
+
+		DB::table('soporte_estados')->insert(array(
+            array('id' => 1, 'estado' => 'Espera'),
+            array('id' => 2, 'estado' => 'Proceso'),
+            array('id' => 3, 'estado' => 'Finalizado'),
+            array('id' => 4, 'estado' => 'Entregado'),
+            array('id' => 5, 'estado' => 'Pendiente'),
+        ));
 	}
 
 	public function down()

@@ -33,6 +33,7 @@ class Devoluciones extends Migration {
 			$table->integer('producto_id')->unsigned();
 			$table->integer('cantidad')->unsigned();
 			$table->decimal('precio', 8, 2);
+			$table->decimal('ganancias', 8, 2)->default(0.00);
 			$table->text('serials')->nullable();
 			$table->timestamps();
 

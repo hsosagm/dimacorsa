@@ -13,6 +13,10 @@ class CreateTablePrecioVenta extends Migration {
 			$table->string('nombre');
 			$table->timestamps();
 		});
+
+		DB::table('precio_venta')->insert(array(
+            array('id' => 1, 'nombre' => 'Base'),
+        ));
 	}
 
 	public function down()

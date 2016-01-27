@@ -19,6 +19,7 @@ class CreateVentasTable extends Migration {
             $table->boolean('completed')->default(0);
             $table->boolean('canceled')->default(0);
             $table->boolean('kardex')->default(0);
+            $table->integer('abono')->default(0);
 			$table->timestamps();
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');

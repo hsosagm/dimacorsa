@@ -14,6 +14,7 @@ class CreateProveedoresTable extends Migration {
 			$table->string('direccion');
 			$table->string('nit',50);
 			$table->string('telefono', 100);
+			$table->integer('dias_credito')->default(30);
 			$table->timestamps(); 
 
 		});

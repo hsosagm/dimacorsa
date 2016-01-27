@@ -19,7 +19,7 @@ class AdelantosTable extends Migration {
 			$table->integer('tienda_id')->unsigned()->default(1);
 			$table->integer('user_id')->unsigned();
 			$table->integer('caja_id')->default(0);
-			$table->descripcion('adelantos')->default(0);
+			$table->text('descripcion');
 			$table->decimal('saldo', 8, 2)->default(0.00);
 			$table->decimal('total')->default(0.00);
 			$table->boolean('completed')->default(0);

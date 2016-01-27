@@ -715,7 +715,8 @@
 
     Route::get('/test', function()
     {  
-
+        
+        return View::make('prueba.barcode');
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;
             DROP TABLE  detalle_devolucion_nota_credito;

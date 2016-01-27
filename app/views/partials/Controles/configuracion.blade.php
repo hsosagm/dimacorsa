@@ -1,4 +1,4 @@
-<li class="submenu">
+ <li class="submenu">
 	<a href="javascript:void(0);">
 		<span class="icon"><i class="fa fa-columns"></i></span>
 		<span class="text">Configuracion</span>
