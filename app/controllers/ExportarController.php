@@ -143,18 +143,19 @@ class ExportarController extends \BaseController {
     public function exportarVentasPendientesPorUsuario($tipo)
     {
         $ventas = DB::table('ventas')
-            ->select(
+        ->select(
                 DB::raw("ventas.id as venta_id"),
                 DB::raw("ventas.created_at as fecha_ingreso"),
                 DB::raw("clientes.nombre as cliente"),
                 DB::raw("clientes.telefono as telefono"),
                 DB::raw("ventas.total as total"),
                 DB::raw("ventas.saldo as saldo"),
-                DB::raw("DATEDIFF(current_date,ventas.created_at) as dias"))
-            ->join('clientes','clientes.id','=','ventas.cliente_id')
-            ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
-            ->where('ventas.saldo', '>', 0)
-            ->where('ventas.user_id', '=', Input::get('user_id'))->get();
+                DB::raw("DATEDIFF(current_date,ventas.created_at) as dias")
+            )
+        ->join('clientes','clientes.id','=','ventas.cliente_id')
+        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
+        ->where('ventas.saldo', '>', 0)
+        ->where('ventas.user_id', '=', Input::get('user_id'))->get();
 
         $data['ventas'] = $ventas;
 

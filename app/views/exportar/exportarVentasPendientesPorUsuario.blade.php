@@ -20,7 +20,7 @@
 		<td align="center" width="38%"> <strong>Cliente</strong> </td>            
 		<td align="center" width="12%"> <strong>Telefono</strong> </td>            
 		<td align="center" width="10%"> <strong>Total </strong> </td>          
-		<td align="center" width="10%"> <strong>Saldo</strong> <?php $i = 0 ?> </td>      
+		<td align="center" width="10%"> <strong>Saldo</strong> @php($i = 0); </td>      
 	</tr>
 	@foreach($data['ventas'] as $dt)
 		<tr height="15" style="{{($i == 1)?'background-color: #ECECEC;':'background-color: #FFFFFF;'}}{{($dt->dias >= 30)? 'background-color:#FFE3E3;':''}}" >

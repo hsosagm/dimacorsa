@@ -306,25 +306,29 @@
 			},
 
 			enviarAbono: function(e) {
-				e.target.disabled = true;
-
-				$.ajax({
-					type: "POST",
-					url: '/user/adelantos/create',
-					data: {
-						cliente_id: this.cliente.id,
-						descripcion: this.descripcion,
-						totalAdelanto: this.totalAdelanto,
-						detallePagos: this.detallePagos,
-					},
-				}).done(function(data) {
-					if (data.success){
-						msg.success('Adelanto creado..', 'Listo!')
-						return $('.bs-modal').modal('hide');
+				$.confirm({
+					text: "esta seguro que desea finalizar el abono?",
+					title: "Confirmacion",
+					confirm: function(){
+						e.target.disabled = true;
+						$.ajax({
+							type: "POST",
+							url: '/user/adelantos/create',
+							data: {
+								cliente_id: adelantosVue.cliente.id,
+								descripcion: adelantosVue.descripcion,
+								totalAdelanto: adelantosVue.totalAdelanto,
+								detallePagos: adelantosVue.detallePagos,
+							},
+						}).done(function(data) {
+							if (data.success){
+								msg.success('Adelanto creado..', 'Listo!')
+								return $('.bs-modal').modal('hide');
+							}
+							e.target.disabled = false;
+							msg.warning(data, 'Advertencia!');
+						});
 					}
-
-					e.target.disabled = false;
-					msg.warning(data, 'Advertencia!');
 				});
 			},
 		}

@@ -14,7 +14,7 @@
 		<td align="center" width="40%"> <strong>Tienda </strong> </td>            
 		<td align="center" width="10%"> <strong>Total Ventas </strong> </td>          
 		<td align="center" width="10%"> <strong>Saldo Total</strong> </td>      
-		<td align="center" width="10%"> <strong>Saldo Vencido</strong> <?php $i = 0 ?> </td>      
+		<td align="center" width="10%"> <strong>Saldo Vencido</strong> @php($i = 0); </td>      
 	</tr>
 	@foreach($data['ventas'] as $dt)
 		<tr height="15" style="{{($i == 1)?'background-color: #ECECEC;':'background-color: #FFFFFF;'}}" >
