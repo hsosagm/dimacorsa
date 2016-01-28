@@ -79,13 +79,15 @@ class SalesPaymentsController extends \BaseController {
         ->where('cliente_id', $cliente_id)
         ->get();
 
+        $dias_credito = Cliente::find($cliente_id)->dias_credito;
+
         $saldo_total = 0;
         $saldo_vencido = 0;
 
         foreach ($query as $q) {
         	$saldo_total   = $saldo_total + $q->saldo;
             $fecha_entrada = date('Ymd', strtotime($q->fecha));
-            $fecha_vencida = date('Ymd',strtotime("-30 days"));
+            $fecha_vencida = date('Ymd',strtotime("-{$dias_creditom} days"));
 
             if ($fecha_entrada < $fecha_vencida) {
             	$saldo_vencido = $saldo_vencido + $q->saldo;

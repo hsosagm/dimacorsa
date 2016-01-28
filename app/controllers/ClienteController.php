@@ -323,10 +323,10 @@ class ClienteController extends \BaseController {
 
         $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
+        $cliente = Cliente::find(Input::get('cliente_id'));
+
         if (!count($query) )
         {
-            $cliente = Cliente::find(Input::get('cliente_id'));
-
             $cliente = $cliente->nombre;
 
             $info = $cliente . $tab . " Saldo total &nbsp; 0.00" . $tab ." Saldo vencido &nbsp; 0.00";
@@ -346,7 +346,7 @@ class ClienteController extends \BaseController {
         {
             $fecha_entrada = $q->created_at;
             $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-            $fecha_vencida = date('Ymd',strtotime("-30 days"));
+            $fecha_vencida = date('Ymd',strtotime("-{$cliente->dias_credito} days"));
 
             if ($fecha_entrada < $fecha_vencida)
             {

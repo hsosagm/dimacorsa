@@ -43,8 +43,11 @@
 				$("td[class*='formato_precio']").each(function() {
 					$(this).html(formato_precio($(this).html()));
 				});
-			},
-			"bJQueryUI": false,
+			},.
+
+
+
+			
 			"bProcessing": true,
 			"bServerSide": true,
 			"sAjaxSource": "admin/queries/DtVentasPorFecha/{{$consulta}}",

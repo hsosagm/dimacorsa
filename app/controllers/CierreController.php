@@ -17,8 +17,7 @@ class CierreController extends \BaseController {
         
         $dt = Carbon::createFromFormat('Y-m-d', substr($datos['fecha_inicial'],0,10));//? Revisar
 
-        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
-        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+        $fecha_titulo  = 'CIERRE DIARIO DE '.$datos['fecha_inicial'].' - '.$datos['fecha_final'];
 
         $titulo ['fecha'] = $fecha_titulo;
         
@@ -36,8 +35,8 @@ class CierreController extends \BaseController {
         $datos['fecha_final']   = Carbon::now();
 
         $dt = Carbon::now();
-        $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
-        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
+
+        $fecha_titulo  = 'CIERRE DIARIO DE '.$datos['fecha_inicial'].' - '.$datos['fecha_final'];
 
         $titulo ['fecha'] = $fecha_titulo;
 
@@ -52,8 +51,6 @@ class CierreController extends \BaseController {
     {
         $cierre = Cierre::find($cierre_id);
         $dt = Carbon::now();
-        $fecha_titulo  = "CIERRE DIARIO DE {$cierre->fecha_inicia} AL {$cierre->fecha_final}";
-        $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
 
         $tienda = Tienda::find(Auth::user()->tienda_id);
         $tienda_titulo = "{$tienda->nombre}, {$tienda->direccion}";
@@ -63,6 +60,8 @@ class CierreController extends \BaseController {
 
         $datos['fecha_inicial'] = $cierre->fecha_inicial;
         $datos['fecha_final']   = $cierre->fecha_final;
+
+        $fecha_titulo  = 'CIERRE DIARIO DE '.$datos['fecha_inicial'].' - '.$datos['fecha_final'];
 
         $data = $this->resumen_movimientos($datos);
         $dataDetalle = $this->resumenMovimientosDetallado($datos);

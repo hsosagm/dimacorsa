@@ -42,6 +42,7 @@ class ExportarController extends \BaseController {
                 MIN(ventas.created_at) as fecha,
                 clientes.id as cliente_id,
                 clientes.nombre as cliente,
+                clientes.telefono as telefono,
                 clientes.direccion as direccion,
                 sum(ventas.total) as total,
                 sum(ventas.saldo) as saldo_total,
@@ -92,7 +93,9 @@ class ExportarController extends \BaseController {
         $data['titulo'] = "Ventas_pendietes_de_pago_del_cliente".$cliente->nombre;
         $data['orientacion'] = "landscape";
         $data['tipo'] = $tipo;
-        $data['cliente'] = $cliente->nombre;
+        $data['cliente']['nombre'] = $cliente->nombre;
+        $data['cliente']['telefono'] = $cliente->telefono;
+        $data['cliente']['direccion'] = $cliente->direccion;
 
         if ($tipo == 'pdf')
             $data['orientacion'] = "portrait";
@@ -141,8 +144,10 @@ class ExportarController extends \BaseController {
     {
         $ventas = DB::table('ventas')
             ->select(
+                DB::raw("ventas.id as venta_id"),
                 DB::raw("ventas.created_at as fecha_ingreso"),
                 DB::raw("clientes.nombre as cliente"),
+                DB::raw("clientes.telefono as telefono"),
                 DB::raw("ventas.total as total"),
                 DB::raw("ventas.saldo as saldo"),
                 DB::raw("DATEDIFF(current_date,ventas.created_at) as dias"))
@@ -170,6 +175,14 @@ class ExportarController extends \BaseController {
 
     public function exportarExel($data, $vista)
     {
+        if ($data['tipo'] == 'pdf') 
+        {
+            $pdf = PDF::loadView('exportar.'.$vista, array('data' => $data))
+            ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+
+            return $pdf->stream($data['titulo'].'.pdf');
+        }
+
         Excel::create($data['titulo'], function($excel) use($data, $vista)
         {
             $excel->setTitle($data['titulo']);
@@ -184,7 +197,7 @@ class ExportarController extends \BaseController {
                 $hoja->loadView('exportar.'.$vista, array('data' => $data));
             });
 
-        })->export($data['tipo']);
+        })->export('xls');
     }
 
 
