@@ -87,7 +87,7 @@ class SalesPaymentsController extends \BaseController {
         foreach ($query as $q) {
         	$saldo_total   = $saldo_total + $q->saldo;
             $fecha_entrada = date('Ymd', strtotime($q->fecha));
-            $fecha_vencida = date('Ymd',strtotime("-{$dias_creditom} days"));
+            $fecha_vencida = date('Ymd',strtotime("-{$dias_credito} days"));
 
             if ($fecha_entrada < $fecha_vencida) {
             	$saldo_vencido = $saldo_vencido + $q->saldo;
