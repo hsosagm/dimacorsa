@@ -54,7 +54,7 @@ class PurchasePaymentsController extends \BaseController {
 
             $monto = Input::get('monto');
 
-			foreach ($compras as $compra)
+			foreach ($compras as $compra) 
 			{
 				$detalleAbono = new DetalleAbonosCompra;
 			    $detalleAbono->abonos_compra_id = $abonos_compra_id;
@@ -64,20 +64,20 @@ class PurchasePaymentsController extends \BaseController {
 				{
 				    $monto = $monto - $compra->saldo;
 				    $detalleAbono->monto = $compra->saldo;
-				    $compra->saldo = 0;
 				    $detalleAbono->save();
-				    $compra->save();
+				    DB::table('compras')->whereId($compra->id)->update(array('saldo'=>0.00));
 				}
 				else
 				{
 					$detalleAbono->monto = $monto;
-					$compra->saldo = $compra->saldo - $monto;
 					$detalleAbono->save();
-					$compra->save();
+					DB::table('compras')->whereId($compra->id)->update(array( 'saldo' => $compra->saldo - $monto));
 
 			        $detalle = $this->BalanceDetails($abonos_compra_id);
+
 			        $comprobante = DB::table('printer')->select('impresora')
 					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+
 			        return Response::json(array(
 			            'success' => true,
 			            'detalle' => View::make('compras.payments.paymentsDetails', compact("detalle", 'abonos_compra_id', 'comprobante'))->render()
@@ -248,8 +248,7 @@ class PurchasePaymentsController extends \BaseController {
 				return $detalle->errors();
 			}
 
-   			$compra->saldo = 0.00 ;
-			$compra->save();
+   			DB::table('compras')->whereId($compra->id)->update(array( 'saldo' => 0.00));
     	}
 
     	$abono = AbonosCompra::find($abonos_compra_id);
@@ -257,14 +256,14 @@ class PurchasePaymentsController extends \BaseController {
     	$abono->save();
 
     	$detalle = $this->BalanceDetails($abonos_compra_id);
-    	 $comprobante = DB::table('printer')->select('impresora')
-					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+    	$comprobante = DB::table('printer')->select('impresora')->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
 
     	return Response::json(array(
 			'success' => true ,
 			'detalle' => View::make('compras.payments.paymentsDetailsBySelection',compact("detalle",'abonos_compra_id','comprobante'))->render()
 		));
     }
+
     public function TotalCredito()
     {
         $saldo_total = Compra::where('proveedor_id','=', Input::get('proveedor_id'))

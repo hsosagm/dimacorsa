@@ -55,13 +55,14 @@ class CierreController extends \BaseController {
         $tienda = Tienda::find(Auth::user()->tienda_id);
         $tienda_titulo = "{$tienda->nombre}, {$tienda->direccion}";
 
-        $titulo ['tienda'] = $tienda_titulo;
-        $titulo ['fecha']  = $fecha_titulo;
-
+       
         $datos['fecha_inicial'] = $cierre->fecha_inicial;
         $datos['fecha_final']   = $cierre->fecha_final;
 
         $fecha_titulo  = 'CIERRE DIARIO DE '.$datos['fecha_inicial'].' - '.$datos['fecha_final'];
+
+        $titulo ['tienda'] = $tienda_titulo;
+        $titulo ['fecha']  = $fecha_titulo;
 
         $data = $this->resumen_movimientos($datos);
         $dataDetalle = $this->resumenMovimientosDetallado($datos);
