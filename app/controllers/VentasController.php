@@ -21,7 +21,7 @@ class VentasController extends \BaseController {
 				'success' => true,
 				'detalle' => View::make('ventas.detalle', compact('venta_id'))->render()
             ));
-		}
+		} 
 
 		return View::make('ventas.create');
 	}

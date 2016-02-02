@@ -80,7 +80,7 @@ class SalesPaymentsController extends \BaseController {
         ->get();
 
         $dias_credito = Cliente::find($cliente_id)->dias_credito;
-
+ 
         $saldo_total = 0;
         $saldo_vencido = 0;
 

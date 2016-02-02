@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class CierreController extends \BaseController {
 
@@ -351,8 +351,9 @@ class CierreController extends \BaseController {
     public function ExportarCierreDelMes($tipo,$fecha)
     { 
         $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
+        ->join("detalle_ventas", "detalle_ventas.venta_id", "=", "ventas.id")
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
-        ->first(array(DB::raw('sum(total) as total')));
+        ->first(array(DB::raw('sum(detalle_ventas.precio * detalle_ventas.cantidad) as total')));
 
         $ganancias =  DB::table('users')
         ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
@@ -454,9 +455,12 @@ class CierreController extends \BaseController {
 
     public function CierreDelMes()
     {
-        $ventas = Venta::whereTiendaId(Auth::user()->tienda_id)
+
+        $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
+        ->join("detalle_ventas", "detalle_ventas.venta_id", "=", "ventas.id")
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")
-        ->first(array(DB::raw('sum(total) as total')));
+        ->first(array(DB::raw('sum(detalle_ventas.precio * detalle_ventas.cantidad) as total')));
+
 
         $ganancias =  DB::table('detalle_ventas')
         ->select(DB::raw('sum(cantidad * ganancias) as total'))
@@ -642,8 +646,8 @@ class CierreController extends \BaseController {
         ->whereRaw("DATE_FORMAT({$tabla_master}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$data['fecha_final']}', '%Y-%m-%d %H:%i:%s')")
         ->where("{$tabla_master}s.tienda_id", '=', Auth::user()->tienda_id)
         ->where("{$tabla_master}s.abono", '=', 0)
-        ->where("{$tabla_master}s.canceled", '=', 0)
         ->groupBy('metodo_pago.id')->get();
+        //->where("{$tabla_master}s.canceled", '=', 0)
 
         return $this->llenar_arreglo($Query);
     }

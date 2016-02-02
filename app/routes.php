@@ -4,7 +4,7 @@
     Route::when('user/*' , 'auth');
     Route::when('admin/*', 'auth');
     Route::when('owner/*', 'auth');
- 
+  
     /******************************************************************************
     rutas para evitar los errores de las imagenes no encontradas
     ******************************************************************************/

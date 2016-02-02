@@ -8,7 +8,7 @@ class DevolucionesVentasController extends \BaseController {
             'success'=> true,
             'view' => View::make('ventas.devoluciones.ventasParaDevoluciones')->render()
         ));
-	}
+	} 
 
 	public function DT_ventasParaDevoluciones()
 	{
