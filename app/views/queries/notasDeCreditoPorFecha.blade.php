@@ -26,10 +26,12 @@
                 {"sClass": "width5 icons center",                           "sTitle": "",            "aTargets": [6],
                     "orderable": false,
                     "mRender": function(data, type, full) {
-                        return ' <i class="fa fa-trash-o icon-delete" title="Eliminar" onclick="eliminarNotaDeCredito(this,'+full.DT_RowId+')"></i> ';
+                        return '<i class="fa fa-plus-square btn-link theme-c"  title="Ver detalle" onClick="verDetalleNotaDeCredito(this,'+full.DT_RowId+')"></i> ';
+                        // <i class="fa fa-trash-o icon-delete" title="Eliminar" onclick="eliminarNotaDeCredito(this,'+full.DT_RowId+')"></i>
                     }
                 },
             ],
+            "order": [[ 0, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
                 $("td[class*='formato_precio']").each(function() {
@@ -50,7 +52,7 @@
                aoData.push({ "name": "fecha_final",  "value": "{{$fecha_final}}" });
            },
        });
-    });
+    }); 
 
     $('input[name="fecha_inicial"]').pickadate({
       max: true,

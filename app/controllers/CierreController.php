@@ -647,7 +647,7 @@ class CierreController extends \BaseController {
         ->where("{$tabla_master}s.tienda_id", '=', Auth::user()->tienda_id)
         ->where("{$tabla_master}s.abono", '=', 0)
         ->groupBy('metodo_pago.id')->get();
-        //->where("{$tabla_master}s.canceled", '=', 0)
+        //->where("{$tabla_master}s.canceled", '=', 0) 
 
         return $this->llenar_arreglo($Query);
     }

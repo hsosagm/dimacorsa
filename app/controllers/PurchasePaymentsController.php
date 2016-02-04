@@ -14,7 +14,7 @@ class PurchasePaymentsController extends \BaseController {
         AbonosCompra::destroy(Input::get('id'));
 
         return 'success';
-	}
+	} 
  
 	public function formPayment()
 	{

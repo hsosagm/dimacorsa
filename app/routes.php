@@ -13,7 +13,7 @@
     Route::get('/{img}.ico', function(){ return "";});
     Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
     /******************************************************************************/
- 
+  
     /******************************************************************************/
     //rutas para imprimr con el plugin qzprint
     Route::post('ImprimirGarantia'         , 'VentasController@ImprimirGarantia');
@@ -102,8 +102,9 @@
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
             Route::get('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
+            Route::get('getDetalleNotaDeCredito', 'NotaCreditoController@getDetalleNotaDeCredito' );
         });
-
+ 
         Route::group(array('prefix' => 'consulta'), function()
         {
             Route::get('VerTablaAdelantosDelDiaUsuario', 'UserController@VerTablaAdelantosDelDiaUsuario');
@@ -205,6 +206,9 @@
             Route::get('ingresarProductoRapido'  , 'AdelantoController@ingresarProductoRapido' );
             Route::post('ingresarProductoRapido' , 'AdelantoController@ingresarProductoRapido' );
             Route::post('EliminarAdelanto'       , 'AdelantoController@EliminarAdelanto' );
+            Route::get('getDetalleAdelantos'     , 'AdelantoController@getDetalleAdelantos' );
+            Route::get('getAdelantos'            , 'AdelantoController@getAdelantos' );
+            Route::get('DTadelantos'             , 'AdelantoController@DTadelantos' );
         });
 
         Route::group(array('prefix' => 'productos'), function()

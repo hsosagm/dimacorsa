@@ -11,9 +11,7 @@ class VentasController extends \BaseController {
 			$data = Input::all(); 
 
 			if (!$venta->create_master($data))
-			{
 				return $venta->errors();
-			}
 
 			$venta_id = $venta->get_id();
 
@@ -52,20 +50,18 @@ class VentasController extends \BaseController {
             }*/
 
 
-			if ($this->check_if_code_exists_in_this_sale() == true) {
+			if ($this->check_if_code_exists_in_this_sale() == true) 
 				return "El codigo ya ha sido ingresado..";
-			}
-
+			
 			$nueva_existencia = $this->check_inventory();
-			if ($nueva_existencia === false) {
+
+			if ($nueva_existencia === false) 
 				return "La cantidad que esta ingresando es mayor a la existencia..";
-			}
 
 			$query = new DetalleVenta;
-			if ( !$query->SaleItem()) // ?
-			{
+
+			if ( !$query->SaleItem())
 				return $query->errors();
-			}
 
 			Existencia::where('producto_id', Input::get('producto_id'))
 			->where('tienda_id',Auth::user()->tienda_id)
@@ -156,9 +152,7 @@ class VentasController extends \BaseController {
 	    ->first();
 
 	    if($query == null)
-	    {
 	        return false;
-	    }
 
 	    return true;
     }
@@ -166,19 +160,16 @@ class VentasController extends \BaseController {
 
     public function check_inventory( $producto_id = null, $cantidad = null )
     {
-    	if ($producto_id === null) {
+    	if ($producto_id === null) 
     		$producto_id = Input::get('producto_id');
-    	}
 
-    	if ($cantidad === null) {
+    	if ($cantidad === null) 
     		$cantidad = Input::get('cantidad');
-    	}
 
 	    $query = Existencia::where('producto_id', $producto_id )->where('tienda_id', Auth::user()->tienda_id)->first();
 
-	    if ( $query == null || $query->existencia < $cantidad ) {
+	    if ( $query == null || $query->existencia < $cantidad ) 
 	    	return false;
-	    }
 
 	    $nueva_existencia = $query->existencia - $cantidad;
 
@@ -203,7 +194,6 @@ class VentasController extends \BaseController {
             	Input::merge(array('monto' => $resta_abonar));
             	$vuelto = floatval($monto) - floatval($resta_abonar);
             	$resta_abonar = 0;
-
             } 
             else 
             {
@@ -214,9 +204,7 @@ class VentasController extends \BaseController {
 			$pv = new PagosVenta;
 
 			if (!$pv->_create())
-			{
 				return $pv->errors();
-			}
 
 			$factura = DB::table('printer')->select('impresora')
 			->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
@@ -239,9 +227,8 @@ class VentasController extends \BaseController {
 
 		PagosVenta::where('venta_id', Input::get('venta_id'))->delete();
 
-        if ($this->getTotalVenta() == null ) {
+        if ($this->getTotalVenta() == null ) 
             return 'No a ingresado ningun producto a la factura...!';
-        }
 
         return $this->ViewPayments();
 	}
@@ -272,9 +259,7 @@ class VentasController extends \BaseController {
 
 		$TotalVenta = $this->getTotalVenta();
 		$resta_abonar = $TotalVenta - $this->getTotalPagado();
-
 		$resta_abonar = $resta_abonar - $monto;
-
 
 		$pv = new PagosVenta;
 		$pv->monto = $monto;
@@ -337,9 +322,8 @@ class VentasController extends \BaseController {
         $pagos = PagosVenta::where('venta_id', Input::get('venta_id'))
         ->first(array(DB::raw('sum(monto) as total')));
 
-        if ($pagos == null) {
+        if ($pagos == null) 
         	return 0;
-        }
 
         return $pagos->total;
 	}
@@ -349,9 +333,8 @@ class VentasController extends \BaseController {
 	{
 		$destroy = PagosVenta::destroy(Input::get('id'));
 
-		if ($destroy) {
+		if ($destroy) 
 			return $this->ViewPayments();
-		}
 
 		return 'error';
 	}
@@ -380,12 +363,10 @@ class VentasController extends \BaseController {
         ->where('metodo_pago_id', 2)
         ->first(array(DB::raw('monto')));
 
-        if ($credit == null) {
+        if ($credit == null) 
             $saldo = 0;
-        }
-        else {
+        else 
             $saldo = $credit->monto;
-        }
 
 		$notasCredito = PagosVenta::where('venta_id', Input::get('venta_id'))
         ->where('metodo_pago_id', 6)
@@ -409,9 +390,8 @@ class VentasController extends \BaseController {
 		$venta->caja_id = $caja->id;
 		$venta->total = $total->total;
 
-		if ($venta->save()) {
+		if ($venta->save()) 
 			return Response::json(array( 'success' => true ));
-		}
 
 		return 'Hubo un error intentelo de nuevo';
 	}
@@ -514,10 +494,9 @@ class VentasController extends \BaseController {
 	{
 		$venta_id = Input::get('venta_id');
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+
     	if(count($venta->detalle_venta)>0)
-    	{
         	return View::make('ventas.DemoFactura', compact('venta'))->render();
-    	}
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
@@ -726,18 +705,17 @@ class VentasController extends \BaseController {
 
 			return $this->returnDetail();
 		}
-		if ( Input::get('values.cantidad') < 1 ) {
+
+		if ( Input::get('values.cantidad') < 1 ) 
 			return 'La cantidad deve ser mayor a 0';
-		}
 		
 		$serarchCantidad = DetalleVenta::find(Input::get('values.id'));
 
 		$cantidad =  (Input::get('values.cantidad') - $serarchCantidad->cantidad);
 		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), $cantidad );
 
-		if ($nueva_existencia === false) {
+		if ($nueva_existencia === false) 
 			return "La cantidad que esta ingresando es mayor a la existencia..";
-		}
 
 		$this->recalcularPrecioCosto(Input::get('values.id'));
 		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), Input::get('values.cantidad') );
@@ -756,43 +734,6 @@ class VentasController extends \BaseController {
 
 		return $this->returnDetail();
 	}
-
-	/*public function UpdateDetalle()
-	{
-		if ( Input::get('field') == 'precio' ) {
-
-			$precio = str_replace(',', '', Input::get('values.precio'));
-			$precio = preg_replace('/\s{2,}/', ' ', $precio);
-         $query = Producto::find(Input::get('values.producto_id'));
-         $ganancias = $precio - ( $query->p_costo / 100);
-
-			DetalleVenta::find( Input::get('values.id') )
-			->update(array('precio' => Input::get('values.precio'), 'ganancias' => $ganancias ));
-
-			return $this->returnDetail();
-		}
-
-		if ( Input::get('values.cantidad') < 1 ) {
-			return 'La cantidad deve ser mayor a 0';
-		}
-
-		$cantidad =  Input::get('values.cantidad') - Input::get('oldvalue');
-
-		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), $cantidad );
-
-		if ($nueva_existencia === false) {
-			return "La cantidad que esta ingresando es mayor a la existencia..";
-		}
-
-		DetalleVenta::find( Input::get('values.id') )
-		->update(array('cantidad' => Input::get('values.cantidad')));
-
-		Existencia::where('producto_id', Input::get('values.producto_id'))
-		->where('tienda_id', Auth::user()->tienda_id)
-		->update(array('existencia' => $nueva_existencia));
-
-		return $this->returnDetail();
-	}*/
 
 	public function returnDetail()
 	{
