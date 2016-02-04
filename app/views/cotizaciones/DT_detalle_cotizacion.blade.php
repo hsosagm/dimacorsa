@@ -8,7 +8,7 @@
 	<tbody>
         @php($deuda = 0)
 		@foreach($detalle as $q)
-			@php($deuda = $deuda + $q->total);
+			@php($deuda = $deuda + $q->total)
 	        <tr class="{{($q->producto_id == 0)? 'red':''}}">
 	            <td width="10%"> {{ $q->cantidad }} </td>
 	            <td width="70%"> {{ $q->descripcion }} </td>
