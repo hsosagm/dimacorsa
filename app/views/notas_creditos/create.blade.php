@@ -353,4 +353,5 @@
 	});
 
 	$('#montoPago').number( true, 2 );
+	
 </script> 
