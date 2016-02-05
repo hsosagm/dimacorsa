@@ -166,7 +166,7 @@
 
 			descripcion: "",
 
-			metodo_pago: [],
+			metodo_pago: {{ json_encode($metodo_pago) }},
 		},
 
 		computed: {
@@ -352,7 +352,5 @@
 		}
 	});
 
-	adelantosVue.metodo_pago = ({{ json_encode(MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id','!=',2)->where('id','!=',6)->where('id','!=',7)->get()) }});
-	
 	$('#montoPago').number( true, 2 );
 </script> 

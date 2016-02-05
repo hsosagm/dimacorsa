@@ -16,7 +16,10 @@ class NotaCreditoController extends \BaseController {
             }
             return 'success';
         }
-        return View::make('notas_creditos.create');
+
+        $metodo_pago = MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id','!=',2)->where('id','!=',6)->where('id','!=',7)->get();
+
+        return View::make('notas_creditos.create', compact("metodo_pago"));
     }
 
     public function getFormSeleccionarTipoDeNotaDeCredito()
