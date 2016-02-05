@@ -198,7 +198,6 @@
 
         Route::group(array('prefix' => 'adelantos'), function()
         {
-            //Route::get('create'                  , 'AdelantoController@create' );
             Route::post('create'                 , 'AdelantoController@create' );
             Route::post('detalle'                , 'AdelantoController@detalle');
             Route::post('removeItemAdelanto'     , 'AdelantoController@removeItemAdelanto' );
@@ -209,6 +208,7 @@
             Route::get('getDetalleAdelantos'     , 'AdelantoController@getDetalleAdelantos' );
             Route::get('getAdelantos'            , 'AdelantoController@getAdelantos' );
             Route::get('DTadelantos'             , 'AdelantoController@DTadelantos' );
+            Route::get('comprobante'             , 'AdelantoController@comprobante' );
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -719,10 +719,7 @@
 
     Route::get('/test', function()
     {  
-        $adelanto = Adelanto::with('cliente')->find(1);
-
-        $pdf = PDF::loadView('adelantos.comprobante',  array( 'adelanto' => $adelanto ))->setPaper('letter');
-        return $pdf->stream('comprobante-adelanto');  
+       
 
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;

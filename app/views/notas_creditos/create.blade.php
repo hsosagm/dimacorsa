@@ -323,6 +323,7 @@
 						}).done(function(data) {
 							if (data.success){
 								msg.success('Adelanto creado..', 'Listo!')
+								window.open('user/adelantos/comprobante?adelanto_id='+data.adelanto_id ,'_blank');
 								return $('.bs-modal').modal('hide');
 							}
 							e.target.disabled = false;

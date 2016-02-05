@@ -17,7 +17,7 @@
                 {"sClass": "width10 right formato_precio", "sTitle": "Total",   		"aTargets": [4]},
                 {"sClass": "width5 icons center",  		   "sTitle": "",     			"aTargets": [5],  "orderable": false, 
                     "mRender": function(  data, type, full ) {
-                        return '<a href="javascript:void(0);" title="Ver detalle" onclick="getAdelantosDetail(this,'+full.DT_RowId+')" class="fa fa-plus-square show_detail font14">';
+                        return '<i title="Ver detalle" onclick="getAdelantosDetail(this,'+full.DT_RowId+')" class="fa fa-plus-square show_detail font14"></i> <i title="Ver detalle" onclick="imprimirComprobanteAdelanto(this,'+full.DT_RowId+')" style="margin-left:5px" class="fa fa-print show_detail font14"></i>';
                     }
                 },
             ],

@@ -14,6 +14,11 @@ function getAdelantosAll() {
     });
 };
 
+function imprimirComprobanteAdelanto(e, adelanto_id)
+{
+    return window.open('user/adelantos/comprobante?adelanto_id='+adelanto_id ,'_blank');
+}
+
 function f_adelanto() {
     $.ajax({
         url: "user/adelantos/create",

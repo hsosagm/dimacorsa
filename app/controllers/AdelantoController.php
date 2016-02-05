@@ -35,7 +35,7 @@ class AdelantoController extends \BaseController {
             $adelantoPago->save();
         }
 
-        return Response::json(["success" => true ]);
+        return Response::json(["success" => true, "adelanto_id" => $adelanto_id]);
     }
 
     public function detalle()
@@ -130,8 +130,9 @@ class AdelantoController extends \BaseController {
 
     public function comprobante()
     {
-        $pdf = PDF::loadView('adelantos.comprobante',  array())->setPaper('letter');
-        
+        $adelanto = Adelanto::with('cliente')->find(Input::get('adelanto_id'));
+
+        $pdf = PDF::loadView('adelantos.comprobante',  array( 'adelanto' => $adelanto ))->setPaper('letter');
         return $pdf->stream('comprobante-adelanto');     
     }
 }
