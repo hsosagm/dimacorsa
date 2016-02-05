@@ -932,7 +932,6 @@ class VentasController extends \BaseController {
             ->join('ventas','ventas.user_id','=','users.id')
             ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
             ->where('users.tienda_id','=',Auth::user()->tienda_id)
-            ->where('users.status','=',1)
             ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d %H')= DATE_FORMAT('{$fecha}', '%Y-%m-%d %H')")
             ->orderBy('total', 'DESC')
             ->groupBy('users.id','users.nombre','users.apellido')

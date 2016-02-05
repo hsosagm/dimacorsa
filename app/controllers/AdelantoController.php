@@ -127,4 +127,11 @@ class AdelantoController extends \BaseController {
             'table'   => View::make('notas_creditos.detalleAdelanto',compact('adelanto'))->render())
         );
     }
+
+    public function comprobante()
+    {
+        $pdf = PDF::loadView('adelantos.comprobante',  array())->setPaper('letter');
+        
+        return $pdf->stream('comprobante-adelanto');     
+    }
 }

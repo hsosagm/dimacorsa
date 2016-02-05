@@ -30,4 +30,9 @@ class Adelanto extends \BaseModel {
     {
         return $this->hasMany('AdelantoPago');
     }
+
+    public function cliente() 
+    {
+        return $this->belongsTo('Cliente');
+    }
 }

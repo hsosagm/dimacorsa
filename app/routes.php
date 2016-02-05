@@ -719,8 +719,11 @@
 
     Route::get('/test', function()
     {  
-        
-        return View::make('prueba.barcode');
+        $adelanto = Adelanto::with('cliente')->find(1);
+
+        $pdf = PDF::loadView('adelantos.comprobante',  array( 'adelanto' => $adelanto ))->setPaper('letter');
+        return $pdf->stream('comprobante-adelanto');  
+
         /* tablas a Eliminar
             DROP TABLE  adelanto_nota_credito;
             DROP TABLE  detalle_devolucion_nota_credito;
