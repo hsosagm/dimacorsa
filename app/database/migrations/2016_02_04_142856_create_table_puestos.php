@@ -21,9 +21,9 @@ class CreateTablePuestos extends Migration {
 
 		DB::table('puestos')->insert(array(
             array('id' => 1, 'descripcion' => 'Propietario'),
-            array('id' => 2, 'descripcion' => 'Gerente general'),
-            array('id' => 3, 'descripcion' => 'Ejecutivo de ventas'),
-            array('id' => 4, 'descripcion' => 'Soporte tecnico'),
+            array('id' => 2, 'descripcion' => 'Gerente General'),
+            array('id' => 3, 'descripcion' => 'Ejecutivo de Ventas'),
+            array('id' => 4, 'descripcion' => 'Soporte Tecnico'),
         ));
 
 
