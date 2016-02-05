@@ -45,7 +45,11 @@
                 <span class="arrow"></span>
             </a>
             <ul>
-                @if(count($caja))
+                @if (Auth::user()->tienda->cajas)
+                    @if(count($caja))
+                        <li><a href="javascript:void(0);" v-on="click: getFormAbonosVentas">Abonar a deuda</a></li>
+                    @endif
+                @else
                     <li><a href="javascript:void(0);" v-on="click: getFormAbonosVentas">Abonar a deuda</a></li>
                 @endif
                 <li><a href="javascript:void(0);" v-on="click: editCustomer">Editar Cliente</a></li>

@@ -36,7 +36,11 @@
                         <td class="right" width="10%"> {{ f_num::get($q->saldo_vencido) }} </td>
                         <td class="center" width="10%">
                             <i class="fa fa-search btn-link theme-c" style="margin-left:5px" v-on="click: VentasPendientesPorCliente($event, {{$q->cliente_id}})" ></i>
-                            @if(count($caja))
+                            @if (Auth::user()->tienda->cajas)
+                                @if(count($caja))
+                                    <i class="fa fa-paypal fg-theme" style="margin-left:5px" v-on="click: payFromTable($event, {{$q->cliente_id}})"></i>
+                                @endif
+                            @else
                                 <i class="fa fa-paypal fg-theme" style="margin-left:5px" v-on="click: payFromTable($event, {{$q->cliente_id}})"></i>
                             @endif
                         </td>
