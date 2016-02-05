@@ -21,8 +21,8 @@ class CreateCierreDiarioTable extends Migration {
 			$table->decimal('tarjeta', 8, 2);
 			$table->decimal('deposito', 8, 2);
 			$table->text('nota');
-			$table->timestamps('fecha_inicial');
-			$table->timestamps('fecha_final');
+			$table->timestamp('fecha_inicial');
+			$table->timestamp('fecha_final');
 			$table->timestamps();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');

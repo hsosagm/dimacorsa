@@ -16,7 +16,6 @@ class CreateTiendasTable extends Migration {
 			$table->tinyInteger('status');
 			$table->integer('limite_cajas')->default(1);
 			$table->integer('limite_usuarios')->default(3);
-			$table->integer('plan')->default(1);
 			$table->timestamps();
 		});
 

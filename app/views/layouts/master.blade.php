@@ -16,6 +16,7 @@
 
     <section id="wrapper">
 
+    @if (Auth::user()->tienda->cajas)
         @if(Auth::user()->hasRole("Owner"))
             @include('partials.Owner.header')
             @include('partials.Owner.slidebar-left')
@@ -29,6 +30,11 @@
             @include('partials.Default.header')
             @include('partials.Default.slidebar-left')
         @endif
+    @else
+        @include('partials.SinCaja.header')
+        @include('partials.SinCaja.slidebar-left')
+    @endif
+        
 
         <section id="page-content">
             <div id="loader">

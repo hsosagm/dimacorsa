@@ -13,7 +13,10 @@ class AdelantoController extends \BaseController {
         $adelanto->completed = 1;
         $adelanto->user_id = Auth::user()->id;
         $adelanto->tienda_id = Auth::user()->tienda_id;
-        $adelanto->caja_id = $caja->id;
+    
+        if (Auth::user()->tienda->cajas) 
+            $adelanto->caja_id = $caja->id;
+
         $adelanto->save();
 
         $adelanto_id = $adelanto->id;

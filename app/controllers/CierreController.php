@@ -557,14 +557,15 @@ class CierreController extends \BaseController {
                 'id' => $cierre->get_id()
             ));
         }
+        
+        if (Auth::user()->tienda->cajas) 
+        {
+            $cajas = new CajaController;
+            $cajaEstado = $cajas->getEstadoDeCajas();
 
-        $cajas = new CajaController;
-        $cajaEstado = $cajas->getEstadoDeCajas();
-
-        if ($cajaEstado ==  false) {
-            return 'una de las cajas no tiene datos a "0"';
+            if ($cajaEstado ==  false) 
+                return 'una de las cajas no tiene datos a "0"';
         }
-
 
         $datos['fecha_inicial'] = Cierre::whereTiendaId(Auth::user()->tienda_id)->max('created_at');
         $datos['fecha_final']   = Carbon::now();

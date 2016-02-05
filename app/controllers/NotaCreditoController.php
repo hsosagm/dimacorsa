@@ -6,7 +6,7 @@ class NotaCreditoController extends \BaseController {
         if (Input::has('_token'))
         {
             $notaCredito = new NotaCredito;
-            $caja = Caja::whereUserId(Auth::user()->id)->first();
+            //$caja = Caja::whereUserId(Auth::user()->id)->first();
             $data = Input::all();
             $data['tipo'] = 'Adelanto';
             $data['estado'] = 0;

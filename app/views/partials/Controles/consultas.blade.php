@@ -13,7 +13,9 @@
         <li onclick="getCotizaciones(this)"><a href="javascript:void(0);">Cotizaciones</a></li>
         <li onclick="devolucionesDelDia()"><a href="javascript:void(0);">Devoluciones</a></li>
         <li onclick="getAdelantosAll()"><a href="javascript:void(0);">Adelantos</a></li>
-        <li onclick="getConsultarCajas(this)"><a href="javascript:void(0);">Listado de Cajas</a></li>
+        @if (Auth::user()->tienda->cajas)
+            <li onclick="getConsultarCajas(this)"><a href="javascript:void(0);">Listado de Cajas</a></li>
+        @endif
         <li onclick="getConsultarSerie(this)"><a href="javascript:void(0);">Series</a></li>
         {{-- <li onclick="getConsultaPorCriterio(this)"><a href="javascript:void(0);">Consulta por criterios</a></li> --}}
         <li id="users_list"><a href="javascript:void(0);">Usuarios</a></li>

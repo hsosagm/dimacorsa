@@ -156,7 +156,10 @@ class BaseModel extends Eloquent   {
         $caja = Caja::whereUserId(Auth::user()->id)->first();
         $data = Input::all();
         $data['user_id'] = Auth::user()->id;
-        $data['caja_id'] = $caja->id;
+
+        if (Auth::user()->tienda->cajas) 
+            $data['caja_id'] = $caja->id;
+        
         $class = get_class($this);
         $path = "App\\Validators\\{$class}Validator";
         $v = $path::make($data);

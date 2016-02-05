@@ -19,7 +19,9 @@ class SalesPaymentsController extends \BaseController {
             $caja = Caja::whereUserId(Auth::user()->id)->first();
 
             $data = Input::all();
-            $data['caja_id'] = $caja->id;
+
+            if (Auth::user()->tienda->cajas) 
+                $data['caja_id'] = $caja->id;
 
 			if (!$abonosVenta->create_master($data))
 			{
@@ -147,7 +149,8 @@ class SalesPaymentsController extends \BaseController {
         $abono = new AbonosVenta;
         $caja = Caja::whereUserId(Auth::user()->id)->first();
 
-        $data['caja_id'] = $caja->id;
+        if (Auth::user()->tienda->cajas) 
+            $data['caja_id'] = $caja->id;
 
         if (!$abono->create_master($data))
         {

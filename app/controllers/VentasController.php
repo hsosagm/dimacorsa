@@ -387,7 +387,10 @@ class VentasController extends \BaseController {
 		$venta = Venta::find(Input::get('venta_id'));
 		$venta->completed = 1;
 		$venta->saldo = $saldo;
-		$venta->caja_id = $caja->id;
+
+		if (Auth::user()->tienda->cajas) 
+			$venta->caja_id = $caja->id;
+		
 		$venta->total = $total->total;
 
 		if ($venta->save()) 
