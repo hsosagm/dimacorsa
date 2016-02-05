@@ -43,11 +43,16 @@
 		<div class="col-md-6"></div>
 		<div class="col-md-6" align="right">
 			<i class="fa fa-trash-o fa-lg icon-delete" onclick="RemoveSale();"></i>
-			@if(count($caja))
-				<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$venta_id}} );"></i>
+			@if (Auth::user()->tienda->cajas)
+				@if(count($caja))
+					<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$venta_id}} );"></i>
+				@else
+					<i class="fa fa-paper-plane-o fa-lg icon-success" onclick="enviarVentaACaja(this, {{$venta_id}});"></i>
+				@endif
 			@else
-				<i class="fa fa-paper-plane-o fa-lg icon-success" onclick="enviarVentaACaja(this, {{$venta_id}});"></i>
+				<i class="fa fa-check fa-lg icon-success" onclick="OpenModalSalesPayments( {{$venta_id}} );"></i>
 			@endif
+			
 		</div>
 	</div>
 </div>
