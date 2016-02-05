@@ -39,8 +39,13 @@ class NotaCreditoController extends \BaseController {
             return 'No se puede eliminar por que ya fue utilizada en una venta...';
         }
 
-        if(NotaCredito::destroy(Input::get('nota_credito_id')))
+        if (trim($notaDeCredito->tipo) == "adelanto") {
+            Adelanto::destroy($notaDeCredito->tipo_id);
+            NotaCredito::destroy(Input::get('nota_credito_id'));
             return Response::json(array('success' => true));
+        }        
+
+        return "Solo se pueden eliminar adelantos..";
     }
 
     public function getConsultarNotasDeCreditoCliente()

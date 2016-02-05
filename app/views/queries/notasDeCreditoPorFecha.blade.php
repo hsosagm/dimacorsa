@@ -26,8 +26,7 @@
                 {"sClass": "width5 icons center",                           "sTitle": "",            "aTargets": [6],
                     "orderable": false,
                     "mRender": function(data, type, full) {
-                        return '<i class="fa fa-plus-square btn-link theme-c"  title="Ver detalle" onClick="verDetalleNotaDeCredito(this,'+full.DT_RowId+')"></i> ';
-                        // <i class="fa fa-trash-o icon-delete" title="Eliminar" onclick="eliminarNotaDeCredito(this,'+full.DT_RowId+')"></i>
+                        return '<i class="fa fa-plus-square btn-link theme-c"  title="Ver detalle" onClick="verDetalleNotaDeCredito(this,'+full.DT_RowId+')"></i><i class="fa fa-trash-o icon-delete" style="margin-left:5px" title="Eliminar" onclick="eliminarNotaDeCredito(this,'+full.DT_RowId+')"></i>';
                     }
                 },
             ],
