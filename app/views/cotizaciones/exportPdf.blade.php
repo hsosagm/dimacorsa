@@ -79,7 +79,7 @@
     </table>
 </div>
 <table width="100%" style="font-size:13px">
-    @if(file_exists("images/firmas/".Auth::user()->id.".png"))
+    {{--@if(file_exists("images/firmas/".Auth::user()->id.".png"))
         <tr>
             <td width="30%"></td>
             <td align="center" style="height: 100px; border-bottom:1px solid #444444;" width="40%">
@@ -89,14 +89,14 @@
                     <img src="images/firmas/sello.png" height="125"/>
             </td>
         </tr>
-    @else   
+    @else   --}}
         <tr>
             <td colspan="4" style="height: 100px;"></td>
         </tr>
         <tr>
             <td colspan="4" align="center">_____________________________________________</td>
         </tr>
-    @endif
+   {{-- @endif --}}
     <tr>
         <td colspan="4" align="center"> {{ Auth::user()->nombre.' '.Auth::user()->apellido.', '.Auth::user()->puesto->descripcion.', Correo: '.Auth::user()->email }} </td>
     </tr>
