@@ -5,11 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddColumPlanCajasTableTiendas extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
 	public function up()
 	{
 		Schema::table('tiendas', function($table)
@@ -19,11 +14,6 @@ class AddColumPlanCajasTableTiendas extends Migration {
 		});
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 
