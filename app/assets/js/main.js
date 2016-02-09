@@ -313,7 +313,6 @@ function _print(e)
             type: "POST",
             url: "admin/barcode/print_code",
             data: { id: $('.dataTable tbody .row_selected').attr('id') },
-            contentType: 'application/x-www-form-urlencoded',
             success: function (data, text)
             {
                 if (data["success"] == true)
