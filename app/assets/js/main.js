@@ -309,6 +309,7 @@ function _delete_dt(e) {
 
 function _print(e)
 {
+    console.log("imprimir");
         $.ajax({
             type: "POST",
             url: "admin/barcode/print_code",
