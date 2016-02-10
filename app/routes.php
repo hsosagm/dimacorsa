@@ -4,7 +4,7 @@
     Route::when('user/*' , 'auth');
     Route::when('admin/*', 'auth');
     Route::when('owner/*', 'auth');
- 
+
     /******************************************************************************
     rutas para evitar los errores de las imagenes no encontradas
     ******************************************************************************/
@@ -13,7 +13,7 @@
     Route::get('/{img}.ico', function(){ return "";});
     Route::get('assets/global/img/loader/general/{img}.gif', function(){ return "";});
     /******************************************************************************/
- 
+
     /******************************************************************************/
     //rutas para imprimr con el plugin qzprint
     Route::post('ImprimirGarantia'         , 'VentasController@ImprimirGarantia');
@@ -217,36 +217,48 @@
 
         Route::group(array('prefix' => 'ventas'), function()
         {
-            Route::get('create'                                 , 'VentasController@create' );
-            Route::post('create'                                , 'VentasController@create' );
-            Route::post('detalle'                               , 'VentasController@detalle');
-            Route::post('UpdateDetalle'                         , 'VentasController@UpdateDetalle' );
-            Route::post('updateClienteId'                       , 'VentasController@updateClienteId');
-            Route::post('RemoveSale'                            , 'VentasController@RemoveSale');
-            Route::post('RemoveSaleItem'                        , 'VentasController@RemoveSaleItem');
-            Route::get('ModalSalesPayments'                     , 'VentasController@ModalSalesPayments');
-            Route::post('ModalSalesPayments'                    , 'VentasController@ModalSalesPayments');
-            Route::post('RemoveSalePayment'                     , 'VentasController@RemoveSalePayment');
-            Route::post('FinalizeSale'                          , 'VentasController@FinalizeSale');
-            Route::get('OpenModalSalesPayments'                 , 'VentasController@OpenModalSalesPayments');
-            Route::get('showSalesDetail'                        , 'VentasController@showSalesDetail');
-            Route::get('openSale'                               , 'VentasController@openSale');
-            Route::get('getCreditSales'                         , 'VentasController@getCreditSales');
-            Route::get('getModalImprimirVenta'                  , 'VentasController@getModalImprimirVenta'  );
-            Route::get('printInvoice'                           , 'VentasController@printInvoice'  );
-            Route::post('enviarVentaACaja'                      , 'VentasController@enviarVentaACaja'  );
-            // Route::get('ImprimirFacturaVenta'                   , 'VentasController@ImprimirFacturaVenta'  );
-            Route::get('imprimirFactura'                        , 'VentasController@imprimirFactura'  ); // for test
-            Route::get('getVentasPedientesDePago'               , 'VentasController@getVentasPedientesDePago');
-            Route::get('getVentasPendientesPorCliente'          , 'VentasController@getVentasPendientesPorCliente' );
-            Route::get('getVentaConDetalle'                     , 'VentasController@getVentaConDetalle');
-            Route::get('getVentasPorHoraPorUsuario'             , 'VentasController@getVentasPorHoraPorUsuario');
-            Route::post('ingresarSeriesDetalleVenta'            , 'VentasController@ingresarSeriesDetalleVenta');
-            Route::get('getVentasPedientesPorUsuario'           , 'VentasController@getVentasPedientesPorUsuario');
-            Route::get('getDetalleVentasPendientesPorUsuario'   , 'VentasController@getDetalleVentasPendientesPorUsuario');
-            Route::post('pagoConNotasDeCredito'                 , 'VentasController@pagoConNotasDeCredito');
-            Route::get('getActualizarPagosVentaFinalizada'      , 'VentasController@getActualizarPagosVentaFinalizada');
-            Route::post('actualizarPagosVentaFinalizada'        , 'VentasController@actualizarPagosVentaFinalizada');
+            Route::get('create'                               , 'App\ventas\VentasController@create');
+            Route::post('create'                              , 'App\ventas\VentasController@create');
+            Route::get('findProducto'                         , 'App\ventas\VentasController@findProducto');
+            Route::get('table_productos_para_venta'           , 'App\ventas\VentasController@table_productos_para_venta');
+            Route::get('table_productos_para_venta_DT'        , 'App\ventas\VentasController@table_productos_para_venta_DT');
+            Route::post('postVentaDetalle'                    , 'App\ventas\VentasController@postVentaDetalle');
+            Route::get('getSerialsForm'                       , 'App\ventas\VentasController@getSerialsForm');
+            Route::post('detalle_venta_serie_add'             , 'App\ventas\VentasController@detalle_venta_serie_add');
+            Route::post('detalle_venta_serie_delete'          , 'App\ventas\VentasController@detalle_venta_serie_delete');
+            Route::post('eliminarVenta'                       , 'App\ventas\VentasController@eliminarVenta');
+            Route::post('removeItem'                          , 'App\ventas\VentasController@removeItem');
+            Route::post('UpdateDetalle'                       , 'App\ventas\VentasController@UpdateDetalle');
+            Route::get('PaymentForm'                          , 'App\ventas\VentasController@PaymentForm');
+            Route::post('PaymentForm'                         , 'App\ventas\VentasController@PaymentForm');
+
+            Route::post('detalle'                             , 'VentasController@detalle');
+            Route::post('updateClienteId'                     , 'VentasController@updateClienteId');
+            Route::post('RemoveSale'                          , 'VentasController@RemoveSale');
+            Route::post('RemoveSaleItem'                      , 'VentasController@RemoveSaleItem');
+            Route::get('ModalSalesPayments'                   , 'VentasController@ModalSalesPayments');
+            Route::post('ModalSalesPayments'                  , 'VentasController@ModalSalesPayments');
+            Route::post('RemoveSalePayment'                   , 'VentasController@RemoveSalePayment');
+            Route::post('FinalizeSale'                        , 'VentasController@FinalizeSale');
+            Route::get('OpenModalSalesPayments'               , 'VentasController@OpenModalSalesPayments');
+            Route::get('showSalesDetail'                      , 'VentasController@showSalesDetail');
+            Route::get('openSale'                             , 'VentasController@openSale');
+            Route::get('getCreditSales'                       , 'VentasController@getCreditSales');
+            Route::get('getModalImprimirVenta'                , 'VentasController@getModalImprimirVenta'  );
+            Route::get('printInvoice'                         , 'VentasController@printInvoice'  );
+            Route::post('enviarVentaACaja'                    , 'VentasController@enviarVentaACaja'  );
+            // Route::get('ImprimirFacturaVenta'                 , 'VentasController@ImprimirFacturaVenta'  );
+            Route::get('imprimirFactura'                      , 'VentasController@imprimirFactura'  ); // for test
+            Route::get('getVentasPedientesDePago'             , 'VentasController@getVentasPedientesDePago');
+            Route::get('getVentasPendientesPorCliente'        , 'VentasController@getVentasPendientesPorCliente' );
+            Route::get('getVentaConDetalle'                   , 'VentasController@getVentaConDetalle');
+            Route::get('getVentasPorHoraPorUsuario'           , 'VentasController@getVentasPorHoraPorUsuario');
+            Route::post('ingresarSeriesDetalleVenta'          , 'VentasController@ingresarSeriesDetalleVenta');
+            Route::get('getVentasPedientesPorUsuario'         , 'VentasController@getVentasPedientesPorUsuario');
+            Route::get('getDetalleVentasPendientesPorUsuario' , 'VentasController@getDetalleVentasPendientesPorUsuario');
+            Route::post('pagoConNotasDeCredito'               , 'VentasController@pagoConNotasDeCredito');
+            Route::get('getActualizarPagosVentaFinalizada'    , 'VentasController@getActualizarPagosVentaFinalizada');
+            Route::post('actualizarPagosVentaFinalizada'      , 'VentasController@actualizarPagosVentaFinalizada');
 
             Route::group(array('prefix' => 'payments'),function()
             {
@@ -706,47 +718,23 @@
     });
 
     Route::get('/informeGeneral/actual', function()
-    { 
+    {
         return View::make('informes.detalleInformeGeneral');
     });
 
     Route::get('/test', function()
-    {     
+    {
+        $values = DB::table('metodo_pago')->where('id', '<', 6)->select('id', 'descripcion')->get();
 
-        $d_ventas = DB::table('detalle_ventas')
-        ->select(DB::raw("sum(cantidad * ganancias) as ganancias, MONTH(created_at) as mes, YEAR(created_at) as year"))
-        ->where( DB::raw('MONTH(created_at)'), '=', 1 )
-        ->groupBy('year')
-        ->get();
+        $i=0;
+        foreach ($values as $value) {
+            $metodosDePago[$i]['value'] = $value->id;
+            $metodosDePago[$i]['text'] = $value->descripcion;
+            $i++;
+        }
 
-        return $d_ventas;
-        // $info = new InformeGeneralController;
-        // return $info->procesarInformeDelDia();
-        /*
-            //para quitar elementos iguales
-            $array1    = array("1", "3", "5", "7");
-            $array2    = array( "5", "1", "8", '2');
-            $resultado = array_diff($array1, $array2);
-            $result =  implode(",", $resultado);
-            return $result;
-        */
-        /*
-        //para el guardado y envio de correo de informe general diario
-        $envio = new InformeGeneralController();
-        $tienda_id = 1;
-        return $envio->procesarInformeDelDia($tienda_id);
-        */
-        /* tablas a Eliminar
-            DROP TABLE  adelanto_nota_credito;
-            DROP TABLE  detalle_devolucion_nota_credito;
-            DROP TABLE  devolucion_nota_credito;
-            DROP TABLE  notas_creditos;
-            DROP TABLE  informe_general_diario;
-            DROP TABLE  detalle_adelantos;
-            #revisar si es la tabla anterior de adelantos
-            #DROP TABLE  adelantos; 
-        */
-    });         
+        $metodosDePago = json_encode($metodosDePago);
+    });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
@@ -797,7 +785,7 @@
                $contador++;
                Venta::find($v->id)->delete();
             }
-        } 
+        }
 
         return $contador;
     });
@@ -805,13 +793,14 @@
 
 Route::get('exercise', function() {
 
-    function welcome($names) {
+    function welcome(array $names) {
 
         return $names;
 
     }
 
-    return welcome('Dayle', 'James', 'Andrea', 'Ben', 'Mateusz');
+    $array = ['Dayle', 'James', 'Andrea', 'Ben', 'Mateusz'];
+
+    return welcome($array);
 
 });
-

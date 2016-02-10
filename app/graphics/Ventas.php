@@ -115,26 +115,39 @@ class Ventas extends \BaseController
 
     public function ventasMensualesPorAnoPorCliente()
     {
+        $year = Input::get('year');
+        $cliente_id = Input::get('cliente_id');
+
         $ventas = DB::table('ventas')
-        ->where('cliente_id', Input::get('cliente_id'))
-        ->where(DB::raw('YEAR(ventas.created_at)'), Input::get('year') )
-        ->where(DB::raw('total'), '>', 0 )
+        ->where('cliente_id', $cliente_id )
+        ->where(DB::raw('YEAR(ventas.created_at)'), $year)
+        ->where(DB::raw('total'), '>', 0)
         ->select(DB::raw("sum(total) as total, MONTH(ventas.created_at) as mes,  YEAR(ventas.created_at) as year"))
         ->groupBy('mes')
         ->get();
 
         $dt = App::make('Fecha');
-        
-        for ($i=0; $i < 12; $i++) { 
-            $data[$i]['name'] = $dt->monthsNames($i+1)." "."de"." ".@$ventas[$i]->year;
-            $data[$i]['y'] = (float) @$ventas[$i]->total;
+        $var = [];
+
+        // Se crea el arreglo mes y total antes para llenar los meses vacios
+        for ($i=0; $i < 12; $i++) {
+            $var[$i]["mes"] = $i+1;
+            $var[$i]["total"] = 0;
+
+            foreach ($ventas as $v) {
+                if ($v->mes == $i+1)
+                    $var[$i]["total"] = $v->total;
+            }
+
+            $data[$i]['name'] = $dt->monthsNames($i+1);
+            $data[$i]['y'] = (float) $var[$i]["total"];
             if ($data[$i]['y'] == 0) {
                 $data[$i]['drilldown'] = false;
             } else {
                  $data[$i]['drilldown'] = true;
             }
             $data[$i]['url'] = 'user/chart/ventasDiariasPorMesCliente';
-            $data[$i]['variables'] = array( "year" => @$ventas[$i]->year, "month" => @$ventas[$i]->mes, "cliente_id" => Input::get('cliente_id'));
+            $data[$i]['variables'] = array("year" => $year, "month" => $var[$i]["mes"], "cliente_id" => $cliente_id);
             $data[$i]['tooltip'] = '';
         }
 

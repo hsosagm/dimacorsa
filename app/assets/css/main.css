@@ -1,3 +1,7 @@
+.number {
+    text-align: right;
+}
+
 #garantiaContainer {
     background-color: #FFFFFF !important;
     width: 100% !important;
@@ -308,4 +312,8 @@ div.spinner.flat {
     margin-right: 2px;
     width:25px !important;
     height: 25px !important;
+}
+
+.parseInt, .parseFloat {
+    text-align: right;
 }

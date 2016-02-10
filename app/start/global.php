@@ -115,3 +115,6 @@ Blade::extend(function($view, $compiler)
 	$pattern = $compiler->createMatcher('php');
 	return preg_replace($pattern, '$1<?php $2; ?>', $view);
 });
+
+// View::addLocation(app('path').'/ventas/views');
+View::addNamespace('ventas', app('path').'/ventas/views');
