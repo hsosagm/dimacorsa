@@ -1,5 +1,5 @@
 <table width="100%" style="font-size:13px">
-	<tr>
+	<tr> 
 		<td> 
 			<img src="images/logo.jpg" width="150"  height="90"/> 
 		</td>
