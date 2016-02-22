@@ -229,8 +229,9 @@ class ProveedorController extends BaseController {
 
         $saldo_vencido = DB::table('compras')
         ->select(DB::raw('sum(saldo) as total'))
+        ->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
         ->where('saldo','>',0)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
@@ -244,14 +245,15 @@ class ProveedorController extends BaseController {
     {
         $saldo_total = Compra::where('proveedor_id','=', $proveedor_id)
         ->where('tienda_id','=',Auth::user()->tienda_id)
-        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
+        ->where('saldo', '>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
         $saldo_vencido = DB::table('compras')
         ->select(DB::raw('sum(saldo) as total'))
-        ->where('saldo','>',0)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
-        ->where('tienda_id','=',Auth::user()->tienda_id)
-        ->where('proveedor_id','=',$proveedor_id)->first();
+        ->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
+        ->where('saldo', '>', 0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
+        ->where('tienda_id', '=', Auth::user()->tienda_id)
+        ->where('proveedor_id', '=', $proveedor_id)->first();
 
         return array(
             'saldo_total' => $saldo_total->total,
@@ -264,14 +266,15 @@ class ProveedorController extends BaseController {
         $detalle = DB::table('detalle_abonos_compra')
         ->select(
             'numero_documento',
-            'compra_id','total',
+            'compra_id',
+            'total',
             'monto',
             DB::raw('detalle_abonos_compra.created_at as fecha')
         )
-        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
-        ->where('abonos_compra_id','=', Input::get('id'))->get();
+        ->join('compras', 'compras.id', '=', 'detalle_abonos_compra.compra_id')
+        ->where('abonos_compra_id', '=', Input::get('id'))->get();
 
-        $abono = AbonosCompra::with('proveedor','user','metodoPago')->find(Input::get('id'));
+        $abono = AbonosCompra::with('proveedor', 'user', 'metodoPago')->find(Input::get('id'));
 
         $saldo = Compra::whereProveedorId($abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
 
@@ -290,14 +293,15 @@ class ProveedorController extends BaseController {
         $detalle = DB::table('detalle_abonos_compra')
         ->select(
             'numero_documento',
-            'compra_id','total',
+            'compra_id',
+            'total',
             'monto',
             DB::raw('detalle_abonos_compra.created_at as fecha')
         )
-        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
+        ->join('compras','compras.id', '=', 'detalle_abonos_compra.compra_id')
         ->whereAbonosCompraId(Input::get('id'))->get();
 
-        $abono = AbonosCompra::with('proveedor','user','metodoPago')->find(Input::get('id'));
+        $abono = AbonosCompra::with('proveedor', 'user', 'metodoPago')->find(Input::get('id'));
         $saldo = Compra::whereProveedorId($abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
         $pdf = PDF::loadView('proveedor.ImprimirAbono', array('detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo))->setPaper('letter');
 

@@ -1,5 +1,5 @@
 <?php
-
+ 
 class DescargaController extends BaseController {
 
     public function create()
@@ -21,7 +21,7 @@ class DescargaController extends BaseController {
             $producto = Producto::find(Input::get('producto_id'));
 
             $data = Input::all();
-            $data['precio'] =( $producto->p_costo / 100);
+            $data['precio'] =( $producto->p_costo);
 
             $detalle_descarga = new DetalleDescarga;
 

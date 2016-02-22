@@ -10,7 +10,7 @@ class ExportarController extends \BaseController {
             ->select(DB::raw("
                 productos.codigo as codigo,
                 CONCAT_WS(' ', descripcion, marcas.nombre) as descripcion,
-                ROUND(p_costo/100,2) as p_costo,
+                ROUND(p_costo,3) as p_costo,
                 p_publico,
                 existencias.existencia as existencia,
                 productos.existencia as existencia_total"))
@@ -48,7 +48,7 @@ class ExportarController extends \BaseController {
                 sum(ventas.saldo) as saldo_total,
                 (select sum(saldo) from ventas where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, created_at) >= 30
+                    DATEDIFF(current_date, created_at) >= clientes.dias_credito
                     AND cliente_id = clientes.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.cliente_id', '=', 'clientes.id')
@@ -117,9 +117,11 @@ class ExportarController extends \BaseController {
                 tiendas.direccion as tienda,
                 sum(ventas.total) as total,
                 sum(ventas.saldo) as saldo_total,
-                (select sum(saldo) from ventas where
+                (select sum(saldo) from ventas
+                inner join clientes on (clientes.id = ventas.cliente_id)
+                where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, created_at) >= 30
+                    DATEDIFF(current_date, ventas.created_at) >= clientes.dias_credito
                     AND user_id = users.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.user_id', '=', 'users.id')

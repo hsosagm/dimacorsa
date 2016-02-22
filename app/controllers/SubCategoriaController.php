@@ -45,21 +45,19 @@ class SubCategoriaController extends \BaseController {
             $sub_categoria = SubCategoria::find(Input::get('id'));
 
             if (!$sub_categoria->_update())
-            {
                 return $sub_categoria->errors();
-            }
 
             $lista = View::make('sub_categoria.list')->render();
             $subCategoria = SubCategoria::find(Input::get('id'));
             
             return array(
-                    'success' => true ,
-                    'lista' => $lista ,
-                    'model' => 'SubCategoria' ,
-                    'nombre' => $subCategoria->nombre ,
-                    'input' => 'sub_categoria_id' ,
-                    'id' => Input::get('id')
-                );
+                'success' => true ,
+                'lista' => $lista ,
+                'model' => 'SubCategoria' ,
+                'nombre' => $subCategoria->nombre ,
+                'input' => 'sub_categoria_id' ,
+                'id' => Input::get('id')
+            );
         }
 
         $sub_categoria = SubCategoria::find(Input::get('sub_categoria_id'));

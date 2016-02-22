@@ -307,9 +307,7 @@ class CajaController extends \BaseController
             $datos['caja_id'] = $caja->id;
 
             if (!$cierre->create_master($datos))
-            {
                 return $cierre->errors();
-            }
 
             return Response::json(array(
                 'success' => true ,

@@ -12,7 +12,7 @@ class CreateTablePromociones extends Migration {
 			$table->increments('id');
 			$table->integer('producto_id')->unsigned();
 			$table->integer('precio_venta_id')->unsigned();
-			$table->decimal('p_promocion', 8, 2);
+			$table->decimal('p_promocion', 8, 25);
 			$table->date('fecha_inicio');
 			$table->date('fecha_fin');
 			$table->timestamps();
@@ -25,7 +25,7 @@ class CreateTablePromociones extends Migration {
 			$table->increments('id');
 			$table->integer('precio_venta_id')->unsigned();
 			$table->integer('tipo_cliente_id')->unsigned();
-			$table->decimal('porcentaje', 8, 2);
+			$table->decimal('porcentaje', 8, 5);
 			$table->timestamps();
 			$table->foreign('precio_venta_id')->references('id')->on('precio_venta')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('tipo_cliente_id')->references('id')->on('tipo_cliente')->onDelete('restrict')->onUpdate('cascade');

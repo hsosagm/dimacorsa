@@ -11,7 +11,7 @@ $(document).ready(function() {
         },
         "aoColumnDefs": [
             {"sClass": "mod_codigo hover width15",                      "sTitle": "Fecha",       "aTargets": [0]},
-            {"sClass": "mod_codigo hover width10",                      "sTitle": "F. Doc.",  "aTargets": [1]},
+            {"sClass": "mod_codigo hover width10",                      "sTitle": "F. Doc.",     "aTargets": [1]},
             {"sClass": "mod_codigo hover width20",                      "sTitle": "Usuario",     "aTargets": [2]},
             {"sClass": "mod_codigo hover width20",                      "sTitle": "Proveedor",   "aTargets": [3]},
             {"sClass": "mod_codigo hover  width10",                     "sTitle": "Factura",     "aTargets": [4]},

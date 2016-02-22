@@ -663,7 +663,7 @@ class VentasController extends \BaseController {
 		if($detalleVenta == null)
 			$detalleVenta = DetalleVenta::find($detalle_venta_id);
 
-		$precioCostoDetalleVenta = ($detalleVenta->precio - $detalleVenta->ganancias) * 100;
+		$precioCostoDetalleVenta = ($detalleVenta->precio - $detalleVenta->ganancias);
 
 		$producto = Producto::find($detalleVenta->producto_id);
 
@@ -695,7 +695,7 @@ class VentasController extends \BaseController {
 			$precio = preg_replace('/\s{2,}/', ' ', $precio);
 
 	        $query = Producto::find(Input::get('values.producto_id'));
-	        $ganancias = $precio - ( $query->p_costo / 100);
+	        $ganancias = $precio - ( $query->p_costo );
 			$detalleVenta = DetalleVenta::find( Input::get('values.id') );
 			$detalleVenta->precio = Input::get('values.precio');
 			$detalleVenta->ganancias = $ganancias;
@@ -726,7 +726,7 @@ class VentasController extends \BaseController {
 		$detalleVenta = DetalleVenta::find(Input::get('values.id'));
 		$producto = Producto::find(Input::get('values.producto_id'));
 
-		$ganancias = $detalleVenta->precio - ($producto->p_costo / 100);
+		$ganancias = $detalleVenta->precio - ($producto->p_costo);
 		$detalleVenta->ganancias = $ganancias;
 		$detalleVenta->cantidad = Input::get('values.cantidad');
 		$detalleVenta->save();

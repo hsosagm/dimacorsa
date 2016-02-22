@@ -166,9 +166,7 @@ class CierreController extends \BaseController {
             $dt = Carbon::now();
         }
         else
-        {
             $dt = Carbon::createFromFormat('Y-m-d',$fecha);
-        }
 
         $fecha_titulo  = 'CIERRE DIARIO '.Traductor::getDia($dt->formatLocalized('%A')).' '.$dt->formatLocalized('%d');
         $fecha_titulo .= ' DE '.Traductor::getMes($dt->formatLocalized('%B')).' DE '.$dt->formatLocalized('%Y');
@@ -382,7 +380,7 @@ class CierreController extends \BaseController {
         $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('existencias.existencia','>', 0)
-        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo)) as total')));
 
         $ventas_usuarios =  DB::table('users')
         ->select(DB::raw('users.id, users.nombre, users.apellido,
@@ -401,13 +399,9 @@ class CierreController extends \BaseController {
         $fecha_env = Venta::first();
 
         if (@$fecha_env->created_at == null)
-        {
             $fecha_env = Carbon::now();
-        }
         else
-        {
             $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
-        }
 
         $data['dia_inicio'] =  $fecha_env;
         $data['total_ventas'] = f_num::get($ventas->total   );
@@ -445,11 +439,10 @@ class CierreController extends \BaseController {
                 $hoja->setOrientation('landscape');
                 $hoja->loadView('cierre.ExportarCierreDelMes', array(
                     'data' => $data,
-                    'ventas_usuarios' => $ventas_usuarios));
-                });
-
+                    'ventas_usuarios' => $ventas_usuarios
+                ));
+            });
         })->export('xls');
-
     }
 
 
@@ -487,7 +480,7 @@ class CierreController extends \BaseController {
         $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
         ->whereTiendaId(Auth::user()->tienda_id)
         ->where('existencias.existencia','>', 0)
-        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo)) as total')));
 
         $ventas_usuarios =  DB::table('ventas')
         ->select(DB::raw('users.id, users.nombre, users.apellido,
@@ -510,13 +503,9 @@ class CierreController extends \BaseController {
         $fecha_env = Venta::first();
 
         if (@$fecha_env->created_at == null)
-        {
             $fecha_env = Carbon::now();
-        }
         else  
-        {
             $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
-        }
 
         $data['dia_inicio'] = $fecha_env;
         $data['notas_creditos'] = $notas_creditos->total;
@@ -547,9 +536,8 @@ class CierreController extends \BaseController {
             $data['fecha_final']   = Carbon::now();
 
             if (!$cierre->create_master($data))
-            {
                 return $cierre->errors();
-            }
+
             $this->enviarCorreoPDF($cierre->get_id());
             
             return Response::json(array(
@@ -585,7 +573,7 @@ class CierreController extends \BaseController {
             'cheque'   => $cheque,
             'tarjeta'  => $tarjeta,
             'deposito' => $deposito
-            );
+        );
 
         $movimientos = json_encode($movimientos);
 
@@ -729,7 +717,7 @@ class CierreController extends \BaseController {
         $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
         ->whereTiendaId(Auth::user()->tienda_id)
         ->where('existencias.existencia','>', 0)
-        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo)) as total')));
 
         $ventas_usuarios =  DB::table('ventas')
         ->select(DB::raw('users.id, users.nombre, users.apellido,
@@ -751,11 +739,10 @@ class CierreController extends \BaseController {
 
         $fecha_env = Venta::first();
 
-        if (@$fecha_env->created_at == null) {
+        if (@$fecha_env->created_at == null)
             $fecha_env = Carbon::now();
-        }else{
+        else
             $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
-        }
 
         $data['dia_inicio'] =  $fecha_env;
         $data['notas_creditos'] =  $notas_creditos->total;
@@ -771,9 +758,8 @@ class CierreController extends \BaseController {
         $data['fecha'] = $date;
         $data['fecha_input'] = $date->formatLocalized('%Y-%m-%d');
 
-        if (Input::get('grafica') == true ) {
+        if (Input::get('grafica') == true ) 
              return View::make('cierre.CierreMes',compact('ventas_usuarios','data'));
-        }
 
         return View::make('cierre.balanceGeneral',compact('ventas_usuarios','data'));
     }
@@ -800,7 +786,7 @@ class CierreController extends \BaseController {
             "CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "nota",
             "cierre_diario.created_at as fecha"
-            );
+        );
 
         $Searchable = array("users.nombre","users.apellido","cierre_diario.created_at","nota");
 
@@ -847,7 +833,7 @@ class CierreController extends \BaseController {
         $columns = array(
             "sum(detalle_ventas.cantidad) as cantidad_total",
             "productos.descripcion as descripcion",
-            "(productos.p_costo/100) as precio_costo",
+            "(productos.p_costo) as precio_costo",
             "productos.p_publico as precio_publico",
             "(sum(detalle_ventas.precio * detalle_ventas.cantidad )/sum(detalle_ventas.cantidad)) as precio_promedio",
             "(((sum(detalle_ventas.ganancias * detalle_ventas.cantidad)/sum(detalle_ventas.cantidad))*100)/(sum(detalle_ventas.precio * detalle_ventas.cantidad )/sum(detalle_ventas.cantidad))) as porcentaje",
@@ -992,5 +978,4 @@ class CierreController extends \BaseController {
     /*********************************************************************************************************************************
         Fin Consultas de ventas del mes en el Balance General
     **********************************************************************************************************************************/
-
 }

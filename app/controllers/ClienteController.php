@@ -17,9 +17,8 @@ class ClienteController extends \BaseController {
 
     public function getInfo($id = null)
     {
-        if(!$id) {
+        if(!$id) 
             $id = Input::get('id');
-        }
 
         $cliente = Cliente::with('tipocliente')->find($id);
 
@@ -43,9 +42,8 @@ class ClienteController extends \BaseController {
             $fecha_vencida = date('Ymd',strtotime("-30 days"));
 
             if ($fecha_entrada < $fecha_vencida)
-            {
                 $saldo_vencido = $saldo_vencido + $q->saldo;
-            }
+
             $saldo_total = $saldo_total + $q->saldo;
         }
 
@@ -69,9 +67,7 @@ class ClienteController extends \BaseController {
                 $data['nit'] = $this->limpiaNit(Input::get('nit'));
 
             if (!$cliente->_create($data))
-            {
                 return $cliente->errors();
-            }
 
             return Response::json(array(
                 'success' => true,
@@ -96,9 +92,7 @@ class ClienteController extends \BaseController {
                 $data['nit'] = $this->limpiaNit(Input::get('nit'));
 
             if (!$cliente->_create($data))
-            {
                 return $cliente->errors();
-            }
 
             return 'success';
         }
@@ -126,9 +120,7 @@ class ClienteController extends \BaseController {
         $delete = Cliente::destroy(Input::get('cliente_id'));
 
         if ($delete)
-        {
             return Response::json(array( 'success' => true ));
-        }
 
         return 'Error al eliminar el cliente...';
     }
@@ -179,9 +171,7 @@ class ClienteController extends \BaseController {
         $data['cliente_id'] = $cliente_id;
 
         if (!$contacto->_create($data))
-        {
             return $contacto->errors();
-        }
 
         $lista = View::make('cliente.contactos_list',compact('cliente_id'))->render();
 
@@ -199,9 +189,7 @@ class ClienteController extends \BaseController {
             $contacto = ClienteContacto::find(Input::get('id'));
 
             if (!$contacto->_update())
-            {
                 return $contacto->errors();
-            }
 
             $cliente_id = $contacto->cliente_id;
             $lista = View::make('cliente.contactos_list',compact('cliente_id'))->render();
@@ -236,9 +224,7 @@ class ClienteController extends \BaseController {
                 $data['nit'] = $this->limpiaNit(Input::get('nit'));
 
             if (!$cliente->_update($data))
-            {
                 return $cliente->errors();
-            }
 
             return Response::json(array(
                 'success' => true,
@@ -349,9 +335,8 @@ class ClienteController extends \BaseController {
             $fecha_vencida = date('Ymd',strtotime("-{$cliente->dias_credito} days"));
 
             if ($fecha_entrada < $fecha_vencida)
-            {
                 $saldo_vencido = $saldo_vencido + $q->saldo;
-            }
+
             $saldo_total = $saldo_total + $q->saldo;
         }
 
@@ -403,7 +388,7 @@ class ClienteController extends \BaseController {
         echo TableSearch::get($table, $columns, $Searchable);
     }
 
-    function limpiaNit($nit)
+    public function limpiaNit($nit)
     {
         return  preg_replace('/[^A-Za-z0-9]/', '', strtoupper($nit));
     }

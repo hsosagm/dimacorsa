@@ -1,5 +1,5 @@
 <?php
-
+ 
 class QueriesController extends \BaseController {
 
 	public function getMasterQueries() 
@@ -23,13 +23,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 
 		$factura = DB::table('printer')->select('impresora')
@@ -106,13 +103,11 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
 
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		return Response::json(array(
 			'success' => true,
@@ -185,13 +180,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		$comprobante = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
@@ -262,13 +254,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		return Response::json(array(
 			'success' => true,
@@ -341,17 +330,14 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		return Response::json(array(
 			'success' => true,
-			'view'    => View::make('queries.gastosPorFecha',compact('consulta','fecha_inicial','fecha_final'))->render()
+			'view'    => View::make('queries.gastosPorFecha', compact('consulta', 'fecha_inicial', 'fecha_final'))->render()
         ));
 	}
 
@@ -419,13 +405,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		return Response::json(array(
 			'success' => true,
@@ -497,13 +480,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		return Response::json(array(
 			'success' => true,
@@ -575,13 +555,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		return Response::json(array(
 			'success' => true,
@@ -653,13 +630,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		$comprobante = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
@@ -734,13 +708,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') {
+		else if ($consulta == 'dia') 
 			$fecha_inicial ='now()';
-		}
-
-		else {
+		else 
 			$fecha_inicial = Carbon::now()->startOfMonth();
-		}
 
 		$comprobante = DB::table('printer')->select('impresora')
 		->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();

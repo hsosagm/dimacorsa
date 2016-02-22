@@ -65,7 +65,7 @@ class PurchasePaymentsController extends \BaseController {
 				    $monto = $monto - $compra->saldo;
 				    $detalleAbono->monto = $compra->saldo;
 				    $detalleAbono->save();
-				    DB::table('compras')->whereId($compra->id)->update(array('saldo'=>0.00));
+				    DB::table('compras')->whereId($compra->id)->update(array('saldo' => 0.00));
 				}
 				else
 				{
@@ -76,7 +76,7 @@ class PurchasePaymentsController extends \BaseController {
 			        $detalle = $this->BalanceDetails($abonos_compra_id);
 
 			        $comprobante = DB::table('printer')->select('impresora')
-					->where('tienda_id',Auth::user()->tienda_id)->where('nombre','comprobante')->first();
+					->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'comprobante')->first();
 
 			        return Response::json(array(
 			            'success' => true,
@@ -121,11 +121,11 @@ class PurchasePaymentsController extends \BaseController {
 			"total"
 		);
 
-		$Search_columns = array("users.nombre","users.apellido","numero_documento");
+		$Search_columns = array("users.nombre", "users.apellido", "numero_documento");
 
 		$Join = "JOIN users ON (users.id = compras.user_id) JOIN proveedores ON (proveedores.id = compras.proveedor_id)";
 
-		$where  = " proveedor_id = ". Input::get('proveedor_id') ." AND saldo > 0 ";
+		$where  = " proveedor_id = ".Input::get('proveedor_id')." AND saldo > 0 ";
 		$where .= " AND users.tienda_id = ".Auth::user()->tienda_id;
 		$where .= " AND compras.completed = 1";
 
@@ -141,11 +141,12 @@ class PurchasePaymentsController extends \BaseController {
 	{
 		$query = DB::table('compras')
 		->select(DB::raw('sum(saldo) as total'))
-		->where('saldo','>',0)
-		->where('completed','=',1)
-		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
-		->where('tienda_id','=',Auth::user()->tienda_id)
-		->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+		->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
+		->where('saldo', '>', 0)
+		->where('completed', '=', 1)
+		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
+		->where('tienda_id', '=', Auth::user()->tienda_id)
+		->where('proveedor_id', '=', Input::get('proveedor_id'))->first();
 
 		return $query->total;
 	}
@@ -155,10 +156,10 @@ class PurchasePaymentsController extends \BaseController {
 	{
 		$query = DB::table('compras')
 		->select(DB::raw('sum(saldo) as total'))
-		->where('completed','=',1)
-		->where('saldo','>',0)
-		->where('tienda_id','=',Auth::user()->tienda_id)
-		->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+		->where('completed', '=',1)
+		->where('saldo', '>', 0)
+		->where('tienda_id', '=',Auth::user()->tienda_id)
+		->where('proveedor_id', '=',Input::get('proveedor_id'))->first();
 
 		return $query->total;
 	}
@@ -167,13 +168,19 @@ class PurchasePaymentsController extends \BaseController {
     public function BalanceDetails($id_pago)
     {
         $query = DB::table('detalle_abonos_compra')
-        ->select('compra_id','total','detalle_abonos_compra.monto',
-        	'saldo',DB::raw('(saldo+detalle_abonos_compra.monto) as saldo_anterior'),
-        	 DB::raw('metodo_pago.descripcion as metodo_pago'))
-        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
-        ->join('abonos_compras','detalle_abonos_compra.abonos_compra_id','=','abonos_compras.id')
-        ->join('metodo_pago','metodo_pago.id','=','abonos_compras.metodo_pago_id')
-        ->where('abonos_compra_id','=',$id_pago)->get();
+        ->select(
+        	'compra_id',
+        	'total',
+        	'detalle_abonos_compra.monto',
+        	'saldo',
+        	DB::raw('(saldo+detalle_abonos_compra.monto) as saldo_anterior'),
+        	DB::raw('metodo_pago.descripcion as metodo_pago')
+        )
+        ->join('compras', 'compras.id', '=', 'detalle_abonos_compra.compra_id')
+        ->join('abonos_compras', 'detalle_abonos_compra.abonos_compra_id', '=', 'abonos_compras.id')
+        ->join('metodo_pago', 'metodo_pago.id', '=', 'abonos_compras.metodo_pago_id')
+        ->where('abonos_compra_id', '=', $id_pago)
+        ->get();
 
         return $query;
     }
@@ -182,12 +189,13 @@ class PurchasePaymentsController extends \BaseController {
     //funcion para eliminar el abono
     public function eliminarAbono()
     {
-        $detalle = DetalleAbonosCompra::where('abonos_compra_id','=',Input::get('abonos_compra_id'))->get();
+        $detalle = DetalleAbonosCompra::where('abonos_compra_id', '=', Input::get('abonos_compra_id'))->get();
 
         foreach ($detalle as $key => $dt)
         {
             $this->ReturnBalancePurchase($dt->compra_id , $dt->monto);
         }
+
         AbonosCompra::destroy(Input::get('abonos_compra_id'));
 
         return 'success';
@@ -206,9 +214,7 @@ class PurchasePaymentsController extends \BaseController {
 		$ids_compra = explode(',', Input::get('array_ids_compras'));
 
     	if (empty(Input::get('array_ids_compras')))
-    	{
     		return 'Seleccione almenos una compra para realizar esata accion';
-    	}
 
     	$data = array(
 			'proveedor_id' => Input::get('proveedor_id'),
@@ -220,9 +226,7 @@ class PurchasePaymentsController extends \BaseController {
     	$abono = new AbonosCompra;
 
 		if (!$abono->create_master($data))
-		{
 			return $abono->errors();
-		}
 
 		$abonos_compra_id = $abono->get_id();
 		$total = 0;
@@ -231,24 +235,22 @@ class PurchasePaymentsController extends \BaseController {
     	{
     		$compra = Compra::find($ids_compra[$i]);
 
-            if (!$compra) {
+            if (!$compra) 
             	return false;
-            }
 
     		$total = $total + $compra->saldo;
 
 			$data_detalle = array('compra_id' => $compra->id,
 				'abonos_compra_id' => $abonos_compra_id,
-				'monto' => $compra->saldo );
+				'monto' => $compra->saldo 
+			);
 
 			$detalle = new DetalleAbonosCompra;
 
 			if (!$detalle->_create($data_detalle))
-			{
 				return $detalle->errors();
-			}
 
-   			DB::table('compras')->whereId($compra->id)->update(array( 'saldo' => 0.00));
+   			DB::table('compras')->whereId($compra->id)->update(array( 'saldo' => 0.00 ));
     	}
 
     	$abono = AbonosCompra::find($abonos_compra_id);
@@ -272,12 +274,17 @@ class PurchasePaymentsController extends \BaseController {
 
         $saldo_vencido = DB::table('compras')
         ->select(DB::raw('sum(saldo) as total'))
+        ->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
         ->where('saldo','>',0)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
-        ->where('tienda_id','=',Auth::user()->tienda_id)
-        ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
+        ->where('tienda_id', '=', Auth::user()->tienda_id)
+        ->where('proveedor_id', '=', Input::get('proveedor_id'))
+        ->first();
 
-        return array('saldo_total' => $saldo_total->total , 'saldo_vencido' => $saldo_vencido->total );
+        return array(
+        	'saldo_total' => $saldo_total->total ,
+        	'saldo_vencido' => $saldo_vencido->total 
+        );
     }
 
 }

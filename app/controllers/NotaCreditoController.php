@@ -10,10 +10,10 @@ class NotaCreditoController extends \BaseController {
             $data = Input::all();
             $data['tipo'] = 'Adelanto';
             $data['estado'] = 0;
+
             if (!$notaCredito->create_master($data))
-            {
                 return $notaCredito->errors();
-            }
+
             return 'success';
         }
 
@@ -38,9 +38,8 @@ class NotaCreditoController extends \BaseController {
     {
         $notaDeCredito = NotaCredito::find(intval(Input::get('nota_credito_id')));
 
-        if ($notaDeCredito->estado == 1) {
+        if ($notaDeCredito->estado == 1) 
             return 'No se puede eliminar por que ya fue utilizada en una venta...';
-        }
 
         if (trim($notaDeCredito->tipo) == "adelanto") {
             Adelanto::destroy($notaDeCredito->tipo_id);

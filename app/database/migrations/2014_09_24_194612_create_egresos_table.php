@@ -22,7 +22,7 @@ class CreateEgresosTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('descripcion');
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->integer('egreso_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();

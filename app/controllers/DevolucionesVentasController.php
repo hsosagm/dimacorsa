@@ -489,7 +489,7 @@ class DevolucionesVentasController extends \BaseController {
 
 	public function recalcularPrecioCosto($DevolucionDetalle)
 	{
-		$precioCostoDevolucionDetalle = ($DevolucionDetalle->precio - $DevolucionDetalle->ganancias) * 100;
+		$precioCostoDevolucionDetalle = ($DevolucionDetalle->precio - $DevolucionDetalle->ganancias);
 
 		$producto = Producto::find($DevolucionDetalle->producto_id);
 

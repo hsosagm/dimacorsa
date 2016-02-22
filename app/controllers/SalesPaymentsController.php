@@ -11,9 +11,8 @@ class SalesPaymentsController extends \BaseController {
             ->orderBy('created_at', 'ASC')
             ->get();
 
-            if (!count($ventas) ) {
+            if (!count($ventas) ) 
                 return Response::json('El saldo de este cliente se encuentra en 0.00');
-            }
 
 			$abonosVenta = new AbonosVenta;
             $caja = Caja::whereUserId(Auth::user()->id)->first();
@@ -24,9 +23,7 @@ class SalesPaymentsController extends \BaseController {
                 $data['caja_id'] = $caja->id;
 
 			if (!$abonosVenta->create_master($data))
-			{
 				return $abonosVenta->errors();
-			}
 
 			$abonos_ventas_id = $abonosVenta->get_id();
 
@@ -91,9 +88,8 @@ class SalesPaymentsController extends \BaseController {
             $fecha_entrada = date('Ymd', strtotime($q->fecha));
             $fecha_vencida = date('Ymd',strtotime("-{$dias_credito} days"));
 
-            if ($fecha_entrada < $fecha_vencida) {
+            if ($fecha_entrada < $fecha_vencida) 
             	$saldo_vencido = $saldo_vencido + $q->saldo;
-            }
         }
 
         return Response::json(array(
@@ -153,9 +149,7 @@ class SalesPaymentsController extends \BaseController {
             $data['caja_id'] = $caja->id;
 
         if (!$abono->create_master($data))
-        {
             return $abono->errors();
-        }
 
         $abonos_ventas_id = $abono->get_id();
         $total = 0;
@@ -164,9 +158,8 @@ class SalesPaymentsController extends \BaseController {
         {
             $venta = Venta::find($ids_venta[$i]);
 
-            if (!$venta) {
+            if (!$venta)
             	return false;
-            }
 
             $total = $total + $venta->saldo;
 
@@ -177,11 +170,9 @@ class SalesPaymentsController extends \BaseController {
             $detalle = new DetalleAbonosVenta;
 
             if (!$detalle->_create($data_detalle))
-            {
                 return $detalle->errors();
-            }
 
-            DB::table('ventas')->whereId($venta->id)->update(array('saldo'=>0.00));
+            DB::table('ventas')->whereId($venta->id)->update(array('saldo' => 0.00));
         }
 
         $abono = AbonosVenta::find($abonos_ventas_id);

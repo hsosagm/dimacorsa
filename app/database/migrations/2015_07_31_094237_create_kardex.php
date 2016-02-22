@@ -49,8 +49,8 @@ class CreateKardex extends Migration {
 			$table->integer('cantidad');
 			$table->integer('existencia');
 			$table->integer('existencia_tienda')->nullable();
-			$table->decimal('costo', 8, 2);
-			$table->decimal('costo_promedio', 8, 2);
+			$table->decimal('costo', 8, 5);
+			$table->decimal('costo_promedio', 8, 5);
 			$table->timestamps();
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

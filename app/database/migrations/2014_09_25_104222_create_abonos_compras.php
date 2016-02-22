@@ -14,7 +14,7 @@ class CreateAbonosCompras extends Migration {
 			$table->integer('tienda_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->integer('proveedor_id')->unsigned();
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->string('observaciones')->nullable();
 			$table->timestamps();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -28,7 +28,7 @@ class CreateAbonosCompras extends Migration {
 			$table->increments('id');
 			$table->integer('abonos_compra_id')->unsigned();
 			$table->integer('compra_id')->unsigned();
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->timestamps();
 			$table->foreign('abonos_compra_id')->references('id')->on('abonos_compras')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');

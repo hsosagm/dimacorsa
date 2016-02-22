@@ -24,7 +24,7 @@ class CreateGastosTable extends Migration {
 			$table->integer('gasto_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->string('descripcion', 100);
-			$table->decimal('monto', 7, 2);
+			$table->decimal('monto', 8, 5);
 			$table->timestamps();
 			$table->foreign('gasto_id')->references('id')->on('gastos')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('metodo_pago_id')->references('id')->on('metodo_pago')->onDelete('restrict')->onUpdate('cascade');

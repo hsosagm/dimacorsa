@@ -21,6 +21,9 @@
 	<tr>
 		<td colspan="2"><strong>Nit:</strong> {{ $adelanto->cliente->nit }} </td>
 	</tr>
+	<tr>
+		<td colspan="2"> <p>{{ $adelanto->descripcion }}</p> </td>
+	</tr>
 </table>
 
 @php($i = 0) 

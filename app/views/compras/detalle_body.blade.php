@@ -19,10 +19,10 @@
 						{{ $q->descripcion }}  
 					</td>
 					<td align="right" field="precio" cod="{{ $q->id }}" compra_id="Input::get('compra_id')" class="EditPurchaseItemDetails" width="10%">
-						{{ f_num::get($q->precio) }}
+						{{ f_num::get5($q->precio) }}
 					</td>
 					<td width="10%" align="right"> 
-						{{ f_num::get($q->total) }} 
+						{{ f_num::get3($q->total) }} 
 					</td>
 					<td width="5%">
 						<i id="{{ $q->id }}" href="admin/compras/DeletePurchaseDetailsItem" class="fa fa-trash-o pointer btn-link theme-c" onClick="DeleteDetalle(this);"></i>
@@ -45,7 +45,7 @@
 					<div class="row">
 						<div class="col-md-8" >  Total a cancelar </div>
 						<div class="col-md-4" id="totalcompra" class="td_total_text" style="text-align: right; padding-right:30px;" >
-							{{ f_num::get($deuda) }} 
+							{{ f_num::get3($deuda) }} 
 							{{ Form::hidden('saldo_compra', $deuda) }}
 						</div>
 					</div>

@@ -75,7 +75,7 @@ Event::listen('eloquent.updated: Compra', function(Compra $model){
             $kardex->existencia = $existencia->total;
             $kardex->existencia_tienda = $existencia_tienda->existencia;
             $kardex->costo = $dt->precio;
-            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->costo_promedio = ($dt->producto->p_costo);
             $kardex->save();
         }
     }
@@ -106,8 +106,8 @@ Event::listen('eloquent.updated: Venta', function(Venta $model){
             $kardex->cantidad = $dt->cantidad;
             $kardex->existencia = $existencia->total;
             $kardex->existencia_tienda = $existencia_tienda->existencia;
-            $kardex->costo = ($dt->producto->p_costo/100);
-            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->costo = ($dt->producto->p_costo);
+            $kardex->costo_promedio = ($dt->producto->p_costo);
             $kardex->save();
         }
     }
@@ -138,8 +138,8 @@ Event::listen('eloquent.updated: Descarga', function(Descarga $model){
             $kardex->cantidad = $dt->cantidad;
             $kardex->existencia = $existencia->total;
             $kardex->existencia_tienda = $existencia_tienda->existencia;
-            $kardex->costo = ($dt->producto->p_costo/100);
-            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->costo = ($dt->producto->p_costo);
+            $kardex->costo_promedio = ($dt->producto->p_costo);
             $kardex->save();
         }
     }
@@ -170,8 +170,8 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
             $kardex->cantidad = $dt->cantidad;
             $kardex->existencia = $existencia->total;
             $kardex->existencia_tienda = $existencia_tienda->existencia;
-            $kardex->costo = ($dt->producto->p_costo/100);
-            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->costo = ($dt->producto->p_costo);
+            $kardex->costo_promedio = ($dt->producto->p_costo);
             $kardex->save();
         }
     }
@@ -196,8 +196,8 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
             $kardex->cantidad = $dt->cantidad;
             $kardex->existencia = $existencia->total;
             $kardex->existencia_tienda = $existencia_tienda->existencia;
-            $kardex->costo = ($dt->producto->p_costo/100);
-            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->costo = ($dt->producto->p_costo);
+            $kardex->costo_promedio = ($dt->producto->p_costo);
             $kardex->save();
         }
     }
@@ -225,7 +225,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $kardex->existencia = $existencia->total;
             $kardex->existencia_tienda = $existencia_tienda->existencia;
             $kardex->costo = ($dt->precio - $dt->ganancias);
-            $kardex->costo_promedio = ($dt->producto->p_costo/100);
+            $kardex->costo_promedio = ($dt->producto->p_costo);
             $kardex->save();
         }
     }

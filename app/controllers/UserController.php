@@ -26,9 +26,16 @@ class UserController extends Controller {
 			"CONCAT_WS(' ', users.nombre, users.apellido) as usuario",
 			"tiendas.nombre as tienda",
 			"email",
-			"users.status as estado");
+			"users.status as estado"
+		);
 
-		$Searchable = array("username","users.nombre","users.apellido","users.email","tiendas.nombre");
+		$Searchable = array(
+			"username",
+			"users.nombre",
+			"users.apellido",
+			"users.email",
+			"tiendas.nombre"
+		);
 
 		$join =  " LEFT JOIN assigned_roles ON (assigned_roles.user_id = users.id)";
 		$join .= " JOIN tiendas ON (users.tienda_id = tiendas.id)";
@@ -39,9 +46,7 @@ class UserController extends Controller {
 		if (Auth::user()->hasRole("Owner"))
 			$where = null;
 
-			$GroupBy = " Group By username ";
-
-
+		$GroupBy = " Group By username ";
 
 		echo TableSearch::get($table, $columns, $Searchable, $join, $where, $GroupBy);
 	}
@@ -72,9 +77,7 @@ class UserController extends Controller {
 				return 'success';
 			}
 			else
-			{
 				return $this->user->errors();
-			}
 		}
 
 		return View::make('user.create');
@@ -82,7 +85,6 @@ class UserController extends Controller {
 
 	public function edit_profile()
 	{
-
 		if (Input::has('_token'))
 		{
 			$cantidad_usuarios = User::where('status','=',1)->count();
@@ -96,13 +98,9 @@ class UserController extends Controller {
 			$user = $this->user->find(Input::get('id'));
 
 			if ( $user->_update() )
-			{
 				return 'success';
-			}
 			else
-			{
 				return $user->errors();
-			}
 		}
 
 		return View::make('user.profile');
@@ -136,7 +134,7 @@ class UserController extends Controller {
 
 		$user = $this->user->find($user_id);
 
-		return View::make('user.edit', compact('user' , 'no_assigned', 'assigned'));
+		return View::make('user.edit', compact('user', 'no_assigned', 'assigned'));
 
 	}
 
@@ -154,7 +152,7 @@ class UserController extends Controller {
 
 		$user = $this->user->find($user_id);
 
-		return View::make('user.edit', compact('user' , 'no_assigned', 'assigned'));
+		return View::make('user.edit', compact('user', 'no_assigned', 'assigned'));
 
 	}
 
@@ -164,9 +162,7 @@ class UserController extends Controller {
 		$user = $this->user->destroy(Input::get('id'));
 
 		if ($user)
-		{
 			return 'success';
-		}
 
 		return 'error';
 	}
@@ -207,7 +203,7 @@ class UserController extends Controller {
 		return Response::json(array(
 			'success' => true,
 			'view' => View::make('user_consulta.consultarSerie')->render(),
-			));
+		));
 	}
 
 	public function setConsultarSerie()
@@ -225,7 +221,7 @@ class UserController extends Controller {
 		return Response::json(array(
 			'success' => true,
 			'view' => View::make('user_consulta.consultarSerieBody',compact('detalleVenta', 'detalleCompra'))->render(),
-			));
+		));
 	}
 
 	//area de consultas para el usuario
@@ -326,7 +322,7 @@ class UserController extends Controller {
 			"saldo",
 			"completed",
 			"canceled"
-			);
+		);
 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre");
 
@@ -337,7 +333,7 @@ class UserController extends Controller {
 
 		if (trim(Input::get('tipo')) == 'caja')
 		{
-			$fecha = "'".CierreCaja::where('caja_id','=',Auth::user()->caja_id)->max('created_at')."'";
+			$fecha = "'".CierreCaja::where('caja_id', '=', Auth::user()->caja_id)->max('created_at')."'";
 			$where = " DATE_FORMAT(ventas.created_at, '%Y-%m-%d') > DATE_FORMAT({$fecha}, '%Y-%m-%d') ";
 			$where .= " AND users.caja_id =".Auth::user()->caja_id;
 		}
@@ -358,7 +354,7 @@ class UserController extends Controller {
 			"detalle_soporte.descripcion as detalle_descripcion",
 			'monto',
 			"metodo_pago.descripcion as metodo_descripcion"
-			);
+		);
 
 		$Searchable = array("users.nombre","users.apellido");
 
@@ -393,7 +389,7 @@ class UserController extends Controller {
 			"detalle_ingresos.descripcion as detalle_descripcion",
 			'monto',
 			"metodo_pago.descripcion as metodo_descripcion"
-			);
+		);
 
 		$Searchable = array("users.nombre","users.apellido");
 
@@ -464,7 +460,7 @@ class UserController extends Controller {
 			"detalle_gastos.descripcion as detalle_descripcion",
 			'monto',
 			"metodo_pago.descripcion as metodo_descripcion"
-			);
+		);
 
 		$Searchable = array("users.nombre","users.apellido");
 
@@ -557,7 +553,7 @@ class UserController extends Controller {
 		return Response::json(array(
 			'success' => true,
 			'table' => View::make('ventas.creditSales', compact('ventas'))->render()
-			));
+		));
 	}
 
 	public function DtConsultarNotasDeCredito()
@@ -572,7 +568,7 @@ class UserController extends Controller {
 			"nota",
 			"monto",
 			"estado"
-			);
+		);
 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre", 'tipo', 'monto');
 
@@ -609,7 +605,7 @@ class UserController extends Controller {
 			"saldo",
 			"completed",
 			"canceled"
-			);
+		);
 
 		$Search_columns = array("users.nombre","users.apellido","clientes.nombre");
 
@@ -618,9 +614,7 @@ class UserController extends Controller {
 		$fecha = "'".CierreCaja::where('caja_id','=',$caja->id )->max('created_at')."'";
 
 		$where = " DATE_FORMAT(ventas.updated_at, '%Y-%m-%d') >= DATE_FORMAT({$fecha}, '%Y-%m-%d') ";
-
 		$where .= " AND ventas.completed = 2 ";
-
 		$where .= " AND ventas.tienda_id =".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );

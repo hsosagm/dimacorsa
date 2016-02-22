@@ -7,7 +7,7 @@ class CompraController extends \BaseController {
 		if (Input::has('_token'))
 		{
 			$compra = new Compra;
-
+ 
 			if (!$compra->create_master())
 				return $compra->errors();
 
@@ -111,11 +111,11 @@ class CompraController extends \BaseController {
 
 			$detalle = $this->TablePurchaseDetails();
 			$producto = Producto::find(Input::get('producto_id'));
-			$p_costo  = ProcesarCompra::getPrecio((Input::get('precio')*100), Input::get('cantidad'), $producto->p_costo, $producto->existencia);
+			$p_costo  = ProcesarCompra::getPrecio((Input::get('precio')), Input::get('cantidad'), $producto->p_costo, $producto->existencia);
 
 			return Response::json(array(
 				'success' => true,
-				'p_costo' => 'Precio Costo: '.($p_costo/100),
+				'p_costo' => 'Precio Costo: '.($p_costo),
 				'table'   => View::make('compras.detalle_body', compact("detalle", "codigoBarra"))->render(),
 			));
 		}
@@ -170,7 +170,7 @@ class CompraController extends \BaseController {
 				$montoRestante = ($this->TotalPurchase() - $this->TotalPurchasePayment());
 				$montoIngresar = trim(Input::get("monto"));
 
-			if(round($montoRestante, 2) < round($montoIngresar, 2))
+			if(round($montoRestante, 3) < round($montoIngresar, 3))
 				return 'El moto ingresado no puede ser mayor al monto Restante..!';
 
 			$pagos = new PagosCompra;
@@ -195,7 +195,7 @@ class CompraController extends \BaseController {
 		$pagos = PagosCompra::whereCompraId(Input::get('compra_id'));
 		$pagos->delete();
 
-		$total_compra = number_format($detalle_compra->total, 2, '.', '');
+		$total_compra = number_format($detalle_compra->total, 3, '.', '');
 
 		return Response::json(array(
 			'success' => true,
@@ -205,8 +205,8 @@ class CompraController extends \BaseController {
 
 	public function PurchasePaymentDetail()
 	{
-		$total_pagos = number_format($this->TotalPurchasePayment(), 2, '.', '');
-		$total_compra = number_format($this->TotalPurchase(), 2, '.', '');
+		$total_pagos = number_format($this->TotalPurchasePayment(), 3, '.', '');
+		$total_compra = number_format($this->TotalPurchase(), 3, '.', '');
 		$det_pagos    = $this->TableDetailsPayments();
 
 		return Response::json( array(
@@ -229,7 +229,7 @@ class CompraController extends \BaseController {
 		$datos = array( Input::get('dato') => Input::get('dato'));
 
 		$validaciones = array(
-			Input::get('dato') => array('required','numeric','min:1')
+			Input::get('dato') => array('required','numeric')
 		);
 
 		$validator = Validator::make($datos, $validaciones);
@@ -505,9 +505,9 @@ class CompraController extends \BaseController {
 		->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
 		$saldo_vencido = DB::table('compras')
-		->select(DB::raw('sum(saldo) as total'))->where('saldo','>',0)
+		->select(DB::raw('sum(saldo) as total'))->where('saldo', '>', 0)
 		->where('compras.completed', '=', 1)
-		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 30)
 		->where('tienda_id','=',Auth::user()->tienda_id)->first();
 		$tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
@@ -679,6 +679,7 @@ class CompraController extends \BaseController {
 			$pagos->monto = $dp['monto'];
 			$pagos->metodo_pago_id = $dp['metodo_pago_id'];
 			$pagos->save();
+			
 			if($dp['metodo_pago_id'] == 2)
 				$credito =  $dp['monto'];
 		}

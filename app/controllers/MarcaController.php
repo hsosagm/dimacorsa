@@ -42,9 +42,7 @@ class MarcaController extends BaseController {
             $marca = Marca::find(Input::get('id'));
 
             if (!$marca->_update())
-            {
                 return $marca->errors();
-            }
 
             $lista = View::make('marca.list')->render();
             $marca = Marca::find(Input::get('id'));
@@ -60,7 +58,6 @@ class MarcaController extends BaseController {
         }
 
         $marca = Marca::find(Input::get('marca_id'));
-
         return View::make('marca.edit',compact("marca"));
     }
 }

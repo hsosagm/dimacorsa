@@ -4,9 +4,9 @@ class TemaController extends \BaseController {
 
 	public function colorSchemes($color) 
 	{
-		 $tema = Tema::where("user_id","=",Auth::user()->id)->first();
-		 $tema->colorSchemes = $color;
-		 $tema->save();
+		$tema = Tema::where("user_id","=",Auth::user()->id)->first();
+		$tema->colorSchemes = $color;
+		$tema->save();
 
 		return 'Color del tema guardado';
 	}

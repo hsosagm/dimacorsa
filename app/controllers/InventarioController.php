@@ -1,3 +1,4 @@
+
 <?php
 
 class InventarioController extends Controller {
@@ -115,8 +116,8 @@ class InventarioController extends Controller {
 
         $kardex->existencia = $existencia->total;
         $kardex->existencia_tienda = $existencia_tienda->existencia;
-        $kardex->costo = ($producto->p_costo/100);
-        $kardex->costo_promedio = ($producto->p_costo/100);
+        $kardex->costo = ($producto->p_costo);
+        $kardex->costo_promedio = ($producto->p_costo);
         $kardex->save();
     }
 }

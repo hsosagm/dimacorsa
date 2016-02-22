@@ -17,7 +17,7 @@ class TableNotasDeCredito extends Migration {
 			$table->integer('venta_id')->nullable();
 			$table->string('tipo');
 			$table->string('tipo_id');
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->timestamps();
 
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');

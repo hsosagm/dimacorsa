@@ -34,9 +34,7 @@ class SoporteController extends BaseController {
             $data['caja_id'] = $caja->id;
 
         if (!$soporte->create_master($data))
-        {
             return $soporte->errors();
-        }
 
         $id = $soporte->get_id();
 
@@ -58,9 +56,7 @@ class SoporteController extends BaseController {
         $delete = DetalleSoporte::destroy(Input::get('id'));
 
         if ($delete)
-        {
             return 'success';
-        }
 
         return 'Huvo un error al tratar de eliminar';
     }

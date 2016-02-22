@@ -21,6 +21,7 @@ class TiendaController extends BaseController {
             Tienda::create($values);
             echo 'success';
         }
+        
         else
         {
             $errors = $tienda->errors();

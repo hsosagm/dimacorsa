@@ -11,9 +11,7 @@ class SearchController extends Controller {
         foreach ($sExp as $key=>$keyword)
         {
             if (strlen($keyword) >= 2)
-            {
                 $words[] = $keyword;
-            }
         }
 
         $keywords = array();

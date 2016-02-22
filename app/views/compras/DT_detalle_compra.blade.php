@@ -12,14 +12,12 @@
 		@foreach($detalle as $q)
 		    <?php
 			    $deuda = $deuda + $q->total;        
-		        $precio = f_num::get($q->precio);
-		        $total = f_num::get($q->total);
 	        ?>
 	        <tr>
 	            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
-	            <td field="precio" cod="{{ $q->id }}" class="edit align_right" width="10%"> {{ $precio }} </td>
-	            <td width="10%" class="align_right"> {{ $total }} </td>
+	            <td field="precio" cod="{{ $q->id }}" class="edit align_right" width="10%"> {{ f_num::get5($q->precio) }} </td>
+	            <td width="10%" class="align_right"> {{ f_num::get3($q->total) }} </td>
 	        </tr>
 		@endforeach
 	    

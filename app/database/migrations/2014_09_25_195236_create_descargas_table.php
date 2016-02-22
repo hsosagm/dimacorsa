@@ -25,8 +25,8 @@ class CreateDescargasTable extends Migration {
 			$table->increments('id');
 			$table->integer('descarga_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
-			$table->decimal('cantidad', 8, 2);
-			$table->decimal('precio', 8, 2);
+			$table->decimal('cantidad', 8, 5);
+			$table->decimal('precio', 8, 5);
 			$table->text('serials');
 			$table->timestamps();
 			$table->foreign('descarga_id')->references('id')->on('descargas')->onDelete('cascade')->onUpdate('cascade');
