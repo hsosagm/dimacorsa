@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class ProductoController extends Controller {
 
@@ -85,8 +85,8 @@ class ProductoController extends Controller {
             'descripcion'       =>  "[ ".$marca->nombre." ] ".$query->descripcion,
             'p_costo'           => 'Precio Costo: '.f_num::get5($precio_c),
             'p_costo_descarga'  =>  f_num::get5($precio_c),
-            'p_publico'         => 'Precio Publico: '.$query->p_publico,
-            'p_publico_venta'   =>  $query->p_publico,
+            'p_publico'         => 'Precio Publico: '.round($query->p_publico, 2),
+            'p_publico_venta'   =>  round($query->p_publico, 2),
             'existencia_total'  => 'Existencia: '.$query->existencia,
             'existencia'        => 'Existencia: '.$Existencia,
             'id'                =>  $query->id
