@@ -8,16 +8,12 @@
 	<tbody >
         <?php $deuda = 0; ?>
 		@foreach($detalle as $q)
-		    <?php
-			    $deuda = $deuda + $q->total;        
-		        $precio = f_num::get($q->precio);
-		        $total = f_num::get($q->total);
-	        ?>
+		    <?php  $deuda = $deuda + $q->total; ?>
 	        <tr>
 	            <td class="edit" width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
-	            <td class="right" width="10%"> {{ $precio }} </td>
-	            <td width="10%" class="right"> {{ $total }} </td>
+	            <td class="right" width="10%"> {{ f_num::get5($q->precio); }} </td>
+	            <td width="10%" class="right"> {{ f_num::get5($q->total); }} </td>
 	        </tr>
 		@endforeach
 	</tbody>
@@ -26,7 +22,7 @@
 		    <td></td>
 		    <td class="center">Total descarga </td>
 		    <td></td>
-		    <td class="right">{{ f_num::get($deuda); }} </td>
+		    <td class="right">{{ f_num::get5($deuda); }} </td>
 	    </tr>
 	</tfoot>
 </table>
