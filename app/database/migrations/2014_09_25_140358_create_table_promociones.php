@@ -12,7 +12,8 @@ class CreateTablePromociones extends Migration {
 			$table->increments('id');
 			$table->integer('producto_id')->unsigned();
 			$table->integer('precio_venta_id')->unsigned();
-			$table->decimal('p_promocion', 8, 5);
+			$table->decimal('p_promocion', 8, 5
+				);
 			$table->date('fecha_inicio');
 			$table->date('fecha_fin');
 			$table->timestamps();

@@ -146,7 +146,7 @@ class BaseModel extends Eloquent   {
 
         $query = Producto::find(Input::get('producto_id'));
 
-        $values['ganancias'] = $values['precio'] - ( $query->p_costo / 100);
+        $values['ganancias'] = $values['precio'] - ( $query->p_costo );
         $class::create($values);
         return 'success';
     }
