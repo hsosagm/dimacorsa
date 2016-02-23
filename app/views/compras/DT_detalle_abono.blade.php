@@ -12,8 +12,8 @@
 		
 		@foreach($detalle as $key => $dt)
 		<?php
-		        $total = f_num::get($dt->total);
-		        $monto = f_num::get($dt->monto);
+		        $total = f_num::get5($dt->total);
+		        $monto = f_num::get5($dt->monto);
 		        
 		        $abonos = DetalleAbonosCompra::select(DB::raw('sum(monto) as total'))
 		        ->whereCompraId($dt->compra_id)
@@ -25,8 +25,8 @@
 		        ->where('created_at','<',$dt->fecha)->first();
 
 		        $saldo_ant = $dt->total - ($abonos->total + $pagos->total);
-		        $saldo_anterior = f_num::get($saldo_ant );
-		        $saldo = f_num::get(($saldo_ant - $dt->monto));
+		        $saldo_anterior = f_num::get5($saldo_ant );
+		        $saldo = f_num::get5(($saldo_ant - $dt->monto));
 	        ?>
 		<tr>
 			<td>{{$dt->numero_documento}}</td>
