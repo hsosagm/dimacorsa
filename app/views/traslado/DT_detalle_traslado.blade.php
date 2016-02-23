@@ -15,8 +15,8 @@
 	        <tr>
 	            <td class="edit" width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
-	            <td class="right" width="10%"> {{ f_num::get($q->precio) }} </td>
-	            <td width="10%" class="right"> {{ f_num::get($q->total) }} </td>
+	            <td class="right" width="10%"> {{ f_num::get5($q->precio) }} </td>
+	            <td width="10%" class="right"> {{ f_num::get5($q->total) }} </td>
 	        </tr>
 		@endforeach
 	</tbody>
@@ -25,7 +25,7 @@
 		    <td></td>
 		    <td class="center">Total traslado</td>
 		    <td></td>
-		    <td class="right">{{ f_num::get($deuda); }} </td>
+		    <td class="right">{{ f_num::get5($deuda); }} </td>
 	    </tr>
 	</tfoot>
 </table>
