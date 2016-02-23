@@ -34,7 +34,7 @@
                     }
                 },
             ],
-            "order": [[ 1, "desc" ]],
+            "order": [[ 2, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
                 $("td[class*='formato_precio']").each(function() {
