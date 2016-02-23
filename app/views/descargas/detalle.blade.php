@@ -31,7 +31,7 @@
 					<div class="row">
 						<div class="col-md-8" >  Total Descarga: </div>
 						<div class="col-md-4" id="totalventas" class="td_total_text" style="text-align:right; padding-right:50px;" >
-							{{ f_num::get($deuda) }} 
+							{{ f_num::get5($deuda) }} 
 						</div>
 					</div>
 			    </td>
