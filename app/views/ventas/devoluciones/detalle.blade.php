@@ -48,7 +48,7 @@
 		    <tr v-repeat="dt: detalleTable" v-class="editing : this == editedTodo">
                 <td width="10%" class="view" v-text="dt.cantidad" v-on="dblclick: editItem"></td>
                 <td width="10%" class="detail-input-edit">
-                    <input field="cantidad" type="text" v-model="dt.cantidad | cleanNumber" class="input_numeric" 
+                    <input field="cantidad" type="text" v-model="dt.cantidad | cleanNumber" class="input_numeric"
                         v-on="keyup : doneEdit(this) | key 'enter', keyup : cancelEdit(this, $event) | key 'esc'">
                 </td>
                 <td width="70%">@{{ dt.descripcion }}</td>
@@ -59,7 +59,7 @@
                 	<i v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"></i>
                 </td>
                 <td width="5%">
-                	<i class="fa fa-barcode fg-theme"  v-on="click: getSerialsForm(dt.serials, $index)"></i>
+                	<i class="fa fa-barcode fg-theme"  v-on="click: getSerialsForm($index)"></i>
                 </td>
             </tr>
 		</tbody>

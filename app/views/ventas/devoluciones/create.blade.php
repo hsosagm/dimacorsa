@@ -38,7 +38,7 @@
 <script type="text/javascript">
 
     var devoluciones = new Vue({
-        
+
         el: '#devoluciones',
 
         data: {
@@ -98,7 +98,7 @@
                     }
                     msg.warning(data, 'Advertencia!')
                     $('button[type=submit]', form).prop('disabled', false)
-                }) 
+                })
 
                 e.preventDefault()
             },
@@ -127,11 +127,11 @@
                 $.ajax({
                     type: 'POST',
                     url: 'user/ventas/devoluciones/postDevolucionDetalle',
-                    data: { 
-                        venta_id: this.venta.id, 
-                        devolucion_id: this.devolucion_id, 
+                    data: {
+                        venta_id: this.venta.id,
+                        devolucion_id: this.devolucion_id,
                         producto_id: this.producto.id,
-                        cantidad: $("input[name=cantidad]").val(), 
+                        cantidad: $("input[name=cantidad]").val(),
                         ganancias: this.producto.ganancias ,
                         precio: this.producto.precio ,
                     },
@@ -223,18 +223,18 @@
                 })
             },
 
-            getSerialsForm: function(serials, index) {
+            getSerialsForm: function(index) {
                 if (this.detalleTable[index].serials == null)
                     this.detalleTable[index].serials = []
 
                 $.ajax({
                     type: "GET",
                     url: 'user/ventas/devoluciones/getSerialsForm',
-                    data: {serials: serials, serial_index: index},
+                    data: { serials: this.detalleTable[index].serials, serial_index: index },
                 }).done(function(data) {
                     if (!data.success == true)
                         msg.warning(data, 'Advertencia!');
-                    
+
                     $('.modal-body').html(data.view);
                     $('.modal-title').text('Ingresar Series');
                     $('.bs-modal').modal('show');

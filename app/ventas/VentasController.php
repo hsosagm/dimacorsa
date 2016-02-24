@@ -1,6 +1,6 @@
 <?php namespace App\ventas;
 
-use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago;
+use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago, PagosVenta, Caja;
 
 class VentasController extends \BaseController {
 
@@ -149,7 +149,7 @@ class VentasController extends \BaseController {
         		$dt->serials = explode(',', $dt->serials);
         	}
         }
- 
+
         return $detalle;
 	}
 
@@ -223,33 +223,55 @@ class VentasController extends \BaseController {
         }
     }
 
-    public function PaymentForm()
+    public function paymentForm()
     {
     	if (Input::has('_token'))
     	{
-			$pv = new PagosVenta;
-
-			if (!$pv->_create())
-			{
-				return $pv->errors();
-			}
+			$venta = Venta::find(Input::get('venta_id'));
+			$venta->completed = 1;
+			$venta->saldo = $saldo;
+			$venta->caja_id = $caja->id;
+			$venta->total = $total->total;
     	}
 
         $values = DB::table('metodo_pago')->where('id', '<', 6)->select('id', 'descripcion')->get();
 
         $i=0;
         foreach ($values as $value) {
-            $metodosDePago[$i]['value'] = $value->id;
-            $metodosDePago[$i]['text'] = $value->descripcion;
+            $paymentsOptions[$i]['value'] = $value->id;
+            $paymentsOptions[$i]['text'] = $value->descripcion;
             $i++;
         }
 
-        $metodosDePago = json_encode($metodosDePago);
+        $paymentsOptions = json_encode($paymentsOptions);
 
         return  Response::json(array(
         	'success' => true,
-        	'detalle' => View::make('ventas::paymentForm', compact('metodosDePago'))->render()
+        	'detalle' => View::make('ventas::paymentForm', compact('paymentsOptions'))->render()
         ));
+    }
+
+    public function endSale()
+    {
+    	$insert = DB::table('pagos_ventas')->insert(Input::get('payments'));
+
+    	if (!$insert) return Success::false();
+
+		$caja = Caja::whereUserId(Auth::user()->id)->first();
+
+        $update = DB::table('ventas')->whereId(Input::get('venta_id'))
+        ->update(array(
+        	'completed' => 1,
+        	'saldo'     => Input::get('saldo'),
+        	'total'     => Input::get('total'),
+        	'caja_id'   => $caja->id
+        ));
+
+        if ($update) return Success::true();
+
+        DB::table('pagos_ventas')->whereVentaId(Input::get('venta_id'))->delete();
+
+        return Success::false();
     }
 
 }

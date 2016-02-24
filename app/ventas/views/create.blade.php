@@ -58,7 +58,7 @@
 <script type="text/javascript">
 
     var ventas = new Vue({
-        
+
         el: '#ventas',
 
         data: {
@@ -76,7 +76,8 @@
         },
 
         watch: {
-            'detalleTable': function () {
+            'detalleTable': function ()
+            {
                 var sum = 0
                 for (var i = this.detalleTable.length - 1; i >= 0; i--) {
                     sum += parseFloat(this.detalleTable[i]["total"])
@@ -87,17 +88,20 @@
 
         filters: {
             parseInt: {
-                read: function(val) {
+                read: function(val)
+                {
                     return  parseInt(val)
                 },
 
-                write: function(val, oldVal) {
+                write: function(val, oldVal)
+                {
                     var number = +val.replace(/[^\d.]/g, '')
                     return isNaN(number) ? 0 : number
                 }
             },
             parseFloat: {
-                read: function(val) {
+                read: function(val)
+                {
                     return  parseFloat(val).toFixed(2)
                 },
 
@@ -108,122 +112,121 @@
             },
         },
 
+        computed: {
+            _token: function() {
+                return $("input[name=_token]").val()
+            }
+        },
+
         methods: {
             generarVenta: function(e)
             {
                 var form = $(".form-generarVenta")
                 $('button[type=submit]', form).prop('disabled', true)
-                var token = $("input[name=_token]").val()
 
                 $.ajax({
                     type: form.attr('method'),
                     url: form.attr('action'),
-                    data: { cliente_id: this.cliente.id, _token: token },
+                    data: { cliente_id: this.cliente.id, _token: this._token },
                 }).done(function(data) {
-                    if (data.success == true)
-                    {
-                        $('.master-detail-body').slideUp('slow',function() {
-                            $('.master-detail-body').html(data.detalle)
-                            $('.master-detail-body').slideDown('slow', function() {
-                                $("input[name=producto]").focus()
-                            })
-                        })
-                        return msg.success('Venta generada', 'Listo!')
+                    if (!data.success) {
+                        $('button[type=submit]', form).prop('disabled', false)
+                        return msg.warning(data, 'Advertencia!')
                     }
-                    msg.warning(data, 'Advertencia!')
-                    $('button[type=submit]', form).prop('disabled', false)
+
+                    $('.master-detail-body').slideUp('slow',function() {
+                        $('.master-detail-body').html(data.detalle)
+                        $('.master-detail-body').slideDown('slow', function() {
+                            $("input[name=producto]").focus()
+                        })
+                    })
                 })
-                e.preventDefault();
+                e.preventDefault()
             },
 
-            showEditCustomer: function() {
-                this.showNewCustomerForm = false;
-                this.showEditCustomerForm = !this.showEditCustomerForm;
+            showEditCustomer: function()
+            {
+                this.showNewCustomerForm = false
+                this.showEditCustomerForm = !this.showEditCustomerForm
             },
 
-            showNewCustomer: function() {
-                this.showEditCustomerForm = false;
-                this.showNewCustomerForm = !this.showNewCustomerForm;
+            showNewCustomer: function()
+            {
+                this.showEditCustomerForm = false
+                this.showNewCustomerForm = !this.showNewCustomerForm
             },
 
-            getInfoCliente: function(id) {
+            getInfoCliente: function(id)
+            {
                 $.get( "/user/cliente/getInfo",  { id: id }, function( data ) {
-                    ventas.cliente = data;
-                    ventas.updateClienteId(data.id);
-                });
+                    ventas.cliente = data
+                    ventas.updateClienteId(data.id)
+                })
             },
 
-            updateClienteId: function(id) {
+            updateClienteId: function(id)
+            {
                 if (ventas.venta_id > 0) {
                     $.ajax({
                         type: 'POST',
                         url: '/user/ventas/updateClienteId',
                         data: { venta_id: ventas.venta_id, cliente_id: id },
-                        success: function (data) {
-                            if (data.success == true)
-                                return msg.success('Dato actualizado', 'Listo!');
+                    }).done(function(data) {
+                        if (!data.success)
+                            return msg.warning(data, 'Advertencia!')
 
-                            msg.warning(data, 'Advertencia!');
-                        }
-                    });
+                        msg.success('Dato actualizado', 'Listo!')
+                    })
                 }
             },
 
-            createNewCustomer: function(e) {
-
-                var form = $(e.target).closest("form");
-                $('input[type=submit]', form).prop('disabled', true);
+            createNewCustomer: function(e)
+            {
+                var form = $(e.target).closest("form")
+                $('input[type=submit]', form).prop('disabled', true)
 
                 $.ajax({
                     type: form.attr('method'),
                     url: form.attr('action'),
                     data: form.serialize(),
-                    success: function (data) {
-                        if (data.success == true) {
-                            ventas.cliente = data.info;
-                            ventas.showNewCustomerForm = false;
-                            ventas.updateClienteId(data.info.id);
-                            return msg.success('Cliente creado', 'Listo!');
-                        }
-
-                        msg.warning(data, 'Advertencia!');
-                        $('input[type=submit]', form).prop('disabled', false);
-                    },
-                    error: function(errors) {
-                        $('input[type=submit]', form).prop('disabled', false);
+                }).done(function(data) {
+                    if (!data.success) {
+                        $('input[type=submit]', form).prop('disabled', false)
+                        return msg.warning(data, 'Advertencia!')
                     }
-                });
+                    ventas.cliente = data.info
+                    ventas.showNewCustomerForm = false
+                    ventas.updateClienteId(data.info.id)
+                    msg.success('Cliente creado', 'Listo!')
+                }).fail(function (jqXHR, textStatus) {
+                    $('input[type=submit]', form).prop('disabled', false)
+                })
 
-                e.preventDefault();
+                e.preventDefault()
             },
 
-
-            editCustomer: function(e) {
-
-                var form = $(e.target).closest("form");
-                $('input[type=submit]', form).prop('disabled', true);
+            editCustomer: function(e)
+            {
+                var form = $(e.target).closest("form")
+                $('input[type=submit]', form).prop('disabled', true)
 
                 $.ajax({
                     type: form.attr('method'),
                     url: form.attr('action'),
                     data: form.serialize(),
-                    success: function (data) {
-
-                        if (data.success == true) {
-                            ventas.cliente = data.info;
-                            ventas.showEditCustomerForm = false;
-                            return msg.success('Cliente actualizado', 'Listo!');
-                        }
-
-                        msg.warning(data, 'Advertencia!');
-                        $('input[type=submit]', form).prop('disabled', false);
-                    },
-                    error: function(errors) {
-                        $('input[type=submit]', form).prop('disabled', false);
+                }).done(function(data) {
+                    if (!data.success) {
+                        $('input[type=submit]', form).prop('disabled', false)
+                        return msg.warning(data, 'Advertencia!')
                     }
-                });
+                    ventas.cliente = data.info
+                    ventas.showEditCustomerForm = false
+                    msg.success('Cliente actualizado', 'Listo!')
+                }).fail(function (jqXHR, textStatus) {
+                    $('input[type=submit]', form).prop('disabled', false)
+                })
 
-                e.preventDefault();
+                e.preventDefault()
             },
 
             findProducto: function(e)
@@ -233,13 +236,13 @@
                     url: 'user/ventas/findProducto',
                     data: { codigo: $(e.target).val() },
                 }).done(function(data) {
-                    if (data.success == true) {
-                        ventas.producto = data.values
-                        $("input[name='cantidad']").val("")
-                        return $("input[name='cantidad']").focus()
-                    }
-                    msg.warning(data)
-                });
+                    if (!data.success)
+                        return msg.warning(data)
+
+                    ventas.producto = data.values
+                    $("input[name='cantidad']").val("")
+                    $("input[name='cantidad']").focus()
+                })
             },
 
             postVentaDetalle: function(e)
@@ -259,46 +262,54 @@
                 $.ajax({
                     type: 'POST',
                     url: 'user/ventas/postVentaDetalle',
-                    data: { 
-                        venta_id: this.venta_id, 
+                    data: {
+                        venta_id:    this.venta_id,
                         producto_id: this.producto.id,
-                        cantidad: $("input[name=cantidad]").val(),
-                        precio: $("input[name=precio]").val(),
+                        cantidad:    $("input[name=cantidad]").val(),
+                        precio:      $("input[name=precio]").val(),
                     },
                 }).done(function(data) {
-                    if (data.success) {
-                        $("input[name=cantidad]").val('')
-                        $("input[name=precio]").val('')
-                        $("input[name=codigo]").val('').focus()
-                        ventas.producto = []
-                        return ventas.detalleTable = data.detalle
-                    }
-                    msg.warning(data, 'Advertencia!')
+                    if (!data.success)
+                        return msg.warning(data, 'Advertencia!')
+
+                    $("input[name=cantidad]").val('')
+                    $("input[name=precio]").val('')
+                    $("input[name=codigo]").val('').focus()
+                    ventas.producto = []
+                    ventas.detalleTable = data.detalle
                 })
             },
 
-            editItem: function(event, name, textContent) {
+            editItem: function(event, name, textContent)
+            {
                 this.beforeEditCache[name] = textContent
                 $(event.target).closest('td').hide()
                 $(event.target).closest('td').next('td').show()
                 $(event.target).closest('td').next('td').find('input').focus().select()
             },
 
-            cancelEdit: function (that, event, name) {
+            cancelEdit: function (that, event, name)
+            {
                 that.dt[name] = this.beforeEditCache[name]
                 $(event.target).closest('td').hide()
                 $(event.target).closest('td').prev('td').show()
             },
 
-            doneEdit: function(that) {
+            doneEdit: function(that)
+            {
                 if (!that.dt.cantidad) return
 
                 $.ajax({
                     type: 'POST',
                     url: 'user/ventas/UpdateDetalle',
-                    data: { id: that.dt.id, cantidad: that.dt.cantidad, precio: that.dt.precio,
-                        producto_id: that.dt.producto_id, venta_id: that.dt.venta_id, 
-                        _token: $("input[name=_token]").val() },
+                    data: {
+                        id:          that.dt.id,
+                        cantidad:    that.dt.cantidad,
+                        precio:      that.dt.precio,
+                        producto_id: that.dt.producto_id,
+                        venta_id:    that.dt.venta_id,
+                        _token:      this._token
+                    },
                 }).done(function(data) {
                     if (!data.success)
                         return msg.warning(data, 'Advertencia!')
@@ -308,18 +319,19 @@
                 })
             },
 
-            removeItem: function(index, id) {
+            removeItem: function(index, id)
+            {
                 $.confirm({
                     confirm: function() {
                         $.ajax({
                             type: 'POST',
                             url: 'user/ventas/removeItem',
-                            data: { id: id, _token: $("input[name=_token]").val() },
+                            data: { id: id, _token: this._token },
                         }).done(function(data) {
-                            if (data.success)
-                                return ventas.detalleTable.$remove(index)
+                            if (!data.success)
+                                return msg.warning(data, 'Advertencia!')
 
-                            msg.warning(data, 'Advertencia!')
+                            ventas.detalleTable.$remove(index)
                         })
                     }
                 })
@@ -328,39 +340,37 @@
             eliminarVenta: function()
             {
                 $.confirm({
-                    confirm: function() {
-                        var token = $("input[name=_token]").val()
-
+                    confirm: function()
+                    {
                         $.ajax({
                             type: 'POST',
                             url: 'user/ventas/eliminarVenta',
-                            data: { id: ventas.venta_id, _token: token },
+                            data: { id: ventas.venta_id, _token: this._token },
                         }).done(function(data) {
-                            if (data.success == true)
-                            {
-                                $(".form-panel").hide()
-                                $(".forms").html("")
-                                return msg.success('Venta eliminada', 'Listo!')
-                            }
-                            msg.warning(data, 'Advertencia!')
+                            if (!data.success)
+                                return msg.warning(data, 'Advertencia!')
+
+                            $(".form-panel").hide()
+                            $(".forms").html("")
+                            msg.success('Venta eliminada', 'Listo!')
                         })
                     }
                 })
             },
 
-            getSerialsForm: function(serials, index) {
-                if (this.detalleTable[index].serials == null) {
+            getSerialsForm: function(index)
+            {
+                if (this.detalleTable[index].serials == null)
                     this.detalleTable[index].serials = []
-                }
 
                 $.ajax({
                     type: "GET",
                     url: 'user/ventas/getSerialsForm',
-                    data: {serials: this.detalleTable[index].serials, serial_index: index}, // ? corregir en devoluciones
+                    data: { serials: this.detalleTable[index].serials, serial_index: index },
                 }).done(function(data) {
                     if (!data.success)
                         msg.warning(data, 'Advertencia!');
-                    
+
                     $('.modal-body').html(data.view);
                     $('.modal-title').text('Ingresar Series');
                     $('.bs-modal').modal('show');
@@ -374,7 +384,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: 'user/ventas/PaymentForm',
+                    url: 'user/ventas/paymentForm',
                     data: { venta_id: this.venta_id, totalVenta: this.totalVenta },
                 }).done(function(data) {
                     if (!data.success)
@@ -399,13 +409,15 @@
         }
     });
 
-    function venta_compile() {
+    function venta_compile()
+    {
         ventas.$nextTick(function() {
             ventas.$compile(ventas.$el);
         });
     };
 
-    function add_producto_to_venta() {
+    function add_producto_to_venta()
+    {
         var codigo = $('.dataTable tbody .row_selected td:first-child').text();
         $("input[name='codigo']").val(codigo);
         $(".dt-container").hide();
@@ -415,7 +427,7 @@
             url: 'user/ventas/findProducto',
             data: { codigo: codigo },
         }).done(function(data) {
-            if (!data.success == true)
+            if (!data.success)
                 return msg.warning(data);
 
             ventas.producto = data.values;
@@ -427,7 +439,8 @@
 
     $('#cliente').autocomplete({
         serviceUrl: '/user/cliente/search',
-        onSelect: function (data) {
+        onSelect: function (data)
+        {
             ventas.getInfoCliente(data.id);
             $('#cliente').val("");
             ventas.verCliente = true;

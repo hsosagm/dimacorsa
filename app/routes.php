@@ -229,8 +229,8 @@
             Route::post('eliminarVenta'                       , 'App\ventas\VentasController@eliminarVenta');
             Route::post('removeItem'                          , 'App\ventas\VentasController@removeItem');
             Route::post('UpdateDetalle'                       , 'App\ventas\VentasController@UpdateDetalle');
-            Route::get('PaymentForm'                          , 'App\ventas\VentasController@PaymentForm');
-            Route::post('PaymentForm'                         , 'App\ventas\VentasController@PaymentForm');
+            Route::get('paymentForm'                          , 'App\ventas\VentasController@paymentForm');
+            Route::post('endSale'                             , 'App\ventas\VentasController@endSale');
 
             Route::post('detalle'                             , 'VentasController@detalle');
             Route::post('updateClienteId'                     , 'VentasController@updateClienteId');
@@ -724,16 +724,7 @@
 
     Route::get('/test', function()
     {
-        $values = DB::table('metodo_pago')->where('id', '<', 6)->select('id', 'descripcion')->get();
 
-        $i=0;
-        foreach ($values as $value) {
-            $metodosDePago[$i]['value'] = $value->id;
-            $metodosDePago[$i]['text'] = $value->descripcion;
-            $i++;
-        }
-
-        $metodosDePago = json_encode($metodosDePago);
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

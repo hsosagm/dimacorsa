@@ -1,10 +1,10 @@
 <div id="serialsForm">
-	<div class="row" id="serialsForm">
+	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-10">
 			<input v-on="keyup: pushSerial | key 'enter'" type="text" id="input_serie" class="form-control">
 		</div>
-		<div class="col-md-1"> 
+		<div class="col-md-1">
 			<i v-on="click: pushSerial" class="fa fa-plus fg-theme"></i>
 		</div>
 	</div>

@@ -54,13 +54,13 @@
 		    <tr v-repeat="dt: detalleTable" v-class="editing: this == editedTodo">
                 <td width="10%" class="view" v-on="dblclick: editItem($event, 'cantidad', dt.cantidad)">@{{ dt.cantidad | currency '' }}</td>
                 <td width="10%" class="detail-input-edit">
-                    <input type="text" v-model="dt.cantidad | parseInt" class="input_numeric" 
+                    <input type="text" v-model="dt.cantidad | parseInt" class="input_numeric"
                         v-on="keyup: doneEdit(this) | key 'enter', keyup: cancelEdit(this, $event, 'cantidad') | key 'esc'">
                 </td>
                 <td width="70%">@{{ dt.descripcion }}</td>
                 <td width="10%" class="view" v-on="dblclick: editItem($event, 'precio', dt.precio)" style="text-align:right; padding-right: 20px !important;">@{{ dt.precio | currency '' }}</td>
                 <td width="10%" class="detail-input-edit">
-                    <input type="text" v-model="dt.precio | parseFloat" class="input_numeric" 
+                    <input type="text" v-model="dt.precio | parseFloat" class="input_numeric"
                         v-on="keyup: doneEdit(this) | key 'enter', keyup: cancelEdit(this, $event, 'precio') | key 'esc'">
                 </td>
                 <td width="10%" style="text-align:right; padding-right: 20px !important;">@{{ dt.total | currency '' }}</td>
@@ -68,7 +68,7 @@
                 	<i v-on="click: removeItem($index, dt.id)" class="fa fa-trash-o pointer btn-link theme-c"></i>
                 </td>
                 <td width="5%">
-                	<i class="fa fa-barcode fg-theme"  v-on="click: getSerialsForm(dt.serials, $index)"></i>
+                	<i class="fa fa-barcode fg-theme"  v-on="click: getSerialsForm($index)"></i>
                 </td>
             </tr>
 		</tbody>
@@ -99,6 +99,6 @@
 <script>
 	ventas.venta_id = {{ $venta_id }};
 	venta_compile();
-	$('.parseInt').autoNumeric({ mDec:0, mRound:'S', vMin: '0', vMax: '9999', lZero: 'deny', mNum:10});
-	$('.parseFloat').autoNumeric({ mDec:2, mRound:'S', vMin: '0', vMax: '999999', lZero: 'deny', mNum:10});
+	$('.parseInt').autoNumeric({ mDec:0, mRound:'S', vMin: '0', vMax: '9999', lZero: 'deny', mNum:10 });
+	$('.parseFloat').autoNumeric({ mDec:2, mRound:'S', vMin: '0', vMax: '999999', lZero: 'deny', mNum:10 });
 </script>

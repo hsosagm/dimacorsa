@@ -58,37 +58,6 @@ function OpenModalSalesPayments($venta_id)
     });
 };
 
-
-$(document).on('submit', 'form[data-remote-sales-payment]', function(e) {
-
-    var form = $(this);
-
-    $('input[type=submit]', form).prop('disabled', true);
-
-        $.ajax({
-            type: form.attr('method'),
-            url: form.attr('action'),
-            data: form.serialize(),
-            success: function (data) {
-
-                if (data.success == true)
-                {
-                    msg.success('Pago ingresado', 'Listo!');
-                    $('.modal-body').html(data.detalle);
-                }
-                else
-                {
-                    msg.warning(data, 'Advertencia!');
-                    $('input[type=submit]', form).prop('disabled', false);
-                }
-            }
-
-        });
-
-    e.preventDefault();
-});
-
-
 function RemoveSalePayment($id, $venta_id) {
 
     $.ajax({
