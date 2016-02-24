@@ -17,8 +17,8 @@ class CreateProductosTable extends Migration {
 			$table->string('codigo', 50);
 			$table->string('descripcion',100);
 			$table->integer('existencia')->default(0);
-			$table->decimal('p_costo', 8, 5);
-			$table->decimal('p_publico', 8, 5);
+			$table->decimal('p_costo', 11, 5);
+			$table->decimal('p_publico', 11, 5);
 			$table->integer('stock_minimo')->default(0);
 			$table->integer('inactivo'); 
 

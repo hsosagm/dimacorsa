@@ -167,10 +167,10 @@ class CompraController extends \BaseController {
 			if ($this->SeachPaymentMethod() != null )
 				return 'no puede ingresar dos pagos con el mismo metodo..!';
 
-				$montoRestante = ($this->TotalPurchase() - $this->TotalPurchasePayment());
-				$montoIngresar = trim(Input::get("monto"));
+			$montoRestante = ($this->TotalPurchase() - $this->TotalPurchasePayment());
+			$montoIngresar = trim(Input::get("monto"));
 
-			if(round($montoRestante, 3) < round($montoIngresar, 3))
+			if(round($montoRestante, 5) < round($montoIngresar, 5))
 				return 'El moto ingresado no puede ser mayor al monto Restante..!';
 
 			$pagos = new PagosCompra;
@@ -195,7 +195,7 @@ class CompraController extends \BaseController {
 		$pagos = PagosCompra::whereCompraId(Input::get('compra_id'));
 		$pagos->delete();
 
-		$total_compra = number_format($detalle_compra->total, 3, '.', '');
+		$total_compra = number_format($detalle_compra->total, 5, '.', '');
 
 		return Response::json(array(
 			'success' => true,
@@ -205,8 +205,8 @@ class CompraController extends \BaseController {
 
 	public function PurchasePaymentDetail()
 	{
-		$total_pagos = number_format($this->TotalPurchasePayment(), 3, '.', '');
-		$total_compra = number_format($this->TotalPurchase(), 3, '.', '');
+		$total_pagos = number_format($this->TotalPurchasePayment(), 5, '.', '');
+		$total_compra = number_format($this->TotalPurchase(), 5, '.', '');
 		$det_pagos    = $this->TableDetailsPayments();
 
 		return Response::json( array(
