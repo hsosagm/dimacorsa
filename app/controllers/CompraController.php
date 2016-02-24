@@ -167,8 +167,8 @@ class CompraController extends \BaseController {
 			if ($this->SeachPaymentMethod() != null )
 				return 'no puede ingresar dos pagos con el mismo metodo..!';
 
-				$montoRestante = ($this->TotalPurchase() - $this->TotalPurchasePayment());
-				$montoIngresar = trim(Input::get("monto"));
+			$montoRestante = ($this->TotalPurchase() - $this->TotalPurchasePayment());
+			$montoIngresar = trim(Input::get("monto"));
 
 			if(round($montoRestante, 5) < round($montoIngresar, 5))
 				return 'El moto ingresado no puede ser mayor al monto Restante..!';
