@@ -1,9 +1,6 @@
 {{ Form::open(array('data-chart', 'data-success' => 'Gastos por fecha')) }}
-
     <div class="row" style="height: 275px;">
-
         <div class="master-detail-info">
-
             <table class="master-table short_calendar" style="margin-top: 20px; margin-left: 20px;">
                 <tr>
                     <td>Seleccionar fecha inicio:</td>
@@ -13,17 +10,12 @@
                 </tr>
             </table>
         </div>
-
         <div class="col-md-6 search-proveedor-info">  </div>
-
     </div>
-
     <div class="form-footer" align="right">
         {{ Form::submit('Ok!', array('class'=>'theme-button')) }}
     </div>
-
 {{ Form::close() }}
-
 
 <script>
 

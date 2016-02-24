@@ -44,7 +44,6 @@
 <div class="body-detail">
 	@include('descargas.detalle')
 </div>
-
 <div class="form-footer" >
 	<?php $id_descarga = "'".Crypt::encrypt($descarga_id)."'";?>
     <div class="row">

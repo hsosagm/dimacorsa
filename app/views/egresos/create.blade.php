@@ -1,8 +1,6 @@
 
 {{ Form::open(array('data-remote-md-2', 'data-success' => $message, 'method' =>'post', 'role'=>'form', 'class' => 'form-horizontal')) }}
-
     <input name="{{$name}}" value="{{$id}}" type="text" class="hide">
-
     <div class="form-group">
          <div class="col-lg-4"> 
             Descripcion:
@@ -45,11 +43,8 @@
     </div>
 
     <div class="modal-footer">
-
         <button class="btn btn-danger" id="delete_egreso" type="button">Eliminar!</button>
-
     </div>
-
 {{ Form::close() }}
 
 <script type="text/javascript">
