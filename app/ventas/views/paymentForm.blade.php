@@ -23,7 +23,7 @@
 			<th></th>
 		</tr>
 		<tr v-repeat="dp: paymentsView">
-			<td> @{{ metodoPagoNombre(dp.metodo_pago_id) }}</td>
+			<td> @{{ metodoPagoNombre(dp.metodo_pago_id) }} </td>
 			<td> @{{ dp.monto | currency '' }} </td>
 			<td class="right">
 				<i class="fa fa-trash-o fa-lg icon-delete" v-on="click: eliminarPago($index)"></i>
@@ -62,18 +62,24 @@
 
 			totalRestante: ventas.totalVenta,
 
-			totalVuelto: 0
+			totalVuelto: 0,
+
+			totalSaldo: 0
 		},
 
 		watch: {
 			'payments': function ()
 			{
 				this.totalPagado = 0;
+				this.totalSaldo = 0;
 				this.totalRestante = this.totalDeuda;
 
 				for (var i = 0; i < this.paymentsView.length; i++) {
 					this.totalRestante -= parseFloat(this.paymentsView[i]["monto"]);
 					this.totalPagado += parseFloat(this.paymentsView[i]["monto"]);
+					if(this.payments[i]["metodo_pago_id"] == 2) {
+						this.totalSaldo = parseFloat(this.paymentsView[i]["monto"]);
+					}
 				}
 
 				if(this.totalRestante <= 0) {
@@ -92,7 +98,7 @@
 		ready:function(){
 			this.metodo_pago = {{ json_encode(MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id', '<', 6)->get()) }};
 			$('#monto').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
-   			$('#monto').autoNumeric('set', this.totalRestante);
+			$('#monto').autoNumeric('set', this.totalRestante);
 		},
 
 		methods: {
@@ -120,11 +126,11 @@
 
 			validarData: function() {
 				for (var i = 0; i < this.payments.length; i++) {
-                    if(this.payments[i]["metodo_pago_id"] == this.form.metodo_pago_id) {
-                    	msg.warning('El metodo de pago ya ha sido ingresado..!');
-                        return false;
-                    }
-                }
+					if(this.payments[i]["metodo_pago_id"] == this.form.metodo_pago_id) {
+						msg.warning('El metodo de pago ya ha sido ingresado..!');
+						return false;
+					}
+				}
 
 				if(parseFloat(this.form.monto) <= 0 || this.form.monto == "" || this.form.monto == null) {
 					msg.warning('El monto tiene que ser mayor que 0..!');
@@ -137,7 +143,6 @@
 						return false;
 					}
 				}
-
 				return true;
 			},
 
@@ -153,13 +158,23 @@
 				this.paymentsView.$remove(index);
 			},
 
-			enviarPagos: function(){
-				console.log(JSON.stringify(this.payments));
-				console.log(ventas.totalVenta);
-				console.log("================================================================");
+			enviarPagos: function(e){
+				e.target.disabled = true;
+				$.ajax({
+					type: "POST",
+					url: 'user/ventas/endSale',
+					data: { payments: this.payments, total: this.totalDeuda, saldo: this.totalSaldo, venta_id: ventas.venta_id }
+				}).done(function(data) {
+					if (data.success == true) {
+						$('.bs-modal').modal('hide');
+						msg.success('Venta finalizada', 'Listo!');
+						return  $(".form-panel").hide();
+					}
+					e.target.disabled = false;
+					msg.warning(data, 'Advertencia!');
+				});
 			}
 		}
 	});
-
-
+	
 </script>
