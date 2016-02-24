@@ -61,7 +61,8 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
     }
 
     $('#loader').hide();
-    $('[type=submit]').prop('disabled', false);
+    $('input[type=submit]').prop('disabled', false);
+    $('button[type=submit]').prop('disabled', false);
 
 });
 
@@ -308,71 +309,41 @@ function _delete_dt(e) {
 
 function _print(e)
 {
-    if (isLoaded()) {
-        qz.findPrinter();
-        window['qzDoneFinding'] = function() {
-            var printer = qz.getPrinter();
-            
-            if (printer !== null) {
-
-                $.ajax({
-                    type: "POST",
-                    url: "admin/barcode/print_code",
-                    data: { id: $('.dataTable tbody .row_selected').attr('id') },
-                    contentType: 'application/x-www-form-urlencoded',
-                    success: function (data, text)
-                    {
-                        if (data["success"] == true)
+    console.log("imprimir");
+        $.ajax({
+            type: "POST",
+            url: "admin/barcode/print_code",
+            data: { id: $('.dataTable tbody .row_selected').attr('id') },
+            success: function (data, text)
+            {
+                if (data["success"] == true)
+                {
+                    $("#barcode").show();
+                    $("#barcode").JsBarcode(
+                        data["codigo"] , 
                         {
-                            // $("#barcode").barcode(
-                            //     data["codigo"],
-                            //     data["tipo"],
-                            //     { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"] }
-                            // );
-
-                            $("#barcode").show();
-
-                            $("#barcode").JsBarcode(
-                                data["codigo"] , 
-                                {
-                                    width:  2,
-                                    height: 100,
-                                    backgroundColor:"#ffffff",
-                                    format: "CODE128",
-                                    displayValue: true,
-                                    fontSize: 16
-                                }
-                            );
-
-                            html2canvas($("#barcode"), {
-                                onrendered: function(canvas) {
-                                    var myImage = canvas.toDataURL("image/png");
-                                    if (notReady()) { return; }
-                                    qz.setPaperSize("62mm", "18mm");  // barcode
-                                    qz.setOrientation("portrait");
-                                    qz.setAutoSize(true);
-                                    qz.appendImage(myImage);
-                                    window['qzDoneAppending'] = function() {
-                                        qz.printPS();
-                                        $("#barcode").hide();
-                                        window['qzDoneAppending'] = null;
-                                    };
-                                }
-                            });
+                            width:  2,
+                            height: 68,
+                            backgroundColor:"#ffffff",
+                            format: "CODE128",
+                            displayValue: true,
+                            fontSize: 16
                         }
-                        else
-                        {
-                            msg.warning('Hubo un error', 'Advertencia!')
+                    );
+
+                    html2canvas($("#barcode"), {
+                        onrendered: function(canvas) {
+                            var myImage = canvas.toDataURL("image/png");
+                            var ventana = open("" ,'_blank');
+                            ventana = ventana.document.write('<img src="'+myImage+'" width="300" height="65"/>');
                         }
-                    }
-                });
+                    });
+                } 
+                else {
+                    msg.warning('Hubo un error', 'Advertencia!')
+                }
             }
-            else {
-                msg.error('La impresora  no se encuentra', 'Error!');
-            }
-            window['qzDoneFinding'] = null;
-        };
-    }
+        });
 };
 
 function makeTable($data, $url, $title) {

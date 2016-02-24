@@ -6,17 +6,20 @@ class NotaCreditoController extends \BaseController {
         if (Input::has('_token'))
         {
             $notaCredito = new NotaCredito;
-            $caja = Caja::whereUserId(Auth::user()->id)->first();
+            //$caja = Caja::whereUserId(Auth::user()->id)->first();
             $data = Input::all();
             $data['tipo'] = 'Adelanto';
             $data['estado'] = 0;
+
             if (!$notaCredito->create_master($data))
-            {
                 return $notaCredito->errors();
-            }
+
             return 'success';
         }
-        return View::make('notas_creditos.create');
+
+        $metodo_pago = MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id','!=',2)->where('id','!=',6)->where('id','!=',7)->get();
+
+        return View::make('notas_creditos.create', compact("metodo_pago"));
     }
 
     public function getFormSeleccionarTipoDeNotaDeCredito()
@@ -35,12 +38,16 @@ class NotaCreditoController extends \BaseController {
     {
         $notaDeCredito = NotaCredito::find(intval(Input::get('nota_credito_id')));
 
-        if ($notaDeCredito->estado == 1) {
+        if ($notaDeCredito->estado == 1) 
             return 'No se puede eliminar por que ya fue utilizada en una venta...';
-        }
 
-        if(NotaCredito::destroy(Input::get('nota_credito_id')))
+        if (trim($notaDeCredito->tipo) == "adelanto") {
+            Adelanto::destroy($notaDeCredito->tipo_id);
+            NotaCredito::destroy(Input::get('nota_credito_id'));
             return Response::json(array('success' => true));
+        }        
+
+        return "Solo se pueden eliminar adelantos..";
     }
 
     public function getConsultarNotasDeCreditoCliente()
@@ -82,5 +89,54 @@ class NotaCreditoController extends \BaseController {
             'success' => true,
             'table' => View::make('notas_creditos.consultarNotasDeCreditoCliente', compact('data'))->render()
         ));
+    }
+
+     public function getDetalleNotaDeCredito() {
+
+        $notaCredito = NotaCredito::find(Input::get("nota_credito_id"));
+
+        if (trim($notaCredito->tipo) == "adelanto") {
+            $adelanto = Adelanto::with('pagos')->find($notaCredito->tipo_id);
+            
+            return Response::json(array(
+                'success' => true,
+                'table'   => View::make('notas_creditos.detalleAdelanto',compact('adelanto'))->render())
+            );
+        }
+
+        if (trim($notaCredito->tipo) == "devolucion") {
+            $detalle = $this->getDevolucionesDetalle($notaCredito->tipo_id);
+ 
+            return Response::json(array(
+                'success' => true,
+                'table'   => View::make('ventas.devoluciones.DT_detalleDevolucion',compact('detalle'))->render())
+            );
+        }
+    }
+
+    public function getDevolucionesDetalle($id)
+    {
+        $detalle = DB::table('devoluciones_detalle')
+        ->select(array(
+            'devoluciones_detalle.id',
+            'devolucion_id',
+            'producto_id',
+            'cantidad',
+            'precio',
+            'ganancias',
+            'serials',
+            DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
+        ->whereDevolucionId($id)
+        ->join('productos', 'devoluciones_detalle.producto_id', '=', 'productos.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->get();
+
+        foreach ($detalle as $dt) {
+            if ($dt->serials) {
+                $dt->serials = explode(',', $dt->serials);
+            }
+        }
+ 
+        return $detalle;
     }
 }

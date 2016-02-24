@@ -9,6 +9,5 @@ class DevolucionValidator extends ValidatorAssistant {
         'user_id'          => 'required|integer|min:1',
         'tienda_id'        => 'required|integer|min:1',
         'venta_id'         => 'required|integer|min:1',
-        'caja_id'          => 'required|integer|min:1',
     );
 }

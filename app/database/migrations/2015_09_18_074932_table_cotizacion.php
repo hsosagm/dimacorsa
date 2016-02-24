@@ -13,7 +13,7 @@ class TableCotizacion extends Migration {
 			$table->integer('cliente_id')->unsigned();
             $table->integer('tienda_id')->unsigned()->default(1);
             $table->integer('user_id')->unsigned();
-            $table->decimal('saldo', 8, 2)->default(0.00);
+            $table->decimal('saldo', 8, 5)->default(0.00);
             $table->decimal('total')->default(0.00);
             $table->boolean('completed')->default(0);
 			$table->timestamps();
@@ -29,7 +29,7 @@ class TableCotizacion extends Migration {
 			$table->integer('producto_id')->default(0);
 			$table->text('descripcion');
 			$table->integer('cantidad')->unsigned();
-			$table->decimal('precio', 8, 2);
+			$table->decimal('precio', 8, 5);
 			$table->timestamps();
 			$table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onDelete('cascade')->onUpdate('cascade');
 		});

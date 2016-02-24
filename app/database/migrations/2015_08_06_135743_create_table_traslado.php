@@ -14,7 +14,7 @@ class CreateTableTraslado extends Migration {
             $table->integer('user_id')->unsigned();
             $table->integer('tienda_id_destino')->unsigned();
             $table->integer('user_id_recibido')->nullable();
-            $table->decimal('total')->default(0.00);
+            $table->decimal('total', 8, 5)->default(0.00);
             $table->boolean('recibido')->default(0);
             $table->boolean('status')->default(0);
             $table->boolean('kardex')->default(0);
@@ -31,7 +31,7 @@ class CreateTableTraslado extends Migration {
 			$table->integer('traslado_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
 			$table->integer('cantidad');
-			$table->decimal('precio', 8, 2);
+			$table->decimal('precio', 8, 5);
 			$table->text('serials');
 			$table->timestamps();
 			$table->foreign('traslado_id')->references('id')->on('traslados')->onDelete('cascade')->onUpdate('cascade');

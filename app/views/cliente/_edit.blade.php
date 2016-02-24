@@ -6,15 +6,20 @@
         <div class="col-sm-12">
             <h4>Actualizar cliente</h4>
         </div>
-    </div>
+    </div> 
 
     <div class="form-group row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <input type="text" name="nombre" style="width: 100% !important;" value="{{$cliente->nombre}}" class="input sm_input" placeholder="Nombre">
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <input type="text" name="direccion" style="width: 100% !important;" value="{{$cliente->direccion}}" class="input sm_input" placeholder="Direccion">
         </div>
+        @if(Auth::user()->hasRole("Owner") || Auth::user()->hasRole("Admin"))
+            <div class="col-sm-5">
+                <input type="text" name="dias_credito" style="width: 100% !important;" value="{{$cliente->dias_credito}}" class="input sm_input" placeholder="Direccion">
+            </div>
+        @endif
     </div>
 
     <div class="form-group row">

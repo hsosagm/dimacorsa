@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class ProcesarCompra 
 {	
@@ -62,7 +62,7 @@ class ProcesarCompra
 			$producto = ProcesarCompra::getPrecioProducto($dt->producto_id);
 
 			//funcion para calcular el precio costo del producto
-			$precio = ProcesarCompra::getPrecio(($dt->precio*100),$dt->cantidad,$producto[0],$producto[1]);
+			$precio = ProcesarCompra::getPrecio(($dt->precio),$dt->cantidad,$producto[0],$producto[1]);
 
 			$existencia = ProcesarCompra::getCantidad($dt->producto_id,$dt->cantidad);
 
@@ -83,7 +83,7 @@ class ProcesarCompra
 			$producto = ProcesarCompra::getPrecioProducto($dt->producto_id);
 
 			//funcion para setear el precio del producto
-			$precio = ProcesarCompra::resetPrecio(($dt->precio*100),$dt->cantidad,$producto[0],$producto[1]);
+			$precio = ProcesarCompra::resetPrecio(($dt->precio),$dt->cantidad,$producto[0],$producto[1]);
 			$existencia = ProcesarCompra::resetCantidad($producto_id,$dt->cantidad);
 
 			//funcion para actualizar los datos ya seteados del producto

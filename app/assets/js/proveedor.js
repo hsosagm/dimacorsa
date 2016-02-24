@@ -47,6 +47,7 @@ function proveedor_nuevo(e,element) {
             }
             else {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         }
     });
@@ -80,6 +81,7 @@ function proveedor_new(e,element) {
             }
             else {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         }
     });
@@ -165,6 +167,7 @@ function contacto_create(e,element) {
             }
             else {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         }
     });
@@ -234,6 +237,7 @@ function contacto_update(e,element) {
             }
             else {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         }
     });
@@ -257,6 +261,7 @@ function proveedor_update(e,element)
             }
             else {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         }
     });
@@ -286,6 +291,7 @@ function proveedor_actualizar(e,element)
             }
             else {
                 msg.warning(data, 'Advertencia!');
+                $('input[type=submit]', form).removeAttr('disabled');
             }
         }
     });
@@ -309,6 +315,7 @@ function proveedor_contacto_delete(element,proveedor_contacto_id)
                     }
                     else {
                         msg.warning(data, 'Advertencia!');
+                        $('input[type=submit]', form).removeAttr('disabled');
                     }
                 }
             });

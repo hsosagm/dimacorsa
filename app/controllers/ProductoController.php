@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class ProductoController extends Controller {
 
@@ -10,13 +10,9 @@ class ProductoController extends Controller {
             $producto = new Producto;
 
             if ($producto->_create())
-            {
                 return 'success';
-            }
             else
-            {
                 return $producto->errors();
-            }
     	}
 
         return View::make('producto.create');
@@ -31,13 +27,9 @@ class ProductoController extends Controller {
 	    	$producto = Producto::find(Input::get('id'));
 
 			if ( $producto->_update() )
-			{
 		        return 'success';
-			}
 			else
-			{
 			    return $producto->errors();
-			}
     	}
 
         $producto = Producto::find(Input::get('id'));
@@ -59,9 +51,7 @@ class ProductoController extends Controller {
     	$delete = Producto::destroy(Input::get('id'));
 
     	if ($delete)
-    	{
     		return 'success';
-    	}
 
     	return 'error';
     }
@@ -72,42 +62,35 @@ class ProductoController extends Controller {
         $values = preg_replace('/\s{2,}/', ' ', $values);
 
         if ($values == '')
-        {
             return 'El campo del codigo se encuentra vacio...!';
-        }
 
         $query = Producto::where('codigo', '=',Input::get('codigo'))->first();
 
         if($query == '')
-        {
             return 'el codigo que buscas no existe..!';
-        }
 
         $Existencia = Existencia::where('producto_id','=',$query->id)
         ->where('tienda_id','=',Auth::user()->tienda_id)->first();
 
         if($Existencia != '')
-        {
             $Existencia = $Existencia->existencia;
-        }
         else
-        {
             $Existencia = 0;
-        }
-            $precio_c = $query->p_costo / 100;
-            $marca = Marca::find($query->marca_id);
 
-            return array(
-                'success'           => true,
-                'descripcion'       =>  "[ ".$marca->nombre." ] ".$query->descripcion,
-                'p_costo'           => 'Precio Costo: '.f_num::get($precio_c,2),
-                'p_costo_descarga'  =>  f_num::get($precio_c,2),
-                'p_publico'         => 'Precio Publico: '.$query->p_publico,
-                'p_publico_venta'   =>  $query->p_publico,
-                'existencia_total'  => 'Existencia: '.$query->existencia,
-                'existencia'        => 'Existencia: '.$Existencia,
-                'id'                =>  $query->id
-            );
+        $precio_c = $query->p_costo;
+        $marca = Marca::find($query->marca_id);
+
+        return array(
+            'success'           => true,
+            'descripcion'       =>  "[ ".$marca->nombre." ] ".$query->descripcion,
+            'p_costo'           => 'Precio Costo: '.f_num::get5($precio_c),
+            'p_costo_descarga'  =>  f_num::get5($precio_c),
+            'p_publico'         => 'Precio Publico: '.round($query->p_publico, 2),
+            'p_publico_venta'   =>  round($query->p_publico, 2),
+            'existencia_total'  => 'Existencia: '.$query->existencia,
+            'existencia'        => 'Existencia: '.$Existencia,
+            'id'                =>  $query->id
+        );
     }
 
     public function getInventario()
@@ -129,7 +112,7 @@ class ProductoController extends Controller {
             "codigo",
             "nombre",
             "descripcion",
-            "ROUND(p_costo/100,2) as p_costo",
+            "ROUND(p_costo, 5) as p_costo",
             "p_publico",
             "existencias.existencia as existencia",
             "productos.existencia as existencia_total"

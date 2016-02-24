@@ -11,9 +11,7 @@ class VentasController extends \BaseController {
 			$data = Input::all(); 
 
 			if (!$venta->create_master($data))
-			{
 				return $venta->errors();
-			}
 
 			$venta_id = $venta->get_id();
 
@@ -21,11 +19,11 @@ class VentasController extends \BaseController {
 				'success' => true,
 				'detalle' => View::make('ventas.detalle', compact('venta_id'))->render()
             ));
-		}
+		} 
 
 		return View::make('ventas.create');
 	}
- 
+  
 
 	public function detalle()
 	{
@@ -52,20 +50,18 @@ class VentasController extends \BaseController {
             }*/
 
 
-			if ($this->check_if_code_exists_in_this_sale() == true) {
+			if ($this->check_if_code_exists_in_this_sale() == true) 
 				return "El codigo ya ha sido ingresado..";
-			}
-
+			
 			$nueva_existencia = $this->check_inventory();
-			if ($nueva_existencia === false) {
+
+			if ($nueva_existencia === false) 
 				return "La cantidad que esta ingresando es mayor a la existencia..";
-			}
 
 			$query = new DetalleVenta;
-			if ( !$query->SaleItem()) // ?
-			{
+
+			if ( !$query->SaleItem())
 				return $query->errors();
-			}
 
 			Existencia::where('producto_id', Input::get('producto_id'))
 			->where('tienda_id',Auth::user()->tienda_id)
@@ -156,9 +152,7 @@ class VentasController extends \BaseController {
 	    ->first();
 
 	    if($query == null)
-	    {
 	        return false;
-	    }
 
 	    return true;
     }
@@ -166,19 +160,16 @@ class VentasController extends \BaseController {
 
     public function check_inventory( $producto_id = null, $cantidad = null )
     {
-    	if ($producto_id === null) {
+    	if ($producto_id === null) 
     		$producto_id = Input::get('producto_id');
-    	}
 
-    	if ($cantidad === null) {
+    	if ($cantidad === null) 
     		$cantidad = Input::get('cantidad');
-    	}
 
 	    $query = Existencia::where('producto_id', $producto_id )->where('tienda_id', Auth::user()->tienda_id)->first();
 
-	    if ( $query == null || $query->existencia < $cantidad ) {
+	    if ( $query == null || $query->existencia < $cantidad ) 
 	    	return false;
-	    }
 
 	    $nueva_existencia = $query->existencia - $cantidad;
 
@@ -203,7 +194,6 @@ class VentasController extends \BaseController {
             	Input::merge(array('monto' => $resta_abonar));
             	$vuelto = floatval($monto) - floatval($resta_abonar);
             	$resta_abonar = 0;
-
             } 
             else 
             {
@@ -214,9 +204,7 @@ class VentasController extends \BaseController {
 			$pv = new PagosVenta;
 
 			if (!$pv->_create())
-			{
 				return $pv->errors();
-			}
 
 			$factura = DB::table('printer')->select('impresora')
 			->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
@@ -239,9 +227,8 @@ class VentasController extends \BaseController {
 
 		PagosVenta::where('venta_id', Input::get('venta_id'))->delete();
 
-        if ($this->getTotalVenta() == null ) {
+        if ($this->getTotalVenta() == null ) 
             return 'No a ingresado ningun producto a la factura...!';
-        }
 
         return $this->ViewPayments();
 	}
@@ -272,9 +259,7 @@ class VentasController extends \BaseController {
 
 		$TotalVenta = $this->getTotalVenta();
 		$resta_abonar = $TotalVenta - $this->getTotalPagado();
-
 		$resta_abonar = $resta_abonar - $monto;
-
 
 		$pv = new PagosVenta;
 		$pv->monto = $monto;
@@ -337,9 +322,8 @@ class VentasController extends \BaseController {
         $pagos = PagosVenta::where('venta_id', Input::get('venta_id'))
         ->first(array(DB::raw('sum(monto) as total')));
 
-        if ($pagos == null) {
+        if ($pagos == null) 
         	return 0;
-        }
 
         return $pagos->total;
 	}
@@ -349,9 +333,8 @@ class VentasController extends \BaseController {
 	{
 		$destroy = PagosVenta::destroy(Input::get('id'));
 
-		if ($destroy) {
+		if ($destroy) 
 			return $this->ViewPayments();
-		}
 
 		return 'error';
 	}
@@ -380,12 +363,10 @@ class VentasController extends \BaseController {
         ->where('metodo_pago_id', 2)
         ->first(array(DB::raw('monto')));
 
-        if ($credit == null) {
+        if ($credit == null) 
             $saldo = 0;
-        }
-        else {
+        else 
             $saldo = $credit->monto;
-        }
 
 		$notasCredito = PagosVenta::where('venta_id', Input::get('venta_id'))
         ->where('metodo_pago_id', 6)
@@ -406,12 +387,14 @@ class VentasController extends \BaseController {
 		$venta = Venta::find(Input::get('venta_id'));
 		$venta->completed = 1;
 		$venta->saldo = $saldo;
-		$venta->caja_id = $caja->id;
+
+		if (Auth::user()->tienda->cajas) 
+			$venta->caja_id = $caja->id;
+		
 		$venta->total = $total->total;
 
-		if ($venta->save()) {
+		if ($venta->save()) 
 			return Response::json(array( 'success' => true ));
-		}
 
 		return 'Hubo un error intentelo de nuevo';
 	}
@@ -514,10 +497,9 @@ class VentasController extends \BaseController {
 	{
 		$venta_id = Input::get('venta_id');
 		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
+
     	if(count($venta->detalle_venta)>0)
-    	{
         	return View::make('ventas.DemoFactura', compact('venta'))->render();
-    	}
     	else
         	return 'Ingrese productos ala factura para poder inprimir';
 	}
@@ -681,7 +663,7 @@ class VentasController extends \BaseController {
 		if($detalleVenta == null)
 			$detalleVenta = DetalleVenta::find($detalle_venta_id);
 
-		$precioCostoDetalleVenta = ($detalleVenta->precio - $detalleVenta->ganancias) * 100;
+		$precioCostoDetalleVenta = ($detalleVenta->precio - $detalleVenta->ganancias);
 
 		$producto = Producto::find($detalleVenta->producto_id);
 
@@ -713,7 +695,7 @@ class VentasController extends \BaseController {
 			$precio = preg_replace('/\s{2,}/', ' ', $precio);
 
 	        $query = Producto::find(Input::get('values.producto_id'));
-	        $ganancias = $precio - ( $query->p_costo / 100);
+	        $ganancias = $precio - ( $query->p_costo );
 			$detalleVenta = DetalleVenta::find( Input::get('values.id') );
 			$detalleVenta->precio = Input::get('values.precio');
 			$detalleVenta->ganancias = $ganancias;
@@ -726,18 +708,17 @@ class VentasController extends \BaseController {
 
 			return $this->returnDetail();
 		}
-		if ( Input::get('values.cantidad') < 1 ) {
+
+		if ( Input::get('values.cantidad') < 1 ) 
 			return 'La cantidad deve ser mayor a 0';
-		}
 		
 		$serarchCantidad = DetalleVenta::find(Input::get('values.id'));
 
 		$cantidad =  (Input::get('values.cantidad') - $serarchCantidad->cantidad);
 		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), $cantidad );
 
-		if ($nueva_existencia === false) {
+		if ($nueva_existencia === false) 
 			return "La cantidad que esta ingresando es mayor a la existencia..";
-		}
 
 		$this->recalcularPrecioCosto(Input::get('values.id'));
 		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), Input::get('values.cantidad') );
@@ -745,7 +726,7 @@ class VentasController extends \BaseController {
 		$detalleVenta = DetalleVenta::find(Input::get('values.id'));
 		$producto = Producto::find(Input::get('values.producto_id'));
 
-		$ganancias = $detalleVenta->precio - ($producto->p_costo / 100);
+		$ganancias = $detalleVenta->precio - ($producto->p_costo);
 		$detalleVenta->ganancias = $ganancias;
 		$detalleVenta->cantidad = Input::get('values.cantidad');
 		$detalleVenta->save();
@@ -756,43 +737,6 @@ class VentasController extends \BaseController {
 
 		return $this->returnDetail();
 	}
-
-	/*public function UpdateDetalle()
-	{
-		if ( Input::get('field') == 'precio' ) {
-
-			$precio = str_replace(',', '', Input::get('values.precio'));
-			$precio = preg_replace('/\s{2,}/', ' ', $precio);
-         $query = Producto::find(Input::get('values.producto_id'));
-         $ganancias = $precio - ( $query->p_costo / 100);
-
-			DetalleVenta::find( Input::get('values.id') )
-			->update(array('precio' => Input::get('values.precio'), 'ganancias' => $ganancias ));
-
-			return $this->returnDetail();
-		}
-
-		if ( Input::get('values.cantidad') < 1 ) {
-			return 'La cantidad deve ser mayor a 0';
-		}
-
-		$cantidad =  Input::get('values.cantidad') - Input::get('oldvalue');
-
-		$nueva_existencia = $this->check_inventory( Input::get('values.producto_id'), $cantidad );
-
-		if ($nueva_existencia === false) {
-			return "La cantidad que esta ingresando es mayor a la existencia..";
-		}
-
-		DetalleVenta::find( Input::get('values.id') )
-		->update(array('cantidad' => Input::get('values.cantidad')));
-
-		Existencia::where('producto_id', Input::get('values.producto_id'))
-		->where('tienda_id', Auth::user()->tienda_id)
-		->update(array('existencia' => $nueva_existencia));
-
-		return $this->returnDetail();
-	}*/
 
 	public function returnDetail()
 	{
@@ -835,10 +779,11 @@ class VentasController extends \BaseController {
         ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
         $saldo_vencido = DB::table('ventas')
-        ->select(DB::raw('sum(saldo) as total'))->where('saldo','>',0)
+        ->select(DB::raw('sum(ventas.saldo) as total'))->where('saldo','>',0)
+        ->join('clientes', 'cliente_id', '=', 'clientes.id')
         ->where('ventas.completed', '=', 1)
-        ->where(DB::raw('DATEDIFF(current_date,created_at)'),'>=',30)
-        ->where('tienda_id','=',Auth::user()->tienda_id)->first();
+        ->where(DB::raw('DATEDIFF(current_date, ventas.created_at)'),'>=','clientes.dias_credito')
+        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)->first();
          $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
 		$infoSaldosTotales = "Saldo total &nbsp;".f_num::get($saldo_total->total)."{$tab}Saldo vencido &nbsp;".f_num::get($saldo_vencido->total);
@@ -854,7 +799,7 @@ class VentasController extends \BaseController {
         		sum(ventas.saldo) as saldo_total,
         		(select sum(saldo) from ventas where
         			tienda_id = {$tienda_id} AND completed = 1 AND
-        			DATEDIFF(current_date, created_at) >= 30
+        			DATEDIFF(current_date, created_at) >= clientes.dias_credito
         			AND cliente_id = clientes.id) as saldo_vencido
         		"))
 	        ->join('ventas', 'ventas.cliente_id', '=', 'clientes.id')
@@ -887,10 +832,11 @@ class VentasController extends \BaseController {
         		sum(ventas.saldo) as saldo_total,
         		(select sum(saldo) from ventas where
         			tienda_id = {$tienda_id} AND completed = 1 AND
-        			DATEDIFF(current_date, created_at) >= 30
+        			DATEDIFF(current_date, created_at) >= clientes.dias_credito
         			AND user_id = users.id) as saldo_vencido
         		"))
 	        ->join('ventas', 'ventas.user_id', '=', 'users.id')
+	        ->join('clientes', 'clientes.id', '=', 'ventas.cliente_id')
 	        ->join('tiendas', 'tiendas.id', '=', 'users.tienda_id')
 	        ->where('ventas.saldo', '>', 0)
 	        ->where('ventas.completed', '=', 1)
@@ -904,66 +850,64 @@ class VentasController extends \BaseController {
         ));
 	}
 
-	public function getDetalleVentasPendientesPorUsuario()
+	public function getDetalleVentasPendientesPorUsuario() 
 	{
-		$table = 'ventas';
+		if (Input::has('dt')) 
+		{
+			$table = 'ventas';
 
-        $columns = array(
-            "ventas.id as id_compra",
-            "ventas.created_at as fecha_ingreso",
-            "clientes.nombre as usuario",
-            "ventas.total as total",
-            "ventas.saldo as saldo",
-            "DATEDIFF(current_date,ventas.created_at) as dias"
-        );
+	        $columns = array(
+	            "ventas.created_at as fecha_ingreso",
+	            "clientes.nombre as cliente",
+	            "ventas.total as total",
+	            "ventas.saldo as saldo",
+	            "DATEDIFF(current_date,ventas.created_at) as dias"
+	        ); 
 
-        $Search_columns = array("users.nombre","users.apellido","venta.created_at","ventas.total" ,"ventas.saldo");
+	        $Search_columns = array("clientes.nombre","ventas.created_at","ventas.total" ,"ventas.saldo");
 
-        $Join = "JOIN clientes ON (clientes.id = ventas.cliente_id) ";
+	        $Join = "JOIN clientes ON (clientes.id = ventas.cliente_id) ";
 
-        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
-        $where  = " ventas.saldo > 0 ";
-        $where .= " AND ventas.user_id = ".Input::get('user_id');
+	        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
+	        $where  = " ventas.saldo > 0 ";
+	        $where .= " AND ventas.user_id = ".Input::get('user_id');
 
-        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
-
-        $id_pagination = 'pagination_ventas_por_usuario';
-
+			return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
+		}
+		
         return Response::json(array(
             'success' => true,
-            'table'   => View::make('ventas.getVentasPendientesPorCliente', compact('detalle', 'id_pagination'))->render()
+            'table'   => View::make('ventas.getVentasPendientesPorUsuario')->render()
         ));
 
 	}
 
 	public function getVentasPendientesPorCliente()
 	{
-		$table = 'ventas';
+		if (Input::has('dt')) 
+		{
+			$table = 'ventas';
 
-        $columns = array(
-            "ventas.id as id_compra",
-            "ventas.created_at as fecha_ingreso",
-            "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-            "ventas.total as total",
-            "ventas.saldo as saldo",
-            "DATEDIFF(current_date,ventas.created_at) as dias"
-        );
+			$columns = array(
+				"ventas.created_at as fecha",
+				"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
+				"total",
+				"saldo",
+				"DATEDIFF(current_date,ventas.created_at) as dias"
+			);
 
-        $Search_columns = array("users.nombre","users.apellido","venta.created_at","ventas.total" ,"ventas.saldo");
+			$Search_columns = array("users.nombre","users.apellido","ventas.total",'ventas.created_at');
+			$where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
+			$where .= " AND ventas.saldo > 0 AND ventas.cliente_id = ".Input::get('cliente_id');
+			$Join = " JOIN users ON (users.id = ventas.user_id) ";
 
-        $Join = "JOIN users ON (users.id = ventas.user_id) ";
+			return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
 
-        $where  = " ventas.tienda_id = ".Auth::user()->tienda_id;
-        $where  = " ventas.saldo > 0 ";
-        $where .= " AND ventas.cliente_id = ".Input::get('cliente_id');
-
-        $detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
-
-        $id_pagination = 'pagination_ventas_por_cliente';
+		}
 
         return Response::json(array(
             'success' => true,
-            'table'   => View::make('ventas.getVentasPendientesPorCliente', compact('detalle', 'id_pagination'))->render()
+            'table'   => View::make('ventas.getVentasPendientesPorCliente')->render()
         ));
 
 	}
@@ -991,15 +935,16 @@ class VentasController extends \BaseController {
             ->join('ventas','ventas.user_id','=','users.id')
             ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
             ->where('users.tienda_id','=',Auth::user()->tienda_id)
-            ->where('users.status','=',1)
             ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d %H')= DATE_FORMAT('{$fecha}', '%Y-%m-%d %H')")
             ->orderBy('total', 'DESC')
             ->groupBy('users.id','users.nombre','users.apellido')
             ->get();
 
+        $cliente = "Usuario";
+
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas'))->render(),
+			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas', 'cliente'))->render(),
         ));
 	} 
 

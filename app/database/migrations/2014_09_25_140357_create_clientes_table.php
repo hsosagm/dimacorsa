@@ -17,6 +17,7 @@ class CreateClientesTable extends Migration {
 			$table->string('nit', 100);
 			$table->string('email', 100);
 			$table->decimal('limite_credito', 8, 2)->default(0.00);
+			$table->integer('dias_credito')->default(30);
 			$table->timestamps();
 			$table->foreign('tipo_cliente_id')->references('id')->on('tipo_cliente')->onDelete('restrict')->onUpdate('cascade');
 		});
@@ -37,6 +38,15 @@ class CreateClientesTable extends Migration {
 			$table->timestamps();
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade')->onUpdate('cascade');
 		});
+
+		DB::table('clientes')->insert(array(
+            array(
+            	'id' => 1, 
+            	'nombre' => 'Consumidor Final', 
+            	'direccion' => 'Ciudad',
+            	'nit' => 'C/F'
+            ),
+        ));
 	}
 
 	public function down()

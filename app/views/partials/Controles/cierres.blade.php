@@ -11,7 +11,9 @@
             <li><a href="javascript:void(0);" onClick="CierreDelMes();">Balance General</a></li>
         @endif
         <li><a href="javascript:void(0);" onClick="CierresDelMes();">Movimientos por fecha</a></li>
-        <li><a href="javascript:void(0);" onClick="resumenDeActividadActualDeCajas();">Movimiento de Cajas</a></li>
-        <li><a href="javascript:void(0);" onClick="cortesDeCajaPorDia()">Cortes de Caja</a></li>
+        @if (Auth::user()->tienda->cajas)
+            <li><a href="javascript:void(0);" onClick="resumenDeActividadActualDeCajas();">Movimiento de Cajas</a></li>
+            <li><a href="javascript:void(0);" onClick="cortesDeCajaPorDia()">Cortes de Caja</a></li>
+        @endif
     </ul>
 </li>

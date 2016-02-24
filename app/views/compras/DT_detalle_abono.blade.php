@@ -1,7 +1,7 @@
 <table class="DT_table_div" width="100%">
 
     <tr class="DT_table_div_detail">
-        	<td align="center">No. Compra</td>
+        	<td align="center">No. Documento</td>
 			<td align="center">Total</td>
 			<td align="center">Monto Abonado </td>
 			<td align="center">Saldo Anterior</td>
@@ -12,24 +12,24 @@
 		
 		@foreach($detalle as $key => $dt)
 		<?php
-		        $total = f_num::get($dt->total);
-		        $monto = f_num::get($dt->monto);
+		        $total = f_num::get5($dt->total);
+		        $monto = f_num::get5($dt->monto);
 		        
 		        $abonos = DetalleAbonosCompra::select(DB::raw('sum(monto) as total'))
-		        ->where('compra_id','=',$dt->compra_id)
+		        ->whereCompraId($dt->compra_id)
 		        ->where('created_at','<',$dt->fecha)->first();
 
 		        $pagos = PagosCompra::select(DB::raw('sum(monto) as total'))
-		        ->where('compra_id','=',$dt->compra_id)
+		        ->whereCompraId($dt->compra_id)
 		        ->where('metodo_pago_id','!=', 2)
 		        ->where('created_at','<',$dt->fecha)->first();
 
 		        $saldo_ant = $dt->total - ($abonos->total + $pagos->total);
-		        $saldo_anterior = f_num::get($saldo_ant );
-		        $saldo = f_num::get(($saldo_ant - $dt->monto));
+		        $saldo_anterior = f_num::get5($saldo_ant );
+		        $saldo = f_num::get5(($saldo_ant - $dt->monto));
 	        ?>
 		<tr>
-			<td>{{$dt->compra_id}}</td>
+			<td>{{$dt->numero_documento}}</td>
 			<td class="right">{{$total}}</td>
 			<td class="right">{{$monto}}</td>
 			<td class="right">{{$saldo_anterior}}</td>

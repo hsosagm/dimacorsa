@@ -21,6 +21,15 @@ class InformeGeneral extends Migration {
 			$table->timestamps();
 		});
 
+		DB::table('informe_general')->insert(array(
+            array(
+            	'id' => 1,
+             	'diferencia_inversion' => 0, 
+             	'diferencia_pagar' => 0,
+             	'diferencia_cobrar' => 0,
+            ),
+        ));
+
 		Schema::create('informe_inversion', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -36,6 +45,19 @@ class InformeGeneral extends Migration {
 			$table->foreign('informe_general_id')->references('id')->on('informe_general')->onDelete('cascade')->onUpdate('cascade');
 		});
 
+		DB::table('informe_inversion')->insert(array(
+            array(
+            	'id' => 1,
+            	'informe_general_id' => 1,
+             	'ventas' => 0, 
+             	'compras' => 0,
+             	'descargas' => 0,
+             	'traslados' => 0,
+             	'esperado' => 0,
+             	'real' => 0,
+            ),
+        ));
+
 		Schema::create('informe_cuentas_por_cobrar', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -49,6 +71,17 @@ class InformeGeneral extends Migration {
 			$table->foreign('informe_general_id')->references('id')->on('informe_general')->onDelete('cascade')->onUpdate('cascade');
 		});
 
+		DB::table('informe_cuentas_por_cobrar')->insert(array(
+            array(
+            	'id' => 1,
+            	'informe_general_id' => 1,
+             	'creditos' => 0, 
+             	'abonos' => 0,
+             	'esperado' => 0,
+             	'real' => 0,
+            ),
+        ));
+
 		Schema::create('informe_cuentas_por_pagar', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -61,6 +94,17 @@ class InformeGeneral extends Migration {
 
 			$table->foreign('informe_general_id')->references('id')->on('informe_general')->onDelete('cascade')->onUpdate('cascade');
 		});
+
+		DB::table('informe_cuentas_por_pagar')->insert(array(
+            array(
+            	'id' => 1,
+            	'informe_general_id' => 1,
+             	'creditos' => 0, 
+             	'abonos' => 0,
+             	'esperado' => 0,
+             	'real' => 0,
+            ),
+        ));
 	}
 
 	/**

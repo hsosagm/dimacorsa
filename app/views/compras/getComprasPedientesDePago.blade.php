@@ -17,11 +17,11 @@
             <tr class="" id="{{$q->id}}">
                 <td class="" width="20%"> {{ $q->proveedor }} </td>
                 <td class="" width="30%"> {{ $q->direccion }} </td>
-                <td class="right" width="15%"> {{ f_num::get($q->total) }} </td>
-                <td class="right" width="15%"> {{ f_num::get($q->saldo_total) }} </td>
-                <td class="right" width="15%"> {{ f_num::get($q->saldo_vencido) }} </td>
+                <td class="right" width="15%"> {{ f_num::get5($q->total) }} </td>
+                <td class="right" width="15%"> {{ f_num::get5($q->saldo_total) }} </td>
+                <td class="right" width="15%"> {{ f_num::get5($q->saldo_vencido) }} </td>
                 <td class="center" width="5%">
-                    <i id="{{$q->id}}" class="fa fa-plus-square btn-link theme-c" v-on="click: ComprasPendientesPorProveedor($event,{{$q->id}})" ></i>
+                    <i id="{{$q->id}}" class="fa fa-plus-square btn-link theme-c" onclick="vm.ComprasPendientesPorProveedor(this,{{$q->id}})" ></i>
                 </td>
             </tr>
         @endforeach

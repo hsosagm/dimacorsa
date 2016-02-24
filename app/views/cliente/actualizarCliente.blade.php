@@ -55,11 +55,20 @@
                         </div>
                     </div>
 
+                    @if(Auth::user()->hasRole("Owner") || Auth::user()->hasRole("Admin"))
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <input type="text" name="dias_credito" class="form-control" style="width: 100% !important;" value="{{$cliente->dias_credito}}" class="input sm_input" placeholder="Dias credito">
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="form-group">
                         <div class="col-sm-7">
                             <input class="btn theme-button" value="Guardar!" type="submit">
                         </div>
                     </div>
+
 
                     {{ Form::close() }}
                     </div>

@@ -39,7 +39,7 @@
                     <input class="form-control" name="direccion" value="{{ @$proveedor->direccion }}" placeholder="Direccion" type="text">
                 </div>
             </div>
-
+    
             <div class="form-group">
                 <div class="col-sm-7">
                   <input class="form-control" name="nit" value="{{ @$proveedor->nit }}" placeholder="Nit" type="text">
@@ -52,7 +52,12 @@
                 </div>
             </div>
 
-
+            @if(Auth::user()->hasRole("Owner") || Auth::user()->hasRole("Admin"))
+                <div class="col-sm-5">
+                    <input type="text" name="dias_credito" style="width: 100% !important;" value="{{$cliente->dias_credito}}" class="input sm_input" placeholder="Direccion">
+                </div>
+            @endif
+            
             <div style="" class="modal-footer">
                 <input class="btn theme-button" value="Guardar!" type="submit">
             </div>

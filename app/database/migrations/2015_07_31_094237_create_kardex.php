@@ -14,12 +14,27 @@ class CreateKardex extends Migration {
 			$table->timestamps();
 		});
 
+		DB::table('kardex_accion')->insert(array(
+            array('id' => 1, 'nombre' => 'insert'),
+            array('id' => 2, 'nombre' => 'update'),
+            array('id' => 3, 'nombre' => 'delete'),
+        ));
+
 		Schema::create('kardex_transaccion', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('nombre');
 			$table->timestamps();
 		}); 
+
+		DB::table('kardex_transaccion')->insert(array(
+            array('id' => 1, 'nombre' => 'compras'),
+            array('id' => 2, 'nombre' => 'ventas'),
+            array('id' => 3, 'nombre' => 'descargas'),
+            array('id' => 4, 'nombre' => 'traslados'),
+            array('id' => 5, 'nombre' => 'devolucion'),
+            array('id' => 6, 'nombre' => 'ajuste'),
+        ));
 
 		Schema::create('kardex', function(Blueprint $table)
 		{
@@ -33,8 +48,9 @@ class CreateKardex extends Migration {
 			$table->string('evento');
 			$table->integer('cantidad');
 			$table->integer('existencia');
-			$table->decimal('costo', 8, 2);
-			$table->decimal('costo_promedio', 8, 2);
+			$table->integer('existencia_tienda')->nullable();
+			$table->decimal('costo', 8, 5);
+			$table->decimal('costo_promedio', 8, 5);
 			$table->timestamps();
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

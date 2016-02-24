@@ -18,6 +18,10 @@ class TableCajasPorTienda extends Migration {
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 		});
 
+		DB::table('cajas')->insert(array(
+            array('id' => 1, 'nombre' => 'Caja 1', 'tienda_id' => 1),
+        ));
+
 		Schema::create('cierre_caja', function(Blueprint $table)
 		{
 			$table->increments('id');

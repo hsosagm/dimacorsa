@@ -10,9 +10,8 @@ class Fecha {
 		for($i=0; $i <= $diff; $i++)
 		{
 		    if($m <= 0)
-		    {
 		        $m = 12;
-		    }
+
 		    $months[] = $m;
 	        $meses = $months[$i];
 
@@ -48,9 +47,7 @@ class Fecha {
 		for($i=0; $i <= $diff; $i++)
 		{
 		    if($m <= 0)
-		    {
 		        $m = 12;
-		    }
 
 		    $monthNum[] = $m;
 		    $m--;

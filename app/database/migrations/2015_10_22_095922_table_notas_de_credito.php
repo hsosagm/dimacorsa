@@ -14,9 +14,10 @@ class TableNotasDeCredito extends Migration {
 			$table->integer('tienda_id')->unsigned();
 			$table->integer('user_id')->unsigned();
 			$table->boolean('estado')->default(0);
+			$table->integer('venta_id')->nullable();
 			$table->string('tipo');
 			$table->string('tipo_id');
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->timestamps();
 
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');

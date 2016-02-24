@@ -27,7 +27,7 @@
                             <input id="iSearch" type="text" class="form-control typeahead rounded" placeholder="Filtrar resultados">
                         </div>
                     </form>
-                </li>
+                </li> 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li v-on="click: clientes_table" class="dropdown navbar-message">

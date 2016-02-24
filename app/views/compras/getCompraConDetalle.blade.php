@@ -38,8 +38,8 @@
 						<tr>
 							<td width="10%"> {{ $dt->cantidad }} </td>
 							<td width="90%"> {{ $dt->producto->descripcion }} </td>
-							<td width="10%" style="text-align:right; padding-right: 20px !important;"> {{ f_num::get($dt->precio) }} </td>
-							<td width="10%" style="text-align:right; padding-right: 20px !important;"> {{ f_num::get($dt->precio * $dt->cantidad)}} </td>
+							<td width="10%" style="text-align:right; padding-right: 20px !important;"> {{ f_num::get5($dt->precio) }} </td>
+							<td width="10%" style="text-align:right; padding-right: 20px !important;"> {{ f_num::get5($dt->precio * $dt->cantidad)}} </td>
 						</tr>
 						<?php $total = $total + ( $dt->precio * $dt->cantidad ); ?>
 					@endforeach
@@ -50,7 +50,7 @@
 							<div class="row">
 								<div class="col-md-8" style="line-height: 140%;  font-size: 12px;" >  Total a cancelar </div>
 								<div class="col-md-4" style="text-align:right; padding-right:50px; line-height: 140%;  font-size: 12px;"> 
-									{{ f_num::get( $total ) }} 
+									{{ f_num::get5( $total ) }} 
 								</div>
 							</div>
 						</td>

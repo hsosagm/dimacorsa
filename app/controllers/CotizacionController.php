@@ -103,7 +103,6 @@ class CotizacionController extends \BaseController {
 	public function removeItemCotizacion()
 	{
 		$dv = DetalleCotizacion::find(Input::get('id'));
-
 		$delete = DetalleCotizacion::destroy(Input::get('id'));
 
 		if ($delete)
@@ -214,11 +213,19 @@ class CotizacionController extends \BaseController {
 			"(select sum(precio * cantidad) from detalle_cotizaciones where cotizacion_id = cotizaciones.id) as total",
 		);
 
-		$Search_columns = array("cotizaciones.id", "users.nombre", "users.apellido", "clientes.nombre", "cotizaciones.total", 'cotizaciones.created_at');
+		$Search_columns = array(
+			"cotizaciones.id",
+			"users.nombre", 
+			"users.apellido", 
+			"clientes.nombre", 
+			"cotizaciones.total", 
+			"cotizaciones.created_at"
+		);
 
 		$where = "cotizaciones.tienda_id = ".Auth::user()->tienda_id ;
 
-		$Join = "JOIN users ON (users.id = cotizaciones.user_id) JOIN clientes ON (clientes.id = cotizaciones.cliente_id)";
+		$Join  = "JOIN users ON (users.id = cotizaciones.user_id) ";
+		$Join .= "JOIN clientes ON (clientes.id = cotizaciones.cliente_id)";
 
 		return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
@@ -240,7 +247,8 @@ class CotizacionController extends \BaseController {
 		$where  = "cotizaciones.tienda_id = ".Auth::user()->tienda_id ;
 		$where .= " AND cotizaciones.user_id = ".Auth::user()->id ;
 
-		$Join = "JOIN users ON (users.id = cotizaciones.user_id) JOIN clientes ON (clientes.id = cotizaciones.cliente_id)";
+		$Join  = "JOIN users ON (users.id = cotizaciones.user_id) ";
+		$Join .= "JOIN clientes ON (clientes.id = cotizaciones.cliente_id) ";
 
 		return TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
@@ -254,7 +262,8 @@ class CotizacionController extends \BaseController {
         	'cantidad',
         	'precio',
 			'descripcion',
-        	DB::raw('cantidad * precio AS total') ))
+        	DB::raw('cantidad * precio AS total')
+        ))
         ->where('cotizacion_id', Input::get('cotizacion_id'))
         ->get();
 
@@ -361,7 +370,7 @@ class CotizacionController extends \BaseController {
 					$detalleVenta->producto_id = $producto->id;
 					$detalleVenta->precio = $dt->precio;
 					$detalleVenta->cantidad = $dt->cantidad;
-					$detalleVenta->ganancias = $dt->precio - ($producto->p_costo / 100);
+					$detalleVenta->ganancias = $dt->precio - ($producto->p_costo);
 					$detalleVenta->save();
 
 					$existencia = Existencia::whereTiendaId($cotizacion->tienda_id)

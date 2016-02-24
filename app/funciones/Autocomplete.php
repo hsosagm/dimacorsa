@@ -9,9 +9,7 @@ class Autocomplete {
         array_shift($columns);
 
         if ($plus != null) 
-        {
             array_pop($columns);
-        }
 
         $result = [];
 
@@ -25,13 +23,9 @@ class Autocomplete {
         foreach ($query as $q)
         {
             if ($plus == null) 
-            {
                 $result[] = [ 'id' => $q->id, 'value' => $q->$columns[0] . ' ' . $q->$columns[1] ];
-            }
             else
-            {
                 $result[] = [ 'id' => $q->id, 'value' => $q->$columns[0] . ' ' . $q->$columns[1] ,'descripcion' => $q->$plus];
-            }
         }
 
         $data['suggestions'] = $result;

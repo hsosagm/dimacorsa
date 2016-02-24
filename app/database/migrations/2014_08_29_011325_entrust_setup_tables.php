@@ -14,6 +14,12 @@ class EntrustSetupTables extends Migration
             $table->timestamps();
         });
 
+        DB::table('roles')->insert(array(
+            array('id' => 1, 'name' => 'Owner'),
+            array('id' => 2, 'name' => 'Admin'),
+            array('id' => 3, 'name' => 'User'),
+        ));
+
         // Creates the assigned_roles (Many-to-Many relation) table
         Schema::create('assigned_roles', function ($table) {
             $table->increments('id')->unsigned();
@@ -23,6 +29,10 @@ class EntrustSetupTables extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles');
         });
+
+        DB::table('assigned_roles')->insert(array(
+            array('user_id' => 1, 'role_id' => 1),
+        ));
 
         // Creates the permissions table
         Schema::create('permissions', function ($table) {

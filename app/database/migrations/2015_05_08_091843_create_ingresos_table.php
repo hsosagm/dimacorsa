@@ -12,6 +12,7 @@ class CreateIngresosTable extends Migration {
 			$table->increments('id');
             $table->integer('tienda_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->integer('caja_id')->default(0);
 			$table->timestamps();
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -21,7 +22,7 @@ class CreateIngresosTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('descripcion');
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->integer('ingreso_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();

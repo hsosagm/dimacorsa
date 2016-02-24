@@ -2,30 +2,43 @@
 
 class AdelantoController extends \BaseController {
 
-   public function create()
+    public function create()
     {
-        if (Input::has('_token'))
-        {
-            $adelanto = new Adelanto;
-            $caja = Caja::whereUserId(Auth::user()->id)->first();
- 
-            $data = Input::all();
-            $data['caja_id'] = $caja->id;
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
 
-            if (!$adelanto->create_master($data))
-            {
-                return $adelanto->errors();
-            }
+        $adelanto = new Adelanto;
+        $adelanto->cliente_id = Input::get('cliente_id');
+        $adelanto->total = Input::get('totalAdelanto');
+        $adelanto->descripcion = Input::get('descripcion');
+        $adelanto->completed = 1;
+        $adelanto->user_id = Auth::user()->id;
+        $adelanto->tienda_id = Auth::user()->tienda_id;
+    
+        if (Auth::user()->tienda->cajas) 
+            $adelanto->caja_id = $caja->id;
 
-            $adelanto_id = $adelanto->get_id();
+        $adelanto->save();
 
-            return Response::json(array(
-                'success' => true,
-                'detalle' => View::make('adelantos.detalle', compact('adelanto_id'))->render()
-            ));
+        $adelanto_id = $adelanto->id;
+        
+        $nc = new NotaCredito;
+        $nc->cliente_id =Input::get('cliente_id');
+        $nc->tienda_id = Auth::user()->tienda_id;
+        $nc->user_id = Auth::user()->id;
+        $nc->tipo = 'adelanto';
+        $nc->tipo_id = $adelanto_id;
+        $nc->monto = Input::get('totalAdelanto');
+        $nc->save();   
+
+        foreach (Input::get("detallePagos") as $dp) {
+            $adelantoPago = new AdelantoPago;
+            $adelantoPago->adelanto_id = $adelanto_id;
+            $adelantoPago->monto = $dp["monto"];
+            $adelantoPago->metodo_pago_id = $dp["metodo_pago_id"];
+            $adelantoPago->save();
         }
 
-        return View::make('adelantos.create');
+        return Response::json(["success" => true, "adelanto_id" => $adelanto_id]);
     }
 
     public function detalle()
@@ -35,7 +48,6 @@ class AdelantoController extends \BaseController {
             Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 
             $query = new AdelantoDetalle;
-
             $data = Input::all();
 
             if (Input::get('producto_id') > 0)
@@ -51,11 +63,8 @@ class AdelantoController extends \BaseController {
                 return $query->errors();
 
             $detalle = $this->getAdelantoDetalle();
-
             $detalle = json_encode($detalle);
-
             $totalAdelanto = AdelantoDetalle::select(DB::raw('sum(precio * cantidad) as total'))->first();
-
             $adelanto = Adelanto::find(Input::get('adelanto_id'));
             $adelanto->total = $totalAdelanto->total;
             $adelanto->save();
@@ -86,64 +95,47 @@ class AdelantoController extends \BaseController {
         return $detalle;
     }
 
-    /*public function __construct(Table $table)
-    {
-        $this->table = $table;
+    public function getAdelantos() {
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('adelantos.adelantos')->render()
+        ));
     }
 
-    public function create()
+    public function DTadelantos() 
     {
-        if (Input::has('_token'))
-        {
-            Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
+        $table = 'adelantos';
 
-            $query = new DetalleAdelanto;
+        $columns = array(
+            "adelantos.created_at as fecha",
+            "CONCAT_WS(' ', users.nombre, users.apellido) as usuario",
+            "clientes.nombre as cliente",
+            "adelantos.descripcion as descripcion",
+            "adelantos.total as total"
+        );
 
-            if ($query->_create())
-            {
-                $href = 'user/adelantos/delete_detail';
+        $Search_columns = array("users.nombre", "users.apellido", "clientes.nombre", "adelantos.descripcion");
+        $Join = "JOIN users ON (users.id = adelantos.user_id) JOIN clientes ON (clientes.id = adelantos.cliente_id)";
+        $where = ' adelantos.tienda_id = '. Auth::user()->tienda_id;
 
-                return Response::json(array('success' => true, 'detalle' => $this->table->detail($query, 'adelanto_id', $href )));
-            }
-
-            return $query->errors();
-        }
-
-        $adelanto = new Adelanto;
-
-        $caja = Caja::whereUserId(Auth::user()->id)->first();
-
-        $data = Input::all();
-        $data['caja_id'] = $caja->id;
-
-        if (!$adelanto->create_master($data))
-        {
-            return $adelanto->errors();
-        }
-
-        $id = $adelanto->get_id();
-
-        $message = 'Adelanto ingresado';
-
-        $name = 'adelanto_id';
-
-        return View::make('adelantos.create', compact('id', 'message', 'name'));
+        echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
 
-    public function delete()
+    public function getDetalleAdelantos()
     {
-        return $this->delete_detail();
+        $adelanto = Adelanto::with('pagos')->find(Input::get('adelanto_id'));
+            
+        return Response::json(array(
+            'success' => true,
+            'table'   => View::make('notas_creditos.detalleAdelanto',compact('adelanto'))->render())
+        );
     }
 
-    public function delete_detail()
+    public function comprobante()
     {
-        $delete = DetalleAdelanto::destroy(Input::get('id'));
+        $adelanto = Adelanto::with('cliente')->find(Input::get('adelanto_id'));
 
-        if ($delete)
-        {
-            return 'success';
-        }
-
-        return 'Huvo un error al tratar de eliminar';
-    } */
+        $pdf = PDF::loadView('adelantos.comprobante',  array( 'adelanto' => $adelanto ))->setPaper('letter');
+        return $pdf->stream('comprobante-adelanto');     
+    }
 }

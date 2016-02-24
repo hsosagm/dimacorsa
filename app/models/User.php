@@ -23,6 +23,11 @@ class User extends \BaseModel implements UserInterface, RemindableInterface {
         return $this->belongsTo('Tienda');    
     }
 
+    public function puesto()
+    {
+        return $this->belongsTo('Puesto');    
+    }
+
     public function gastos()
     {
         return $this->hasMany('Gasto');

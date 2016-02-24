@@ -14,11 +14,12 @@ class CreateVentasTable extends Migration {
             $table->integer('tienda_id')->unsigned()->default(1);
             $table->integer('user_id')->unsigned();
             $table->integer('caja_id');
-            $table->decimal('saldo', 8, 2)->default(0.00);
+            $table->decimal('saldo', 8, 5)->default(0.00);
             $table->decimal('total')->default(0.00);
             $table->boolean('completed')->default(0);
             $table->boolean('canceled')->default(0);
             $table->boolean('kardex')->default(0);
+            $table->integer('abono')->default(0);
 			$table->timestamps();
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
@@ -31,8 +32,8 @@ class CreateVentasTable extends Migration {
 			$table->integer('venta_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
 			$table->integer('cantidad')->unsigned();
-			$table->decimal('precio', 8, 2);
-			$table->decimal('ganancias', 8, 2)->default(0.00);
+			$table->decimal('precio', 8, 5);
+			$table->decimal('ganancias', 8, 5)->default(0.00);
 			$table->text('serials')->nullable();
 			$table->timestamps();
 			$table->foreign('venta_id')->references('id')->on('ventas')->onDelete('cascade')->onUpdate('cascade');
@@ -43,7 +44,7 @@ class CreateVentasTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('venta_id')->unsigned();
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
             $table->foreign('venta_id')->references('id')->on('ventas')->onDelete('cascade')->onUpdate('cascade');

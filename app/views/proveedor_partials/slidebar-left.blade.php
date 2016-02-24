@@ -56,7 +56,7 @@
             </ul>
         </li>
 
-{{--         <li v-show="proveedor_id" class="submenu">
+        {{--<li v-show="proveedor_id" class="submenu">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-file-o"></i></span>
                 <span class="text">Graficos</span>
@@ -67,7 +67,22 @@
                 <li><a v-on="click: chartComparativaPorMesPorProveedor" href="javascript:void(0);">Comparativa por mes</a></li>
             </ul>
         </li> --}}
+
+        <li v-show="proveedor_id" class="submenu">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-money"></i></span>
+                <span class="text">Estado de Cuenta</span>
+                <span class="arrow"></span>
+            </a>
+            <ul>
+                <li><a v-on="click: estadoDeCuenta(false)" href="javascript:void(0);">Exportar Excel</a></li>
+                <li><a v-on="click: estadoDeCuenta(true)" href="javascript:void(0);">Exportar PDF</a></li>
+            </ul>
+        </li>
+
          <!--/ End navigation - clientes -->
+
+
 
     </ul><!-- /.sidebar-menu -->
     <!--/ End left navigation - menu -->

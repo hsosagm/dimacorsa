@@ -102,6 +102,7 @@
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
             Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
             Route::get('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
+            Route::get('getDetalleNotaDeCredito', 'NotaCreditoController@getDetalleNotaDeCredito' );
         });
 
         Route::group(array('prefix' => 'consulta'), function()
@@ -155,6 +156,8 @@
             Route::post('crearCliente'            , 'ClienteController@crearCliente');
             Route::post('actualizarCliente'       , 'ClienteController@actualizarCliente');
             Route::post('eliminarCliente'         , 'ClienteController@eliminarCliente');
+            Route::get('estadoDeCuenta'           , 'ClienteController@estadoDeCuenta');
+            Route::post('enviarEstadoDeCuenta'    , 'ClienteController@enviarEstadoDeCuenta');
         });
 
         Route::group(array('prefix' => 'soporte'), function()
@@ -195,7 +198,6 @@
 
         Route::group(array('prefix' => 'adelantos'), function()
         {
-            Route::get('create'                  , 'AdelantoController@create' );
             Route::post('create'                 , 'AdelantoController@create' );
             Route::post('detalle'                , 'AdelantoController@detalle');
             Route::post('removeItemAdelanto'     , 'AdelantoController@removeItemAdelanto' );
@@ -203,6 +205,10 @@
             Route::get('ingresarProductoRapido'  , 'AdelantoController@ingresarProductoRapido' );
             Route::post('ingresarProductoRapido' , 'AdelantoController@ingresarProductoRapido' );
             Route::post('EliminarAdelanto'       , 'AdelantoController@EliminarAdelanto' );
+            Route::get('getDetalleAdelantos'     , 'AdelantoController@getDetalleAdelantos' );
+            Route::get('getAdelantos'            , 'AdelantoController@getAdelantos' );
+            Route::get('DTadelantos'             , 'AdelantoController@DTadelantos' );
+            Route::get('comprobante'             , 'AdelantoController@comprobante' );
         });
 
         Route::group(array('prefix' => 'productos'), function()
@@ -518,6 +524,7 @@
             Route::post('crearProveedor'             , 'ProveedorController@create');
             Route::post('actualizarProveedor'        , 'ProveedorController@edit');
             Route::post('eliminarProveedor'          , 'ProveedorController@delete');
+            Route::get('estadoDeCuenta'              , 'ProveedorController@estadoDeCuenta');
         });
 
 

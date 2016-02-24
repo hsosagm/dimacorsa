@@ -7,7 +7,7 @@ class CompraController extends \BaseController {
 		if (Input::has('_token'))
 		{
 			$compra = new Compra;
-
+ 
 			if (!$compra->create_master())
 				return $compra->errors();
 
@@ -111,11 +111,11 @@ class CompraController extends \BaseController {
 
 			$detalle = $this->TablePurchaseDetails();
 			$producto = Producto::find(Input::get('producto_id'));
-			$p_costo  = ProcesarCompra::getPrecio((Input::get('precio')*100), Input::get('cantidad'), $producto->p_costo, $producto->existencia);
+			$p_costo  = ProcesarCompra::getPrecio((Input::get('precio')), Input::get('cantidad'), $producto->p_costo, $producto->existencia);
 
 			return Response::json(array(
 				'success' => true,
-				'p_costo' => 'Precio Costo: '.($p_costo/100),
+				'p_costo' => 'Precio Costo: '.($p_costo),
 				'table'   => View::make('compras.detalle_body', compact("detalle", "codigoBarra"))->render(),
 			));
 		}
@@ -170,7 +170,7 @@ class CompraController extends \BaseController {
 				$montoRestante = ($this->TotalPurchase() - $this->TotalPurchasePayment());
 				$montoIngresar = trim(Input::get("monto"));
 
-			if(round($montoRestante, 2) < round($montoIngresar, 2))
+			if(round($montoRestante, 3) < round($montoIngresar, 3))
 				return 'El moto ingresado no puede ser mayor al monto Restante..!';
 
 			$pagos = new PagosCompra;
@@ -195,7 +195,7 @@ class CompraController extends \BaseController {
 		$pagos = PagosCompra::whereCompraId(Input::get('compra_id'));
 		$pagos->delete();
 
-		$total_compra = number_format($detalle_compra->total, 2, '.', '');
+		$total_compra = number_format($detalle_compra->total, 3, '.', '');
 
 		return Response::json(array(
 			'success' => true,
@@ -205,8 +205,8 @@ class CompraController extends \BaseController {
 
 	public function PurchasePaymentDetail()
 	{
-		$total_pagos = number_format($this->TotalPurchasePayment(), 2, '.', '');
-		$total_compra = number_format($this->TotalPurchase(), 2, '.', '');
+		$total_pagos = number_format($this->TotalPurchasePayment(), 3, '.', '');
+		$total_compra = number_format($this->TotalPurchase(), 3, '.', '');
 		$det_pagos    = $this->TableDetailsPayments();
 
 		return Response::json( array(
@@ -229,7 +229,7 @@ class CompraController extends \BaseController {
 		$datos = array( Input::get('dato') => Input::get('dato'));
 
 		$validaciones = array(
-			Input::get('dato') => array('required','numeric','min:1')
+			Input::get('dato') => array('required','numeric')
 		);
 
 		$validator = Validator::make($datos, $validaciones);
@@ -359,6 +359,7 @@ class CompraController extends \BaseController {
 		$detalle = DB::table('detalle_abonos_compra')
 		->select(
 			'compra_id',
+			'numero_documento',
 			'total',
 			'monto',
 			DB::raw('detalle_abonos_compra.created_at as fecha')
@@ -504,9 +505,9 @@ class CompraController extends \BaseController {
 		->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
 		$saldo_vencido = DB::table('compras')
-		->select(DB::raw('sum(saldo) as total'))->where('saldo','>',0)
+		->select(DB::raw('sum(saldo) as total'))->where('saldo', '>', 0)
 		->where('compras.completed', '=', 1)
-		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+		->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 30)
 		->where('tienda_id','=',Auth::user()->tienda_id)->first();
 		$tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
@@ -541,63 +542,71 @@ class CompraController extends \BaseController {
 
 	public function getComprasPendientesPorProveedor()
 	{
-		$table = 'compras';
+		if (Input::has('dt')) 
+		{
+			$table = "compras";
 
-		$columns = array(
-			"compras.id as id_compra",
-			"compras.numero_documento as factura",
-			"compras.created_at as fecha_ingreso",
-			"compras.fecha_documento as fecha_documento",
-			"CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
-			"compras.total as total",
-			"compras.saldo as saldo",
-			"DATEDIFF(current_date,fecha_documento) as dias"
-		);
+			$columns = array(
+				"compras.numero_documento as factura",
+				"compras.created_at as fecha_ingreso",
+				"compras.fecha_documento as fecha_documento",
+				"CONCAT_WS(' ', users.nombre, users.apellido) as usuario",
+				"compras.total as total",
+				"compras.saldo as saldo",
+				"DATEDIFF(current_date, fecha_documento) as dias"
+			);
 
-		$Search_columns = array("users.nombre","users.apellido","venta.created_at","compras.factura");
+			$Search_columns = array(
+				"users.nombre",
+				"users.apellido",
+				"compras.created_at",
+				"compras.numero_documento",
+				"compras.total",
+				"compras.saldo"
+			);
 
-		$Join = "JOIN users ON (users.id = compras.user_id) ";
+			$Join = "JOIN users ON (users.id = compras.user_id) ";
+			$where  = " compras.tienda_id = ".Auth::user()->tienda_id;
+			$where .= " AND compras.saldo > 0 ";
+			$where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
 
-		$where  = " compras.tienda_id = ".Auth::user()->tienda_id;
-		$where .= " AND compras.saldo > 0 ";
-		$where .= " AND compras.proveedor_id = ".Input::get('proveedor_id');
+			return TableSearch::get($table, $columns, $Search_columns, $Join ,$where);
+		}
 
-		$detalle = SST::get($table, $columns, $Search_columns, $Join, $where );
-		
 		return Response::json(array(
-			'success' => true,
-			'table'   => View::make('compras.getComprasPendientesPorProveedor', compact('detalle'))->render()
+			"success" => true,
+			"table"   => View::make("compras.getComprasPendientesPorProveedor")->render()
 		));
 	}
 
 	public function getCompraConDetalle()
 	{
-		$compra = Compra::with('detalle_compra','proveedor')->find(Input::get('compra_id'));
+		$compra = Compra::with("detalle_compra", "proveedor")->find(Input::get("compra_id"));
 
 		return Response::json(array(
-			'success' => true,
-			'table' => View::make('compras.getCompraConDetalle', compact('compra'))->render()
+			"success" => true,
+			"table" => View::make("compras.getCompraConDetalle", compact("compra"))->render()
 		));
 	}
 
 	public function ShowTableHistoryPayment()
 	{
-		return View::make('compras.HistorialDePagos');
+		return View::make("compras.HistorialDePagos");
 	}
 
 	public function HistorialDePagos()
 	{
-		$table = 'pagos_compras';
+		$table = "pagos_compras";
 
 		$columns = array(
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"pagos_compras.created_at as fecha",
 			"compras.numero_documento as factura",
 			"metodo_pago.descripcion as metodo_descripcion",
-			'monto'
+			"monto"
 		);
 
-		$Searchable = array("users.nombre","users.apellido","compras.numero_documento");
+		$Searchable = array("users.nombre", "users.apellido", "compras.numero_documento");
 
 		$Join = "
 		JOIN compras ON (compras.id = pagos_compras.compra_id)
@@ -627,18 +636,24 @@ class CompraController extends \BaseController {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
 			"DATE_FORMAT(abonos_compras.created_at, '%Y-%m-%d')",
 			"metodo_pago.descripcion as metodo_descripcion",
-			'abonos_compras.monto as total','observaciones'
+			'abonos_compras.monto as total',
+			'observaciones'
 		);
 
-		$Searchable = array("users.nombre","users.apellido",);
+		$Searchable = array(
+			"users.nombre", 
+			"users.apellido", 
+			"observaciones", 
+			"metodo_pago.descripcion",
+			"abonos_compras.monto"
+		);
 
-		$Join = "
-		JOIN users ON (users.id = abonos_compras.user_id)
-		JOIN tiendas ON (tiendas.id = abonos_compras.tienda_id)
-		JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)";
-
+		$Join  = " JOIN users ON (users.id = abonos_compras.user_id)";
+		$Join .= " JOIN tiendas ON (tiendas.id = abonos_compras.tienda_id)";
+		$Join .= " JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)";
+		
 		$where = " proveedor_id = ".Input::get('proveedor_id');
-		$where .= ' AND abonos_compras.tienda_id = '.Auth::user()->tienda_id;
+		$where.= " AND abonos_compras.tienda_id = ".Auth::user()->tienda_id;
 
 		echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
 	}
@@ -664,6 +679,7 @@ class CompraController extends \BaseController {
 			$pagos->monto = $dp['monto'];
 			$pagos->metodo_pago_id = $dp['metodo_pago_id'];
 			$pagos->save();
+			
 			if($dp['metodo_pago_id'] == 2)
 				$credito =  $dp['monto'];
 		}

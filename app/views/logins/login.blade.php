@@ -21,8 +21,7 @@
         <script src="login/toastr/toastr.js"></script>
     </head>
 
-    <body>
-
+    <body> 
         <script type="text/javascript">
             function logout(message) {
                 msg.success(" ", message);

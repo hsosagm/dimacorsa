@@ -104,63 +104,42 @@ function printDocument(impresora, url, id) {
 };
  
 function imprimirCodigoBarras(e, id, impresora) {
-    $(e).prop('disabled', true);
-    if (isLoaded()) {
-        qz.findPrinter();
-        window['qzDoneFinding'] = function() {
-            var printer = qz.getPrinter();
-            if (printer !== null) {
+   $(e).prop('disabled', true);
+        $.ajax({
+            type: "POST",
+            url: "admin/barcode/print_code",
+            data: { id: id },
+            contentType: 'application/x-www-form-urlencoded',
+            success: function (data, text)
+            {
+                if (data["success"] == true)
+                {
+                    $("#barcode").show();
+                    $("#barcode").JsBarcode(
+                        data["codigo"] , 
+                        {
+                            width:  2,
+                            height: 68,
+                            backgroundColor:"#ffffff",
+                            format: "CODE128",
+                            displayValue: true,
+                            fontSize: 16
+                        }
+                    );
 
-                $.ajax({
-                    type: "POST",
-                    url: "admin/barcode/print_code",
-                    data: { id: id },
-                    success: function (data, text) {
-                        if (data["success"] == true) {
-                            //$("#barcode").barcode( data["codigo"], data["tipo"], { barWidth:data["ancho"], barHeight:data["alto"], fontSize:data["letra"]});
-                            $("#barcode").show();
-                            $("#barcode").JsBarcode(
-                                data["codigo"] ,
-                                {
-                                    width:  2,
-                                    height: 100,
-                                    backgroundColor:"#ffffff",
-                                    format: "CODE128",
-                                    displayValue: true,
-                                    fontSize: 16
-                                }
-                            );
-                            html2canvas($("#barcode"), {
-                                onrendered: function(canvas) {
-                                    var myImage = canvas.toDataURL("image/png");
-                                    if (notReady()) { return; }
-                                    qz.setPaperSize("62mm", "18mm");  // barcode
-                                    qz.setOrientation("portrait");
-                                    qz.setAutoSize(true);
-                                    qz.appendImage(myImage);
-                                    window['qzDoneAppending'] = function() {
-                                        qz.printPS();
-                                        $("#barcode").hide();
-                                        window['qzDoneAppending'] = null;
-                                        $(e).prop('disabled', false);
-                                    };
-                                }
-                            });
+                    html2canvas($("#barcode"), {
+                        onrendered: function(canvas) {
+                            var myImage = canvas.toDataURL("image/png");
+                            var ventana = open("" ,'_blank');
+                            ventana = ventana.document.write('<img src="'+myImage+'" width="300" height="65"/>');
                         }
-                        else {
-                            $(e).prop('disabled', false);
-                            msg.warning('Hubo un error', 'Advertencia!')
-                        }
-                    }
-                });
+                    });
+                } 
+                else {
+                    msg.warning('Hubo un error', 'Advertencia!')
+                }
             }
-            else {
-                msg.error('La impresora  no se encuentra', 'Error!');
-                $(e).prop('disabled', false);
-            }
-            window['qzDoneFinding'] = null;
-        };
-    }
+        });	
 };
 
 //eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('6 c(e,a,b){7(M()){1.I(b);h[\'m\']=6(){d j=1.D();7(j!==g){$.C({L:\'G\',F:"E/H/c",3:{a:a},s:6(3){7(3.s==B){K 9.J(3.9,\'N!\')};$(\'.z-o\').o(\'t\');1.2("\\5\\k");1.2("\\5\\A\\u");1.2("\\5\\y\\l");1.2("\\5\\x\\l");1.2(f(w)+f(Q)+"\\r");1.q("12-8");1.q("11");1.2(\'\\n\\n\\n\');1.2(3.10+\'\\r\\n\');1.2(3.O+\'\\r\\n\');1.2(3.14+\'\\r\\n\');1.2(\'\\n\\n\');d 4=0;$.16(3.17,6(i,v){1.2(v.13+"\\n");4++});4=18-4;S($i=0;$i<4;$i++){1.2(\'\\n\')};1.2(3.P+"\\r");1.2(3.T+"\\r\\n");1.2(\'\\n\\n\\n\\n\');1.2("\\5\\k");1.X()}})}W{9.V(\'Y b "\'+p+\'" U R Z\',\'15!\')}h[\'m\']=g}}};',62,71,'|qz|append|data|counter|x1B|function|if||msg|venta_id|impresora|printInvoice|var||chr|null|window||printer|x40|x01|qzDoneFinding||modal||setEncoding||success|hide|x20||27|x74|x6B|bs|x33|false|ajax|getPrinter|user|url|GET|ventas|findPrinter|warning|return|type|isLoaded|Advertencia|nombre|total_letras|69|se|for|total_num|no|error|else|print|La|encuentra|nit|850|UTF|descripcion|direccion|Error|each|detalle|'.split('|'),0,{}));

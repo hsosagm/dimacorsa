@@ -18,6 +18,10 @@ class CreateTableTheme extends Migration {
 			$table->timestamps();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 		}); 
+
+		DB::table('tema')->insert(array(
+            array('id' => 1, 'user_id' => 1),
+        ));
 	}
 
 	public function down()

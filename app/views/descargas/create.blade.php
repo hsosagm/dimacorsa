@@ -24,7 +24,6 @@
 					<td>
 						<i class="fa fa-th-list fa-lg fg-theme" title="Ingresar Descripcion" onclick="IngresarDescripcionDescarga(this,{{$id}});"></i>
 					</td>
-						
 				</tr>
 			</table>
 			{{ Form::close() }}

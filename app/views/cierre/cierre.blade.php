@@ -201,7 +201,7 @@
 
                 e.preventDefault();
                 var form = $(e.target).closest("form");
-                $('input[type=submit]', form).prop('disabled', true);
+                $('button[type=submit]', form).prop('disabled', true);
 
                 $.ajax({
                     type: form.attr('method'),
@@ -213,7 +213,7 @@
                             return $('.bs-modal').modal('hide');
                         }
                         msg.warning(data, 'Advertencia!');
-                        $('input[type=submit]', form).prop('disabled', false);
+                        $('button[type=submit]', form).prop('disabled', false);
                     }
                 });
             }

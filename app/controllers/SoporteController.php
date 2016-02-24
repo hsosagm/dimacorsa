@@ -29,12 +29,12 @@ class SoporteController extends BaseController {
         $caja = Caja::whereUserId(Auth::user()->id)->first();
 
         $data = Input::all();
-        $data['caja_id'] = $caja->id;
+
+        if (Auth::user()->tienda->cajas) 
+            $data['caja_id'] = $caja->id;
 
         if (!$soporte->create_master($data))
-        {
             return $soporte->errors();
-        }
 
         $id = $soporte->get_id();
 
@@ -56,9 +56,7 @@ class SoporteController extends BaseController {
         $delete = DetalleSoporte::destroy(Input::get('id'));
 
         if ($delete)
-        {
             return 'success';
-        }
 
         return 'Huvo un error al tratar de eliminar';
     }

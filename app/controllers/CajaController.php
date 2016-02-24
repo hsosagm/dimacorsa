@@ -1,7 +1,7 @@
 <?php
 
 class CajaController extends \BaseController
-{
+{ 
 	//funcion para crear cajas pero antes de crear verificar si la tienda ya creo las cantidad de cajas disponibles
 	public function create()
     {
@@ -127,7 +127,7 @@ class CajaController extends \BaseController
             'success' => true,
             'view' => View::make('cajas.movimientosDeCaja', compact('data','datos'))->render()
         ));
-    }
+    } 
 
     public function getEstadoDeCajas() {
         $caja = Caja::whereTiendaId(Auth::user()->tienda_id)->get(array('id', 'nombre', 'user_id'));
@@ -177,6 +177,7 @@ class CajaController extends \BaseController
         $data['egresos']                  =   $this->_query('detalle_egresos', 'egreso', 'monto',$datos);
         $data['gastos']                   =   $this->_query('detalle_gastos', 'gasto', 'monto', $datos);
         $data['devolucion']               =   $this->__query('devoluciones_pagos', 'devoluciones','monto', $datos);
+        $data['adelanto']                 =   $this->__query('adelantos_pagos', 'adelantos','monto', $datos);
 
         return $data;
     }
@@ -237,7 +238,9 @@ class CajaController extends \BaseController
 
         if ($tabla_master == 'devoluciones') 
             $tabla_master_id = substr($tabla_master, 0, -2);
-        
+
+        if ($tabla_master == 'adelantos') 
+            $tabla_master_id = substr($tabla_master, 0, -1);
 
         $Query = DB::table('metodo_pago')
         ->select(DB::raw("metodo_pago.id as id, sum({$campo}) as total"))
@@ -304,9 +307,7 @@ class CajaController extends \BaseController
             $datos['caja_id'] = $caja->id;
 
             if (!$cierre->create_master($datos))
-            {
                 return $cierre->errors();
-            }
 
             return Response::json(array(
                 'success' => true ,
@@ -322,14 +323,13 @@ class CajaController extends \BaseController
 
         $data = $this->resumen_movimientos($datos);
 
-        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo']
-		 - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion']['efectivo'];
+        $efectivo = $data['soporte']['efectivo'] + $data['pagos_ventas']['efectivo'] + $data['abonos_ventas']['efectivo'] + $data['ingresos']['efectivo'] + $data['adelanto']['efectivo'] - $data['gastos']['efectivo'] - $data['egresos']['efectivo'] - $data['devolucion']['efectivo'];
 
-        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'];
+        $cheque = $data['pagos_ventas']['cheque'] + $data['abonos_ventas']['cheque'] + $data['soporte']['cheque'] + $data['ingresos']['cheque'] + $data['adelanto']['cheque'];
 
-        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'];
+        $tarjeta = $data['pagos_ventas']['tarjeta'] + $data['abonos_ventas']['tarjeta'] + $data['soporte']['tarjeta'] + $data['ingresos']['tarjeta'] + $data['adelanto']['tarjeta'];
 
-        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'];
+        $deposito = $data['pagos_ventas']['deposito'] + $data['abonos_ventas']['deposito'] + $data['soporte']['deposito'] + $data['ingresos']['deposito'] + $data['adelanto']['deposito'];
 
         $movimientos = array(
             'efectivo' => $efectivo,

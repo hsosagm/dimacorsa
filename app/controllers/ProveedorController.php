@@ -6,7 +6,7 @@ class ProveedorController extends BaseController {
     {
         return Autocomplete::get('proveedores', array('id', 'nombre','direccion','direccion'),'direccion');
     }
-
+ 
     public function create()
     {
         if (Input::has('_token'))
@@ -229,8 +229,9 @@ class ProveedorController extends BaseController {
 
         $saldo_vencido = DB::table('compras')
         ->select(DB::raw('sum(saldo) as total'))
+        ->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
         ->where('saldo','>',0)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
@@ -244,14 +245,15 @@ class ProveedorController extends BaseController {
     {
         $saldo_total = Compra::where('proveedor_id','=', $proveedor_id)
         ->where('tienda_id','=',Auth::user()->tienda_id)
-        ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
+        ->where('saldo', '>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
         $saldo_vencido = DB::table('compras')
         ->select(DB::raw('sum(saldo) as total'))
-        ->where('saldo','>',0)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'),'>=',30)
-        ->where('tienda_id','=',Auth::user()->tienda_id)
-        ->where('proveedor_id','=',$proveedor_id)->first();
+        ->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
+        ->where('saldo', '>', 0)
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
+        ->where('tienda_id', '=', Auth::user()->tienda_id)
+        ->where('proveedor_id', '=', $proveedor_id)->first();
 
         return array(
             'saldo_total' => $saldo_total->total,
@@ -262,13 +264,19 @@ class ProveedorController extends BaseController {
     public function ImprimirAbono()
     {
         $detalle = DB::table('detalle_abonos_compra')
-        ->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
-        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
-        ->where('abonos_compra_id','=', Input::get('id'))->get();
+        ->select(
+            'numero_documento',
+            'compra_id',
+            'total',
+            'monto',
+            DB::raw('detalle_abonos_compra.created_at as fecha')
+        )
+        ->join('compras', 'compras.id', '=', 'detalle_abonos_compra.compra_id')
+        ->where('abonos_compra_id', '=', Input::get('id'))->get();
 
-        $abono = AbonosCompra::with('proveedor','user','metodoPago')->find(Input::get('id'));
+        $abono = AbonosCompra::with('proveedor', 'user', 'metodoPago')->find(Input::get('id'));
 
-        $saldo = Compra::where('proveedor_id', '=' , $abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
+        $saldo = Compra::whereProveedorId($abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
 
         $pdf = PDF::loadView('proveedor.ImprimirAbono',  array(
             'detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo))
@@ -283,12 +291,18 @@ class ProveedorController extends BaseController {
     public function ImprimirAbonoPdf()
     {
         $detalle = DB::table('detalle_abonos_compra')
-        ->select('compra_id','total','monto',DB::raw('detalle_abonos_compra.created_at as fecha'))
-        ->join('compras','compras.id','=','detalle_abonos_compra.compra_id')
-        ->where('abonos_compra_id','=', Input::get('id'))->get();
+        ->select(
+            'numero_documento',
+            'compra_id',
+            'total',
+            'monto',
+            DB::raw('detalle_abonos_compra.created_at as fecha')
+        )
+        ->join('compras','compras.id', '=', 'detalle_abonos_compra.compra_id')
+        ->whereAbonosCompraId(Input::get('id'))->get();
 
-        $abono = AbonosCompra::with('proveedor','user','metodoPago')->find(Input::get('id'));
-        $saldo = Compra::where('proveedor_id', '=' , $abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
+        $abono = AbonosCompra::with('proveedor', 'user', 'metodoPago')->find(Input::get('id'));
+        $saldo = Compra::whereProveedorId($abono->proveedor_id)->first(array(DB::raw('sum(saldo) as total')));
         $pdf = PDF::loadView('proveedor.ImprimirAbono', array('detalle' => $detalle, 'abono' => $abono, 'saldo' => $saldo))->setPaper('letter');
 
         return $pdf->stream();
@@ -311,5 +325,35 @@ class ProveedorController extends BaseController {
             'saldo_total'   => $data['saldo_total'],
             'saldo_vencido' => $data['saldo_vencido']
         ));
+    }
+
+    public function estadoDeCuenta()
+    {
+        $compras = Compra::whereProveedorId(Input::get('proveedor_id'))->with("user")->where("saldo", ">", "0")->get();
+        $proveedor = Proveedor::find(Input::get('proveedor_id'));
+
+        if (Input::has("pdf")) 
+        {
+            $pdf = PDF::loadView('proveedor.export.estadoDeCuenta', array('compras' => $compras, 'proveedor' => $proveedor))
+            ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+
+            return $pdf->stream('Kardex.pdf');
+        }
+
+        Excel::create('ESTADO_DE_CUENTA_PROVEEDOR', function($excel) use($compras, $proveedor)
+        {
+            $excel->setTitle('ESTADO DE CUENTA PROVEEDOR');
+            $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
+            ->setCompany('Click Chiquimula');
+            $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
+            $excel->setSubject('Click');
+
+            $excel->sheet('datos', function($hoja) use($compras, $proveedor)
+            {
+                $hoja->setOrientation('landscape');
+                $hoja->loadView('proveedor.export.estadoDeCuenta', array('compras' => $compras, 'proveedor' => $proveedor));
+            });
+
+        })->export("xls");
     }
 }

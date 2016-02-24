@@ -11,7 +11,7 @@ class TableFlete extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('compra_id')->unsigned();
-			$table->decimal('monto', 8, 2);
+			$table->decimal('monto', 8, 5);
 			$table->string('nota')->nullable();
 			$table->timestamps();
 			$table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade')->onUpdate('cascade');

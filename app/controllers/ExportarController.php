@@ -10,7 +10,7 @@ class ExportarController extends \BaseController {
             ->select(DB::raw("
                 productos.codigo as codigo,
                 CONCAT_WS(' ', descripcion, marcas.nombre) as descripcion,
-                ROUND(p_costo/100,2) as p_costo,
+                ROUND(p_costo,3) as p_costo,
                 p_publico,
                 existencias.existencia as existencia,
                 productos.existencia as existencia_total"))
@@ -42,12 +42,13 @@ class ExportarController extends \BaseController {
                 MIN(ventas.created_at) as fecha,
                 clientes.id as cliente_id,
                 clientes.nombre as cliente,
+                clientes.telefono as telefono,
                 clientes.direccion as direccion,
                 sum(ventas.total) as total,
                 sum(ventas.saldo) as saldo_total,
                 (select sum(saldo) from ventas where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, created_at) >= 30
+                    DATEDIFF(current_date, created_at) >= clientes.dias_credito
                     AND cliente_id = clientes.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.cliente_id', '=', 'clientes.id')
@@ -92,7 +93,9 @@ class ExportarController extends \BaseController {
         $data['titulo'] = "Ventas_pendietes_de_pago_del_cliente".$cliente->nombre;
         $data['orientacion'] = "landscape";
         $data['tipo'] = $tipo;
-        $data['cliente'] = $cliente->nombre;
+        $data['cliente']['nombre'] = $cliente->nombre;
+        $data['cliente']['telefono'] = $cliente->telefono;
+        $data['cliente']['direccion'] = $cliente->direccion;
 
         if ($tipo == 'pdf')
             $data['orientacion'] = "portrait";
@@ -114,9 +117,11 @@ class ExportarController extends \BaseController {
                 tiendas.direccion as tienda,
                 sum(ventas.total) as total,
                 sum(ventas.saldo) as saldo_total,
-                (select sum(saldo) from ventas where
+                (select sum(saldo) from ventas
+                inner join clientes on (clientes.id = ventas.cliente_id)
+                where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, created_at) >= 30
+                    DATEDIFF(current_date, ventas.created_at) >= clientes.dias_credito
                     AND user_id = users.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.user_id', '=', 'users.id')
@@ -140,16 +145,19 @@ class ExportarController extends \BaseController {
     public function exportarVentasPendientesPorUsuario($tipo)
     {
         $ventas = DB::table('ventas')
-            ->select(
+        ->select(
+                DB::raw("ventas.id as venta_id"),
                 DB::raw("ventas.created_at as fecha_ingreso"),
                 DB::raw("clientes.nombre as cliente"),
+                DB::raw("clientes.telefono as telefono"),
                 DB::raw("ventas.total as total"),
                 DB::raw("ventas.saldo as saldo"),
-                DB::raw("DATEDIFF(current_date,ventas.created_at) as dias"))
-            ->join('clientes','clientes.id','=','ventas.cliente_id')
-            ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
-            ->where('ventas.saldo', '>', 0)
-            ->where('ventas.user_id', '=', Input::get('user_id'))->get();
+                DB::raw("DATEDIFF(current_date,ventas.created_at) as dias")
+            )
+        ->join('clientes','clientes.id','=','ventas.cliente_id')
+        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
+        ->where('ventas.saldo', '>', 0)
+        ->where('ventas.user_id', '=', Input::get('user_id'))->get();
 
         $data['ventas'] = $ventas;
 
@@ -170,6 +178,14 @@ class ExportarController extends \BaseController {
 
     public function exportarExel($data, $vista)
     {
+        if ($data['tipo'] == 'pdf') 
+        {
+            $pdf = PDF::loadView('exportar.'.$vista, array('data' => $data))
+            ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+
+            return $pdf->stream($data['titulo'].'.pdf');
+        }
+
         Excel::create($data['titulo'], function($excel) use($data, $vista)
         {
             $excel->setTitle($data['titulo']);
@@ -184,7 +200,7 @@ class ExportarController extends \BaseController {
                 $hoja->loadView('exportar.'.$vista, array('data' => $data));
             });
 
-        })->export($data['tipo']);
+        })->export('xls');
     }
 
 

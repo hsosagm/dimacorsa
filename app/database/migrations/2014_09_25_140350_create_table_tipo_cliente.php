@@ -13,6 +13,10 @@ class CreateTableTipoCliente extends Migration {
 			$table->string('nombre');
 			$table->timestamps();
 		});
+
+		DB::table('tipo_cliente')->insert(array(
+            array('id' => 1, 'nombre' => 'Cliente individual'),
+        ));
 	}
 
 	public function down()

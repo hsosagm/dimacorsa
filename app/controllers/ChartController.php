@@ -40,9 +40,7 @@ class ChartController extends \BaseController {
 	        ->first();
 
 	        if ($soporte->total == null)
-            {
                $soporte->total = 0;
-            }
 
 	        $g[] = $soporte->total;
         }
@@ -67,9 +65,7 @@ class ChartController extends \BaseController {
 	        ->first();
 
 	        if ($soporte->total == null)
-            {
                $soporte->total = 0;
-            }
 
 	        $g[] = $soporte->total;
         }
@@ -210,9 +206,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) {
+        if (!$ventas) 
             $data = 0;
-        }
 
         return $data;
     }
@@ -234,9 +229,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$d_ventas) {
+        if (!$d_ventas) 
             $ganancias = 0;
-        }
 
         return $ganancias;
     }
@@ -262,9 +256,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) {
+        if (!$ventas) 
             $data = 0;
-        }
 
         $data = json_encode($data);
 
@@ -293,9 +286,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) {
+        if (!$ventas) 
             $data = 0;
-        }
 
         $data = json_encode($data);
 
@@ -310,19 +302,17 @@ class ChartController extends \BaseController {
     public function comparativaPorMesPorClientePrevOrNext()
     {
         if ( Input::get('method') == 'next') {
-            if (Input::get('mes') == 12) {
+            if (Input::get('mes') == 12) 
                 $mes = 1;
-            } else {
+            else 
                 $mes = Input::get('mes') + 1;
-            }
         }
 
         elseif ( Input::get('method') == 'prev') {
-            if (Input::get('mes') == 1) {
+            if (Input::get('mes') == 1) 
                 $mes = 12;
-            } else {
+            else 
                 $mes = Input::get('mes') - 1;
-            }
         }
 
         $ventas = DB::table('ventas')
@@ -342,9 +332,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) {
+        if (!$ventas) 
             $data = 0;
-        }
 
         return Response::json(array(
             'success'   => true,
@@ -465,9 +454,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$compras) {
+        if (!$compras) 
             $data = 0;
-        }
 
         $data = json_encode($data);
 
@@ -496,9 +484,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$compras) {
+        if (!$compras) 
             $data = 0;
-        }
 
         $data = json_encode($data);
 
@@ -512,19 +499,17 @@ class ChartController extends \BaseController {
     public function comparativaPorMesPorProveedorPrevOrNext()
     {
         if ( Input::get('method') == 'next') {
-            if (Input::get('mes') == 12) {
+            if (Input::get('mes') == 12) 
                 $mes = 1;
-            } else {
+            else 
                 $mes = Input::get('mes') + 1;
-            }
         }
 
         elseif ( Input::get('method') == 'prev') {
-            if (Input::get('mes') == 1) {
+            if (Input::get('mes') == 1)
                 $mes = 12;
-            } else {
+            else
                 $mes = Input::get('mes') - 1;
-            }
         }
 
         $compras = DB::table('compras')
@@ -544,9 +529,8 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$compras) {
+        if (!$compras) 
             $data = 0;
-        }
 
         return Response::json(array(
             'success'   => true,

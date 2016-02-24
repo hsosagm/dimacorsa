@@ -3,7 +3,7 @@
 		<td class="center" width="25%">  </td>
 		<td class="center" width="25%">Esperado</td>
 		<td class="center" width="25%">Real</td>
-		<td class="center" width="25%">Efectivo</td>
+		<td class="center" width="25%">Diferencia</td>
 	</tr>
 
 	<tbody >

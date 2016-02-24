@@ -163,3 +163,46 @@ function getConsultarNotasDeCreditoCliente(cliente_id, venta_id) {
         msg.warning(data, 'Advertencia!');
     });
 };
+
+function verDetalleNotaDeCredito(e, nota_credito_id) {
+     if ($(e).hasClass("hide_detail")) {
+        $(e).removeClass('hide_detail');
+        $('.subtable').hide();
+    }
+    else {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length ) {
+            $('.subtable').fadeOut('slow', function(){
+                getDetalleNotaDeCredito(e, nota_credito_id);
+            })
+        }
+        else {
+            getDetalleNotaDeCredito(e, nota_credito_id);
+        }
+    }
+}
+
+
+function getDetalleNotaDeCredito(e, nota_credito_id) {
+    $id = $(e).closest('tr').attr('id');
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=6 ><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: "GET",
+        url: 'user/notaDeCredito/getDetalleNotaDeCredito',
+        data: {nota_credito_id: nota_credito_id},
+    }).done(function(data) {
+        if (data.success == true)
+        {
+            $('.grid_detalle_factura').html(data.table);
+            $(nTr).next('.subtable').fadeIn('slow');
+            return $(e).addClass('hide_detail');
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+};
