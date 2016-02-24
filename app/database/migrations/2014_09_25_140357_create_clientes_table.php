@@ -16,7 +16,7 @@ class CreateClientesTable extends Migration {
 			$table->string('telefono', 100);
 			$table->string('nit', 100);
 			$table->string('email', 100);
-			$table->decimal('limite_credito', 8, 2)->default(0.00);
+			$table->decimal('limite_credito', 11, 2)->default(0.00);
 			$table->integer('dias_credito')->default(30);
 			$table->timestamps();
 			$table->foreign('tipo_cliente_id')->references('id')->on('tipo_cliente')->onDelete('restrict')->onUpdate('cascade');
