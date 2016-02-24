@@ -190,15 +190,15 @@ function openSale(e)
                 url: "user/ventas/openSale",
                 data: { venta_id: $(e).closest('tr').attr('id') },
             }).done(function(data) {
-                if (data.success == true)
-                {
-                    $('.panel-title').text('Formulario Ventas');
-                    $(".forms").html(data.table);
-                    $(".dt-container").hide();
-                    $(".dt-container-cierre").hide();
-                    return $(".form-panel").show();
-                }
-                msg.warning(data, 'Advertencia!');
+                if (!data.success)
+                    msg.warning(data, 'Advertencia!');
+
+                $('.panel-title').text('Formulario Ventas');
+                $(".forms").html(data.table);
+                $(".dt-container").hide();
+                $(".dt-container-cierre").hide();
+                return $(".form-panel").show();
+
             });
         }
     });
