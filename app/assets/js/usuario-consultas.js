@@ -4,7 +4,6 @@ function VerTablaVentasDelDiaUsuario(e, tipo) {
         url: 'user/consulta/VerTablaVentasDelDiaUsuario',
         data: {tipo: tipo}
     }).done(function(data) {
-        console.log(data);
         if (data.success == true)
             return makeTable(data.table, '', 'Ventas');
 

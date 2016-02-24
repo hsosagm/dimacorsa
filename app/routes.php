@@ -237,6 +237,7 @@
             Route::post('UpdateDetalle'                       , 'App\ventas\VentasController@UpdateDetalle');
             Route::get('paymentForm'                          , 'App\ventas\VentasController@paymentForm');
             Route::post('endSale'                             , 'App\ventas\VentasController@endSale');
+            Route::get('openSale'                             , 'App\ventas\VentasController@openSale');
 
             Route::post('detalle'                             , 'VentasController@detalle');
             Route::post('updateClienteId'                     , 'VentasController@updateClienteId');
@@ -248,7 +249,6 @@
             Route::post('FinalizeSale'                        , 'VentasController@FinalizeSale');
             Route::get('OpenModalSalesPayments'               , 'VentasController@OpenModalSalesPayments');
             Route::get('showSalesDetail'                      , 'VentasController@showSalesDetail');
-            Route::get('openSale'                             , 'VentasController@openSale');
             Route::get('getCreditSales'                       , 'VentasController@getCreditSales');
             Route::get('getModalImprimirVenta'                , 'VentasController@getModalImprimirVenta'  );
             Route::get('printInvoice'                         , 'VentasController@printInvoice'  );

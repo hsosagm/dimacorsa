@@ -27,8 +27,6 @@ $(document).ready(function() {
                     $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
                     $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
 
-
-
                     return $v;
                 }
             }
