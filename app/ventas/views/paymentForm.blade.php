@@ -112,7 +112,6 @@
 
             endSale: function(e) {
                 e.target.disabled = true;
-
                 $.ajax({
                     type: 'POST',
                     url:  'user/ventas/endSale',
@@ -127,11 +126,9 @@
                         e.target.disabled = false;
                         return msg.warning("Hubo un error intentelo de nuevo", "Advertencia!");
                     }
-
                     $('.bs-modal').modal('hide');
                     $(".form-panel").hide();
                     msg.success('Venta finalizada', 'Listo!');
-
                 }).fail(function (jqXHR, textStatus) {
                     e.target.disabled = false;
                 });
