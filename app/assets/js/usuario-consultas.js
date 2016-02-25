@@ -9,7 +9,7 @@ function VerTablaVentasDelDiaUsuario(e, tipo) {
 
         msg.warning(data, 'Advertencia!');
     });
-};  
+};
 
 function VerTablaSoporteDelDiaUsuario(e, tipo) {
     $.ajax({
@@ -22,7 +22,7 @@ function VerTablaSoporteDelDiaUsuario(e, tipo) {
 
         msg.warning(data, 'Advertencia!');
     });
-}; 
+};
 
 function VerTablaIngresosDelDiaUsuario(e, tipo) {
     $.ajax({
@@ -35,7 +35,7 @@ function VerTablaIngresosDelDiaUsuario(e, tipo) {
 
         msg.warning(data, 'Advertencia!');
     });
-}; 
+};
 
 function VerTablaEgresosDelDiaUsuario(e, tipo) {
     $.ajax({
@@ -48,7 +48,7 @@ function VerTablaEgresosDelDiaUsuario(e, tipo) {
 
         msg.warning(data, 'Advertencia!');
     });
-};  
+};
 
 function VerTablaGastosDelDiaUsuario(e, tipo) {
     $.ajax({
@@ -61,7 +61,7 @@ function VerTablaGastosDelDiaUsuario(e, tipo) {
 
         msg.warning(data, 'Advertencia!');
     });
-};   
+};
 
 function VerTablaAdelantosDelDiaUsuario(e, tipo) {
     $.ajax({
@@ -83,12 +83,12 @@ function VentasAlCreditoUsuario(e) {
         type: 'GET',
         url: "user/consulta/VentasAlCreditoUsuario",
         success: function (data) {
-            if (data.success == true) 
+            if (data.success == true)
                 generate_dt_local(data.table);
-            else 
+            else
                 msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
         }
-    }); 
+    });
 };
 
 function getConsultarSerie(e) {
@@ -104,8 +104,8 @@ function getConsultarSerie(e) {
             return;
         }
         msg.warning(data, 'Advertencia!');
-    }); 
-}; 
+    });
+};
 
 function setConsultarSerie(e) {
     $(e).prop("disabled", true);
@@ -121,7 +121,7 @@ function setConsultarSerie(e) {
         }
         msg.warning(data, 'Advertencia!');
         return $(e).prop("disabled", false);
-    }); 
+    });
 };
 
 function getConsultarNotasDeCredito(e, tipo) {

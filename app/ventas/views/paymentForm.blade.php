@@ -1,180 +1,138 @@
-<div id="pagosVenta" style="padding:10px;">
-	<div class="row">
-		<label class="col-md-6"> Total abonado: @{{ totalPagado | currency '' }} </label>
-		<label class="col-md-6" v-show="(totalRestante >= 0)"> Total restante: @{{ totalRestante | currency '' }} </label>
-		<label class="col-md-6" v-show="(totalRestante < 0)"> Su vuelto es: @{{ totalVuelto | currency '' }} </label>
-	</div>
-	<div class="row">
-		<div class="col-md-5">
-			<input type="text" v-on="keyup : agregarPago() | key 'enter'" class="form-control" id="monto">
-		</div>
-		<div class="col-md-5">
-			<select v-model="form.metodo_pago_id" v-el="metodo_pago_id" options="metodo_pago" v-on="keyup : agregarPago() | key 'enter'" class="form-control"></select>
-		</div>
-		<div class="col-md-1">
-			<i class="fa fa-plus fg-theme" v-on="click: agregarPago()" ></i>
-		</div>
-	</div>
-	<hr>
-	<table class="table table-striped">
-		<tr>
-			<th>Metodo de pago</th>
-			<th>Monto</th>
-			<th></th>
-		</tr>
-		<tr v-repeat="dp: paymentsView">
-			<td> @{{ metodoPagoNombre(dp.metodo_pago_id) }} </td>
-			<td> @{{ dp.monto | currency '' }} </td>
-			<td class="right">
-				<i class="fa fa-trash-o fa-lg icon-delete" v-on="click: eliminarPago($index)"></i>
-			</td>
-		</tr>
-	</table>
+<div id="formPayments">
+    <div style="height:300px">
+        <div style="margin-left:50px">
+            <div class="row">
+                <div class="col-md-5">Total abonado: @{{abonado | currency ''}}</div>
+                <div v-show="!disabled" class="col-md-5">Resta abonar: @{{this.total - this.abonado | currency ''}}</div>
+                <div v-show="disabled" class="col-md-5">Su vuelto es: @{{this.abonado - this.total | currency ''}}</div>
+            </div>
 
-	<div class="form-footer footer" style="margin-top: 30px;" align="right">
-		<button v-on="click: enviarPagos($event)" v-if="(totalRestante <= 0)" class="btn theme-button ">Enviar!</button>
-	</div>
+            <div id="payment_input" class="row" style="margin-top:15px">
+                <div class="col-md-5">
+                    <input v-on="keyup:addPayment | key 'enter'" id="monto" class="form-control right" v-attr="disabled: disabled">
+                </div>
+                <div class="col-md-5">
+                    <select id="payments" v-model="metodo_pago_id" options="paymentsOptions" v-attr="disabled: disabled" class="form-control"></select>
+                </div>
+                <div class="col-md-2" v-if="!disabled">
+                    <i v-on="click: addPayment" style="font-size: 20px; padding-top:7px" class="fa fa-plus fg-theme"></i>
+                </div>
+            </div>
+
+            <div v-repeat="payment: payments" class="row" style="margin-top:10px">
+                <div class="col-md-5 right" style="padding-right:20px">@{{ payment.abonado | currency ' ' }}</div>
+                <div class="col-md-5" style="padding-left:25px">@{{ payment.optionSelected }}</div>
+                <div class="col-md-2" style="float:right">
+                    <i v-on="click: removePayment($index, payment.monto)" class="fa fa-trash-o pointer btn-link theme-c"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="disabled" v-transition class="modal-footer payments-modal-footer">
+        <button v-on="click: endSale" class="btn theme-button" type="text">Finalizar</button>
+    </div>
 </div>
-
 <script type="text/javascript">
 
-	var pagosVenta = new Vue({
+    new Vue({
 
-		el: '#pagosVenta',
+        el: '#formPayments',
 
-		data: {
+        data: {
+            total: {{ Input::get('totalVenta') }},
+            paymentsOptions: {{ $paymentsOptions }},
+            payments: [],
+            metodo_pago_id: 1,
+            abonado: 0,
+            credito: 0,
+            disabled:false
+        },
 
-			form: {
-				venta_id: ventas.venta_id,
-				monto: 0,
-				metodo_pago_id: 1
-			},
+        ready: function() {
+            $('.modal-title').text('Formulario pagos venta')
+            $('#monto').autoNumeric('init', {aNeg:'', vMax: '999999.99', lZero: 'deny'})
+            $('#monto').autoNumeric('set', this.total - this.abonado);
+        },
 
-			metodo_pago: [],
+        watch: {
+            payments: function() {
+                this.abonado = 0
+                for (var i = this.payments.length - 1; i >= 0; i--) {
+                    this.abonado += this.payments[i]["abonado"]
 
-			payments: [],
+                    if (this.payments[i]["metodo_pago_id"] == 2)
+                        this.credito = this.payments[i]["monto"]
+                }
 
-			paymentsView: [],
+                if (this.abonado >= this.total)
+                    return this.disabled = true
+                this.disabled = false
 
-			totalDeuda: ventas.totalVenta,
+                $('#monto').autoNumeric('set', this.total - this.abonado)
+            }
+        },
 
-			totalPagado: 0,
+        computed: {
+            values: function() {
+                var values = this.payments
+                for (var i = values.length - 1; i >= 0; i--) {
+                    delete values[i]["abonado"]
+                    delete values[i]["optionSelected"]
+                    values[i]["venta_id"] = {{ Input::get('venta_id') }}
+                }
+                return values
+            }
+        },
 
-			totalRestante: ventas.totalVenta,
+        methods: {
+            addPayment: function()
+            {
+                var monto = parseFloat($('#monto').autoNumeric('get'))
+                if (monto < 0.01 || $('#monto').val() == "") return
 
-			totalVuelto: 0,
+                for (var i = this.payments.length - 1; i >= 0; i--)
+                    if (this.metodo_pago_id == this.payments[i]["metodo_pago_id"])
+                        return msg.warning("Es metodo de pago ya a sido seleccionado", "Advertencia!")
 
-			totalSaldo: 0
-		},
+                if ($("#payments option:selected").text() == "Credito" && this.total-this.abonado < monto)
+                    return msg.warning("El credito no puede ser mayor al monto restante", "Advertencia!")
 
-		watch: {
-			'payments': function ()
-			{
-				this.totalPagado = 0;
-				this.totalSaldo = 0;
-				this.totalRestante = this.totalDeuda;
+                this.payments.push({
+                    abonado:        monto,
+                    monto:          this.total-this.abonado <= monto ? this.total-this.abonado : monto,
+                    metodo_pago_id: this.metodo_pago_id,
+                    optionSelected: $("#payments option:selected").text()
+                })
+            },
 
-				for (var i = 0; i < this.paymentsView.length; i++) {
-					this.totalRestante -= parseFloat(this.paymentsView[i]["monto"]);
-					this.totalPagado += parseFloat(this.paymentsView[i]["monto"]);
-					if(this.payments[i]["metodo_pago_id"] == 2) {
-						this.totalSaldo = parseFloat(this.paymentsView[i]["monto"]);
-					}
-				}
+            removePayment: function(index, monto)
+            {
+                this.payments.$remove(index)
+            },
 
-				if(this.totalRestante <= 0) {
-					$("#monto").prop("disabled", true);
-					this.$$.metodo_pago_id.disabled = true;
-					this.totalVuelto = (this.totalRestante * -1);
-				} else {
-					this.form.monto = this.totalRestante;
-					$("#monto").prop("disabled", false);
-					this.$$.metodo_pago_id.disabled = false;
-					$('#monto').autoNumeric('set', this.totalRestante);
-				}
-			}
-		},
-
-		ready:function(){
-			this.metodo_pago = {{ json_encode(MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id', '<', 6)->get()) }};
-			$('#monto').autoNumeric({aSep:',', aNeg:'', mDec:2, mRound:'S', vMax: '999999.99', wEmpty: 'zero', lZero: 'deny', mNum:10});
-			$('#monto').autoNumeric('set', this.totalRestante);
-		},
-
-		methods: {
-
-			agregarPago: function() {
-				this.form.monto = $("#monto").val().replace(",", "");
-
-				if(this.validarData()) {
-					this.payments.push({ 
-						venta_id: this.form.venta_id,
-						monto: (this.form.monto > this.totalRestante)? this.totalRestante: this.form.monto.replace(",", ""), 
-						metodo_pago_id: this.form.metodo_pago_id
-					});
-
-					this.paymentsView.push({ 
-						monto: this.form.monto.replace(",", ""), 
-						metodo_pago_id: this.form.metodo_pago_id
-					});
-
-					this.form.monto = 0;
-					this.form.metodo_pago_id = 1;
-					$("#monto").focus();
-				}
-			},
-
-			validarData: function() {
-				for (var i = 0; i < this.payments.length; i++) {
-					if(this.payments[i]["metodo_pago_id"] == this.form.metodo_pago_id) {
-						msg.warning('El metodo de pago ya ha sido ingresado..!');
-						return false;
-					}
-				}
-
-				if(parseFloat(this.form.monto) <= 0 || this.form.monto == "" || this.form.monto == null) {
-					msg.warning('El monto tiene que ser mayor que 0..!');
-					return false;
-				}
-
-				if(this.form.metodo_pago_id == 2) {
-					if(this.form.monto > this.totalRestante) {
-						msg.warning('El monto no puede ser mayor al total restante..!');
-						return false;
-					}
-				}
-				return true;
-			},
-
-			metodoPagoNombre: function(metodo_pago_id){
-				for ( var i = 0; i < this.metodo_pago.length; i++ ) {
-					if( this.metodo_pago[i]["value"] == metodo_pago_id )
-						return this.metodo_pago[i]["text"];
-				}
-			},
-
-			eliminarPago: function(index) {
-				this.payments.$remove(index);
-				this.paymentsView.$remove(index);
-			},
-
-			enviarPagos: function(e){
-				e.target.disabled = true;
-				$.ajax({
-					type: "POST",
-					url: 'user/ventas/endSale',
-					data: { payments: this.payments, total: this.totalDeuda, saldo: this.totalSaldo, venta_id: ventas.venta_id }
-				}).done(function(data) {
-					if (data.success == true) {
-						$('.bs-modal').modal('hide');
-						msg.success('Venta finalizada', 'Listo!');
-						return  $(".form-panel").hide();
-					}
-					e.target.disabled = false;
-					msg.warning(data, 'Advertencia!');
-				});
-			}
-		}
-	});
-	
+            endSale: function(e) {
+                e.target.disabled = true;
+                $.ajax({
+                    type: 'POST',
+                    url:  'user/ventas/endSale',
+                    data: {
+                        payments: this.values,
+                        total:    ventas.totalVenta,
+                        saldo:    this.credito,
+                        venta_id: {{ Input::get('venta_id') }}
+                    },
+                }).done(function(data) {
+                    if (!data.success) {
+                        e.target.disabled = false;
+                        return msg.warning("Hubo un error intentelo de nuevo", "Advertencia!");
+                    }
+                    $('.bs-modal').modal('hide');
+                    $(".form-panel").hide();
+                    msg.success('Venta finalizada', 'Listo!');
+                }).fail(function (jqXHR, textStatus) {
+                    e.target.disabled = false;
+                });
+            }
+        }
+    });
 </script>
