@@ -124,6 +124,7 @@
                 }).done(function(data) {
                     if (!data.success) {
                         e.target.disabled = false;
+                        console.log(data)
                         return msg.warning("Hubo un error intentelo de nuevo", "Advertencia!");
                     }
                     $('.bs-modal').modal('hide');

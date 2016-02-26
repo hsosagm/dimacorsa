@@ -15,9 +15,9 @@ class ClienteController extends \BaseController {
         return Autocomplete::get('clientes', array('id', 'nombre', 'direccion', 'nit'));
     }
 
-    public function getInfo($id = null)
+    public static function getInfo($id = null)
     {
-        if(!$id) 
+        if(!$id)
             $id = Input::get('id');
 
         $cliente = Cliente::with('tipocliente')->find($id);
@@ -422,8 +422,8 @@ class ClienteController extends \BaseController {
     {
         $ventas = Venta::whereClienteId(Input::get('cliente_id'))->with('user')->where("saldo", ">", "0")->get();
         $cliente = Cliente::find(Input::get('cliente_id'));
-        
-        if (Input::has("pdf")) 
+
+        if (Input::has("pdf"))
         {
             $pdf = PDF::loadView('cliente.export.estadoDeCuenta', array('ventas' => $ventas, 'cliente' => $cliente))
             ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
@@ -477,7 +477,7 @@ class ClienteController extends \BaseController {
                 })->store('xls');
 
             });
-            
+
             $message->to($emails)->subject('ESTADO DE CUENTA A LA FECHA '.Carbon::now());
             $message->attachData($pdf->output(), "ESTADO_DE_CUENTA_CLIENTE.pdf");
             $message->attach(storage_path()."/exports/ESTADO_DE_CUENTA_CLIENTE_{$cliente_id}.xls");

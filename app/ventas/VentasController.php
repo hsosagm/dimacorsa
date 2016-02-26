@@ -1,6 +1,6 @@
 <?php namespace App\ventas;
 
-use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago, PagosVenta, Caja;
+use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago, PagosVenta, Caja, Kardex, ClienteController;
 
 class VentasController extends \BaseController {
 
@@ -276,29 +276,21 @@ class VentasController extends \BaseController {
 
     public function openSale()
     {
-        $venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+        $venta = Venta::find(Input::get('venta_id'));
 
         if ($venta->completed == 1)
             return json_encode('La venta no se puede abrir porque ya fue finalizada');
 
-        if ($venta->completed == 1)
+        if ($venta->completed == 2)
             $venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
 
-        else if ($venta->completed == 2)
-            $venta->update(array('completed' => 2, 'saldo' => 0 , 'kardex' => 0));
-
-        $kardex = Kardex::where('kardex_transaccion_id',2)->where('transaccion_id',Input::get('venta_id'));
-        $kardex->delete();
-
-        $detalle = $this->getSalesDetail();
-
-        $detalle = json_encode($detalle);
-
-        $venta_id = $venta->id;
+        $venta_id = Input::get('venta_id');
+        $detalle = json_encode($this->getVentaDetalle());
+        $cliente = ClienteController::getInfo($venta->cliente_id);
 
         return Response::json(array(
             'success' => true,
-            'table' => View::make('ventas.unfinishedSale', compact('venta', 'detalle', 'venta_id'))->render()
+            'table' => View::make('ventas::unfinishedSale', compact('cliente', 'venta_id', 'detalle'))->render()
         ));
     }
 
