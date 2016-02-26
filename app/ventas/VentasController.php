@@ -287,6 +287,16 @@ class VentasController extends \BaseController {
         return Success::false();
     }
 
+    public function updateExistencias()
+    {
+        if ($this->check_existencia())
+            return "La cantidad que esta ingresando es mayor a la cantidad en existencia..";
+
+        Existencia::where('producto_id', Input::get('producto_id'))
+        ->where('tienda_id', Auth::user()->tienda_id)
+        ->update(array('existencia' => $nueva_existencia));
+    }
+
     public function openSale()
     {
         $venta = Venta::find(Input::get('venta_id'));
