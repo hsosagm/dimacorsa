@@ -33,7 +33,7 @@ function postFormSeleccionarTipoDeNotaDeCredito() {
         url: '/user/notaDeCredito/create',
     }).done(function(data) {
         $('.modal-body').html(data);
-        $('.modal-title').text( 'Crear Nota de credoto por delanto');
+        $('.modal-title').text( 'Crear Nota de credito por delanto');
         $('.bs-modal').modal('show');
     });
 };

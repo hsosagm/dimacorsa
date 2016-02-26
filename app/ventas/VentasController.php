@@ -259,6 +259,19 @@ class VentasController extends \BaseController {
 
 		$caja = Caja::whereUserId(Auth::user()->id)->first();
 
+        if (count(Input::get('notasDeCredito'))) {
+            foreach ( Input::get('notasDeCredito') as $notas) {
+               $updateNotas = DB::table('notas_creditos')
+                ->where('id', $notas['id'])
+                ->update(array(
+                    'estado' => $notas['estado'],
+                    'venta_id' => $notas['venta_id']
+                ));
+
+                if (!$updateNotas) return Success::false();
+            }
+        }
+
         $update = DB::table('ventas')->whereId(Input::get('venta_id'))
         ->update(array(
         	'completed' => 1,
@@ -291,6 +304,22 @@ class VentasController extends \BaseController {
         return Response::json(array(
             'success' => true,
             'table' => View::make('ventas::unfinishedSale', compact('cliente', 'venta_id', 'detalle'))->render()
+        ));
+    }
+
+    public function notasDeCredito()
+    {
+        $notasCreditos = DB::table('notas_creditos')
+        ->select("id", "created_at", "monto", "estado")
+        ->whereClienteId(Input::get('cliente_id'))
+        ->whereEstado(0)->get();
+
+        if(!count($notasCreditos))
+            return "El cliente no tiene notas de credito para asignarse..!";
+
+        return Response::json(array(
+            'success' => true,
+            'notasDeCredito' => $notasCreditos
         ));
     }
 

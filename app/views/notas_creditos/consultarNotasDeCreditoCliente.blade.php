@@ -1,6 +1,6 @@
 <script>
-	pagosventa.datos = {{ json_encode($data) }};
-	pagosventa.restanteVenta = {{ $data['saldo_restante'] }};
+	pagosVenta.datos = {{ json_encode($data) }};
+	pagosVenta.restanteVenta = {{ $data['saldo_restante'] }};
 </script>
 
 <div style="margin: 0px 0px 0px !important;" class="row">
@@ -22,7 +22,7 @@
             <td>
                 <div class="ckbox ckbox-success">
 					<fieldset @{{ (verificarMonto($event, nc.monto))? "":"disabled" }}>
-	                    <input id="chk-@{{nc.id}}" type="checkbox" v-on="click:agregarNota($event, nc.id, nc.monto)">
+	                    <input id="chk-@{{nc.id}}" type="checkbox" v-on="click: agregarNota($event, nc.id, nc.monto)">
 	                    <label for="chk-@{{nc.id}}"></label>
 					</fieldset>
                 </div>

@@ -238,6 +238,7 @@
             Route::get('paymentForm'                          , 'App\ventas\VentasController@paymentForm');
             Route::post('endSale'                             , 'App\ventas\VentasController@endSale');
             Route::get('openSale'                             , 'App\ventas\VentasController@openSale');
+            Route::get('notasDeCredito'                       , 'App\ventas\VentasController@notasDeCredito');
 
             Route::post('detalle'                             , 'VentasController@detalle');
             Route::post('updateClienteId'                     , 'VentasController@updateClienteId');

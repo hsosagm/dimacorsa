@@ -15,7 +15,7 @@ class NotaCreditoController extends \BaseController {
                 return $notaCredito->errors();
 
             return 'success';
-        }
+        } 
 
         $metodo_pago = MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id','!=',2)->where('id','!=',6)->where('id','!=',7)->get();
 
