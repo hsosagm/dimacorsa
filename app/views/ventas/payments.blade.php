@@ -74,7 +74,7 @@
                 }).done(function(data) {
                     if (!data.success)
                         return msg.warning(data, 'Advertencia!');
-
+ 
                     pagosventa.x = 2;
                     $('#idConsultarNotasDeCredito').html(data.table);
                     pagosventa.$nextTick(function() {
@@ -85,8 +85,7 @@
 
             agregarNota: function(event, id_nota,  monto)
             {
-                if ( $(event.target).is(':checked') )
-                {
+                if ($(event.target).is(':checked')) {
 					var restante = this.restanteVenta - this.total;
 					if(restante < monto){
 						return $(event.target).prop('checked', false);
@@ -95,8 +94,7 @@
                     this.envio.notas.push({ id_nota: id_nota, monto: monto });
                     this.total += parseFloat(monto);
                 }
-                else
-                {
+                else {
                     this.envio.notas.forEach(function(q, index)
                     {
                         if( id_nota === q.id_nota) {
