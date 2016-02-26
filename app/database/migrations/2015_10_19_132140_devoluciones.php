@@ -14,7 +14,7 @@ class Devoluciones extends Migration {
 			$table->integer('tienda_id')->unsigned();
 			$table->integer('cliente_id')->unsigned();
 			$table->integer('venta_id')->unsigned();
-			$table->decimal('total', 11, 5)->default(0.00);
+			$table->decimal('total', 8, 2)->default(0.00);
 			$table->integer('caja_id')->default(0);
 			$table->string('observaciones')->nullable();
 			$table->boolean('completed')->default(0);
@@ -32,7 +32,7 @@ class Devoluciones extends Migration {
 			$table->integer('devolucion_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
 			$table->integer('cantidad')->unsigned();
-			$table->decimal('precio', 11, 5);
+			$table->decimal('precio', 8, 2);
 			$table->decimal('ganancias', 11, 5)->default(0.00);
 			$table->text('serials')->nullable();
 			$table->timestamps();
@@ -46,7 +46,7 @@ class Devoluciones extends Migration {
 			$table->increments('id');
 			$table->integer('devolucion_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned();
-			$table->decimal('monto', 11, 5);
+			$table->decimal('monto', 8, 2);
 			$table->timestamps();
 
 			$table->foreign('devolucion_id')->references('id')->on('devoluciones')->onDelete('cascade')->onUpdate('cascade');

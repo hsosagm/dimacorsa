@@ -27,6 +27,7 @@
                 </div>
             </div>
         </div>
+
         <div class="table-responsive" v-if="x==2" id="tableNotasDeCredito">
         	<table class="table table-hover" width="80%">
         		<thead>
@@ -55,7 +56,7 @@
 		<div class="left col-md-6">
 			<button v-on="click: cancelarNotaDeCredito" class="btn btn-warning">Cancelar</button>
 		</div>
-		<div class="right col-md-6" v-if="disabledNotas">
+		<div class="right col-md-6" v-if="(totalNotas > 0)">
 			<button v-on="click: agregarNotaDeCredito()"  v-show="total" class="btn bg-theme btn-info">Agregar</button>
 		</div>
     </div>
@@ -129,7 +130,6 @@
             	for (var y = 0; y < this.notasDeCredito.length; y++)
             		if (this.notasDeCredito[y]['estado'] == 1)
             			totalN += parseFloat(this.notasDeCredito[y]['monto']);
-
             	return totalN;
             },
 
@@ -137,7 +137,7 @@
                 for (var i = 0; i < this.notasDeCredito.length; i++) {
                     delete this.notasDeCredito[i]["created_at"];
                     delete this.notasDeCredito[i]["monto"];
-                    this.notasDeCredito[i]["venta_id"] = {{ Input::get('venta_id') }};
+                    delete this.notasDeCredito[i]["estado"];
                     if (this.notasDeCredito[i]["estado"] == 0)
                     	this.notasDeCredito.$remove(i);
                 }

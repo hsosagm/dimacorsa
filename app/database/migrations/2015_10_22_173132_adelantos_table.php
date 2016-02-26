@@ -20,8 +20,8 @@ class AdelantosTable extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->integer('caja_id')->default(0);
 			$table->text('descripcion');
-			$table->decimal('saldo', 11, 5)->default(0.00);
-			$table->decimal('total')->default(0.00);
+			$table->decimal('saldo', 8, 2)->default(0.00);
+			$table->decimal('total', 8, 2)->default(0.00);
 			$table->boolean('completed')->default(0);
 			$table->timestamps();
 
@@ -37,7 +37,7 @@ class AdelantosTable extends Migration {
 			$table->integer('producto_id')->default(0);
 			$table->text('descripcion');
 			$table->integer('cantidad')->unsigned();
-			$table->decimal('precio', 11, 5);
+			$table->decimal('precio', 8, 2);
 			$table->timestamps();
 
 			$table->foreign('adelanto_id')->references('id')->on('adelantos')->onDelete('cascade')->onUpdate('cascade');
@@ -48,7 +48,7 @@ class AdelantosTable extends Migration {
 			$table->increments('id');
 			$table->integer('adelanto_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned();
-			$table->decimal('monto', 11, 5);
+			$table->decimal('monto', 8, 2);
 			$table->timestamps();
 
 			$table->foreign('adelanto_id')->references('id')->on('adelantos')->onDelete('cascade')->onUpdate('cascade');

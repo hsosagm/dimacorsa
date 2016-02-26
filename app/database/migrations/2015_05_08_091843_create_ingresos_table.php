@@ -22,7 +22,7 @@ class CreateIngresosTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('descripcion');
-			$table->decimal('monto', 11, 5);
+			$table->decimal('monto', 8, 2);
 			$table->integer('ingreso_id')->unsigned();
 			$table->integer('metodo_pago_id')->unsigned()->default(1);
 			$table->timestamps();
