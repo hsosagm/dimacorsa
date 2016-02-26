@@ -27,6 +27,7 @@
                 </div>
             </div>
         </div>
+
         <div class="table-responsive" v-if="x==2" id="tableNotasDeCredito">
         	<table class="table table-hover" width="80%">
         		<thead>
