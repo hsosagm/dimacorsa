@@ -263,7 +263,10 @@ class VentasController extends \BaseController {
             foreach ( Input::get('notasDeCredito') as $notas) {
                $updateNotas = DB::table('notas_creditos')
                 ->where('id', $notas['id'])
-                ->update(array('estado' => $notas['estado']));
+                ->update(array(
+                    'estado' => $notas['estado'], 
+                    'venta_id' => $notas['venta_id']
+                ));
 
                 if (!$updateNotas) return Success::false();
             }

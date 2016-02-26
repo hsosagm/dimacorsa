@@ -70,7 +70,7 @@
 </div>
 <script type="text/javascript">
 
-    var pagosVenta = new Vue({
+    new Vue({
 
         el: '#formPayments',
 
@@ -122,6 +122,27 @@
                 }
                 return values
             },
+
+            totalNotas: function() {
+            	totalN = 0;
+
+            	for (var y = 0; y < this.notasDeCredito.length; y++)
+            		if (this.notasDeCredito[y]['estado'] == 1)
+            			totalN += parseFloat(this.notasDeCredito[y]['monto']);
+
+            	return totalN;
+            },
+
+            valuesNotas: function() {
+                for (var i = 0; i < this.notasDeCredito.length; i++) {
+                    delete this.notasDeCredito[i]["created_at"];
+                    delete this.notasDeCredito[i]["monto"];
+                    this.notasDeCredito[i]["venta_id"] = {{ Input::get('venta_id') }};
+                    if (this.notasDeCredito[i]["estado"] == 0)
+                    	this.notasDeCredito.$remove(i);
+                }
+                return this.notasDeCredito;
+            }
         },
 
         methods: {
@@ -158,11 +179,11 @@
                     type: 'POST',
                     url:  'user/ventas/endSale',
                     data: {
-                        payments: this.values,
-                        total:    ventas.totalVenta,
-                        saldo:    this.credito,
-                        venta_id: {{ Input::get('venta_id') }}, 
-                        notasDeCredito: this.valuesNotas()
+                        payments: 		this.values,
+                        total:    		ventas.totalVenta,
+                        saldo:    		this.credito,
+                        venta_id: 		{{ Input::get('venta_id') }}, 
+                        notasDeCredito: this.valuesNotas
                     },
                 }).done(function(data) {
                     if (!data.success) {
@@ -178,6 +199,8 @@
             },
 
             getNotasDeCredito: function() {
+            	var that = this;
+
                 $.ajax({
                     type: "GET",
                     url: 'user/ventas/notasDeCredito',
@@ -186,30 +209,20 @@
                     if (!data.success)
                         return msg.warning(data, 'Advertencia!');
 
-                    pagosVenta.x = 2;
- 					pagosVenta.notasDeCredito = data.notasDeCredito;
+                    that.x = 2;
+ 					that.notasDeCredito = data.notasDeCredito;
                 });
             },
 
             selectcionarNota: function(index, event, monto) {
             	if ( $(event.target).is(':checked') ) {
-					if (((this.total - this.abonado) - this.totalNotas()) < monto) {
+					if (((this.total - this.abonado) - this.totalNotas) < monto) {
 						this.notasDeCredito[index]['estado'] = 0;
 						return event.target.checked = false;
 					}
                     return this.notasDeCredito[index]['estado'] = 1;
                 }
                 return this.notasDeCredito[index]['estado'] = 0;
-            },
-
-            totalNotas: function() {
-            	totalN = 0;
-
-            	for (var y = 0; y < this.notasDeCredito.length; y++)
-            		if (this.notasDeCredito[y]['estado'] == 1)
-            			totalN += parseFloat(this.notasDeCredito[y]['monto']);
-
-            	return totalN;
             },
 
             cancelarNotaDeCredito: function() {
@@ -222,23 +235,12 @@
             	this.x = 1;
 
             	this.payments.push({
-                    abonado:        this.totalNotas(),
-                    monto:          this.totalNotas(),
+                    abonado:        this.totalNotas,
+                    monto:          this.totalNotas,
                     metodo_pago_id: 6,
                     optionSelected: "Nota de credito"
                 });
             },
-
-            valuesNotas: function() {
-                for (var i = 0; i < this.notasDeCredito.length; i++) {
-                    delete this.notasDeCredito[i]["created_at"];
-                    delete this.notasDeCredito[i]["monto"];
-                    this.notasDeCredito[i]["venta_id"] = {{ Input::get('venta_id') }};
-                    if (this.notasDeCredito[i]["estado"] == 0)
-                    	this.notasDeCredito.$remove(i);
-                }
-                return this.notasDeCredito;
-            }
         }
     });
 </script>
