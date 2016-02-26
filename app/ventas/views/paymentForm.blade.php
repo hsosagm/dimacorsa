@@ -126,11 +126,10 @@
 
             totalNotas: function() {
             	totalN = 0;
-
+                
             	for (var y = 0; y < this.notasDeCredito.length; y++)
             		if (this.notasDeCredito[y]['estado'] == 1)
             			totalN += parseFloat(this.notasDeCredito[y]['monto']);
-
             	return totalN;
             },
 
