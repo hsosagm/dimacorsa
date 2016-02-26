@@ -25,7 +25,7 @@ class CreateDescargasTable extends Migration {
 			$table->increments('id');
 			$table->integer('descarga_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
-			$table->decimal('cantidad', 11, 2);
+			$table->decimal('cantidad', 8, 2);
 			$table->decimal('precio', 11, 5);
 			$table->text('serials');
 			$table->timestamps();

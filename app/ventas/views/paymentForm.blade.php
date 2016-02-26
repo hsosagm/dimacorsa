@@ -137,7 +137,7 @@
                 for (var i = 0; i < this.notasDeCredito.length; i++) {
                     delete this.notasDeCredito[i]["created_at"];
                     delete this.notasDeCredito[i]["monto"];
-                    this.notasDeCredito[i]["venta_id"] = {{ Input::get('venta_id') }};
+                    delete this.notasDeCredito[i]["estado"];
                     if (this.notasDeCredito[i]["estado"] == 0)
                     	this.notasDeCredito.$remove(i);
                 }
