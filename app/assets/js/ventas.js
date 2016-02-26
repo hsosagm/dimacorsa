@@ -191,14 +191,13 @@ function openSale(e)
                 data: { venta_id: $(e).closest('tr').attr('id') },
             }).done(function(data) {
                 if (!data.success)
-                    msg.warning(data, 'Advertencia!');
+                    return msg.warning(data, 'Advertencia!');
 
                 $('.panel-title').text('Formulario Ventas');
                 $(".forms").html(data.table);
                 $(".dt-container").hide();
                 $(".dt-container-cierre").hide();
                 return $(".form-panel").show();
-
             });
         }
     });
