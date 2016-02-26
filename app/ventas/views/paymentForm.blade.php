@@ -56,7 +56,7 @@
 		<div class="left col-md-6">
 			<button v-on="click: cancelarNotaDeCredito" class="btn btn-warning">Cancelar</button>
 		</div>
-		<div class="right col-md-6" v-if="disabledNotas">
+		<div class="right col-md-6" v-if="(totalNotas > 0)">
 			<button v-on="click: agregarNotaDeCredito()"  v-show="total" class="btn bg-theme btn-info">Agregar</button>
 		</div>
     </div>
@@ -126,7 +126,7 @@
 
             totalNotas: function() {
             	totalN = 0;
-                
+
             	for (var y = 0; y < this.notasDeCredito.length; y++)
             		if (this.notasDeCredito[y]['estado'] == 1)
             			totalN += parseFloat(this.notasDeCredito[y]['monto']);
