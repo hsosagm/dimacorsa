@@ -243,7 +243,7 @@ class VentasController extends \BaseController {
 
         $values = DB::table('metodo_pago')->where('id', '<', 6)->select('id', 'descripcion')->get();
 
-        $i=0;
+        $i = 0;
         foreach ($values as $value) {
             $paymentsOptions[$i]['value'] = $value->id;
             $paymentsOptions[$i]['text'] = $value->descripcion;
@@ -260,6 +260,22 @@ class VentasController extends \BaseController {
 
     public function endSale()
     {
+        $detalleVenta = Input::get('detalleVenta');
+
+        foreach ($detalleVenta as $dv)
+        {
+            $query = Existencia::whereProductoId($dv['producto_id'])
+            ->whereTiendaId($this->tienda_id)->first();
+
+            if ($query->existencia < $dv['cantidad'])
+            {
+                return Response::json(array(
+                    'success' => false,
+                    'msg' => "La cantidad [". f_num::get($dv['cantidad']) ."] del producto<br/>". $dv['descripcion']."<br/>es mayor a la cantidad en existencia [". $query->existencia . "]..."
+                ));
+            }
+        }
+
     	$insert = DB::table('pagos_ventas')->insert(Input::get('payments'));
 
     	if (!$insert) {
@@ -269,8 +285,6 @@ class VentasController extends \BaseController {
             ));
         }
 
-		$caja = Caja::whereUserId(Auth::user()->id)->first();
-
         if (count(Input::get('notasDeCredito'))) {
             foreach ( Input::get('notasDeCredito') as $notas) {
                $updateNotas = DB::table('notas_creditos')
@@ -279,66 +293,38 @@ class VentasController extends \BaseController {
                     'estado' => 1,
                     'venta_id' => Input::get('venta_id')
                 ));
-
-                if (!$updateNotas) return Success::false(); // error! si este codigo se ejecuta no se borraran los pagos_ventas
             }
         }
 
-        $update = Venta::whereId(Input::get('venta_id'))
-        ->update(array(
-        	'completed' => 1,
-        	'saldo'     => Input::get('saldo'),
-        	'total'     => Input::get('total'),
-        	'caja_id'   => $caja->id
-        ));
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
+        
+        $update = Venta::find(Input::get('venta_id'));
+        $update->completed = 1;
+        $update->saldo = Input::get('saldo');
+        $update->total = Input::get('total');
 
-        if ($update) {
-            $detalleVenta = Input::get('detalleVenta');
+        if (Auth::user()->tienda->cajas)
+            $update->caja_id = $caja->id;
 
-            foreach ($detalleVenta as $dv)
-            {
-                $query = Existencia::whereProductoId($dv['producto_id'])
-                ->whereTiendaId($this->tienda_id)->first();
+        foreach ($detalleVenta as $dv)
+        {
+            $existencia = Existencia::whereProductoId($dv['producto_id'])->whereTiendaId($this->tienda_id)->first();
+            $producto = DB::table('productos')->find($dv['producto_id']);
 
-                if ($query->existencia < $dv['cantidad'])
-                {
-                    DB::table('ventas')->whereId(Input::get('venta_id'))
-                    ->update(array('completed'=>0, 'saldo'=>0, 'total'=>0, 'caja_id'=>0));
+            Existencia::whereProductoId($dv['producto_id'])
+            ->whereTiendaId($this->tienda_id)
+            ->update(array('existencia' => $existencia->existencia - $dv['cantidad'] ));
 
-                    DB::table('pagos_ventas')->whereVentaId(Input::get('venta_id'))->delete();
-
-                    return Response::json(array(
-                        'success' => false,
-                        'msg' => "La cantidad [". f_num::get($dv['cantidad']) ."] del producto<br/>". $dv['descripcion']."<br/>es mayor a la cantidad en existencia [". $query->existencia . "]..."
-                    ));
-                }
-            }
-
-            foreach ($detalleVenta as $dv)
-            {
-                $existencia = Existencia::whereProductoId($dv['producto_id'])->whereTiendaId($this->tienda_id)->first();
-                $producto = DB::table('productos')->find($dv['producto_id']);
-
-                Existencia::whereProductoId($dv['producto_id'])
-                ->whereTiendaId($this->tienda_id)
-                ->update(array('existencia' => $existencia->existencia - $dv['cantidad'] ));
-
-                DB::table('detalle_ventas')->whereVentaId(Input::get('venta_id'))
-                ->whereProductoId($dv['producto_id'])
-                ->update(array(
-                    'ganancias' => DB::raw('precio -'. $producto->p_costo)
-                ));
-            }
-
-            return Success::true();
+            DB::table('detalle_ventas')->whereVentaId(Input::get('venta_id'))
+            ->whereProductoId($dv['producto_id'])
+            ->update(array(
+                'ganancias' => DB::raw('precio -'. $producto->p_costo)
+            ));
         }
 
-        DB::table('pagos_ventas')->whereVentaId(Input::get('venta_id'))->delete();
+        $update->save();
 
-        return Response::json(array(
-            'success' => false,
-            'msg'     => "Hubo un error al tratar de actualizar la tabla ventas"
-        ));
+        return Success::true();
     }
 
 

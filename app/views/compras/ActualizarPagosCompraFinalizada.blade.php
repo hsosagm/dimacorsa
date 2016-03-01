@@ -1,7 +1,5 @@
 <div id="actualizarPagosContainer">
     <div class="cuerpoPagos" style="height:380px">
-
-
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-4">
@@ -66,22 +64,17 @@
             },
 
             compra: [],
-
             metodo_pago: [],
-
             pagos: [],
-
             detallePagos: [],
-
             saldoRestante: 0,
-
             totalAbonado: 0
 	    },
 
 	    methods: {
 
             agregarPago: function() {
-                if(this.validarForm() == true) {
+                if(this.validarForm()) {
                     var data = {
                         'metodo_pago_id': $("#metodoPagoSelect").val(),
                         'descripcion': this.buscarDescripcion(),
@@ -154,7 +147,7 @@
                         compra: actualizarPagosContainer.compra
                     },
                 }).done(function(data) {
-                    if (data.success == true) {
+                    if (data.success) {
                         $('.bs-modal').modal('hide');
                         return msg.success('Pagos actualizados con exito...','!Listo');
                     }
@@ -175,5 +168,4 @@
     actualizarPagosContainer.metodo_pago = {{ json_encode($metodo_pago) }};
     actualizarPagosContainer.saldoRestante = {{ $compra->total }};
     actualizarPagosContainer.form.monto = {{ $compra->total }};
-
 </script>

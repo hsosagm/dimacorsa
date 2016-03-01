@@ -64,22 +64,17 @@
             },
 
             venta: [],
-
             metodo_pago: [],
-
             pagos: [],
-
             detallePagos: [],
-
             saldoRestante: 0,
-
             totalAbonado: 0
 	    },
 
 	    methods: {
 
             agregarPago: function() {
-                if(this.validarForm() == true) {
+                if(this.validarForm()) {
                     var data = {
                         'metodo_pago_id': $("#metodoPagoSelect").val(),
                         'descripcion': this.buscarDescripcion(),
@@ -152,7 +147,7 @@
                         venta: actualizarPagosContainer.venta
                     },
                 }).done(function(data) {
-                    if (data.success == true) {
+                    if (data.success) {
                         $('.bs-modal').modal('hide');
                         return msg.success('Pagos actualizados con exito...','!Listo');
                     }

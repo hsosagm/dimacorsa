@@ -32,9 +32,9 @@
                 <tr class="red" id="{{ $q->id }}">
                     <td class="center" width="9%"> {{ $q->fecha_ingreso }} </td>
                     <td class="center" width="9%"> {{ $q->fecha }} </td>
-                    <td                width="20%">{{ $q->usuario }} </td>
-                    <td                width="30%">{{ $q->proveedor }} </td>
-                    <td                width="9%"> {{ $q->numero_documento }} </td>
+                    <td width="20%"> {{ $q->usuario }} </td>
+                    <td width="30%"> {{ $q->proveedor }} </td>
+                    <td width="9%"> {{ $q->numero_documento }} </td>
                     <td class="right"  width="9%"> {{ f_num::get5($q->total) }} </td>
                     <td class="right"  width="9%"> {{ f_num::get5($q->saldo) }} </td>
                     <td class="center" width="5%">
@@ -45,9 +45,9 @@
                 <tr id="{{ $q->id }}">
                     <td class="center" width="9%"> {{ $q->fecha_ingreso }} </td>
                     <td class="center" width="9%"> {{ $q->fecha  }} </td>
-                    <td                width="20%">{{ $q->usuario }} </td>
-                    <td                width="30%">{{ $q->proveedor }} </td>
-                    <td                width="9%"> {{ $q->numero_documento }} </td>
+                    <td width="20%"> {{ $q->usuario }} </td>
+                    <td width="30%"> {{ $q->proveedor }} </td>
+                    <td width="9%"> {{ $q->numero_documento }} </td>
                     <td class="right"  width="9%"> {{ f_num::get5($q->total) }} </td>
                     <td class="right"  width="9%"> {{ f_num::get5($q->saldo) }} </td>
                      <td class="center" width="5%">
