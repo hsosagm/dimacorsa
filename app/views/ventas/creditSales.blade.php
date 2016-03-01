@@ -1,4 +1,4 @@
-<?php 
+<?php
 	$total_saldo = 0;
 	$saldo_vencido = 0;
 ?>
@@ -39,8 +39,8 @@
 		            <td                width="40%"> {{ $q->cliente }} </td>
 		            <td class="right"  width="9%"> {{ $total }} </td>
 		            <td class="right"  width="9%"> {{ $saldo }} </td>
-		            <td class="widthS center font14"  width="12%"> 
-		                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail"> 
+		            <td class="widthS center font14"  width="12%">
+		                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail">
 		            </td>
 		        </tr>
 			@else
@@ -50,7 +50,7 @@
 		            <td                width="40%"> {{ $q->cliente }} </td>
 		            <td class="right"  width="9%"> {{ $total }} </td>
 		            <td class="right"  width="9%"> {{ $saldo }} </td>
-		            <td class="widthS center font14"  width="12%"> 
+		            <td class="widthS center font14"  width="12%">
 		                <a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail">
 		            </td>
 		        </tr>
@@ -84,8 +84,8 @@
                     $( "#home" ).append('<i style="width:85px; text-align:right;">Saldo vencido:</i>');
                     $( "#home" ).append('<i id="saldo_por_busqueda_vencido" class="home_num">'+saldo_vencido+'</i>');
 
-                    $('.dt-container').show(); 
-                    
+                    $('.dt-container').show();
+
                     oTable = $('#example').dataTable();
 
                     $('#iSearch').keyup(function() {
@@ -118,4 +118,13 @@
                 }, 300);
     });
 
+    $('#example').dataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ archivos por pagina",
+            "zeroRecords": "No se encontro ningun archivo",
+            "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay archivos disponibles",
+            "infoFiltered": "- ( filtrado de _MAX_ archivos )"
+        }
+    });
 </script>

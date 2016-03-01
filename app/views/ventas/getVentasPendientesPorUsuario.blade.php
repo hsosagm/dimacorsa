@@ -1,4 +1,4 @@
-<div class="rounded shadow"> 
+<div class="rounded shadow">
 	<div class="panel_heading">
 		<div id="table_length_usuario" class="pull-left"></div>
 		<div class="DTTT btn-group"></div>
@@ -17,7 +17,7 @@
 	        </tr>
 	    </tbody>
 	</table>
-</div> 
+</div>
 
 <script type="text/javascript">
     $("#iSearch").val("");
@@ -53,7 +53,7 @@
 	                "mRender": function(data, type, full ) {
 	                  	return '<i title="Veta" onclick="vm.getVentaConDetalle(this, '+full.DT_RowId+')" class="fa fa-plus-square fg-theme"></i>';
 	                }
-            	}, 
+            	},
 	        ],
             "fnDrawCallback": function( oSettings ) {
                 $("td[class*='formato_precio']").each(function() {
@@ -68,13 +68,12 @@
                 aoData.push({ "name": "user_id", "value": "{{Input::get('user_id')}}" });
                 aoData.push({ "name": "dt", "value": "true" });
             },
-            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 	            if ( aData[4] > 30){
 	                jQuery(nRow).addClass('red');
-	            }               
+	            }
         	},
         });
 		$('#dataTableUsuario').attr('width', '100%');
 	});
 </script>
- 

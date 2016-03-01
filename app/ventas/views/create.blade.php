@@ -175,7 +175,7 @@
                         if (!data.success)
                             return msg.warning(data, 'Advertencia!')
 
-                        msg.success('Dato actualizado', 'Listo!')
+                        msg.success('Dato actualizado!')
                     })
                 }
             },
@@ -197,7 +197,7 @@
                     ventas.cliente = data.info
                     ventas.showNewCustomerForm = false
                     ventas.updateClienteId(data.info.id)
-                    msg.success('Cliente creado', 'Listo!')
+                    msg.success('Cliente agregado!')
                 }).fail(function (jqXHR, textStatus) {
                     $('input[type=submit]', form).prop('disabled', false)
                 })
@@ -221,7 +221,7 @@
                     }
                     ventas.cliente = data.info
                     ventas.showEditCustomerForm = false
-                    msg.success('Cliente actualizado', 'Listo!')
+                    msg.success('Datos actualizados!')
                 }).fail(function (jqXHR, textStatus) {
                     $('input[type=submit]', form).prop('disabled', false)
                 })
@@ -315,7 +315,7 @@
                         return msg.warning(data, 'Advertencia!')
 
                     ventas.detalleTable = data.detalle
-                    msg.success('Dato actualizado', 'Listo!')
+                    msg.success('Dato actualizado!')
                 })
             },
 
@@ -352,7 +352,7 @@
 
                             $(".form-panel").hide()
                             $(".forms").html("")
-                            msg.success('Venta eliminada', 'Listo!')
+                            msg.success('Venta eliminada')
                         })
                     }
                 })

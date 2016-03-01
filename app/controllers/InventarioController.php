@@ -6,7 +6,7 @@ class InventarioController extends Controller {
     public function getInventario()
     {
         return View::make('inventario.inventario');
-    }  
+    }
 
     public function dt_getInventario()
     {
@@ -100,7 +100,7 @@ class InventarioController extends Controller {
         $kardex = new Kardex;
         $kardex->tienda_id = Auth::user()->tienda_id;
         $kardex->user_id = Auth::user()->id;
-        $kardex->kardex_accion_id = 2; 
+        $kardex->kardex_accion_id = 2;
         $kardex->producto_id = $producto_id;
         $kardex->kardex_transaccion_id = 6;
         $kardex->transaccion_id = $transaccion_id;

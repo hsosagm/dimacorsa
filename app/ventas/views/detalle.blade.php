@@ -52,7 +52,7 @@
 
 		<tbody>
 		    <tr v-repeat="dt: detalleTable" v-class="editing: this == editedTodo">
-                <td width="10%" class="view" v-on="dblclick: editItem($event, 'cantidad', dt.cantidad)">@{{ dt.cantidad | currency '' }}</td>
+                <td width="10%" class="view number" v-on="dblclick: editItem($event, 'cantidad', dt.cantidad)">@{{ dt.cantidad }}</td>
                 <td width="10%" class="detail-input-edit">
                     <input type="text" v-model="dt.cantidad | parseInt" class="input_numeric"
                         v-on="keyup: doneEdit(this) | key 'enter', keyup: cancelEdit(this, $event, 'cantidad') | key 'esc'">

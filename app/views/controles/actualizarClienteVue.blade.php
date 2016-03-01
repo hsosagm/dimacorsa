@@ -8,26 +8,26 @@
 </div>
 
 <div class="form-group">
-    <div class="col-sm-5">
-        Nombre: <input type="text" name="nombre" style="width: 80% !important;" class="input sm_input" value="@{{ cliente.nombre }}" placeholder="Nombre">
+    <div class="col-sm-6">
+        <input type="text" name="nombre" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.nombre }}" placeholder="Nombre">
     </div>
 
-    <div class="col-sm-4">
-        Direccion: <input type="text" name="direccion" style="width: 76% !important;" class="input sm_input" value="@{{ cliente.direccion }}" placeholder="Direccion">
+    <div class="col-sm-3">
+        <input type="text" name="direccion" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.direccion }}" placeholder="Direccion">
     </div>
 </div>
 
 <div class="form-group">
     <div class="col-sm-3">
-        Nit:<input type="text" name="nit" style="width: 85% !important;" class="input sm_input" value="@{{ cliente.nit }}" placeholder="Nit">
+        <input type="text" name="nit" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.nit }}" placeholder="Nit">
     </div>
 
     <div class="col-sm-3">
-        Telefono:<input type="text" name="telefono" style="width: 73% !important;" class="input sm_input" value="@{{ cliente.telefono }}" placeholder="Telefono">
+        <input type="text" name="telefono" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.telefono }}" placeholder="Telefono">
     </div>
 
     <div class="col-sm-3">
-        Correo:<input type="text" name="email" style="width: 75% !important;" class="input sm_input" value="@{{ cliente.email }}" placeholder="Correo">
+        <input type="text" name="email" style="width: 100% !important;" class="input sm_input" value="@{{ cliente.email }}" placeholder="Correo">
     </div>
 </div>
 

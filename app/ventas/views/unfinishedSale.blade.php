@@ -102,7 +102,7 @@
 
                     <tbody>
                         <tr v-repeat="dt: detalleTable" v-class="editing: this == editedTodo">
-                            <td width="10%" class="view" v-on="dblclick: editItem($event, 'cantidad', dt.cantidad)">@{{ dt.cantidad | currency '' }}</td>
+                            <td width="10%" class="view number" v-on="dblclick: editItem($event, 'cantidad', dt.cantidad)">@{{ dt.cantidad }}</td>
                             <td width="10%" class="detail-input-edit">
                                 <input type="text" v-model="dt.cantidad | parseInt" class="input_numeric"
                                     v-on="keyup: doneEdit(this) | key 'enter', keyup: cancelEdit(this, $event, 'cantidad') | key 'esc'">
@@ -258,7 +258,7 @@
                         if (!data.success)
                             return msg.warning(data, 'Advertencia!')
 
-                        msg.success('Dato actualizado', 'Listo!')
+                        msg.success('Dato actualizado')
                     })
                 }
             },
@@ -280,7 +280,7 @@
                     ventas.cliente = data.info
                     ventas.showNewCustomerForm = false
                     ventas.updateClienteId(data.info.id)
-                    msg.success('Cliente creado', 'Listo!')
+                    msg.success('Cliente agregado')
                 }).fail(function (jqXHR, textStatus) {
                     $('input[type=submit]', form).prop('disabled', false)
                 })
@@ -304,7 +304,7 @@
                     }
                     ventas.cliente = data.info
                     ventas.showEditCustomerForm = false
-                    msg.success('Cliente actualizado', 'Listo!')
+                    msg.success('Cliente actualizado')
                 }).fail(function (jqXHR, textStatus) {
                     $('input[type=submit]', form).prop('disabled', false)
                 })
@@ -398,7 +398,7 @@
                         return msg.warning(data, 'Advertencia!')
 
                     ventas.detalleTable = data.detalle
-                    msg.success('Dato actualizado', 'Listo!')
+                    msg.success('Dato actualizado')
                 })
             },
 
@@ -435,7 +435,7 @@
 
                             $(".form-panel").hide()
                             $(".forms").html("")
-                            msg.success('Venta eliminada', 'Listo!')
+                            msg.success('Venta eliminada')
                         })
                     }
                 })
