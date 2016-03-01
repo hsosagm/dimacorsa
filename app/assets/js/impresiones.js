@@ -59,7 +59,7 @@ function printInvoice(e, id, impresora) {
 
 
 function printDocument(impresora, url, id) {
-    if (isLoaded()) {
+    /*if (isLoaded()) {
         qz.findPrinter(impresora);
         window['qzDoneFinding'] = function() {
             var printer = qz.getPrinter();
@@ -98,9 +98,9 @@ function printDocument(impresora, url, id) {
             window['qzDoneFinding'] = null;
         };
     }
-    else {
+    else {*/
         window.open(url+'Pdf?id='+id ,'_blank');
-    }
+    //}
 };
  
 function imprimirCodigoBarras(e, id, impresora) {

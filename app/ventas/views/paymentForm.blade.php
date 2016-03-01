@@ -1,5 +1,5 @@
 <div id="formPayments">
-    <div style="height:300px">
+    <div style="height:350px">
         <div style="margin-left:50px" v-if="x==1">
             <div class="row">
                 <div class="col-md-5">Total abonado: @{{abonado | currency ''}}</div>
@@ -52,7 +52,7 @@
         	</table>
     	</div>
     </div>
-    <div class="modal-footer payments-modal-footer" v-if="x==2">
+    <div class="modal-footer payments-modal-footer" v-if="x==2" >
 		<div class="left col-md-6">
 			<button v-on="click: cancelarNotaDeCredito" class="btn btn-warning">Cancelar</button>
 		</div>
@@ -66,6 +66,14 @@
         </div>
         <div v-if="disabled" v-transition class="right col-md-6">
         	<button v-on="click: endSale" class="btn theme-button" type="text">Finalizar</button>
+        </div>
+    </div>
+     <div class="modal-footer payments-modal-footer" v-if="x==1">
+        <div class="left col-md-6">
+            <button type="button" v-if="disabled" v-on="click: imprimirGarantia($event)" class="btn btn-info">Imprimir Garantia</button>
+        </div>
+        <div v-if="disabled" v-transition class="right col-md-6">
+            <button v-on="click: imprimirFactura($event)" class="btn theme-button" type="text">Imprimir Factura</button>
         </div>
     </div>
 </div>
@@ -243,6 +251,14 @@
                     optionSelected: "Nota de credito"
                 });
             },
+
+            imprimirFactura: function(e) {
+                printInvoice(e.target, {{ Input::get('venta_id') }}, null);
+            },
+
+            imprimirGarantia: function(e){
+                ImprimirGarantia(e.target, {{ Input::get('venta_id') }}, null);
+            }
         }
     });
 </script>
