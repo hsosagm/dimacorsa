@@ -732,7 +732,14 @@
 
     Route::get('/test', function()
     {
+        $producto = DB::table('productos')->whereId(1006110)->first();
 
+        DB::table('detalle_ventas')->whereVentaId(39567)
+        ->update(array(
+            'ganancias' => DB::raw('precio -'. $producto->p_costo)
+        ));
+
+        return 'success';
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

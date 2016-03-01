@@ -56,7 +56,7 @@
             that = this,
             defaults = {
                 ajaxSettings: {},
-                autoSelectFirst: false,
+                autoSelectFirst: true,
                 appendTo: document.body,
                 serviceUrl: null,
                 lookup: null,
@@ -218,7 +218,7 @@
         onBlur: function () {
             this.enableKillerFn();
         },
-        
+
         abortAjax: function () {
             var that = this;
             if (that.currentRequest) {

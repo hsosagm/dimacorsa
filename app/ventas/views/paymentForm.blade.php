@@ -182,18 +182,19 @@
                         payments: 		this.values,
                         total:    		ventas.totalVenta,
                         saldo:    		this.credito,
-                        venta_id: 		{{ Input::get('venta_id') }}, 
-                        notasDeCredito: this.valuesNotas
+                        venta_id: 		{{ Input::get('venta_id') }},
+                        notasDeCredito: this.valuesNotas,
+                        detalleVenta:   ventas.detalleTable
                     },
                 }).done(function(data) {
                     if (!data.success) {
                         e.target.disabled = false;
-                        console.log(data)
-                        return msg.warning("Hubo un error intentelo de nuevo", "Advertencia!");
+                        return msg.warning(data.msg, "Advertencia!");
                     }
+
                     $('.bs-modal').modal('hide');
                     $(".form-panel").hide();
-                    msg.success('Venta finalizada', 'Listo!');
+                    msg.success('Venta finalizada!');
                 }).fail(function (jqXHR, textStatus) {
                     e.target.disabled = false;
                 });
