@@ -2,10 +2,10 @@
 	<input type="hidden" name="cliente_id" v-model="cliente.id" >
 	<div align="center">
 		<strong>
-			<label> @{{ cliente.nombre | empty }} , @{{ cliente.direccion | empty }} </label>
+			<label> @{{ cliente.nombre | empty }} - @{{ cliente.direccion | empty }} </label>
 		</strong>
 	</div>
-	
+
 	<div class="row">
 		<div class="col-md-10" style="margin-left: 25px">
 			<input type="text" id="cliente" class="form-control">
@@ -106,7 +106,7 @@
 	</div>
 
 	<hr>
-	
+
 	<div v-show="cliente.id" style="margin-top: 10px; margin-left:7px;">
 		<div class="col-md-5">
 			<input type="text" id="montoPago" v-on="keyup : agregarPago() | key 'enter'" class="form-control col-md-8" v-model="form.monto" placeholder="Monto">
@@ -131,7 +131,7 @@
             <tbody>
                 <tr v-repeat="dp: detallePagos">
                     <td> @{{ buscarDescripcion(dp.metodo_pago_id) }} </td>
-                    <td class="right"> @{{ dp.monto | currency '' }}</td>
+                    <td class="right"> @{{ dp.monto | currency '' }} </td>
                     <td class="right">
                         <i class="fa fa-trash-o fa-lg icon-delete" v-on="click: eliminarPago($index)"></i>
                     </td>
@@ -179,7 +179,7 @@
 		filters: {
 			empty: function(value) {
 
-				return ($.trim(value) == null)?  "":  value; 
+				return ($.trim(value) == null)?  "":  value;
 			}
 		},
 
@@ -187,7 +187,7 @@
 
 			"detallePagos": function() {
 	            var sum = 0;
-	            for (var i = 0; i < this.detallePagos.length; i++) 
+	            for (var i = 0; i < this.detallePagos.length; i++)
 	                sum += parseFloat(this.detallePagos[i]["monto"]);
 
 	            this.totalAdelanto = sum;
@@ -203,9 +203,9 @@
 		methods: {
 
 			agregarPago: function() {
-                if(this.validarForm() == true) {
-                    this.detallePagos.push({ 
-                    	monto: this.form.monto.replace(",", ""), 
+                if(this.validarForm()) {
+                    this.detallePagos.push({
+                    	monto: this.form.monto.replace(",", ""),
                     	metodo_pago_id: this.form.metodo_pago_id
                     });
 
@@ -215,22 +215,20 @@
             },
 
             buscarDescripcion: function(metodo_pago_id) {
-                for ( var i = 0; i < this.metodo_pago.length; i++ ) {
-                    if( this.metodo_pago[i]["value"] == metodo_pago_id ) {
+                for ( var i = 0; i < this.metodo_pago.length; i++ )
+                    if( this.metodo_pago[i]["value"] == metodo_pago_id )
                         return this.metodo_pago[i]["text"];
-                    }
-                }
             },
 
             validarForm: function() {
                 for (var i = 0; i < this.detallePagos.length; i++)
-                    if(this.detallePagos[i]["metodo_pago_id"] == this.form.metodo_pago_id) 
+                    if(this.detallePagos[i]["metodo_pago_id"] == this.form.metodo_pago_id)
                         return msg.warning('El metodo de pago ya ha sido ingresado..!');
 
                 if (parseFloat(this.form.monto) <= 0 || this.form.monto == "" || this.form.monto == null)
                     return msg.warning('Ingrese monto..!');
 
-                if (parseFloat(this.form.metodo_pago_id) <= 0 || this.form.metodo_pago_id == null)
+                if (!this.form.metodo_pago_id)
                     return msg.warning('Seleccione un metodo de pago..!');
 
                 return true;
@@ -353,5 +351,5 @@
 	});
 
 	$('#montoPago').number( true, 2 );
-	
-</script> 
+
+</script>
