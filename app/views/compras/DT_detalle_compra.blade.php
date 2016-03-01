@@ -17,7 +17,7 @@
 	            <td field="cantidad" cod="{{ $q->id }}" class="edit" width="10%"> {{ $q->cantidad }} </td>          
 	            <td width="70%"> {{ $q->descripcion }} </td>
 	            <td field="precio" cod="{{ $q->id }}" class="edit align_right" width="10%"> {{ f_num::get5($q->precio) }} </td>
-	            <td width="10%" class="align_right"> {{ f_num::get5($q->total) }} </td>
+	            <td width="10%" class="right"> {{ f_num::get5($q->total) }} </td>
 	        </tr>
 		@endforeach
 	    
