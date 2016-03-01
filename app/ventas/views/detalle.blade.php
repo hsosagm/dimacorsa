@@ -102,7 +102,6 @@
 			@else
 				<i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
 			@endif
-			
 		</div>
 	</div>
 </div>

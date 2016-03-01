@@ -1,3 +1,4 @@
+<?php  $caja = Caja::whereUserId(Auth::user()->id)->get();  ?>
 <div id="ventas">
     {{ Form::open(array('class' => "form-generarVenta")) }}
         <div class="row">
@@ -137,11 +138,20 @@
                 </table>
             </div>
 
-            <div class="form-footer">
+            <div class="form-footer" >
                 <div class="row">
-                    <div align="right">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6" align="right">
                         <i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete"></i>
-                        <i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
+                        @if (Auth::user()->tienda->cajas)
+                            @if(count($caja))
+                                <i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
+                            @else
+                                <i class="fa fa-paper-plane-o fa-lg icon-success" onclick="enviarVentaACaja(this, {{$venta_id}});"></i>
+                            @endif
+                        @else
+                            <i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
+                        @endif
                     </div>
                 </div>
             </div>
