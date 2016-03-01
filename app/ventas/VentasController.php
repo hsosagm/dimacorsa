@@ -25,7 +25,7 @@ class VentasController extends \BaseController {
 			}
 
 			$venta_id = $venta->get_id();
-
+ 
 			return Response::json(array(
 				'success' => true,
 				'detalle' => View::make('ventas::detalle', compact('venta_id'))->render()
@@ -294,7 +294,7 @@ class VentasController extends \BaseController {
                     'venta_id' => Input::get('venta_id')
                 ));
             }
-        }
+        } 
 
         $caja = Caja::whereUserId(Auth::user()->id)->first();
         
