@@ -1,4 +1,4 @@
-<div class="rounded shadow"> 
+<div class="rounded shadow">
 	<div class="panel_heading">
 		<div id="table_length_cliente" class="pull-left"></div>
 		<div class="DTTT btn-group"></div>
@@ -18,17 +18,17 @@
 	    </tbody>
 	</table>
 </div>
- 
+
 <script type="text/javascript">
     $("#iSearch").val("");
     $("#iSearch").unbind();
     $('.bread-current').text("");
 
-    setTimeout(function(){
+    setTimeout(function() {
         $("#iSearch").focus();
         $('#dataTableCliente_length').prependTo("#table_length_cliente");
         oTable = $('#dataTableCliente').dataTable();
-        $('#iSearch').keyup(function(){
+        $('#iSearch').keyup(function() {
             oTable.fnFilter( $(this).val() );
         })
     }, 300);
@@ -47,13 +47,13 @@
 	            {"sClass": "width30",                		"sTitle": "Usuario",       "aTargets": [1]},
 	            {"sClass": "width15 right formato_precio",  "sTitle": "Total",         "aTargets": [2]},
 	            {"sClass": "width15 right formato_precio",  "sTitle": "Saldo",         "aTargets": [3]},
-	            {"sClass": " ", "bVisible": false,  		"sTitle": "",         	   "aTargets": [4]},
-	            {"sClass": "width10 icons center",   		"sTitle": "",   		   "aTargets": [5],
+	            {"bVisible": false,  		                                    	   "aTargets": [4]},
+	            {"sClass": "width10 icons center",   		                   		   "aTargets": [5],
 	                "orderable": false,
 	                "mRender": function(data, type, full ) {
-	                  	return '<i title="Veta" onclick="vm.getVentaConDetalle(this, '+full.DT_RowId+')" class="fa fa-plus-square fg-theme"></i>';
+	                  	return '<i title="Venta" onclick="vm.getVentaConDetalle(this, '+full.DT_RowId+')" class="fa fa-plus-square fg-theme"></i>';
 	                }
-            	}, 
+            	},
 	        ],
             "fnDrawCallback": function( oSettings ) {
                 $("td[class*='formato_precio']").each(function() {
@@ -68,13 +68,11 @@
                 aoData.push({ "name": "cliente_id", "value": "{{Input::get('cliente_id')}}" });
                 aoData.push({ "name": "dt", "value": "true" });
             },
-            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 	            if ( aData[4] > 30){
 	                jQuery(nRow).addClass('red');
-	            }               
+	            }
         	},
         });
-		$('#dataTableCliente').attr('width', '100%');
 	});
 </script>
- 

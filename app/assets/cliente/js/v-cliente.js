@@ -1,13 +1,13 @@
 
 var vm = new Vue({
-	
+
 	el: 'body',
 
 	data: {
 		customer_search: '',
 		PanelBody: false,
 		tableDetail: '',
-		cliente_id: 0, 
+		cliente_id: 0,
 		divAbonosPorSeleccion: '',
 		infoCliente: '',
 		saldo_total: '',
@@ -110,7 +110,7 @@ var vm = new Vue({
 						return compile();
 					}
 					msg.warning(data, 'Advertencia!');
-				} 
+				}
 			});
 		},
 
@@ -263,7 +263,7 @@ var vm = new Vue({
 					}
 					msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
 				}
-			}); 
+			});
 		},
 
 
@@ -353,7 +353,7 @@ var vm = new Vue({
 					return compile();
 				}
 				msg.warning(data, 'Advertencia!');
-			}); 
+			});
 		},
 
 
@@ -370,7 +370,7 @@ var vm = new Vue({
 					return compile();
 				}
 				msg.warning(data, 'Advertencia!');
-			}); 
+			});
 		},
 
 
@@ -383,7 +383,7 @@ var vm = new Vue({
 		clientes_table: function() {
 			$.get( "user/cliente/index", function( data ) {
 				if (data.success == true)
-				{ 
+				{
 					vm.proccesDataTable(data.table);
 					return $('#example').addClass('tableSelected');
 				}
@@ -408,7 +408,7 @@ var vm = new Vue({
 					}
 					msg.warning(data, 'Advertencia!');
 				}
-			}); 
+			});
 		},
 
 
@@ -425,7 +425,7 @@ var vm = new Vue({
 					}
 					msg.warning(data, 'Advertencia!');
 				}
-			}); 
+			});
 		},
 
 
@@ -590,12 +590,12 @@ var vm = new Vue({
 		},
 
 		estadoDeCuenta: function(pdf) {
-			if(pdf == true)
+			if(pdf)
 				window.open('user/cliente/estadoDeCuenta?pdf=true&cliente_id='+vm.cliente_id, '_blank');
 
-			if(pdf == false)
+			if(!pdf)
 				window.open('user/cliente/estadoDeCuenta?cliente_id='+vm.cliente_id, '_blank');
-		}, 
+		},
 
 		enviarEstadoDeCuenta: function() {
 			$.confirm({
@@ -607,9 +607,9 @@ var vm = new Vue({
 						url: 'user/cliente/enviarEstadoDeCuenta',
 						data: {cliente_id: vm.cliente_id},
 					}).done(function(data) {
-						if (data.success == true)
+						if (data.success)
 							return msg.success('Correo enviado con exito..', 'Listo!')
-							 
+
 						msg.warning(data, 'Advertencia!');
 					});
 				}

@@ -1,13 +1,13 @@
 $(function() {
     $(document).on('click', '#delete_adelanto', function(){ delete_adelanto(this); });
 });
- 
+
 function getAdelantosAll() {
     $.ajax({
         type: "GET",
         url: 'user/adelantos/getAdelantos',
     }).done(function(data) {
-        if (!data.success == true)
+        if (!data.success)
             return msg.warning(data, 'Advertencia!');
 
         makeTable(data.table, '', 'Adelantos');

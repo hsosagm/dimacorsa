@@ -24,7 +24,7 @@
     $("#iSearch").unbind();
     $('.bread-current').text("");
 
-    setTimeout(function(){
+    setTimeout(function() {
         $("#iSearch").focus();
         $('#dataTableUsuario_length').prependTo("#table_length_usuario");
         oTable = $('#dataTableUsuario').dataTable();
@@ -47,8 +47,8 @@
 	            {"sClass": "width30",                		"sTitle": "Cliente",       "aTargets": [1]},
 	            {"sClass": "width15 right formato_precio",  "sTitle": "Total",         "aTargets": [2]},
 	            {"sClass": "width15 right formato_precio",  "sTitle": "Saldo",         "aTargets": [3]},
-	            {"sClass": " ", "bVisible": false,  		"sTitle": "",         	   "aTargets": [4]},
-	            {"sClass": "width10 icons center",   		"sTitle": "",   		   "aTargets": [5],
+	            {"bVisible": false,                                                    "aTargets": [4]},
+	            {"sClass": "width10 icons center",   		  		                   "aTargets": [5],
 	                "orderable": false,
 	                "mRender": function(data, type, full ) {
 	                  	return '<i title="Veta" onclick="vm.getVentaConDetalle(this, '+full.DT_RowId+')" class="fa fa-plus-square fg-theme"></i>';
@@ -74,6 +74,5 @@
 	            }
         	},
         });
-		$('#dataTableUsuario').attr('width', '100%');
 	});
 </script>
