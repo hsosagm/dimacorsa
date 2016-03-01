@@ -1,7 +1,7 @@
 <table width="100%">
 	<thead > 
 		<tr>
-			<td colspan="5" align="center"> <h2>Balance General - {{$data['mes']}} </h2></td>
+			<td colspan="5" align="center"> <h2>Balance General - {{$data['data']['mes']}} </h2></td>
 		</tr>
 		
 		<tr>
@@ -14,21 +14,21 @@
 		<tr> <td colspan="5" style="border-top:1px solid"></td></tr>
 
 		<tr>
-			<td style="text-align: right;"> {{ ($data['total_ventas'] )}} </td>
-			<td style="text-align: right;"> {{ ($data['total_ganancias'] )}} 
-				@if($data['total_ventas'] > 0)
-				(%{{ f_num::get(($data['total_ganancias']*100)/$data['total_ventas']) }})
+			<td style="text-align: right;"> {{ ($data['data']['total_ventas'] )}} </td>
+			<td style="text-align: right;"> {{ ($data['data']['total_ganancias'] )}} 
+				@if($data['data']['total_ventas'] > 0)
+				(%{{ f_num::get(($data['data']['total_ganancias']*100)/$data['data']['total_ventas']) }})
 				@endif
 			</td>
-			<td style="text-align: right;"> {{ ($data['total_soporte']   )}} </td>
-			<td style="text-align: right;"> {{ ($data['total_gastos']    )}} 
-				@if($data['total_ventas'] > 0)
-				(%{{ f_num::get(($data['total_gastos']*100)/$data['total_ventas']) }})
+			<td style="text-align: right;"> {{ ($data['data']['total_soporte']   )}} </td>
+			<td style="text-align: right;"> {{ ($data['data']['total_gastos']    )}} 
+				@if($data['data']['total_ventas'] > 0)
+				(%{{ f_num::get(($data['data']['total_gastos']*100)/$data['data']['total_ventas']) }})
 				@endif
 			</td>
-			<td style="text-align: right;"> {{ ($data['ganancias_netas'] )}} 
-				@if($data['total_ventas'] > 0)
-				(%{{ f_num::get(($data['ganancias_netas'] *100)/$data['total_ventas']) }})
+			<td style="text-align: right;"> {{ ($data['data']['ganancias_netas'] )}} 
+				@if($data['data']['total_ventas'] > 0)
+				(%{{ f_num::get(($data['data']['ganancias_netas'] *100)/$data['data']['total_ventas']) }})
 				@endif
 			</td>
 		</tr>
@@ -44,7 +44,7 @@
 		</tr>
 		<tr> <td colspan="5" style="border-top:1px solid"></td></tr>
 
-		@foreach(@$ventas_usuarios as $key => $user)
+		@foreach(@$data['ventas_usuarios'] as $key => $user)
 		<tr>
 			<td colspan="2" class="fg-theme"> {{ $user->nombre .' '. $user->apellido}}</td>
 			<td style="text-align: right;"> {{ f_num::get($user->total) }} </td>
@@ -57,17 +57,17 @@
 
 		<tr>
 			<td colspan="2">Inversion Actual :</td>
-			<td style="text-align: right;"> {{ $data['inversion_actual'] }} </td>
+			<td style="text-align: right;"> {{ $data['data']['inversion_actual'] }} </td>
 			<td colspan="2"></td>
 		</tr>
 		<tr>
 			<td colspan="2">Cuentas por Cobrar :</td>
-			<td style="text-align: right;"> {{ $data['ventas_credito'] }} </td>
+			<td style="text-align: right;"> {{ $data['data']['ventas_credito'] }} </td>
 			<td colspan="2"></td>
 		</tr>
 		<tr>
 			<td colspan="2">Cuentas por Pagar :</td>
-			<td style="text-align: right;"> {{ $data['compras_credito'] }} </td>
+			<td style="text-align: right;"> {{ $data['data']['compras_credito'] }} </td>
 			<td colspan="2"></td>
 		</tr>
 		<tr> <td colspan="5" style="border-top:1px solid"></td></tr>

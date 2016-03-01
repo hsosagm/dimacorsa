@@ -176,6 +176,86 @@ class ExportarController extends \BaseController {
         return $this->exportarExel($data, $vista);
     }
 
+    public function ExportarCierreDelMes($tipo,$fecha)
+    { 
+        $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
+        ->join("detalle_ventas", "detalle_ventas.venta_id", "=", "ventas.id")
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->first(array(DB::raw('sum(detalle_ventas.precio * detalle_ventas.cantidad) as total')));
+
+        $ganancias =  DB::table('users')
+        ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
+        ->join('ventas','ventas.user_id','=','users.id')
+        ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+        ->where('users.tienda_id','=',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->orderBy('total', 'DESC')->first();
+
+        $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        $gastos = Gasto::join('detalle_gastos','detalle_gastos.gasto_id','=','gastos.id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->first(array(DB::raw('sum(monto) as total')));
+
+        $compras = Compra::where('tienda_id','=',Auth::user()->tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
+
+        $ventas_c = Venta::where('tienda_id','=',Auth::user()->tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
+
+        $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
+        ->where('tienda_id','=',Auth::user()->tienda_id)
+        ->where('existencias.existencia','>', 0)
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo)) as total')));
+
+        $ventas_usuarios =  DB::table('users')
+        ->select(DB::raw('users.id, users.nombre, users.apellido,
+            sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
+            sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
+        ->join('ventas','ventas.user_id','=','users.id')
+        ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+        ->where('users.tienda_id','=',Auth::user()->tienda_id)
+        ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
+        ->orderBy('total', 'DESC')
+        ->groupBy('users.id','users.nombre','users.apellido')
+        ->get();
+
+        $date = Carbon::createFromFormat('Y-m-d', "{$fecha}");
+
+        $fecha_env = Venta::first();
+
+        if (@$fecha_env->created_at == null)
+            $fecha_env = Carbon::now();
+        else
+            $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
+
+        $data['dia_inicio'] =  $fecha_env;
+        $data['total_ventas'] = f_num::get($ventas->total   );
+        $data['total_ganancias'] = f_num::get($ganancias->total);
+        $data['total_soporte'] = f_num::get($soporte->total  );
+        $data['total_gastos'] = f_num::get($gastos->total   );
+        $data['compras_credito'] = f_num::get($compras->total  );
+        $data['ventas_credito'] = f_num::get($ventas_c->total );
+        $data['inversion_actual'] = f_num::get($inversion->total);
+        $data['ganancias_netas'] = f_num::get(($ganancias->total+$soporte->total)-$gastos->total);
+        $data['mes'] = Traductor::getMes($date->formatLocalized('%B')).' '.$date->formatLocalized('%Y');
+        $data['fecha'] = $date;
+        $data['fecha_input'] = $date->formatLocalized('%Y-%m-%d');
+
+        $datos['data'] = $data;
+        $datos['tipo'] = $tipo;
+        $datos['orientacion'] = "landscape";
+        $datos['titulo'] = "Cierre de mes";
+        $datos['ventas_usuarios'] = $ventas_usuarios;
+        $vista = "ExportarCierreDelMes";
+
+        return $this->exportarExel($datos, $vista);
+    }
+
     public function exportarExel($data, $vista)
     {
         if ($data['tipo'] == 'pdf') 

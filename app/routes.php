@@ -457,7 +457,7 @@
             Route::get('VerDetalleDelCierreDelDia'           , 'CierreController@VerDetalleDelCierreDelDia' );
             Route::get('ImprimirCierreDelDia_dt/{code}/{id}' , 'CierreController@ImprimirCierreDelDia_dt' );
             Route::get('ExportarCierreDelDia/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelDia' );
-            Route::get('ExportarCierreDelMes/{tipo}/{fecha}' , 'CierreController@ExportarCierreDelMes' );
+            Route::get('ExportarCierreDelMes/{tipo}/{fecha}' , 'ExportarController@ExportarCierreDelMes' );
             Route::get('VentasDelMes'                        , 'CierreController@VentasDelMes' );
             Route::get('VentasDelMes_dt'                     , 'CierreController@VentasDelMes_dt' );
             Route::get('SoportePorFecha'                     , 'CierreController@SoportePorFecha' );

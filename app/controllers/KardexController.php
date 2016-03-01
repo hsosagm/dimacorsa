@@ -16,7 +16,7 @@ class KardexController extends \BaseController {
             "costo",
             "costo_promedio" 
         );
-
+ 
         $Search_columns = array("evento" , "cantidad" , 'existencia' ,'costo');
 
 		$Join = " JOIN users ON (users.id = kardex.user_id) ";

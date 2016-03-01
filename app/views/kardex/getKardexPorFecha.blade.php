@@ -24,7 +24,7 @@
             <tr class="col-md-1">
             </tr>
         </table> 
-        {{Form::close()}}
+        {{Form::close()}} 
     </div>
     <div class="col-md-1">
         <i  class="fa fa-file-excel-o fa-lg" v-on="click: exportarKardexExcel($event, {{@$producto_id}}, '{{$fecha_inicial}}', '{{$fecha_final}}')"> </i>
