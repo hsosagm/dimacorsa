@@ -208,8 +208,9 @@ class UserController extends Controller {
 
 	public function setConsultarSerie()
 	{
+
 		$detalleCompra = DetalleCompra::select('compra_id', 'producto_id')
-		->where('serials', 'LIKE','%'.trim(str_replace("'", '', Input::get('serials'))).'%')
+		->whereRaw('UPPER(serials) LIKE % '.trim(str_replace("'", '', strtoupper(Input::get('serials')))).'%')
 		->join('compras', 'compras.id', '=', 'compra_id')
 		->where('tienda_id','=' , Auth::user()->tienda_id)->first();
 
