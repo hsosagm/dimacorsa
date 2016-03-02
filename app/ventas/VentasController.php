@@ -369,8 +369,6 @@ class VentasController extends \BaseController {
         if (!$total) 
             return "Ingresa productos a la venta para poder enviarla...";
 
-        return $total;
-        
         if ($venta->completed == 1)
             return 'La venta que intentas enviar ya fue finalizada...';
 
