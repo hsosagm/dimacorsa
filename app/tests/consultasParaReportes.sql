@@ -18,3 +18,25 @@ WHERE
 	pv.metodo_pago_id = 5 AND 
 	DATE_FORMAT( v.created_at, '%Y-%m' ) = DATE_FORMAT( '2016-02-01', '%Y-%m' ) AND
 	v.tienda_id = 1
+
+
+--consulta para sacar las compras con deposito de un mes especifico
+SELECT 
+	CONCAT_WS(' ', u.nombre, u.apellido) as USUARIO,
+	p.nombre as PROVEEDOR,
+	c.total AS TOTAL,
+	pc.monto AS MONTO,
+	mp.descripcion AS METODO_PAGO,
+	c.created_at AS FECHA
+
+FROM compras c
+
+INNER JOIN pagos_compras pc ON ( pc.compra_id = c.id )
+INNER JOIN proveedores p ON (p.id = c.proveedor_id) 
+INNER JOIN users u ON (u.id = c.user_id)
+INNER JOIN metodo_pago mp ON (mp.id = pc.metodo_pago_id)
+
+WHERE 
+	pc.metodo_pago_id = 5 AND 
+	DATE_FORMAT( c.created_at, '%Y-%m' ) = DATE_FORMAT( '2016-02-01', '%Y-%m' ) AND
+	c.tienda_id = 1
