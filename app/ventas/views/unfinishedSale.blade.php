@@ -1,4 +1,3 @@
-<?php  $caja = Caja::whereUserId(Auth::user()->id)->get();  ?>
 <div id="ventas">
     {{ Form::open(array('class' => "form-generarVenta")) }}
         <div class="row">
@@ -144,10 +143,10 @@
                     <div class="col-md-6" align="right">
                         <i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete"></i>
                         @if (Auth::user()->tienda->cajas)
-                            @if(count($caja))
+                            @if($caja)
                                 <i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
                             @else
-                                <i class="fa fa-paper-plane-o fa-lg icon-success" onclick="enviarVentaACaja(this, {{$venta_id}});"></i>
+                                <i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
                             @endif
                         @else
                             <i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
@@ -498,7 +497,26 @@
                     $('#iSearch').focus()
                     $('#example').addClass('tableSelected')
                 })
+            },
+            
+            enviarACaja: function(e) 
+            {
+                e.target.disabled = true;
+                $.ajax({
+                    type: "POST",
+                    url: 'user/ventas/enviarACaja',
+                    data: { venta_id: this.venta_id },
+                }).done(function(data) {
+                    if (data.success) {
+                        msg.success('Venta Enviada..', 'Listo!');
+                        return $(".form-panel").hide();
+                    }
+
+                    msg.warning(data, 'Advertencia!');
+                    e.target.disabled = false;
+                });
             }
+
         }
     });
 

@@ -239,6 +239,7 @@
             Route::post('endSale'                             , 'App\ventas\VentasController@endSale');
             Route::get('openSale'                             , 'App\ventas\VentasController@openSale');
             Route::get('notasDeCredito'                       , 'App\ventas\VentasController@notasDeCredito');
+            Route::post('enviarACaja'                         , 'App\ventas\VentasController@enviarACaja');
 
             Route::post('detalle'                             , 'VentasController@detalle');
             Route::post('updateClienteId'                     , 'VentasController@updateClienteId');

@@ -405,6 +405,24 @@
                     $('#iSearch').focus()
                     $('#example').addClass('tableSelected')
                 })
+            },
+
+            enviarACaja: function(e) 
+            {
+                e.target.disabled = true;
+                $.ajax({
+                    type: "POST",
+                    url: 'user/ventas/enviarACaja',
+                    data: { venta_id: this.venta_id },
+                }).done(function(data) {
+                    if (data.success) {
+                        msg.success('Venta Enviada..', 'Listo!');
+                        return $(".form-panel").hide();
+                    }
+
+                    msg.warning(data, 'Advertencia!');
+                    e.target.disabled = false;
+                });
             }
         }
     });

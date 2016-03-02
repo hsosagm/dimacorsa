@@ -25,10 +25,11 @@ class VentasController extends \BaseController {
 			}
 
 			$venta_id = $venta->get_id();
+            $caja = Caja::whereUserId(Auth::user()->id)->first();
  
 			return Response::json(array(
 				'success' => true,
-				'detalle' => View::make('ventas::detalle', compact('venta_id'))->render()
+				'detalle' => View::make('ventas::detalle', compact('venta_id', 'caja'))->render()
             ));
 		}
 
@@ -96,9 +97,7 @@ class VentasController extends \BaseController {
 		$query = new DetalleVenta;
 
 		if (!$query->SaleItem())
-		{
 			return $query->errors();
-		}
 
 		return Response::json(array(
 			'success' => true,
@@ -113,7 +112,7 @@ class VentasController extends \BaseController {
 	    ->where('producto_id', Input::get("producto_id"))
 	    ->first();
 
-	    if($query == null)
+	    if ($query == null)
 	    	return false;
 
 	    return true;
@@ -309,18 +308,14 @@ class VentasController extends \BaseController {
         foreach ($detalleVenta as $dv)
         {
             $existencia = Existencia::whereProductoId($dv['producto_id'])->whereTiendaId($this->tienda_id)->first();
-            $producto = DB::table('productos')->find($dv['producto_id']);
-
-            Existencia::whereProductoId($dv['producto_id'])
-            ->whereTiendaId($this->tienda_id)
-            ->update(array('existencia' => $existencia->existencia - $dv['cantidad'] ));
-
-            DB::table('detalle_ventas')->whereVentaId(Input::get('venta_id'))
-            ->whereProductoId($dv['producto_id'])
-            ->update(array(
-                'ganancias' => DB::raw('precio -'. $producto->p_costo)
-            ));
+            $existencia->existencia -= $dv['cantidad'];
+            $existencia->save();
         }
+
+        DB::table('detalle_ventas')->whereVentaId(Input::get('venta_id'))
+        ->update(array(
+            'ganancias' => DB::raw('precio - (select p_costo from productos where id = producto_id)')
+        ));
 
         $update->save();
 
@@ -341,10 +336,11 @@ class VentasController extends \BaseController {
         $venta_id = Input::get('venta_id');
         $detalle = json_encode($this->getVentaDetalle());
         $cliente = ClienteController::getInfo($venta->cliente_id);
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
 
         return Response::json(array(
             'success' => true,
-            'table' => View::make('ventas::unfinishedSale', compact('cliente', 'venta_id', 'detalle'))->render()
+            'table' => View::make('ventas::unfinishedSale', compact('cliente', 'venta_id', 'detalle', 'caja'))->render()
         ));
     }
 
@@ -362,6 +358,29 @@ class VentasController extends \BaseController {
             'success' => true,
             'notasDeCredito' => $notasCreditos
         ));
+    }
+
+    public function enviarACaja()
+    {
+        $venta = Venta::find(Input::get('venta_id'));
+        $total = DetalleVenta::whereVentaId(Input::get('venta_id'))
+        ->first(array(DB::raw('sum(cantidad * precio) as total')))->total;
+
+        if (!$total) 
+            return "Ingresa productos a la venta para poder enviarla...";
+
+        return $total;
+        
+        if ($venta->completed == 1)
+            return 'La venta que intentas enviar ya fue finalizada...';
+
+            $venta->completed = 2;
+            $venta->total = $total;
+
+        if (!$venta->save())
+            return 'Hubo un error intentelo de nuevo';
+
+        return Success::true();
     }
 
 }

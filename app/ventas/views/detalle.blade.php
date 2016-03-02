@@ -1,4 +1,3 @@
-<?php  $caja = Caja::whereUserId(Auth::user()->id)->get();  ?>
 <div class="row">
 	<div class="col-md-6">
 		<table class="master-table">
@@ -94,10 +93,10 @@
 		<div class="col-md-6" align="right">
 			<i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete"></i>
 			@if (Auth::user()->tienda->cajas)
-				@if(count($caja))
+				@if($caja)
 					<i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
 				@else
-					<i class="fa fa-paper-plane-o fa-lg icon-success" onclick="enviarVentaACaja(this, {{$venta_id}});"></i>
+					<i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
 				@endif
 			@else
 				<i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
