@@ -334,22 +334,6 @@ class CotizacionController extends \BaseController {
 
 		$cotizacion = Cotizacion::find(Input::get('cotizacion_id'));
 
-		foreach ($detalleCotizacion as $dt)
-		{
-			$producto = Producto::find($dt->producto_id);
-			if ($producto->id != '')
-			{
-				$existencia = Existencia::whereTiendaId($cotizacion->tienda_id)
-				->whereProductoId($producto->id)->first();
-
-				if ($existencia->existencia < $dt->cantidad)
-				{
-					return 'La cantidad ['.$dt->cantidad.'] del producto '.$producto->descripcion.'
-					exede la existencia ['.$existencia->existencia.'] actual..!';
-				}
-			}
-		}
-
 		$venta = new Venta();
 		$venta->user_id = $cotizacion->user_id;
 		$venta->tienda_id = $cotizacion->tienda_id;
@@ -361,9 +345,8 @@ class CotizacionController extends \BaseController {
 
 			foreach ($detalleCotizacion as $dt)
 			{
-				$producto = Producto::find($dt->producto_id);
-
-				if ($producto->id != '')
+				$producto = Producto::find((int)$dt->producto_id);
+				if ($producto->id)
 				{
 					$detalleVenta = new DetalleVenta;
 					$detalleVenta->venta_id = $venta_id;
@@ -372,15 +355,9 @@ class CotizacionController extends \BaseController {
 					$detalleVenta->cantidad = $dt->cantidad;
 					$detalleVenta->ganancias = $dt->precio - ($producto->p_costo);
 					$detalleVenta->save();
-
-					$existencia = Existencia::whereTiendaId($cotizacion->tienda_id)
-					->whereProductoId($producto->id)->first();
-
-					$existencia->existencia -= $dt->cantidad;
-					$existencia->save();
 				}
 			}
-
+			
 			$cotizacion->delete();
 
 			return $this->abrirVentaGenerada($venta_id);
@@ -391,32 +368,48 @@ class CotizacionController extends \BaseController {
 
     public function abrirVentaGenerada($venta_id)
 	{
-		$venta = Venta::with('cliente', 'detalle_venta')->find($venta_id);
-		$detalle = $this->getDetalleVentas($venta_id);
-		$detalle = json_encode($detalle);
-		$venta_id = $venta->id;
+		$venta = Venta::find($venta_id);
 
-		return Response::json(array(
-			'success' => true,
-			'view' => View::make('ventas.unfinishedSale', compact('venta', 'detalle', 'venta_id'))->render()
+        if ($venta->completed == 1)
+            return json_encode('La venta no se puede abrir porque ya fue finalizada');
+
+        if ($venta->completed == 2)
+            $venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
+
+        $detalle = json_encode($this->getVentaDetalle($venta_id));
+        $cliente = ClienteController::getInfo($venta->cliente_id);
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
+
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('ventas::unfinishedSale', compact('cliente', 'venta_id', 'detalle', 'caja'))->render()
         ));
 	}
 
-    public function getDetalleVentas($venta_id)
+	public function getVentaDetalle($venta_id)
 	{
 		$detalle = DB::table('detalle_ventas')
         ->select(array(
         	'detalle_ventas.id',
         	'venta_id',
-            'producto_id',
+        	'producto_id',
         	'cantidad',
         	'precio',
-        	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion'),
-            DB::raw('cantidad * precio AS total')))
+        	'serials',
+        	DB::raw('CONCAT(productos.descripcion, " ", marcas.nombre) AS descripcion, cantidad * precio AS total') ))
         ->whereVentaId($venta_id)
         ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
         ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
         ->get();
+
+        foreach ($detalle as $dt) {
+        	$dt->precio = (float)($dt->precio);
+        	$dt->total = (float)($dt->total);
+        	$dt->cantidad = (int)($dt->cantidad);
+        	if ($dt->serials) {
+        		$dt->serials = explode(',', $dt->serials);
+        	}
+        }
 
         return $detalle;
 	}

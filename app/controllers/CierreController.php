@@ -348,7 +348,6 @@ class CierreController extends \BaseController {
 
     public function CierreDelMes()
     {
-
         $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
         ->join("detalle_ventas", "detalle_ventas.venta_id", "=", "ventas.id")
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT(current_date, '%Y-%m')")

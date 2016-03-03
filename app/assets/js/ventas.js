@@ -173,7 +173,7 @@ function getSalesDetail(e) {
         }
     });
 };
-
+ 
 
 function openSale(e)
 {
