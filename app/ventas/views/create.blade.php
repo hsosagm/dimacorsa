@@ -240,6 +240,7 @@
                         return msg.warning(data)
 
                     ventas.producto = data.values
+                    $("#precio-publico").attr("placeholder", data.values.precio);
                     $("input[name='cantidad']").val("")
                     $("input[name='cantidad']").focus()
                 })
@@ -247,6 +248,7 @@
 
             postVentaDetalle: function(e)
             {
+
                 if (!$("input[name=codigo]").val())
                     return $("input[name=codigo]").focus()
 
@@ -255,6 +257,9 @@
 
                 if (!$("input[name=cantidad]").val())
                     return $("input[name=cantidad]").focus()
+
+                if(e.target.focus && e.target.name == "precio" && !e.target.value)
+                    return e.target.value = ventas.producto.precio;
 
                 if (!$("input[name=precio]").val())
                     return $("input[name=precio]").focus()
@@ -274,6 +279,7 @@
 
                     $("input[name=cantidad]").val('')
                     $("input[name=precio]").val('')
+                    $("#precio-publico").attr("placeholder", "");
                     $("input[name=codigo]").val('').focus()
                     ventas.producto = []
                     ventas.detalleTable = data.detalle
@@ -449,6 +455,7 @@
                 return msg.warning(data);
 
             ventas.producto = data.values;
+            $("#precio-publico").attr('placeholder', data.values.precio);
             $("input[name='cantidad']").val("");
             $("input[name='precio']").val("");
             $("input[name='cantidad']").focus();

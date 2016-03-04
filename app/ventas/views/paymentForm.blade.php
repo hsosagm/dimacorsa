@@ -65,15 +65,17 @@
     		<button type="button" v-if="disabledNotas" v-on="click: getNotasDeCredito()" class="btn btn-info">Notas de Credito</button>
         </div>
         <div v-if="disabled" v-transition class="right col-md-6">
-        	<button v-on="click: endSale" class="btn theme-button" type="text">Finalizar</button>
+            <i v-on="click: imprimirGarantia($event)" class="fa fa-file-o icon-print" style="font-size: 22px; padding-left: 5px"></i>
+            <i v-on="click: imprimirFactura($event)" class="fa fa-print icon-print" style="font-size: 22px; padding-left: 5px"></i>
+        	<i v-on="click: endSale" class="fa fa-check icon-success" style="font-size: 22px; padding-left: 5px"></i>
         </div>
     </div>
      <div class="modal-footer payments-modal-footer" v-if="x==1">
         <div class="left col-md-6">
-            <button type="button" v-if="disabled" v-on="click: imprimirGarantia($event)" class="btn btn-info">Imprimir Garantia</button>
+            
         </div>
         <div v-if="disabled" v-transition class="right col-md-6">
-            <button v-on="click: imprimirFactura($event)" class="btn theme-button" type="text">Imprimir Factura</button>
+           
         </div>
     </div>
 </div>
