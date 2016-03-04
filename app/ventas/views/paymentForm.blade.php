@@ -23,7 +23,7 @@
                 <div class="col-md-5 right" style="padding-right:20px">@{{ payment.abonado | currency ' ' }}</div>
                 <div class="col-md-5" style="padding-left:25px">@{{ payment.optionSelected }}</div>
                 <div class="col-md-2" style="float:right">
-                    <i v-on="click: removePayment($index, payment.monto)" class="fa fa-trash-o pointer btn-link theme-c"></i>
+                    <i v-on="click: removePayment($index, payment.monto)" class="fa fa-trash-o pointer icon-delete"></i>
                 </div>
             </div>
         </div>
@@ -65,14 +65,11 @@
     		<button type="button" v-if="disabledNotas" v-on="click: getNotasDeCredito()" class="btn btn-info">Notas de Credito</button>
         </div>
         <div v-if="disabled" v-transition class="right col-md-6">
-            <i v-on="click: imprimirGarantia($event)" class="fa fa-file-o icon-print" style="font-size: 22px; padding-left: 5px"></i>
-            <i v-on="click: imprimirFactura($event)" class="fa fa-print icon-print" style="font-size: 22px; padding-left: 5px"></i>
-        	<i v-on="click: endSale" class="fa fa-check icon-success" style="font-size: 22px; padding-left: 5px"></i>
+            <i v-on="click: imprimirGarantia($event)" class="fa fa-file-o icon-print" style="font-size: 22px; padding-left: 10px" title="Imprimir Garantia"></i>
+            <i v-on="click: imprimirFactura($event)" class="fa fa-print icon-print" style="font-size: 22px; padding-left: 10px" title="Imprimir Factua"></i>
+        	<i v-on="click: endSale" class="fa fa-check icon-success" style="font-size: 22px; padding-left: 10px" title="Finalizar"></i>
         </div>
     </div>
-    <pre>
-        @{{ disabledNotas | json }}
-    </pre>
 </div>
 <script type="text/javascript">
 
