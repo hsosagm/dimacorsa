@@ -248,7 +248,6 @@
 
             postVentaDetalle: function(e)
             {
-
                 if (!$("input[name=codigo]").val())
                     return $("input[name=codigo]").focus()
 
@@ -391,7 +390,11 @@
                 $.ajax({
                     type: 'GET',
                     url: 'user/ventas/paymentForm',
-                    data: { venta_id: this.venta_id, totalVenta: this.totalVenta },
+                    data: { 
+                        venta_id: this.venta_id, 
+                        totalVenta: this.totalVenta , 
+                        cliente_id: this.cliente.id
+                    },
                 }).done(function(data) {
                     if (!data.success)
                         return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!')

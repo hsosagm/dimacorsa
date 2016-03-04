@@ -70,14 +70,9 @@
         	<i v-on="click: endSale" class="fa fa-check icon-success" style="font-size: 22px; padding-left: 5px"></i>
         </div>
     </div>
-     <div class="modal-footer payments-modal-footer" v-if="x==1">
-        <div class="left col-md-6">
-            
-        </div>
-        <div v-if="disabled" v-transition class="right col-md-6">
-           
-        </div>
-    </div>
+    <pre>
+        @{{ disabledNotas | json }}
+    </pre>
 </div>
 <script type="text/javascript">
 
@@ -94,7 +89,7 @@
             credito: 0,
             disabled: false,
             notasDeCredito: [],
-            disabledNotas: true,
+            disabledNotas: {{ $disabledNotas }},
             x: 1
         },
 

@@ -240,20 +240,19 @@ class VentasController extends \BaseController {
 			$venta->total = $total->total;
     	}
 
-        $values = DB::table('metodo_pago')->where('id', '<', 6)->select('id', 'descripcion')->get();
+        $notasDeCredito = DB::table('notas_creditos')
+            ->select("id", "created_at", "monto", "estado")
+            ->whereClienteId(Input::get('cliente_id'))
+            ->whereEstado(0)->first();
 
-        $i = 0;
-        foreach ($values as $value) {
-            $paymentsOptions[$i]['value'] = $value->id;
-            $paymentsOptions[$i]['text'] = $value->descripcion;
-            $i++;
-        }
+        ($notasDeCredito)? $disabledNotas = json_encode(true): $disabledNotas = json_encode(false);
 
+        $paymentsOptions = MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id', '<', 6)->get();
         $paymentsOptions = json_encode($paymentsOptions);
 
         return  Response::json(array(
         	'success' => true,
-        	'detalle' => View::make('ventas::paymentForm', compact('paymentsOptions'))->render()
+        	'detalle' => View::make('ventas::paymentForm', compact('paymentsOptions', 'disabledNotas'))->render()
         ));
     }
 
