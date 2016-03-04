@@ -216,6 +216,7 @@
                     return isNaN(number) ? 0 : number
                 }
             },
+            
             parseFloat: {
                 read: function(val)
                 {
