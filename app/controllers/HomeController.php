@@ -72,7 +72,7 @@ class HomeController extends \BaseController {
             return 'Permiso negado..';
 
         Auth::loginUsingId(Input::get('user_id'));
-        
+
         return Response::json(array(
             'success' => true
         ));

@@ -1,82 +1,75 @@
 <div id="formPayments">
-    <div style="height:350px">
-        <div style="margin-left:50px" v-if="x==1">
-            <div class="row">
-                <div class="col-md-5">Total abonado: @{{abonado | currency ''}}</div>
-                <div v-show="!disabled" class="col-md-5">Resta abonar: @{{this.total - this.abonado | currency ''}}</div>
-                <div v-show="disabled" class="col-md-5">Su vuelto es: @{{this.abonado - this.total | currency ''}}</div>
+    <div style="height:400px;">
+        <div style="height:350px">
+            <div style="margin-left:50px;" v-if="x==1">
+                <div class="row" style="text-align: center; font-size: 20px">Resta abonar</div>
+                <div class="row resta_abonar">@{{resta_abonar | currency 'Q'}}</div>
+
+                <div id="payment_input" class="row" style="margin-top:15px">
+                    <div class="col-md-5">
+                        <select id="payments" v-model="metodo_pago_id" options="paymentsOptions" v-attr="disabled: disabled" class="form-control"></select>
+                    </div>
+                    <div class="col-md-5">
+                        <input v-on="keyup:addPayment | key 'enter'" id="monto" class="form-control right" v-attr="disabled: disabled">
+                    </div>
+                    <div class="col-md-2" v-if="!disabled">
+                        <i v-on="click: addPayment" style="font-size: 20px; padding-top:7px" class="fa fa-plus fg-theme"></i>
+                        <i v-on="click: addPayment" style="font-size: 20px; padding-top:7px" class="fa fa-plus fg-theme"></i>
+                    </div>
+                </div>
+
+                <div v-repeat="payment: payments" class="row" style="margin-top:10px">
+                    <div class="col-md-5" style="padding-left:25px">@{{payment.optionSelected}}</div>
+                    <div class="col-md-5 right" style="padding-right:20px">@{{payment.abonado | currency ''}}</div>
+                    <div class="col-md-2" style="float:right">
+                        <i v-on="click: removePayment($index, payment.monto)" class="fa fa-trash-o pointer btn-link theme-c"></i>
+                    </div>
+                </div>
+
+                <div v-if="payments.length" class="row" style="margin-top:20px">
+                    <div class="col-md-5" style="padding-left:25px">Total:</div>
+                    <div class="col-md-5 right" style="padding-right:20px">@{{abonado | currency ''}}</div>
+                </div>
             </div>
 
-            <div id="payment_input" class="row" style="margin-top:15px">
-                <div class="col-md-5">
-                    <input v-on="keyup:addPayment | key 'enter'" id="monto" class="form-control right" v-attr="disabled: disabled">
-                </div>
-                <div class="col-md-5">
-                    <select id="payments" v-model="metodo_pago_id" options="paymentsOptions" v-attr="disabled: disabled" class="form-control"></select>
-                </div>
-                <div class="col-md-2" v-if="!disabled">
-                    <i v-on="click: addPayment" style="font-size: 20px; padding-top:7px" class="fa fa-plus fg-theme"></i>
-                </div>
-            </div>
-
-            <div v-repeat="payment: payments" class="row" style="margin-top:10px">
-                <div class="col-md-5 right" style="padding-right:20px">@{{ payment.abonado | currency ' ' }}</div>
-                <div class="col-md-5" style="padding-left:25px">@{{ payment.optionSelected }}</div>
-                <div class="col-md-2" style="float:right">
-                    <i v-on="click: removePayment($index, payment.monto)" class="fa fa-trash-o pointer btn-link theme-c"></i>
-                </div>
-            </div>
+            <div class="table-responsive" v-if="x==2" id="tableNotasDeCredito">
+            	<table class="table table-hover" width="80%">
+            		<thead>
+    					<tr>
+    						<th>Fecha:</th>
+    						<th>Monto:</th>
+    						<th></th>
+    					</tr>
+            		</thead>
+            		<tbody>
+    	        		<tr v-repeat="nc: notasDeCredito">
+    	        			 <td> @{{ nc.created_at }} </td>
+    			            <td class="right"> @{{ nc.monto | currency '' }} </td>
+    			            <td>
+    			                <div class="ckbox ckbox-success">
+    				                <input id="chk-1-@{{nc.id}}" type="checkbox" v-on="click: selectcionarNota($index, $event, nc.monto)">
+    				                <label for="chk-1-@{{nc.id}}"></label>
+    			                </div>
+    			            </td>
+    	        		</tr>
+            		</tbody>
+            	</table>
+        	</div>
         </div>
 
-        <div class="table-responsive" v-if="x==2" id="tableNotasDeCredito">
-        	<table class="table table-hover" width="80%">
-        		<thead>
-					<tr>
-						<th>Fecha:</th>
-						<th>Monto:</th>
-						<th></th>
-					</tr>
-        		</thead>
-        		<tbody>
-	        		<tr v-repeat="nc: notasDeCredito">
-	        			 <td> @{{ nc.created_at }} </td>
-			            <td class="right"> @{{ nc.monto | currency '' }} </td>
-			            <td>
-			                <div class="ckbox ckbox-success">
-				                <input id="chk-1-@{{nc.id}}" type="checkbox" v-on="click: selectcionarNota($index, $event, nc.monto)">
-				                <label for="chk-1-@{{nc.id}}"></label>
-			                </div>
-			            </td>
-	        		</tr>
-        		</tbody>
-        	</table>
-    	</div>
-    </div>
-    <div class="modal-footer payments-modal-footer" v-if="x==2" >
-		<div class="left col-md-6">
-			<button v-on="click: cancelarNotaDeCredito" class="btn btn-warning">Cancelar</button>
-		</div>
-		<div class="right col-md-6" v-if="(totalNotas > 0)">
-			<button v-on="click: agregarNotaDeCredito()"  v-show="total" class="btn bg-theme btn-info">Agregar</button>
-		</div>
-    </div>
-    <div class="modal-footer payments-modal-footer" v-if="x==1">
-    	<div class="left col-md-6">
-    		<button type="button" v-if="disabledNotas" v-on="click: getNotasDeCredito()" class="btn btn-info">Notas de Credito</button>
-        </div>
-        <div v-if="disabled" v-transition class="right col-md-6">
-        	<button v-on="click: endSale" class="btn theme-button" type="text">Finalizar</button>
+        <div class="vuelto">
+            <label>Gracias por su compra su vuelto es: @{{this.abonado - this.total | currency ''}}</label>
         </div>
     </div>
-     <div class="modal-footer payments-modal-footer" v-if="x==1">
-        <div class="left col-md-6">
-            <button type="button" v-if="disabled" v-on="click: imprimirGarantia($event)" class="btn btn-info">Imprimir Garantia</button>
-        </div>
-        <div v-if="disabled" v-transition class="right col-md-6">
-            <button v-on="click: imprimirFactura($event)" class="btn theme-button" type="text">Imprimir Factura</button>
-        </div>
+
+    <div class="modal-footer">
+        <i class="fa fa-files-o fa-lg"></i>
+        <i class="fa fa-file-text-o fa-lg"></i>
+        <i class="fa fa-print fa-lg"></i>
+        <i v-on="click: endSale" class="fa fa-check-square-o fa-lg"></i>
     </div>
 </div>
+
 <script type="text/javascript">
 
     new Vue({
@@ -112,8 +105,11 @@
                         this.credito = this.payments[i]["monto"]
                 }
 
-                if (this.abonado >= this.total)
-                    return this.disabled = true
+                if (this.abonado >= this.total) {
+                    this.disabled = true
+                    return $('.vuelto label').fadeIn(1500)
+                }
+                $('.vuelto label').hide()
                 this.disabled = false
 
                 $('#monto').autoNumeric('init', {aNeg:'', vMax: '999999.99', lZero: 'deny'});
@@ -150,6 +146,12 @@
                     	this.notasDeCredito.$remove(i);
                 }
                 return this.notasDeCredito;
+            },
+
+            resta_abonar: function() {
+                if (this.total < this.abonado)
+                    return 0
+                return this.total - this.abonado
             }
         },
 
@@ -263,4 +265,27 @@
             }
         }
     });
+
+    function CerrarVentanaIngresoDeSeries() {
+        $(".form-panel").show();
+    }
 </script>
+
+<style type="text/css">
+    .resta_abonar {
+        font-size: 60px;
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 40px;
+        color:#5BB769;
+    }
+
+    .vuelto {
+        text-align: center;
+    }
+
+    .vuelto label {
+        display: none;
+        font-size: 20px;
+    }
+</style>

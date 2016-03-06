@@ -144,12 +144,12 @@
                         <i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete"></i>
                         @if (Auth::user()->tienda->cajas)
                             @if($caja)
-                                <i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
+                                <i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
                             @else
                                 <i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
                             @endif
                         @else
-                            <i class="fa fa-check fa-lg icon-success" v-on="click: getPaymentForm"></i>
+                            <i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
                         @endif
                     </div>
                 </div>
@@ -484,6 +484,7 @@
 
                     $('.modal-body').html(data.detalle)
                     $('.bs-modal').modal('show')
+                    $(".form-panel").hide()
                 })
             },
 
@@ -498,8 +499,8 @@
                     $('#example').addClass('tableSelected')
                 })
             },
-            
-            enviarACaja: function(e) 
+
+            enviarACaja: function(e)
             {
                 e.target.disabled = true;
                 $.ajax({

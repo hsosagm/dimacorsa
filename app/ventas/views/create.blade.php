@@ -392,6 +392,7 @@
 
                     $('.modal-body').html(data.detalle)
                     $('.bs-modal').modal('show')
+                    $(".form-panel").hide()
                 })
             },
 
@@ -407,7 +408,7 @@
                 })
             },
 
-            enviarACaja: function(e) 
+            enviarACaja: function(e)
             {
                 e.target.disabled = true;
                 $.ajax({
