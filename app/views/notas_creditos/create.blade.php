@@ -222,14 +222,20 @@
 
             validarForm: function() {
                 for (var i = 0; i < this.detallePagos.length; i++)
-                    if(this.detallePagos[i]["metodo_pago_id"] == this.form.metodo_pago_id)
-                        return msg.warning('El metodo de pago ya ha sido ingresado..!');
+                    if(this.detallePagos[i]["metodo_pago_id"] == this.form.metodo_pago_id) {
+                    	msg.warning('El metodo de pago ya ha sido ingresado..!');
+                        return false;
+                    }
 
-                if (parseFloat(this.form.monto) <= 0 || this.form.monto == "" || this.form.monto == null)
-                    return msg.warning('Ingrese monto..!');
+                if (parseFloat(this.form.monto) <= 0 || this.form.monto == "" || this.form.monto == null) {
+                    msg.warning('Ingrese monto..!');
+                    return false;
+                }
 
-                if (!this.form.metodo_pago_id)
-                    return msg.warning('Seleccione un metodo de pago..!');
+                if (!this.form.metodo_pago_id) {
+                    msg.warning('Seleccione un metodo de pago..!');
+                    return false;
+                }
 
                 return true;
             },
