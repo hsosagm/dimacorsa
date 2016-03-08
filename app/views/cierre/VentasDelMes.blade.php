@@ -1,14 +1,10 @@
-<?php $fecha = Input::get('fecha'); ?>
-<?php $grafica = Input::get('grafica'); ?>
-
-    <table class="dt-table table-striped table-theme" id="example">
-        <tbody style="background: #ffffff;">
-            <tr>
-                <td style="font-size: 14px; color:#1b7be2;" colspan="7" class="dataTables_empty">Cargando datos del servidor...</td>
-            </tr>
-        </tbody>
-    </table>
-
+<table class="dt-table table-striped table-theme" id="example">
+    <tbody style="background: #ffffff;">
+        <tr>
+            <td style="font-size: 14px; color:#1b7be2;" colspan="7" class="dataTables_empty">Cargando datos del servidor...</td>
+        </tr>
+    </tbody>
+</table>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -19,7 +15,7 @@
             setTimeout(function() {
                 $('#example_length').prependTo("#table_length3");
 
-                if ( "{{$grafica}}" != "true") 
+                if (!"{{Input::get('grafica')}}") 
                     graph_container.x = 2;
                 else
                     graph_container.x = 3;
@@ -49,7 +45,7 @@
                 {"sClass": "width5 icons center",                                                  "aTargets": [8],
                     "orderable": false,
                     "mRender": function() {
-                        return '<i class="fa fa-plus-square btn-link theme-c" fecha="{{$fecha}}" onClick="DetalleDeVentasPorProducto(this)"></i>';
+                        return '<i class="fa fa-plus-square btn-link theme-c" fecha="{{Input::get('fecha')}}" onClick="DetalleDeVentasPorProducto(this)"></i>';
                     }
                 },
             ],
