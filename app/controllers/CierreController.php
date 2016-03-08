@@ -582,23 +582,23 @@ class CierreController extends \BaseController {
     {
         $fecha = Input::get('fecha');
 
-        $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
+        $ventas = Venta::where('ventas.tienda_id', '=', Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(total) as total')));
 
         $ganancias =  DB::table('ventas')
         ->select(DB::raw('sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as total'))
-        ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
+        ->join('detalle_ventas','detalle_ventas.venta_id', '=', 'ventas.id')
         ->whereTiendaId(Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first();
 
-        $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id','=','soporte.id')
+        $soporte = Soporte::join('detalle_soporte','detalle_soporte.soporte_id', '=', 'soporte.id')
         ->whereTiendaId(Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(soporte.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(monto) as total')));
 
-        $gastos = Gasto::join('detalle_gastos','detalle_gastos.gasto_id','=','gastos.id')
+        $gastos = Gasto::join('detalle_gastos','detalle_gastos.gasto_id', '=', 'gastos.id')
         ->whereTiendaId(Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(gastos.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->first(array(DB::raw('sum(monto) as total')));
@@ -609,21 +609,21 @@ class CierreController extends \BaseController {
         $ventas_c = Venta::whereTiendaId(Auth::user()->tienda_id)
         ->first(array(DB::raw('sum(saldo) as total')));
 
-        $inversion = Existencia::join('productos','productos.id','=','existencias.producto_id')
+        $inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
         ->whereTiendaId(Auth::user()->tienda_id)
-        ->where('existencias.existencia','>', 0)
+        ->where('existencias.existencia', '>', 0)
         ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo)) as total')));
 
         $ventas_usuarios =  DB::table('ventas')
         ->select(DB::raw('users.id, users.nombre, users.apellido,
             sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
             sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
-        ->join('users','ventas.user_id','=','users.id')
-        ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
-        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)
+        ->join('users', 'ventas.user_id', '=', 'users.id')
+        ->join('detalle_ventas', 'detalle_ventas.venta_id', '=', 'ventas.id')
+        ->where('ventas.tienda_id', '=', Auth::user()->tienda_id)
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
         ->orderBy('total', 'DESC')
-        ->groupBy('users.id','users.nombre','users.apellido')
+        ->groupBy('users.id', 'users.nombre', 'users.apellido')
         ->get();
 
         $notas_creditos = DB::table('notas_creditos')
@@ -641,22 +641,22 @@ class CierreController extends \BaseController {
 
         $data['dia_inicio'] =  $fecha_env;
         $data['notas_creditos'] =  $notas_creditos->total;
-        $data['total_ventas'] = f_num::get($ventas->total   );
+        $data['total_ventas'] = f_num::get($ventas->total);
         $data['total_ganancias'] = f_num::get($ganancias->total);
-        $data['total_soporte'] = f_num::get($soporte->total  );
-        $data['total_gastos'] = f_num::get($gastos->total   );
-        $data['compras_credito'] = f_num::get($compras->total  );
+        $data['total_soporte'] = f_num::get($soporte->total);
+        $data['total_gastos'] = f_num::get($gastos->total);
+        $data['compras_credito'] = f_num::get($compras->total);
         $data['ventas_credito'] = f_num::get($ventas_c->total );
         $data['inversion_actual'] = f_num::get($inversion->total);
-        $data['ganancias_netas'] = f_num::get(($ganancias->total+$soporte->total)-$gastos->total);
+        $data['ganancias_netas'] = f_num::get(($ganancias->total+$soporte->total) - $gastos->total);
         $data['mes'] = Traductor::getMes($date->formatLocalized('%B')).' '.$date->formatLocalized('%Y');
         $data['fecha'] = $date;
         $data['fecha_input'] = $date->formatLocalized('%Y-%m-%d');
 
         if (Input::get('grafica') == true ) 
-             return View::make('cierre.CierreMes',compact('ventas_usuarios','data'));
+             return View::make('cierre.CierreMes', compact('ventas_usuarios', 'data'));
 
-        return View::make('cierre.balanceGeneral',compact('ventas_usuarios','data'));
+        return View::make('cierre.balanceGeneral', compact('ventas_usuarios', 'data'));
     }
 
     public function CierresDelMes()
@@ -683,7 +683,7 @@ class CierreController extends \BaseController {
             "cierre_diario.created_at as fecha"
         );
 
-        $Searchable = array("users.nombre","users.apellido","cierre_diario.created_at","nota");
+        $Searchable = array("users.nombre", "users.apellido", "cierre_diario.created_at", "nota");
 
         $Join = "
         JOIN users ON (users.id = cierre_diario.user_id)
@@ -705,7 +705,7 @@ class CierreController extends \BaseController {
         ));
     }
 
-    public function ImprimirCierreDelDia_dt($cod , $id)
+    public function ImprimirCierreDelDia_dt($cod, $id)
     {
         $cierre = Cierre::with('user')->find($id);
         return View::make('cierre.ImprimirCierreDelDia_dt', compact('cierre'));
@@ -741,10 +741,10 @@ class CierreController extends \BaseController {
             "productos.p_publico"
         );
 
-        $Join  = " JOIN detalle_ventas ON (producto_id = productos.id) ";
-        $Join .= " JOIN ventas ON (ventas.id = venta_id) ";
+        $Join  = " JOIN detalle_ventas ON (producto_id = productos.id)";
+        $Join .= " JOIN ventas ON (ventas.id = venta_id)";
 
-        $where = " DATE_FORMAT(detalle_ventas.created_at, '%Y-%m')  = DATE_FORMAT('{$fecha}', '%Y-%m') ";
+        $where = " DATE_FORMAT(detalle_ventas.created_at, '%Y-%m') = DATE_FORMAT('{$fecha}', '%Y-%m') ";
         $where .= ' AND ventas.tienda_id = '.Auth::user()->tienda_id.' GROUP BY detalle_ventas.producto_id';
 
         echo TableSearch::get($table, $columns, $Searchable, $Join, $where );
