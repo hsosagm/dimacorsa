@@ -13,7 +13,7 @@ class CierreController extends \BaseController {
         if (Input::has('fecha')) {
             $datos['fecha_inicial'] = Carbon::createFromFormat('Y-m-d', Input::get('fecha'))->startOfDay(); 
             $datos['fecha_final'] = Carbon::createFromFormat('Y-m-d', Input::get('fecha'))->endOfDay();
-        }
+        } 
         
         $dt = Carbon::createFromFormat('Y-m-d', substr($datos['fecha_inicial'],0,10));//? Revisar
 

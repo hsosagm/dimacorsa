@@ -11,7 +11,7 @@
 	<div class="panel-body-cierre no-padding" id="table">
 		<table width="100%" id="table table-responsive">
 			<thead class="cierre_head">
-				<tr>
+				<tr> 
 					<td width="20%" style="text-align: center;">
 						<i style="cursor:pointer; font-style: normal;" v-on="click: getVentasDelMes(this,'{{$fecha}}')" >Ventas</i>
 						<i class="fa fa-search btn-link" v-on="click: getVentasDelMes(this,'{{$fecha}}')"></i>
@@ -101,7 +101,3 @@
 		</table>
 	</div>
 </div>
-<style type="text/css">
-	.bs-modal .Lightbox{width: 850px;}
-	.modal-body { padding: 0px 0px 0px; }
-</style>

@@ -75,7 +75,7 @@
 			<div class="Lightbox modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button" onclick="CerrarVentanaIngresoDeSeries()" >×</button>
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
 						<h4 class="modal-title"></h4>
 					</div>
 					<div class="modal-body"></div>
