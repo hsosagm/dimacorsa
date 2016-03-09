@@ -136,23 +136,22 @@
                     </tfoot>
                 </table>
             </div>
-
-            <div class="form-footer" >
-                <div class="row">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6" align="right">
-                        <i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete"></i>
-                        @if (Auth::user()->tienda->cajas)
-                            @if($caja)
-                                <i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
-                            @else
-                                <i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
-                            @endif
-                        @else
-                            <i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
-                        @endif
-                    </div>
-                </div>
+            <div class="form-footer" style="text-align: right;">
+                <i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete" title="Eliminar venta"></i>
+                @if (Auth::user()->tienda->cajas)
+                    @if($caja)
+                        <i v-on="click: imprimirGarantia($event)" class="md-icon fa fa-file-text-o fa-lg text-info" title="Imprimir Garantia"></i>
+                        <i v-on="click: imprimirFactura($event)" class="md-icon fa fa-print fa-lg text-primary" title="Imprimir Factua"></i>
+                        <i class="md-icon fa fa-money fa-lg icon-success" v-on="click: getPaymentForm" title="Ingresar pagos"></i>
+                    @else
+                        <i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
+                    @endif
+                @else
+                    <i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
+                    <i class="fa fa-files-o fa-lg"></i>
+                    <i class="fa fa-file-text-o fa-lg"></i>
+                    <i class="fa fa-print fa-lg"></i>
+                @endif
             </div>
         </div>
     </div>
@@ -216,6 +215,7 @@
                     return isNaN(number) ? 0 : number
                 }
             },
+
             parseFloat: {
                 read: function(val)
                 {
@@ -332,6 +332,7 @@
                         return msg.warning(data)
 
                     ventas.producto = data.values
+                    $("#precio-publico").attr("placeholder", data.values.precio);
                     $("input[name='cantidad']").val("")
                     $("input[name='cantidad']").focus()
                 })
@@ -347,6 +348,9 @@
 
                 if (!$("input[name=cantidad]").val())
                     return $("input[name=cantidad]").focus()
+
+                if(e.target.focus && e.target.name == "precio" && !e.target.value)
+                    return e.target.value = ventas.producto.precio;
 
                 if (!$("input[name=precio]").val())
                     return $("input[name=precio]").focus()
@@ -366,6 +370,7 @@
 
                     $("input[name=cantidad]").val('')
                     $("input[name=precio]").val('')
+                    $("#precio-publico").attr("placeholder", "")
                     $("input[name=codigo]").val('').focus()
                     ventas.producto = []
                     ventas.detalleTable = data.detalle
@@ -477,7 +482,11 @@
                 $.ajax({
                     type: 'GET',
                     url: 'user/ventas/paymentForm',
-                    data: { venta_id: this.venta_id, totalVenta: this.totalVenta },
+                    data: {
+                        venta_id: this.venta_id,
+                        totalVenta: this.totalVenta ,
+                        cliente_id: this.cliente.id
+                    },
                 }).done(function(data) {
                     if (!data.success)
                         return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!')
@@ -516,8 +525,17 @@
                     msg.warning(data, 'Advertencia!');
                     e.target.disabled = false;
                 });
-            }
+            },
 
+            imprimirFactura: function(e) {
+                printInvoice(e.target, {{ Input::get('venta_id') }}, null);
+                e.target.disabled = false;
+            },
+
+            imprimirGarantia: function(e){
+                ImprimirGarantia(e.target, {{ Input::get('venta_id') }}, null);
+                e.target.disabled = false;
+            }
         }
     });
 
@@ -543,6 +561,7 @@
                 return msg.warning(data);
 
             ventas.producto = data.values;
+            $("#precio-publico").attr("placeholder", data.values.precio);
             $("input[name='cantidad']").val("");
             $("input[name='precio']").val("");
             $("input[name='cantidad']").focus();
@@ -563,3 +582,9 @@
     $('.parseInt').autoNumeric({ mDec:0, mRound:'S', vMin: '0', vMax: '9999', lZero: 'deny', mNum:10 });
     $('.parseFloat').autoNumeric({ mDec:2, mRound:'S', vMin: '0', vMax: '999999', lZero: 'deny', mNum:10 });
 </script>
+
+<style type="text/css">
+    .md-icon {
+        padding-left: 10px;
+    }
+</style>

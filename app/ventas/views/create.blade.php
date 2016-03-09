@@ -240,6 +240,7 @@
                         return msg.warning(data)
 
                     ventas.producto = data.values
+                    $("#precio-publico").attr("placeholder", data.values.precio);
                     $("input[name='cantidad']").val("")
                     $("input[name='cantidad']").focus()
                 })
@@ -255,6 +256,9 @@
 
                 if (!$("input[name=cantidad]").val())
                     return $("input[name=cantidad]").focus()
+
+                if(e.target.focus && e.target.name == "precio" && !e.target.value)
+                    return e.target.value = ventas.producto.precio;
 
                 if (!$("input[name=precio]").val())
                     return $("input[name=precio]").focus()
@@ -274,6 +278,7 @@
 
                     $("input[name=cantidad]").val('')
                     $("input[name=precio]").val('')
+                    $("#precio-publico").attr("placeholder", "");
                     $("input[name=codigo]").val('').focus()
                     ventas.producto = []
                     ventas.detalleTable = data.detalle
@@ -385,7 +390,11 @@
                 $.ajax({
                     type: 'GET',
                     url: 'user/ventas/paymentForm',
-                    data: { venta_id: this.venta_id, totalVenta: this.totalVenta },
+                    data: {
+                        venta_id: this.venta_id,
+                        totalVenta: this.totalVenta ,
+                        cliente_id: this.cliente.id
+                    },
                 }).done(function(data) {
                     if (!data.success)
                         return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!')
@@ -450,6 +459,7 @@
                 return msg.warning(data);
 
             ventas.producto = data.values;
+            $("#precio-publico").attr('placeholder', data.values.precio);
             $("input[name='cantidad']").val("");
             $("input[name='precio']").val("");
             $("input[name='cantidad']").focus();
@@ -466,5 +476,10 @@
             $(".inputGuardarVenta").focus();
         }
     });
-
 </script>
+
+<style type="text/css">
+    .md-icon {
+        padding-left: 10px;
+    }
+</style>

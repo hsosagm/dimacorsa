@@ -1,10 +1,13 @@
 <div id="formPayments">
-    <div style="height:400px;">
-        <div style="height:350px">
-            <div style="margin-left:50px;" v-if="x==1">
-                <div class="row" style="text-align: center; font-size: 20px">Resta abonar</div>
-                <div class="row resta_abonar">@{{resta_abonar | currency 'Q'}}</div>
-
+    <div class="modal_header">
+        <button class="close" v-on="click: close" type="button" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4>Formulario pagos venta</h4>
+    </div>
+    <div style="height:370px;">
+        <div style="height:330px">
+            <div v-show="x==1" class="row" style="text-align: center; font-size: 20px; color: #878787">Resta abonar</div>
+            <div v-show="x==1" class="row resta_abonar">@{{resta_abonar | currency 'Q'}}</div>
+            <div style="margin-left:50px;" v-show="x==1">
                 <div id="payment_input" class="row" style="margin-top:15px">
                     <div class="col-md-5">
                         <select id="payments" v-model="metodo_pago_id" options="paymentsOptions" v-attr="disabled: disabled" class="form-control"></select>
@@ -12,8 +15,7 @@
                     <div class="col-md-5">
                         <input v-on="keyup:addPayment | key 'enter'" id="monto" class="form-control right" v-attr="disabled: disabled">
                     </div>
-                    <div class="col-md-2" v-if="!disabled">
-                        <i v-on="click: addPayment" style="font-size: 20px; padding-top:7px" class="fa fa-plus fg-theme"></i>
+                    <div class="col-md-2" v-show="!disabled">
                         <i v-on="click: addPayment" style="font-size: 20px; padding-top:7px" class="fa fa-plus fg-theme"></i>
                     </div>
                 </div>
@@ -26,47 +28,51 @@
                     </div>
                 </div>
 
-                <div v-if="payments.length" class="row" style="margin-top:20px">
+                <div v-show="payments.length" class="row" style="margin-top:15px">
                     <div class="col-md-5" style="padding-left:25px">Total:</div>
                     <div class="col-md-5 right" style="padding-right:20px">@{{abonado | currency ''}}</div>
                 </div>
             </div>
 
-            <div class="table-responsive" v-if="x==2" id="tableNotasDeCredito">
-            	<table class="table table-hover" width="80%">
-            		<thead>
-    					<tr>
-    						<th>Fecha:</th>
-    						<th>Monto:</th>
-    						<th></th>
-    					</tr>
-            		</thead>
-            		<tbody>
-    	        		<tr v-repeat="nc: notasDeCredito">
-    	        			 <td> @{{ nc.created_at }} </td>
-    			            <td class="right"> @{{ nc.monto | currency '' }} </td>
-    			            <td>
-    			                <div class="ckbox ckbox-success">
-    				                <input id="chk-1-@{{nc.id}}" type="checkbox" v-on="click: selectcionarNota($index, $event, nc.monto)">
-    				                <label for="chk-1-@{{nc.id}}"></label>
-    			                </div>
-    			            </td>
-    	        		</tr>
-            		</tbody>
-            	</table>
-        	</div>
+            <div class="table-responsive" v-show="x==2" id="tableNotasDeCredito">
+                <table class="table table-hover" width="80%">
+                    <thead>
+                        <tr>
+                            <th>Fecha:</th>
+                            <th>Monto:</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-repeat="nc: notasDeCredito">
+                             <td> @{{ nc.created_at }} </td>
+                            <td class="right"> @{{ nc.monto | currency '' }} </td>
+                            <td>
+                                <div class="ckbox ckbox-success">
+                                    <input id="chk-1-@{{nc.id}}" type="checkbox" v-on="click: selectcionarNota($index, $event, nc.monto)">
+                                    <label for="chk-1-@{{nc.id}}"></label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
         <div class="vuelto">
-            <label>Gracias por su compra su vuelto es: @{{this.abonado - this.total | currency ''}}</label>
+            <label>Gracias por su compra</label>
+            <label v-if="this.abonado - this.total > 0">su vuelto es: @{{this.abonado - this.total | currency ''}}</label>
         </div>
     </div>
 
     <div class="modal-footer">
-        <i class="fa fa-files-o fa-lg"></i>
-        <i class="fa fa-file-text-o fa-lg"></i>
-        <i class="fa fa-print fa-lg"></i>
-        <i v-on="click: endSale" class="fa fa-check-square-o fa-lg"></i>
+        <div v-show="x==1">
+            <i v-show="countNotasCredito" v-on="click: getNotasDeCredito" class="fa fa-file-text-o fa-lg icon-success"></i>
+            <i v-on="click: endSale" class="fa fa-check fa-lg icon-success" style="padding-left:10px"></i>
+        </div>
+        <div v-show="x==2">
+            <button v-on="click: cancelarNotaDeCredito" class="btn btn-warning">Cancelar</button>
+            <button v-on="click: agregarNotaDeCredito"  v-show="total" class="btn bg-theme btn-info">Agregar</button>
+        </div>
     </div>
 </div>
 
@@ -85,7 +91,7 @@
             credito: 0,
             disabled: false,
             notasDeCredito: [],
-            disabledNotas: true,
+            countNotasCredito: {{ $countNotasCredito }},
             x: 1
         },
 
@@ -93,6 +99,7 @@
             $('.modal-title').text('Formulario pagos venta')
             $('#monto').autoNumeric('init', {aNeg:'', vMax: '999999.99', lZero: 'deny'});
             $('#monto').autoNumeric('set', this.total - this.abonado);
+            $('.modal-header').hide()
         },
 
         watch: {
@@ -129,12 +136,12 @@
             },
 
             totalNotas: function() {
-            	totalN = 0;
+                totalN = 0;
 
-            	for (var y = 0; y < this.notasDeCredito.length; y++)
-            		if (this.notasDeCredito[y]['estado'] == 1)
-            			totalN += parseFloat(this.notasDeCredito[y]['monto']);
-            	return totalN;
+                for (var y = 0; y < this.notasDeCredito.length; y++)
+                    if (this.notasDeCredito[y]['estado'] == 1)
+                        totalN += parseFloat(this.notasDeCredito[y]['monto']);
+                return totalN;
             },
 
             valuesNotas: function() {
@@ -143,7 +150,7 @@
                     delete this.notasDeCredito[i]["monto"];
                     delete this.notasDeCredito[i]["estado"];
                     if (this.notasDeCredito[i]["estado"] == 0)
-                    	this.notasDeCredito.$remove(i);
+                        this.notasDeCredito.$remove(i);
                 }
                 return this.notasDeCredito;
             },
@@ -176,42 +183,58 @@
             },
 
             removePayment: function(index, monto) {
-            	if (this.payments[index]['metodo_pago_id'] == 6) {
-            		this.notasDeCredito = [];
-            		this.disabledNotas = true;
-            	}
+                if (this.payments[index]['metodo_pago_id'] == 6) {
+                    this.notasDeCredito = [];
+                    this.countNotasCredito = true;
+                }
                 this.payments.$remove(index)
             },
 
+            close: function() {
+                setTimeout(function() {
+                    $(".form-panel").show()
+                    $(".modal-header").show()
+                },300)
+            },
+
             endSale: function(e) {
-                e.target.disabled = true;
+                var monto = 0
+                for (var i = this.payments.length - 1; i >= 0; i--)
+                    monto += this.payments[i]["monto"]
+
+                if (monto == 0)
+                    return msg.warning("No se ha realizado ningun pago", "Advertencia!");
+
+                if (monto < this.total)
+                    return msg.warning("El monto abonado es menor al total de la venta", "Advertencia!");
+
                 $.ajax({
                     type: 'POST',
                     url:  'user/ventas/endSale',
                     data: {
-                        payments: 		this.values,
-                        total:    		ventas.totalVenta,
-                        saldo:    		this.credito,
-                        venta_id: 		{{ Input::get('venta_id') }},
+                        payments:       this.values,
+                        total:          this.total,
+                        saldo:          this.credito,
+                        venta_id:       {{ Input::get('venta_id') }},
                         notasDeCredito: this.valuesNotas,
                         detalleVenta:   ventas.detalleTable
                     },
                 }).done(function(data) {
-                    if (!data.success) {
-                        e.target.disabled = false;
+                    if (!data.success)
                         return msg.warning(data.msg, "Advertencia!");
-                    }
 
                     $('.bs-modal').modal('hide');
                     $(".form-panel").hide();
                     msg.success('Venta finalizada!');
-                }).fail(function (jqXHR, textStatus) {
-                    e.target.disabled = false;
-                });
+                    $('#modal').modal('toggle')
+                    setTimeout(function() {
+                        $(".modal-header").show()
+                    },300)
+                })
             },
 
             getNotasDeCredito: function() {
-            	var that = this;
+                var that = this;
 
                 $.ajax({
                     type: "GET",
@@ -222,31 +245,31 @@
                         return msg.warning(data, 'Advertencia!');
 
                     that.x = 2;
- 					that.notasDeCredito = data.notasDeCredito;
+                    that.notasDeCredito = data.notasDeCredito;
                 });
             },
 
             selectcionarNota: function(index, event, monto) {
-            	if ( $(event.target).is(':checked') ) {
-					if (((this.total - this.abonado) - this.totalNotas) < monto) {
-						this.notasDeCredito[index]['estado'] = 0;
-						return event.target.checked = false;
-					}
+                if ( $(event.target).is(':checked') ) {
+                    if (((this.total - this.abonado) - this.totalNotas) < monto) {
+                        this.notasDeCredito[index]['estado'] = 0;
+                        return event.target.checked = false;
+                    }
                     return this.notasDeCredito[index]['estado'] = 1;
                 }
                 return this.notasDeCredito[index]['estado'] = 0;
             },
 
             cancelarNotaDeCredito: function() {
-            	this.x = 1;
-            	this.notasDeCredito = [];
+                this.x = 1;
+                this.notasDeCredito = [];
             },
 
             agregarNotaDeCredito: function() {
-            	this.disabledNotas = false;
-            	this.x = 1;
+                this.countNotasCredito = false;
+                this.x = 1;
 
-            	this.payments.push({
+                this.payments.push({
                     abonado:        this.totalNotas,
                     monto:          this.totalNotas,
                     metodo_pago_id: 6,
@@ -266,9 +289,6 @@
         }
     });
 
-    function CerrarVentanaIngresoDeSeries() {
-        $(".form-panel").show();
-    }
 </script>
 
 <style type="text/css">
@@ -277,7 +297,7 @@
         text-align: center;
         margin-top: 25px;
         margin-bottom: 40px;
-        color:#5BB769;
+        color:#878787;
     }
 
     .vuelto {
@@ -288,4 +308,17 @@
         display: none;
         font-size: 20px;
     }
+
+    .modal_header {
+        background-color: #f5f5f5 !important;
+        border-bottom: 1px solid #e5e5e5 !important;
+        color: #878787;
+    }
+
+    .modal_header {
+        padding: 10px 15px 2px;
+        margin-top: -10px !important;
+        margin-bottom: 10px;
+    }
+
 </style>

@@ -26,7 +26,7 @@ class VentasController extends \BaseController {
 
 			$venta_id = $venta->get_id();
             $caja = Caja::whereUserId(Auth::user()->id)->first();
- 
+
 			return Response::json(array(
 				'success' => true,
 				'detalle' => View::make('ventas::detalle', compact('venta_id', 'caja'))->render()
@@ -231,29 +231,22 @@ class VentasController extends \BaseController {
 
     public function paymentForm()
     {
-    	if (Input::has('_token'))
-    	{
-			$venta = Venta::find(Input::get('venta_id'));
-			$venta->completed = 1;
-			$venta->saldo = $saldo;
-			$venta->caja_id = $caja->id;
-			$venta->total = $total->total;
-    	}
+        $notasDeCredito = DB::table('notas_creditos')
+            ->select("id", "created_at", "monto", "estado")
+            ->whereClienteId(Input::get('cliente_id'))
+            ->whereEstado(0)->first();
 
-        $values = DB::table('metodo_pago')->where('id', '<', 6)->select('id', 'descripcion')->get();
+        ($notasDeCredito)? $countNotasCredito = json_encode(true): $countNotasCredito = json_encode(false);
 
-        $i = 0;
-        foreach ($values as $value) {
-            $paymentsOptions[$i]['value'] = $value->id;
-            $paymentsOptions[$i]['text'] = $value->descripcion;
-            $i++;
-        }
+        $countNotasCredito = DB::table('notas_creditos')
+        ->whereClienteId(Input::get('cliente_id'))
+        ->whereEstado(0)->count();
 
-        $paymentsOptions = json_encode($paymentsOptions);
+        $paymentsOptions = MetodoPago::select('id as value', 'descripcion as text')->where('id', '<', 6)->get();
 
-        return  Response::json(array(
+        return Response::json(array(
         	'success' => true,
-        	'detalle' => View::make('ventas::paymentForm', compact('paymentsOptions'))->render()
+        	'detalle' => View::make('ventas::paymentForm', compact('paymentsOptions', 'countNotasCredito'))->render()
         ));
     }
 
@@ -293,17 +286,17 @@ class VentasController extends \BaseController {
                     'venta_id' => Input::get('venta_id')
                 ));
             }
-        } 
+        }
 
         $caja = Caja::whereUserId(Auth::user()->id)->first();
-        
-        $update = Venta::find(Input::get('venta_id'));
-        $update->completed = 1;
-        $update->saldo = Input::get('saldo');
-        $update->total = Input::get('total');
+
+        $venta = Venta::find(Input::get('venta_id'));
+        $venta->completed = 1;
+        $venta->saldo = Input::get('saldo');
+        $venta->total = Input::get('total');
 
         if (Auth::user()->tienda->cajas)
-            $update->caja_id = $caja->id;
+            $venta->caja_id = $caja->id;
 
         foreach ($detalleVenta as $dv)
         {
@@ -317,7 +310,7 @@ class VentasController extends \BaseController {
             'ganancias' => DB::raw('precio - (select p_costo from productos where id = producto_id)')
         ));
 
-        $update->save();
+        $venta->save();
 
         return Success::true();
     }
@@ -333,9 +326,9 @@ class VentasController extends \BaseController {
         if ($venta->completed == 2)
             $venta->update(array('completed' => 0, 'saldo' => 0 , 'kardex' => 0));
 
+        $cliente = ClienteController::getInfo($venta->cliente_id);
         $venta_id = Input::get('venta_id');
         $detalle = json_encode($this->getVentaDetalle());
-        $cliente = ClienteController::getInfo($venta->cliente_id);
         $caja = Caja::whereUserId(Auth::user()->id)->first();
 
         return Response::json(array(
@@ -366,7 +359,7 @@ class VentasController extends \BaseController {
         $total = DetalleVenta::whereVentaId(Input::get('venta_id'))
         ->first(array(DB::raw('sum(cantidad * precio) as total')))->total;
 
-        if (!$total) 
+        if (!$total)
             return "Ingresa productos a la venta para poder enviarla...";
 
         if ($venta->completed == 1)

@@ -74,5 +74,6 @@
 	            }
         	},
         });
+        $('#dataTableCliente').attr('width', '100%');
 	});
 </script>

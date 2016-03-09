@@ -4,7 +4,8 @@
         <td  align="left" style="font-size:12px;"> 
             <p>
                 Cotizacion No:  {{ $cotizacion->id }}  <br>
-                Fecha : {{ $cotizacion->created_at }}
+                Fecha : {{ $cotizacion->created_at }} <br>
+                NIT : {{ $tienda->nit }}
             </p>
         </td>
     </tr>

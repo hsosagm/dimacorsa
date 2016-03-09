@@ -733,8 +733,10 @@
 
     Route::get('/test', function()
     {
-        var_dump(Auth::check());
-        var_dump(Auth::viaRemember());
+        $paymentsOptions = MetodoPago::select('id as value', 'descripcion as text')->where('id', '<', 6)->get();
+        // $paymentsOptions = DB::table('metodo_pago')->select('id as value', 'descripcion as text')->where('id', '<', 6)->get();
+
+        return $paymentsOptions;
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

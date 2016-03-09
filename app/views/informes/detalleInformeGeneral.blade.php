@@ -1,13 +1,13 @@
 <?php
         $informe_general_anterior = DB::table('informe_general')
         ->whereRaw("id = (select max(id) from informe_general)")->first();
-    //consultas de lo real del sistema
+        //consultas de lo real del sistema
         $informe_cuentas_por_pagar = Compra::first(array(DB::raw('sum(saldo) as total')));
 
         $informe_cuentas_por_cobrar = Venta::first(array(DB::raw('sum(saldo) as total')));
 
         $informe_inversion = Existencia::join('productos', 'productos.id', '=', 'existencias.producto_id')
-        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo/100)) as total')));
+        ->first(array(DB::raw('sum(existencias.existencia * (productos.p_costo)) as total')));
 
         //inversion
         $ventas = DB::table('ventas') 
