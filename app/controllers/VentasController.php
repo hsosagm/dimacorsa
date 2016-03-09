@@ -752,7 +752,7 @@ class VentasController extends \BaseController {
         ->select(DB::raw('sum(ventas.saldo) as total'))->where('saldo','>',0)
         ->join('clientes', 'cliente_id', '=', 'clientes.id')
         ->where('ventas.completed', '=', 1)
-        ->where(DB::raw('DATEDIFF(current_date, ventas.created_at)'),'>=','clientes.dias_credito')
+        ->where(DB::raw('DATEDIFF(current_date, ventas.created_at)'),'>=','30')
         ->where('ventas.tienda_id','=',Auth::user()->tienda_id)->first();
          $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
@@ -769,7 +769,7 @@ class VentasController extends \BaseController {
         		sum(ventas.saldo) as saldo_total,
         		(select sum(saldo) from ventas where
         			tienda_id = {$tienda_id} AND completed = 1 AND
-        			DATEDIFF(current_date, created_at) >= clientes.dias_credito
+        			DATEDIFF(current_date, created_at) >= 30
         			AND cliente_id = clientes.id) as saldo_vencido
         		"))
 	        ->join('ventas', 'ventas.cliente_id', '=', 'clientes.id')
@@ -802,7 +802,7 @@ class VentasController extends \BaseController {
         		sum(ventas.saldo) as saldo_total,
         		(select sum(saldo) from ventas where
         			tienda_id = {$tienda_id} AND completed = 1 AND
-        			DATEDIFF(current_date, created_at) >= clientes.dias_credito
+        			DATEDIFF(current_date, created_at) >= 30
         			AND user_id = users.id) as saldo_vencido
         		"))
 	        ->join('ventas', 'ventas.user_id', '=', 'users.id')

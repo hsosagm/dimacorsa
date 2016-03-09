@@ -48,7 +48,7 @@ class ExportarController extends \BaseController {
                 sum(ventas.saldo) as saldo_total,
                 (select sum(saldo) from ventas where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, created_at) >= clientes.dias_credito
+                    DATEDIFF(current_date, created_at) >= 30
                     AND cliente_id = clientes.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.cliente_id', '=', 'clientes.id')
@@ -121,7 +121,7 @@ class ExportarController extends \BaseController {
                 inner join clientes on (clientes.id = ventas.cliente_id)
                 where
                     tienda_id = {$tienda_id} AND completed = 1 AND
-                    DATEDIFF(current_date, ventas.created_at) >= clientes.dias_credito
+                    DATEDIFF(current_date, ventas.created_at) >= 30
                     AND user_id = users.id) as saldo_vencido
                 "))
             ->join('ventas', 'ventas.user_id', '=', 'users.id')

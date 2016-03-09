@@ -1,4 +1,4 @@
-<?php
+ <?php
     /*******************************************************************************/
     Route::when('*', 'csrf', array('post', 'put', 'delete'));
     Route::when('user/*' , 'auth');
@@ -733,10 +733,7 @@
 
     Route::get('/test', function()
     {
-        $paymentsOptions = MetodoPago::select('id as value', 'descripcion as text')->where('id', '<', 6)->get();
-        // $paymentsOptions = DB::table('metodo_pago')->select('id as value', 'descripcion as text')->where('id', '<', 6)->get();
 
-        return $paymentsOptions;
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

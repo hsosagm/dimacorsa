@@ -231,7 +231,7 @@ class ProveedorController extends BaseController {
         ->select(DB::raw('sum(saldo) as total'))
         ->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
         ->where('saldo','>',0)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', '30')
         ->where('tienda_id','=',Auth::user()->tienda_id)
         ->where('proveedor_id','=',Input::get('proveedor_id'))->first();
 
@@ -251,7 +251,7 @@ class ProveedorController extends BaseController {
         ->select(DB::raw('sum(saldo) as total'))
         ->join('proveedores', 'proveedor_id', '=', 'proveedores.id')
         ->where('saldo', '>', 0)
-        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', 'proveedores.dias_credito')
+        ->where(DB::raw('DATEDIFF(current_date,fecha_documento)'), '>=', '30')
         ->where('tienda_id', '=', Auth::user()->tienda_id)
         ->where('proveedor_id', '=', $proveedor_id)->first();
 
