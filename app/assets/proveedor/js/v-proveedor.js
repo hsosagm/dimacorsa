@@ -153,7 +153,7 @@ var vm = new Vue({
 		        url: "admin/compras/payments/eliminarAbono",
 		        data: { abonos_compra_id: abonos_compra_id },
 		        success: function (data) {
-		            if (data == 'success')
+		            if ($.trim(data) == 'success')
 		            {
 		                msg.success('Abono Eliminado', 'Listo!');
 		                vm.tableDetail = '';

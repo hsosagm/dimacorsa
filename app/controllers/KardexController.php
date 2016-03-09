@@ -115,9 +115,8 @@ class KardexController extends \BaseController {
             $fecha_final = Input::get('fecha_final');
             $consulta = 'fechas';
         }
-        else {
+        else 
             $fecha_inicial = Carbon::now()->startOfMonth();
-        }
 
         return View::make('kardex.getKardexPorFecha',compact('consulta', 'fecha_inicial', 'fecha_final', 'producto_id', 'tienda_id'))->render();
     }
@@ -137,9 +136,7 @@ class KardexController extends \BaseController {
         $existencia = "existencia";
 
         if (Input::get('tienda_id') > 0) 
-        {
             $existencia .= "_tienda";
-        }
 
          $columns = array(
             "kardex.created_at as fecha",

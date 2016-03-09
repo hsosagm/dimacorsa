@@ -223,7 +223,7 @@
             validarForm: function() {
                 for (var i = 0; i < this.detallePagos.length; i++)
                     if(this.detallePagos[i]["metodo_pago_id"] == this.form.metodo_pago_id) {
-                    	console.log(msg.warning('El metodo de pago ya ha sido ingresado..!'));
+                    	msg.warning('El metodo de pago ya ha sido ingresado..!');
                         return false;
                     }
 

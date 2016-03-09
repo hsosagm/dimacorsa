@@ -40,7 +40,7 @@
 			<td> {{ $cp->numero_documento }} </td>
 			<td> {{ $cp->user->nombre.' '.$cp->user->apellido }} </td>
 			<td> {{ $cp->created_at }} </td>
-			<td> {{ Carbon::createFromFormat("Y-m-d H:i:s", $cp->created_at)->addDays($proveedor->dias_credito); }} </td>
+			<td> {{ Carbon::createFromFormat("Y-m-d H:i:s", $cp->created_at)->addDays(30); }} </td>
 			<td align="right"> {{ f_num::get($cp->total) }} </td>
 			<td align="right"> {{ f_num::get($cp->saldo); ($i==0)? $i=1: $i=0;}}</td>
 			<td align="right"> {{ f_num::get($total += $cp->saldo);}}</td>

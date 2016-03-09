@@ -332,7 +332,7 @@ class ClienteController extends \BaseController {
         {
             $fecha_entrada = $q->created_at;
             $fecha_entrada = date('Ymd', strtotime($fecha_entrada));
-            $fecha_vencida = date('Ymd',strtotime("-{$cliente->dias_credito} days"));
+            $fecha_vencida = date('Ymd',strtotime("-30 days"));
 
             if ($fecha_entrada < $fecha_vencida)
                 $saldo_vencido = $saldo_vencido + $q->saldo;

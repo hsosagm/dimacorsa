@@ -55,7 +55,7 @@
 			<td> {{ $vt->id }} </td>
 			<td> {{ $vt->user->nombre.' '.$vt->user->apellido }} </td>
 			<td> {{ $vt->created_at }} </td>
-			<td> {{ Carbon::createFromFormat("Y-m-d H:i:s", $vt->created_at)->addDays($cliente->dias_credito); }} </td>
+			<td> {{ Carbon::createFromFormat("Y-m-d H:i:s", $vt->created_at)->addDays(30); }} </td>
 			<td align="right"> {{ f_num::get($vt->total) }} </td>
 			<td align="right"> {{ f_num::get($vt->saldo); ($i==0)? $i=1: $i=0;}}</td>
 			<td align="right"> {{ f_num::get($total += $vt->saldo);}}</td>
