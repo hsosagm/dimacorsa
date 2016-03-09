@@ -82,7 +82,7 @@
                 for (var i = this.detalleTable.length - 1; i >= 0; i--) {
                     sum += parseFloat(this.detalleTable[i]["total"])
                 }
-                this.totalVenta = sum
+                this.totalVenta = sum.toFixed(2)
             }
         },
 
