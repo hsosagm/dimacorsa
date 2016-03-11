@@ -79,10 +79,10 @@
             'detalleTable': function ()
             {
                 var sum = 0
-                for (var i = this.detalleTable.length - 1; i >= 0; i--) {
-                    sum += parseFloat(this.detalleTable[i]["total"])
-                }
-                this.totalVenta = sum
+                for (var i = 0; i < this.detalleTable.length; i++)
+                    sum += this.detalleTable[i]["total"]
+
+                this.totalVenta = sum.toFixed(2)
             }
         },
 
@@ -345,6 +345,8 @@
             eliminarVenta: function()
             {
                 $.confirm({
+                    text: "Esta seguro de querer eliminar la venta? Esto eliminara la venta y todos los registros asociados a ella!",
+                    title: "Confirmacion",
                     confirm: function()
                     {
                         $.ajax({
@@ -433,6 +435,20 @@
                     msg.warning(data, 'Advertencia!');
                     e.target.disabled = false;
                 });
+            },
+
+             imprimirFactura: function(e) {
+                if (!this.detalleTable.length)
+                    return msg.warning('Debe ingresar algun producto para poder imprimir la factura', 'Advertencia!')
+
+                window.open('imprimirFacturaBond' + 'Pdf?id=' + this.venta_id, '_blank');
+            },
+
+            imprimirGarantia: function(e) {
+                if (!this.detalleTable.length)
+                    return msg.warning('Debe ingresar algun producto para poder imprimir la garantia', 'Advertencia!')
+
+                window.open('ImprimirGarantia' + 'Pdf?id=' + this.venta_id, '_blank');
             }
         }
     });

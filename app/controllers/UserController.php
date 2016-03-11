@@ -10,7 +10,7 @@ class UserController extends Controller {
 	public function __construct(User $user)
 	{
 		$this->user = $user;
-	} 
+	}
 
 	public function index()
 	{
@@ -228,15 +228,9 @@ class UserController extends Controller {
 
 	public function VerTablaVentasDelDiaUsuario()
 	{
-		$factura = DB::table('printer')->select('impresora')
-		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'factura')->first();
-
-		$garantia = DB::table('printer')->select('impresora')
-		->where('tienda_id', Auth::user()->tienda_id)->where('nombre', 'garantia')->first();
-
 		return Response::json(array(
 			'success' => true,
-			'table'   => View::make('user_consulta.VentasDelDia',compact('factura','garantia'))->render()
+			'table'   => View::make('user_consulta.VentasDelDia')->render()
 		));
 	}
 

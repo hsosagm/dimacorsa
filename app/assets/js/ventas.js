@@ -173,33 +173,23 @@ function getSalesDetail(e) {
         }
     });
 };
- 
 
-function openSale(e)
+
+function openSale(id)
 {
-    if ($.trim($(e).closest('tr').attr('anulada')) == 'true') {
-        return msg.warning('no puedes abrir porque la factura fue anulada..', 'Advertencia!')
-    }
+    $.ajax({
+        type: "GET",
+        url: "user/ventas/openSale",
+        data: { venta_id: id },
+    }).done(function(data) {
+        if (!data.success)
+            return msg.warning(data, 'Advertencia!');
 
-    $.confirm({
-        text: "esta seguro que desea abrir la venta?",
-        title: "Confirmacion",
-        confirm: function(){
-            $.ajax({
-                type: "GET",
-                url: "user/ventas/openSale",
-                data: { venta_id: $(e).closest('tr').attr('id') },
-            }).done(function(data) {
-                if (!data.success)
-                    return msg.warning(data, 'Advertencia!');
-
-                $('.panel-title').text('Formulario Ventas');
-                $(".forms").html(data.table);
-                $(".dt-container").hide();
-                $(".dt-container-cierre").hide();
-                return $(".form-panel").show();
-            });
-        }
+        $('.panel-title').text('Formulario Ventas');
+        $(".forms").html(data.table);
+        $(".dt-container").hide();
+        $(".dt-container-cierre").hide();
+        return $(".form-panel").show();
     });
 };
 

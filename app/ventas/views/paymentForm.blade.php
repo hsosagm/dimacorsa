@@ -78,7 +78,7 @@
 
 <script type="text/javascript">
 
-    new Vue({
+    var pagosVenta = new Vue({
 
         el: '#formPayments',
 

@@ -1,10 +1,9 @@
-function VerTablaVentasDelDiaUsuario(e, tipo) {
+function VerTablaVentasDelDiaUsuario() {
     $.ajax({
         type: "GET",
-        url: 'user/consulta/VerTablaVentasDelDiaUsuario',
-        data: {tipo: tipo}
+        url: 'user/consulta/VerTablaVentasDelDiaUsuario'
     }).done(function(data) {
-        if (data.success == true)
+        if (data.success)
             return makeTable(data.table, '', 'Ventas');
 
         msg.warning(data, 'Advertencia!');

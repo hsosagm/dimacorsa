@@ -147,10 +147,9 @@
                         <i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
                     @endif
                 @else
-                    <i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
-                    <i class="fa fa-files-o fa-lg"></i>
-                    <i class="fa fa-file-text-o fa-lg"></i>
-                    <i class="fa fa-print fa-lg"></i>
+                    <i v-on="click: imprimirGarantia($event)" class="md-icon fa fa-file-text-o fa-lg text-info" title="Imprimir Garantia"></i>
+                    <i v-on="click: imprimirFactura($event)" class="md-icon fa fa-print fa-lg text-primary" title="Imprimir Factua"></i>
+                    <i class="md-icon fa fa-money fa-lg icon-success" v-on="click: getPaymentForm" title="Ingresar pagos"></i>
                 @endif
             </div>
         </div>
@@ -185,20 +184,20 @@
             })
 
             var sum = 0
-            for (var i = this.detalleTable.length - 1; i >= 0; i--) {
-                sum += parseFloat(this.detalleTable[i]["total"])
-            }
-            this.totalVenta = sum
+            for (var i = 0; i < this.detalleTable.length; i++)
+                sum += this.detalleTable[i]["total"]
+
+            this.totalVenta = sum.toFixed(2)
         },
 
         watch: {
             'detalleTable': function ()
             {
                 var sum = 0
-                for (var i = this.detalleTable.length - 1; i >= 0; i--) {
-                    sum += parseFloat(this.detalleTable[i]["total"])
-                }
-                this.totalVenta = sum
+                for (var i = 0; i < this.detalleTable.length; i++)
+                    sum += this.detalleTable[i]["total"]
+
+                this.totalVenta = sum.toFixed(2)
             }
         },
 
@@ -437,6 +436,8 @@
             eliminarVenta: function()
             {
                 $.confirm({
+                    text: "Esta seguro de querer eliminar la venta? Esto eliminara la venta y todos los registros asociados a ella!",
+                    title: "Confirmacion",
                     confirm: function()
                     {
                         $.ajax({
@@ -528,13 +529,17 @@
             },
 
             imprimirFactura: function(e) {
-                printInvoice(e.target, {{ Input::get('venta_id') }}, null);
-                e.target.disabled = false;
+                if (!this.detalleTable.length)
+                    return msg.warning('Debe ingresar algun producto para poder imprimir la factura', 'Advertencia!')
+
+                window.open('imprimirFacturaBond' + 'Pdf?id=' + {{Input::get('venta_id')}}, '_blank');
             },
 
-            imprimirGarantia: function(e){
-                ImprimirGarantia(e.target, {{ Input::get('venta_id') }}, null);
-                e.target.disabled = false;
+            imprimirGarantia: function(e) {
+                if (!this.detalleTable.length)
+                    return msg.warning('Debe ingresar algun producto para poder imprimir la garantia', 'Advertencia!')
+
+                window.open('ImprimirGarantia' + 'Pdf?id=' + {{Input::get('venta_id')}}, '_blank');
             }
         }
     });

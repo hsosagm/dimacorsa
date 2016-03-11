@@ -87,22 +87,21 @@
 	</table>
 </div>
 
-<div class="form-footer" >
-	<div class="row">
-		<div class="col-md-6"></div>
-		<div class="col-md-6" align="right">
-			<i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete"></i>
-			@if (Auth::user()->tienda->cajas)
-				@if($caja)
-					<i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
-				@else
-					<i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
-				@endif
-			@else
-				<i class="fa fa-money fa-lg icon-success" v-on="click: getPaymentForm"></i>
-			@endif
-		</div>
-	</div>
+<div class="form-footer" style="text-align: right;">
+    <i v-on="click: eliminarVenta" class="fa fa-trash-o fa-lg icon-delete" title="Eliminar venta"></i>
+    @if (Auth::user()->tienda->cajas)
+        @if($caja)
+            <i v-on="click: imprimirGarantia($event)" class="md-icon fa fa-file-text-o fa-lg text-info" title="Imprimir Garantia"></i>
+            <i v-on="click: imprimirFactura($event)" class="md-icon fa fa-print fa-lg text-primary" title="Imprimir Factua"></i>
+            <i class="md-icon fa fa-money fa-lg icon-success" v-on="click: getPaymentForm" title="Ingresar pagos"></i>
+        @else
+            <i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
+        @endif
+    @else
+        <i v-on="click: imprimirGarantia($event)" class="md-icon fa fa-file-text-o fa-lg text-info" title="Imprimir Garantia"></i>
+        <i v-on="click: imprimirFactura($event)" class="md-icon fa fa-print fa-lg text-primary" title="Imprimir Factua"></i>
+        <i class="md-icon fa fa-money fa-lg icon-success" v-on="click: getPaymentForm" title="Ingresar pagos"></i>
+    @endif
 </div>
 
 <script>

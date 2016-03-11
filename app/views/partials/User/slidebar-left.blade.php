@@ -22,7 +22,7 @@
             </a>
             <ul>
                 <li><a href="javascript:void(0);" onclick="VentasAlCreditoUsuario(this)">Ventas al credito </a></li>
-                <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario(this,'dia')">Mis ventas del dia</a></li>
+                <li><a href="javascript:void(0);" onclick="VerTablaVentasDelDiaUsuario()">Mis ventas del dia</a></li>
                 <li><a href="javascript:void(0);" onclick="misDevolucionesDelDia()">Mis devoluciones del dia</a></li>
                 <li><a href="javascript:void(0);" onclick="getMisCotizaciones(this)">Mis cotizaciones</a></li>
 

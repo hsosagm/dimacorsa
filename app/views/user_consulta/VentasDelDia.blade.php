@@ -1,11 +1,8 @@
-
 <script>
 $(document).ready(function() {
-
     proccess_table('Inventario');
 
     $('#example').dataTable({
-
         "language": {
             "lengthMenu": "Mostrar _MENU_ archivos por pagina",
             "zeroRecords": "No se encontro ningun archivo",
@@ -22,10 +19,10 @@ $(document).ready(function() {
             {"sClass": "widthS right formato_precio",                   "sTitle": "Saldo",   "aTargets": [4]},
             {"bVisible": false,                                                              "aTargets": [5]},
             {"bVisible": false,                                                              "aTargets": [6]},
-            {"sClass": "width5 icons center", "orderable": false,             "sTitle": "",        "aTargets": [7],
+            {"sClass": "width5 icons center", "orderable": false,        "sTitle": "",       "aTargets": [7],
                 "mRender": function(  data, type, full ) {
                     $v  = '<a href="javascript:void(0);" title="Ver detalle" onclick="showSalesDetail(this)" class="fa fa-plus-square show_detail font14">';
-                    $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale(this)" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
+                    $v += '<a href="javascript:void(0);" title="Abrir venta" onclick="openSale('+full.DT_RowId+')" class="fa fa-pencil-square-o font14" style="padding-left:10px">';
 
                     return $v;
                 }
@@ -59,10 +56,8 @@ $(document).ready(function() {
         "bServerSide": true,
         "sAjaxSource": "user/consulta/VentasDelDiaUsuario_dt",
         "fnServerParams": function (aoData) {
-           aoData.push({ "name": "tipo", "value": "{{Input::get('tipo')}}" });
+           aoData.push({ "name": "tipo", "value": "Dia" });
        },
     });
-
 });
-
 </script>
