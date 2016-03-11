@@ -184,6 +184,7 @@
             })
 
             var sum = 0
+
             for (var i = 0; i < this.detalleTable.length; i++)
                 sum += this.detalleTable[i]["total"]
 
@@ -194,6 +195,7 @@
             'detalleTable': function ()
             {
                 var sum = 0
+
                 for (var i = 0; i < this.detalleTable.length; i++)
                     sum += this.detalleTable[i]["total"]
 
