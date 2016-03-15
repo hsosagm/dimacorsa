@@ -4,7 +4,6 @@ Route::filter('cache', function($route, $request, $response, $age=60){
     $response->setTtl($age);
 });
 
-
 Route::filter('auth', function()
 {
     if (!Auth::check())
@@ -65,7 +64,7 @@ Event::listen('eloquent.updated: Compra', function(Compra $model){
 
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
-            $kardex->user_id = Auth::user()->id;
+            $kardex->user_id = $model->user_id;
             $kardex->kardex_accion_id = 2;
             $kardex->producto_id = $dt->producto_id;
             $kardex->kardex_transaccion_id = 1;
@@ -97,7 +96,7 @@ Event::listen('eloquent.updated: Venta', function(Venta $model){
 
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
-            $kardex->user_id = Auth::user()->id;
+            $kardex->user_id = $model->user_id;
             $kardex->kardex_accion_id = 2;
             $kardex->producto_id = $dt->producto_id;
             $kardex->kardex_transaccion_id = 2;
@@ -129,7 +128,7 @@ Event::listen('eloquent.updated: Descarga', function(Descarga $model){
 
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
-            $kardex->user_id = Auth::user()->id;
+            $kardex->user_id = $model->user_id;
             $kardex->kardex_accion_id = 2;
             $kardex->producto_id = $dt->producto_id;
             $kardex->kardex_transaccion_id = 3;
@@ -161,7 +160,7 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
 
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
-            $kardex->user_id = Auth::user()->id;
+            $kardex->user_id = $model->user_id;
             $kardex->kardex_accion_id = 2;
             $kardex->producto_id = $dt->producto_id;
             $kardex->kardex_transaccion_id = 4;
@@ -187,7 +186,7 @@ Event::listen('eloquent.updated: Traslado', function(Traslado $model){
 
             $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
-            $kardex->user_id = Auth::user()->id;
+            $kardex->user_id = $model->user_id;
             $kardex->kardex_accion_id = 2;
             $kardex->producto_id = $dt->producto_id;
             $kardex->kardex_transaccion_id = 4;
@@ -215,7 +214,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
 
             $kardex = new Kardex; 
             $kardex->tienda_id = Auth::user()->tienda_id;
-            $kardex->user_id = Auth::user()->id;
+            $kardex->user_id = $model->user_id;
             $kardex->kardex_accion_id = 2;
             $kardex->producto_id = $dt->producto_id;
             $kardex->kardex_transaccion_id = 5;
@@ -233,7 +232,6 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
 /*************************************************************************
     FIN DE EVENTOS PARA KARDEX
 *************************************************************************/
-
 
 /*************************************************************************
     INICIO DE PERMISOS DE INGRESO A RUTAS CON ROLES

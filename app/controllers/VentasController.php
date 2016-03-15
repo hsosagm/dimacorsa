@@ -403,10 +403,11 @@ class VentasController extends \BaseController {
 	public function showSalesDetail()
 	{
 		$detalle = $this->getSalesDetail();
+		$pagos = PagosVenta::whereVentaId(Input::get('venta_id'))->with('metodo_pago')->get();
 
 		return Response::json(array(
 			'success' => true,
-			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle'))->render()
+			'table'   => View::make('ventas.DT_detalle_venta', compact('detalle', 'pagos'))->render()
         ));
 	}
 
@@ -788,6 +789,27 @@ class VentasController extends \BaseController {
 
 	}
 
+	public function getSumaDeVentasPorCliente()
+	{
+		$clientes = DB::table('ventas')
+        ->select(
+            DB::raw("sum(ventas.total) as total"),
+            "clientes.nombre as cliente",
+            "clientes.direccion as direccion")
+        ->join('clientes', 'clientes.id', '=', 'ventas.cliente_id')
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->orderBy('total', 'DESC')
+        ->groupBy('cliente_id')
+        ->take(100)
+        ->get();
+
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('ventas.sumaDeVentasPorCliente', compact('clientes'))->render(),
+        ));
+		
+	}
+
 	public function getVentasPedientesPorUsuario()
 	{
 		$tienda_id = Auth::user()->tienda_id;
@@ -892,6 +914,22 @@ class VentasController extends \BaseController {
         ));
 	}
 
+	public function getDetalleVentasPorHoraUsuario()
+	{
+		$fecha = Input::get('fecha');
+
+		$ventas =  Venta::with('cliente')
+            ->whereTiendaId(Auth::user()->tienda_id)
+            ->whereUserId(Input::get('user_id'))
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d %H') = DATE_FORMAT('{$fecha}', '%Y-%m-%d %H')")
+            ->get();
+
+        return Response::json(array(
+            'success' => true,
+            'table' => View::make('ventas.detalleVentasPorHoraUsuario', compact('ventas'))->render(),
+        ));
+	}
+
 	public function getVentasPorHoraPorUsuario()
 	{
 		$fecha = Input::get('fecha');
@@ -899,22 +937,22 @@ class VentasController extends \BaseController {
 		$ventas =  DB::table('users')
             ->select(DB::raw('users.id as id,
             	detalle_ventas.created_at as fecha,
-            	CONCAT_WS(" ",users.nombre, users.apellido) as usuario,
+            	CONCAT_WS(" ", users.nombre, users.apellido) as usuario,
                 sum(detalle_ventas.cantidad * detalle_ventas.precio) as total,
                 sum(detalle_ventas.cantidad * detalle_ventas.ganancias) as utilidad'))
-            ->join('ventas','ventas.user_id','=','users.id')
-            ->join('detalle_ventas','detalle_ventas.venta_id','=','ventas.id')
-            ->where('users.tienda_id','=',Auth::user()->tienda_id)
-            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d %H')= DATE_FORMAT('{$fecha}', '%Y-%m-%d %H')")
+            ->join('ventas', 'ventas.user_id', '=', 'users.id')
+            ->join('detalle_ventas', 'detalle_ventas.venta_id', '=', 'ventas.id')
+            ->where('users.tienda_id', '=',Auth::user()->tienda_id)
+            ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m-%d %H') = DATE_FORMAT('{$fecha}', '%Y-%m-%d %H')")
             ->orderBy('total', 'DESC')
-            ->groupBy('users.id','users.nombre','users.apellido')
+            ->groupBy('users.id', 'users.nombre', 'users.apellido')
             ->get();
 
         $cliente = "Usuario";
 
 		return Response::json(array(
 			'success' => true,
-			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas', 'cliente'))->render(),
+			'table' => View::make('ventas.getVentasPorHoraPorUsuario', compact('ventas', 'cliente', 'fecha'))->render(),
         ));
 	}
 

@@ -256,12 +256,35 @@ class ExportarController extends \BaseController {
         return $this->exportarExel($datos, $vista);
     }
 
+    public function exportarSumaDeVentasPorCliente() 
+    {
+        $clientes = DB::table('ventas')
+        ->select(
+            DB::raw("sum(ventas.total) as total"),
+            "clientes.nombre as cliente",
+            "clientes.direccion as direccion")
+        ->join('clientes', 'clientes.id', '=', 'ventas.cliente_id')
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->orderBy('total', 'DESC')
+        ->groupBy('cliente_id')
+        ->take(100)
+        ->get();
+
+        $datos['clientes'] = $clientes;
+        $datos['tipo'] = 'pdf';
+        $datos['orientacion'] = "portrait";
+        $datos['titulo'] = "Ventas por Clientes";
+        $vista = "sumaDeVentasPorCliente";
+
+        return $this->exportarExel($datos, $vista);
+    }
+
     public function exportarExel($data, $vista)
     {
         if ($data['tipo'] == 'pdf') 
         {
             $pdf = PDF::loadView('exportar.'.$vista, array('data' => $data))
-            ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');
+            ->setPaper('letter')->setOrientation($data['orientacion'])->setPaper('letter');
 
             return $pdf->stream($data['titulo'].'.pdf');
         }

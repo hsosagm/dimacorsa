@@ -20,11 +20,11 @@
                 <td class="right" width="15%"> {{ f_num::get($q->utilidad) }} </td>
                 <td class="right" width="15%"> %{{ f_num::get(($q->utilidad * 100 )/ $q->total )}} </td>
                 <td class="center" width="5%">
-                    <i id="{{$q->id}}" class="fa fa-plus-square btn-link theme-c" onClick="" ></i>
+                    <i id="{{$q->id}}" class="fa fa-plus-square btn-link theme-c" onClick="getDetalleVentasPorHoraUsuario(this, {{$q->id}}, '{{$fecha}}')" ></i>
                 </td>
             </tr>
         @endforeach
-    </tbody>
+    </tbody> 
     <tfoot>
         <tr>
             <td colspan="6"></td>

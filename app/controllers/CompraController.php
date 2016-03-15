@@ -348,9 +348,11 @@ class CompraController extends \BaseController {
 
 		$deuda = 0;
 
+		$proveedor = Compra::with('proveedor')->find(Input::get('id'))->proveedor;
+
 		return Response::json(array(
 			'success' => true,
-			'table'   => View::make('compras.DT_detalle_compra', compact('detalle', 'deuda'))->render()
+			'table'   => View::make('compras.DT_detalle_compra', compact('detalle', 'deuda', 'proveedor'))->render()
 		));
 	}
 

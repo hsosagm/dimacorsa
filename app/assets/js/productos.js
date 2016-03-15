@@ -65,8 +65,7 @@ function inventario() {
     });
 };
 
-function getStockMinimo()
-{
+function getStockMinimo() {
     $.ajax({
         url: "admin/inventario/getStockMinimo",
         type: "GET"
@@ -76,7 +75,65 @@ function getStockMinimo()
             $('#graph_container').show();
             return $('#graph_container').html(data.table);
         }
-
         return msg.warning(data, 'Advertencia!');
     });
-}
+};
+
+function getKardexDetail(e, transaccion, transaccion_id, evento) {
+    var ruta = "";
+    if ($.trim(transaccion) == "ventas") 
+        ruta = "user/ventas/showSalesDetail?venta_id="+transaccion_id;
+    if ($.trim(transaccion) == "descargas") 
+        ruta = "admin/descargas/showgDownloadsDetail?descarga_id="+transaccion_id;
+    if ($.trim(transaccion) == "compras") 
+        ruta = "admin/compras/showPurchaseDetail?id="+transaccion_id;
+
+    if ($.trim(transaccion) == "traslados") {
+        if ($.trim(evento) == "ingreso")
+            $opcion = 2;
+        if ($.trim(evento) == "salida")
+            $opcion = 1;
+
+        ruta = "admin/traslados/getDetalleTraslado?traslado_id="+transaccion_id+"&opcion="+$opcion;
+    }
+
+    if ($.trim(transaccion) == "devolucion") 
+        ruta = "user/ventas/devoluciones/getDevolucionesDetail?devolucion_id="+transaccion_id;
+    if ($.trim(transaccion) == "ajuste") 
+        return msg.warning("Los ajustes no tienen detalle...", 'Advertencia!');
+
+    if ($(e).hasClass("hide_detail")) {
+        $(e).removeClass('hide_detail');
+        $('.subtable').hide();
+    }
+    else {
+        $('.hide_detail').removeClass('hide_detail');
+        if ( $( ".subtable" ).length )
+            $('.subtable').fadeOut('slow', function() { KardexDetalle(e, ruta); })
+        else
+            KardexDetalle(e, ruta);
+    }
+};
+
+
+function KardexDetalle(e, ruta) {
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=12><div class='grid_detalle_kardex'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: 'GET',
+        url: ruta ,
+        success: function (data) {
+            if (data.success) {
+                $('.grid_detalle_kardex').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                return $(e).addClass('hide_detail');
+            }
+            msg.warning(data, 'Advertencia!');
+        }
+    });
+};
+ 

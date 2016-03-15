@@ -22,7 +22,7 @@
 			<td width="7%" class="right">{{$dt->ganancias}}</td>
 			<td width="6%" class="right">{{$dt->precio}}</td>
 			<td width="3%" class="right"> 
-				<i class="fa fa-plus-square btn-link theme-c" onclick="DetalleVentaCierre(this,{{ $dt->id_venta }})"></i>
+				<i class="fa fa-search btn-link theme-c" onclick="DetalleVentaCierre(this,{{ $dt->id_venta }})"></i>
 			</td>
 		</tr>
 		@endforeach
