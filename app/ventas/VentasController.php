@@ -1,6 +1,6 @@
 <?php namespace App\ventas;
 
-use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago, PagosVenta, Caja, Kardex, ClienteController, f_num;
+use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago, PagosVenta, Caja, Kardex, ClienteController, f_num, Carbon;
 
 class VentasController extends \BaseController {
 
@@ -283,7 +283,8 @@ class VentasController extends \BaseController {
                 ->whereId($notas['id'])
                 ->update(array(
                     'estado' => 1,
-                    'venta_id' => Input::get('venta_id')
+                    'venta_id' => Input::get('venta_id'),
+                    'updated_at' => Carbon::now()
                 ));
             }
         }

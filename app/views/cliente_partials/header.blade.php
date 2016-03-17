@@ -45,6 +45,11 @@
                         <i class="fa fa-money"></i>
                     </a>
                 </li>
+                 <li v-on="click: getSumaDeVentasPorCliente" class="dropdown navbar-message">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-placement="bottom"  title="Estadisticas" data-toggle="tooltip">
+                        <i class="fa fa-line-chart"> </i> </i>
+                    </a>
+                </li>
                   <li class="dropdown navbar-profile" style="margin-right: 25px;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">

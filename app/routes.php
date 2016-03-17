@@ -1,4 +1,4 @@
- <?php
+<?php
     /*******************************************************************************/
     Route::when('*', 'csrf', array('post', 'put', 'delete'));
     Route::when('user/*' , 'auth');
@@ -261,12 +261,15 @@
             Route::get('getVentasPendientesPorCliente'        , 'VentasController@getVentasPendientesPorCliente' );
             Route::get('getVentaConDetalle'                   , 'VentasController@getVentaConDetalle');
             Route::get('getVentasPorHoraPorUsuario'           , 'VentasController@getVentasPorHoraPorUsuario');
+            Route::get('getDetalleVentasPorHoraUsuario'       , 'VentasController@getDetalleVentasPorHoraUsuario');
             Route::post('ingresarSeriesDetalleVenta'          , 'VentasController@ingresarSeriesDetalleVenta');
             Route::get('getVentasPedientesPorUsuario'         , 'VentasController@getVentasPedientesPorUsuario');
             Route::get('getDetalleVentasPendientesPorUsuario' , 'VentasController@getDetalleVentasPendientesPorUsuario');
             Route::post('pagoConNotasDeCredito'               , 'VentasController@pagoConNotasDeCredito');
             Route::get('getActualizarPagosVentaFinalizada'    , 'VentasController@getActualizarPagosVentaFinalizada');
             Route::post('actualizarPagosVentaFinalizada'      , 'VentasController@actualizarPagosVentaFinalizada');
+            Route::get('getSumaDeVentasPorCliente'            , 'VentasController@getSumaDeVentasPorCliente');
+            Route::get('exportarSumaDeVentasPorCliente'       , 'ExportarController@exportarSumaDeVentasPorCliente');
 
             Route::group(array('prefix' => 'payments'),function()
             {
@@ -740,7 +743,7 @@
 
     Route::get('/test', function()
     {
-
+        
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

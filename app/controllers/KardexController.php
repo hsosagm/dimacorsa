@@ -11,6 +11,7 @@ class KardexController extends \BaseController {
             "CONCAT_WS(' / ',tiendas.nombre,users.nombre) as usuario",
             "kardex_transaccion.nombre as nombre",
             "evento",
+            "transaccion_id",
             "cantidad",
             "existencia",
             "costo",
@@ -19,9 +20,9 @@ class KardexController extends \BaseController {
  
         $Search_columns = array("evento", "cantidad", 'existencia', 'costo');
 
-		$Join = " JOIN users ON (users.id = kardex.user_id) ";
-        $Join .= " JOIN tiendas ON (tiendas.id = kardex.tienda_id) ";
-        $Join .= "JOIN kardex_transaccion ON (kardex_transaccion.id = kardex_transaccion_id) ";
+		$Join  = " JOIN users ON (users.id = kardex.user_id)";
+        $Join .= " JOIN tiendas ON (tiendas.id = kardex.tienda_id)";
+        $Join .= " JOIN kardex_transaccion ON (kardex_transaccion.id = kardex_transaccion_id )";
 
         $where = " DATE_FORMAT(kardex.created_at, '%Y-%m') = DATE_FORMAT(current_date, '%Y-%m') ";
 
@@ -118,6 +119,12 @@ class KardexController extends \BaseController {
         else 
             $fecha_inicial = Carbon::now()->startOfMonth();
 
+        //$traslados = Kardex::whereTiendaId()->whereKardexTransaccionId()
+        //->whereRaw("DATE(kardex.created_at)")
+
+        $where  = "DATE_FORMAT(kardex.created_at, '%Y-%m-%d') >= DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d')";
+        $where .= " AND DATE_FORMAT(kardex.created_at, '%Y-%m-%d') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d')";
+        
         return View::make('kardex.getKardexPorFecha',compact('consulta', 'fecha_inicial', 'fecha_final', 'producto_id', 'tienda_id'))->render();
     }
 
@@ -142,6 +149,7 @@ class KardexController extends \BaseController {
             "kardex.created_at as fecha",
             "CONCAT_WS(' / ',tiendas.nombre,users.nombre) as usuario",
             "kardex_transaccion.nombre as nombre",
+            "transaccion_id",
             "evento",
             "cantidad",
             "{$existencia}",

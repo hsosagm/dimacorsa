@@ -39,7 +39,9 @@
                 @if ($dt->serials != null)
                 <tr>
                     <td></td>
-                    <td colspan="3"><strong>S/N:</strong> {{ $dt->serials }}</td>
+                    <td align="justify"><strong>S/N:</strong> {{ str_replace(',',', ',$dt->serials) }}</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 @endif
                 @php($total = $total + ($dt->cantidad * $dt->precio))

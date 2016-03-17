@@ -221,7 +221,48 @@
         })
    });
 
-    function cierreDelMes(year, month){
+
+    function getDetalleVentasPorHoraUsuario(e, user_id, fecha) {
+        if ($(e).hasClass("hide_detail")) {
+            $(e).removeClass('hide_detail');
+            $('.subtable').hide();
+        }
+        else {
+            $('.hide_detail').removeClass('hide_detail');
+            if ( $( ".subtable" ).length )
+                $('.subtable').fadeOut('slow', function(){ detalleVentasPorHoraUsuario(e, user_id, fecha); })
+            else
+                detalleVentasPorHoraUsuario(e, user_id, fecha);
+        }    
+    };
+    
+
+    function detalleVentasPorHoraUsuario(e, user_id, fecha) {
+        $('.subtable').remove();
+        var nTr = $(e).parents('tr')[0];
+        $(e).addClass('hide_detail');
+        $(nTr).after("<tr class='subtable'> <td colspan=7><div class='grid_detalle_factura'></div></td></tr>");
+        $('.subtable').addClass('hide_detail');
+
+        $.ajax({
+            type: 'GET',
+            url: 'user/ventas/getDetalleVentasPorHoraUsuario',
+            data: { 
+                user_id: user_id, 
+                fecha: fecha 
+            },
+        }).done(function(data) {
+            if (!data.success) 
+                return msg.warning(data, 'Advertencia!');
+
+            $('.grid_detalle_factura').html(data.table);
+            $(nTr).next('.subtable').fadeIn('slow');
+            $(e).addClass('hide_detail');
+        })
+    };
+ 
+
+    function cierreDelMes(year, month) {
         var fecha = year + '-' + month +'-01';
         $.ajax({
             type: "GET",
@@ -233,9 +274,9 @@
                 graph_container_compile();
             }
         });
-    }
+    };
 
-    function cierreDelDia(dia){
+    function cierreDelDia(dia) {
         $.ajax({
             type: "GET",
             url: 'admin/cierre/getCierreDelDia',
@@ -249,7 +290,7 @@
     }
 
 
-    function getVentasPorHoraPorUsuario(fecha){
+    function getVentasPorHoraPorUsuario(fecha) {
         $.ajax({
         type: 'GET',
         data: { fecha:fecha , grafica: true},

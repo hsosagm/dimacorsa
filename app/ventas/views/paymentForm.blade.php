@@ -88,7 +88,6 @@
             payments: [],
             metodo_pago_id: 1,
             abonado: 0,
-            credito: 0,
             disabled: false,
             notasDeCredito: [],
             countNotasCredito: {{ $countNotasCredito }},
@@ -105,12 +104,8 @@
         watch: {
             payments: function() {
                 this.abonado = 0
-                for (var i = this.payments.length - 1; i >= 0; i--) {
+                for (var i = this.payments.length - 1; i >= 0; i--)
                     this.abonado += this.payments[i]["abonado"]
-
-                    if (this.payments[i]["metodo_pago_id"] == 2)
-                        this.credito = this.payments[i]["monto"]
-                }
 
                 if (this.abonado >= this.total) {
                     this.disabled = true
@@ -187,6 +182,7 @@
                     this.notasDeCredito = [];
                     this.countNotasCredito = true;
                 }
+
                 this.payments.$remove(index)
             },
 
@@ -208,13 +204,19 @@
                 if (monto < this.total)
                     return msg.warning("El monto abonado es menor al total de la venta", "Advertencia!");
 
+                var credito = 0
+
+                for (var i = 0; i < this.payments.length; i++)
+                    if (this.payments[i]["metodo_pago_id"] == 2)
+                        credito = this.payments[i]["monto"]
+
                 $.ajax({
                     type: 'POST',
                     url:  'user/ventas/endSale',
                     data: {
                         payments:       this.values,
                         total:          this.total,
-                        saldo:          this.credito,
+                        saldo:          credito,
                         venta_id:       {{ Input::get('venta_id') }},
                         notasDeCredito: this.valuesNotas,
                         detalleVenta:   ventas.detalleTable

@@ -17,12 +17,22 @@
 	        </tr>
 		@endforeach
 	</tbody>
-	<tfoot width="100%">
-		<tr>
-		    <td></td>
-		    <td class="center">Total a cancelar</td>
-		    <td></td>
-		    <td class="right">{{ f_num::get($deuda) }} </td>
+	<tr>
+		<td></td>
+		<td class="center">Total a cancelar</td>
+		<td></td>
+		<td class="right">{{ f_num::get($deuda) }} </td>
+	</tr>
+	<tr>
+		<td colspan="2"></td>
+		<td class="right">Metodo P.</td>
+		<td class="right">Monto</td>
+	</tr>
+	@foreach($pagos as $pg)
+	    <tr>
+	    	<td colspan="2"></td>
+	        <td class="right"> {{ $pg->metodo_pago->descripcion }} </td>
+	        <td class="right"> {{ f_num::get($pg->monto) }} </td>
 	    </tr>
-	</tfoot>
+	@endforeach
 </table>

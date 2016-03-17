@@ -589,6 +589,14 @@ var vm = new Vue({
 			window.open('admin/exportar/exportarVentasPendientesPorUsuario/'+tipo+'?user_id='+user_id ,'_blank');
 		},
 
+		exportarSumaDeVentasPorClientes: function(pdf) {
+			if(pdf)
+				window.open('user/ventas/exportarSumaDeVentasPorCliente/?tipo=pdf','_blank');
+
+			if(!pdf)
+				window.open('user/ventas/exportarSumaDeVentasPorCliente/','_blank');
+		},
+
 		estadoDeCuenta: function(pdf) {
 			if(pdf)
 				window.open('user/cliente/estadoDeCuenta?pdf=true&cliente_id='+vm.cliente_id, '_blank');
@@ -614,7 +622,20 @@ var vm = new Vue({
 					});
 				}
 			});
-		}
+		},
+
+		getSumaDeVentasPorCliente: function() {
+			$.ajax({
+				type: 'GET',
+				url: "/user/ventas/getSumaDeVentasPorCliente",
+				success: function (data) {
+					if (!data.success)
+						return msg.warning(data, 'Advertencia!');
+					
+					vm.proccesDataTable(data.table);
+				}
+			});
+		},
 	}
 });
 

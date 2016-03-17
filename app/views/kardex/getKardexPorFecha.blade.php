@@ -64,16 +64,26 @@
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
             "aoColumnDefs": [
-                {"sClass": "width15",                         "sTitle": "Fecha",                "aTargets": [0]},
-                {"sClass": "width25",                         "sTitle": "Tienda/Usuario",       "aTargets": [1]},
-                {"sClass": "width10",                         "sTitle": "Transaccion",          "aTargets": [2]},
-                {"sClass": "width10 ",                        "sTitle": "Evento",               "aTargets": [3]},
-                {"sClass": "width5  ",                        "sTitle": "Cantidad",             "aTargets": [4]},
-                {"sClass": "width5  ",                        "sTitle": "Existencia",           "aTargets": [5]},
-                {"sClass": "width10 right formato_precio",    "sTitle": "Costo Unitario",       "aTargets": [6]},
-                {"sClass": "width10 right formato_precio",    "sTitle": "Costo Promedio",       "aTargets": [7]},
-                {"sClass": "width10 right formato_precio",    "sTitle": "Costo del Movimiento", "aTargets": [8]},
-                {"sClass": "width10 right formato_precio",    "sTitle": "Total Acumulado",      "aTargets": [9]},
+                {"sClass": "width15",                      "sTitle": "Fecha",                "aTargets": [0]},
+                {"sClass": "width25",                      "sTitle": "Tienda/Usuario",       "aTargets": [1]},
+                {"sClass": "width10",                      "sTitle": "Transaccion",          "aTargets": [2]},
+                {"sClass": "width10 ",                     "sTitle": "Transaccion ID",       "aTargets": [3]},
+                {"sClass": "width10 ",                     "sTitle": "Evento",               "aTargets": [4]},
+                {"sClass": "width5  ",                     "sTitle": "Cantidad",             "aTargets": [5]},
+                {"sClass": "width5  ",                     "sTitle": "Existencia",           "aTargets": [6]},
+                {"sClass": "width5 right formato_precio",  "sTitle": "Costo Unitario",       "aTargets": [7]},
+                {"sClass": "width5 right formato_precio",  "sTitle": "Costo Promedio",       "aTargets": [8]},
+                {"sClass": "width5 right formato_precio",  "sTitle": "Costo del Movimiento", "aTargets": [9]},
+                {"sClass": "width5 right formato_precio",  "sTitle": "Total Acumulado",      "aTargets": [10]},
+                {"sClass": "width5 icons center",          "sTitle": "",                "aTargets": [11],  "orderable": false, 
+                    "mRender": function(  data, type, full ) {
+                        $transaccion = "'" + full[2] + "'";
+                        $evento = "'" + full[4] + "'";
+
+                        return '<i title="Ver detalle" onclick="getKardexDetail(this, '+$transaccion+', '+full[3]+', '+$evento+')" class="fa fa-plus-square show_detail "></i>';
+
+                    }
+                },
             ],
             "fnDrawCallback": function( oSettings ) {
                 $("td[class*='formato_precio']").each(function() {
