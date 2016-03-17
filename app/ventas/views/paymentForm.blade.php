@@ -60,7 +60,7 @@
         </div>
         <div class="vuelto">
             <label>Gracias por su compra</label>
-            <label v-if="this.abonado - this.total > 0">su vuelto es: @{{this.abonado - this.total | currency ''}}</label>
+            <label v-if="this.abonado - this.total > 0">su cambio es Q@{{this.abonado - this.total | currency ''}}</label>
         </div>
     </div>
 
