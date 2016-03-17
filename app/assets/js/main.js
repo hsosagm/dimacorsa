@@ -320,7 +320,7 @@ function _print(e)
                 {
                     $("#barcode").show();
                     $("#barcode").JsBarcode(
-                        data["codigo"] , 
+                        data["codigo"] ,
                         {
                             width:  2,
                             height: 68,
@@ -338,7 +338,7 @@ function _print(e)
                             ventana = ventana.document.write('<img src="'+myImage+'" width="300" height="65"/>');
                         }
                     });
-                } 
+                }
                 else {
                     msg.warning('Hubo un error', 'Advertencia!')
                 }
@@ -433,3 +433,20 @@ $('[data-action=collapse_head]').click(function(){
         }
     }
 });
+
+
+function fopen_kit() {
+    $.ajax({
+      type: "GET",
+      url: "admin/kits/create"
+    }).done(function(data) {
+        if (!data.success)
+            return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!')
+
+        $('.panel-title').text('Formulario kit');
+        $(".forms").html(data.form);
+        ocultar_capas();
+        $(".form-panel").show();
+        $('#cliente').focus();
+    });
+};

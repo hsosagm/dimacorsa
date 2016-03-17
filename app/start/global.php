@@ -118,3 +118,4 @@ Blade::extend(function($view, $compiler)
 
 // View::addLocation(app('path').'/ventas/views');
 View::addNamespace('ventas', app('path').'/ventas/views');
+View::addNamespace('kits', app('path').'/kits/views');

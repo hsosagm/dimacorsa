@@ -25,14 +25,29 @@ $(document).ready(function() {
         "order": [[ 4, "desc" ]],
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
-            $( ".DTTT" ).append('<button onclick="add_producto_to_venta()" class="btn btngrey btn_edit" disabled>Agregar a venta</button>');
+            $( ".DTTT" ).append('<button onclick="addProducto()" class="btn btngrey btn_edit" disabled>Agregar producto</button>');
         },
-
-        "bJQueryUI": false,
         "bProcessing": true,
         "bServerSide": true,
         "sAjaxSource": "user/ventas/table_productos_para_venta_DT"
     });
 
 });
+
+function addProducto()
+{
+    $("input[name='codigo']").val($('.dataTable tbody .row_selected td:first-child').text());
+    $(".dt-container").hide();
+
+    $.ajax({
+        type: 'GET',
+        url: 'user/ventas/findProducto',
+        data: { codigo: $('.dataTable tbody .row_selected td:first-child').text() }
+    }).done(function(data) {
+        if (!data.success)
+            return msg.warning(data);
+
+        kits.producto = data.values;
+    })
+};
 </script>

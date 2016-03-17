@@ -583,6 +583,13 @@
 
         });
 
+        Route::group(array('prefix' => 'kits'), function()
+        {
+            Route::get('create', 'App\kits\KitsController@create');
+            Route::get('table_productos', 'App\kits\KitsController@table_productos');
+            Route::post('crearProducto', 'App\kits\KitsController@crearProducto');
+        });
+
         Route::group(array('prefix' => 'descargas'), function()
         {
             Route::get('create'                             , 'DescargaController@create' );
