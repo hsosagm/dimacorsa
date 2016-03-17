@@ -1,4 +1,4 @@
- <?php
+<?php
     /*******************************************************************************/
     Route::when('*', 'csrf', array('post', 'put', 'delete'));
     Route::when('user/*' , 'auth');
@@ -736,7 +736,7 @@
 
     Route::get('/test', function()
     {
-
+        
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

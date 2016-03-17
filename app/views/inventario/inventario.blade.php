@@ -1,30 +1,50 @@
+<div class="rounded shadow">
+    <div class="panel_heading">
+        <div id="table_length" class="pull-left"></div>
+        <div class="pull-left" style="margin-left: 20px; vertical-align: middle;">
+            <button class="btn btn-info btn-theme" style="margin-right: 15px;" onclick="actualizarDatosInventario()">actualizar</button>
+            <label class="radio-inline"><input type="radio" value="1" name="optInvMens" {{(Input::get('opcion') == 1 || Input::get('opccion') == 4)? 'checked':''}}>Existencia</label>
+            <label class="radio-inline"><input type="radio" value="2" name="optInvMens" {{(Input::get('opcion') == 2)? 'checked':''}}>Actualizados</label>
+            <label class="radio-inline"><input type="radio" value="3" name="optInvMens" {{(Input::get('opcion') == 3)? 'checked':''}}>Todos</label>
+            <label class="radio-inline"><input type="radio" value="4" name="optInvMens">Limpiar</label>
+        </div>
+        <div class="pull-right">
+            <button onclick="$('.dt-panel').hide();" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <div class="no-padding table">
+        <table id="example" class="display" width="100%" cellspacing="0">
+            <tbody style="background: #ffffff;">
+                <tr>
+                    <td class="dataTables_empty">Cargando datos del servidor...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
-
         proccess_table('Inventario');
-
         var MyTable = $('#example').dataTable({
-
-            "language": {
+             "language": {
                 "lengthMenu": "Mostrar _MENU_ archivos por pagina",
                 "zeroRecords": "No se encontro ningun archivo",
                 "info": "Mostrando la pagina _PAGE_ de _PAGES_",
                 "infoEmpty": "No hay archivos disponibles",
                 "infoFiltered": "- ( filtrado de _MAX_ archivos )"
             },
-
             "aoColumnDefs": [
-            {"sClass": "widthS",              "sTitle": "ID",       "aTargets": [0]},
-            {"sClass": "widthS",              "sTitle": "Codigo",       "aTargets": [1]},
-            {"sClass": "widthS",              "sTitle": "Marca",        "aTargets": [2]},
-            {"sClass": "widthL",              "sTitle": "Descripcion",  "aTargets": [3]},
-            {"sClass": "right widthS", "sTitle": "Existencia", "aTargets": [4]},
-            {"sClass": "right widthS mod_producto",  "sTitle": "Real",    "aTargets": [5]},
-            {"sClass": "right widthS",  "sTitle": "Ajuste",    "aTargets": [6]},
-            {"sClass": "right widthS Estado",  "sTitle": "Estado",    "aTargets": [7]},
-            {"sClass": "right widthM",  "sTitle": "Usuario",    "aTargets": [8]},
+                {"sClass": "widthS",                    "sTitle": "ID",          "aTargets": [0]},
+                {"sClass": "widthS",                    "sTitle": "Codigo",      "aTargets": [1]},
+                {"sClass": "widthS",                    "sTitle": "Marca",       "aTargets": [2]},
+                {"sClass": "widthL",                    "sTitle": "Descripcion", "aTargets": [3]},
+                {"sClass": "right widthS",              "sTitle": "Existencia",  "aTargets": [4]},
+                {"sClass": "right widthS mod_producto", "sTitle": "Real",        "aTargets": [5]},
+                {"sClass": "right widthS",              "sTitle": "Ajuste",      "aTargets": [6]},
+                {"sClass": "right widthS Estado",       "sTitle": "Estado",      "aTargets": [7]},
+                {"sClass": "right widthM",              "sTitle": "Usuario",     "aTargets": [8]},
             ],
-
             "fnDrawCallback": function( oSettings ) {
                 $( ".DTTT" ).html("");
 
@@ -55,18 +75,18 @@
                 }
 
                 $("td[class*='Estado']").each(function() {
-                    if ($(this).html() == 0) {
+                    if ($(this).html() == 0)
                         $(this).html('');
-                    }
-                    else {
+                    else 
                         $(this).html('Actualizado');
-                    }
                 });
             },
-
             "bProcessing": true,
             "bServerSide": true,
-            "sAjaxSource": "admin/inventario/dt_getInventario"
+            "sAjaxSource": "admin/inventario/dt_getInventario",
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "opcion", "value": "{{Input::get('opcion')}}" });
+            },
         });
 
 
@@ -88,7 +108,6 @@
                     success: function (data) {
                         if (data.success == true)
                         {
-                            // $('.current').addClass('mod_codigo');
                             $('td.current').html( e.target.value );
                             $('.current').removeClass('current');
                             $("#iSearch").focus();
@@ -117,7 +136,20 @@
             inventario.$compile(inventario.$el);
         });
     }
-
+    
 });
 
+function actualizarDatosInventario() {
+    $.ajax({
+        type: "Get",
+        url: 'admin/inventario/',
+        data: { opcion: $('input[name=optInvMens]:checked').val() }
+    }).done(function(data) {
+        if (data.success) {
+           $('.dt-panel').html(data.table);        
+           return $('.dt-panel').show();
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+} 
 </script>

@@ -271,7 +271,7 @@ class ExportarController extends \BaseController {
         ->get();
 
         $datos['clientes'] = $clientes;
-        $datos['tipo'] = 'pdf';
+        $datos['tipo'] = Input::get('tipo');
         $datos['orientacion'] = "portrait";
         $datos['titulo'] = "Ventas por Clientes";
         $vista = "sumaDeVentasPorCliente";

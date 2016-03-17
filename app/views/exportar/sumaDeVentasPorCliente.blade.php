@@ -1,12 +1,7 @@
-<div class="rounded shadow">
-    <div class="panel_heading">
-        <div id="table_length" class="pull-left"></div>
-        <div class="pull-right">
-            <button v-on="click: closeMainContainer" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
-        </div>
-    </div>
-    <div class="no-padding table">
-        <table id="example" class="display" width="100%" cellspacing="0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html>
+    <body>
+        <table width="100%" cellspacing="0">
             <thead>
                 <tr style="background-color: #D5D5D5;">
                     <th width="1%">No.</th>
@@ -28,5 +23,5 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-</div>
+    </body>
+</html>

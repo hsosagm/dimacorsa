@@ -589,8 +589,12 @@ var vm = new Vue({
 			window.open('admin/exportar/exportarVentasPendientesPorUsuario/'+tipo+'?user_id='+user_id ,'_blank');
 		},
 
-		exportarSumaDeVentasPorClientes: function() {
-			window.open('user/ventas/exportarSumaDeVentasPorCliente/','_blank');
+		exportarSumaDeVentasPorClientes: function(pdf) {
+			if(pdf)
+				window.open('user/ventas/exportarSumaDeVentasPorCliente/?tipo=pdf','_blank');
+
+			if(!pdf)
+				window.open('user/ventas/exportarSumaDeVentasPorCliente/','_blank');
 		},
 
 		estadoDeCuenta: function(pdf) {

@@ -5,7 +5,10 @@ class InventarioController extends Controller {
 
     public function getInventario()
     {
-        return View::make('inventario.inventario');
+        return Response::json([
+            "success" => true,
+            "table" => View::make('inventario.inventario')->render()
+        ]);
     }
 
     public function dt_getInventario()
@@ -26,9 +29,15 @@ class InventarioController extends Controller {
 
         $Searchable = array("producto_id", "codigo", "nombre", "descripcion");
         $Join = 'JOIN productos ON existencias.producto_id = productos.id JOIN marcas ON productos.marca_id = marcas.id';
-        // $where = "existencias.existencia > 0 AND existencias.tienda_id = ".Auth::user()->tienda_id; //1
-        $where = "existencias.status > 0 AND existencias.tienda_id = ".Auth::user()->tienda_id; //2
-        // $where = "existencias.tienda_id = ".Auth::user()->tienda_id; //3
+        if (Input::get('opcion') == 1 || Input::get('opcion') == 4) 
+            $where = "existencias.existencia > 0 AND existencias.tienda_id = ".Auth::user()->tienda_id; 
+        if (Input::get('opcion') == 2) 
+            $where = "existencias.status > 0 AND existencias.tienda_id = ".Auth::user()->tienda_id; 
+        if (Input::get('opcion') == 3)     
+            $where = "existencias.tienda_id = ".Auth::user()->tienda_id; 
+        if(Input::get('opcion') == 4)
+            DB::table('existencias')->whereTiendaId(Auth::user()->tienda_id)
+            ->update(["existencia_real" => null, "ajuste" => null, "status" => "", "user_id" => ""]);
 
         echo TableSearch::get($table, $columns, $Searchable, $Join ,$where );
     }

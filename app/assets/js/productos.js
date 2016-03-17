@@ -60,8 +60,9 @@ function _view_existencias() {
 };
 
 function inventario() {
-    $.get( "admin/inventario/", function( data ) {
-        makeTable(data, 'admin/productos/', 'Producto');
+    $.get( "admin/inventario/?opcion=1", function( data ) {
+        $('.dt-panel').html(data.table);        
+        $('.dt-panel').show();        
     });
 };
 

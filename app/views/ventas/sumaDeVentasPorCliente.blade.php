@@ -2,7 +2,8 @@
     <div class="panel_heading">
         <div id="table_length" class="pull-left"></div>
         <div class="pull-right">
-            <i class="fa fa-file-pdf-o fa-lg" v-on="click: exportarSumaDeVentasPorClientes()"> </i>
+            <i class="fa fa-file-excel-o fa-lg" v-on="click: exportarSumaDeVentasPorClientes(false)"> </i>
+            <i class="fa fa-file-pdf-o fa-lg" v-on="click: exportarSumaDeVentasPorClientes(true)"> </i>
             <button v-on="click: closeMainContainer" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
     </div>
@@ -31,4 +32,3 @@
         </table>
     </div>
 </div>
- 
