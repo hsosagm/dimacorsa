@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>SIGN IN | CLICK APP</title>
+        <title>SIGN IN |  {{ strtoupper(getenv('NAME_EMPRESA')) }} </title>
 
         <link href="login/assets/components/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="login/assets/components/bower/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -56,7 +56,7 @@
                 <div class="sign-header">
                     <div class="form-group">
                         <div class="sign-text">
-                            <span>Click tecnologia moderna</span>
+                            <span> {{ getenv('SLOGAN_EMPRESA') }} </span>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                 </div>
             {{ Form::close() }}
 
-            <p class="text-muted text-center sign-link">2014 &copy; Created by<a href="#"> Hsystemas</a></p>
+            <p class="text-muted text-center sign-link"> {{ getenv('COPYRING_YEAR') }}  &copy; Created by<a href="#"> {{ getenv('AUTOR') }}</a></p>
 
         </div>
 

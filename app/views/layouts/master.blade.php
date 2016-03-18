@@ -49,8 +49,9 @@
             @include('partials.body-content')
 
             <footer class="footer-content">
-                2015 &copy; {{$tienda->nombre}}. Created by <a href="javascript:void(0)">SOFTWARE.</a>
+                {{ getenv('COPYRING_YEAR') }} &copy; {{$tienda->nombre}}. Created by <a href="javascript:void(0)" target="_blank">{{ getenv('AUTOR') }}</a>
             </footer>
+
         </section>
 
         @include('partials.slidebar-right')
