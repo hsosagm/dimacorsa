@@ -1,6 +1,6 @@
 <?php namespace App\kits;
 
-use Input, View, Auth, Response, Producto;
+use Input, View, Auth, Response, Producto, Kit;
 
 class KitsController extends \BaseController {
 
@@ -15,7 +15,12 @@ class KitsController extends \BaseController {
 	{
 		if (Input::has('_token'))
 		{
+            $kit = new Kit;
 
+            if (!$kit->create_master())
+                return $kit->errors();
+
+            return 33;
 		}
 
 		return Response::json(array(

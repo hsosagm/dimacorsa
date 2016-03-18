@@ -36,9 +36,6 @@ $(document).ready(function() {
 
 function addProducto()
 {
-    $("input[name='codigo']").val($('.dataTable tbody .row_selected td:first-child').text());
-    $(".dt-container").hide();
-
     $.ajax({
         type: 'GET',
         url: 'user/ventas/findProducto',
@@ -48,6 +45,7 @@ function addProducto()
             return msg.warning(data);
 
         kits.producto = data.values;
+        $(".dt-container").hide();
     })
 };
 </script>

@@ -15,7 +15,7 @@ class NotaCreditoController extends \BaseController {
                 return $notaCredito->errors();
 
             return 'success';
-        } 
+        }
 
         $metodo_pago = MetodoPago::select(DB::raw("id as value"), DB::raw("descripcion as text"))->where('id','!=',2)->where('id','!=',6)->where('id','!=',7)->get();
 
@@ -34,18 +34,18 @@ class NotaCreditoController extends \BaseController {
         return $pdf->stream('Adelanto_Nota_De_Credito_'.$notaCredito->id);
     }
 
-    public function elminiarNotaDecredito()
+    public function eliminarNotaDeCredito()
     {
         $notaDeCredito = NotaCredito::find(intval(Input::get('nota_credito_id')));
 
-        if ($notaDeCredito->estado == 1) 
+        if ($notaDeCredito->estado == 1)
             return 'No se puede eliminar por que ya fue utilizada en una venta...';
 
         if (trim($notaDeCredito->tipo) == "adelanto") {
             Adelanto::destroy($notaDeCredito->tipo_id);
             NotaCredito::destroy(Input::get('nota_credito_id'));
             return Response::json(array('success' => true));
-        }        
+        }
 
         return "Solo se pueden eliminar adelantos..";
     }
@@ -97,7 +97,7 @@ class NotaCreditoController extends \BaseController {
 
         if (trim($notaCredito->tipo) == "adelanto") {
             $adelanto = Adelanto::with('pagos')->find($notaCredito->tipo_id);
-            
+
             return Response::json(array(
                 'success' => true,
                 'table'   => View::make('notas_creditos.detalleAdelanto',compact('adelanto'))->render())
@@ -106,7 +106,7 @@ class NotaCreditoController extends \BaseController {
 
         if (trim($notaCredito->tipo) == "devolucion") {
             $detalle = $this->getDevolucionesDetalle($notaCredito->tipo_id);
- 
+
             return Response::json(array(
                 'success' => true,
                 'table'   => View::make('ventas.devoluciones.DT_detalleDevolucion',compact('detalle'))->render())
@@ -136,7 +136,7 @@ class NotaCreditoController extends \BaseController {
                 $dt->serials = explode(',', $dt->serials);
             }
         }
- 
+
         return $detalle;
     }
 }
