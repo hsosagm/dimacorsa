@@ -5,7 +5,7 @@
         </div>
         <div class="navbar-header">
             <a class="navbar-brand" href="/">
-                <img class="logo" src="img/logo/logo_empresa.png" alt="brand logo"/>
+                {{ getenv('LOGO_EMPRESA') }}
             </a>
         </div>
         <div class="navbar-minimize-mobile right">
