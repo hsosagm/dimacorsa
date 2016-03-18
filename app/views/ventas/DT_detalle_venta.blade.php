@@ -2,7 +2,7 @@
     <tr>
         <td class="center" width="10%">Cantidad</td>
         <td class="center" width="70%">Descripcion</td>
-        <td class="center" width="10%">Precio</td>
+        <td class="center" width="15%">Precio</td>
         <td class="center" width="10%">Totales</td>
     </tr>
 	<tbody >
@@ -24,14 +24,17 @@
 		<td class="right">{{ f_num::get($deuda) }} </td>
 	</tr>
 	<tr>
+		<td colspan="4" style="background: rgb(240, 240, 240); border-left: 1px solid rgb(240, 240, 240); border-right: 1px solid rgb(240, 240, 240);"></td>
+	</tr>
+	<tr>
 		<td colspan="2"></td>
-		<td class="right">Metodo P.</td>
-		<td class="right">Monto</td>
+		<td class="center">Metodo P.</td>
+		<td class="center">Monto</td>
 	</tr>
 	@foreach($pagos as $pg)
 	    <tr>
 	    	<td colspan="2"></td>
-	        <td class="right"> {{ $pg->metodo_pago->descripcion }} </td>
+	        <td> {{ $pg->metodo_pago->descripcion }} </td>
 	        <td class="right"> {{ f_num::get($pg->monto) }} </td>
 	    </tr>
 	@endforeach

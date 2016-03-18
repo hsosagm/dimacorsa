@@ -13,6 +13,9 @@ class GastoController extends \BaseController {
         {
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
 
+            if (floatval(Input::get('monto')) > $this->efectivoCaja()) 
+                return "No puedes ingresar un gasto mayor al efectivo que tienes en caja..!";
+
             $query = new DetalleGasto;
 
             if ($query->_create())
@@ -33,9 +36,7 @@ class GastoController extends \BaseController {
             $data['caja_id'] = $caja->id;
 
         if (!$gasto->create_master($data))
-        {
             return $gasto->errors();
-        }
 
         $id = $gasto->get_id();
 
@@ -56,10 +57,31 @@ class GastoController extends \BaseController {
         $delete = DetalleGasto::destroy(Input::get('id'));
 
         if ($delete)
-        {
             return 'success';
-        }
 
         return 'Huvo un error al tratar de eliminar';
+    }
+
+    public function efectivoCaja()
+    {
+        $caja = Caja::whereUserId(Auth::user()->id)->first();
+
+        $datos['fecha_inicial'] = CierreCaja::whereCajaId($caja->id)->max('created_at');
+        $datos['fecha_final']   = Carbon::now();
+        $datos['caja_id'] = $caja->id;
+
+        $cajaController = new CajaController;
+        $data = $cajaController->resumen_movimientos($datos);
+
+        $efectivo  = $data['soporte']['efectivo'];
+        $efectivo += $data['pagos_ventas']['efectivo']; 
+        $efectivo += $data['abonos_ventas']['efectivo']; 
+        $efectivo += $data['ingresos']['efectivo']; 
+        $efectivo -= $data['adelanto']['efectivo'];
+        $efectivo -= $data['gastos']['efectivo']; 
+        $efectivo -= $data['egresos']['efectivo']; 
+        $efectivo -= $data['devolucion']['efectivo'];
+
+        return floatval($efectivo);
     }
 }

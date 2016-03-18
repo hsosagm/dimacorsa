@@ -92,17 +92,15 @@
 
         Route::group(array('prefix' => 'notaDeCredito'), function()
         {
-            Route::get('getFormSeleccionarTipoDeNotaDeCredito', 'NotaCreditoController@getFormSeleccionarTipoDeNotaDeCredito');
-            Route::get('create'     , 'NotaCreditoController@create' );
-            Route::post('create'    ,'NotaCreditoController@create'  );
-            Route::post('eliminarNotaDeCretido' ,'NotaCreditoController@eliminarNotaDeCretido'  );
-            Route::post('eliminarNotaCredito' ,'NotaCreditoController@eliminarNotaCredito'  );
-            Route::post('detalle'   ,'NotaCreditoController@detalle' );
+            Route::get('create'          , 'NotaCreditoController@create' );
+            Route::post('create'         ,'NotaCreditoController@create'  );
+            Route::post('detalle'        ,'NotaCreditoController@detalle' );
             Route::post('updateClienteId','NotaCreditoController@updateClienteId' );
             Route::post('eliminarDetalle','NotaCreditoController@eliminarDetalle' );
-            Route::post('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
-            Route::get('getConsultarNotasDeCreditoCliente','NotaCreditoController@getConsultarNotasDeCreditoCliente' );
-            Route::get('getDetalleNotaDeCredito', 'NotaCreditoController@getDetalleNotaDeCredito' );
+            Route::get('getFormSeleccionarTipoDeNotaDeCredito', 'NotaCreditoController@getFormSeleccionarTipoDeNotaDeCredito');
+            Route::post('getConsultarNotasDeCreditoCliente'   ,'NotaCreditoController@getConsultarNotasDeCreditoCliente' );
+            Route::get('getConsultarNotasDeCreditoCliente'    ,'NotaCreditoController@getConsultarNotasDeCreditoCliente' );
+            Route::get('getDetalleNotaDeCredito'              , 'NotaCreditoController@getDetalleNotaDeCredito' );
         });
 
         Route::group(array('prefix' => 'consulta'), function()
