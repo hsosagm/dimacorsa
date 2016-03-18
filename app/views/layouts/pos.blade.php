@@ -47,7 +47,6 @@
         
     </section>
 
-
     <div id="back-top" class="animated pulse circle">
         <i class="fa fa-angle-up"></i>
     </div>

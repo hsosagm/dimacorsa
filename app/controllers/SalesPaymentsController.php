@@ -6,7 +6,8 @@ class SalesPaymentsController extends \BaseController {
 	{
 		if (Session::token() == Input::get('_token'))
 		{
-            $ventas = Venta::where('cliente_id', Input::get('cliente_id'))
+            $ventas = Venta::whereClienteId(Input::get('cliente_id'))
+            ->whereTiendaId(Auth::user()->tienda_id)
             ->where('saldo', '>', 0)
             ->orderBy('created_at', 'ASC')
             ->get();
@@ -75,7 +76,8 @@ class SalesPaymentsController extends \BaseController {
         $query = DB::table('ventas')
         ->select(DB::raw("ventas.id, ventas.created_at as fecha, saldo"))
         ->where('saldo', '>', 0)
-        ->where('cliente_id', $cliente_id)
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->whereClienteId($cliente_id)
         ->get();
 
         $dias_credito = Cliente::find($cliente_id)->dias_credito;
@@ -116,7 +118,7 @@ class SalesPaymentsController extends \BaseController {
 
 		$Join = "JOIN users ON (users.id = ventas.user_id) JOIN clientes ON (clientes.id = ventas.cliente_id)";
 
-		$where = " cliente_id = ". Input::get('cliente_id') ." AND saldo > 0";
+		$where = " cliente_id = ". Input::get('cliente_id') ." AND saldo > 0 AND ventas.tienda_id = ". Auth::user()->tienda_id;
 
 		$ventas = SST::get($table, $columns, $Search_columns, $Join, $where );
 
@@ -138,9 +140,11 @@ class SalesPaymentsController extends \BaseController {
             return 'Seleccione almenos una venta para realizar esata accion';
         }
 
-        $data = array('cliente_id' => Input::get('cliente_id'),
-                    'metodo_pago_id' => Input::get('metodo_pago_id'),
-                    'monto' => Input::get('monto') );
+        $data = array(
+            'cliente_id' => Input::get('cliente_id'),
+            'metodo_pago_id' => Input::get('metodo_pago_id'),
+            'monto' => Input::get('monto') 
+        );
 
         $abono = new AbonosVenta;
         $caja = Caja::whereUserId(Auth::user()->id)->first();
@@ -163,9 +167,11 @@ class SalesPaymentsController extends \BaseController {
 
             $total = $total + $venta->saldo;
 
-            $data_detalle = array('venta_id' => $venta->id,
+            $data_detalle = array(
+                'venta_id' => $venta->id,
                 'abonos_ventas_id' => $abonos_ventas_id,
-                'monto' => $venta->saldo );
+                'monto' => $venta->saldo 
+            );
 
             $detalle = new DetalleAbonosVenta;
 
@@ -193,9 +199,16 @@ class SalesPaymentsController extends \BaseController {
     function BalanceDetails($abonos_ventas_id)
     {
         $query = DB::table('detalle_abonos_ventas')
-        ->select('venta_id', 'total', 'monto', 'saldo', DB::raw('(saldo+monto) as saldo_anterior'))
+        ->select(
+            'venta_id', 
+            'total', 
+            'monto', 
+            'saldo', 
+            DB::raw('(saldo+monto) as saldo_anterior')
+        )
         ->join('ventas','ventas.id', '=', 'detalle_abonos_ventas.venta_id')
-        ->where('abonos_ventas_id', '=', $abonos_ventas_id)->get();
+        ->where('abonos_ventas_id', '=', $abonos_ventas_id)
+        ->get();
 
         return $query;
     }
@@ -222,11 +235,17 @@ class SalesPaymentsController extends \BaseController {
 
         $abonos_venta = AbonosVenta::with('cliente','user','metodoPago')->find(Input::get('id'));
 
-        $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
+        $saldo = Venta::whereClienteId($abonos_venta->cliente_id)
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
 
         $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta',  array(
-            'detalle' => $detalle, 'abonos_venta' => $abonos_venta, 'saldo' => $saldo))
-        ->save("pdf/".Input::get('id').Auth::user()->id.'ac.pdf')->setPaper('letter');
+            'detalle' => $detalle, 
+            'abonos_venta' => $abonos_venta, 
+            'saldo' => $saldo
+        ))
+        ->save("pdf/".Input::get('id').Auth::user()->id.'ac.pdf')
+        ->setPaper('letter');
 
         return Response::json(array(
             'success' => true,
@@ -240,9 +259,15 @@ class SalesPaymentsController extends \BaseController {
 
         $abonos_venta = AbonosVenta::with('cliente','user','metodoPago')->find(Input::get('id'));
 
-        $saldo = Venta::where('cliente_id', '=' , $abonos_venta->cliente_id)->first(array(DB::raw('sum(saldo) as total')));
+        $saldo = Venta::whereClienteId($abonos_venta->cliente_id)
+        ->whereTiendaId(Auth::user()->tienda_id)
+        ->first(array(DB::raw('sum(saldo) as total')));
 
-        $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta', array('detalle' => $detalle, 'abonos_venta' => $abonos_venta, 'saldo' => $saldo))->setPaper('letter');
+        $pdf = PDF::loadView('ventas.payments.ImprimirAbonoVenta', array(
+            'detalle' => $detalle, 
+            'abonos_venta' => $abonos_venta, 
+            'saldo' => $saldo))
+        ->setPaper('letter');
 
         return $pdf->stream();
     }

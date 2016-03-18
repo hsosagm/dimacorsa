@@ -127,6 +127,7 @@ class ExportarController extends \BaseController {
             ->join('ventas', 'ventas.user_id', '=', 'users.id')
             ->join('tiendas', 'tiendas.id', '=', 'users.tienda_id')
             ->where('ventas.saldo', '>', 0)
+            ->where('ventas.tienda_id', '=', Auth::user()->tienda_id)
             ->where('ventas.completed', '=', 1)
             ->orderBy('ventas.created_at','asc')
             ->groupBy('user_id')

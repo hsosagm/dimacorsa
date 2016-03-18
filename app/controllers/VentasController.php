@@ -745,16 +745,17 @@ class VentasController extends \BaseController {
 
 	public function getVentasPedientesDePago()
 	{
-		$saldo_total = Venta::where('tienda_id','=',Auth::user()->tienda_id)
-		->where('ventas.completed', '=', 1)
+		$saldo_total = Venta::whereTiendaId(Auth::user()->tienda_id)->whereCompleted(1)
         ->where('saldo','>', 0 )->first(array(DB::Raw('sum(saldo) as total')));
 
         $saldo_vencido = DB::table('ventas')
-        ->select(DB::raw('sum(ventas.saldo) as total'))->where('saldo','>',0)
+        ->select(DB::raw('sum(ventas.saldo) as total'))
         ->join('clientes', 'cliente_id', '=', 'clientes.id')
-        ->where('ventas.completed', '=', 1)
+        ->where('saldo','>',0)
+        ->whereCompleted(1)
         ->where(DB::raw('DATEDIFF(current_date, ventas.created_at)'),'>=','30')
-        ->where('ventas.tienda_id','=',Auth::user()->tienda_id)->first();
+        ->whereTiendaId(Auth::user()->tienda_id)->first();
+
          $tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
 		$infoSaldosTotales = "Saldo total &nbsp;".f_num::get($saldo_total->total)."{$tab}Saldo vencido &nbsp;".f_num::get($saldo_vencido->total);
@@ -832,6 +833,7 @@ class VentasController extends \BaseController {
 	        ->join('tiendas', 'tiendas.id', '=', 'users.tienda_id')
 	        ->where('ventas.saldo', '>', 0)
 	        ->where('ventas.completed', '=', 1)
+	        ->where('ventas.tienda_id', '=', Auth::user()->tienda_id)
 	        ->orderBy('ventas.created_at','asc')
 	        ->groupBy('user_id')
 	        ->get();

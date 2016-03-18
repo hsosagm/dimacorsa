@@ -22,7 +22,8 @@ class ClienteController extends \BaseController {
 
         $cliente = Cliente::with('tipocliente')->find($id);
 
-        $query = Venta::where('cliente_id','=', $id)
+        $query = Venta::whereClienteId($id)
+        ->whereTiendaId(Auth::user()->tienda_id)
         ->where('saldo', '>', 0)
         ->get();
 
@@ -216,7 +217,7 @@ class ClienteController extends \BaseController {
         if (Input::has('_token')) {
 
             $cliente = Cliente::find(Input::get('id'));
-              $data = Input::all();
+            $data = Input::all();
 
             if (Input::get('nit') == "")
                 $data['nit'] = 'C/F';
@@ -270,7 +271,8 @@ class ClienteController extends \BaseController {
 
         $Join = "JOIN users ON (users.id = ventas.user_id)";
 
-        $where = "ventas.cliente_id = ". Input::get('cliente_id');
+        $where  = "ventas.cliente_id = ". Input::get('cliente_id');
+        $where .= " AND ventas.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
@@ -296,14 +298,16 @@ class ClienteController extends \BaseController {
 
         $Search_columns = array("users.nombre", "users.apellido", "clientes.nombre");
         $Join = "JOIN users ON (users.id = devoluciones.user_id) JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
-        $where = "devoluciones.cliente_id = ".Input::get('cliente_id');
+        $where  = "devoluciones.cliente_id = ".Input::get('cliente_id');
+        $where .= " AND devoluciones.tienda_id = ".Auth::user()->tienda_id;
 
         echo TableSearch::get($table, $columns, $Search_columns, $Join, $where );
     }
 
     public function getInfoCliente()
     {
-        $query = Venta::where('cliente_id','=', Input::get('cliente_id'))
+        $query = Venta::whereClienteId(Input::get('cliente_id'))
+        ->whereTiendaId(Auth::user()->tienda_id)
         ->where('saldo', '>', 0)
         ->get();
 
@@ -365,6 +369,7 @@ class ClienteController extends \BaseController {
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
         ->where('saldo', '>', 0)
+        ->where('ventas.tienda_id', '=', Auth::user()->tienda_id)
         ->where('cliente_id', Input::get('cliente_id'))
         ->orderBy('fecha', 'ASC')
         ->get();
@@ -405,6 +410,7 @@ class ClienteController extends \BaseController {
             ->join('users', 'abonos_ventas.user_id', '=', 'users.id')
             ->join('metodo_pago', 'abonos_ventas.metodo_pago_id', '=', 'metodo_pago.id')
             ->where('cliente_id', Input::get('cliente_id'))
+            ->where('abonos_ventas.tienda_id', Auth::user()->tienda_id)
             ->orderBy('fecha', 'DESC')
             ->get();
 
@@ -420,7 +426,9 @@ class ClienteController extends \BaseController {
 
     public function estadoDeCuenta()
     {
-        $ventas = Venta::whereClienteId(Input::get('cliente_id'))->with('user')->where("saldo", ">", "0")->get();
+        $ventas = Venta::whereClienteId(Input::get('cliente_id'))->whereTiendaId(Auth::user()->tienda_id)
+        ->with('user')->where("saldo", ">", "0")->get();
+
         $cliente = Cliente::find(Input::get('cliente_id'));
 
         if (Input::has("pdf"))
@@ -452,7 +460,9 @@ class ClienteController extends \BaseController {
     {
         $cliente_id = Input::get('cliente_id');
 
-        $ventas = Venta::whereClienteId($cliente_id)->with('user')->where("saldo", ">", "0")->get();
+        $$ventas = Venta::whereClienteId(Input::get('cliente_id'))->whereTiendaId(Auth::user()->tienda_id)
+        ->with('user')->where("saldo", ">", "0")->get();
+
         $cliente = Cliente::find($cliente_id);
         $emails [] = "leonel.madrid@hotmail.com";
         $_ENV["MAIL_NAME"] = "ESTADO_DE_CUENTA";
