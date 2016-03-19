@@ -1,7 +1,7 @@
 <?php
 
 class ExportarController extends \BaseController {
-
+    // $tipo = pdf o xls
     public function exportarInventarioActual($tipo)
     {
         $tienda_id = Auth::user()->tienda_id;
@@ -178,7 +178,7 @@ class ExportarController extends \BaseController {
     }
 
     public function ExportarCierreDelMes($tipo,$fecha)
-    { 
+    {
         $ventas = Venta::where('ventas.tienda_id' , '=' , Auth::user()->tienda_id)
         ->join("detalle_ventas", "detalle_ventas.venta_id", "=", "ventas.id")
         ->whereRaw("DATE_FORMAT(ventas.created_at, '%Y-%m')= DATE_FORMAT('{$fecha}', '%Y-%m')")
@@ -257,7 +257,7 @@ class ExportarController extends \BaseController {
         return $this->exportarExel($datos, $vista);
     }
 
-    public function exportarSumaDeVentasPorCliente() 
+    public function exportarSumaDeVentasPorCliente()
     {
         $clientes = DB::table('ventas')
         ->select(
@@ -282,7 +282,7 @@ class ExportarController extends \BaseController {
 
     public function exportarExel($data, $vista)
     {
-        if ($data['tipo'] == 'pdf') 
+        if ($data['tipo'] == 'pdf')
         {
             $pdf = PDF::loadView('exportar.'.$vista, array('data' => $data))
             ->setPaper('letter')->setOrientation($data['orientacion'])->setPaper('letter');
@@ -293,7 +293,7 @@ class ExportarController extends \BaseController {
         Excel::create($data['titulo'], function($excel) use($data, $vista)
         {
             $excel->setTitle($data['titulo']);
-            $excel->setCreator('Leonel Madrid [ leonel.madrid@hotmail.com ]')
+            $excel->setCreator('Gilder Hernandez [ hsosagm@gmail.com ]')
             ->setCompany('Click Chiquimula');
             $excel->setDescription('Creada desde la aplicacion web @powerby Nelug');
             $excel->setSubject('Click');

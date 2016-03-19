@@ -38,11 +38,14 @@
     Route::get('imprimirCorteCaja/{id}'       , 'CajaController@imprimirCorteCaja' );
     Route::get('printDevolucion'              , 'DevolucionesVentasController@printDevolucion' );
 
+    // Esta funcion se usa solo cuando se imprime con qzprint
+    // public_path() Carpeta public de laravel
+    // Input::get('pdf') Trae el nombre del pdf que acaba de crear
     Route::post('/eliminar_pdf', function() {
         $file = public_path().'/pdf/'.Input::get('pdf').'.pdf';
-        if (is_file($file)) {
-            chmod($file,0777);
-            if(!unlink($file)){ }
+        if (is_file($file)) { // Verifica si el archivo existe
+            chmod($file,0777); // Quita los permisos para cualquier usuario lo pueda eliminar
+            unlink($file); // Elimina el archivo
         }
     });
     /******************************************************************************/
@@ -253,7 +256,6 @@
             Route::get('getModalImprimirVenta'                , 'VentasController@getModalImprimirVenta'  );
             Route::get('printInvoice'                         , 'VentasController@printInvoice'  );
             Route::post('enviarVentaACaja'                    , 'VentasController@enviarVentaACaja'  );
-            // Route::get('ImprimirFacturaVenta'                 , 'VentasController@ImprimirFacturaVenta'  );
             Route::get('imprimirFactura'                      , 'VentasController@imprimirFactura'  ); // for test
             Route::get('getVentasPedientesDePago'             , 'VentasController@getVentasPedientesDePago');
             Route::get('getVentasPendientesPorCliente'        , 'VentasController@getVentasPendientesPorCliente' );
@@ -267,6 +269,7 @@
             Route::get('getActualizarPagosVentaFinalizada'    , 'VentasController@getActualizarPagosVentaFinalizada');
             Route::post('actualizarPagosVentaFinalizada'      , 'VentasController@actualizarPagosVentaFinalizada');
             Route::get('getSumaDeVentasPorCliente'            , 'VentasController@getSumaDeVentasPorCliente');
+            // Muestra resumen de los 100 mejores clientes
             Route::get('exportarSumaDeVentasPorCliente'       , 'ExportarController@exportarSumaDeVentasPorCliente');
 
             Route::group(array('prefix' => 'payments'),function()
@@ -358,12 +361,12 @@
         });
 
 
-        Route::post('notaDeCredito/eliminarNotaDeCredito', 'NotaCreditoController@elminiarNotaDecredito');
+        Route::post('notaDeCredito/eliminarNotaDeCredito', 'NotaCreditoController@eliminarNotaDeCredito');
         Route::get('users/buscar', 'UserController@buscar');
 
         Route::group(array('prefix' => 'vista'),function()
         {
-            Route::post('cambiarVistaPuntoDeVenta'   , 'VistaController@cambiarVistaPuntoDeVenta');
+            Route::post('cambiarVistaPuntoDeVenta'   , 'VistaController@cambiarVistaPuntoDeVenta');//limpiar
             Route::post('cambiarVistaAdministardor'  , 'VistaController@cambiarVistaAdministardor');
             Route::post('cambiarVistaPropietario'    , 'VistaController@cambiarVistaPropietario');
         });
@@ -374,24 +377,29 @@
             Route::post('create'                 , 'CajaController@create');
             Route::post('edit'                   , 'CajaController@edit');
             Route::get('asignar'                 , 'CajaController@asignar');
-            Route::get('asignarDt'               , 'CajaController@asignarDt');
-            Route::post('desAsignarDt'           , 'CajaController@desAsignarDt');
+            Route::get('asignarDt'               , 'CajaController@asignarDt');//limpiar
+            Route::post('desAsignarDt'           , 'CajaController@desAsignarDt');//limpiar
             Route::post('asignar'                , 'CajaController@asignar');
             Route::post('asignarDt'              , 'CajaController@asignarDt');
             Route::get('getConsultarCajas'       , 'CajaController@getConsultarCajas');
             Route::get('DtConsultarCajas'        , 'CajaController@DtConsultarCajas' );
+
+            // se encuentra en el menu de admin->cierre->corted de caja
             Route::get('cortesDeCajaPorDia'      , 'CajaController@cortesDeCajaPorDia');
             Route::get('DtCortesDeCajasPorDia'   , 'CajaController@DtCortesDeCajasPorDia');
+            // se ejecuta desde datatables cortesDeCajaPorDia para ver el detalle de corte de la caja seleccionada
             Route::post('getMovimientosDeCajaDt' , 'CajaController@getMovimientosDeCajaDt');
+
+            // se encuentra en el menu de admin->cierre->movimientos de cajas2
             Route::get('resumenDeActividadActualDeCajas' , 'CajaController@resumenDeActividadActualDeCajas');
 
         });
 
         Route::group(array('prefix' => 'kardex'),function()
         {
-            Route::get('getKardexPorFecha/{consulta}'          , 'KardexController@getKardexPorFecha');
-            Route::get('DtKardexPorFecha/{consulta}'           , 'KardexController@DtKardexPorFecha');
-            Route::get('exportarKardex/{tipo}'                       , 'KardexController@exportarKardex');
+            Route::get('getKardexPorFecha/{consulta}' , 'KardexController@getKardexPorFecha');
+            Route::get('DtKardexPorFecha/{consulta}'  , 'KardexController@DtKardexPorFecha');
+            Route::get('exportarKardex/{tipo}'        , 'KardexController@exportarKardex');
         });
 
 
@@ -448,7 +456,7 @@
         Route::group(array('prefix' => 'cierre'),function()
         {
             Route::get('CierreDelDia'                        , 'CierreController@CierreDelDia' );
-            Route::get('getCierreDelDia'                     , 'CierreController@getCierreDelDia' );
+            Route::get('getCierreDelDia'                     , 'CierreController@getCierreDelDia' );// desde las Graficas
             Route::get('cierre'                              , 'CierreController@cierre' );
             Route::post('cierre'                             , 'CierreController@cierre' );
             Route::get('CierreDelMes'                        , 'CierreController@CierreDelMes' );
@@ -587,6 +595,7 @@
         Route::group(array('prefix' => 'kits'), function()
         {
             Route::get('create', 'App\kits\KitsController@create');
+            Route::post('create', 'App\kits\KitsController@create');
             Route::get('table_productos', 'App\kits\KitsController@table_productos');
             Route::post('crearProducto', 'App\kits\KitsController@crearProducto');
         });
@@ -741,7 +750,8 @@
 
     Route::get('/test', function()
     {
-        
+        Schema::drop('kit_detalle');
+        Schema::drop('kits');
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

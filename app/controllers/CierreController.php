@@ -6,21 +6,19 @@ class CierreController extends \BaseController {
     {
         if (Input::has('cierre_id_dt')) {
             $fechaCierre = Cierre::find(Input::get('cierre_id_dt'));
-            $datos['fecha_inicial'] = $fechaCierre->fecha_inicial; 
+            $datos['fecha_inicial'] = $fechaCierre->fecha_inicial;
             $datos['fecha_final'] = $fechaCierre->fecha_final;
         }
-         
+
         if (Input::has('fecha')) {
-            $datos['fecha_inicial'] = Carbon::createFromFormat('Y-m-d', Input::get('fecha'))->startOfDay(); 
+            $datos['fecha_inicial'] = Carbon::createFromFormat('Y-m-d', Input::get('fecha'))->startOfDay();
             $datos['fecha_final'] = Carbon::createFromFormat('Y-m-d', Input::get('fecha'))->endOfDay();
-        } 
-        
-        $dt = Carbon::createFromFormat('Y-m-d', substr($datos['fecha_inicial'],0,10));//? Revisar
+        }
 
         $fecha_titulo  = 'CIERRE DIARIO DE '.$datos['fecha_inicial'].' - '.$datos['fecha_final'];
 
         $titulo ['fecha'] = $fecha_titulo;
-        
+
         $data = $this->resumen_movimientos($datos);
         $dataDetalle = $this->resumenMovimientosDetallado($datos);
 
@@ -28,7 +26,7 @@ class CierreController extends \BaseController {
 
         return View::make('cierre.getCierreDia', compact('data','datos','dataDetalle','corte_realizado', 'titulo'));
     }
- 
+
     public function CierreDelDia()
     {
         $datos['fecha_inicial'] = Cierre::whereTiendaId(Auth::user()->tienda_id)->max('created_at');
@@ -50,7 +48,6 @@ class CierreController extends \BaseController {
     public function enviarCorreoPDF($cierre_id)
     {
         $cierre = Cierre::find($cierre_id);
-        $dt = Carbon::now();
 
         $tienda = Tienda::find(Auth::user()->tienda_id);
         $tienda_titulo = "{$tienda->nombre}, {$tienda->direccion}";
@@ -96,7 +93,7 @@ class CierreController extends \BaseController {
         $fecha = Input::get('fecha');
         $fecha_enviar = "'{$fecha}'";
 
-        if ($fecha == 'current_date') 
+        if ($fecha == 'current_date')
         {
             $fecha_enviar = 'current_date';
             $dt = Carbon::now();
@@ -314,7 +311,7 @@ class CierreController extends \BaseController {
             'deposito'    =>"0.00",
             'notaCredito' =>"0.00",
             'total'       =>"0.00"
-        ); 
+        );
 
         foreach ($Query as $key => $val)
         {
@@ -399,7 +396,7 @@ class CierreController extends \BaseController {
 
         if (@$fecha_env->created_at == null)
             $fecha_env = Carbon::now();
-        else  
+        else
             $fecha_env = Carbon::createFromFormat('Y-m-d H:i:s', $fecha_env->created_at);
 
         $data['dia_inicio'] = $fecha_env;
@@ -434,19 +431,19 @@ class CierreController extends \BaseController {
                 return $cierre->errors();
 
             $this->enviarCorreoPDF($cierre->get_id());
-            
+
             return Response::json(array(
                 'success' => true ,
                 'id' => $cierre->get_id()
             ));
         }
-        
-        if (Auth::user()->tienda->cajas) 
+
+        if (Auth::user()->tienda->cajas)
         {
             $cajas = new CajaController;
             $cajaEstado = $cajas->getEstadoDeCajas();
 
-            if (!$cajaEstado) 
+            if (!$cajaEstado)
                 return 'una de las cajas no tiene datos a "0"';
         }
 
@@ -531,7 +528,7 @@ class CierreController extends \BaseController {
         ->where("{$tabla_master}s.tienda_id", '=', Auth::user()->tienda_id)
         ->where("{$tabla_master}s.abono", '=', 0)
         ->groupBy('metodo_pago.id')->get();
-        //->where("{$tabla_master}s.canceled", '=', 0) 
+        //->where("{$tabla_master}s.canceled", '=', 0)
 
         return $this->llenar_arreglo($Query);
     }
@@ -553,13 +550,13 @@ class CierreController extends \BaseController {
 
     //nombre de la tabla que tiene el campo esta en singular
     public function __query( $tabla ,$tabla_master, $campo, $data )
-    {   
+    {
         $tabla_master_id = $tabla_master;
 
-        if ($tabla_master == 'devoluciones') 
+        if ($tabla_master == 'devoluciones')
             $tabla_master_id = substr($tabla_master, 0, -2);
 
-        if ($tabla_master == 'adelantos') 
+        if ($tabla_master == 'adelantos')
             $tabla_master_id = substr($tabla_master, 0, -1);
 
         $Query = DB::table('metodo_pago')
@@ -653,7 +650,7 @@ class CierreController extends \BaseController {
         $data['fecha'] = $date;
         $data['fecha_input'] = $date->formatLocalized('%Y-%m-%d');
 
-        if (Input::get('grafica') == true ) 
+        if (Input::get('grafica') == true )
              return View::make('cierre.CierreMes', compact('ventas_usuarios', 'data'));
 
         return View::make('cierre.balanceGeneral', compact('ventas_usuarios', 'data'));

@@ -437,11 +437,11 @@ $('[data-action=collapse_head]').click(function(){
 
 function fopen_kit() {
     $.ajax({
-      type: "GET",
-      url: "admin/kits/create"
+        type: "GET",
+        url: "admin/kits/create"
     }).done(function(data) {
         if (!data.success)
-            return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!')
+            return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
 
         $('.panel-title').text('Formulario kit');
         $(".forms").html(data.form);
