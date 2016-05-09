@@ -2,6 +2,8 @@
 
 class GastoController extends \BaseController {
 
+    protected $table;
+
     public function __construct(Table $table)
     {
         $this->table = $table;
@@ -13,18 +15,16 @@ class GastoController extends \BaseController {
         {
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
 
-            if (floatval(Input::get('monto')) > $this->efectivoCaja()) 
-                return "No puedes ingresar un gasto mayor al efectivo que tienes en caja..!";
+            if (Input::get('metodo_pago_id') == 1)
+                if (Input::get('monto') > $this->efectivoCaja())
+                    return "No se puede ingresar un gasto en efectivo mayor al efectivo que tiene en caja..!";
 
-            $query = new DetalleGasto;
+            $detalleGasto = new DetalleGasto;
 
-            if ($query->_create())
-            {
-                $href = 'user/gastos/delete_detail';
-                return Response::json(array('success' => true, 'detalle' => $this->table->detail($query, 'gasto_id', $href )));
-            }
+            if ($detalleGasto->_create())
+                return Response::json(array('success' => true, 'detalle' => $this->table->detail($detalleGasto, 'gasto_id', 'user/gastos/delete_detail')));
 
-            return $query->errors();
+            return $detalleGasto->errors();
         }
 
         $gasto = new Gasto;
@@ -32,7 +32,7 @@ class GastoController extends \BaseController {
 
         $data = Input::all();
 
-        if(Auth::user()->tienda->cajas) 
+        if (Auth::user()->tienda->cajas)
             $data['caja_id'] = $caja->id;
 
         if (!$gasto->create_master($data))
@@ -67,21 +67,21 @@ class GastoController extends \BaseController {
         $caja = Caja::whereUserId(Auth::user()->id)->first();
 
         $datos['fecha_inicial'] = CierreCaja::whereCajaId($caja->id)->max('created_at');
-        $datos['fecha_final']   = Carbon::now();
+        $datos['fecha_final'] = Carbon::now();
         $datos['caja_id'] = $caja->id;
 
         $cajaController = new CajaController;
         $data = $cajaController->resumen_movimientos($datos);
 
         $efectivo  = $data['soporte']['efectivo'];
-        $efectivo += $data['pagos_ventas']['efectivo']; 
-        $efectivo += $data['abonos_ventas']['efectivo']; 
-        $efectivo += $data['ingresos']['efectivo']; 
+        $efectivo += $data['pagos_ventas']['efectivo'];
+        $efectivo += $data['abonos_ventas']['efectivo'];
+        $efectivo += $data['ingresos']['efectivo'];
         $efectivo -= $data['adelanto']['efectivo'];
-        $efectivo -= $data['gastos']['efectivo']; 
-        $efectivo -= $data['egresos']['efectivo']; 
+        $efectivo -= $data['gastos']['efectivo'];
+        $efectivo -= $data['egresos']['efectivo'];
         $efectivo -= $data['devolucion']['efectivo'];
 
-        return floatval($efectivo);
+        return $efectivo;
     }
 }

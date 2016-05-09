@@ -1,4 +1,4 @@
-{{ Form::open(array('data-remote-PurchasePayment')) }} 
+{{ Form::open(array('data-remote-PurchasePayment')) }}
 
 <input type="hidden" name="compra_id" value="{{Input::get('compra_id')}}">
 <div class="row totales-pagos" >
@@ -25,7 +25,7 @@
 
 {{Form::close()}}
 
-<style type="text/css"> 
+<style type="text/css">
    .modal-body { padding: 0px 0px 0px; }
    .bs-modal .Lightbox{ width: 450px !important; }
 </style>

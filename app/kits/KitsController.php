@@ -20,7 +20,12 @@ class KitsController extends \BaseController {
             if (!$kit->create_master())
                 return $kit->errors();
 
-            return 33;
+            $kit_id = $kit->get_id();
+
+            return Response::json(array(
+                'success' => true,
+                'detalle' => View::make('kits::detalle', compact('kit_id'))->render()
+            ));
 		}
 
 		return Response::json(array(

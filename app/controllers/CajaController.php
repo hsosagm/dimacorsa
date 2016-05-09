@@ -1,7 +1,7 @@
 <?php
 
 class CajaController extends \BaseController
-{ 
+{
 	//funcion para crear cajas pero antes de crear verificar si la tienda ya creo las cantidad de cajas disponibles
 	public function create()
     {
@@ -127,20 +127,20 @@ class CajaController extends \BaseController
             'success' => true,
             'view' => View::make('cajas.movimientosDeCaja', compact('data','datos'))->render()
         ));
-    } 
+    }
 
     public function getEstadoDeCajas() {
         $caja = Caja::whereTiendaId(Auth::user()->tienda_id)->get(array('id', 'nombre', 'user_id'));
         $data = array();
 
-        foreach ($caja as $dt) 
+        foreach ($caja as $dt)
         {
             $data[] = $this->detalleResumenDeActividadDeCajas($dt);
         }
 
-        foreach ($data as $dt) 
+        foreach ($data as $dt)
         {
-            if (floatval($dt['efectivo']) > 0 || floatval($dt['cheque']) > 0 || floatval($dt['tarjeta']) > 0 || floatval($dt['deposito']) > 0) 
+            if (floatval($dt['efectivo']) > 0 || floatval($dt['cheque']) > 0 || floatval($dt['tarjeta']) > 0 || floatval($dt['deposito']) > 0)
             {
                 return false;
             }
@@ -170,14 +170,14 @@ class CajaController extends \BaseController
     public function resumen_movimientos($datos)
     {
         $data = [];
-        $data['pagos_ventas']             =   $this->Vquery('pagos_ventas', 'venta', 'monto',$datos);
-        $data['abonos_ventas']            =   $this->query('abonos_ventas', 'monto', $datos);
-        $data['soporte']                  =   $this->__query('detalle_soporte', 'soporte', 'monto',$datos);
-        $data['ingresos']                 =   $this->_query('detalle_ingresos', 'ingreso', 'monto',$datos);
-        $data['egresos']                  =   $this->_query('detalle_egresos', 'egreso', 'monto',$datos);
-        $data['gastos']                   =   $this->_query('detalle_gastos', 'gasto', 'monto', $datos);
-        $data['devolucion']               =   $this->__query('devoluciones_pagos', 'devoluciones','monto', $datos);
-        $data['adelanto']                 =   $this->__query('adelantos_pagos', 'adelantos','monto', $datos);
+        $data['pagos_ventas']  = $this->Vquery('pagos_ventas', 'venta', 'monto',$datos);
+        $data['abonos_ventas'] = $this->query('abonos_ventas', 'monto', $datos);
+        $data['soporte']       = $this->__query('detalle_soporte', 'soporte', 'monto',$datos);
+        $data['ingresos']      = $this->_query('detalle_ingresos', 'ingreso', 'monto',$datos);
+        $data['egresos']       = $this->_query('detalle_egresos', 'egreso', 'monto',$datos);
+        $data['gastos']        = $this->_query('detalle_gastos', 'gasto', 'monto', $datos);
+        $data['devolucion']    = $this->__query('devoluciones_pagos', 'devoluciones','monto', $datos);
+        $data['adelanto']      = $this->__query('adelantos_pagos', 'adelantos','monto', $datos);
 
         return $data;
     }
@@ -236,10 +236,10 @@ class CajaController extends \BaseController
     {
         $tabla_master_id = $tabla_master;
 
-        if ($tabla_master == 'devoluciones') 
+        if ($tabla_master == 'devoluciones')
             $tabla_master_id = substr($tabla_master, 0, -2);
 
-        if ($tabla_master == 'adelantos') 
+        if ($tabla_master == 'adelantos')
             $tabla_master_id = substr($tabla_master, 0, -1);
 
         $Query = DB::table('metodo_pago')
@@ -266,7 +266,7 @@ class CajaController extends \BaseController
 			'notaCredito' =>"0.00",
             'total'       =>"0.00"
         );
- 
+
         foreach ($Query as $key => $val)
         {
             if($val->id == 1)
@@ -283,7 +283,7 @@ class CajaController extends \BaseController
 
             if($val->id == 5)
                 $arreglo_ordenado['deposito'] = $val->total;
-				
+
 			if($val->id == 6)
                 $arreglo_ordenado['notaCredito'] = $val->total;
 
@@ -450,9 +450,9 @@ class CajaController extends \BaseController
 
         $data = $this->resumen_movimientos($datos);
 
-	    $pdf = PDF::loadView('cajas.detalleMovimientos', compact('data', 'datos', 'cierre_caja')); 
+	    $pdf = PDF::loadView('cajas.detalleMovimientos', compact('data', 'datos', 'cierre_caja'));
         //$pdf->download("corete_caja_{$cierre_caja->fecha_inicial}__{$cierre_caja->fecha_final}_CajaId_{$cierre_caja->caja_id}.pdf");
-	    
+
         return $pdf->stream('Caja');
 	}
 

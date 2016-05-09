@@ -8,12 +8,12 @@ class Table {
       $table = '<table width="100%">';
         foreach($detalle as $ds)
         {
-            $table .= 
+            $table .=
             '<tr>
             <td width="40%">' . $ds->descripcion . '</td>
             <td class="right" width="20%">Q ' . f_num::get($ds->monto) . '</td>
             <td class="center" width="20%">' . $ds->metodo_pago->descripcion . '</td>
-            <td class="center" width="10%"><i class="fa fa-times pointer btn-link theme-c" id="'.$ds->id.'" href="'.$href.'" onclick="DeleteDetalle(this);"  title="Eliminar"></i></td>
+            <td class="center" width="10%"><i class="fa fa-times pointer btn-link theme-c" id="'.$ds->id.'" href="'.$href.'" onclick="DeleteDetalle(this);" title="Eliminar"></i></td>
             </tr>';
         }
         $table .= '</table>';
@@ -43,7 +43,7 @@ class Table {
         {
             $total = $dt->precio * $dt->cantidad;
 
-            $detalle.= 
+            $detalle.=
             '<tr>
             <td class="hide">' .$dt->producto_id. '</td>
             <td width="10%" style="text-align:right !important; padding-right:10px !important;">' .$dt->cantidad . '</td>

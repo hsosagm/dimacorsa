@@ -26,7 +26,7 @@
             <label class="col-md-3">@{{ producto.existencia | currency ' '}}</label>
         </div>
     </div>
-    <div v-if="!formNewProduc" class="form-footer footer" align="right">
+    <div v-if="!formNewProduc" v-show="!kit_id" class="form-footer footer" align="right">
           <i v-on="click: startKit" class="fa fa-check fa-lg fg-theme" style="margin-right:10px"></i>
     </div>
 
@@ -67,6 +67,10 @@
         {{ Form::close() }}
     </div>
 
+    <div class="master-detail">
+        <div class="master-detail-body"></div>
+    </div>
+
 </div>
 
 <script type="text/javascript">
@@ -79,6 +83,7 @@
             formNewProduc: false,
             kit_id: '',
             producto: [],
+            producto_detalle: [],
             detalleTable: [],
             totalKit: 0
         },
@@ -193,25 +198,36 @@
                     data: {
                         _token: this._token,
                         producto_id: this.producto.id,
-                        cantidad:    $("input[name=cantidad]").val()
+                        cantidad: $("input[name=cantidad]").val()
                     },
                 }).done(function(data) {
-                    return console.log(data)
                     if (!data.success)
                         return msg.warning(data, 'Advertencia!')
 
-                    ventas.detalleTable = data.detalle
+                    $('.master-detail-body').slideUp('slow',function() {
+                        $('.master-detail-body').html(data.detalle)
+                        $('.master-detail-body').slideDown('slow', function() {
+                            $("input[name=codigo]").focus()
+                        })
+                    })
                 })
             },
         }
-});
+    });
 
-$("#buscarMarca").autocomplete({
-    serviceUrl: 'admin/marcas/buscar',
-    onSelect: function (q) {
-        $("input[name='marca_id']").val(q.id);
-    }
-});
+    $("#buscarMarca").autocomplete({
+        serviceUrl: 'admin/marcas/buscar',
+        onSelect: function (q) {
+            $("input[name='marca_id']").val(q.id);
+        }
+    });
+
+    function kits_compile()
+    {
+        kits.$nextTick(function() {
+            kits.$compile(kits.$el);
+        });
+    };
 
 </script>
 

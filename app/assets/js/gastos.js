@@ -12,25 +12,19 @@ function f_gastos() {
 };
 
 function delete_gasto() {
-    $id = $("input[name='gasto_id']").val();;
-    $url = "user/gastos/delete_master";
-
     $.confirm({
-        confirm: function(){
+        confirm: function() {
             $.ajax({
                 type: "POST",
-                url: $url,
-                data: { id: $id },
-                contentType: 'application/x-www-form-urlencoded',
-                success: function (data, text) {
-                    if ($.trim(data) == 'success') {
-                        msg.success('Gasto eliminado', 'Listo!')
-                       $('.bs-modal').modal('hide');
-                    }
-                    else {
-                        msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!')
-                    }
+                url: "user/gastos/delete_master",
+                data: { id: $("input[name='gasto_id']").val() },
+            }).done(function(data) {
+                if (data == 'success') {
+                    msg.success('Gasto eliminado', 'Listo!');
+                   return $('.bs-modal').modal('hide');
                 }
+
+                msg.warning('Hubo un erro al tratar de eliminar', 'Advertencia!');
             });
         }
     });

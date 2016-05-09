@@ -14,8 +14,8 @@ class PurchasePaymentsController extends \BaseController {
         AbonosCompra::destroy(Input::get('id'));
 
         return 'success';
-	} 
- 
+	}
+
 	public function formPayment()
 	{
 		$saldo_vencido = $this->OverdueBalance();
@@ -36,7 +36,7 @@ class PurchasePaymentsController extends \BaseController {
             $compras = Compra::where('proveedor_id', Input::get('proveedor_id'))
             ->where('saldo', '>', 0)
             ->where('tienda_id', '=', Auth::user()->tienda_id)
-            ->orderBy('created_at', 'ASC')
+            ->orderBy('fecha_documento', 'ASC')
             ->get();
 
             if (!count($compras) ) {
@@ -54,7 +54,7 @@ class PurchasePaymentsController extends \BaseController {
 
             $monto = Input::get('monto');
 
-			foreach ($compras as $compra) 
+			foreach ($compras as $compra)
 			{
 				$detalleAbono = new DetalleAbonosCompra;
 			    $detalleAbono->abonos_compra_id = $abonos_compra_id;
@@ -235,14 +235,14 @@ class PurchasePaymentsController extends \BaseController {
     	{
     		$compra = Compra::find($ids_compra[$i]);
 
-            if (!$compra) 
+            if (!$compra)
             	return false;
 
     		$total = $total + $compra->saldo;
 
 			$data_detalle = array('compra_id' => $compra->id,
 				'abonos_compra_id' => $abonos_compra_id,
-				'monto' => $compra->saldo 
+				'monto' => $compra->saldo
 			);
 
 			$detalle = new DetalleAbonosCompra;
@@ -283,7 +283,7 @@ class PurchasePaymentsController extends \BaseController {
 
         return array(
         	'saldo_total' => $saldo_total->total ,
-        	'saldo_vencido' => $saldo_vencido->total 
+        	'saldo_vencido' => $saldo_vencido->total
         );
     }
 

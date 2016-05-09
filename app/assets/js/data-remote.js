@@ -69,16 +69,17 @@ $(document).on('submit', 'form[data-remote-md-2]', function(e) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            if (data.success == true) {
-                msg.success(form.data('success'), 'Listo!');
-                $('.master-detail-body2').html(data.detalle);
-                form.trigger('reset');
-                return $('input[type=submit]', form).removeAttr('disabled');
-            }
-            msg.warning(data, 'Advertencia!');
             $('input[type=submit]', form).removeAttr('disabled');
+
+            if (!data.success)
+                return msg.warning(data, 'Advertencia!');
+
+            msg.success(form.data('success'), 'Listo!');
+            $('.master-detail-body2').html(data.detalle);
+            form.trigger('reset');
         }
     });
+
     e.preventDefault();
 });
 

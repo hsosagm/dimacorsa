@@ -61,8 +61,8 @@ function _view_existencias() {
 
 function inventario() {
     $.get( "admin/inventario/?opcion=1", function( data ) {
-        $('.dt-panel').html(data.table);        
-        $('.dt-panel').show();        
+        $('.dt-panel').html(data.table);
+        $('.dt-panel').show();
     });
 };
 
@@ -82,11 +82,11 @@ function getStockMinimo() {
 
 function getKardexDetail(e, transaccion, transaccion_id, evento) {
     var ruta = "";
-    if ($.trim(transaccion) == "ventas") 
+    if ($.trim(transaccion) == "ventas")
         ruta = "user/ventas/showSalesDetail?venta_id="+transaccion_id;
-    if ($.trim(transaccion) == "descargas") 
+    if ($.trim(transaccion) == "descargas")
         ruta = "admin/descargas/showgDownloadsDetail?descarga_id="+transaccion_id;
-    if ($.trim(transaccion) == "compras") 
+    if ($.trim(transaccion) == "compras")
         ruta = "admin/compras/showPurchaseDetail?id="+transaccion_id;
 
     if ($.trim(transaccion) == "traslados") {
@@ -98,9 +98,9 @@ function getKardexDetail(e, transaccion, transaccion_id, evento) {
         ruta = "admin/traslados/getDetalleTraslado?traslado_id="+transaccion_id+"&opcion="+$opcion;
     }
 
-    if ($.trim(transaccion) == "devolucion") 
+    if ($.trim(transaccion) == "devolucion")
         ruta = "user/ventas/devoluciones/getDevolucionesDetail?devolucion_id="+transaccion_id;
-    if ($.trim(transaccion) == "ajuste") 
+    if ($.trim(transaccion) == "ajuste")
         return msg.warning("Los ajustes no tienen detalle...", 'Advertencia!');
 
     if ($(e).hasClass("hide_detail")) {
@@ -137,4 +137,3 @@ function KardexDetalle(e, ruta) {
         }
     });
 };
- 

@@ -4,15 +4,15 @@
     <input name="{{$name}}" value="{{$id}}" type="text" class="hide">
 
     <div class="form-group">
-         <div class="col-lg-4"> 
+         <div class="col-lg-4">
             Descripcion:
         </div>
 
-        <div class="col-lg-3"> 
+        <div class="col-lg-3">
             Monto:
         </div>
 
-        <div class="col-lg-3">  
+        <div class="col-lg-3">
             Metodo de Pago:
         </div>
 
@@ -20,18 +20,18 @@
 
         </div>
     </div>
-    
+
     <div class="form-group">
-         <div class="col-lg-4"> 
+         <div class="col-lg-4">
             <input name="descripcion" type="text" class="form-control input" autocomplete="off">
         </div>
 
-        <div class="col-lg-3"> 
+        <div class="col-lg-3">
             <input name="monto" type="text" class="form-control numeric" autocomplete="off">
         </div>
 
-        <div class="col-lg-3">                               
-        
+        <div class="col-lg-3">
+
          {{ Form::select('metodo_pago_id', MetodoPago::where('id','!=',2)->where('id','!=',6)->where('id','!=',7)
          ->lists('descripcion', 'id') ,'', array('class'=>'form-control')) }}
         </div>
@@ -70,5 +70,5 @@
     margin: 0px 0px 0px 0px !important;
     background: white;
 }
-    
+
 </style>

@@ -7,7 +7,7 @@ class CompraController extends \BaseController {
 		if (Input::has('_token'))
 		{
 			$compra = new Compra;
- 
+
 			if (!$compra->create_master())
 				return $compra->errors();
 
@@ -150,7 +150,7 @@ class CompraController extends \BaseController {
 
 		ProcesarCompra::set(Input::get('compra_id'),"nota", @$credito->monto, $total_compra);
 
-		return 'success'; 
+		return 'success';
 	}
 
 	public function OpenModalPurchaseItemSerials()
@@ -453,7 +453,7 @@ class CompraController extends \BaseController {
 		$compras = DB::table('compras')
 		->select(DB::raw("compras.fecha_documento as fecha,
 			compras.created_at as  fecha_ingreso,
-			CONCAT_WS(' ',users.nombre,users.apellido) as usuario,
+			CONCAT_WS(' ', users.nombre, users.apellido) as usuario,
 			proveedores.nombre as proveedor,
 			numero_documento,
 			compras.id as id ,
@@ -544,7 +544,7 @@ class CompraController extends \BaseController {
 
 	public function getComprasPendientesPorProveedor()
 	{
-		if (Input::has('dt')) 
+		if (Input::has('dt'))
 		{
 			$table = "compras";
 
@@ -643,9 +643,9 @@ class CompraController extends \BaseController {
 		);
 
 		$Searchable = array(
-			"users.nombre", 
-			"users.apellido", 
-			"observaciones", 
+			"users.nombre",
+			"users.apellido",
+			"observaciones",
 			"metodo_pago.descripcion",
 			"abonos_compras.monto"
 		);
@@ -653,7 +653,7 @@ class CompraController extends \BaseController {
 		$Join  = " JOIN users ON (users.id = abonos_compras.user_id)";
 		$Join .= " JOIN tiendas ON (tiendas.id = abonos_compras.tienda_id)";
 		$Join .= " JOIN metodo_pago ON (metodo_pago.id = abonos_compras.metodo_pago_id)";
-		
+
 		$where = " proveedor_id = ".Input::get('proveedor_id');
 		$where.= " AND abonos_compras.tienda_id = ".Auth::user()->tienda_id;
 
@@ -681,7 +681,7 @@ class CompraController extends \BaseController {
 			$pagos->monto = $dp['monto'];
 			$pagos->metodo_pago_id = $dp['metodo_pago_id'];
 			$pagos->save();
-			
+
 			if($dp['metodo_pago_id'] == 2)
 				$credito =  $dp['monto'];
 		}

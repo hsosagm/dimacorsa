@@ -8,7 +8,7 @@ class BaseController extends Controller {
 	    $model = str_replace('Controller', "", $class);
 	    return new $model;
     }
- 
+
     public function getView()
     {
 		$class = get_class($this);
@@ -57,9 +57,7 @@ class BaseController extends Controller {
     	$delete = $this->getModel()->destroy(Input::get('id'));
 
     	if ($delete)
-    	{
     		return 'success';
-    	}
 
     	return 'error';
     }
@@ -69,9 +67,7 @@ class BaseController extends Controller {
         $delete = $this->getModel()->destroy(Input::get('id'));
 
         if ($delete)
-        {
             return 'success';
-        }
 
         return 'error';
     }

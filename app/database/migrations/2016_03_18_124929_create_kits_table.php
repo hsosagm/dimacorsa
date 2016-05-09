@@ -18,6 +18,7 @@ class CreateKitsTable extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->integer('tienda_id')->unsigned();
 			$table->integer('producto_id')->unsigned();
+			$table->integer('cantidad')->unsigned();
 			$table->decimal('total', 8, 2)->default(0.00);
 			$table->string('observaciones')->nullable();
 			$table->boolean('completed')->default(0);
