@@ -268,13 +268,12 @@ class VentasController extends \BaseController {
             }
         }
 
-    	$insert = DB::table('pagos_ventas')->insert(Input::get('payments'));
-
-    	if (!$insert) {
-            return Response::json(array(
-                'success' => false,
-                'msg'     => "Hubo un error al tratar de guardar los pagos"
-            ));
+        foreach (Input::get('payments') as $payment) {
+            $pv = new PagosVenta;
+            $pv->monto = $payment['monto'];
+            $pv->metodo_pago_id = $payment['metodo_pago_id'];
+            $pv->venta_id = $payment['venta_id'];
+            $pv->save();
         }
 
         if (count(Input::get('notasDeCredito'))) {

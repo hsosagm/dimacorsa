@@ -1,6 +1,7 @@
 <?php
 
 // $('#example').dataTable().fnStandingRedraw();
+//$ex->ex -= $dv['cant'];
 
 echo get_class( Auth::getFacadeRoot() ); // echos Illuminate\Auth\AuthManager
 
