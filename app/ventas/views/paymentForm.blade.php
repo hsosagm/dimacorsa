@@ -222,9 +222,6 @@
                         detalleVenta:   ventas.detalleTable
                     },
                 }).done(function(data) {
-                    return alert(data);
-                    return console.log(data);
-
                     if (!data.success)
                         return msg.warning(data.msg, "Advertencia!");
 
