@@ -95,6 +95,7 @@ function cliente_update_modal(e,element) {
             if (data.success == true)  {
                 msg.success('Cliente Actualizado..!', 'Listo!');
                 $('.bs-modal').modal('hide');
+                $('#example').dataTable().fnStandingRedraw();
             }
             else {
                 msg.warning(data, 'Advertencia!');

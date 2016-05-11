@@ -1,5 +1,7 @@
 <?php
 
+// $('#example').dataTable().fnStandingRedraw();
+
 echo get_class( Auth::getFacadeRoot() ); // echos Illuminate\Auth\AuthManager
 
 Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
@@ -17,7 +19,7 @@ $query = DB::table('detalle_venta')
 var_dump( $query );
 
 {{ Form::open(array('data-remote-md', 'data-success' => 'Venta Generada')) }}
-    
+
     {{ Form::hidden('cliente_id') }}
 
     <div class="row">
@@ -26,7 +28,7 @@ var_dump( $query );
                 <tr>
                     <td>Cliente:</td>
                     <td>
-                        <input type="text" id="cliente_id"> 
+                        <input type="text" id="cliente_id">
                         <i class="fa fa-question-circle btn-link theme-c" id="cliente_help"></i>
                         <i class="fa fa-pencil btn-link theme-c" id="cliente_edit"></i>
                         <i class="fa fa-plus-square btn-link theme-c" id="cliente_create"></i>
@@ -94,7 +96,7 @@ $('.date').pickadate({
 </script>
 
 
-SELECT * FROM foo WHERE a = 'a' 
+SELECT * FROM foo WHERE a = 'a'
 AND (
     WHERE b = 'b'
     OR WHERE c = 'c'
@@ -111,7 +113,7 @@ Foo::where( 'a', '=', 'a' )
     ->where( 'd', '=', 'd' )
     ->get();
 
-    
+
 Route::get('search', function()
 {
     $q = 'Her nandez Hernandez el';
@@ -163,7 +165,7 @@ $test = array(
     'first_name' => 'Admin',
     'last_name'  => 'Admin',
     'email'      => 'admin@gmail.com',
-    'password' => Hash::make('admin') 
+    'password' => Hash::make('admin')
 );
 
 return $test['email'];
@@ -239,7 +241,7 @@ With the following
 
 Event::listen('illuminate.query', function($query, $bindings, $time, $name)
 {
-  // Code to log query goes here  
+  // Code to log query goes here
 });
 
 I then placed in my /app/start/global.php the following line
@@ -260,14 +262,14 @@ Route::get('test', function() {
 Route::get('/test', function() {
 
     $DetalleSoporte = DetalleSoporte::find(114);
-    
+
     echo $DetalleSoporte->metodoPago->descripcion;
 
     $producto = Producto::find(1003975);
 
     echo $producto->marcaa->nombre;
 
-}); 
+});
 
 
 $data = Input::all();
@@ -288,7 +290,7 @@ public function __construct()
         $this->beforeFilter('serviceAuth');
         $this->beforeFilter('serviceCSRF');
     }
-    
+
 
 public function __construct() {
     $this->beforeFilter('csrf', array('on'=>'post'));
@@ -326,7 +328,7 @@ $query = DB::table('category_issue')
     ->order_by('followers', 'desc')
     ->get();
 
-    
+
 @if (count($books))
     @foreach($books as $book)
         @include('books.single', $book)
@@ -353,7 +355,7 @@ public static function tableName()
 
 $csvFile = 'http://localhost/laravel/public/tablas/producto.csv';
 $csvFile = public_path().'/tablas/producto.csv';
-        
+
 @if (count($records))
     @foreach ($records as $record)
         @include('record.item', $record)
@@ -372,31 +374,31 @@ class Meses {
         {
             $dt = Carbon::now()->addMonths($i);
 
-            $months[] = $dt->format('F'); 
+            $months[] = $dt->format('F');
 
             $meses = $months[$i];
 
-            $mesArray = array( 
+            $mesArray = array(
                 'January' => "Enero",
                 'February' => "Febrero",
                 'March' => "Marzo",
-                'April' => "Abril", 
+                'April' => "Abril",
                 'May' => "Mayo",
-                'June' => "Junio", 
-                'July' => "Julio", 
+                'June' => "Junio",
+                'July' => "Julio",
                 'August' => "Agosto",
-                'September' => "Septiembre", 
-                'October' => "Octubre", 
-                'November' => "Noviembre", 
-                'December' => "Diciembre" 
+                'September' => "Septiembre",
+                'October' => "Octubre",
+                'November' => "Noviembre",
+                'December' => "Diciembre"
             );
 
-            $mesReturn = $mesArray[$meses];  
+            $mesReturn = $mesArray[$meses];
             $mes[] = $mesReturn;
 
             }
 
-            echo $mes[0];         
+            echo $mes[0];
     }
 
 }
@@ -437,7 +439,7 @@ Route::get('search', function(){
     else
     {
         $user = User::all();
-    }  
+    }
 });
 
 
@@ -478,7 +480,7 @@ Route::get('create_user', function()
         return 'uvo un error';
     }
 
-});             
+});
 
 Route::get('home', array('before' => 'auth', function()
 {
@@ -494,7 +496,7 @@ Route::get('home', array('before' => 'auth', function()
             Auth::logout();
             return Redirect::to('/') ->with('flash_notice', 'You don\'t have access!');
         }
- 
+
     return App::abort(403);
 }));
 
@@ -505,7 +507,7 @@ Route::post('admin', function(){
 
 	   $credentials = array(
 	   'email' => Input::get('username'),
-	   'password' => Input::get('password') 
+	   'password' => Input::get('password')
 	    );
 
 	   if(Auth::attempt($credentials, Input::get('remember', 0)))
@@ -523,7 +525,7 @@ Route::post('admin', function(){
 	      'message'         =>     'Error de logeo'
 	      ));
 
-	    } 
+	    }
     }
 });
 
@@ -545,7 +547,7 @@ Route::get('/create', function()
             'first_name' => 'Admin',
             'last_name'  => 'Admin',
             'email'      => 'admin@gmail.com',
-            'password' => Hash::make('admin') 
+            'password' => Hash::make('admin')
         ));
         return 'Usuario creado';
 });
@@ -636,7 +638,7 @@ Route::get('/start', function()
 
 		    $credentials = array(
 	            'username'  => strtolower(Input::get('username')),
-	            'password'  => Input::get('password') 
+	            'password'  => Input::get('password')
 		    );
 
 		    if(Auth::attempt($credentials))
@@ -647,7 +649,7 @@ Route::get('/start', function()
 		        echo 'error';
 		    }
 		}
-    
+
 js
 $(document).ready(function() {
 
@@ -683,11 +685,11 @@ $(document).ready(function() {
 
 ## SEED DATABASE
 
-    
+
 php artisan db:seed --class=UserTableSeeder
- 
+
 class UserTableSeeder extends Seeder {
- 
+
    public function run()
    {
         $user = User::create(array(
@@ -696,9 +698,9 @@ class UserTableSeeder extends Seeder {
           'last_name' => 'Brown',
           'email' => 'phil@ipbrown.com',
           'password' => 'qwerty'
-        ));  
+        ));
    }
- 
+
 }
 
 
@@ -725,33 +727,33 @@ Route::get('seed', function()
 
 
 $resultado = DB::table('carros')->get();
- 
+
 $resultado = DB::table('carros')->count();
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Verde')->get();
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Verde')->get(array('id', 'modelo', 'color'));
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Verde')->first();
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Verde')->first(array('id', 'modelo', 'color'));
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Verde')->count();
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Verde')->max('id');
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Blanco')->where('modelo','=','Corrolla')->get();
- 
+
 $resultado = DB::table('carros')->where('color', '=', 'Blanco')->orWhere('placa','=','JUH 111')->get();
- 
+
 $resultado = DB::table('carros')->whereBetween('id', array('1', '4'))->get();
- 
+
 $resultado = DB::table('carros')->whereNull('color')->get();
- 
+
 $resultado = DB::table('carros')->orderBy('modelo', 'Desc')->get();
- 
+
 $resultado = DB::table('carros')->groupBy('color')->get(array('color'));
- 
+
 $resultado = DB::table('carros')->take(4)->skip(3)->get();
 
 $resultado = DB::select( DB::raw('SELECT * FROM roles WHERE id = ?'), array(1));
@@ -932,7 +934,7 @@ public function store()
 Event::listen('user.create', function($user)
 {
   // Send welcome email
- 
+
   return false;
 });
 
@@ -1044,7 +1046,7 @@ class Algo
     public function greet()
     {
 
-    } 
+    }
 }
 
 
@@ -1060,15 +1062,15 @@ class Ejemplo
     public function greet()
     {
         return 'Hello, World!';
-    }  
+    }
 
 }
 
 
 Route::get('app4', function(){
-    
+
     $ejemplo = App::make('Ejemplo');
-    
+
     dd($ejemplo->greet());
 
 });
@@ -1081,7 +1083,7 @@ class Drinkevent extends Eloquent {
     {
         return $this->belongsToMany('Participant');
     }
-} 
+}
 
 
 class Participant extends Eloquent {
@@ -1095,7 +1097,7 @@ class Participant extends Eloquent {
     {
         return $this->belongsToMany('Drink');
     }
-} 
+}
 
 class Drink extends Eloquent {
 
@@ -1104,7 +1106,7 @@ class Drink extends Eloquent {
         return $this->belongsToMany('Participant');
     }
 
-} 
+}
 
 $drinkevent = Drinkevent::with('participants.drink')->findOrFail($id);
 
@@ -1114,16 +1116,16 @@ Marca::lists('nombre', 'id');
 
 
 class LoadDataController extends \Controller {
-    
+
     public function index()
     {
         DB::table('marcas')->delete();
- 
+
         function csv_to_array($filename='', $delimiter=',')
         {
             if(!file_exists($filename) || !is_readable($filename))
                 return FALSE;
-         
+
             $header = NULL;
             $data = array();
 
@@ -1141,11 +1143,11 @@ class LoadDataController extends \Controller {
 
             return $data;
         }
-                         
+
         $csvFile = public_path().'/tablas/marca.csv';
-        
+
         $areas = csv_to_array($csvFile);
- 
+
         DB::table('marcas')->insert($areas);
 
         return "success";
