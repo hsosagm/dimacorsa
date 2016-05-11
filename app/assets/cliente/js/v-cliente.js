@@ -381,13 +381,12 @@ var vm = new Vue({
 		},
 
 		clientes_table: function() {
-			$.get( "user/cliente/index", function( data ) {
-				if (data.success == true)
-				{
-					vm.proccesDataTable(data.table);
-					return $('#example').addClass('tableSelected');
-				}
-				msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+			$.get( "user/cliente/index", function(data) {
+				if (!data.success)
+					return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
+
+				vm.proccesDataTable(data.table);
+				$('#example').addClass('tableSelected');
 			});
 		},
 
@@ -631,7 +630,7 @@ var vm = new Vue({
 				success: function (data) {
 					if (!data.success)
 						return msg.warning(data, 'Advertencia!');
-					
+
 					vm.proccesDataTable(data.table);
 				}
 			});

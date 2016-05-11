@@ -55,6 +55,12 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <input class="form-control"  name="nota" value="{{ @$cliente->nota }}" placeholder="Nota" type="text">
+                        </div>
+                    </div>
+
                     @if(Auth::user()->hasRole("Owner") || Auth::user()->hasRole("Admin"))
                     <div class="form-group">
                         <div class="col-sm-7">

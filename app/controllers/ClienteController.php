@@ -386,9 +386,9 @@ class ClienteController extends \BaseController {
 
         $columns = array(
             "clientes.nombre as cliente",
-            "direccion","telefono","nit", "email", "updated_at");
+            "nota","telefono","nit", "email", "updated_at");
 
-        $Searchable = array("nombre","direccion","telefono");
+        $Searchable = array("nombre","nota","telefono");
 
         echo TableSearch::get($table, $columns, $Searchable);
     }

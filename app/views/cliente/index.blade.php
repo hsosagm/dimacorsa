@@ -27,12 +27,12 @@
     $(document).ready(function() {
         $('#example').dataTable({
             "aoColumnDefs": [
-                {"sClass": "widthM",              "sTitle": "Nombre",       "aTargets": [0]},
-                {"sClass": "widthL",              "sTitle": "Direccion",    "aTargets": [1]},
-                {"sClass": "align_right widthS",  "sTitle": "Telefono",     "aTargets": [2]},
-                {"sClass": "widthM",              "sTitle": "Nit",          "aTargets": [3]},
-                {"sClass": "widthM",              "sTitle": "Email",          "aTargets": [4]},
-                {"sClass": "widthM",              "sTitle": "Actualizado",          "aTargets": [5]},
+                {"sClass": "widthM",             "sTitle": "Nombre",      "aTargets": [0]},
+                {"sClass": "widthL",             "sTitle": "Nota",   "aTargets": [1]},
+                {"sClass": "align_right widthS", "sTitle": "Telefono",    "aTargets": [2]},
+                {"sClass": "widthM",             "sTitle": "Nit",         "aTargets": [3]},
+                {"sClass": "widthM",             "sTitle": "Email",       "aTargets": [4]},
+                {"sClass": "widthM",             "sTitle": "Actualizado", "aTargets": [5]},
             ],
             "bJQueryUI": false,
             "bProcessing": true,

@@ -22,7 +22,7 @@ function cliente_contacto_view_info(element) {
             $('.contactos-body-'+$id).slideToggle('slow',function() {
                 $('.contactos-body-'+$id).html(data);
             });
-        } 
+        }
     });
 };
 
@@ -94,6 +94,7 @@ function cliente_update_modal(e,element) {
         success: function (data) {
             if (data.success == true)  {
                 msg.success('Cliente Actualizado..!', 'Listo!');
+                $('.bs-modal').modal('hide');
             }
             else {
                 msg.warning(data, 'Advertencia!');
