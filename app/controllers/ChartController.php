@@ -122,6 +122,7 @@ class ChartController extends \BaseController {
         $ventas = DB::table('ventas')
         ->join('users', 'ventas.user_id', '=', 'users.id')
         ->where('ventas.tienda_id', Auth::user()->tienda_id)
+        ->where('users.status', 1)
         ->where(DB::raw('MONTH(ventas.created_at)'), date('m') )
         ->where(DB::raw('YEAR(ventas.created_at)'), date("Y") )
         ->where(DB::raw('total'), '>', 0 )
@@ -206,7 +207,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) 
+        if (!$ventas)
             $data = 0;
 
         return $data;
@@ -229,7 +230,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$d_ventas) 
+        if (!$d_ventas)
             $ganancias = 0;
 
         return $ganancias;
@@ -256,7 +257,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) 
+        if (!$ventas)
             $data = 0;
 
         $data = json_encode($data);
@@ -286,7 +287,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) 
+        if (!$ventas)
             $data = 0;
 
         $data = json_encode($data);
@@ -302,16 +303,16 @@ class ChartController extends \BaseController {
     public function comparativaPorMesPorClientePrevOrNext()
     {
         if ( Input::get('method') == 'next') {
-            if (Input::get('mes') == 12) 
+            if (Input::get('mes') == 12)
                 $mes = 1;
-            else 
+            else
                 $mes = Input::get('mes') + 1;
         }
 
         elseif ( Input::get('method') == 'prev') {
-            if (Input::get('mes') == 1) 
+            if (Input::get('mes') == 1)
                 $mes = 12;
-            else 
+            else
                 $mes = Input::get('mes') - 1;
         }
 
@@ -332,7 +333,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$ventas) 
+        if (!$ventas)
             $data = 0;
 
         return Response::json(array(
@@ -357,7 +358,7 @@ class ChartController extends \BaseController {
         $fecha_final = 'current_date';
         $formato = '%Y-%m';
 
-        if (Input::has('fecha_inicial') && Input::has('fecha_final')) 
+        if (Input::has('fecha_inicial') && Input::has('fecha_final'))
         {
             $fecha_inicial = "'".Input::get('fecha_inicial')."'";
             $fecha_final = "'".Input::get('fecha_final')."'";
@@ -365,31 +366,31 @@ class ChartController extends \BaseController {
         }
 
 
-        $user = User::select('nombre','id')->whereIn('id', function($query) 
+        $user = User::select('nombre','id')->whereIn('id', function($query)
             use ($fecha_inicial, $fecha_final, $formato)
         {
-            $query->select(DB::raw('user_id')) 
+            $query->select(DB::raw('user_id'))
             ->from('ventas')
             ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') >= DATE_FORMAT( {$fecha_inicial} ,'{$formato}') ")
             ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') <= DATE_FORMAT( {$fecha_final} ,'{$formato}') ")
             ->where('tienda_id','=', Auth::user()->tienda_id);
-        })->get(); 
+        })->get();
 
 
-        $categoria = Categoria::select('nombre','id')->whereIn('id', function($query) 
+        $categoria = Categoria::select('nombre','id')->whereIn('id', function($query)
             use ($fecha_inicial, $fecha_final, $formato)
         {
-            $query->select(DB::raw('categoria_id')) 
+            $query->select(DB::raw('categoria_id'))
             ->from('productos')
             ->join('detalle_ventas','producto_id','=','productos.id')
             ->join('ventas','venta_id','=','ventas.id')
             ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') >= DATE_FORMAT( {$fecha_inicial} ,'{$formato}') ")
             ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') <= DATE_FORMAT( {$fecha_final} ,'{$formato}') ")
             ->where('tienda_id','=', Auth::user()->tienda_id);
-        })->get(); 
+        })->get();
 
 
-        $marca = Marca::select('nombre','id')->whereIn('id', function($query) 
+        $marca = Marca::select('nombre','id')->whereIn('id', function($query)
             use ($fecha_inicial, $fecha_final, $formato)
         {
             $query->select(DB::raw('marca_id'))
@@ -407,7 +408,7 @@ class ChartController extends \BaseController {
         foreach ($categoria as $cat) {
             $categoria_id = $cat->id;
 
-            $marcas = Marca::select('nombre','id')->whereIn('id', function($query) 
+            $marcas = Marca::select('nombre','id')->whereIn('id', function($query)
                 use ($categoria_id, $fecha_inicial,$fecha_final, $formato)
             {
                 $query->select(DB::raw('marca_id'))
@@ -418,7 +419,7 @@ class ChartController extends \BaseController {
                 ->whereRaw(" DATE_FORMAT(ventas.created_at,'{$formato}') <= DATE_FORMAT({$fecha_final} ,'{$formato}') ")
                 ->where('tienda_id','=', Auth::user()->tienda_id)
                 ->where('categoria_id','=', $categoria_id);
-            })->get();   
+            })->get();
             $datos[] = array('id' => $cat->id, 'nombre' => $cat->nombre, 'marcas' => $marcas );
         }
 
@@ -454,7 +455,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$compras) 
+        if (!$compras)
             $data = 0;
 
         $data = json_encode($data);
@@ -484,7 +485,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$compras) 
+        if (!$compras)
             $data = 0;
 
         $data = json_encode($data);
@@ -499,9 +500,9 @@ class ChartController extends \BaseController {
     public function comparativaPorMesPorProveedorPrevOrNext()
     {
         if ( Input::get('method') == 'next') {
-            if (Input::get('mes') == 12) 
+            if (Input::get('mes') == 12)
                 $mes = 1;
-            else 
+            else
                 $mes = Input::get('mes') + 1;
         }
 
@@ -529,7 +530,7 @@ class ChartController extends \BaseController {
             $i++;
         }
 
-        if (!$compras) 
+        if (!$compras)
             $data = 0;
 
         return Response::json(array(
