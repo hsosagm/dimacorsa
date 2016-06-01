@@ -1,13 +1,6 @@
 <div class="rounded shadow">
     <div class="panel_heading">
         <div id="table_length" class="pull-left"></div>
-        <div class="pull-left" style="margin-left: 20px; vertical-align: middle;">
-            <button class="btn btn-info btn-theme" style="margin-right: 15px;" onclick="actualizarDatosInventario()">actualizar</button>
-            <label class="radio-inline"><input type="radio" value="1" name="optInvMens" {{(Input::get('opcion') == 1 || Input::get('opccion') == 4)? 'checked':''}}>Existencia</label>
-            <label class="radio-inline"><input type="radio" value="2" name="optInvMens" {{(Input::get('opcion') == 2)? 'checked':''}}>Actualizados</label>
-            <label class="radio-inline"><input type="radio" value="3" name="optInvMens" {{(Input::get('opcion') == 3)? 'checked':''}}>Todos</label>
-            <label class="radio-inline"><input type="radio" value="4" name="optInvMens">Limpiar</label>
-        </div>
         <div class="pull-right">
             <button onclick="$('.dt-panel').hide();" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
         </div>
@@ -57,8 +50,8 @@
                         $(x).removeClass('mod_producto');
                         var id = $(x).closest('tr').children('td:first').text();
                         prod_old_value = $(x).text();
-                        $(x).html('<input type="text" value="'+$(x2).text()+'" v-on="keyup:submit($event, '+id+') | key 13, keyup:cansel | key 27" id="editProd">');  
-                        
+                        $(x).html('<input type="text" value="'+$(x2).text()+'" v-on="keyup:submit($event, '+id+') | key 13, keyup:cansel | key 27" id="editProd">');
+
                         $('#editProd').focus();
                         $('#editProd').select();
                         $(x).addClass('current');
@@ -77,7 +70,7 @@
                 $("td[class*='Estado']").each(function() {
                     if ($(this).html() == 0)
                         $(this).html('');
-                    else 
+                    else
                         $(this).html('Actualizado');
                 });
             },
@@ -136,20 +129,10 @@
             inventario.$compile(inventario.$el);
         });
     }
-    
+
 });
 
 function actualizarDatosInventario() {
-    $.ajax({
-        type: "Get",
-        url: 'admin/inventario/',
-        data: { opcion: $('input[name=optInvMens]:checked').val() }
-    }).done(function(data) {
-        if (data.success) {
-           $('.dt-panel').html(data.table);        
-           return $('.dt-panel').show();
-        }
-        msg.warning(data, 'Advertencia!');
-    });
-} 
+
+}
 </script>
