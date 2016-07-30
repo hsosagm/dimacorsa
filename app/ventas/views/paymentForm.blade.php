@@ -67,7 +67,7 @@
     <div class="modal-footer">
         <div v-show="x==1">
             <i v-show="countNotasCredito" v-on="click: getNotasDeCredito" class="fa fa-file-text-o fa-lg icon-success"></i>
-            <i v-on="click: endSale" class="fa fa-check fa-lg icon-success" style="padding-left:10px"></i>
+            <i v-on="click: endSale" v-class="disabledSubmit:submitDisable" class="fa fa-check fa-lg icon-success" style="padding-left:10px"></i>
         </div>
         <div v-show="x==2">
             <button v-on="click: cancelarNotaDeCredito" class="btn btn-warning">Cancelar</button>
@@ -78,7 +78,7 @@
 
 <script type="text/javascript">
 
-    new Vue({
+   var salesPayments = new Vue({
 
         el: '#formPayments',
 
@@ -91,7 +91,8 @@
             disabled: false,
             notasDeCredito: [],
             countNotasCredito: {{ $countNotasCredito }},
-            x: 1
+            x: 1,
+            submitDisable: false
         },
 
         ready: function() {
@@ -194,6 +195,7 @@
             },
 
             endSale: function(e) {
+
                 var monto = 0
                 for (var i = this.payments.length - 1; i >= 0; i--)
                     monto += this.payments[i]["monto"]
@@ -210,6 +212,8 @@
                     if (this.payments[i]["metodo_pago_id"] == 2)
                         credito = this.payments[i]["monto"]
 
+                this.submitDisable = true
+
                 $.ajax({
                     type: 'POST',
                     url:  'user/ventas/endSale',
@@ -222,12 +226,14 @@
                         detalleVenta:   ventas.detalleTable
                     },
                 }).done(function(data) {
-                    if (!data.success)
-                        return msg.warning(data.msg, "Advertencia!");
+                    if (!data.success) {
+                        msg.warning(data.msg, "Advertencia!")
+                        return salesPayments.submitDisable = false
+                    }
 
-                    $('.bs-modal').modal('hide');
-                    $(".form-panel").hide();
-                    msg.success('Venta finalizada!');
+                    $('.bs-modal').modal('hide')
+                    $(".form-panel").hide()
+                    msg.success('Venta finalizada!')
                     $('#modal').modal('toggle')
                     setTimeout(function() {
                         $(".modal-header").show()
@@ -323,4 +329,8 @@
         margin-bottom: 10px;
     }
 
+    .disabledSubmit {
+        pointer-events: none;
+        opacity: 0.4;
+    }
 </style>

@@ -11,6 +11,11 @@ class GastoController extends \BaseController {
 
     public function create()
     {
+        // return Input::get('monto');
+
+        return $this->efectivoCaja();
+
+
         if (Input::has('_token'))
         {
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
@@ -72,12 +77,12 @@ class GastoController extends \BaseController {
 
         $cajaController = new CajaController;
         $data = $cajaController->resumen_movimientos($datos);
-
-        $efectivo  = $data['soporte']['efectivo'];
+        $efectivo = 0; // se inicializa en cero para que no de error si todos los datos estan vacios
+        $efectivo += $data['soporte']['efectivo'];
         $efectivo += $data['pagos_ventas']['efectivo'];
         $efectivo += $data['abonos_ventas']['efectivo'];
         $efectivo += $data['ingresos']['efectivo'];
-        $efectivo -= $data['adelanto']['efectivo'];
+        $efectivo += $data['adelanto']['efectivo'];
         $efectivo -= $data['gastos']['efectivo'];
         $efectivo -= $data['egresos']['efectivo'];
         $efectivo -= $data['devolucion']['efectivo'];
