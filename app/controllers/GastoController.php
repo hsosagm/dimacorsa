@@ -11,11 +11,6 @@ class GastoController extends \BaseController {
 
     public function create()
     {
-        // return Input::get('monto');
-
-        return $this->efectivoCaja();
-
-
         if (Input::has('_token'))
         {
             Input::merge(array('monto' => str_replace(',', '', Input::get('monto'))));
