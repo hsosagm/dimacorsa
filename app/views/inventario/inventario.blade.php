@@ -1,7 +1,9 @@
 <div class="rounded shadow">
     <div class="panel_heading">
         <div id="table_length" class="pull-left"></div>
-
+        <div class="pull-right">
+            <button onclick="$('.dt-panel').hide();" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
+        </div>
     </div>
     <div class="no-padding table">
         <table id="example" class="display" width="100%" cellspacing="0">
