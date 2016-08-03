@@ -767,6 +767,7 @@ class VentasController extends \BaseController {
         		clientes.id as cliente_id,
         		clientes.nombre as cliente,
         		clientes.direccion as direccion,
+        		clientes.telefono as telefono,
         		sum(ventas.total) as total,
         		sum(ventas.saldo) as saldo_total,
         		(select sum(saldo) from ventas where
@@ -808,7 +809,7 @@ class VentasController extends \BaseController {
             'success' => true,
             'table' => View::make('ventas.sumaDeVentasPorCliente', compact('clientes'))->render(),
         ));
-		
+
 	}
 
 	public function getVentasPedientesPorUsuario()

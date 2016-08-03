@@ -19,6 +19,7 @@
                     <th style="display:none">Fecha</th>
                     <th>Cliente</th>
                     <th>Direccion</th>
+                    <th>Telefono</th>
                     <th>Total</th>
                     <th>Saldo</th>
                     <th>Saldo Vencido</th>
@@ -31,6 +32,7 @@
                         <td style="display:none" width="10%"> {{ $q->fecha }} </td>
                         <td width="23%" v-on="click: goToCustomer({{$q->cliente_id}})" style="cursor:pointer;">{{ $q->cliente }} <i class="fa fa-search" style="float: right; margin-right:5px;"></i></td>
                         <td class="" width="22%"> {{ $q->direccion }} </td>
+                        <td class="" width="22%"> {{ $q->telefono }} </td>
                         <td class="right" width="10%"> {{ f_num::get($q->total) }} </td>
                         <td class="right" width="10%"> {{ f_num::get($q->saldo_total) }} </td>
                         <td class="right" width="10%"> {{ f_num::get($q->saldo_vencido) }} </td>
