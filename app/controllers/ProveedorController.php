@@ -6,7 +6,7 @@ class ProveedorController extends BaseController {
     {
         return Autocomplete::get('proveedores', array('id', 'nombre','direccion','direccion'),'direccion');
     }
- 
+
     public function create()
     {
         if (Input::has('_token'))
@@ -150,7 +150,7 @@ class ProveedorController extends BaseController {
 
     public function edit()
     {
-         if (Input::has('_token'))
+        if (Input::has('_token'))
         {
             $proveedor = Proveedor::find(Input::get('id'));
 
@@ -162,9 +162,9 @@ class ProveedorController extends BaseController {
         }
 
         $proveedor = Proveedor::find(Input::get('id'));
-        $contactos = ProveedorContacto::where('proveedor_id','=',Input::get('id'))->get();
+        $contactos = ProveedorContacto::where('proveedor_id', Input::get('id'))->get();
 
-        return View::make('proveedor.edit',compact('proveedor' , 'contactos'));
+        return View::make('proveedor.edit', compact('proveedor', 'contactos'));
     }
 
     public function _edit()
@@ -332,7 +332,7 @@ class ProveedorController extends BaseController {
         $compras = Compra::whereProveedorId(Input::get('proveedor_id'))->with("user")->where("saldo", ">", "0")->get();
         $proveedor = Proveedor::find(Input::get('proveedor_id'));
 
-        if (Input::has("pdf")) 
+        if (Input::has("pdf"))
         {
             $pdf = PDF::loadView('proveedor.export.estadoDeCuenta', array('compras' => $compras, 'proveedor' => $proveedor))
             ->setPaper('letter')->setOrientation('landscape')->setPaper('letter');

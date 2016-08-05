@@ -9,7 +9,7 @@ var vm = new Vue({
     	divAbonosPorSeleccion: '',
     	infoProveedor: '',
     	saldo_total: '',
-    	saldo_vencido: '', 
+    	saldo_vencido: '',
     	saldoParcial: '',
     	monto: '',
     	proveedor_id_creditos: 0,
@@ -42,7 +42,6 @@ var vm = new Vue({
 	            url: "admin/proveedor/getInfoProveedor",
 	            data: { proveedor_id: id },
 	            success: function (data) {
-	            	console.log(data);
 	                if (data.success == true)
 	                {
 	                    vm.infoProveedor = data.info;
@@ -115,7 +114,7 @@ var vm = new Vue({
 		                return compile();
 		            }
 		            msg.warning(data, 'Advertencia!');
-		        } 
+		        }
 		    });
         },
 
@@ -232,7 +231,7 @@ var vm = new Vue({
 		        }
 		    });
         },
- 
+
 
         getComprasPendientesDePago: function() {
 		    $.ajax({
@@ -246,7 +245,7 @@ var vm = new Vue({
 		            }
 		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
 		        }
-		    }); 
+		    });
         },
 
 
@@ -286,7 +285,7 @@ var vm = new Vue({
 					return compile();
 				}
 				msg.warning(data, 'Advertencia!');
-			}); 
+			});
 		},
 
 
@@ -303,7 +302,7 @@ var vm = new Vue({
 					return compile();
 				}
 				msg.warning(data, 'Advertencia!');
-			}); 
+			});
 		},
 
 		GetPurchasesForPaymentsBySelection: function(page , sSearch ) {
@@ -316,7 +315,7 @@ var vm = new Vue({
 		               $('#tab4').html(data.table);
 		               return compile();
 		            }
-		            
+
 		            msg.warning(data, 'Advertencia!');
 		        }
 		    });
@@ -326,13 +325,13 @@ var vm = new Vue({
 		    var form = $("form[data-remote-abonosComprasPorSeleccion]");
 		    var array_ids_compras = vm.GetPurchasesSelected();
 		    $(element.target).prop("disabled", true);
-		    
+
 		    $.ajax({
 		        type: "POST",
 		        url:  "admin/compras/payments/abonosComprasPorSeleccion",
 		        data: form.serialize()+'&array_ids_compras='+array_ids_compras,
 		        success: function (data) {
-		            if (data.success == true) 
+		            if (data.success == true)
 		            {
 		                vm.divAbonosPorSeleccion = data.detalle;
 		                msg.success('Abonos Ingresados', 'Listo!');
@@ -354,7 +353,7 @@ var vm = new Vue({
 
 		    return checkboxValues;
 		},
-		
+
 		SST_search: function() {
 		    $("#iSearch").val("");
 		    $("#iSearch").unbind();
@@ -386,12 +385,12 @@ var vm = new Vue({
 		            }
 		            msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!');
 		        }
-		    }); 
+		    });
 		},
 
 		ComprasPendientesPorProveedor: function(e, id) {
 		    vm.proveedor_id_creditos = id;
-		    
+
 		    $.ajax({
 				type: "GET",
 				url: "admin/compras/getComprasPendientesPorProveedor",
@@ -436,7 +435,7 @@ var vm = new Vue({
 		        url: "admin/compras/getComprasPendientesPorProveedor?page=" + page,
 		        data: { proveedor_id:  vm.proveedor_id_creditos , sSearch:sSearch},
 		        success: function (data) {
-		            if (data.success == true) { 
+		            if (data.success == true) {
 		                vm.proccesDataTable(data.table);
 		            	return compile();
 		            }
