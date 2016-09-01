@@ -6,7 +6,7 @@
             <label class="radio-inline"><input type="radio" value="1" name="optInvMens" {{(Input::get('opcion') == 1 || Input::get('opccion') == 4)? 'checked':''}}>Existencia</label>
             <label class="radio-inline"><input type="radio" value="2" name="optInvMens" {{(Input::get('opcion') == 2)? 'checked':''}}>Actualizados</label>
             <label class="radio-inline"><input type="radio" value="3" name="optInvMens" {{(Input::get('opcion') == 3)? 'checked':''}}>Todos</label>
-            <!-- <label class="radio-inline"><input type="radio" value="4" name="optInvMens">Limpiar</label> -->
+            <label class="radio-inline"><input type="radio" value="4" name="optInvMens">Limpiar</label>
         </div>
         <div class="pull-right">
             <button onclick="$('.dt-panel').hide();" class="btn btnremove" title="Cerrar"><i class="fa fa-times"></i></button>
