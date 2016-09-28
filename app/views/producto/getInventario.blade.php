@@ -74,11 +74,12 @@
             "aoColumnDefs": [
                 {"sClass": "widthM",                                       "sTitle": "Codigo",       "aTargets": [0]},
                 {"sClass": "widthM",                                       "sTitle": "Marca",        "aTargets": [1]},
-                {"sClass": "widthXL",                                      "sTitle": "Descripcion",  "aTargets": [2]},
-                {"sClass": "right widthS formato_precio","bVisible": false,"sTitle": "P costo",      "aTargets": [3]},
-                {"sClass": "right widthS formato_precio",                  "sTitle": "P publico",    "aTargets": [4]},
-                {"sClass": "right widthS",                                 "sTitle": "Existencias",  "aTargets": [5]},
-                {"sClass": "right widthS",                                 "sTitle": "Total",        "aTargets": [6]},
+                {"sClass": "widthL",                                      "sTitle": "Descripcion",  "aTargets": [2]},
+                {"sClass": "widthM",                                      "sTitle": "Categoria",    "aTargets": [3]},
+                {"sClass": "right widthS formato_precio","bVisible": false,"sTitle": "P costo",      "aTargets": [4]},
+                {"sClass": "right widthS formato_precio",                  "sTitle": "P publico",    "aTargets": [5]},
+                {"sClass": "right widthS",                                 "sTitle": "Existencias",  "aTargets": [6]},
+                {"sClass": "right widthS",                                 "sTitle": "Total",        "aTargets": [7]},
             ],
             "order": [[ 6, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
@@ -149,7 +150,7 @@
                 }).done(function(data) {
                         $('#kardexContainer').html("");
                         graph_container.x = 2;
-                        $('#kardexContainer').html(data); 
+                        $('#kardexContainer').html(data);
                         return graph_container_compile();
                 });
 

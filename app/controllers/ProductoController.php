@@ -64,7 +64,7 @@ class ProductoController extends Controller {
         if ($values == '')
             return 'El campo del codigo se encuentra vacio...!';
 
-        $query = Producto::where('codigo', '=',Input::get('codigo'))->first();
+        $query = Producto::where('codigo', '=', $values)->first();
 
         if($query == '')
             return 'el codigo que buscas no existe..!';
@@ -110,17 +110,18 @@ class ProductoController extends Controller {
 
         $columns = array(
             "codigo",
-            "nombre",
+            "marcas.nombre as marca",
             "descripcion",
+            "categorias.nombre as categoria",
             "ROUND(p_costo, 5) as p_costo",
             "p_publico",
             "existencias.existencia as existencia",
             "productos.existencia as existencia_total"
 		);
 
-        $Searchable = array("codigo","nombre","descripcion");
+        $Searchable = array("codigo", "marca", "categoria", "descripcion");
 
-        $Join = 'JOIN marcas ON productos.marca_id = marcas.id  Join  existencias ON productos.id = existencias.producto_id ';
+        $Join = 'JOIN categorias ON productos.categoria_id = categorias.id JOIN marcas ON productos.marca_id = marcas.id  JOIN  existencias ON productos.id = existencias.producto_id ';
         $where = "tienda_id = ".Auth::user()->tienda_id;
         // $where = "existencias.existencia > 0 AND existencias.tienda_id = ".Auth::user()->tienda_id;
 
