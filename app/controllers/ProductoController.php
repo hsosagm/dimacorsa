@@ -119,7 +119,7 @@ class ProductoController extends Controller {
             "productos.existencia as existencia_total"
 		);
 
-        $Searchable = array("codigo", "marca", "categoria", "descripcion");
+        $Searchable = array("codigo", "marcas.nombre", "categorias.nombre", "descripcion");
 
         $Join = 'JOIN categorias ON productos.categoria_id = categorias.id JOIN marcas ON productos.marca_id = marcas.id  JOIN  existencias ON productos.id = existencias.producto_id ';
         $where = "tienda_id = ".Auth::user()->tienda_id;
