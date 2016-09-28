@@ -3,7 +3,7 @@
 
     <script>
         function show_pc() {
-            var column = $('#example').DataTable().column(3);
+            var column = $('#example').DataTable().column(4);
             column.visible( !column.visible() );
         }
     </script>
@@ -81,7 +81,7 @@
                 {"sClass": "right widthS",                                 "sTitle": "Existencias",  "aTargets": [6]},
                 {"sClass": "right widthS",                                 "sTitle": "Total",        "aTargets": [7]},
             ],
-            "order": [[ 6, "desc" ]],
+            "order": [[ 7, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
                 $("td[class*='formato_precio']").each(function() {
                     $(this).html(formato_precio($(this).html()));
