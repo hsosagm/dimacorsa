@@ -13,14 +13,14 @@ class AdelantoController extends \BaseController {
         $adelanto->completed = 1;
         $adelanto->user_id = Auth::user()->id;
         $adelanto->tienda_id = Auth::user()->tienda_id;
-    
-        if (Auth::user()->tienda->cajas) 
+
+        if (Auth::user()->tienda->cajas)
             $adelanto->caja_id = $caja->id;
 
         $adelanto->save();
 
         $adelanto_id = $adelanto->id;
-        
+
         $nc = new NotaCredito;
         $nc->cliente_id =Input::get('cliente_id');
         $nc->tienda_id = Auth::user()->tienda_id;
@@ -28,7 +28,7 @@ class AdelantoController extends \BaseController {
         $nc->tipo = 'adelanto';
         $nc->tipo_id = $adelanto_id;
         $nc->monto = Input::get('totalAdelanto');
-        $nc->save();   
+        $nc->save();
 
         foreach (Input::get("detallePagos") as $dp) {
             $adelantoPago = new AdelantoPago;
@@ -83,7 +83,7 @@ class AdelantoController extends \BaseController {
         $detalle = DB::table('adelantos_detalle')
         ->select(array(
             'adelantos_detalle.id',
-            'adelanto_id', 
+            'adelanto_id',
             'producto_id',
             'cantidad',
             'precio',
@@ -102,7 +102,7 @@ class AdelantoController extends \BaseController {
         ));
     }
 
-    public function DTadelantos() 
+    public function DTadelantos()
     {
         $table = 'adelantos';
 
@@ -124,7 +124,7 @@ class AdelantoController extends \BaseController {
     public function getDetalleAdelantos()
     {
         $adelanto = Adelanto::with('pagos')->find(Input::get('adelanto_id'));
-            
+
         return Response::json(array(
             'success' => true,
             'table'   => View::make('notas_creditos.detalleAdelanto',compact('adelanto'))->render())
@@ -136,6 +136,6 @@ class AdelantoController extends \BaseController {
         $adelanto = Adelanto::with('cliente')->find(Input::get('adelanto_id'));
 
         $pdf = PDF::loadView('adelantos.comprobante',  array( 'adelanto' => $adelanto ))->setPaper('letter');
-        return $pdf->stream('comprobante-adelanto');     
+        return $pdf->stream('comprobante-adelanto');
     }
 }

@@ -140,8 +140,7 @@ class CajaController extends \BaseController
 
         foreach ($data as $dt)
         {
-            if (floatval($dt['efectivo']) > 0 || floatval($dt['cheque']) > 0 || floatval($dt['tarjeta']) > 0 || floatval($dt['deposito']) > 0)
-            {
+            if (floatval($dt['efectivo']) > 0 || floatval($dt['cheque']) > 0 || floatval($dt['tarjeta']) > 0 || floatval($dt['deposito']) > 0) {
                 return false;
             }
         }

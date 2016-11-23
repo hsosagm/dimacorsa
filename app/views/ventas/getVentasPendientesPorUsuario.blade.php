@@ -51,7 +51,7 @@
 	            {"sClass": "width10 icons center",   		  		                   "aTargets": [5],
 	                "orderable": false,
 	                "mRender": function(data, type, full ) {
-	                  	return '<i title="Veta" onclick="vm.getVentaConDetalle(this, '+full.DT_RowId+')" class="fa fa-plus-square fg-theme"></i>';
+	                  	return '<i title="Veta" onclick="vm.getVentaConDetalle(this, '+full.DT_RowId+')" class="fa fa-search btn-link theme-c"></i>';
 	                }
             	},
 	        ],

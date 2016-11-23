@@ -1,5 +1,17 @@
 <?php
 
+// TRIGGERS
+
+BEGIN
+  UPDATE clickgt.users
+     SET name= "jose"
+   WHERE ID = NEW.id;
+END
+
+    @if(Auth::user()->hasRole("Owner"))
+
+    @endif
+
 // $('#example').dataTable().fnStandingRedraw();
 //$ex->ex -= $dv['cant'];
 

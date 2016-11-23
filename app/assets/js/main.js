@@ -66,7 +66,6 @@ $(document).ajaxError(function( event, jqXHR, ajaxSettings, thrownError ) {
 
 });
 
-
 function input_numeric(element)
 {
     element.value = (element.value + '').replace(/[^0-9-.]/g, '');
@@ -86,6 +85,22 @@ function formato_precio(num) {
     num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
     return ((sign) ? '' : '-') + ' ' + num + '.' + cents;
 };
+
+function format_number(num) {
+    num = parseFloat(num);
+    return (num).formatMoney(5, '.', ',');
+};
+
+Number.prototype.formatMoney = function(c, d, t){
+var n = this,
+    c = isNaN(c = Math.abs(c)) ? 2 : c,
+    d = d == undefined ? "." : d,
+    t = t == undefined ? "," : t,
+    s = n < 0 ? "-" : "",
+    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+    j = (j = i.length) > 3 ? j % 3 : 0;
+   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+ };
 
 function formato_porcentaje(num) {
     num = num.toString().replace(/\|\,/g, '');
@@ -450,3 +465,87 @@ function fopen_kit() {
         $('#cliente').focus();
     });
 };
+
+function historial_kits() {
+    $.ajax({
+        type: "GET",
+        url: 'admin/kits/historial_kits'
+    }).done(function(data) {
+        makeTable(data, ' ', 'Historial de combos');
+    });
+};
+
+function verKitDetalle(e, kit_id) {
+    if ($(e).hasClass("hide_detail")) {
+        $(e).removeClass('hide_detail');
+        $('.subtable').hide();
+    }
+    else {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length ) {
+            $('.subtable').fadeOut('slow', function(){
+                getKitDetalle(e, kit_id);
+            })
+        }
+        else {
+            getKitDetalle(e, kit_id);
+        }
+    }
+};
+
+function getKitDetalle(e, kit_id) {
+    $('.subtable').remove();
+    var nTr = $(e).parents('tr')[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=6 ><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: "GET",
+        url: 'admin/kits/getDetalle',
+        data: { kit_id: kit_id },
+    }).done(function(data) {
+        console.log(data);
+        if (data.success == true)
+        {
+            $('.grid_detalle_factura').html(data.table);
+            $(nTr).next('.subtable').fadeIn('slow');
+            return $(e).addClass('hide_detail');
+        }
+        msg.warning(data, 'Advertencia!');
+    });
+};
+
+function open_kit_no_finalizado(kit_id) {
+    $.ajax({
+        type: "GET",
+        url: "admin/kits/open_kit_no_finalizado",
+        data: { kit_id: kit_id }
+    }).done(function(data) {
+        if (!data.success)
+            return msg.warning(data, 'Advertencia!');
+
+        $('.panel-title').text('Formulario kit');
+        $(".forms").html(data.form);
+        ocultar_capas();
+        $(".form-panel").show();
+    });
+};
+
+jQuery.fn.getPosition = function() {
+    input = this[0];
+
+    var pos = input.value.length;
+
+    if (input.createTextRange) {
+        var r = document.selection.createRange().duplicate();
+        r.moveEnd('character', input.value.length);
+        if (r.text == '')
+        pos = input.value.length;
+        pos = input.value.lastIndexOf(r.text);
+    } else if(typeof(input.selectionStart)!="undefined")
+    pos = input.selectionStart;
+
+    return pos;
+}

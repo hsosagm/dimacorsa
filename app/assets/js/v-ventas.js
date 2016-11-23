@@ -264,7 +264,7 @@ var app = new Vue({
         },
     }
 
-}); 
+});
 
 function ventas_compile() {
     app.$nextTick(function() {
@@ -272,4 +272,4 @@ function ventas_compile() {
     });
 }
 
-ventas_compile(); 
+ventas_compile();

@@ -38,14 +38,21 @@ function addProducto()
 {
     $.ajax({
         type: 'GET',
-        url: 'user/ventas/findProducto',
+        url: 'admin/kits/findProducto',
         data: { codigo: $('.dataTable tbody .row_selected td:first-child').text() }
     }).done(function(data) {
         if (!data.success)
-            return msg.warning(data);
+            return msg.warning('El codigo que buscas no existe..!');
 
-        kits.producto = data.values;
         $(".dt-container").hide();
+
+        if ({{ Input::get('master') }}) {
+            kits.producto = data.values;
+            return $("input[name=cantidad]").focus();
+        }
+
+        kits.producto_detalle = data.values;
+        $("input[name=cantidadDetalle]").focus();
     })
 };
 </script>

@@ -1,6 +1,6 @@
 
  <div class="cliente-body-info">
-    
+
 {{ Form::_open('Cliente creado') }}
 
     <div class="form-group">

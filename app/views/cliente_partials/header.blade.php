@@ -27,7 +27,7 @@
                             <input id="iSearch" type="text" class="form-control typeahead rounded" placeholder="Filtrar resultados">
                         </div>
                     </form>
-                </li> 
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li v-on="click: clientes_table" class="dropdown navbar-message">
@@ -55,7 +55,7 @@
                         <span class="meta">
                             <span class="avatar"><img src="img/logout.jpg" class="navbar-avatar"></span>
                             <span class="text hidden-xs hidden-sm text-muted">
-                                <?php 
+                                <?php
                                 $user_nombre = explode(' ',Auth::user()->nombre);
                                 $user_apellido = explode(' ',Auth::user()->apellido);
 
@@ -65,7 +65,7 @@
                             </span>
 
                         </span>
-                    </a> 
+                    </a>
                     <ul class="dropdown-menu animated flipInX">
                         <li><a href="logout"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>

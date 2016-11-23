@@ -9,17 +9,17 @@
 				<td>
 					<input type="text" id="proveedor_id" class="input">
 				<i class="fa fa-question-circle btn-link theme-c" id="proveedor_help"></i>
-					<i class="fa fa-pencil btn-link theme-c" id="proveedor_edit"> </i>
+					<i class="fa fa-pencil btn-link theme-c" id="proveedor_edit"></i>
 					<i class="fa fa-plus-square btn-link theme-c" id="proveedor_create"></i>
 				</td>
 			</tr>
 			<tr>
 				<td>Factura No.: </td>
-				<td>  <input type="text" name="numero_documento" class="input"> </td>
+				<td><input type="text" name="numero_documento" class="input" autocomplete="off"></td>
 			</tr>
 			<tr>
 				<td> Fecha de Doc.:</td>
-				<td><input type="text" name="fecha_documento" data-value="now()">  </td>
+				<td><input type="text" name="fecha_documento" data-value="now()"></td>
 			</tr>
 		</table>
 	</div>

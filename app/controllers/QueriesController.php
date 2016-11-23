@@ -1,14 +1,14 @@
 <?php
- 
+
 class QueriesController extends \BaseController {
 
-	public function getMasterQueries() 
+	public function getMasterQueries()
 	{
 		return Response::json(array(
 			'success' => true,
 			'view'    => View::make('queries.masterQueries')->render()
         ));
-	} 
+	}
 
 	/*******************************************************************
 	Inicio Consultas de Ventas
@@ -23,9 +23,9 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 
@@ -103,10 +103,10 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
 
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		return Response::json(array(
@@ -180,9 +180,9 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		$comprobante = DB::table('printer')->select('impresora')
@@ -254,9 +254,9 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		return Response::json(array(
@@ -330,9 +330,9 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		return Response::json(array(
@@ -359,8 +359,8 @@ class QueriesController extends \BaseController {
 			"CONCAT_WS(' ',users.nombre,users.apellido) as user_nombre",
             "gastos.created_at as fecha",
             "detalle_gastos.descripcion as detalle_descripcion",
-            'monto',
-            "metodo_pago.descripcion as metodo_descripcion"
+            "metodo_pago.descripcion as metodo_descripcion",
+            'monto'
 		);
 
 		$Search_columns = array(
@@ -405,7 +405,7 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
 		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
@@ -480,9 +480,9 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		return Response::json(array(
@@ -557,7 +557,7 @@ class QueriesController extends \BaseController {
 
 		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		return Response::json(array(
@@ -630,9 +630,9 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		$comprobante = DB::table('printer')->select('impresora')
@@ -708,9 +708,9 @@ class QueriesController extends \BaseController {
 			$consulta = 'fechas';
 		}
 
-		else if ($consulta == 'dia') 
+		else if ($consulta == 'dia')
 			$fecha_inicial ='now()';
-		else 
+		else
 			$fecha_inicial = Carbon::now()->startOfMonth();
 
 		$comprobante = DB::table('printer')->select('impresora')

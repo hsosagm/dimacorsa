@@ -27,10 +27,10 @@
             </div>
 
             <div class="header-content">
-                <h2> 
+                <h2>
                     <span >
-                        <a href="javascript:void(0);" class="fa fa-home" style="font-size:22px;" onclick="ocultar_capas();"></a>
-                    </span>  
+                        <a href="/" class="fa fa-home" style="font-size:22px;" onclick="ocultar_capas();"></a>
+                    </span>
                     <span id="home"></span>
                 </h2>
             </div>
@@ -44,7 +44,7 @@
         </section>
 
         @include('partials.slidebar-right')
-        
+
     </section>
 
     <div id="back-top" class="animated pulse circle">
@@ -53,10 +53,10 @@
 
     <script src="js/main.js"></script>
     <script src="js/custom.js"></script>
-    
+
     <script type="text/javascript">
         $(document).ready(function(){
-            /*configuracion del thema capturado de la base de datos*/ 
+            /*configuracion del thema capturado de la base de datos*/
             $('link#theme').attr('href', 'css/themes/{{@$tema->colorSchemes}}.theme.css');
             $('.navbar-toolbar').attr('class', 'navbar navbar-toolbar navbar-{{@$tema->navbarColor}}');
             $('#sidebar-left').addClass('{{@$tema->sidebarTypeSetting}}');
@@ -72,7 +72,7 @@
             }
             else if($('#sidebar-left').attr('class') == ''){
                 $('#sidebar-left').attr('class','sidebar-{{@$tema->sidebarColor}}');
-            } 
+            }
 
             if($('#sidebar-left').hasClass('sidebar-default')){
                 $('#sidebar-type-default').attr('checked','checked');
@@ -86,7 +86,7 @@
             if($('#sidebar-left').hasClass('sidebar-circle')) {
                 $('#sidebar-type-circle').attr('checked','checked');
             }
-        }); 
+        });
 
         $(document.body).delegate(":input", "keyup", function(e) {
             if(e.which == 13) {

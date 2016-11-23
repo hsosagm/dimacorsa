@@ -598,6 +598,17 @@
             Route::post('create', 'App\kits\KitsController@create');
             Route::get('table_productos', 'App\kits\KitsController@table_productos');
             Route::post('crearProducto', 'App\kits\KitsController@crearProducto');
+            Route::post('deleteKit', 'App\kits\KitsController@deleteKit');
+            Route::post('postKitDetalle', 'App\kits\KitsController@postKitDetalle');
+            Route::post('removeItem', 'App\kits\KitsController@removeItem');
+            Route::post('kits', 'App\kits\KitsController@kits');
+            Route::get('historial_kits', 'App\kits\KitsController@historial_kits');
+            Route::get('historial_kits_DT', 'App\kits\KitsController@historial_kits_DT');
+            Route::get('getDetalle', 'App\kits\KitsController@getDetalle');
+            Route::get('open_kit_no_finalizado', 'App\kits\KitsController@open_kit_no_finalizado');
+            Route::get('findProducto', 'App\kits\KitsController@findProducto');
+            Route::post('endKit', 'App\kits\KitsController@endKit');
+            Route::post('updateCantidad', 'App\kits\KitsController@updateCantidad');
         });
 
         Route::group(array('prefix' => 'descargas'), function()
@@ -750,8 +761,61 @@
 
     Route::get('/test', function()
     {
-        Schema::drop('kit_detalle');
-        Schema::drop('kits');
+        $producto = Producto::find('1006167');
+
+        return json_encode($producto);
+
+        $number  = 4;
+        $number *= 2;
+        $number -= 2;
+        $number /= 2;
+
+        // return $number;
+
+        $numbers = " 2,  3,5  ,1000,4 ";
+
+        $numbers = trim($numbers);
+
+        // $b = trim(" testing ", " teng"); // quita de la 1er var los caracteres de la 2da var
+        // $numbers = explode(',', $numbers); // para convertir el string en array
+        // $numbers = preg_split('/,/', $numbers); // hace lo mismo que el anterior
+        // trim($numbers);
+
+        $numbers = preg_split('/\s*,\s*/', $numbers); // string to array y quita los espacios en blanco pero no al prin y al fin
+
+        var_dump($numbers);
+
+        $sum = 0;
+
+        foreach ($numbers as $number) {
+            if ($number < 0) throw new InvalidArgumentException("Invalid number provided: {$number}");
+
+            if ($number >= 1000) continue;
+            $sum += $number;
+        }
+
+        // return array_sum($numbers);
+
+        $a = 3;
+
+        $a == 3 ? $a = 1 : $a = 2;
+
+        // return $a;
+
+        $producto = Producto::with('marca')->whereId(1003215)->first();
+
+        if($producto) {
+            return [
+                'success' => true,
+                'values'  => [
+                    'id'             => $producto->id,
+                    'descripcion'    => $producto->descripcion . PHP_EOL . $producto->marca->nombre,
+                    'precio_publico' => $producto->p_publico,
+                    'precio_costo'   => $producto->p_costo,
+                    'existencia'     => $producto->existencia
+                ]
+            ];
+        }
     });
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

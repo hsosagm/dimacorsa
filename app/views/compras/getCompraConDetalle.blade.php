@@ -49,8 +49,8 @@
 						<td colspan="4">
 							<div class="row">
 								<div class="col-md-8" style="line-height: 140%;  font-size: 12px;" >  Total a cancelar </div>
-								<div class="col-md-4" style="text-align:right; padding-right:50px; line-height: 140%;  font-size: 12px;"> 
-									{{ f_num::get5( $total ) }} 
+								<div class="col-md-4" style="text-align:right; padding-right:50px; line-height: 140%;  font-size: 12px;">
+									{{ f_num::get5( $total ) }}
 								</div>
 							</div>
 						</td>

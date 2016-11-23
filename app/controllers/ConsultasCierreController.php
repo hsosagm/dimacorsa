@@ -1,9 +1,9 @@
 <?php
 
 class ConsultasCierreController extends \BaseController {
- 
+
 	public function ConsultasPorMetodoDePago($model)
-	{ 
+	{
 		if(trim($model) == 'Ventas')
 			return $this->consultasPagos('venta', 'showSalesDetail', true);
 
@@ -28,7 +28,7 @@ class ConsultasCierreController extends \BaseController {
 		else
 			return 'No se envio ninguna peticion';
 	}
- 
+
 	public function consultasPagos($_table, $linkDetalle, $columAbono = false)
 	{
 
@@ -40,7 +40,7 @@ class ConsultasCierreController extends \BaseController {
 			$columna = 'proveedores.nombre';
 		else
 			$columna = "clientes.nombre ";
- 
+
 		$columns = array(
 			"{$_table}s.id",
         	"{$_table}s.total as total",
@@ -58,9 +58,9 @@ class ConsultasCierreController extends \BaseController {
 
 		if($_table == "compra")
 			$Join .= "JOIN proveedores ON (proveedores.id = {$_table}s.proveedor_id)";
-		else 
+		else
 			$Join .= "JOIN clientes ON (clientes.id = {$_table}s.cliente_id)";
-		
+
 		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
 		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
@@ -69,7 +69,7 @@ class ConsultasCierreController extends \BaseController {
 		$where .= " AND metodo_pago.id = ".Input::get('metodo_pago_id');
 		$where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') > DATE_FORMAT('{$fecha_inicial}', '%Y-%m-%d %H:%i:%s')";
         $where .= " AND DATE_FORMAT({$_table}s.updated_at, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT('{$fecha_final}', '%Y-%m-%d %H:%i:%s')";
- 
+
 		if ($columAbono == true)
 			$where .= " AND {$_table}s.abono = 0";
 
@@ -100,7 +100,7 @@ class ConsultasCierreController extends \BaseController {
             "CONCAT_WS(' ',users.nombre,users.apellido) as usuario",
             "{$columna} as nombre_extra"
 		);
- 
+
 		$Search_columns = array("users.nombre","users.apellido", "abonos_{$_table}.created_at");
 
 		$Join  = " JOIN metodo_pago ON (abonos_{$_table}.metodo_pago_id = metodo_pago.id)";
@@ -110,7 +110,7 @@ class ConsultasCierreController extends \BaseController {
 			$Join .= " JOIN proveedores ON (proveedores.id = abonos_{$_table}.proveedor_id)";
 		else
 			$Join .= " JOIN clientes ON (clientes.id = abonos_{$_table}.cliente_id)";
-  
+
 		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
 		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
@@ -127,7 +127,7 @@ class ConsultasCierreController extends \BaseController {
 			'table' => View::make('cierre.consultas.ConsultasAbonosPorMetodoDePago', compact('abonos', 'metodo_pago', 'linkDetalle'))->render()
         ));
 	}
- 
+
 	public function OperacionesConsultas($_table)
 	{
 		$fecha = json_decode(Input::get('fecha'));
@@ -205,7 +205,7 @@ class ConsultasCierreController extends \BaseController {
 	{
 		$fecha = json_decode(Input::get('fecha'));
         $table = "devoluciones";
- 
+
 		$columns = array(
 			"devoluciones.id",
         	"devoluciones.total as total",
@@ -214,7 +214,7 @@ class ConsultasCierreController extends \BaseController {
             "clientes.nombre as nombre_extra",
             "devoluciones_pagos.monto as pago"
 		);
- 
+
 		$Search_columns = array(
 			"users.nombre",
 			 "users.apellido"
@@ -224,7 +224,7 @@ class ConsultasCierreController extends \BaseController {
 		$Join .= " JOIN metodo_pago ON (devoluciones_pagos.metodo_pago_id = metodo_pago.id)";
 		$Join .= " JOIN users ON (users.id = devoluciones.user_id)";
 		$Join .= " JOIN clientes ON (clientes.id = devoluciones.cliente_id)";
-  
+
 		(@$fecha->fecha_final->date == "")? $fecha_final = $fecha->fecha_final : $fecha_final = $fecha->fecha_final->date;
 		(@$fecha->fecha_inicial->date == "")? $fecha_inicial = $fecha->fecha_inicial : $fecha_inicial = $fecha->fecha_inicial->date;
 
@@ -258,7 +258,7 @@ class ConsultasCierreController extends \BaseController {
             "clientes.nombre as cliente",
             "adelantos_pagos.monto as pago"
 		);
- 
+
 		$Search_columns = array("users.nombre","users.apellido");
 
 		$Join  = "JOIN adelantos_pagos ON (adelantos_pagos.adelanto_id = adelantos.id) ";

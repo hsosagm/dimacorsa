@@ -34,9 +34,9 @@ class TableSearch {
                     $sOrder .= "`".$clean_columns[ intval( $_GET['iSortCol_'.$i] ) ]."` ". $sortDir .", ";
                 }
             }
-            
+
             $sOrder = substr_replace( $sOrder, "", -2 );
-            
+
             if ( $sOrder == "ORDER BY" )
             {
                 $sOrder = "";
@@ -78,8 +78,8 @@ class TableSearch {
         }
 
 
-        $productos = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
-                     $table.id as id  FROM $table $sJoin $sWhere $groupBy $sOrder $sLimit") ;
+        $db_table = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
+                     $table.id as id  FROM $table $sJoin $sWhere $groupBy $sOrder $sLimit");
 
         $Found_Rows = DB::select('SELECT FOUND_ROWS() as num_rows');
 
@@ -90,10 +90,10 @@ class TableSearch {
             "aaData" => array()
         );
 
-        foreach($productos as $aRow) {
+        foreach($db_table as $aRow) {
 
             $row = array();
-            
+
             for ( $i = 0; $i < count($clean_columns); $i++ ) {
                 $row['DT_RowId'] = $aRow->id;
                 $row[] = $aRow->$clean_columns[$i];
@@ -101,7 +101,7 @@ class TableSearch {
 
             $output['aaData'][] = $row;
         }
-        
+
         return json_encode( $output );
     }
 }

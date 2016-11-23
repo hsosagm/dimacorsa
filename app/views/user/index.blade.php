@@ -24,7 +24,7 @@ $(document).ready(function()
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $( ".DTTT" ).append( '<button id="_create" class="btn btngrey">Crear</button>' );
-            $( ".DTTT" ).append( '<button id="_edit_profile" class="btn btngrey btn_edit" disabled>Actualizar</button>' );
+            $( ".DTTT" ).append( '<button id="_edit_profile" class="btn btngrey btn_edit" disabled>Editar</button>' );
             $( ".DTTT" ).append( '<button id="_delete" class="btn btngrey btn_edit" disabled>Eliminar</button>' );
         },
 

@@ -34,7 +34,7 @@
         @include('partials.SinCaja.header')
         @include('partials.SinCaja.slidebar-left')
     @endif
-        
+
 
         <section id="page-content">
             <div id="loader">

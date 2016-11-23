@@ -7,3 +7,5 @@ e.preventDefault()
 type: e.target.method,
 url:  e.target.action,
 data: $(e.target).serialize(),
+
+<pre>@{{$data.variable | json}}</pre>

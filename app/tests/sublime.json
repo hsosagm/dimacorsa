@@ -1,0 +1,52 @@
+// MATERIAL THEME
+{
+	"always_show_minimap_viewport": true,
+	"color_scheme": "Packages/User/custom.tmTheme",
+	"font_size": 16,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"indent_guide_options":
+	[
+		"draw_normal",
+		"draw_active"
+	],
+	"line_padding_bottom": 3,
+	"line_padding_top": 3,
+	"material_theme_accent_lime": true,
+	"overlay_scroll_bars": "enabled",
+	"save_on_focus_lost": true,
+	"theme": "Material-Theme.sublime-theme",
+	"trim_trailing_white_space_on_save": true
+}
+
+
+// BOXY THEME
+
+{
+	"color_scheme": "Packages/User/custom.tmTheme",
+	"font_size": 16,
+	"line_padding_bottom": 1,
+	"line_padding_top": 1,
+	"save_on_focus_lost": true,
+	"theme": "Boxy Ocean.sublime-theme",
+	"theme_accent_lime": true,
+	"theme_bar_logo_atomized": true,
+	"theme_bar_margin_top_md": true,
+	"theme_button_rounded": true,
+	"theme_icons_materialized": true,
+	"theme_scrollbar_rounded": true,
+	"theme_sidebar_highlight_selected_text_only": true,
+	"theme_sidebar_highlight_text_only": true,
+	"theme_sidebar_indent_top_level_disabled": true,
+	"theme_size_md": true,
+	"theme_tab_highlight_text_only": true,
+	"theme_tab_line_size_lg": true,
+	"theme_tab_rounded": true,
+	"theme_tab_selected_transparent": true,
+	"theme_tab_selected_underlined": true,
+	"theme_tab_separator": true,
+	"trim_trailing_white_space_on_save": true,
+	"word_wrap": true
+}

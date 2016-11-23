@@ -7,7 +7,7 @@ class InformeGeneralController extends \BaseController {
         return Response::json(array(
             'success'=> true,
             'table' => View::make('informes.tableInformeGeneral')->render()
-        )); 
+        ));
     }
 
     public function tableInformeGeneral_DT()
@@ -206,7 +206,7 @@ class InformeGeneralController extends \BaseController {
         ->join('detalle_ventas', 'venta_id', '=', 'ventas.id')
         ->whereRaw("DATE(ventas.created_at) = CURDATE()")
         ->first(array(DB::raw('sum((precio - ganancias) * cantidad) as total')));
-        
+
         $devoluciones = DB::table('devoluciones')
         ->join('devoluciones_detalle', 'devolucion_id', '=', 'devoluciones.id')
         ->whereRaw("DATE(devoluciones.created_at) = CURDATE()")
@@ -223,7 +223,7 @@ class InformeGeneralController extends \BaseController {
         ->join('detalle_compras', 'compra_id', '=', 'compras.id')
         ->whereRaw("DATE(compras.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
-        
+
         $descargas = DB::table('descargas')
         ->join('detalle_descargas', 'descarga_id', '=', 'descargas.id')
         ->whereRaw("DATE(descargas.created_at) = CURDATE()")
@@ -233,7 +233,7 @@ class InformeGeneralController extends \BaseController {
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE(traslados.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(precio * cantidad) as total')));
- 
+
         $trasladosR = DB::table('traslados')
         ->join('detalle_traslados', 'traslado_id', '=', 'traslados.id')
         ->whereRaw("DATE(traslados.created_at) = CURDATE()")
@@ -247,7 +247,7 @@ class InformeGeneralController extends \BaseController {
         $informe_inversion_real = floatval($informe_inversion->total);
         $diferencia_inversion =  $informe_inversion_real - $informe_inversion_esperado;
 
-        //cuentas por cobrar  
+        //cuentas por cobrar
         $creditosVentas = DB::table('ventas')
         ->join('pagos_ventas', 'venta_id', '=', 'ventas.id')
         ->whereRaw("DATE(ventas.created_at) = CURDATE()")
@@ -271,7 +271,7 @@ class InformeGeneralController extends \BaseController {
         ->join('detalle_abonos_compra', 'abonos_compra_id', '=', 'abonos_compras.id')
         ->whereRaw("DATE(abonos_compras.created_at) = CURDATE()")
         ->first(array(DB::raw('sum(detalle_abonos_compra.monto) as total')));
- 
+
         $creditosCompras = DB::table('compras')
         ->join('pagos_compras', 'compra_id', '=', 'compras.id')
         ->whereRaw("DATE(compras.created_at) = CURDATE()")

@@ -83,6 +83,9 @@ class ChartController extends \BaseController {
         ->get();
 
         $i = 0;
+        $data = [];
+        $ganancias = [];
+
         foreach ($ventas as $v) {
         	$data[$i]['name'] = $v->year;
             $data[$i]['y'] = (float) $v->total;

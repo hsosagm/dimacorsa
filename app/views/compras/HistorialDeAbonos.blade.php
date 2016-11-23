@@ -18,7 +18,7 @@ $(document).ready(function() {
             {"sClass": "width10 icons center",                          "sTitle": "",             "aTargets": [5],
                 "orderable": false,
                 "mRender": function(data, type, full ) {
-                    $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i> '; 
+                    $v  = '<i class="fa fa-plus-square btn-link theme-c" onClick="showPaymentsDetail(this)"></i> ';
 
                     $v += '<a href="javascript:void(0);" title="Imprimir Abono" onclick="ImprimirAbonoProveedor(this, '+full.DT_RowId+', '+"'"+'{{@$comprobante->impresora}}'+"'"+')" class="fa fa-print font14" style="padding-left:10px"> </a>';
 
@@ -32,7 +32,7 @@ $(document).ready(function() {
         "fnDrawCallback": function( oSettings ) {
             $( ".DTTT" ).html("");
             $("td[class*='formato_precio']").each(function() {
-                $(this).html(formato_precio($(this).html()));
+                $(this).html(format_number($(this).html()));
             });
         },
         "bJQueryUI": false,
@@ -40,7 +40,5 @@ $(document).ready(function() {
         "bServerSide": true,
         "sAjaxSource": "admin/compras/HistorialDeAbonos?proveedor_id={{Input::get('proveedor_id')}}"
     });
-
 });
 </script>
-
