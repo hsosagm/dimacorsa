@@ -115,6 +115,7 @@ class ProductoController extends Controller {
             "categorias.nombre as categoria",
             "ROUND(p_costo, 5) as p_costo",
             "p_publico",
+            "precio_oferta",
             "existencias.existencia as existencia",
             "productos.existencia as existencia_total"
 		);

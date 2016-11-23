@@ -77,11 +77,12 @@
                 {"sClass": "widthL",                                      "sTitle": "Descripcion",  "aTargets": [2]},
                 {"sClass": "widthM",                                      "sTitle": "Categoria",    "aTargets": [3]},
                 {"sClass": "right widthS formato_precio","bVisible": false,"sTitle": "P costo",      "aTargets": [4]},
-                {"sClass": "right widthS formato_precio",                  "sTitle": "P publico",    "aTargets": [5]},
-                {"sClass": "right widthS",                                 "sTitle": "Existencias",  "aTargets": [6]},
-                {"sClass": "right widthS",                                 "sTitle": "Total",        "aTargets": [7]},
+                {"sClass": "right widthS formato_precio",                  "sTitle": "Precio",    "aTargets": [5]},
+                {"sClass": "right widthS formato_precio",                  "sTitle": "Oferta",    "aTargets": [6]},
+                {"sClass": "right widthS",                                 "sTitle": "Existencias",  "aTargets": [7]},
+                {"sClass": "right widthS",                                 "sTitle": "Total",        "aTargets": [8]},
             ],
-            "order": [[ 7, "desc" ]],
+            "order": [[ 8, "desc" ]],
             "fnDrawCallback": function( oSettings ) {
                 $("td[class*='formato_precio']").each(function() {
                     $(this).html(formato_precio($(this).html()));
