@@ -1,6 +1,6 @@
 <table style="font-size:12px;">
     <tr>
-        <td colspan="4" height="40">{{ $porsentaje }}</td>
+        <td colspan="4" height="40"></td>
     </tr>
     <tr>
         <td colspan="4">
