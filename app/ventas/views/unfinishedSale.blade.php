@@ -764,4 +764,8 @@
     .md-icon {
         padding-left: 10px;
     }
+
+    .body-detail table tfoot tr:nth-child(2n+1) td {
+        border-top: 0px !important;
+    }
 </style>

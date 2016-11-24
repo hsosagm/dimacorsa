@@ -655,6 +655,6 @@ $('#cliente').autocomplete({
     }
 
     .body-detail table tfoot tr:nth-child(2n+1) td {
-        border-top: 0px solid !imprimir;
+        border-top: 0px !important;
     }
 </style>
