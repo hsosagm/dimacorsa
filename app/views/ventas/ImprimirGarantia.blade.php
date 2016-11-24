@@ -33,8 +33,8 @@
                 <tr>
                     <td>  {{ $dt->cantidad }} </td>
                     <td>  {{ $dt->producto->descripcion}} {{ $dt->producto->marca->nombre}} </td>
-                    <td align="right"> {{ f_num::get($dt->precio) }} </td>
-                    <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>
+                    <td align="right">{{ number_format($dt->precio + $dt->precio * $porsentaje, 4) }}</td>
+                    <td align="right">{{ number_format($dt->cantidad * ($dt->precio + $dt->precio * $porsentaje), 2) }}</td>
                 </tr>
                 @if ($dt->serials != null)
                 <tr>
@@ -46,10 +46,13 @@
                 @endif
                 @php($total = $total + ($dt->cantidad * $dt->precio))
             @endforeach
+            <?php
+                $total = $total + $recargo;
+            ?>
             <tr>
                 <td colspan="2"></td>
                 <td>Total:</td>
-                <td align="right"> {{f_num::get($total)}} </td>
+                <td align="right"> {{number_format($total, 2)}} </td>
             </tr>
         </table>
     </div>

@@ -34,7 +34,82 @@
                 <label class="col-md-3" >NIT: @{{ cliente.nit }}</label>
                 <label class="col-md-3" >Tel: @{{ cliente.telefono }}</label>
             </div>
+        </div>
 
+        <div class="row">
+            <div>
+                <div class="col-md-3" style="font-size:11px">
+                    <div class="form-group">
+                        <label class="col-md-7 control-label" for="radios">Seleccione Metodo de pago</label>
+                        <div class="col-md-5">
+                            <div class="radio">
+                                <label for="radios-0">
+                                    <input v-model="metodo_pago" name="metodo_pago" id="radios-0" value="efectivo" checked="checked" type="radio">
+                                    Efectivo
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label for="radios-1">
+                                    <input v-model="metodo_pago" name="metodo_pago" id="radios-1" value="tarjeta" type="radio">
+                                    Tarjeta
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="metodo_pago == 'tarjeta'">
+                <div>
+                    <div class="col-md-3" style="font-size:11px">
+                        <div class="form-group">
+                            <label class="col-md-6 control-label" for="radios">Seleccione POS</label>
+                            <div class="col-md-6">
+                                <div class="radio">
+                                    <label for="radios-2">
+                                        <input v-model="pos" name="pos" id="radios-2" value="visanet" checked="checked" type="radio">
+                                        Visanet
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label for="radios-3">
+                                         <input v-model="pos" name="pos" id="radios-3" value="credomatic" type="radio">
+                                        Credomatic
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="col-md-3" style="font-size:11px">
+                        <div class="form-group">
+                            <label class="col-md-6 control-label" for="selectbasic">Visa cuotas</label>
+                            <div class="col-md-6">
+                                <select v-model="paymentOptions" style="color:#000000 !important; margin-top: 5px" id="selectbasic" name="selectbasic">
+                                    <option value="1">No</option>
+                                    <option value="3">Tres</option>
+                                    <option value="6">Seis</option>
+                                    <option value="10">Diez</option>
+                                    <option value="12">Doce</option>
+                                    <option value="18">Diesiocho</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="col-md-3" style="font-size:11px">
+                        <div class="form-group">
+                            <label class="col-md-6 control-label" for="selectbasic">Porcentaje</label>
+                            <label class="col-md-5 control-label" for="selectbasic">@{{ (porsentaje * 100).toFixed(2) }}%</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     {{ Form::close() }}
 
@@ -123,13 +198,31 @@
                         </tr>
                     </tbody>
 
-                    <tfoot width="100%">
+                    <tfoot width="100%" style="border-top: 1px solid #CACACA">
                         <tr>
                             <td>
                                 <div class="row" style="font-size:13px !important">
                                     <div class="col-md-7"></div>
+                                    <div class="col-md-2">Total <label v-if="metodo_pago == 'efectivo'">a cancelar</label></div>
+                                    <div class="col-md-3" v-html="totalVenta | currency ''" style="text-align:right; padding-right:50px;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-if="metodo_pago == 'tarjeta'">
+                            <td>
+                                <div class="row" style="font-size:13px !important">
+                                    <div class="col-md-7"></div>
+                                    <div class="col-md-2">Recargo</div>
+                                    <div class="col-md-3" v-html="recargo | currency ''" style="text-align:right; padding-right:50px;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-if="metodo_pago == 'tarjeta'">
+                            <td>
+                                <div class="row" style="font-size:13px !important; color:#000000">
+                                    <div class="col-md-7"></div>
                                     <div class="col-md-2">Total a cancelar</div>
-                                    <div class="col-md-3" v-html="totalVenta | currency ''" class="td_total_text" style="text-align:right; padding-right:50px;"></div>
+                                    <div class="col-md-3" v-html="total_con_recargo | currency ''" style="text-align:right; padding-right:50px;"></div>
                                 </div>
                             </td>
                         </tr>
@@ -173,7 +266,12 @@
             venta_id: {{ $venta_id }},
             producto: [],
             detalleTable: {{ $detalle }},
-            totalVenta: 0
+            totalVenta: 0,
+            metodo_pago: 'efectivo',
+            pos: 'visanet',
+            paymentOptions: 1,
+            porsentaje: 0,
+            recargo: 0
         },
 
         ready: function() {
@@ -199,7 +297,29 @@
                 for (var i = 0; i < this.detalleTable.length; i++)
                     sum += this.detalleTable[i]["total"]
 
+                this.calcular_porcentaje()
                 this.totalVenta = sum.toFixed(2)
+
+                $recargo = sum * this.porsentaje
+                this.recargo = $recargo.toFixed(2)
+            },
+
+            'metodo_pago': function ()
+            {
+                this.calcular_porcentaje()
+                this.calcular_recargo()
+            },
+
+            'pos': function ()
+            {
+                this.calcular_porcentaje()
+                this.calcular_recargo()
+            },
+
+            'paymentOptions': function ()
+            {
+                this.calcular_porcentaje()
+                this.calcular_recargo()
             }
         },
 
@@ -233,10 +353,60 @@
         computed: {
             _token: function() {
                 return $("input[name=_token]").val()
+            },
+
+            total_con_recargo: function() {
+                return parseFloat(this.totalVenta) + parseFloat(this.recargo)
             }
         },
 
         methods: {
+            calcular_recargo: function() {
+                $recargo = this.totalVenta * this.porsentaje
+                this.recargo = $recargo.toFixed(2)
+            },
+
+            calcular_porcentaje: function() {
+                if (this.metodo_pago == 'tarjeta')
+                {
+                    if (this.pos == 'visanet')
+                    {
+                        switch (this.paymentOptions)
+                        {
+                            case "3":  this.porsentaje = 0.0736;
+                                break;
+                            case "6":  this.porsentaje = 0.0861;
+                                break;
+                            case "10": this.porsentaje = 0.0886;
+                                break;
+                            case "12": this.porsentaje = 0.0961;
+                                break;
+                            case "18": this.porsentaje = 0.1361;
+                                break;
+                            default:   this.porsentaje = 0.0411;
+                        }
+
+                    } else {
+                        switch (this.paymentOptions)
+                        {
+                            case "3":  this.porsentaje = 0.0761;
+                                break;
+                            case "6":  this.porsentaje = 0.0861;
+                                break;
+                            case "10": this.porsentaje = 0.0886;
+                                break;
+                            case "12": this.porsentaje = 0.0961;
+                                break;
+                            case "18": this.porsentaje = 0.1361;
+                                break;
+                            default:   this.porsentaje = 0.0611;
+                        }
+                    }
+                } else {
+                    this.porsentaje = 0;
+                }
+            },
+
             showEditCustomer: function()
             {
                 this.showNewCustomerForm = false
@@ -534,14 +704,14 @@
                 if (!this.detalleTable.length)
                     return msg.warning('Debe ingresar algun producto para poder imprimir la factura', 'Advertencia!')
 
-                window.open('imprimirFacturaBond' + 'Pdf?id=' + {{Input::get('venta_id')}}, '_blank');
+                window.open('imprimirFacturaBond' + 'Pdf?id=' + {{Input::get('venta_id')}} + '&pos=' + this.pos + '&metodo_pago=' + this.metodo_pago + '&paymentOptions=' + this.paymentOptions + '&recargo=' + this.recargo, '_blank');
             },
 
             imprimirGarantia: function(e) {
                 if (!this.detalleTable.length)
                     return msg.warning('Debe ingresar algun producto para poder imprimir la garantia', 'Advertencia!')
 
-                window.open('ImprimirGarantia' + 'Pdf?id=' + {{Input::get('venta_id')}}, '_blank');
+                window.open('ImprimirGarantia' + 'Pdf?id=' + {{Input::get('venta_id')}} + '&pos=' + this.pos + '&metodo_pago=' + this.metodo_pago + '&paymentOptions=' + this.paymentOptions + '&recargo=' + this.recargo, '_blank');
             }
         }
     });

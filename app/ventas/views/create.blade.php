@@ -165,7 +165,6 @@
                     sum += this.detalleTable[i]["total"]
 
                 this.calcular_porcentaje()
-
                 this.totalVenta = sum.toFixed(2)
 
                 $recargo = sum * this.porsentaje
@@ -604,7 +603,7 @@
                     if (!this.detalleTable.length)
                         return msg.warning('Debe ingresar algun producto para poder imprimir la garantia', 'Advertencia!')
 
-                    window.open('ImprimirGarantia' + 'Pdf?id=' + this.venta_id, '_blank');
+                    window.open('ImprimirGarantia' + 'Pdf?id=' + this.venta_id + '&pos=' + this.pos + '&metodo_pago=' + this.metodo_pago + '&paymentOptions=' + this.paymentOptions + '&recargo=' + this.recargo, '_blank');
                 }
             }
         });
