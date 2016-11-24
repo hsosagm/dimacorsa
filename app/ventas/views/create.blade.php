@@ -1,46 +1,122 @@
 <div id="ventas">
     {{ Form::open(array('v-on="submit: generarVenta"', 'class' => "form-generarVenta")) }}
-        <div class="row">
-            <div class="col-md-6 master-detail-info">
-                <table class="master-table">
-                    <tr>
-                        <td>Cliente:</td>
-                        <td>
-                            <input type="text" id="cliente" class="input" style="width:260px">
-                            <i v-if="cliente.id" class="fa fa-question-circle btn-link theme-c" id="cliente_help"></i>
-                            <i v-if="cliente.id" class="fa fa-pencil btn-link theme-c" v-on="click: showEditCustomer"></i>
-                            <i class="fa fa-plus-square btn-link theme-c" v-on="click: showNewCustomer"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" v-if="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
-                            <label class="col-md-6" style="padding-left: 0px !important;">@{{ cliente.nombre }}</label>
-                            <label class="col-md-6" >Tipo Cliente: : @{{ cliente.tipocliente.nombre }}</label>
-                        </td>
-                    </tr>
-                </table>
+    <div class="row">
+        <div class="col-md-6 master-detail-info">
+            <table class="master-table">
+                <tr>
+                    <td>Cliente:</td>
+                    <td>
+                        <input type="text" id="cliente" class="input" style="width:260px">
+                        <i v-if="cliente.id" class="fa fa-question-circle btn-link theme-c" id="cliente_help"></i>
+                        <i v-if="cliente.id" class="fa fa-pencil btn-link theme-c" v-on="click: showEditCustomer"></i>
+                        <i class="fa fa-plus-square btn-link theme-c" v-on="click: showNewCustomer"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" v-if="cliente.id" style="padding-top: 6px !important; background: #EEF8F1;">
+                        <label class="col-md-6" style="padding-left: 0px !important;">@{{ cliente.nombre }}</label>
+                        <label class="col-md-6" >Tipo Cliente: : @{{ cliente.tipocliente.nombre }}</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-6" style="font-size:11px"  v-if="cliente.id">
+            <label class="col-md-3 btn-success" >Saldo total:</label>
+            <label class="col-md-3 btn-success" >@{{ cliente.saldo_total | currency ' '}}</label>
+            <label class="col-md-3 btn-danger" >Saldo Vencido:</label>
+            <label class="col-md-3 btn-danger" >@{{ cliente.saldo_vencido | currency ' '}}</label>
+            <label class="col-md-3 border-theme" >Limite de Credito:</label>
+            <label class="col-md-3" >@{{ cliente.limite_credito | currency ' '}}</label>
+            <label class="col-md-3" >Saldo Disponible:</label>
+            <label class="col-md-3" >@{{ (cliente.limite_credito - cliente.saldo_total) | currency ' '}}</label>
+            <label class="col-md-6" >@{{ cliente.direccion }}</label>
+            <label class="col-md-3" >NIT: @{{ cliente.nit }}</label>
+            <label class="col-md-3" >Tel: @{{ cliente.telefono }}</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <div class="col-md-3" style="font-size:11px">
+                <div class="form-group">
+                    <label class="col-md-7 control-label" for="radios">Seleccione Metodo de pago</label>
+                    <div class="col-md-5">
+                        <div class="radio">
+                            <label for="radios-0">
+                                <input v-model="metodo_pago" name="metodo_pago" id="radios-0" value="efectivo" checked="checked" type="radio">
+                                Efectivo
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label for="radios-1">
+                                <input v-model="metodo_pago" name="metodo_pago" id="radios-1" value="tarjeta" type="radio">
+                                Tarjeta
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="metodo_pago == 'tarjeta'">
+            <div>
+                <div class="col-md-3" style="font-size:11px">
+                    <div class="form-group">
+                        <label class="col-md-6 control-label" for="radios">Seleccione POS</label>
+                        <div class="col-md-6">
+                            <div class="radio">
+                                <label for="radios-2">
+                                    <input v-model="pos" name="pos" id="radios-2" value="visanet" checked="checked" type="radio">
+                                    Visanet
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label for="radios-3">
+                                     <input v-model="pos" name="pos" id="radios-3" value="credomatic" type="radio">
+                                    Credomatic
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-6" style="font-size:11px"  v-if="cliente.id">
-                <label class="col-md-3 btn-success" >Saldo total:</label>
-                <label class="col-md-3 btn-success" >@{{ cliente.saldo_total | currency ' '}}</label>
-                <label class="col-md-3 btn-danger" >Saldo Vencido:</label>
-                <label class="col-md-3 btn-danger" >@{{ cliente.saldo_vencido | currency ' '}}</label>
-                <label class="col-md-3 border-theme" >Limite de Credito:</label>
-                <label class="col-md-3" >@{{ cliente.limite_credito | currency ' '}}</label>
-                <label class="col-md-3" >Saldo Disponible:</label>
-                <label class="col-md-3" >@{{ (cliente.limite_credito - cliente.saldo_total) | currency ' '}}</label>
-                <label class="col-md-6" >@{{ cliente.direccion }}</label>
-                <label class="col-md-3" >NIT: @{{ cliente.nit }}</label>
-                <label class="col-md-3" >Tel: @{{ cliente.telefono }}</label>
+            <div>
+                <div class="col-md-3" style="font-size:11px">
+                    <div class="form-group">
+                        <label class="col-md-6 control-label" for="selectbasic">Visa cuotas</label>
+                        <div class="col-md-6">
+                            <select v-model="paymentOptions" style="color:#000000 !important; margin-top: 5px" id="selectbasic" name="selectbasic">
+                                <option value="1">No</option>
+                                <option value="3">Tres</option>
+                                <option value="6">Seis</option>
+                                <option value="10">Diez</option>
+                                <option value="12">Doce</option>
+                                <option value="18">Diesiocho</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-3" style="font-size:11px">
+                    <div class="form-group">
+                        <label class="col-md-6 control-label" for="selectbasic">Porcentaje</label>
+                        <label class="col-md-5 control-label" for="selectbasic">@{{ (porsentaje * 100).toFixed(2) }}%</label>
+                    </div>
+                </div>
             </div>
 
         </div>
+    </div>
 
-        <div v-if="!venta_id" class="form-footer footer" align="right">
-              <button type="submit" class="btn theme-button inputGuardarVenta">Enviar!</button>
-        </div>
+    <div v-if="!venta_id" class="form-footer footer" align="right">
+        <button type="submit" class="btn theme-button inputGuardarVenta">Enviar!</button>
+    </div>
     {{ Form::close() }}
+
 
     <div class="CustomerForm" v-if="showNewCustomerForm" v-transition>
         @include('controles.crearCliente')
@@ -72,7 +148,12 @@
             venta_id: '',
             producto: [],
             detalleTable: [],
-            totalVenta: 0
+            totalVenta: 0,
+            metodo_pago: 'efectivo',
+            pos: 'visanet',
+            paymentOptions: 1,
+            porsentaje: 0,
+            recargo: 0
         },
 
         watch: {
@@ -83,7 +164,30 @@
                 for (var i = 0; i < this.detalleTable.length; i++)
                     sum += this.detalleTable[i]["total"]
 
+                this.calcular_porcentaje()
+
                 this.totalVenta = sum.toFixed(2)
+
+                $recargo = sum * this.porsentaje
+                this.recargo = $recargo.toFixed(2)
+            },
+
+            'metodo_pago': function ()
+            {
+                this.calcular_porcentaje()
+                this.calcular_recargo()
+            },
+
+            'pos': function ()
+            {
+                this.calcular_porcentaje()
+                this.calcular_recargo()
+            },
+
+            'paymentOptions': function ()
+            {
+                this.calcular_porcentaje()
+                this.calcular_recargo()
             }
         },
 
@@ -116,10 +220,61 @@
         computed: {
             _token: function() {
                 return $("input[name=_token]").val()
+            },
+
+            total_con_recargo: function() {
+                return parseFloat(this.totalVenta) + parseFloat(this.recargo)
             }
         },
 
         methods: {
+
+            calcular_recargo: function() {
+                $recargo = this.totalVenta * this.porsentaje
+                this.recargo = $recargo.toFixed(2)
+            },
+
+            calcular_porcentaje: function() {
+                if (this.metodo_pago == 'tarjeta')
+                {
+                    if (this.pos == 'visanet')
+                    {
+                        switch (this.paymentOptions)
+                        {
+                            case "3":  this.porsentaje = 0.0736;
+                                break;
+                            case "6":  this.porsentaje = 0.0861;
+                                break;
+                            case "10": this.porsentaje = 0.0886;
+                                break;
+                            case "12": this.porsentaje = 0.0961;
+                                break;
+                            case "18": this.porsentaje = 0.1361;
+                                break;
+                            default:   this.porsentaje = 0.0411;
+                        }
+
+                    } else {
+                        switch (this.paymentOptions)
+                        {
+                            case "3":  this.porsentaje = 0.0761;
+                                break;
+                            case "6":  this.porsentaje = 0.0861;
+                                break;
+                            case "10": this.porsentaje = 0.0886;
+                                break;
+                            case "12": this.porsentaje = 0.0961;
+                                break;
+                            case "18": this.porsentaje = 0.1361;
+                                break;
+                            default:   this.porsentaje = 0.0611;
+                        }
+                    }
+                } else {
+                    this.porsentaje = 0;
+                }
+            },
+
             generarVenta: function(e)
             {
                 var form = $(".form-generarVenta")
@@ -305,198 +460,202 @@
             {
                 if (!that.dt.cantidad) return
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'user/ventas/UpdateDetalle',
-                    data: {
-                        id:          that.dt.id,
-                        cantidad:    that.dt.cantidad,
-                        precio:      that.dt.precio,
-                        producto_id: that.dt.producto_id,
-                        venta_id:    that.dt.venta_id,
-                        _token:      this._token
-                    },
-                }).done(function(data) {
-                    if (!data.success)
-                        return msg.warning(data, 'Advertencia!')
+                    $.ajax({
+                        type: 'POST',
+                        url: 'user/ventas/UpdateDetalle',
+                        data: {
+                            id:          that.dt.id,
+                            cantidad:    that.dt.cantidad,
+                            precio:      that.dt.precio,
+                            producto_id: that.dt.producto_id,
+                            venta_id:    that.dt.venta_id,
+                            _token:      this._token
+                        },
+                    }).done(function(data) {
+                        if (!data.success)
+                            return msg.warning(data, 'Advertencia!')
 
-                    ventas.detalleTable = data.detalle
-                    msg.success('Dato actualizado!')
-                })
-            },
+                        ventas.detalleTable = data.detalle
+                        msg.success('Dato actualizado!')
+                    })
+                },
 
-            removeItem: function(index, id)
-            {
-                $.confirm({
-                    confirm: function() {
-                        $.ajax({
-                            type: 'POST',
-                            url: 'user/ventas/removeItem',
-                            data: { id: id, _token: this._token },
-                        }).done(function(data) {
-                            if (!data.success)
-                                return msg.warning(data, 'Advertencia!')
+                removeItem: function(index, id)
+                {
+                    $.confirm({
+                        confirm: function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'user/ventas/removeItem',
+                                data: { id: id, _token: this._token },
+                            }).done(function(data) {
+                                if (!data.success)
+                                    return msg.warning(data, 'Advertencia!')
 
-                            ventas.detalleTable.$remove(index)
-                        })
-                    }
-                })
-            },
+                                ventas.detalleTable.$remove(index)
+                            })
+                        }
+                    })
+                },
 
-            eliminarVenta: function()
-            {
-                $.confirm({
-                    text: "Esta seguro de querer eliminar la venta? Esto eliminara la venta y todos los registros asociados a ella!",
-                    title: "Confirmacion",
-                    confirm: function()
-                    {
-                        $.ajax({
-                            type: 'POST',
-                            url: 'user/ventas/eliminarVenta',
-                            data: { id: ventas.venta_id, _token: this._token },
-                        }).done(function(data) {
-                            if (!data.success)
-                                return msg.warning(data, 'Advertencia!')
+                eliminarVenta: function()
+                {
+                    $.confirm({
+                        text: "Esta seguro de querer eliminar la venta? Esto eliminara la venta y todos los registros asociados a ella!",
+                        title: "Confirmacion",
+                        confirm: function()
+                        {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'user/ventas/eliminarVenta',
+                                data: { id: ventas.venta_id, _token: this._token },
+                            }).done(function(data) {
+                                if (!data.success)
+                                    return msg.warning(data, 'Advertencia!')
 
-                            $(".form-panel").hide()
-                            $(".forms").html("")
-                            msg.success('Venta eliminada')
-                        })
-                    }
-                })
-            },
+                                $(".form-panel").hide()
+                                $(".forms").html("")
+                                msg.success('Venta eliminada')
+                            })
+                        }
+                    })
+                },
 
-            getSerialsForm: function(index)
-            {
-                if (this.detalleTable[index].serials == null)
-                    this.detalleTable[index].serials = []
+                getSerialsForm: function(index)
+                {
+                    if (this.detalleTable[index].serials == null)
+                        this.detalleTable[index].serials = []
 
-                $.ajax({
-                    type: "GET",
-                    url: 'user/ventas/getSerialsForm',
-                    data: { serials: this.detalleTable[index].serials, serial_index: index },
-                }).done(function(data) {
-                    if (!data.success)
+                    $.ajax({
+                        type: "GET",
+                        url: 'user/ventas/getSerialsForm',
+                        data: { serials: this.detalleTable[index].serials, serial_index: index },
+                    }).done(function(data) {
+                        if (!data.success)
+                            msg.warning(data, 'Advertencia!');
+
+                        $('.modal-body').html(data.view);
+                        $('.modal-title').text('Ingresar Series');
+                        $('.bs-modal').modal('show');
+                    });
+                },
+
+                getPaymentForm: function()
+                {
+                    if (!this.detalleTable.length)
+                        return msg.warning('Debe ingresar algun producto para continuar', 'Advertencia!')
+
+                    $.ajax({
+                        type: 'GET',
+                        url: 'user/ventas/paymentForm',
+                        data: {
+                            venta_id: this.venta_id,
+                            totalVenta: this.totalVenta ,
+                            cliente_id: this.cliente.id
+                        },
+                    }).done(function(data) {
+                        if (!data.success)
+                            return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!')
+
+                        $('.modal-body').html(data.detalle)
+                        $('.bs-modal').modal('show')
+                        $(".form-panel").hide()
+                    })
+                },
+
+                get_table_productos_para_venta: function()
+                {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'user/ventas/table_productos_para_venta',
+                    }).done(function(data) {
+                        makeTable(data, '', 'Inventario')
+                        $('#iSearch').focus()
+                        $('#example').addClass('tableSelected')
+                    })
+                },
+
+                enviarACaja: function(e)
+                {
+                    e.target.disabled = true;
+                    $.ajax({
+                        type: "POST",
+                        url: 'user/ventas/enviarACaja',
+                        data: { venta_id: this.venta_id },
+                    }).done(function(data) {
+                        if (data.success) {
+                            msg.success('Venta Enviada..', 'Listo!');
+                            return $(".form-panel").hide();
+                        }
+
                         msg.warning(data, 'Advertencia!');
+                        e.target.disabled = false;
+                    });
+                },
 
-                    $('.modal-body').html(data.view);
-                    $('.modal-title').text('Ingresar Series');
-                    $('.bs-modal').modal('show');
-                });
-            },
+                imprimirFactura: function(e) {
+                    if (!this.detalleTable.length)
+                        return msg.warning('Debe ingresar algun producto para poder imprimir la factura', 'Advertencia!')
 
-            getPaymentForm: function()
-            {
-                if (!this.detalleTable.length)
-                    return msg.warning('Debe ingresar algun producto para continuar', 'Advertencia!')
+                    window.open('imprimirFacturaBond' + 'Pdf?id=' + this.venta_id + '&pos=' + this.pos + '&metodo_pago=' + this.metodo_pago + '&paymentOptions=' + this.paymentOptions + '&recargo=' + this.recargo, '_blank');
+                },
 
-                $.ajax({
-                    type: 'GET',
-                    url: 'user/ventas/paymentForm',
-                    data: {
-                        venta_id: this.venta_id,
-                        totalVenta: this.totalVenta ,
-                        cliente_id: this.cliente.id
-                    },
-                }).done(function(data) {
-                    if (!data.success)
-                        return msg.warning('Hubo un error intentelo de nuevo', 'Advertencia!')
+                imprimirGarantia: function(e) {
+                    if (!this.detalleTable.length)
+                        return msg.warning('Debe ingresar algun producto para poder imprimir la garantia', 'Advertencia!')
 
-                    $('.modal-body').html(data.detalle)
-                    $('.bs-modal').modal('show')
-                    $(".form-panel").hide()
-                })
-            },
-
-            get_table_productos_para_venta: function()
-            {
-                $.ajax({
-                    type: 'GET',
-                    url: 'user/ventas/table_productos_para_venta',
-                }).done(function(data) {
-                    makeTable(data, '', 'Inventario')
-                    $('#iSearch').focus()
-                    $('#example').addClass('tableSelected')
-                })
-            },
-
-            enviarACaja: function(e)
-            {
-                e.target.disabled = true;
-                $.ajax({
-                    type: "POST",
-                    url: 'user/ventas/enviarACaja',
-                    data: { venta_id: this.venta_id },
-                }).done(function(data) {
-                    if (data.success) {
-                        msg.success('Venta Enviada..', 'Listo!');
-                        return $(".form-panel").hide();
-                    }
-
-                    msg.warning(data, 'Advertencia!');
-                    e.target.disabled = false;
-                });
-            },
-
-             imprimirFactura: function(e) {
-                if (!this.detalleTable.length)
-                    return msg.warning('Debe ingresar algun producto para poder imprimir la factura', 'Advertencia!')
-
-                window.open('imprimirFacturaBond' + 'Pdf?id=' + this.venta_id, '_blank');
-            },
-
-            imprimirGarantia: function(e) {
-                if (!this.detalleTable.length)
-                    return msg.warning('Debe ingresar algun producto para poder imprimir la garantia', 'Advertencia!')
-
-                window.open('ImprimirGarantia' + 'Pdf?id=' + this.venta_id, '_blank');
+                    window.open('ImprimirGarantia' + 'Pdf?id=' + this.venta_id, '_blank');
+                }
             }
-        }
+        });
+
+function venta_compile()
+{
+    ventas.$nextTick(function() {
+        ventas.$compile(ventas.$el);
     });
+};
 
-    function venta_compile()
+function add_producto_to_venta()
+{
+    var codigo = $('.dataTable tbody .row_selected td:first-child').text();
+    $("input[name='codigo']").val(codigo);
+    $(".dt-container").hide();
+
+    $.ajax({
+        type: 'GET',
+        url: 'user/ventas/findProducto',
+        data: { codigo: codigo },
+    }).done(function(data) {
+        if (!data.success)
+            return msg.warning(data);
+
+        ventas.producto = data.values;
+        $("#precio-publico").attr('placeholder', data.values.precio);
+        $("input[name='cantidad']").val("");
+        $("input[name='precio']").val("");
+        $("input[name='cantidad']").focus();
+    });
+}
+
+$('#cliente').autocomplete({
+    serviceUrl: '/user/cliente/search',
+    onSelect: function (data)
     {
-        ventas.$nextTick(function() {
-            ventas.$compile(ventas.$el);
-        });
-    };
-
-    function add_producto_to_venta()
-    {
-        var codigo = $('.dataTable tbody .row_selected td:first-child').text();
-        $("input[name='codigo']").val(codigo);
-        $(".dt-container").hide();
-
-        $.ajax({
-            type: 'GET',
-            url: 'user/ventas/findProducto',
-            data: { codigo: codigo },
-        }).done(function(data) {
-            if (!data.success)
-                return msg.warning(data);
-
-            ventas.producto = data.values;
-            $("#precio-publico").attr('placeholder', data.values.precio);
-            $("input[name='cantidad']").val("");
-            $("input[name='precio']").val("");
-            $("input[name='cantidad']").focus();
-        });
+        ventas.getInfoCliente(data.id);
+        $('#cliente').val("");
+        ventas.verCliente = true;
+        $(".inputGuardarVenta").focus();
     }
-
-    $('#cliente').autocomplete({
-        serviceUrl: '/user/cliente/search',
-        onSelect: function (data)
-        {
-            ventas.getInfoCliente(data.id);
-            $('#cliente').val("");
-            ventas.verCliente = true;
-            $(".inputGuardarVenta").focus();
-        }
-    });
+});
 </script>
 
 <style type="text/css">
     .md-icon {
         padding-left: 10px;
+    }
+
+    .body-detail table tfoot tr:nth-child(2n+1) td {
+        border-top: 0px solid !imprimir;
     }
 </style>

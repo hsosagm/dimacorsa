@@ -531,8 +531,56 @@ class VentasController extends \BaseController {
 	function imprimirFacturaBondPdf()
 	{
 		$venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('id'));
+		$metodo_pago = Input::get('metodo_pago'); // tarjeta o efectivo
+		$pos = Input::get('pos'); // visa o credomatic
+		$paymentOptions = Input::get('paymentOptions'); // contado o cuotas
+		$recargo = Input::get('recargo');
+		$porsentaje = 0;
 
-		$pdf = PDF::loadView('ventas.imprimirFacturaPdf',  array('venta' => $venta))->setPaper('letter');
+
+		if ($metodo_pago == 'tarjeta')
+		{
+			if ($pos == 'visanet')
+			{
+				switch ($paymentOptions)
+				{
+				    case "3":  $porsentaje = 0.0736;
+				        break;
+				    case "6":  $porsentaje = 0.0861;
+				        break;
+				    case "10": $porsentaje = 0.0886;
+				        break;
+				    case "12": $porsentaje = 0.0961;
+				        break;
+				    case "18": $porsentaje = 0.1361;
+				        break;
+				    default:   $porsentaje = 0.0411;
+				}
+
+			} else {
+				switch ($paymentOptions)
+				{
+				    case "3":  $porsentaje = 0.0761;
+				        break;
+				    case "6":  $porsentaje = 0.0861;
+				        break;
+				    case "10": $porsentaje = 0.0886;
+				        break;
+				    case "12": $porsentaje = 0.0961;
+				        break;
+				    case "18": $porsentaje = 0.1361;
+				        break;
+				    default:   $porsentaje = 0.0611;
+				}
+			}
+		}
+
+
+		$pdf = PDF::loadView('ventas.imprimirFacturaPdf',  array(
+			'venta' => $venta,
+			'porsentaje' => $porsentaje,
+			'recargo' => $recargo
+		))->setPaper('letter');
 
 		return $pdf->stream();
 	}

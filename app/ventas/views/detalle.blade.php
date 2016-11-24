@@ -73,13 +73,31 @@
             </tr>
 		</tbody>
 
-		<tfoot width="100%">
+		<tfoot width="100%" style="border-top: 1px solid #CACACA">
 			<tr>
 			    <td>
 					<div class="row" style="font-size:13px !important">
 						<div class="col-md-7"></div>
+						<div class="col-md-2">Total <label v-if="metodo_pago == 'efectivo'">a cancelar</label></div>
+						<div class="col-md-3" v-html="totalVenta | currency ''" style="text-align:right; padding-right:50px;"></div>
+					</div>
+			    </td>
+		    </tr>
+			<tr v-if="metodo_pago == 'tarjeta'">
+			    <td>
+					<div class="row" style="font-size:13px !important">
+						<div class="col-md-7"></div>
+						<div class="col-md-2">Recargo</div>
+						<div class="col-md-3" v-html="recargo | currency ''" style="text-align:right; padding-right:50px;"></div>
+					</div>
+			    </td>
+		    </tr>
+			<tr v-if="metodo_pago == 'tarjeta'">
+			    <td>
+					<div class="row" style="font-size:13px !important; color:#000000">
+						<div class="col-md-7"></div>
 						<div class="col-md-2">Total a cancelar</div>
-						<div class="col-md-3" v-html="totalVenta | currency ''" class="td_total_text" style="text-align:right; padding-right:50px;"></div>
+						<div class="col-md-3" v-html="total_con_recargo | currency ''" style="text-align:right; padding-right:50px;"></div>
 					</div>
 			    </td>
 		    </tr>

@@ -1,6 +1,6 @@
 <table style="font-size:12px;">
     <tr>
-        <td colspan="4" height="40"></td>
+        <td colspan="4" height="40">{{ $porsentaje }}</td>
     </tr>
     <tr>
         <td colspan="4">
@@ -31,16 +31,20 @@
             <tr>
                 <td>  {{ $dt->cantidad }} </td>
                 <td>  {{ $dt->producto->descripcion }} {{ $dt->producto->marca->nombre }} </td>
-                <td class="right"> {{ f_num::get($dt->precio) }} </td>
+                <td class="right">{{ number_format($dt->precio + $dt->precio * $porsentaje, 4) }}</td>
                 <td class="right">
-                    {{ f_num::get($dt->cantidad * $dt->precio) }}
+                    {{ number_format($dt->cantidad * ($dt->precio + $dt->precio * $porsentaje), 2) }}
                     <?php
-                        $total = $total +($dt->cantidad * $dt->precio);
+                        $total = $total + ($dt->cantidad * $dt->precio);
                         $espacio = $espacio - 13;
                     ?>
                 </td>
             </tr>
         @endforeach
+
+        <?php
+            $total = $total + $recargo;
+        ?>
     </tbody>
     <tr>
         <td colspan="4" height="{{ $espacio }}"></td>
@@ -54,7 +58,7 @@
             {{ $convertir->ConvertirALetras($total) }}
         </td>
         <td>Total:</td>
-        <td class="right"> {{ f_num::get($total) }} </td>
+        <td class="right"> {{ number_format($total, 2) }} </td>
     </tr>
 </table>
 
@@ -96,17 +100,21 @@
         @foreach($venta->detalle_venta as $key => $dt)
             <tr>
                 <td>  {{ $dt->cantidad }} </td>
-                <td>  {{ $dt->producto->descripcion}} {{ $dt->producto->marca->nombre}} </td>
-                <td class="right"> {{ f_num::get($dt->precio) }} </td>
+                <td>  {{ $dt->producto->descripcion }} {{ $dt->producto->marca->nombre }} </td>
+                <td class="right">{{ number_format($dt->precio + $dt->precio * $porsentaje, 4) }}</td>
                 <td class="right">
-                    {{ f_num::get($dt->cantidad * $dt->precio)}}
+                    {{ number_format($dt->cantidad * ($dt->precio + $dt->precio * $porsentaje), 2) }}
                     <?php
-                        $total = $total +($dt->cantidad * $dt->precio);
-                        $espacio = $espacio - 15;
+                        $total = $total + ($dt->cantidad * $dt->precio);
+                        $espacio = $espacio - 13;
                     ?>
                 </td>
             </tr>
         @endforeach
+
+        <?php
+            $total = $total + $recargo;
+        ?>
     </tbody>
     <tr>
         <td colspan="4" height="{{$espacio}}"></td>
@@ -117,7 +125,7 @@
     <tr>
         <td colspan="2"> {{ $convertir->ConvertirALetras($total) }} </td>
         <td>Total:</td>
-        <td class="right"> {{ f_num::get($total) }} </td>
+        <td class="right"> {{ number_format($total, 2) }} </td>
     </tr>
 </table>
 
