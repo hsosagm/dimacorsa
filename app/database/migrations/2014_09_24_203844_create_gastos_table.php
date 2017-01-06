@@ -12,10 +12,14 @@ class CreateGastosTable extends Migration {
 			$table->increments('id');
 			$table->integer('tienda_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('caja_id')->default(0);
+			$table->integer('caja_id')->default(0);
+			$table->integer('categoria_id')->unsigned();
+            $table->integer('subcategoria_id')->unsigned();
 			$table->timestamps();
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('categoria_id')->references('id')->on('gastosCategorias')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('subcategoria_id')->references('id')->on('gastosSubcategorias')->onDelete('restrict')->onUpdate('cascade');
 		});
 
 		Schema::create('detalle_gastos', function(Blueprint $table)
