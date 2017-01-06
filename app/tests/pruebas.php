@@ -3,8 +3,18 @@
 ALTER TABLE `gastos` CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ALTER TABLE gastos ADD COLUMN `categoria_id` INT(10) UNSIGNED NOT NULL AFTER `caja_id`;
 ALTER TABLE gastos ADD COLUMN `subcategoria_id` INT(10) UNSIGNED NOT NULL AFTER `categoria_id`;
-UPDATE gastos SET categoria_id = 1 WHERE 1;
-UPDATE gastos SET subcategoria_id = 1 WHERE 1;
+UPDATE detalle_gastos SET categoria_id = 1 WHERE 1;
+UPDATE detalle_gastos SET subcategoria_id = 1 WHERE 1;
+
+quitar relaciones
+ALTER TABLE gastos
+DROP COLUMN `categoria_id`;
+
+ALTER TABLE gastos
+DROP COLUMN `subcategoria_id`;
+
+
+
 // TRIGGERS
 
 BEGIN

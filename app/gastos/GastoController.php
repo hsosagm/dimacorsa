@@ -23,9 +23,6 @@ class GastoController extends \BaseController {
 
         $data = [];
 
-        $data['categoria_id'] = Input::get('categoria_id');
-        $data['subcategoria_id'] = Input::get('subcategoria_id');
-
         if (Auth::user()->tienda->cajas)
             $data['caja_id'] = $caja->id;
 
@@ -54,6 +51,8 @@ class GastoController extends \BaseController {
         foreach (Input::get('detalle') as $key => $value) {
             $dg = new DetalleGasto;
             $dg->gasto_id = $gasto->get_id();
+            $dg->categoria_id = $value['categoria_id'];
+            $dg->subcategoria_id = $value['subcategoria_id'];
             $dg->metodo_pago_id = $value['metodo_pago_id'];
             $dg->descripcion = $value['descripcion'];
             $dg->monto = str_replace(',', '', $value['monto']);
