@@ -175,7 +175,8 @@
             Route::get('create'                    , 'App\gastos\GastoController@create');
             Route::post('save'                     , 'App\gastos\GastoController@save');
             // Route::get('create'                    , 'GastoController@create');
-            Route::post('delete'                   , 'GastoController@delete');
+            Route::post('delete'                   , 'App\gastos\GastoController@delete');
+            // Route::post('delete'                   , 'GastoController@delete');
             Route::post('create'                   , 'GastoController@create');
             Route::post('delete_detail'            , 'GastoController@delete_detail');
             Route::post('delete_master'            , 'GastoController@delete_master');

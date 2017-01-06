@@ -93,8 +93,8 @@ var gastos = new Vue({
             if (monto < 1)
                 return msg.warning('El monto debe ser mayor o igual a 1', 'Advertencia!')
 
-            if (descripcion.length < 10)
-                return msg.warning('La descripcion debe contener al menos 10 caracteres', 'Advertencia!')
+            if (descripcion.length < 6)
+                return msg.warning('La descripcion debe contener al menos 6 caracteres', 'Advertencia!')
 
             this.detalle.push({
                 descripcion: descripcion,

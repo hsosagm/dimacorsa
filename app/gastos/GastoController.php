@@ -67,6 +67,17 @@ class GastoController extends \BaseController {
     }
 
 
+    public function delete()
+    {
+        $delete = DetalleGasto::destroy(Input::get('id'));
+
+        if ($delete)
+            return 'success';
+
+        return 'Huvo un error al tratar de eliminar';
+    }
+
+
     public function efectivoCaja()
     {
         $caja = Caja::whereUserId(Auth::user()->id)->first();
