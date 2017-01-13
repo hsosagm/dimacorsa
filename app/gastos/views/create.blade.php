@@ -8,7 +8,9 @@
             <div class="col-sm-1"> </div>
             <label class="col-sm-2" for="email">Subcategoria:</label>
             <div class="col-sm-3">
-                {{ Form::select('subcategoria_id', subcategoriasGasto::lists('nombre', 'id') ,'', array('class'=>'form-control', 'v-model'=>'subcategoria', 'id'=>'subcategoria')) }}
+                <select id="subcategoria" v-model="subcategoria" options="subcategorias" class="form-control">
+
+                </select>
             </div>
         </div>
 
@@ -78,6 +80,7 @@
 </style>
 
 <script type="text/javascript">
+
 var gastos = new Vue({
 
     el: '#gastos',
@@ -86,6 +89,25 @@ var gastos = new Vue({
         categoria: '',
         subcategoria: '',
         detalle: [],
+        subcategoriasGastos: {{$subcategoriasGastos}},
+        subcategorias: []
+    },
+
+    watch: {
+        'categoria': function ()
+        {
+            this.subcategorias = [];
+            this.subcategoria = ''
+
+            for (var i = 0; i < this.subcategoriasGastos.length; i++) {
+                if (this.subcategoriasGastos[i]["categoriasGasto_id"] == this.categoria) {
+                    this.subcategorias.push({
+                        text: this.subcategoriasGastos[i]["nombre"],
+                        value: this.subcategoriasGastos[i]["id"]
+                    })
+                }
+            }
+        },
     },
 
     methods: {
@@ -154,5 +176,11 @@ var gastos = new Vue({
             })
         }
     }
+});
+
+Vue.filter('exactFilterBy', function(array, needle, inKeyword, key) {
+    return array.filter(function(item) {
+        return item[key] == needle;
+    });
 });
 </script>

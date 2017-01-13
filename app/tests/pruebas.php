@@ -13,7 +13,9 @@ DROP COLUMN `categoria_id`;
 ALTER TABLE gastos
 DROP COLUMN `subcategoria_id`;
 
+alter table `subcategoriasGastos` add column categoriasGasto_id int(10) after nombre
 
+UPDATE `subcategoriasGastos` SET `categoriasGasto_id` = 1 WHERE 1
 
 // TRIGGERS
 

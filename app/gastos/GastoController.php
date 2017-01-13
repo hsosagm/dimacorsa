@@ -1,6 +1,6 @@
 <?php namespace App\gastos;
 
-use Input, View, Gasto, Response, Success, DetalleGasto, Auth, MetodoPago, Caja, CierreCaja, CajaController, Kardex, Carbon;
+use Input, View, Gasto, DB, Response, Success, DetalleGasto, Auth, MetodoPago, Caja, CierreCaja, CajaController, Kardex, Carbon;
 
 class GastoController extends \BaseController {
 
@@ -13,7 +13,13 @@ class GastoController extends \BaseController {
 
 	public function create()
 	{
-		return View::make('gastos::create');
+        $subcategoriasGastos = DB::table('subcategoriasGastos')
+        ->select(['id', 'nombre', 'categoriasGasto_id'])
+        ->get();
+
+        $subcategoriasGastos = json_encode($subcategoriasGastos);
+
+		return View::make('gastos::create', compact('subcategoriasGastos'));
 	}
 
     public function save()

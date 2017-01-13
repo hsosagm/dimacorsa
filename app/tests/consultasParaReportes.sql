@@ -14,6 +14,15 @@ WHERE tienda_id =1
 AND existencias.existencia >0
 
 
+SELECT existencias.id, `producto_id` , concat( descripcion, " ", nombre ) AS item, p_costo, existencias.existencia
+FROM existencias
+JOIN productos ON existencias.producto_id = productos.id
+JOIN marcas ON productos.marca_id = marcas.id
+WHERE tienda_id =2
+AND existencias.existencia >0
+ORDER BY existencias.id ASC
+
+
 --consulta para sacar las ventas con deposito de un mes especifico
 SELECT
 	CONCAT_WS(' ', u.nombre, u.apellido) as USUARIO,
