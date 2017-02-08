@@ -1,6 +1,6 @@
 <table style="font-size:12px;">
     <tr>
-        <td colspan="4" height="45"></td>
+        <td colspan="4" height="40"></td>
     </tr>
     <tr>
         <td colspan="4">
@@ -15,7 +15,7 @@
         <td colspan="4"> Direccion: {{ $venta->cliente->direccion }} </td>
     </tr>
     <tr>
-        <td colspan="4" height="30"></td>
+        <td colspan="4" height="35"></td>
     </tr>
 </table>
 
