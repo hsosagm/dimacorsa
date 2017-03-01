@@ -94,7 +94,7 @@
         <td width="8%"></td>
         <td width="72%"></td>
         <td width="10%"></td>
-        <td width="10%"><?php $total = 0;  $espacio = 200; ?></td>
+        <td width="10%"><?php $total = 0;  $espacio = 190; ?></td>
     </tr>
     <tbody>
         @foreach($venta->detalle_venta as $key => $dt)
