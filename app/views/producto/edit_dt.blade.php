@@ -61,7 +61,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Proveedor 1: </div>
 		<div class="col-md-7">
-			{{ Form::select('producto1',Proveedor::lists('nombre', 'id'),@$producto->producto1, array('class'=>'form-control'));}}
+			{{ Form::select('proveedor1',Proveedor::lists('nombre', 'id'),@$producto->proveedor1, array('class'=>'form-control'));}}
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -71,7 +71,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Proveedor 2: </div>
 		<div class="col-md-7">
-			{{ Form::select('producto1',Proveedor::lists('nombre', 'id'),@$producto->producto2, array('class'=>'form-control'));}}
+			{{ Form::select('proveedor2',Proveedor::lists('nombre', 'id'),@$producto->proveedor2, array('class'=>'form-control'));}}
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -81,7 +81,7 @@
 		<div class="col-md-1"></div>
 		<div class="col-md-3"> Proveedor 3: </div>
 		<div class="col-md-7">
-			{{ Form::select('producto1',Proveedor::lists('nombre', 'id'),@$producto->producto3, array('class'=>'form-control'));}}
+			{{ Form::select('proveedor3',Proveedor::lists('nombre', 'id'),@$producto->proveedor3, array('class'=>'form-control'));}}
 		</div>
 		<div class="col-md-1"></div>
 	</div>
