@@ -15,6 +15,7 @@
             <th>Categoria</th>
             <th>Existencia</th>
             <th>Exist. Minima</th>
+            <th>Proveedor</th>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
                 <td> {{ $sm->categoria }} </td>
                 <td> {{ $sm->existencia }} </td>
                 <td> {{ $sm->existencia_minima }} </td>
+                <td> {{ $sm->proveedor }} </td>
             </tr>
         @endforeach
     </tbody>
