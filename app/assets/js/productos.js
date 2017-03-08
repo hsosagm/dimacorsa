@@ -137,3 +137,58 @@ function KardexDetalle(e, ruta) {
         }
     });
 };
+
+
+function verProveedoresProducto(e) {
+
+    if ($(e).hasClass("hide_detail"))
+    {
+        $(e).removeClass('hide_detail');
+        $('.subtable').hide();
+    }
+    else
+    {
+        $('.hide_detail').removeClass('hide_detail');
+
+        if ( $( ".subtable" ).length )
+        {
+            $('.subtable').fadeOut('slow', function(){
+                getProveedorProductoDetalle(e);
+            })
+        }
+        else
+        {
+            getProveedorProductoDetalle(e);
+        }
+    }
+};
+
+
+function getProveedorProductoDetalle(e) {
+    $id = $(e).closest('tr').attr('id');
+    console.log($id);    
+    $('.subtable').remove();
+    var nTr = $(e)[0];
+    $(e).addClass('hide_detail');
+    $(nTr).after("<tr class='subtable'> <td colspan=6><div class='grid_detalle_factura'></div></td></tr>");
+    $('.subtable').addClass('hide_detail');
+
+    $.ajax({
+        type: 'GET',
+        url: "user/productos/getProveedorProductoDetalle",
+        data: { producto_id: $id},
+        success: function (data) {
+
+            if (data.success == true)
+            {
+                $('.grid_detalle_factura').html(data.table);
+                $(nTr).next('.subtable').fadeIn('slow');
+                $(e).addClass('hide_detail');
+            }
+            else
+            {
+                msg.warning(data, 'Advertencia!');
+            }
+        }
+    });
+};

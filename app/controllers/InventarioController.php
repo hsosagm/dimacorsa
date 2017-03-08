@@ -86,7 +86,8 @@ class InventarioController extends Controller {
             DB::raw('categorias.nombre as categoria'),
             DB::raw('productos.stock_minimo as existencia_minima'),
             DB::raw('existencias.existencia as existencia'),
-            DB::raw('proveedores.nombre as proveedor')
+            DB::raw('proveedores.nombre as proveedor'),
+            DB::raw('proveedores.telefono as telefono')
         )
         ->whereRaw('existencias.existencia <= stock_minimo')
         ->join('existencias', 'producto_id', '=', 'productos.id')
