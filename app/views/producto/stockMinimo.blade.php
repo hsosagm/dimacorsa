@@ -15,16 +15,18 @@
             <th>Categoria</th>
             <th>Existencia</th>
             <th>Exist. Minima</th>
+            <th>Proveedor</th>
         </tr>
     </thead>
     <tbody>
         @foreach($stockMinimo as $sm)
-            <tr id="{{ $sm->producto_id }}">
+            <tr id="{{ $sm->producto_id }}" ondblclick="verProveedoresProducto(this)">
                 <td> {{ $sm->descripcion }} </td>
                 <td> {{ $sm->marca }} </td>
                 <td> {{ $sm->categoria }} </td>
                 <td> {{ $sm->existencia }} </td>
                 <td> {{ $sm->existencia_minima }} </td>
+                <td> {{ $sm->proveedor }} | {{ $sm->telefono }}</td>
             </tr>
         @endforeach
     </tbody>

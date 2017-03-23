@@ -186,4 +186,25 @@ class ProductoController extends Controller {
 
         return View::make("producto.existencia",compact('Query','info'));
     }
+
+    public function getProveedorProductoDetalle()
+    {
+       $producto = Producto::find(Input::get('producto_id'));
+       
+       $prov1 = null;
+       $prov2 = null;
+       $prov3 = null;
+
+        if($producto->proveedor1)
+            $prov1 = Proveedor::find($producto->proveedor1); 
+        if($producto->proveedor2)
+            $prov2 = Proveedor::find($producto->proveedor2); 
+        if($producto->proveedor3)
+            $prov3 = Proveedor::find($producto->proveedor3);  
+
+        return Response::json(array(
+			'success' => true,
+			'table'   => View::make('producto.proveedores', compact('prov1', 'prov2', 'prov3'))->render()
+        ));
+    }
 }

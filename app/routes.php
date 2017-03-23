@@ -229,6 +229,8 @@
             Route::get('md_search_dt'      , 'ProductoController@md_search_dt');
             Route::get('user_inventario_dt', 'ProductoController@user_inventario_dt');
             Route::get('getInventario'     , 'ProductoController@getInventario');
+            Route::get('getProveedorProductoDetalle', 'ProductoController@getProveedorProductoDetalle');
+            
         });
 
         Route::group(array('prefix' => 'ventas'), function()
