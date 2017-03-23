@@ -1,7 +1,7 @@
 <table width="100%" style="font-size:13px">
     <tr>
-        <td colspan="3" width="75%"> <img src="images/logo.jpg" width="150"  height="90"/> </td>
-        <td  align="left" style="font-size:12px;"> 
+        <td colspan="3" width="75%"> <img src="images/logo2.jpg" width="150"  height="90"/> </td>
+        <td  align="left" style="font-size:12px;">
             <p>
                 Cotizacion No:  {{ $cotizacion->id }}  <br>
                 Fecha : {{ $cotizacion->created_at }} <br>
@@ -76,7 +76,7 @@
                 - Cotización valida por 10 días, precios sujetos a cambio sin previo aviso, sujeto a disponibilidad de producto -
             </td>
     	</tr>
-         
+
     </table>
 </div>
 <table width="100%" style="font-size:13px">
@@ -84,7 +84,7 @@
         <tr>
             <td width="30%"></td>
             <td align="center" style="height: 100px; border-bottom:1px solid #444444;" width="40%">
-                    <img src="images/firmas/{{Auth::user()->id}}.png" height="125" /> 
+                    <img src="images/firmas/{{Auth::user()->id}}.png" height="125" />
             </td>
             <td align="center">
                     <img src="images/firmas/sello.png" height="125"/>
@@ -104,8 +104,7 @@
     <tr>
         <td colspan="4" style="text-align:center">
             - {{ $tienda->direccion }} Telefono: {{ $tienda->telefono }} - <br>
-           
+
         </td>
     </tr>
 </table
- 
