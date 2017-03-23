@@ -1,10 +1,10 @@
 <div class="Garantia">
     <table style="font-size:12px">
         <tr>
-            <td>  </td>
+            <td> <img src="images/logo2.jpg" width="125"  height="90"/> </td>
         </tr>
         <tr>
-            <td colspan="4"> Jisajo 20 calle zona 12 Chiquimula Telefono: 88440033 </td>
+            <td colspan="4"> {{ $tienda->direccion }}  Telefono: {{ $tienda->telefono }} </td>
         </tr>
         <tr>
             <td colspan="4"> Fecha: {{ @$venta->created_at }} Garantia No. : {{ @$venta->id }}</td>
