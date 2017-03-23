@@ -23,6 +23,12 @@
     Route::post('ImprimirAbonoProveedor'   , 'ProveedorController@ImprimirAbono' );
     Route::post('imprimirFacturaBond'      , 'VentasController@imprimirFacturaBond' );
 
+
+    /******************************************************************************/
+    //rutas para imprimir con el plugin qz tray
+    Route::get('printTest'         , 'VentasController@printTest');
+
+
     //rutas para mostrar el pdf cuando no carga el plugin
     Route::get('ImprimirGarantiaPdf'       , 'VentasController@ImprimirGarantiaPdf');
     Route::get('ImprimirDescargaPdf'       , 'DescargaController@ImprimirDescargaPdf');

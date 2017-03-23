@@ -16,7 +16,7 @@
             <td colspan="4"> Nombre: {{ @$venta->cliente->nombre.' '.@$venta->cliente->apellido }}</td>
         </tr>
     </table>
-    <div style="font-size:11px; height:550px;"> 
+    <div style="font-size:11px; height:550px;">
         <table width="100%">
             <tr style="text-align:center;">
                 <td width="8%">Cantidad</td>
@@ -29,14 +29,14 @@
 
             @foreach($venta->detalle_venta as $key => $dt)
             <tr>
-                <td>  {{ $dt->cantidad }} </td>   
+                <td>  {{ $dt->cantidad }} </td>
                 <td>  {{ $dt->producto->descripcion}} </td>
                 <td align="right"> {{ f_num::get($dt->precio) }} </td>
-                <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>   
+                <td align="right"> {{ f_num::get($dt->cantidad * $dt->precio)}} </td>
             </tr>
-            <?php 
-            $total = $total +($dt->cantidad * $dt->precio); 
-            if ($dt->serials != null ) 
+            <?php
+            $total = $total +($dt->cantidad * $dt->precio);
+            if ($dt->serials != null )
                 $serials .= $dt->serials." , ";
             ?>
             @endforeach

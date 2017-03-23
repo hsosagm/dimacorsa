@@ -1,7 +1,7 @@
 <div class="Garantia">
     <table style="font-size:12px">
         <tr>
-            <td> <img src="images/logo.jpg" width="125"  height="90"/> </td>
+            <td>  </td>
         </tr>
         <tr>
             <td colspan="4"> {{ $tienda->direccion }}  Telefono: {{ $tienda->telefono }} </td>

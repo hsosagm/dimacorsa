@@ -1088,4 +1088,9 @@ class VentasController extends \BaseController {
 		));
 	}
 
+	public function printTest()
+	{
+		return View::make('ventas.printTest');
+	}
+
 }
