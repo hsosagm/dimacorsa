@@ -4,7 +4,7 @@
             <td>  </td>
         </tr>
         <tr>
-            <td colspan="4"> {{ $tienda->direccion }}  Telefono: {{ $tienda->telefono }} </td>
+            <td colspan="4"> Jisajo 20 calle zona 12 Chiquimula Telefono: 88440033 </td>
         </tr>
         <tr>
             <td colspan="4"> Fecha: {{ @$venta->created_at }} Garantia No. : {{ @$venta->id }}</td>
