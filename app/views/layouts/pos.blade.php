@@ -26,20 +26,20 @@
                 <div class="spinner flat"></div>
             </div>
 
-            <div class="header-content">
+<!--             <div class="header-content">
                 <h2>
                     <span >
                         <a href="/" class="fa fa-home" style="font-size:22px;" onclick="ocultar_capas();"></a>
                     </span>
                     <span id="home"></span>
                 </h2>
-            </div>
+            </div> -->
 
             @include('partials.body-content')
 
-            <footer class="footer-content">
+<!--             <footer class="footer-content">
                 {{ getenv('COPYRING_YEAR') }} &copy; {{$tienda->nombre}}. Created by <a href="javascript:void(0)" target="_blank">{{ getenv('AUTOR') }}</a>
-            </footer>
+            </footer> -->
 
         </section>
 
@@ -51,6 +51,10 @@
         <i class="fa fa-angle-up"></i>
     </div>
 
+    <!-- Required scripts -->
+    <script type="text/javascript" src="js/dependencies/rsvp-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/dependencies/sha-256.min.js"></script>
+    <script type="text/javascript" src="js/qz-tray.js"></script>
     <script src="js/main.js"></script>
     <script src="js/custom.js"></script>
 

@@ -1,7 +1,7 @@
 div.ui-autocomplete-loading {
     background: #fff url('../images/loader.gif') no-repeat 97%;
 }
- 
+
 div.autocomplete-suggestions {
     border-radius: 0px 0px 7px 7px;
 }
@@ -14,10 +14,10 @@ div.autocomplete-suggestion {
 div.autocomplete-suggestion { white-space: nowrap; overflow: hidden; }
 div.autocomplete-selected {
     background: #F0F0F0;
-    border-radius: .3em; 
+    border-radius: .3em;
 }
-div.autocomplete-suggestions strong { 
-	font-weight: normal; 
+div.autocomplete-suggestions strong {
+	font-weight: normal;
 	color: #8E6161;
 	background: #F4F148;
 }
@@ -60,5 +60,5 @@ div.autocomplete-suggestion {
 	position: relative;
 	padding-left: .4em;
 	padding-top: .2em;
-	cursor: pointer; 
+	cursor: pointer;
 }

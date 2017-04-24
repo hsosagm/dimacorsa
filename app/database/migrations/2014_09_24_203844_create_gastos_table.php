@@ -18,8 +18,8 @@ class CreateGastosTable extends Migration {
 			$table->timestamps();
 			$table->foreign('tienda_id')->references('id')->on('tiendas')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('categoria_id')->references('id')->on('gastosCategorias')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('subcategoria_id')->references('id')->on('gastosSubcategorias')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('categoria_id')->references('id')->on('categoriasGastos')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('subcategoria_id')->references('id')->on('subcategoriasGastos')->onDelete('restrict')->onUpdate('cascade');
 		});
 
 		Schema::create('detalle_gastos', function(Blueprint $table)

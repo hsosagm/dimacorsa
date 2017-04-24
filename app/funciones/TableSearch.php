@@ -77,26 +77,25 @@ class TableSearch {
             $sWhere .= ')'.$sAnd;
         }
 
+        $db_table = DB::select("SELECT ".str_replace(" , ", " ", implode(", ", $columns)).",
+        $table.id as DT_RowId  FROM $table $sJoin $sWhere $groupBy $sOrder $sLimit");
 
-        $db_table = DB::select("SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $columns)).",
-                     $table.id as id  FROM $table $sJoin $sWhere $groupBy $sOrder $sLimit");
+        $recordsFiltered = DB::select("SELECT COUNT($table.`id`) as 'total' FROM $table $sJoin $sWhere");
 
-        $Found_Rows = DB::select('SELECT FOUND_ROWS() as num_rows');
-
-        $output = array(
+        $output = [
             "sEcho" => intval($_GET['sEcho']),
             "iTotalRecords" => DB::table($table)->count(),
-            "iTotalDisplayRecords" => intval($Found_Rows[0]->num_rows),
-            "aaData" => array()
-        );
+            "iTotalDisplayRecords" => intval( $recordsFiltered[0]->total ),
+            "aaData" => []
+        ];
 
         foreach($db_table as $aRow) {
-
-            $row = array();
+            $row = [];
 
             for ( $i = 0; $i < count($clean_columns); $i++ ) {
-                $row['DT_RowId'] = $aRow->id;
-                $row[] = $aRow->$clean_columns[$i];
+                $col = $clean_columns[$i];
+                $row['DT_RowId'] = $aRow->DT_RowId;
+                $row[] = $aRow->$col;
             }
 
             $output['aaData'][] = $row;

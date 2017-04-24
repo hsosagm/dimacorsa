@@ -230,7 +230,7 @@
             Route::get('user_inventario_dt', 'ProductoController@user_inventario_dt');
             Route::get('getInventario'     , 'ProductoController@getInventario');
             Route::get('getProveedorProductoDetalle', 'ProductoController@getProveedorProductoDetalle');
-            
+
         });
 
         Route::group(array('prefix' => 'ventas'), function()
@@ -252,6 +252,7 @@
             Route::get('openSale'                             , 'App\ventas\VentasController@openSale');
             Route::get('notasDeCredito'                       , 'App\ventas\VentasController@notasDeCredito');
             Route::post('enviarACaja'                         , 'App\ventas\VentasController@enviarACaja');
+            Route::get('printInvoice'                         , 'App\ventas\VentasController@printInvoice');
 
             Route::post('detalle'                             , 'VentasController@detalle');
             Route::post('updateClienteId'                     , 'VentasController@updateClienteId');
@@ -265,7 +266,6 @@
             Route::get('showSalesDetail'                      , 'VentasController@showSalesDetail');
             Route::get('getCreditSales'                       , 'VentasController@getCreditSales');
             Route::get('getModalImprimirVenta'                , 'VentasController@getModalImprimirVenta'  );
-            Route::get('printInvoice'                         , 'VentasController@printInvoice'  );
             Route::post('enviarVentaACaja'                    , 'VentasController@enviarVentaACaja'  );
             Route::get('imprimirFactura'                      , 'VentasController@imprimirFactura'  ); // for test
             Route::get('getVentasPedientesDePago'             , 'VentasController@getVentasPedientesDePago');

@@ -25,3 +25,10 @@ modifique linea 27 Actualizar por modificar
 // ProductoController linea 67
 this $query = Producto::where('codigo', '=',Input::get('codigo'))->first();
 x this $query = Producto::where('codigo', '=', $values)->first();
+
+
+quitar crear combo, historial de combos, traslados
+
+stock minimo, traslados enviados y recibidos,
+
+impresoras

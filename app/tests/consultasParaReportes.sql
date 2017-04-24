@@ -65,3 +65,13 @@ WHERE
 	pc.metodo_pago_id = 5 AND
 	DATE_FORMAT( c.created_at, '%Y-%m' ) = DATE_FORMAT( '2016-02-01', '%Y-%m' ) AND
 	c.tienda_id = 1
+
+Reporte clientes
+select
+	id,
+	nombre,
+	direccion,
+	telefono,
+	email
+from clientes
+order by email desc;

@@ -1,6 +1,6 @@
 <?php namespace App\ventas;
 
-use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago, PagosVenta, Caja, Kardex, ClienteController, f_num, Carbon;
+use Input, View, Venta, Response, Success, DetalleVenta, Existencia, DB, TableSearch, Auth, Producto, MetodoPago, PagosVenta, Caja, Kardex, ClienteController, f_num, Carbon, Convertidor;
 
 class VentasController extends \BaseController {
 
@@ -86,37 +86,59 @@ class VentasController extends \BaseController {
 
     public function postVentaDetalle()
     {
-		if ($this->check_if_code_exists_in_this_venta())
-			return "El codigo ya ha sido ingresado..";
+        Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
 
-		if ($this->check_existencia())
-			return "La cantidad que esta ingresando es mayor a la cantidad en existencia..";
+        $Existencia = Existencia::whereProductoId(Input::get('producto_id'))->whereTiendaId($this->tienda_id)->first();
 
-		Input::merge(array('precio' => str_replace(',', '', Input::get('precio'))));
+        $productoIngresado = DB::table('detalle_ventas')->select('id', 'cantidad')
+        ->where('venta_id', Input::get("venta_id"))
+        ->where('producto_id', Input::get("producto_id"))
+        ->first();
 
-		$query = new DetalleVenta;
+        if ($productoIngresado) {
+            Input::merge(array('cantidad' => str_replace(',', '', Input::get('cantidad'))));
 
-		if (!$query->SaleItem())
-			return $query->errors();
+            $cantidadSolicitada = Input::get('cantidad') + $productoIngresado->cantidad;
 
-		return Response::json(array(
-			'success' => true,
-			'detalle' => $this->getVentaDetalle()
-        ));
+            if ($Existencia == null || $Existencia->existencia < $cantidadSolicitada)
+                return "La cantidad que esta ingresando es mayor a la cantidad en existencia..";
+
+            if (DB::table('detalle_ventas')->whereId($productoIngresado->id)->increment('cantidad')) {
+                return Response::json(array(
+                    'success' => true,
+                    'detalle' => $this->getVentaDetalle()
+                ));
+            }
+
+        } else {
+            if ($Existencia == null || $Existencia->existencia < Input::get('cantidad'))
+                return "La cantidad que esta ingresando es mayor a la cantidad en existencia..";
+
+            $query = new DetalleVenta;
+
+            if (!$query->SaleItem())
+                return $query->errors();
+
+            return Response::json(array(
+                'success' => true,
+                'detalle' => $this->getVentaDetalle()
+            ));
+        }
+
     }
 
-    public function check_if_code_exists_in_this_venta()
-    {
-		$query = DB::table('detalle_ventas')->select('id')
-	    ->where('venta_id', Input::get("venta_id"))
-	    ->where('producto_id', Input::get("producto_id"))
-	    ->first();
+  //   public function check_if_code_exists_in_this_venta()
+  //   {
+		// $query = DB::table('detalle_ventas')->select('id')
+	 //    ->where('venta_id', Input::get("venta_id"))
+	 //    ->where('producto_id', Input::get("producto_id"))
+	 //    ->first();
 
-	    if ($query == null)
-	    	return false;
+	 //    if ($query == null)
+	 //    	return false;
 
-	    return true;
-    }
+	 //    return true;
+  //   }
 
     public function check_existencia()
     {
@@ -372,6 +394,98 @@ class VentasController extends \BaseController {
             return 'Hubo un error intentelo de nuevo';
 
         return Success::true();
+    }
+
+    function printInvoice()
+    {
+        $venta = Venta::with('cliente', 'detalle_venta')->find(Input::get('venta_id'));
+
+        if (!count($venta)) {
+            return Response::json( array(
+                'success' => false,
+                'msg' => "No se encontro ninguna venta",
+            ));
+        }
+
+        if (count($venta->detalle_venta) > 0)
+        {
+            $i=0;
+            $total=0;
+
+            foreach ($venta->detalle_venta as $dt)
+            {
+                $descripcion = $dt->producto->marca->nombre . " " . $dt->producto->descripcion;
+                $len = mb_strlen($descripcion);
+
+                if ($len > 38) {
+                    $substr = $len - 38;
+                    $descripcion = substr($descripcion, 0, -$substr);
+                } else {
+                    $descripcion = $descripcion;
+                }
+
+                $descripcion = $this->clear($descripcion);
+
+                $total = $total + ($dt->cantidad * $dt->precio);
+                $len1 = mb_strlen($dt->cantidad);
+                $len2 = mb_strlen($descripcion);
+
+                $precio = f_num::get($dt->precio);
+                $totales = f_num::get($dt->cantidad * $dt->precio);
+
+                $len3 = mb_strlen($precio);
+                $len4 = mb_strlen($totales);
+                $e1 = "    ";
+                $e1 = substr($e1, 0, -$len1);
+                $e2 = "                                                ";
+                $e2 = substr($e2, 0, -$len2);
+                $e2 = substr($e2, 0, -$len3);
+                $e3 = "           ";
+                $e3 = substr($e3, 0, -$len4);
+
+                $detalle[$i]['descripcion'] =  $e1 . $dt->cantidad . " " . $descripcion . $e2 . $precio . $e3 . $totales;
+                $i++;
+            }
+
+            $convertir = new Convertidor;
+
+            $totalEnLetras = $convertir->ConvertirALetras($total);
+
+            $e4 = "                                                                                                                      ";
+            $total_venta = f_num::get($total);
+            $len5 = mb_strlen($total_venta);
+            $e4 = substr($e4, 0, -$len5);
+
+            return Response::json( array(
+                'success' => true,
+                'fecha' => date('d-m-Y') . " " . Carbon::now()->toTimeString(),
+                'nit' => "  Nit: ".$venta->cliente->nit,
+                'cliente' => "  Cliente: ".$venta->cliente->nombre . " " .$venta->cliente->apellido,
+                'direccion' => "  Direccion: ". $venta->cliente->direccion,
+                'detalle' => $detalle,
+                'total_letras' => "                      ".$totalEnLetras,
+                'total' => " Total   " . $total_venta,
+            ));
+        }
+        else {
+            return Response::json( array(
+                'success' => false,
+                'msg' => "Debe ingresar algun producto para poder imprimir"
+            ));
+        }
+    }
+
+    function clear($string)
+    {
+        $string = trim($string);
+        $string = str_replace( array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'), array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $string );
+        $string = str_replace( array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'), array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $string );
+        $string = str_replace( array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'), array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $string );
+        $string = str_replace( array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'), array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $string );
+        $string = str_replace( array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'), array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $string );
+        $string = str_replace( array('ñ', 'Ñ', 'ç', 'Ç'), array('n', 'N', 'c', 'C',), $string );
+
+       return $string;
     }
 
 }

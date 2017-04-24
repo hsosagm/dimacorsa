@@ -8,7 +8,7 @@ class Autocomplete {
         $query = DB::table($table)->select($columns);
         array_shift($columns);
 
-        if ($plus != null) 
+        if ($plus != null)
             array_pop($columns);
 
         $result = [];
@@ -22,10 +22,10 @@ class Autocomplete {
 
         foreach ($query as $q)
         {
-            if ($plus == null) 
-                $result[] = [ 'id' => $q->id, 'value' => $q->$columns[0] . ' ' . $q->$columns[1] ];
+            if ($plus == null)
+                $result[] = [ 'id' => $q->id, 'value' => $q->nombre];
             else
-                $result[] = [ 'id' => $q->id, 'value' => $q->$columns[0] . ' ' . $q->$columns[1] ,'descripcion' => $q->$plus];
+                $result[] = [ 'id' => $q->id, 'value' => $q->nombre, 'descripcion' => $q->$plus];
         }
 
         $data['suggestions'] = $result;
@@ -45,7 +45,7 @@ class Autocomplete {
         }
 
         $keywords = array();
-        $keywords = array_map(function($item){ return ($item); }, $words); 
+        $keywords = array_map(function($item){ return ($item); }, $words);
         $keywords = implode(" ",$keywords);
         $term = preg_replace('/\s+/', ' ', $keywords);
         $parts = explode(' ', $term);
