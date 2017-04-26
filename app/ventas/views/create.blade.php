@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row hide">
             <div>
                 <div class="col-md-3" style="font-size:11px">
                     <div class="form-group">

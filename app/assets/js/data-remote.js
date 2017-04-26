@@ -252,7 +252,6 @@ $(document).on('submit', 'form[data-remote-md-info]', function(e) {
 $(document).on('submit', 'form[data-remote-product]', function(e) {
     $('input[type=submit]', this).attr('disabled', 'disabled');
     var form = $(this);
-    codigo = $('input[name=codigo]', form).val();
 
     if( $('input[type=checkbox]', this).is(':checked') )
         $('input[type=checkbox]', this).val('1');
@@ -264,6 +263,13 @@ $(document).on('submit', 'form[data-remote-product]', function(e) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
+            if (data.success) {
+                msg.success(form.data('success'), 'Listo!');
+                $(".contenedor_producto").slideUp('slow');
+                $("#search_producto").val(data.id);
+                return search_producto_dt();
+            }
+
             if ($.trim(data) == 'success') {
                 msg.success(form.data('success'), 'Listo!');
                 $(".contenedor_producto").slideUp('slow');

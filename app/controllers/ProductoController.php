@@ -5,14 +5,28 @@ class ProductoController extends Controller {
 
 	public function create()
     {
+        // if (Input::has('_token'))
+        // {
+        //     $producto = new Producto;
+
+        //     if ($producto->_create())
+        //         return 'success';
+        //     else
+        //         return $producto->errors();
+        // }
+
     	if (Input::has('_token'))
         {
             $producto = new Producto;
 
-            if ($producto->_create())
-                return 'success';
-            else
+            if ($producto->crearProducto()) {
+                return Response::json(array(
+                    'success'=> true,
+                    'id' => $producto->get_id()
+                ));
+            } else {
                 return $producto->errors();
+            }
     	}
 
         return View::make('producto.create');
@@ -190,17 +204,17 @@ class ProductoController extends Controller {
     public function getProveedorProductoDetalle()
     {
        $producto = Producto::find(Input::get('producto_id'));
-       
+
        $prov1 = null;
        $prov2 = null;
        $prov3 = null;
 
         if($producto->proveedor1)
-            $prov1 = Proveedor::find($producto->proveedor1); 
+            $prov1 = Proveedor::find($producto->proveedor1);
         if($producto->proveedor2)
-            $prov2 = Proveedor::find($producto->proveedor2); 
+            $prov2 = Proveedor::find($producto->proveedor2);
         if($producto->proveedor3)
-            $prov3 = Proveedor::find($producto->proveedor3);  
+            $prov3 = Proveedor::find($producto->proveedor3);
 
         return Response::json(array(
 			'success' => true,

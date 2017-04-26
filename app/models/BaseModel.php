@@ -173,4 +173,36 @@ class BaseModel extends Eloquent   {
         return 'success';
     }
 
+    public function crearProducto()
+    {
+        $data = Input::all();
+
+        if (!Input::has('codigo')) {
+            $id = DB::table('productos')->max('id');
+            if ($id > 40000) {
+                $data['codigo'] = $id + 1;
+            } else {
+                $data['codigo'] = 40000;
+            }
+        }
+
+        $class = get_class($this);
+        $path = "App\\Validators\\{$class}Validator";
+        $v = $path::make($data);
+
+        if ($v->fails())
+        {
+            $this->errors = $v->messages();
+            return false;
+        }
+
+        $values = array_map('trim', $data);
+        $values = preg_replace('/\s{2,}/', ' ', $values);
+        $values = array_map('ucfirst', $values);
+        $model = $class::create($values);
+        $this->model_id = $model->id;
+
+        return 'success';
+    }
+
 }
