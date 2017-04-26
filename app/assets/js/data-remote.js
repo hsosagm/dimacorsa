@@ -263,12 +263,12 @@ $(document).on('submit', 'form[data-remote-product]', function(e) {
         url: form.attr('action'),
         data: form.serialize(),
         success: function (data) {
-            if (data.success) {
-                msg.success(form.data('success'), 'Listo!');
-                $(".contenedor_producto").slideUp('slow');
-                $("#search_producto").val(data.id);
-                return search_producto_dt();
-            }
+            // if (data.success) {
+            //     msg.success(form.data('success'), 'Listo!');
+            //     $(".contenedor_producto").slideUp('slow');
+            //     $("#search_producto").val(data.id);
+            //     return search_producto_dt();
+            // }
 
             if ($.trim(data) == 'success') {
                 msg.success(form.data('success'), 'Listo!');
