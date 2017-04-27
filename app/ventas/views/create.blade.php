@@ -22,9 +22,9 @@
             </div>
 
             <div class="col-md-6" style="font-size:11px"  v-if="cliente.id">
-                <label class="col-md-3 btn-success" >Saldo actual:</label>
+                <label class="col-md-3 btn-success" >Saldo:</label>
                 <label class="col-md-3 btn-success" >@{{ cliente.saldo_total | currency ' '}}</label>
-                <label class="col-md-3 btn-danger" >Saldo vencido:</label>
+                <label class="col-md-3 btn-danger" >Vencido:</label>
                 <label class="col-md-3 btn-danger" >@{{ cliente.saldo_vencido | currency ' '}}</label>
                 <label class="col-md-12" >Direccion: @{{ cliente.direccion }}</label>
                 <label class="col-md-6" >NIT: @{{ cliente.nit }}</label>
