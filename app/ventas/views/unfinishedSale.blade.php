@@ -688,7 +688,7 @@
                 },
 
                 imprimirFactura: function(e) {
-                    var config = qz.configs.create("EPSON-TM-T20II");
+                    var config = qz.configs.create("epson");
 
                     var data = [
                     '\x1B' + '\x61' + '\x31', // center align
