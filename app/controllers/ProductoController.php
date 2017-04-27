@@ -5,29 +5,29 @@ class ProductoController extends Controller {
 
 	public function create()
     {
-        if (Input::has('_token'))
+        // if (Input::has('_token'))
+        // {
+        //     $producto = new Producto;
+
+        //     if ($producto->_create())
+        //         return 'success';
+        //     else
+        //         return $producto->errors();
+        // }
+
+    	if (Input::has('_token'))
         {
             $producto = new Producto;
 
-            if ($producto->_create())
-                return 'success';
-            else
+            if ($producto->crearProducto()) {
+                return Response::json(array(
+                    'success'=> true,
+                    'id' => $producto->get_id()
+                ));
+            } else {
                 return $producto->errors();
-        }
-
-    	// if (Input::has('_token'))
-     //    {
-     //        $producto = new Producto;
-
-     //        if ($producto->crearProducto()) {
-     //            return Response::json(array(
-     //                'success'=> true,
-     //                'id' => $producto->get_id()
-     //            ));
-     //        } else {
-     //            return $producto->errors();
-     //        }
-    	// }
+            }
+    	}
 
         return View::make('producto.create');
     }

@@ -186,7 +186,7 @@ gulp.task('default', ['cssMain', 'cssCustom', 'cssCliente', 'cssProveedor', 'jsM
 /*
 * Task to run on production server.
 */
-gulp.task('build', ['cssMain', 'cssCustom', 'cssCliente', 'cssProveedor', 'jsMain', 'jsCustom', 'jsCliente', 'jsProveedor', 'compress-js', 'compress-css', 'fonts']);
+gulp.task('build', ['cssMain', 'cssCustom', 'cssCliente', 'cssProveedor', 'jsMain', 'jsCustom', 'jsCliente', 'jsProveedor', 'compress-js', 'fonts']);
 
 /*
 * Task to run on production server without minify.
