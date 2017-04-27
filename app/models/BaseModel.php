@@ -5,6 +5,7 @@ class BaseModel extends Eloquent   {
     protected $rules = array();
     protected $errors;
     protected $model_id;
+    protected $codigo;
 
     public function _create($data = null)
     {
@@ -128,6 +129,11 @@ class BaseModel extends Eloquent   {
         return $this->model_id;
     }
 
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
     public function SaleItem()
     {
         $class = get_class($this);
@@ -182,7 +188,7 @@ class BaseModel extends Eloquent   {
             if ($id > 40000) {
                 $data['codigo'] = $id + 1;
             } else {
-                $data['codigo'] = 40000;
+                $data['codigo'] = 60000;
             }
         }
 
@@ -200,7 +206,7 @@ class BaseModel extends Eloquent   {
         $values = preg_replace('/\s{2,}/', ' ', $values);
         $values = array_map('ucfirst', $values);
         $model = $class::create($values);
-        $this->model_id = $model->id;
+        $this->codigo = $data['codigo'];
 
         return 'success';
     }

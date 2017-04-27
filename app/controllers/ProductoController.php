@@ -22,7 +22,7 @@ class ProductoController extends Controller {
             if ($producto->crearProducto()) {
                 return Response::json(array(
                     'success'=> true,
-                    'id' => $producto->get_id()
+                    'id' => $producto->getCodigo()
                 ));
             } else {
                 return $producto->errors();
