@@ -235,10 +235,26 @@
                     $(".form-panel").hide()
                     msg.success('Venta finalizada!')
                     $('#modal').modal('toggle')
+                    salesPayments.imprimirFactura()
+                    salesPayments.f_ven_op()
                     setTimeout(function() {
                         $(".modal-header").show()
                     },300)
                 })
+            },
+
+            f_ven_op: function()
+            {
+                $.ajax({
+                  url: "user/ventas/create",
+                  type: "GET"
+                }).done(function(data) {
+                    $('.panel-title').text('Formulario Ventas');
+                    $(".forms").html(data);
+                    ocultar_capas();
+                    $(".form-panel").show();
+                    $('#cliente').focus();
+                });
             },
 
             getNotasDeCredito: function() {
@@ -286,9 +302,76 @@
             },
 
             imprimirFactura: function(e) {
-                printInvoice(e.target, {{ Input::get('venta_id') }}, null);
-                e.target.disabled = false;
+                var config = qz.configs.create("EPSON-TM-T20II");
+
+                var data = [
+                '\x1B' + '\x61' + '\x31', // center align
+                   { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
+                    '\x1B' + '\x40',          // init
+                    '\x1B' + '\x4D' + '\x31', // small text
+                    '\x1B' + '\x61' + '\x31', // center align
+                    'Click 20 CALLE 25-85 ZONA 10',
+                    '\x0A',                 // line break
+                    'CENTRO COMERCIAL LA PRADERA',
+                    '\x0A',                 // line break
+                    'LOCALES 342 Y 343 GUATEMALA, GUATEMALA',
+                    '\x0A',                 // line break
+                    'TEL. 7942-1383, NIT 96457635',
+                    '\x0A',                   // line break
+                ];
+
+                $.ajax({
+                    type: 'GET',
+                    url: "user/ventas/printInvoice",
+                    data: { venta_id: {{ Input::get('venta_id') }} },
+                    success: function(result)
+                    {
+                        if (!result.success) {
+                            return msg.warning('Debe ingresar algun producto para poder imprimir', 'Advertencia!')
+                        }
+
+                        data.push("Fecha: " + result.fecha);
+                        data.push('\x0A' + '\x0A');
+                        data.push('\x1B' + '\x61' + '\x30'); // left align
+
+                        data.push(result.cliente);
+                        data.push('\x0A');
+                        data.push(result.direccion);
+                        data.push('\x0A');
+                        data.push(result.nit);
+                        data.push('\x0A' + '\x0A');
+
+                        data.push("  CTD               DESCRIPCION                PRECIO      TOTAL");
+                        data.push('\x0A');
+
+                        $.each(result.detalle, function(i, v) {
+                            data.push(result.detalle[i]['descripcion']);
+                            data.push('\x0A');
+                        });
+
+                        data.push('\x1B' + '\x61' + '\x30');  // left align
+                        data.push('  --------------------------------------------------------------');
+                        data.push('\x0A');
+                        data.push('\x1B' + '\x61' + '\x32'), // right align
+                        data.push(result.total);
+                        data.push('\x0A' + '\x0A' + '\x0A');
+                        data.push('\x1B' + '\x61' + '\x31');  // center align
+                        data.push("! Gracias por su compra !");
+                        data.push('\x0A');
+                        data.push("Visitenos en click.gt");
+                        data.push('\x0A');
+                        data.push("Corporación Magnus S.A.");
+                        data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
+                        data.push('\x1B' + '\x69');  // cut paper
+                        qz.print(config, data).catch(function(e) { console.error(e); })
+                    }
+                });
             },
+
+            // imprimirFactura: function(e) {
+            //     printInvoice(e.target, {{ Input::get('venta_id') }}, null);
+            //     e.target.disabled = false;
+            // },
 
             imprimirGarantia: function(e){
                 ImprimirGarantia(e.target, {{ Input::get('venta_id') }}, null);

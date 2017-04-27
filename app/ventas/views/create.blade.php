@@ -275,24 +275,43 @@
                 var form = $(".form-generarVenta")
                 $('button[type=submit]', form).prop('disabled', true)
 
+                if (!this.cliente.id) {
+                    $cliente_id = 1
+                    $buscarCliente = true
+                } else {
+                    $cliente_id = this.cliente.id
+                    $buscarCliente = false
+                }
+
                 $.ajax({
                     type: form.attr('method'),
                     url: form.attr('action'),
-                    data: { cliente_id: this.cliente.id, _token: this._token },
+                    data: { cliente_id: $cliente_id, _token: this._token },
                 }).done(function(data) {
                     if (!data.success) {
                         $('button[type=submit]', form).prop('disabled', false)
                         return msg.warning(data, 'Advertencia!')
                     }
 
-                    $('.master-detail-body').slideUp('slow',function() {
-                        $('.master-detail-body').html(data.detalle)
-                        $('.master-detail-body').slideDown('slow', function() {
-                            $("input[name=codigo]").focus()
+                    if ($buscarCliente) {
+                        $.get( "/user/cliente/getInfo",  { id: $cliente_id }, function( info ) {
+                            ventas.cliente = info
+                            ventas.iniciarVenta(data)
                         })
-                    })
+                    } else {
+                        ventas.iniciarVenta(data)
+                    }
                 })
                 e.preventDefault()
+            },
+
+            iniciarVenta: function(data) {
+                $('.master-detail-body').slideUp('slow',function() {
+                    $('.master-detail-body').html(data.detalle)
+                    $('.master-detail-body').slideDown('slow', function() {
+                        $("input[name=codigo]").focus()
+                    })
+                })
             },
 
             showEditCustomer: function()
