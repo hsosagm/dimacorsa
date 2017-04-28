@@ -690,21 +690,21 @@
                 imprimirFactura: function(e) {
                     var config = qz.configs.create("epson");
 
-                    var data = [
+                var data = [
+                '\x1B' + '\x61' + '\x31', // center align
+                   { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
+                    '\x1B' + '\x40',          // init
+                    '\x1B' + '\x4D' + '\x31', // small text
                     '\x1B' + '\x61' + '\x31', // center align
-                       { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
-                        '\x1B' + '\x40',          // init
-                        '\x1B' + '\x4D' + '\x31', // small text
-                        '\x1B' + '\x61' + '\x31', // center align
-                        'Click 20 CALLE 25-85 ZONA 10',
-                        '\x0A',                 // line break
-                        'CENTRO COMERCIAL LA PRADERA',
-                        '\x0A',                 // line break
-                        'LOCALES 342 Y 343 GUATEMALA, GUATEMALA',
-                        '\x0A',                 // line break
-                        'TEL. 7942-1383, NIT 96457635',
-                        '\x0A',                   // line break
-                    ];
+                    'MINI DESPENSA CRISTY',
+                    '\x0A',                 // line break
+                    'Calle Principal, Concepcion Las Minas',
+                    '\x0A',                 // line break
+                    'Chiquimula, Guatemala',
+                    '\x0A',                 // line break
+                    'TEL. 7942-1383, NIT 96457635',
+                    '\x0A',                   // line break
+                ];
 
                     $.ajax({
                         type: 'GET',
