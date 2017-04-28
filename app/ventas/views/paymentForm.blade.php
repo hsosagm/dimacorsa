@@ -302,7 +302,7 @@
             },
 
             imprimirFactura: function(e) {
-                var config = qz.configs.create("EPSON-TM-T20II");
+                var config = qz.configs.create("epson");
 
                 var data = [
                 '\x1B' + '\x61' + '\x31', // center align
@@ -310,11 +310,11 @@
                     '\x1B' + '\x40',          // init
                     '\x1B' + '\x4D' + '\x31', // small text
                     '\x1B' + '\x61' + '\x31', // center align
-                    'Click 20 CALLE 25-85 ZONA 10',
+                    'MINI DESPENSA CRISTY',
                     '\x0A',                 // line break
-                    'CENTRO COMERCIAL LA PRADERA',
+                    'Calle Principal, Concepcion Las Minas',
                     '\x0A',                 // line break
-                    'LOCALES 342 Y 343 GUATEMALA, GUATEMALA',
+                    'Chiquimula, Guatemala',
                     '\x0A',                 // line break
                     'TEL. 7942-1383, NIT 96457635',
                     '\x0A',                   // line break
@@ -357,10 +357,6 @@
                         data.push('\x0A' + '\x0A' + '\x0A');
                         data.push('\x1B' + '\x61' + '\x31');  // center align
                         data.push("! Gracias por su compra !");
-                        data.push('\x0A');
-                        data.push("Visitenos en click.gt");
-                        data.push('\x0A');
-                        data.push("Corporación Magnus S.A.");
                         data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
                         data.push('\x1B' + '\x69');  // cut paper
                         qz.print(config, data).catch(function(e) { console.error(e); })
