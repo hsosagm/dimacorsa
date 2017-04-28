@@ -744,7 +744,7 @@
                             data.push('\x1B' + '\x61' + '\x31');  // center align
 
                             data.push('\x1B' + '\x21' + '\x30'); // em mode on
-                            data.push('Gracias por su compra');
+                            data.push('Gracias por su compra!');
                             data.push('\x1B' + '\x21' + '\x0A' + '\x1B' + '\x45' + '\x0A'); // em mode off
 
                             data.push('\x0A');
