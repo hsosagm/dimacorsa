@@ -235,7 +235,6 @@
                     $(".form-panel").hide()
                     msg.success('Venta finalizada!')
                     $('#modal').modal('toggle')
-                    salesPayments.imprimirFactura()
                     salesPayments.f_ven_op()
                     setTimeout(function() {
                         $(".modal-header").show()
