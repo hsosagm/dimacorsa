@@ -316,7 +316,7 @@
                     '\x0A',                 // line break
                     'Chiquimula, Guatemala',
                     '\x0A',                 // line break
-                    'TEL. 7942-1383, NIT 96457635',
+                    'TEL. 7942-1383',
                     '\x0A',                   // line break
                 ];
 

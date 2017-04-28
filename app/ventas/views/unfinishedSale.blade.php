@@ -702,7 +702,7 @@
                     '\x0A',                 // line break
                     'Chiquimula, Guatemala',
                     '\x0A',                 // line break
-                    'TEL. 7942-1383, NIT 96457635',
+                    'TEL. 7942-1383',
                     '\x0A',                   // line break
                 ];
 
@@ -743,10 +743,6 @@
                             data.push('\x0A' + '\x0A' + '\x0A');
                             data.push('\x1B' + '\x61' + '\x31');  // center align
                             data.push("! Gracias por su compra !");
-                            data.push('\x0A');
-                            data.push("Visitenos en click.gt");
-                            data.push('\x0A');
-                            data.push("Corporación Magnus S.A.");
                             data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
                             data.push('\x1B' + '\x69');  // cut paper
                             qz.print(config, data).catch(function(e) { console.error(e); })
