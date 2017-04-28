@@ -692,7 +692,7 @@
 
                 var data = [
                 '\x1B' + '\x61' + '\x31', // center align
-                   { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
+                   { type: 'raw', format: 'image', data: 'img/logopendiente.png', options: { language: "escp", dotDensity: 'double' } },
                     '\x1B' + '\x40',          // init
                     '\x1B' + '\x4D' + '\x31', // small text
                     '\x1B' + '\x61' + '\x31', // center align
