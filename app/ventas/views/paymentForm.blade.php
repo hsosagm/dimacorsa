@@ -357,6 +357,9 @@
                         data.push('\x0A' + '\x0A' + '\x0A');
                         data.push('\x1B' + '\x61' + '\x31');  // center align
                         data.push("! Gracias por su compra !");
+                        data.push('\x0A');
+                        data.push("Visitenos en click.gt");
+                        data.push('\x0A');
                         data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
                         data.push('\x1B' + '\x69');  // cut paper
                         qz.print(config, data).catch(function(e) { console.error(e); })
