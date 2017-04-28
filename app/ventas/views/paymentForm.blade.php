@@ -369,11 +369,6 @@
                 });
             },
 
-            // imprimirFactura: function(e) {
-            //     printInvoice(e.target, {{ Input::get('venta_id') }}, null);
-            //     e.target.disabled = false;
-            // },
-
             imprimirGarantia: function(e){
                 ImprimirGarantia(e.target, {{ Input::get('venta_id') }}, null);
                 e.target.disabled = false;

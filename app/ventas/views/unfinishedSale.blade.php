@@ -702,7 +702,7 @@
                     '\x0A',                 // line break
                     'Chiquimula, Guatemala',
                     '\x0A',                 // line break
-                    'TEL. 7942-1383',
+                    'TEL. 0000-0000',
                     '\x0A',                   // line break
                 ];
 
