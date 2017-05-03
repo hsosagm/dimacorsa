@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 Route::filter('cache', function($route, $request, $response, $age=60){
     $response->setTtl($age);
@@ -50,7 +50,7 @@ Route::filter('csrf', function()
 *************************************************************************/
 Event::listen('eloquent.updated: Compra', function(Compra $model){
     if ($model->completed == 1 && $model->kardex == 0)
-    { 
+    {
         $compra = Compra::find($model->id);
         $compra->kardex = 1 ;
         $compra->save();
@@ -212,7 +212,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $existencia = Existencia::whereProductoId($dt->producto_id)->first(array(DB::raw('sum(existencia) as total')));
             $existencia_tienda = Existencia::whereProductoId($dt->producto_id)->whereTiendaId(Auth::user()->tienda_id)->first();
 
-            $kardex = new Kardex; 
+            $kardex = new Kardex;
             $kardex->tienda_id = Auth::user()->tienda_id;
             $kardex->user_id = $model->user_id;
             $kardex->kardex_accion_id = 2;
@@ -220,7 +220,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $kardex->kardex_transaccion_id = 5;
             $kardex->transaccion_id = $dt->devolucion_id;
             $kardex->evento = 'ingreso';
-            $kardex->cantidad = $dt->cantidad; 
+            $kardex->cantidad = $dt->cantidad;
             $kardex->existencia = $existencia->total;
             $kardex->existencia_tienda = $existencia_tienda->existencia;
             $kardex->costo = ($dt->precio - $dt->ganancias);
@@ -228,7 +228,7 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
             $kardex->save();
         }
     }
-}); 
+});
 /*************************************************************************
     FIN DE EVENTOS PARA KARDEX
 *************************************************************************/
@@ -237,17 +237,19 @@ Event::listen('eloquent.updated: Devolucion', function(Devolucion $model){
     INICIO DE PERMISOS DE INGRESO A RUTAS CON ROLES
 *************************************************************************/
 /**Administrador , Propietario  y Usuario**/
+Entrust::routeNeedsRole( '/'  ,  array('Owner','Admin') , Redirect::to('/pos'), false );
+
 Entrust::routeNeedsRole( 'user/*'   ,  array('Owner','Admin','User') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'cliente'  ,  array('Owner','Admin','User') , Redirect::to('/'), false );
 
 /**Administrador y Propietario**/
 Entrust::routeNeedsRole( 'admin/*'     , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'proveedor'   , array('Owner','Admin') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'pos'         , array('Owner','Admin') , Redirect::to('/'), false );
+Entrust::routeNeedsRole( 'pos'         , array('Owner','Admin','User') , Redirect::to('/'), false );
 Entrust::routeNeedsRole( 'owner/users' , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/user/*', array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 
-/**Propietario**/ 
+/**Propietario**/
 Entrust::routeNeedsRole( 'owner/chart/*'  , array('Owner') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/soporte/*', array('Owner') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/gastos/*' , array('Owner') , '<script>window.location.reload();</script>', false );

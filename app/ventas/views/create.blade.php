@@ -602,21 +602,21 @@
                 imprimirFactura: function(e) {
                     var config = qz.configs.create("epson");
 
-                var data = [
-                '\x1B' + '\x61' + '\x31', // center align
-                   { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
-                    '\x1B' + '\x40',          // init
-                    '\x1B' + '\x4D' + '\x31', // small text
+                    var data = [
                     '\x1B' + '\x61' + '\x31', // center align
-                    'MINI DESPENSA CRISTY',
-                    '\x0A',                 // line break
-                    'Calle Principal, Concepcion Las Minas',
-                    '\x0A',                 // line break
-                    'Chiquimula, Guatemala',
-                    '\x0A',                 // line break
-                    'TEL. 0000-0000',
-                    '\x0A',                   // line break
-                ];
+                       { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
+                        '\x1B' + '\x40',          // init
+                        '\x1B' + '\x4D' + '\x31', // small text
+                        '\x1B' + '\x61' + '\x31', // center align
+                        'MINI DESPENSA CRISTY',
+                        '\x0A',                 // line break
+                        'Calle Principal, Concepcion Las Minas',
+                        '\x0A',                 // line break
+                        'Chiquimula, Guatemala',
+                        '\x0A',                 // line break
+                        'TEL. 5338-0851',
+                        '\x0A',                   // line break
+                    ];
 
                     $.ajax({
                         type: 'GET',
@@ -658,6 +658,17 @@
                             data.push('\x1B' + '\x21' + '\x30'); // em mode on
                             data.push('Gracias por su compra!');
                             data.push('\x1B' + '\x21' + '\x0A' + '\x1B' + '\x45' + '\x0A'); // em mode off
+
+                            data.push('\x0A' + '\x0A' + '\x0A');
+                            data.push(result.user);
+                            data.push('\x0A');
+                            data.push('Su factura fue emitida, le llegara por');
+                            data.push('\x0A');
+                            data.push('mensaje de texto o corrego electronico.');
+                            data.push('\x0A');
+                            data.push('Si tiene algun problema con su factura');
+                            data.push('\x0A');
+                            data.push('comuniquese con nosotros al 23280300');
 
                             data.push('\x0A');
                             data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');

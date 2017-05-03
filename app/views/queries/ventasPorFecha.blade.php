@@ -7,7 +7,7 @@
 <table class="dt-table table-striped table-theme" id="example"></table>
 
 <script type="text/javascript">
-	$(document).ready(function() { 
+	$(document).ready(function() {
 		$('#example').dataTable({
 			"language": {
 				"lengthMenu": "Mostrar _MENU_ archivos por pagina",
@@ -35,7 +35,7 @@
 
 					}
 				}
-			], 
+			],
 			"order": [[ 0, "desc" ]],
 			"fnDrawCallback": function( oSettings ) {
 				$( ".DTTT" ).html("");
@@ -50,28 +50,28 @@
 				aoData.push({ "name": "fecha_inicial", "value": "{{$fecha_inicial}}" });
 				aoData.push({ "name": "fecha_final",  "value": "{{$fecha_final}}" });
 			},
-			"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {                
+			"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 				if ( aData[5] == 0){
 					jQuery(nRow).addClass('red');
-				} 
+				}
 
 				if ( aData[6] == 1){
                 	jQuery(nRow).attr('anulada', true);
                 	jQuery(nRow).addClass('yellow');
-            	}               
+            	}
 			},
 		});
     });
 
 	var position = $(this).index('input');
-	
+
 	$("input, select").eq(position+1).select();
-	$('input[name="fecha_inicial"]').pickadate({ 
+	$('input[name="fecha_inicial"]').pickadate({
 		max: true,
 		selectYears: true,
 		selectMonths: true
 	});
-	$('input[name="fecha_final"]').pickadate({ 
+	$('input[name="fecha_final"]').pickadate({
 		max: true,
 		selectYears: true,
 		selectMonths: true

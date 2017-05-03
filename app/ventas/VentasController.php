@@ -465,6 +465,7 @@ class VentasController extends \BaseController {
                 'detalle' => $detalle,
                 'total_letras' => "                      ".$totalEnLetras,
                 'total' => " Total   " . $total_venta,
+                'user' =>  " Le atendio:   " . Auth::user()->nombre . " " . Auth::user()->apellido,
             ));
         }
         else {
