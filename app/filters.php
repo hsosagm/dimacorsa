@@ -245,7 +245,7 @@ Entrust::routeNeedsRole( 'cliente'  ,  array('Owner','Admin','User') , Redirect:
 /**Administrador y Propietario**/
 Entrust::routeNeedsRole( 'admin/*'     , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'proveedor'   , array('Owner','Admin') , Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'pos'         , array('Owner','Admin','User') , Redirect::to('/'), false );
+Entrust::routeNeedsRole( 'pos'         , array('Owner','Admin','User') , Redirect::to('/logIn'), false );
 Entrust::routeNeedsRole( 'owner/users' , array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 Entrust::routeNeedsRole( 'owner/user/*', array('Owner','Admin') , '<script>window.location.reload();</script>', false );
 
