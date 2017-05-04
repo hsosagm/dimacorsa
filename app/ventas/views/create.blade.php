@@ -661,14 +661,6 @@
 
                             data.push('\x0A' + '\x0A' + '\x0A');
                             data.push(result.user);
-                            data.push('\x0A');
-                            data.push('Su factura fue emitida, le llegara por');
-                            data.push('\x0A');
-                            data.push('mensaje de texto o corrego electronico.');
-                            data.push('\x0A');
-                            data.push('Si tiene algun problema con su factura');
-                            data.push('\x0A');
-                            data.push('comuniquese con nosotros al 23280300');
 
                             data.push('\x0A');
                             data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
