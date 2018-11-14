@@ -22,7 +22,7 @@ class AutocompleteCategoria {
 
         foreach ($query as $q)
         {
-            $result[] = [ 'id' => $q->id, 'value' => $q->$columns[0]];
+            $result[] = [ 'id' => $q->id, 'value' => $q->{$columns[0]}];
         }
 
         $data['suggestions'] = $result;
