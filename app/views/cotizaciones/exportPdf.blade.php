@@ -1,6 +1,6 @@
 <table width="100%" style="font-size:13px">
     <tr>
-        <td colspan="3" width="75%"> <img src="images/logo3.png" width="170"  height="85"/> </td>
+        <td colspan="3" width="75%"> <img src="images/logo.jpg" width="100"  height="85"/> </td>
         <td  align="left" style="font-size:12px;">
             <p>
                 Cotizacion No:  {{ $cotizacion->id }}  <br>

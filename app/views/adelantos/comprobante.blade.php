@@ -1,7 +1,7 @@
 <table width="100%" style="font-size:13px">
-	<tr> 
-		<td> 
-			<img src="images/logo.jpg" width="150"  height="90"/> 
+	<tr>
+		<td>
+			<img src="images/logo.jpg" width="100"  height="80"/> 
 		</td>
 		<td>
 			<strong>
@@ -26,7 +26,7 @@
 	</tr>
 </table>
 
-@php($i = 0) 
+@php($i = 0)
 @php($total = 0)
 
 <table width="100%">
@@ -34,7 +34,7 @@
 		<td>Metodo de pago</td>
 		<td>Monto</td>
 	</tr>
-	
+
 	@foreach($adelanto->pagos as $dt)
 	<tr style="{{($i == 1)?'background-color: #ECECEC;':'background-color: #FFFFFF;'}}">
 		<td> {{ $dt->metodoPago->descripcion }} @php($total += $dt->monto)</td>

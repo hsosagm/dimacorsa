@@ -599,145 +599,83 @@
                 });
             },
 
-                imprimirFactura: function(e) {
-                    var config = qz.configs.create("epson");
+                // imprimirFactura: function(e) {
+                //     var config = qz.configs.create("epson");
+                //
+                //     var data = [
+                //     '\x1B' + '\x61' + '\x31', // center align
+                //        { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
+                //         '\x1B' + '\x40',          // init
+                //         '\x1B' + '\x4D' + '\x31', // small text
+                //         '\x1B' + '\x61' + '\x31', // center align
+                //         'Dimacorsa',
+                //         '\x0A',                 // line break
+                //         'Calle Principal, Concepcion Las Minas',
+                //         '\x0A',                 // line break
+                //         'Chiquimula, Guatemala',
+                //         '\x0A',                 // line break
+                //         'TEL. 5338-0851',
+                //         '\x0A',                   // line break
+                //     ];
+                //
+                //     $.ajax({
+                //         type: 'GET',
+                //         url: "user/ventas/printInvoice",
+                //         data: { venta_id: this.venta_id },
+                //         success: function(result)
+                //         {
+                //             if (!result.success) {
+                //                 return msg.warning('Debe ingresar algun producto para poder imprimir', 'Advertencia!')
+                //             }
+                //
+                //             data.push("Fecha: " + result.fecha);
+                //             data.push('\x0A' + '\x0A');
+                //             data.push('\x1B' + '\x61' + '\x30'); // left align
+                //
+                //             data.push(result.cliente);
+                //             data.push('\x0A');
+                //             data.push(result.direccion);
+                //             data.push('\x0A');
+                //             data.push(result.nit);
+                //             data.push('\x0A' + '\x0A');
+                //
+                //             data.push("  CTD               DESCRIPCION                PRECIO      TOTAL");
+                //             data.push('\x0A');
+                //
+                //             $.each(result.detalle, function(i, v) {
+                //                 data.push(result.detalle[i]['descripcion']);
+                //                 data.push('\x0A');
+                //             });
+                //
+                //             data.push('\x1B' + '\x61' + '\x30');  // left align
+                //             data.push('  --------------------------------------------------------------');
+                //             data.push('\x0A');
+                //             data.push('\x1B' + '\x61' + '\x32'), // right align
+                //             data.push(result.total);
+                //             data.push('\x0A' + '\x0A' + '\x0A');
+                //             data.push('\x1B' + '\x61' + '\x31');  // center align
+                //
+                //             data.push('\x1B' + '\x21' + '\x30'); // em mode on
+                //             data.push('Gracias por su compra!');
+                //             data.push('\x1B' + '\x21' + '\x0A' + '\x1B' + '\x45' + '\x0A'); // em mode off
+                //
+                //             data.push('\x0A' + '\x0A' + '\x0A');
+                //             data.push(result.user);
+                //
+                //             data.push('\x0A');
+                //             data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
+                //             data.push('\x1B' + '\x69');  // cut paper
+                //             qz.print(config, data).catch(function(e) { console.error(e); })
+                //         }
+                //     });
+                // },
 
-                    var data = [
-                    '\x1B' + '\x61' + '\x31', // center align
-                       { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
-                        '\x1B' + '\x40',          // init
-                        '\x1B' + '\x4D' + '\x31', // small text
-                        '\x1B' + '\x61' + '\x31', // center align
-                        'MINI DESPENSA CRISTY',
-                        '\x0A',                 // line break
-                        'Calle Principal, Concepcion Las Minas',
-                        '\x0A',                 // line break
-                        'Chiquimula, Guatemala',
-                        '\x0A',                 // line break
-                        'TEL. 5338-0851',
-                        '\x0A',                   // line break
-                    ];
+            imprimirFactura: function(e) {
+                if (!this.detalleTable.length)
+                return msg.warning('Debe ingresar algun producto para poder imprimir', 'Advertencia!')
 
-                    $.ajax({
-                        type: 'GET',
-                        url: "user/ventas/printInvoice",
-                        data: { venta_id: this.venta_id },
-                        success: function(result)
-                        {
-                            if (!result.success) {
-                                return msg.warning('Debe ingresar algun producto para poder imprimir', 'Advertencia!')
-                            }
-
-                            data.push("Fecha: " + result.fecha);
-                            data.push('\x0A' + '\x0A');
-                            data.push('\x1B' + '\x61' + '\x30'); // left align
-
-                            data.push(result.cliente);
-                            data.push('\x0A');
-                            data.push(result.direccion);
-                            data.push('\x0A');
-                            data.push(result.nit);
-                            data.push('\x0A' + '\x0A');
-
-                            data.push("  CTD               DESCRIPCION                PRECIO      TOTAL");
-                            data.push('\x0A');
-
-                            $.each(result.detalle, function(i, v) {
-                                data.push(result.detalle[i]['descripcion']);
-                                data.push('\x0A');
-                            });
-
-                            data.push('\x1B' + '\x61' + '\x30');  // left align
-                            data.push('  --------------------------------------------------------------');
-                            data.push('\x0A');
-                            data.push('\x1B' + '\x61' + '\x32'), // right align
-                            data.push(result.total);
-                            data.push('\x0A' + '\x0A' + '\x0A');
-                            data.push('\x1B' + '\x61' + '\x31');  // center align
-
-                            data.push('\x1B' + '\x21' + '\x30'); // em mode on
-                            data.push('Gracias por su compra!');
-                            data.push('\x1B' + '\x21' + '\x0A' + '\x1B' + '\x45' + '\x0A'); // em mode off
-
-                            data.push('\x0A' + '\x0A' + '\x0A');
-                            data.push(result.user);
-
-                            data.push('\x0A');
-                            data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
-                            data.push('\x1B' + '\x69');  // cut paper
-                            qz.print(config, data).catch(function(e) { console.error(e); })
-                        }
-                    });
-                },
-
-            // imprimirFactura: function(e) {
-            //     // window.open('imprimirFacturaBond' + 'Pdf?id=' + this.venta_id + '&pos=' + this.pos + '&metodo_pago=' + this.metodo_pago + '&paymentOptions=' + this.paymentOptions + '&recargo=' + this.recargo, '_blank');
-
-            //     var config = qz.configs.create("EPSON-TM-T20II");
-
-            //     var data = [
-            //         '\x1B' + '\x61' + '\x31', // center align
-            //         { type: 'raw', format: 'image', data: 'img/logo.png', options: { language: "escp", dotDensity: 'double' } },
-            //         '\x1B' + '\x40',          // init
-            //         '\x1B' + '\x4D' + '\x31', // small text
-            //         '\x1B' + '\x61' + '\x31', // center align
-            //         'Click 20 CALLE 25-85 ZONA 10',
-            //         '\x0A',                 // line break
-            //         'CENTRO COMERCIAL LA PRADERA',
-            //         '\x0A',                 // line break
-            //         'LOCALES 342 Y 343 GUATEMALA, GUATEMALA',
-            //         '\x0A',                 // line break
-            //         'TEL. 7942-1383, NIT 96457635',
-            //         '\x0A',                   // line break
-            //     ];
-
-            //     $.ajax({
-            //         type: 'GET',
-            //         url: "user/ventas/printInvoice",
-            //         data: { venta_id: this.venta_id },
-            //         success: function(result)
-            //         {
-            //             if (!result.success) {
-            //                 return msg.warning('Debe ingresar algun producto para poder imprimir', 'Advertencia!')
-            //             }
-
-            //             data.push("Fecha: " + result.fecha);
-            //             data.push('\x0A' + '\x0A');
-            //             data.push('\x1B' + '\x61' + '\x30'); // left align
-
-            //             data.push(result.cliente);
-            //             data.push('\x0A');
-            //             data.push(result.direccion);
-            //             data.push('\x0A');
-            //             data.push(result.nit);
-            //             data.push('\x0A' + '\x0A');
-
-            //             data.push("  CTD               DESCRIPCION                PRECIO      TOTAL");
-            //             data.push('\x0A');
-
-            //             $.each(result.detalle, function(i, v) {
-            //                 data.push(result.detalle[i]['descripcion']);
-            //                 data.push('\x0A');
-            //             });
-
-            //             data.push('\x1B' + '\x61' + '\x30');  // left align
-            //             data.push('  --------------------------------------------------------------');
-            //             data.push('\x0A');
-            //             data.push('\x1B' + '\x61' + '\x32'), // right align
-            //             data.push(result.total);
-            //             data.push('\x0A' + '\x0A' + '\x0A');
-            //             data.push('\x1B' + '\x61' + '\x31');  // center align
-            //             data.push("! Gracias por su compra !");
-            //             data.push('\x0A');
-            //             data.push("Visitenos en click.gt");
-            //             data.push('\x0A');
-            //             data.push("Corporación Magnus S.A.");
-            //             data.push('\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A');
-            //             data.push('\x1B' + '\x69');  // cut paper
-            //             qz.print(config, data).catch(function(e) { console.error(e); })
-            //         }
-            //     });
-            // },
+                window.open('imprimirFacturaBond' + 'Pdf?id=' + this.venta_id + '&pos=' + this.pos + '&metodo_pago=' + this.metodo_pago + '&paymentOptions=' + this.paymentOptions + '&recargo=' + this.recargo, '_blank');
+            },
 
             imprimirGarantia: function(e) {
                 if (!this.detalleTable.length)

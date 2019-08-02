@@ -108,14 +108,14 @@
 		<i v-on="click: eliminarVenta" class="md-icon fa fa-trash-o fa-lg icon-delete icon-6" title="Eliminar venta"></i>
 		@if (Auth::user()->tienda->cajas)
 			@if($caja)
-				{{-- <i v-on="click: imprimirGarantia($event)" class="fa fa-file-text-o fa-lg text-info icon-5" title="Imprimir Garantia"></i> --}}
+				<i v-on="click: imprimirGarantia($event)" class="fa fa-file-text-o fa-lg text-info icon-5" title="Imprimir Garantia"></i>
 				<i class="md-icon fa fa-money fa-lg icon-success icon-6" v-on="click: getPaymentForm" title="Ingresar pagos"></i>
                 <i v-on="click: imprimirFactura($event)" class="md-icon fa fa-print fa-lg text-primary icon-6" title="Imprimir Factua"></i>
 			@else
 				<i class="fa fa-paper-plane-o fa-lg icon-success" v-on="click: enviarACaja"></i>
 			@endif
 		@else
-			{{-- <i v-on="click: imprimirGarantia($event)" class="fa fa-file-text-o fa-lg text-info g-icon icon-5" title="Imprimir Garantia"></i> --}}
+			<i v-on="click: imprimirGarantia($event)" class="fa fa-file-text-o fa-lg text-info g-icon icon-5" title="Imprimir Garantia"></i>
 			<i class="md-icon fa fa-money fa-lg icon-success icon-6" v-on="click: getPaymentForm" title="Ingresar pagos"></i>
 		@endif
 	</div>
