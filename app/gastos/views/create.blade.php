@@ -1,6 +1,6 @@
 <div id="gastos" style="padding-right: 40px">
     <form v-on="submit: submit" class="form-horizontal" id="gastosForm">
-        <div class="form-group" style="padding-bottom: 20px">
+        {{-- <div class="form-group" style="padding-bottom: 20px">
             <label class="col-sm-2" for="email">Categoria:</label>
             <div class="col-sm-3">
                 {{ Form::select('categoria_id', categoriasGasto::lists('nombre', 'id') ,'', array('class'=>'form-control', 'v-model'=>'categoria', 'id'=>'categoria')) }}
@@ -12,7 +12,7 @@
 
                 </select>
             </div>
-        </div>
+        </div> --}}
 
         <div>
             <div class="form-group">
@@ -41,10 +41,10 @@
         <div class="master-detail-body2">
             <table>
                 <tbody v-repeat="dt: detalle">
-                <tr>
+                {{-- <tr>
                     <td width="40%">@{{ dt.categoria }}</td>
                     <td width="40%">@{{ dt.subcategoria }}</td>
-                </tr>
+                </tr> --}}
                 <tr>
                     <td width="70%">@{{ dt.descripcion }}</td>
                     <td width="13%">@{{ dt.monto }}</td>
@@ -112,11 +112,11 @@ var gastos = new Vue({
 
     methods: {
         agregar: function() {
-            if (!this.categoria)
-                return msg.warning('Seleccione una categoria', 'Advertencia!')
-
-            if (!this.subcategoria)
-                return msg.warning('Seleccione una subcategoria', 'Advertencia!')
+            // if (!this.categoria)
+            //     return msg.warning('Seleccione una categoria', 'Advertencia!')
+            //
+            // if (!this.subcategoria)
+            //     return msg.warning('Seleccione una subcategoria', 'Advertencia!')
 
             let monto = parseFloat($('#monto').autoNumeric('get')).toFixed(2)
             let descripcion = $("#descripcion").val()
@@ -129,10 +129,10 @@ var gastos = new Vue({
                 return msg.warning('El monto debe ser mayor o igual a 1', 'Advertencia!')
 
             this.detalle.push({
-                categoria: $("#categoria option:selected").text(),
-                subcategoria: $("#subcategoria option:selected").text(),
-                categoria_id: this.categoria,
-                subcategoria_id: this.subcategoria,
+                categoria: "Gastos varios",
+                subcategoria: "Gastos",
+                categoria_id: 1,
+                subcategoria_id: 1,
                 descripcion: descripcion,
                 monto: monto,
                 metodo_pago: $("#metodo_pago_id option:selected").text(),
