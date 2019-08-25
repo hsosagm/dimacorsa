@@ -1,8 +1,8 @@
 <!-- Start body content -->
 <div class="body-content animated fadeIn">
 
-	<h1 class="tienda_nombre"> {{ $tienda->nombre }} </h1>
-
+	{{-- <h1 class="tienda_nombre"> {{ $tienda->nombre }} </h1> --}}
+	<p style="position:fixed; opacity: 0.6; top:200px; right: -100px; width: 100%; text-align: center;"><img src="img/logo.jpg" width="440" height="450"></p>
 
 	<div id="print_test"></div>
 	<div id="garantiaContainer" style="display:none; z-index:-1;" style="background-color:#FFFFFF !important;"></div>
