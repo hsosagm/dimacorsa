@@ -9,7 +9,6 @@
                 <span>
                     {{$tienda->nombre}}
                 </span></h4>
-                <small>Tecnologia Moderna</small>
             </div>
         </div>
     </div><!-- /.sidebar-content -->
@@ -17,7 +16,7 @@
 
     <!-- Start left navigation - menu -->
     <ul class="sidebar-menu">
-        <li class="navbar-search">           
+        <li class="navbar-search">
                     <input id="ProviderFinder" type="text" class="form-control typeahead rounded" placeholder="Buscar Proveedor">
         </li>
 

@@ -9,13 +9,12 @@
                        {{$tienda->nombre}}
                    </span>
                </h4>
-               <small>Tecnologia Moderna</small>
            </div>
        </div>
     </div>
 
     <ul class="sidebar-menu">
-        
+
         <input v-model="customer_search" id="customer_search" type="text" class="form-control" spellcheck="false" placeholder="Buscar cliente...">
 
         <li class="sidebar-category">

@@ -27,7 +27,7 @@ class autocompleteFilterTienda {
         {
             if ($plus == null)
             {
-                $result[] = [ 'id' => $q->id, 'value' => $q->$columns[0] . ' ' . $q->$columns[1] ];
+                $result[] = [ 'id' => $q->id, 'value' => $q->{$columns[0]} . ' ' . $q->{$columns[1]} ];
             }
             else
             {
