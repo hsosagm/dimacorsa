@@ -17,7 +17,7 @@
         </tr>
 
     </table>
-    <div style="height:750px;">
+    <div style="height:650px;">
         <table width="100%" style="font-size:11px;">
             <tr style="text-align:center;">
                 <td width="8%">Cantidad</td>
