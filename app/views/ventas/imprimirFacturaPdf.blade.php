@@ -1,6 +1,6 @@
 <table style="font-size:12px;">
     <tr>
-        <td colspan="4" height="40"></td>
+        <td colspan="4" height="60"></td>
     </tr>
     <tr>
         <td colspan="4">
@@ -15,7 +15,7 @@
         <td colspan="4"> Direccion: {{ $venta->cliente->direccion }} </td>
     </tr>
     <tr>
-        <td colspan="4" height="35"></td>
+        <td colspan="4" height="15"></td>
     </tr>
 </table>
 
@@ -24,7 +24,7 @@
         <td width="8%"></td>
         <td width="72%"></td>
         <td width="10%"></td>
-        <td width="10%"><?php $total = 0;  $espacio = 190; ?></td>
+        <td width="10%"><?php $total = 0;  $espacio = 165; ?></td>
     </tr>
     <tbody>
         @foreach($venta->detalle_venta as $key => $dt)
@@ -64,13 +64,13 @@
 
 <table width="100%">
     <tr>
-        <td colspan="4" height="40"> </td>
+        <td colspan="4" height="65"> </td>
     </tr>
 </table>
 
 <table style="font-size:12px;">
     <tr>
-        <td colspan="4" height="50"></td>
+        <td colspan="4" height="70"></td>
     </tr>
     <tr>
         <td colspan="4">
@@ -85,7 +85,7 @@
         <td colspan="4"> Direccion: {{ $venta->cliente->direccion }} </td>
     </tr>
     <tr>
-        <td colspan="4" height="30"></td>
+        <td colspan="4" height="10"></td>
     </tr>
 </table>
 
@@ -94,7 +94,7 @@
         <td width="8%"></td>
         <td width="72%"></td>
         <td width="10%"></td>
-        <td width="10%"><?php $total = 0;  $espacio = 190; ?></td>
+        <td width="10%"><?php $total = 0;  $espacio = 170; ?></td>
     </tr>
     <tbody>
         @foreach($venta->detalle_venta as $key => $dt)
@@ -132,5 +132,6 @@
 <style media="screen">
     .right {
         text-align: right;
+        padding-right: 15px;
     }
 </style>
